@@ -24,10 +24,7 @@
 
 from gi.repository import GObject, Gio, GLib, Gtk
 
-from gnomemusic import log
-
-import logging
-logger = logging.getLogger(__name__)
+from gnomemusic.musiclogger import MusicLogger
 
 
 class MediaKeys(GObject.GObject):
@@ -36,10 +33,6 @@ class MediaKeys(GObject.GObject):
 
     __gtype_name__ = 'MediaKeys'
 
-    def __repr__(self):
-        return '<MediaKeys>'
-
-    @log
     def __init__(self, player, window):
         """Initialize media keys handling
 
@@ -48,6 +41,8 @@ class MediaKeys(GObject.GObject):
         """
         super().__init__()
 
+        self._log = MusicLogger()
+
         self._player = player
         self._window = window
 
@@ -55,7 +50,6 @@ class MediaKeys(GObject.GObject):
 
         self._init_media_keys_proxy()
 
-    @log
     def _init_media_keys_proxy(self):
         def name_appeared(connection, name, name_owner, data=None):
             Gio.DBusProxy.new_for_bus(
@@ -70,12 +64,11 @@ class MediaKeys(GObject.GObject):
             Gio.BusType.SESSION, "org.gnome.SettingsDaemon.MediaKeys",
             Gio.BusNameWatcherFlags.NONE, name_appeared, None)
 
-    @log
     def _media_keys_proxy_ready(self, proxy, result, data=None):
         try:
             self._media_keys_proxy = proxy.new_finish(result)
         except GLib.Error as e:
-            logger.warning(
+            self._log.warning(
                 "Error: Failed to contact settings daemon:", e.message)
             return
 
@@ -85,13 +78,12 @@ class MediaKeys(GObject.GObject):
         self._ctrlr.props.propagation_phase = Gtk.PropagationPhase.CAPTURE
         self._ctrlr.connect("focus-in", self._grab_media_player_keys)
 
-    @log
     def _grab_media_player_keys(self, controllerkey=None):
         def proxy_call_finished(proxy, result, data=None):
             try:
                 proxy.call_finish(result)
             except GLib.Error as e:
-                logger.warning(
+                self._log.warning(
                     "Error: Failed to grab mediaplayer keys: {}".format(
                         e.message))
 
@@ -99,7 +91,6 @@ class MediaKeys(GObject.GObject):
             "GrabMediaPlayerKeys", GLib.Variant("(su)", ("Music", 0)),
             Gio.DBusCallFlags.NONE, -1, None, proxy_call_finished)
 
-    @log
     def _handle_media_keys(self, proxy, sender, signal, parameters):
         app, response = parameters.unpack()
         if app != "Music":

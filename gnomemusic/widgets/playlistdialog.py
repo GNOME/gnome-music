@@ -24,7 +24,6 @@
 
 from gi.repository import GObject, Gtk
 
-from gnomemusic import log
 from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
 from gnomemusic.widgets.playlistdialogrow import PlaylistDialogRow
 
@@ -49,10 +48,6 @@ class PlaylistDialog(Gtk.Dialog):
     _first_playlist_button = Gtk.Template.Child()
     _first_playlist_entry = Gtk.Template.Child()
 
-    def __repr__(self):
-        return '<PlaylistDialog>'
-
-    @log
     def __init__(self, parent):
         super().__init__()
 
@@ -70,7 +65,6 @@ class PlaylistDialog(Gtk.Dialog):
 
         self._set_view()
 
-    @log
     def _set_view(self):
         if self._user_playlists_available:
             self._normal_box.show()
@@ -83,7 +77,6 @@ class PlaylistDialog(Gtk.Dialog):
             self._add_playlist_button = self._first_playlist_button
             self._add_playlist_entry = self._first_playlist_entry
 
-    @log
     def _create_playlist_row(self, playlist):
         """Adds (non-smart only) playlists to the model"""
         self._user_playlists_available = True
@@ -94,17 +87,14 @@ class PlaylistDialog(Gtk.Dialog):
         return row
 
     @Gtk.Template.Callback()
-    @log
     def _on_selection(self, select_button):
         self.response(Gtk.ResponseType.ACCEPT)
 
     @Gtk.Template.Callback()
-    @log
     def _on_cancel_button_clicked(self, cancel_button):
         self.response(Gtk.ResponseType.REJECT)
 
     @Gtk.Template.Callback()
-    @log
     def _on_selected_rows_changed(self, klass):
         self._add_playlist_entry.props.text = ""
         self._add_playlist_button.props.sensitive = False
@@ -117,7 +107,6 @@ class PlaylistDialog(Gtk.Dialog):
             row.props.selected = (row == selected_row)
 
     @Gtk.Template.Callback()
-    @log
     def _on_editing_done(self, sender, data=None):
         def select_and_close_dialog(playlist):
             for row in self._listbox:
@@ -131,7 +120,6 @@ class PlaylistDialog(Gtk.Dialog):
             self._coremodel.create_playlist(text, select_and_close_dialog)
 
     @Gtk.Template.Callback()
-    @log
     def _on_add_playlist_entry_changed(self, editable, data=None):
         if editable.props.text:
             self._add_playlist_button.props.sensitive = True
@@ -139,6 +127,5 @@ class PlaylistDialog(Gtk.Dialog):
             self._add_playlist_button.props.sensitive = False
 
     @Gtk.Template.Callback()
-    @log
     def _on_add_playlist_entry_focused(self, editable, data=None):
         self._listbox.unselect_all()

@@ -24,8 +24,6 @@
 
 from gi.repository import GLib, GObject
 
-from gnomemusic import log
-
 
 class WindowPlacement(GObject.GObject):
     """Main window placement
@@ -36,10 +34,6 @@ class WindowPlacement(GObject.GObject):
 
     __gtype_name__ = 'WindowPlacement'
 
-    def __repr__(self):
-        return '<WindowPlacement>'
-
-    @log
     def __init__(self, window):
         """Initialize WindowPlacement
 
@@ -57,7 +51,6 @@ class WindowPlacement(GObject.GObject):
         self._window.connect('notify::is-maximized', self._on_maximized)
         self._window.connect('configure-event', self._on_configure_event)
 
-    @log
     def _restore_window_state(self):
         size_setting = self._settings.get_value('window-size')
         if (len(size_setting) == 2
@@ -74,13 +67,11 @@ class WindowPlacement(GObject.GObject):
         if self._settings.get_value('window-maximized'):
             self._window.maximize()
 
-    @log
     def _on_configure_event(self, widget, event):
         if self._window_placement_update_timeout is None:
             self._window_placement_update_timeout = GLib.timeout_add(
                 500, self._store_size_and_position, widget)
 
-    @log
     def _store_size_and_position(self, widget):
         size = widget.get_size()
         self._settings.set_value(
@@ -95,7 +86,6 @@ class WindowPlacement(GObject.GObject):
 
         return False
 
-    @log
     def _on_maximized(self, klass, value, data=None):
         self._settings.set_boolean(
             'window-maximized', self._window.is_maximized())

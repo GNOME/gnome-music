@@ -22,18 +22,14 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-import logging
 from gettext import gettext as _
 from gi.repository import Gdk, Gtk, Pango
 
-from gnomemusic import log
 from gnomemusic.coresong import CoreSong
 from gnomemusic.player import PlayerPlaylist
 from gnomemusic.utils import SongStateIcon
 from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.starhandlerwidget import StarHandlerWidget
-
-logger = logging.getLogger(__name__)
 
 
 class SongsView(BaseView):
@@ -43,10 +39,6 @@ class SongsView(BaseView):
     and the album name.
     """
 
-    def __repr__(self):
-        return '<SongsView>'
-
-    @log
     def __init__(self, application, player):
         """Initialize
 
@@ -70,7 +62,6 @@ class SongsView(BaseView):
         self._model = self._view.props.model
         self._view.show()
 
-    @log
     def _setup_view(self):
         view_container = Gtk.ScrolledWindow(hexpand=True, vexpand=True)
         self._box.pack_start(view_container, True, True, 0)
@@ -90,7 +81,6 @@ class SongsView(BaseView):
 
         view_container.add(self._view)
 
-    @log
     def _add_list_renderers(self):
         now_playing_symbol_renderer = Gtk.CellRendererPixbuf(
             xpad=0, xalign=0.5, yalign=0.5)
@@ -155,7 +145,6 @@ class SongsView(BaseView):
         else:
             cell.props.visible = False
 
-    @log
     def _on_selection_mode_changed(self, widget, data=None):
         if self.get_parent().get_visible_child() != self:
             return
@@ -165,7 +154,6 @@ class SongsView(BaseView):
         cols = self._view.get_columns()
         cols[1].props.visible = self.props.selection_mode
 
-    @log
     def _on_item_activated(self, treeview, path, column):
         """Action performed when clicking on a song
 
@@ -190,7 +178,6 @@ class SongsView(BaseView):
 
         self._player.play(coresong)
 
-    @log
     def _on_view_clicked(self, gesture, n_press, x, y):
         """Ctrl+click on self._view triggers selection mode."""
         _, state = Gtk.get_current_event_state()
@@ -211,7 +198,6 @@ class SongsView(BaseView):
             self._model[iter_][1] = new_fav_status
             self._model[iter_][7].props.selected = new_fav_status
 
-    @log
     def _update_model(self, player):
         """Updates model when the song changes
 

@@ -51,9 +51,6 @@ class ArtistSearchTile(Gtk.FlowBoxChild):
     selection_mode = GObject.Property(
         type=bool, default=False, flags=GObject.ParamFlags.READWRITE)
 
-    def __repr__(self):
-        return "<ArtistSearchTile>"
-
     def __init__(self, coreartist):
         """Initialize the ArtistSearchTile
 

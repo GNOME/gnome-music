@@ -26,7 +26,6 @@ import gettext
 
 from gi.repository import Gdk, GObject, Gio, Gtk
 
-from gnomemusic import log
 from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
 from gnomemusic.widgets.notificationspopup import PlaylistNotification
 
@@ -83,20 +82,17 @@ class PlaylistControls(Gtk.Grid):
         #     self._window.set_player_visible(False)
 
     @Gtk.Template.Callback()
-    @log
     def _on_rename_entry_changed(self, selection):
         selection_length = selection.props.text_length
         self._rename_done_button.props.sensitive = selection_length > 0
 
     @Gtk.Template.Callback()
-    @log
     def _on_rename_entry_key_pressed(self, widget, event):
         (_, keyval) = event.get_keyval()
         if keyval == Gdk.KEY_Escape:
             self._disable_rename_playlist()
 
     @Gtk.Template.Callback()
-    @log
     def _on_playlist_renamed(self, widget):
         new_name = self._rename_entry.props.text
 
@@ -106,7 +102,6 @@ class PlaylistControls(Gtk.Grid):
         self.props.playlist.props.title = new_name
         self._disable_rename_playlist()
 
-    @log
     def _on_songs_count_changed(self, klass, data=None):
         self._songs_count_label.props.label = gettext.ngettext(
             "{} Song", "{} Songs", self.props.playlist.count).format(
@@ -136,7 +131,6 @@ class PlaylistControls(Gtk.Grid):
 
         return self._name_stack.props.visible_child_name == "renaming_dialog"
 
-    @log
     def _set_rename_entry_text_and_focus(self, text):
         self._rename_entry.props.text = text
         self._rename_entry.grab_focus()

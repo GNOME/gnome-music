@@ -24,18 +24,12 @@
 
 from gi.repository import GObject, Gtk
 
-from gnomemusic import log
-
 
 class BaseView(Gtk.Stack):
     """Base Class for all view classes"""
 
     selection_mode = GObject.Property(type=bool, default=False)
 
-    def __repr__(self):
-        return '<BaseView>'
-
-    @log
     def __init__(self, name, title, application, sidebar=None):
         """Initialize
         :param name: The view name
@@ -72,12 +66,10 @@ class BaseView(Gtk.Stack):
         self._selection_mode_id = self.connect(
             "notify::selection-mode", self._on_selection_mode_changed)
 
-    @log
     def _setup_view(self):
         """Instantiate and set up the view object"""
         pass
 
-    @log
     def _on_selection_mode_changed(self, widget, data=None):
         if self.get_parent().get_visible_child() != self:
             return

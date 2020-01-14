@@ -22,15 +22,10 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-import logging
-
 from gi.repository import GObject, Gtk
 
-from gnomemusic import log
 from gnomemusic.player import PlayerPlaylist
 from gnomemusic.widgets.artistalbumwidget import ArtistAlbumWidget
-
-logger = logging.getLogger(__name__)
 
 
 class ArtistAlbumsWidget(Gtk.ListBox):
@@ -45,10 +40,6 @@ class ArtistAlbumsWidget(Gtk.ListBox):
 
     selection_mode = GObject.Property(type=bool, default=False)
 
-    def __repr__(self):
-        return '<ArtistAlbumsWidget>'
-
-    @log
     def __init__(
             self, coreartist, application, selection_mode_allowed=False):
         super().__init__()
@@ -105,13 +96,11 @@ class ArtistAlbumsWidget(Gtk.ListBox):
 
         return row
 
-    @log
     def select_all(self):
         """Select all items"""
         for widget in self._widgets:
             widget.select_all()
 
-    @log
     def deselect_all(self):
         """Deselect all items"""
         for widget in self._widgets:

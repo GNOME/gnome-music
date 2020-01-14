@@ -22,11 +22,10 @@
 # delete this exception statement from your version.
 
 from enum import IntEnum
-import logging
 
 from gi.repository import GLib, GObject, Tracker
 
-logger = logging.getLogger(__name__)
+from gnomemusic.musiclogger import MusicLogger
 
 
 class TrackerState(IntEnum):
@@ -40,11 +39,10 @@ class TrackerState(IntEnum):
 class TrackerWrapper(GObject.GObject):
     """Create a connection to an instance of Tracker"""
 
-    def __repr__(self):
-        return "<TrackerWrapper>"
-
     def __init__(self):
         super().__init__()
+
+        self._log = MusicLogger()
 
         self._tracker = None
         self._tracker_available = TrackerState.UNAVAILABLE
@@ -55,7 +53,8 @@ class TrackerWrapper(GObject.GObject):
         try:
             self._tracker = Tracker.SparqlConnection.get_finish(result)
         except GLib.Error as error:
-            logger.warning("Error: {}, {}".format(error.domain, error.message))
+            self._log.warning(
+                "Error: {}, {}".format(error.domain, error.message))
             self.notify("tracker-available")
             return
 
@@ -69,7 +68,8 @@ class TrackerWrapper(GObject.GObject):
             klass.query_finish(result)
             self._tracker_available = TrackerState.AVAILABLE
         except GLib.Error as error:
-            logger.warning("Error: {}, {}".format(error.domain, error.message))
+            self._log.warning(
+                "Error: {}, {}".format(error.domain, error.message))
             self._tracker_available = TrackerState.OUTDATED
 
         self.notify("tracker-available")
@@ -92,14 +92,13 @@ class TrackerWrapper(GObject.GObject):
         """
         return self._tracker_available
 
-    @staticmethod
-    def location_filter():
+    def location_filter(self):
         try:
             music_dir = GLib.get_user_special_dir(
                 GLib.UserDirectory.DIRECTORY_MUSIC)
             assert music_dir is not None
         except (TypeError, AssertionError):
-            logger.warning("XDG Music dir is not set")
+            self._log.message("XDG Music dir is not set")
             return None
 
         music_dir = Tracker.sparql_escape_string(

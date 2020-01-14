@@ -38,9 +38,6 @@ class PlaylistDialogRow(Gtk.ListBoxRow):
     _label = Gtk.Template.Child()
     _selection_icon = Gtk.Template.Child()
 
-    def __repr__(self):
-        return "PlaylistDialogRow"
-
     def __init__(self, playlist):
         """Create a row of the PlaylistDialog
 

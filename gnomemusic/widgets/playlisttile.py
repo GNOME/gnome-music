@@ -24,7 +24,6 @@
 
 from gi.repository import GObject, Gtk
 
-from gnomemusic import log
 from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
 
 
@@ -42,10 +41,6 @@ class PlaylistTile(Gtk.ListBoxRow):
     playlist = GObject.Property(type=Playlist, default=None)
     text = GObject.Property(type=str, default='')
 
-    def __repr__(self):
-        return "<PlaylistTile>"
-
-    @log
     def __init__(self, playlist):
         super().__init__()
 

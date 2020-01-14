@@ -24,17 +24,11 @@
 
 from gi.repository import GObject, Gtk
 
-from gnomemusic import log
-
 
 class StarImage(Gtk.Image):
     """GtkImage for starring songs"""
     __gtype_name__ = 'StarImage'
 
-    def __repr__(self):
-        return '<StarImage>'
-
-    @log
     def __init__(self):
         super().__init__()
 

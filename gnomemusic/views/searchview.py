@@ -25,7 +25,6 @@
 from gettext import gettext as _
 from gi.repository import Gdk, GObject, Gtk
 
-from gnomemusic import log
 from gnomemusic.player import PlayerPlaylist
 from gnomemusic.search import Search
 from gnomemusic.widgets.albumcover import AlbumCover
@@ -61,10 +60,6 @@ class SearchView(Gtk.Stack):
     _view_all_albums = Gtk.Template.Child()
     _view_all_artists = Gtk.Template.Child()
 
-    def __repr__(self):
-        return '<SearchView>'
-
-    @log
     def __init__(self, application, player=None):
         """Initialize SearchView
 
@@ -407,7 +402,6 @@ class SearchView(Gtk.Stack):
     def deselect_all(self):
         self._select_all(False)
 
-    @log
     def _back_button_clicked(self, widget, data=None):
         if self.get_visible_child() == self._search_results:
             return
@@ -420,7 +414,6 @@ class SearchView(Gtk.Stack):
         self.props.search_mode_active = True
         self._headerbar.props.state = HeaderBar.State.MAIN
 
-    @log
     def _on_selection_mode_changed(self, widget, data=None):
         if (not self.props.selection_mode
                 and self.get_parent().get_visible_child() == self):

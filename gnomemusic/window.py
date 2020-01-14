@@ -25,7 +25,6 @@
 from gi.repository import Gtk, Gdk, Gio, GLib, GObject
 from gettext import gettext as _
 
-from gnomemusic import log
 from gnomemusic.gstplayer import Playback
 from gnomemusic.mediakeys import MediaKeys
 from gnomemusic.player import RepeatMode
@@ -46,9 +45,6 @@ from gnomemusic.widgets.searchheaderbar import SearchHeaderBar
 from gnomemusic.widgets.selectiontoolbar import SelectionToolbar  # noqa: F401
 from gnomemusic.windowplacement import WindowPlacement
 
-import logging
-logger = logging.getLogger(__name__)
-
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/Window.ui")
 class Window(Gtk.ApplicationWindow):
@@ -65,10 +61,6 @@ class Window(Gtk.ApplicationWindow):
     _selection_toolbar = Gtk.Template.Child()
     _stack = Gtk.Template.Child()
 
-    def __repr__(self):
-        return '<Window>'
-
-    @log
     def __init__(self, app):
         """Initialize the main window.
 
@@ -103,7 +95,6 @@ class Window(Gtk.ApplicationWindow):
 
         MediaKeys(self._player, self)
 
-    @log
     def _setup_view(self):
         self._search = Search()
         self._headerbar_stack = Gtk.Stack()
@@ -196,7 +187,6 @@ class Window(Gtk.ApplicationWindow):
         else:
             self._switch_to_empty_view()
 
-    @log
     def _switch_to_empty_view(self):
         did_initial_state = self._settings.get_boolean('did-initial-state')
 
@@ -238,7 +228,6 @@ class Window(Gtk.ApplicationWindow):
 
         self._on_songs_available(None, None)
 
-    @log
     def _switch_to_player_view(self):
         self._settings.set_boolean('did-initial-state', True)
         self._on_notify_model_id = self._stack.connect(
@@ -295,7 +284,6 @@ class Window(Gtk.ApplicationWindow):
             "search-mode-active", self.views[View.ALBUM],
             "search-mode-active", GObject.BindingFlags.SYNC_CREATE)
 
-    @log
     def _select_all(self, action=None, param=None):
         if not self.props.selection_mode:
             return
@@ -306,7 +294,6 @@ class Window(Gtk.ApplicationWindow):
 
         view.select_all()
 
-    @log
     def _deselect_all(self, action=None, param=None):
         if not self.props.selection_mode:
             return
@@ -317,7 +304,6 @@ class Window(Gtk.ApplicationWindow):
             view = self.props.active_view.get_visible_child()
             view.deselect_all()
 
-    @log
     def _on_key_press(self, widget, event):
         modifiers = event.get_state() & Gtk.accelerator_get_default_mod_mask()
         (_, keyval) = event.get_keyval()
@@ -419,17 +405,14 @@ class Window(Gtk.ApplicationWindow):
                 and self._headerbar.props.state != HeaderBar.State.SEARCH):
             self._search.props.search_mode_active = True
 
-    @log
     def _on_back_button_pressed(self, gesture, n_press, x, y):
         self._headerbar.emit('back-button-clicked')
 
-    @log
     def _notify_mode_disconnect(self, data=None):
         self._player.stop()
         self.notifications_popup.terminate_pending()
         self._stack.disconnect(self._on_notify_model_id)
 
-    @log
     def _on_notify_mode(self, stack, param):
         previous_view = self._current_view
         self._current_view = self.props.active_view
@@ -452,7 +435,6 @@ class Window(Gtk.ApplicationWindow):
         allowed = self._current_view not in no_selection_mode
         self._headerbar.props.selection_mode_allowed = allowed
 
-    @log
     def _toggle_view(self, view_enum):
         # TODO: The SEARCH state actually refers to the child state of
         # the search mode. This fixes the behaviour as needed, but is
@@ -463,7 +445,6 @@ class Window(Gtk.ApplicationWindow):
                 and not self._headerbar.props.state == HeaderBar.State.SEARCH):
             self._stack.set_visible_child(self.views[view_enum])
 
-    @log
     def _on_search_state_changed(self, klass, param):
         if (self._search.props.state != Search.State.NONE
                 or not self._view_before_search):
@@ -472,7 +453,6 @@ class Window(Gtk.ApplicationWindow):
         # Get back to the view before the search
         self._stack.set_visible_child(self._view_before_search)
 
-    @log
     def _switch_back_from_childview(self, klass=None):
         if self.props.selection_mode:
             return
@@ -484,13 +464,11 @@ class Window(Gtk.ApplicationWindow):
         if self._current_view in views_with_child:
             self._current_view._back_button_clicked(self._current_view)
 
-    @log
     def _on_selection_mode_changed(self, widget, data=None):
         if (not self.props.selection_mode
                 and self._player.state == Playback.STOPPED):
             self._player_toolbar.hide()
 
-    @log
     def _on_add_to_playlist(self, widget):
         if self.props.active_view == self.views[View.PLAYLIST]:
             return
@@ -508,7 +486,6 @@ class Window(Gtk.ApplicationWindow):
         self.props.selection_mode = False
         playlist_dialog.destroy()
 
-    @log
     def set_player_visible(self, visible):
         """Set PlayWidget action visibility
 
