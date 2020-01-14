@@ -23,7 +23,6 @@
 # delete this exception statement from your version.
 
 from enum import Enum
-import logging
 from math import pi
 
 import cairo
@@ -31,8 +30,7 @@ import gi
 gi.require_version("MediaArt", "2.0")
 from gi.repository import Gdk, GdkPixbuf, Gio, GLib, GObject, Gtk, MediaArt
 
-
-logger = logging.getLogger(__name__)
+from gnomemusic.musiclogger import MusicLogger
 
 
 def _make_icon_frame(icon_surface, art_size=None, scale=1, default_icon=False):
@@ -127,6 +125,8 @@ class DefaultIcon(GObject.GObject):
 
 class ArtistArt(GObject.GObject):
 
+    _log = MusicLogger()
+
     def __init__(self, coreartist, coremodel):
         """Initialize the ArtistArt.
 
@@ -175,14 +175,16 @@ class ArtistArt(GObject.GObject):
         try:
             istream = src.read_finish(result)
         except GLib.Error as error:
-            logger.warning("Error: {}, {}".format(error.domain, error.message))
+            self._log.warning(
+                "Error: {}, {}".format(error.domain, error.message))
             self._coreartist.props.cached_thumbnail_uri = ""
             return
 
         try:
             [tmp_file, iostream] = Gio.File.new_tmp()
         except GLib.Error as error:
-            logger.warning("Error: {}, {}".format(error.domain, error.message))
+            self._log.warning(
+                "Error: {}, {}".format(error.domain, error.message))
             self._coreartist.props.cached_thumbnail_uri = ""
             return
 
@@ -198,7 +200,8 @@ class ArtistArt(GObject.GObject):
         try:
             src.delete_finish(result)
         except GLib.Error as error:
-            logger.warning("Error: {}, {}".format(error.domain, error.message))
+            self._log.warning(
+                "Error: {}, {}".format(error.domain, error.message))
 
     def _splice_callback(self, src, result, data):
         tmp_file, iostream = data
@@ -209,7 +212,8 @@ class ArtistArt(GObject.GObject):
         try:
             src.splice_finish(result)
         except GLib.Error as error:
-            logger.warning("Error: {}, {}".format(error.domain, error.message))
+            self._log.warning(
+                "Error: {}, {}".format(error.domain, error.message))
             self._coreartist.props.cached_thumbnail_uri = ""
             return
 
@@ -223,7 +227,8 @@ class ArtistArt(GObject.GObject):
             # FIXME: I/O blocking
             MediaArt.file_to_jpeg(tmp_file.get_path(), cache_path)
         except GLib.Error as error:
-            logger.warning("Error: {}, {}".format(error.domain, error.message))
+            self._log.warning(
+                "Error: {}, {}".format(error.domain, error.message))
             self._coreartist.props.cached_thumbnail_uri = ""
             return
 
@@ -236,7 +241,8 @@ class ArtistArt(GObject.GObject):
         try:
             src.close_finish(result)
         except GLib.Error as error:
-            logger.warning("Error: {}, {}".format(error.domain, error.message))
+            self._log.warning(
+                "Error: {}, {}".format(error.domain, error.message))
 
 
 class ArtistCache(GObject.GObject):
@@ -250,6 +256,8 @@ class ArtistCache(GObject.GObject):
     __gsignals__ = {
         "result": (GObject.SignalFlags.RUN_FIRST, None, (object, ))
     }
+
+    _log = MusicLogger()
 
     def __repr__(self):
         return "<ArtistCache>"
@@ -279,7 +287,7 @@ class ArtistCache(GObject.GObject):
             try:
                 cache_dir_file.make_directory(None)
             except GLib.Error as error:
-                logger.warning(
+                self._log.warning(
                     "Error: {}, {}".format(error.domain, error.message))
 
     def query(self, coreartist):
@@ -306,7 +314,8 @@ class ArtistCache(GObject.GObject):
         try:
             stream = thumb_file.read_finish(result)
         except GLib.Error as error:
-            logger.warning("Error: {}, {}".format(error.domain, error.message))
+            self._log.warning(
+                "Error: {}, {}".format(error.domain, error.message))
             self.emit("result", self._default_icon)
             return
 
@@ -317,7 +326,8 @@ class ArtistCache(GObject.GObject):
         try:
             pixbuf = GdkPixbuf.Pixbuf.new_from_stream_finish(result)
         except GLib.Error as error:
-            logger.warning("Error: {}, {}".format(error.domain, error.message))
+            self._log.warning(
+                "Error: {}, {}".format(error.domain, error.message))
             self.emit("result", self._default_icon)
             return
 
@@ -333,4 +343,5 @@ class ArtistCache(GObject.GObject):
         try:
             stream.close_finish(result)
         except GLib.Error as error:
-            logger.warning("Error: {}, {}".format(error.domain, error.message))
+            self._log.warning(
+                "Error: {}, {}".format(error.domain, error.message))
