@@ -48,11 +48,11 @@ class GoaLastFM(GObject.GObject):
     def __init__(self):
         super().__init__()
 
+        self._client = None
         self._reset_attributes()
         Goa.Client.new(None, self._new_client_callback)
 
     def _reset_attributes(self):
-        self._client = None
         self._account = None
         self._authentication = None
         self._disabled = True
