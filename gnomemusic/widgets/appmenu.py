@@ -54,6 +54,7 @@ class AppMenu(Gtk.PopoverMenu):
 
     def _on_scrobbler_state_changed(self, klass, args):
         state = self._lastfm_scrobbler.props.account_state
+        print("on catche dans appemenu", state)
         if state == GoaLastFM.State.NOT_CONFIGURED:
             self._lastfm_box.props.sensitive = False
             if self._lastfm_switcher_id is not None:

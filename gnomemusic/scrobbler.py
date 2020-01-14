@@ -81,21 +81,26 @@ class GoaLastFM(GObject.GObject):
         self._find_lastfm_account()
 
     def _goa_account_added(self, client, obj):
+        print("Gao account added")
         self._find_lastfm_account()
 
     def _goa_account_removed(self, client, obj):
         account = obj.get_account()
+        print("Goa account removed", account.props.provider_type)
         if account.props.provider_type == "lastfm":
+            print("last.fm account removed")
             self._account.disconnect(self._music_disabled_id)
             self._reset_attributes()
 
     @log
     def _find_lastfm_account(self):
+        print("looking for last.fm account")
         accounts = self._client.get_accounts()
 
         for obj in accounts:
             account = obj.get_account()
             if account.props.provider_type == "lastfm":
+                print("last.fm acccount found")
                 self._authentication = obj.get_oauth2_based()
                 self._account = account
                 self._music_disabled_id = self._account.connect(
@@ -103,8 +108,11 @@ class GoaLastFM(GObject.GObject):
                 self._goa_music_disabled(self._account)
                 break
 
+        print("no last.fm account found")
+
     @log
     def _goa_music_disabled(self, klass, args=None):
+        print("on test dissabled?", self._account.props.music_disabled)
         if self._account.props.music_disabled is True:
             self._state = GoaLastFM.State.DISABLED
         else:
@@ -188,6 +196,7 @@ class LastFmScrobbler(GObject.GObject):
         The account state depends on GoaLast.fm state property.
         :param GoaLastFM.State value: new state
         """
+        print("nouveau account state du scrobbler", value)
         self._account_state = value
         self.notify("can-scrobble")
 
