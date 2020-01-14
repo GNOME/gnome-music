@@ -63,13 +63,13 @@ class AppMenu(Gtk.PopoverMenu):
         self._lastfm_configure_button.props.sensitive = True
 
         if state == GoaLastFM.State.NOT_CONFIGURED:
-            self._lastfm_box.props.sensitive = False
+            self._lastfm_box.props.visible = False
             if self._lastfm_switcher_id is not None:
                 self._lastfm_switch.disconnect(self._lastfm_switcher_id)
                 self._lastfm_switcher_id = None
             return
 
-        self._lastfm_box.props.sensitive = True
+        self._lastfm_box.props.visible = True
         if self._lastfm_switcher_id is None:
             self._lastfm_switcher_id = self._lastfm_switch.connect(
                 "state-set", self._on_lastfm_switch_active)
