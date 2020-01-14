@@ -31,15 +31,14 @@
 # delete this exception statement from your version.
 
 from gettext import gettext as _
-import logging
 
 from gi.repository import Gtk, Gio, GLib, Gdk, GObject
 
-from gnomemusic import log
 from gnomemusic.coremodel import CoreModel
 from gnomemusic.coreselection import CoreSelection
 from gnomemusic.inhibitsuspend import InhibitSuspend
 from gnomemusic.mpris import MPRIS
+from gnomemusic.musiclogger import MusicLogger
 from gnomemusic.pauseonsuspend import PauseOnSuspend
 from gnomemusic.player import Player
 from gnomemusic.scrobbler import LastFmScrobbler
@@ -51,7 +50,6 @@ class Application(Gtk.Application):
     def __repr__(self):
         return '<Application>'
 
-    @log
     def __init__(self, application_id):
         super().__init__(
             application_id=application_id,
@@ -64,6 +62,7 @@ class Application(Gtk.Application):
         self._init_style()
         self._window = None
 
+        self._log = MusicLogger()
         self._coreselection = CoreSelection()
         self._coremodel = CoreModel(self)
 
@@ -81,6 +80,16 @@ class Application(Gtk.Application):
         style_context = Gtk.StyleContext()
         style_context.add_provider_for_screen(
             screen, css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+
+    @GObject.Property(
+        type=MusicLogger, default=None, flags=GObject.ParamFlags.READABLE)
+    def log(self):
+        """Get application-wide logging facility.
+
+        :returns: the logger
+        :rtype: MusicLogger
+        """
+        return self._log
 
     @GObject.Property(
         type=Player, default=None, flags=GObject.ParamFlags.READABLE)
@@ -140,7 +149,6 @@ class Application(Gtk.Application):
         """
         return self._window
 
-    @log
     def _set_actions(self):
         action_entries = [
             ('about', self._about, None),
@@ -155,25 +163,21 @@ class Application(Gtk.Application):
             if accel is not None:
                 self.set_accels_for_action(*accel)
 
-    @log
     def _help(self, action, param):
         try:
             Gtk.show_uri(None, "help:gnome-music", Gdk.CURRENT_TIME)
         except GLib.Error:
-            logging.warning("Help handler not available.")
+            self._log.message("Help handler not available.")
 
-    @log
     def _about(self, action, param):
         about = AboutDialog()
         about.props.transient_for = self._window
         about.present()
 
-    @log
     def do_startup(self):
         Gtk.Application.do_startup(self)
         self._set_actions()
 
-    @log
     def _quit(self, action=None, param=None):
         self._window.destroy()
 
