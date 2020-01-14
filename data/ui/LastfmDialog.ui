@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="LastfmDialog" parent="GtkDialog">
+    <property name="can_focus">False</property>
+    <property name="destroy_with_parent">True</property>
+    <property name="modal">True</property>
+    <property name="title" translatable="yes">Last.fm Account</property>
+    <property name="type_hint">dialog</property>
+    <property name="valign">start</property>
+    <property name="default_width">550</property>
+    <child internal-child="vbox">
+      <object class="GtkBox">
+        <property name="margin">16</property>
+        <property name="orientation">vertical</property>
+        <property name="valign">start</property>
+        <property name="visible">True</property>
+        <child>
+          <object class="GtkLabel" id="introduction_label">
+            <property name="halign">start</property>
+            <property name="label" translatable="yes">Last.fm is a music discovery service that gives you personalised recommendations based on the music you listen to.</property>
+            <property name="margin_bottom">16</property>
+            <property name="visible">True</property>
+            <property name="width_chars">35</property>
+            <property name="wrap">True</property>
+            <property name="xalign">0</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkLabel" id="_status_label">
+            <property name="halign">start</property>
+            <property name="label" translatable="yes">Music Reporting Not Setup</property>
+            <property name="margin_bottom">8</property>
+            <property name="visible">True</property>
+            <property name="width_chars">35</property>
+            <property name="wrap">True</property>
+            <property name="xalign">0</property>
+            <style>
+              <class name="lastfm-status-label"/>
+            </style>
+          </object>
+        </child>
+        <child>
+          <object class="GtkLabel" id="_action_label">
+            <property name="halign">start</property>
+            <property name="label" translatable="yes">Login to your Last.fm account to report your music listening.</property>
+            <property name="margin_bottom">12</property>
+            <property name="visible">True</property>
+            <property name="width_chars">35</property>
+            <property name="wrap">True</property>
+            <property name="xalign">0</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkButton" id="_action_button">
+            <property name="halign">start</property>
+            <property name="label" translatable="yes">Login</property>
+            <property name="margin_bottom">8</property>
+            <property name="visible">True</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+  <object class="GtkGestureMultiPress" id="_action_button_gesture">
+    <property name="widget">_action_button</property>
+    <signal name="released" handler="_on_action_button_clicked" swapped="no"/>
+  </object>
+</interface>
