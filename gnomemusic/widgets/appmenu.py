@@ -34,6 +34,7 @@ class AppMenu(Gtk.PopoverMenu):
     __gtype_name__ = "AppMenu"
 
     _lastfm_box = Gtk.Template.Child()
+    _lastfm_configure_button = Gtk.Template.Child()
     _lastfm_switch = Gtk.Template.Child()
 
     def __repr__(self):
@@ -54,7 +55,14 @@ class AppMenu(Gtk.PopoverMenu):
 
     def _on_scrobbler_state_changed(self, klass, args):
         state = self._lastfm_scrobbler.props.account_state
-        if state <= GoaLastFM.State.NOT_CONFIGURED:
+
+        if state == GoaLastFM.State.NOT_AVAILABLE:
+            self._lastfm_configure_button.props.sensitive = False
+            return
+
+        self._lastfm_configure_button.props.sensitive = True
+
+        if state == GoaLastFM.State.NOT_CONFIGURED:
             self._lastfm_box.props.sensitive = False
             if self._lastfm_switcher_id is not None:
                 self._lastfm_switch.disconnect(self._lastfm_switcher_id)
