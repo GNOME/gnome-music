@@ -25,12 +25,11 @@
 from gettext import gettext as _
 from gi.repository import Gdk, GObject, Gtk
 
-from gnomemusic import log
 from gnomemusic.widgets.songwidget import SongWidget
 
 
 @Gtk.Template(resource_path='/org/gnome/Music/ui/DiscBox.ui')
-class DiscBox(Gtk.Box):
+class DiscBox(Gtk.ListBoxRow):
     """A widget which compromises one disc
 
     DiscBox contains a disc label for the disc number on top
@@ -52,10 +51,6 @@ class DiscBox(Gtk.Box):
     show_favorites = GObject.Property(type=bool, default=False)
     show_song_numbers = GObject.Property(type=bool, default=False)
 
-    def __repr__(self):
-        return '<DiscBox>'
-
-    @log
     def __init__(self, model):
         """Initialize
 
@@ -73,7 +68,6 @@ class DiscBox(Gtk.Box):
 
         self._list_box.bind_model(self._model, self._create_widget)
 
-    @log
     def set_disc_number(self, disc_number):
         """Set the dics number to display
 
@@ -89,13 +83,13 @@ class DiscBox(Gtk.Box):
 
         self._list_box.foreach(child_select_all)
 
-    def select_none(self):
+    def deselect_all(self):
         """Deselect all songs"""
-        def child_select_none(child):
+        def child_deselect_all(child):
             song_widget = child.get_child()
             song_widget.props.coresong.props.selected = False
 
-        self._list_box.foreach(child_select_none)
+        self._list_box.foreach(child_deselect_all)
 
     def _create_widget(self, coresong):
         song_widget = SongWidget(coresong)
@@ -121,7 +115,6 @@ class DiscBox(Gtk.Box):
 
         return song_widget
 
-    @log
     def _song_activated(self, widget, event):
         if widget.props.select_click:
             widget.props.select_click = False
@@ -157,10 +150,6 @@ class DiscListBox(Gtk.ListBox):
 
     selection_mode_allowed = GObject.Property(type=bool, default=False)
 
-    def __repr__(self):
-        return '<DiscListBox>'
-
-    @log
     def __init__(self):
         """Initialize"""
         super().__init__()
@@ -170,21 +159,19 @@ class DiscListBox(Gtk.ListBox):
 
         self.get_style_context().add_class("disc-list-box")
 
-    @log
     def select_all(self):
         """Select all songs"""
         def child_select_all(child):
-            child.get_child().select_all()
+            child.select_all()
 
         self.foreach(child_select_all)
 
-    @log
-    def select_none(self):
+    def deselect_all(self):
         """Deselect all songs"""
-        def child_select_none(child):
-            child.get_child().select_none()
+        def child_deselect_all(child):
+            child.deselect_all()
 
-        self.foreach(child_select_none)
+        self.foreach(child_deselect_all)
 
     @GObject.Property(type=bool, default=False)
     def selection_mode(self):
@@ -205,9 +192,3 @@ class DiscListBox(Gtk.ListBox):
             return
 
         self._selection_mode = value
-
-        def set_selection_mode(child):
-            print("set selection mode on", child)
-            child.props.selection_mode = value
-
-        self.foreach(set_selection_mode)

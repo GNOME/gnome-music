@@ -165,6 +165,6 @@ class EmptyView(Gtk.Stack):
         pass
 
     @log
-    def unselect_all(self):
+    def deselect_all(self):
         """Cannot select songs from EmptyView."""
         pass

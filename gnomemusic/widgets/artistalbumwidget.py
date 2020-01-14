@@ -94,6 +94,11 @@ class ArtistAlbumWidget(Gtk.Box):
     def _create_widget(self, disc):
         disc_box = self._create_disc_box(disc.props.disc_nr, disc.model)
 
+        self._disc_list_box.bind_property(
+            "selection-mode", disc_box, "selection-mode",
+            GObject.BindingFlags.BIDIRECTIONAL
+            | GObject.BindingFlags.SYNC_CREATE)
+
         return disc_box
 
     def _create_disc_box(self, disc_nr, album_model):
@@ -109,9 +114,7 @@ class ArtistAlbumWidget(Gtk.Box):
     def _on_model_items_changed(self, model, position, removed, added):
         n_items = model.get_n_items()
         for i in range(n_items):
-            row = self._disc_list_box.get_row_at_index(i)
-            row.props.selectable = False
-            discbox = row.get_child()
+            discbox = self._disc_list_box.get_row_at_index(i)
             discbox.props.show_disc_label = (n_items > 1)
 
     def _song_activated(self, widget, song_widget):
@@ -126,6 +129,6 @@ class ArtistAlbumWidget(Gtk.Box):
         self._disc_list_box.select_all()
 
     @log
-    def select_none(self):
+    def deselect_all(self):
         """Deselect all items"""
-        self._disc_list_box.select_none()
+        self._disc_list_box.deselect_all()

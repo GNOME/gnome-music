@@ -42,7 +42,6 @@ class AlbumsView(Gtk.Stack):
     __gtype_name__ = "AlbumsView"
 
     search_mode_active = GObject.Property(type=bool, default=False)
-    selected_items_count = GObject.Property(type=int, default=0, minimum=0)
     selection_mode = GObject.Property(type=bool, default=False)
 
     _scrolled_window = Gtk.Template.Child()
@@ -72,11 +71,12 @@ class AlbumsView(Gtk.Stack):
         self._flowbox.bind_model(model, self._create_widget)
         self._flowbox.connect("child-activated", self._on_child_activated)
 
-        self.connect("notify::selection-mode", self._on_selection_mode_changed)
-
         self.bind_property(
-            'selection-mode', self._window, 'selection-mode',
-            GObject.BindingFlags.BIDIRECTIONAL)
+            "selection-mode", self._window, "selection-mode",
+            GObject.BindingFlags.DEFAULT)
+
+        self._window.connect(
+            "notify::selection-mode", self._on_selection_mode_changed)
 
         self._album_widget = AlbumWidget(application.props.player, self)
         self._album_widget.bind_property(
@@ -147,8 +147,14 @@ class AlbumsView(Gtk.Stack):
         return GLib.SOURCE_REMOVE
 
     def _on_selection_mode_changed(self, widget, data=None):
+        selection_mode = self._window.props.selection_mode
+        if (selection_mode == self.props.selection_mode
+                or self.get_parent().get_visible_child() != self):
+            return
+
+        self.props.selection_mode = selection_mode
         if not self.props.selection_mode:
-            self.unselect_all()
+            self.deselect_all()
 
     def _on_search_mode_changed(self, klass, param):
         if (not self.props.search_mode_active
@@ -166,7 +172,7 @@ class AlbumsView(Gtk.Stack):
 
         # NOTE: Adding SYNC_CREATE here will trigger all the nested
         # models to be created. This will slow down initial start,
-        # but will improve initial 'selecte all' speed.
+        # but will improve initial 'select all' speed.
         album_widget.bind_property(
             "selected", corealbum, "selected",
             GObject.BindingFlags.BIDIRECTIONAL)
@@ -200,7 +206,7 @@ class AlbumsView(Gtk.Stack):
 
     def _toggle_all_selection(self, selected):
         """
-        Selects or unselects all items without sending the notify::active
+        Selects or deselects all items without sending the notify::active
         signal for performance purposes.
         """
         with self._window._app.props.coreselection.freeze_notify():
@@ -211,5 +217,5 @@ class AlbumsView(Gtk.Stack):
     def select_all(self):
         self._toggle_all_selection(True)
 
-    def unselect_all(self):
+    def deselect_all(self):
         self._toggle_all_selection(False)
