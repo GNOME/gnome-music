@@ -47,9 +47,6 @@ class AlbumsView(Gtk.Stack):
     _scrolled_window = Gtk.Template.Child()
     _flowbox = Gtk.Template.Child()
 
-    def __repr__(self):
-        return '<AlbumsView>'
-
     def __init__(self, application, player=None):
         """Initialize AlbumsView
 

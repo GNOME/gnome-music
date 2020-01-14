@@ -25,7 +25,6 @@
 from gettext import gettext as _
 from gi.repository import GObject, Gtk
 
-from gnomemusic import log
 from gnomemusic.albumartcache import Art
 from gnomemusic.gstplayer import Playback
 from gnomemusic.player import Player, RepeatMode
@@ -65,10 +64,6 @@ class PlayerToolbar(Gtk.ActionBar):
         RepeatMode.SONG: "media-playlist-repeat-song-symbolic"
     }
 
-    def __repr__(self):
-        return '<PlayerToolbar>'
-
-    @log
     def __init__(self):
         super().__init__()
 
@@ -111,37 +106,30 @@ class PlayerToolbar(Gtk.ActionBar):
         self._sync_repeat_image()
 
     @Gtk.Template.Callback()
-    @log
     def _on_progress_value_changed(self, progress_scale):
         seconds = int(progress_scale.get_value() / 60)
         self._progress_time_label.set_label(utils.seconds_to_string(seconds))
 
     @Gtk.Template.Callback()
-    @log
     def _on_prev_button_clicked(self, button):
         self._player.previous()
 
     @Gtk.Template.Callback()
-    @log
     def _on_play_button_clicked(self, button):
         self._player.play_pause()
 
     @Gtk.Template.Callback()
-    @log
     def _on_next_button_clicked(self, button):
         self._player.next()
 
-    @log
     def _on_repeat_mode_changed(self, klass, param):
         self._sync_repeat_image()
         self._sync_prev_next()
 
-    @log
     def _sync_repeat_image(self):
         icon = self._repeat_dict[self._player.props.repeat_mode]
         self._repeat_image.set_from_icon_name(icon, Gtk.IconSize.MENU)
 
-    @log
     def _sync_playing(self, player, state):
         if (self._player.props.state == Playback.STOPPED
                 and not self._player.props.has_next
@@ -163,12 +151,10 @@ class PlayerToolbar(Gtk.ActionBar):
 
         self._play_button.set_tooltip_text(tooltip)
 
-    @log
     def _sync_prev_next(self):
         self._next_button.props.sensitive = self._player.props.has_next
         self._prev_button.props.sensitive = self._player.props.has_previous
 
-    @log
     def _update_view(self, player):
         """Update all visual elements on song change
 
@@ -194,7 +180,6 @@ class PlayerToolbar(Gtk.ActionBar):
         self._cover_stack.update(coresong)
 
     @Gtk.Template.Callback()
-    @log
     def _on_tooltip_query(self, widget, x, y, kb, tooltip, data=None):
         tooltip.set_custom(self._tooltip)
 

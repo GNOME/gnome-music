@@ -62,9 +62,6 @@ class GrlTrackerWrapper(GObject.GObject):
         Grl.METADATA_KEY_THUMBNAIL,
     ]
 
-    def __repr__(self):
-        return "<GrlTrackerWrapper>"
-
     def __init__(
             self, source, coremodel, application, grilo, tracker_wrapper):
         """Initialize the Tracker wrapper
@@ -94,6 +91,7 @@ class GrlTrackerWrapper(GObject.GObject):
         self._artist_search_model = self._coremodel.props.artists_search
         self._batch_changed_media_ids = {}
         self._content_changed_timeout = None
+        self._tracker_wrapper = tracker_wrapper
         self._window = application.props.window
 
         self._song_search_tracker = Gfm.FilterListModel.new(self._model)
@@ -179,7 +177,7 @@ class GrlTrackerWrapper(GObject.GObject):
             %(location_filter)s
         } GROUP BY ?album
         """.replace('\n', ' ').strip() % {
-            'location_filter': TrackerWrapper.location_filter()
+            'location_filter': self._tracker_wrapper.location_filter()
         }
 
         def check_album_cb(source, op_id, media, user_data, error):
@@ -240,7 +238,7 @@ class GrlTrackerWrapper(GObject.GObject):
         }
         GROUP BY ?artist_bind
         """.replace('\n', ' ').strip() % {
-            'location_filter': TrackerWrapper.location_filter()
+            'location_filter': self._tracker_wrapper.location_filter()
         }
 
         def check_artist_cb(source, op_id, media, user_data, error):
@@ -323,7 +321,7 @@ class GrlTrackerWrapper(GObject.GObject):
             %(location_filter)s
         }
         """.replace('\n', ' ').strip() % {
-            'location_filter': TrackerWrapper.location_filter(),
+            'location_filter': self._tracker_wrapper.location_filter(),
             'media_ids': media_ids
         }
 
@@ -403,7 +401,7 @@ class GrlTrackerWrapper(GObject.GObject):
         }
         ORDER BY ?title
         """.replace('\n', ' ').strip() % {
-            'location_filter': TrackerWrapper.location_filter()
+            'location_filter': self._tracker_wrapper.location_filter()
         }
 
         options = self._fast_options.copy()
@@ -456,7 +454,7 @@ class GrlTrackerWrapper(GObject.GObject):
         GROUP BY ?album
         ORDER BY ?title ?album_artist ?artist ?creation_date
         """.replace('\n', ' ').strip() % {
-            'location_filter': TrackerWrapper.location_filter()
+            'location_filter': self._tracker_wrapper.location_filter()
         }
 
         options = self._fast_options.copy()
@@ -508,7 +506,7 @@ class GrlTrackerWrapper(GObject.GObject):
         GROUP BY ?artist_bind
         ORDER BY ?artist_bind
         """.replace('\n', ' ').strip() % {
-            'location_filter': TrackerWrapper.location_filter()
+            'location_filter': self._tracker_wrapper.location_filter()
         }
 
         options = self._fast_options.copy()
@@ -545,7 +543,7 @@ class GrlTrackerWrapper(GObject.GObject):
         ORDER BY ?date ?album
         """.replace('\n', ' ').strip() % {
             'artist_id': int(artist_id),
-            'location_filter': TrackerWrapper.location_filter()
+            'location_filter': self._tracker_wrapper.location_filter()
         }
 
         albums = []
@@ -597,7 +595,7 @@ class GrlTrackerWrapper(GObject.GObject):
         ORDER BY ?album_disc_number
         """.replace('\n', ' ').strip() % {
             'album_id': int(album_id),
-            'location_filter': TrackerWrapper.location_filter()
+            'location_filter': self._tracker_wrapper.location_filter()
         }
 
         def _disc_nr_cb(source, op_id, media, user_data, error):
@@ -658,7 +656,7 @@ class GrlTrackerWrapper(GObject.GObject):
         """.replace('\n', ' ').strip() % {
             'album_id': album_id,
             'disc_nr': disc_nr,
-            'location_filter': TrackerWrapper.location_filter()
+            'location_filter': self._tracker_wrapper.location_filter()
         }
 
         options = self._fast_options.copy()
@@ -705,7 +703,7 @@ class GrlTrackerWrapper(GObject.GObject):
         }
         LIMIT 50
         """.replace('\n', ' ').strip() % {
-            'location_filter': TrackerWrapper.location_filter(),
+            'location_filter': self._tracker_wrapper.location_filter(),
             'name': term
         }
 
@@ -760,7 +758,7 @@ class GrlTrackerWrapper(GObject.GObject):
         }
         LIMIT 50
         """.replace('\n', ' ').strip() % {
-            'location_filter': TrackerWrapper.location_filter(),
+            'location_filter': self._tracker_wrapper.location_filter(),
             'name': term
         }
 
@@ -821,7 +819,7 @@ class GrlTrackerWrapper(GObject.GObject):
         }
         LIMIT 50
         """.replace('\n', ' ').strip() % {
-            'location_filter': TrackerWrapper.location_filter(),
+            'location_filter': self._tracker_wrapper.location_filter(),
             'name': term
         }
 
@@ -903,7 +901,7 @@ class GrlTrackerWrapper(GObject.GObject):
         }
         """.replace("\n", " ").strip() % {
                 'album_id': album_id,
-                'location_filter': TrackerWrapper.location_filter()
+                'location_filter': self._tracker_wrapper.location_filter()
         }
 
         return query
@@ -945,7 +943,7 @@ class GrlTrackerWrapper(GObject.GObject):
             %(location_filter)s
         }
         """.replace("\n", " ").strip() % {
-            'location_filter': TrackerWrapper.location_filter(),
+            'location_filter': self._tracker_wrapper.location_filter(),
             'song_id': song_id
         }
 

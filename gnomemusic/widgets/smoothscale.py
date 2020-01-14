@@ -22,14 +22,9 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-import logging
-
 from gi.repository import GLib, GObject, Gtk
 
-from gnomemusic import log
 from gnomemusic.gstplayer import Playback
-
-logger = logging.getLogger(__name__)
 
 
 class SmoothScale(Gtk.Scale):
@@ -40,10 +35,6 @@ class SmoothScale(Gtk.Scale):
     """
     __gtype_name__ = 'SmoothScale'
 
-    def __repr__(self):
-        return '<SmoothScale>'
-
-    @log
     def __init__(self):
         super().__init__()
 
@@ -89,7 +80,6 @@ class SmoothScale(Gtk.Scale):
         self._player.connect('notify::state', self._on_state_change)
         self._player.connect('notify::duration', self._on_duration_changed)
 
-    @log
     def _on_state_change(self, klass, arguments):
         state = self._player.props.state
 
@@ -109,7 +99,6 @@ class SmoothScale(Gtk.Scale):
 
         return True
 
-    @log
     def _on_duration_changed(self, klass, arguments):
         duration = self._player.props.duration
 
@@ -117,7 +106,6 @@ class SmoothScale(Gtk.Scale):
             self.set_range(0.0, duration * 60)
             self.set_increments(300, 600)
 
-    @log
     def _on_smooth_scale_seek_finish(self, value):
         """Prevent stutters when seeking with infinitesimal amounts"""
         self._seek_timeout = None
@@ -128,7 +116,6 @@ class SmoothScale(Gtk.Scale):
 
         return False
 
-    @log
     def _on_smooth_scale_seek(self, scale, scroll_type, value):
         """Smooths out the seeking process
 
@@ -149,7 +136,6 @@ class SmoothScale(Gtk.Scale):
 
         return True
 
-    @log
     def _on_button_released(self, gesture, n_press, x, y):
         if self._seek_timeout:
             GLib.source_remove(self._seek_timeout)
@@ -160,14 +146,12 @@ class SmoothScale(Gtk.Scale):
 
         return False
 
-    @log
     def _on_button_pressed(self, gesture, n_press, x, y):
         self._remove_timeout()
         self._old_smooth_scale_value = self.get_value()
 
         return False
 
-    @log
     def _update_timeout(self):
         """Update the duration for self._timeout
 
@@ -191,20 +175,17 @@ class SmoothScale(Gtk.Scale):
         self._timeout = GLib.timeout_add(
             timeout_period, self._update_position_callback)
 
-    @log
     def _remove_timeout(self):
         if self._timeout:
             GLib.source_remove(self._timeout)
             self._timeout = None
 
-    @log
     def _on_smooth_scale_change_value(self, scroll):
         seconds = scroll.get_value() / 60
         self._player.set_position(seconds)
 
         return True
 
-    @log
     def _update_position_callback(self):
         position = self._player.get_position()
         if position > 0:

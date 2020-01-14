@@ -27,7 +27,6 @@ from enum import IntEnum
 from gettext import gettext as _, ngettext
 from gi.repository import GObject, Gtk
 
-from gnomemusic import log
 from gnomemusic.widgets.appmenu import AppMenu
 
 
@@ -41,9 +40,6 @@ class SelectionBarMenuButton(Gtk.MenuButton):
     __gtype_name__ = "SelectionBarMenuButton"
 
     _menu_label = Gtk.Template.Child()
-
-    def __repr__(self):
-        return "<SelectionBarMenuButton>"
 
     def __init__(self):
         super().__init__()
@@ -103,10 +99,6 @@ class HeaderBar(Gtk.HeaderBar):
     selection_mode_allowed = GObject.Property(type=bool, default=True)
     stack = GObject.Property(type=Gtk.Stack)
 
-    def __repr__(self):
-        return "<HeaderBar>"
-
-    @log
     def __init__(self, application):
         """Initialize Headerbar
 
@@ -210,16 +202,13 @@ class HeaderBar(Gtk.HeaderBar):
             self._stack_switcher.show()
 
     @Gtk.Template.Callback()
-    @log
     def _on_back_button_clicked(self, widget=None):
         self.emit('back-button-clicked')
 
     @Gtk.Template.Callback()
-    @log
     def _on_cancel_button_clicked(self, button):
         self.props.selection_mode = False
 
-    @log
     def _update(self):
         if self.props.selection_mode:
             self.props.custom_title = self._selection_menu
@@ -239,7 +228,6 @@ class HeaderBar(Gtk.HeaderBar):
             and self.props.state == HeaderBar.State.MAIN
         )
 
-    @log
     def _on_selection_mode_allowed_changed(self, widget, data):
         if self.props.selection_mode_allowed:
             self._select_button.props.sensitive = True

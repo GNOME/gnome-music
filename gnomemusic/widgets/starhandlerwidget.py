@@ -24,8 +24,6 @@
 
 from gi.repository import GObject, Gtk
 
-from gnomemusic import log
-
 
 class CellRendererStar(Gtk.CellRendererPixbuf):
     """Starwidget cellrenderer implementation"""
@@ -33,9 +31,6 @@ class CellRendererStar(Gtk.CellRendererPixbuf):
     __gsignals__ = {
         'clicked': (GObject.SignalFlags.RUN_LAST, None, (str,))
     }
-
-    def __repr__(self):
-        return '<CellRendererStar>'
 
     def __init__(self):
         super().__init__()
@@ -104,10 +99,6 @@ class CellRendererStar(Gtk.CellRendererPixbuf):
 class StarHandlerWidget(object):
     """Handles the treeview column for favorites (stars)."""
 
-    def __repr__(self):
-        return '<StarHandlerWidget>'
-
-    @log
     def __init__(self, parent, star_index):
         """Initialize.
 
@@ -118,7 +109,6 @@ class StarHandlerWidget(object):
         self._star_index = star_index
         self._parent = parent
 
-    @log
     def add_star_renderers(self, col):
         """Adds the star renderer column
 
@@ -130,7 +120,6 @@ class StarHandlerWidget(object):
         col.pack_start(star_renderer, False)
         col.add_attribute(star_renderer, 'show_star', self._star_index)
 
-    @log
     def _on_star_toggled(self, widget, path):
         """Called if a star is clicked"""
         model = self._parent._view.props.model

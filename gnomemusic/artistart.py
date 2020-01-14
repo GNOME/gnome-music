@@ -89,9 +89,6 @@ class DefaultIcon(GObject.GObject):
     _cache = {}
     _default_theme = Gtk.IconTheme.get_default()
 
-    def __repr__(self):
-        return "<DefaultIcon>"
-
     def __init__(self):
         super().__init__()
 
@@ -258,9 +255,6 @@ class ArtistCache(GObject.GObject):
     }
 
     _log = MusicLogger()
-
-    def __repr__(self):
-        return "<ArtistCache>"
 
     def __init__(self, size, scale):
         super().__init__()
