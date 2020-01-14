@@ -84,7 +84,8 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://gitlab.gnome.org/GNOME/gnome-online-accounts.git"
+                    "url": "https://gitlab.gnome.org/GNOME/gnome-online-accounts.git",
+                    "branch": "wip/rishi/issue-43"
                 }
             ]
         },
