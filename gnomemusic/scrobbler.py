@@ -27,9 +27,8 @@ from hashlib import md5
 import logging
 
 import gi
-gi.require_version('Goa', '1.0')
-gi.require_version('Soup', '2.4')
-from gi.repository import GLib, Goa, GObject, Soup
+gi.require_versions({"Goa": "1.0", "GoaBackend": "1.0", "Soup": "2.4"})
+from gi.repository import GLib, Goa, GoaBackend, GObject, Soup
 
 from gnomemusic import log
 import gnomemusic.utils as utils
@@ -45,9 +44,10 @@ class GoaLastFM(GObject.GObject):
     class State(IntEnum):
         """GoaLastFM account State"""
 
-        NOT_CONFIGURED = 0
-        DISABLED = 1
-        ENABLED = 2
+        NOT_ENABLED = 0
+        NOT_CONFIGURED = 1
+        DISABLED = 2
+        ENABLED = 3
 
     def __repr__(self):
         return '<GoaLastFM>'
@@ -57,15 +57,33 @@ class GoaLastFM(GObject.GObject):
         super().__init__()
 
         self._client = None
+        self._state = GoaLastFM.State.NOT_ENABLED
         self._reset_attributes()
-        Goa.Client.new(None, self._new_client_callback)
+        GoaBackend.Provider.get_all(self._get_all_providers_cb, None)
 
     def _reset_attributes(self):
         self._account = None
         self._authentication = None
-        self._state = GoaLastFM.State.NOT_CONFIGURED
         self._music_disabled_id = None
-        self.notify("state")
+
+    def _get_all_providers_cb(self, source, result, data):
+        try:
+            retrieved, providers = GoaBackend.Provider.get_all_finish(result)
+        except GLib.Error as error:
+            logger.warning("Error: {}, {}".format(
+                Goa.Error(error.code), error.message))
+            return
+
+        if retrieved is False:
+            logger.warning("Unable to get the list of GoaProvider.")
+            return
+
+        for provider in providers:
+            if provider.get_provider_name() == "Last.fm":
+                self._state = GoaLastFM.State.NOT_CONFIGURED
+                Goa.Client.new(None, self._new_client_callback)
+                self.notify("state")
+                break
 
     @log
     def _new_client_callback(self, source, result):
@@ -87,7 +105,9 @@ class GoaLastFM(GObject.GObject):
         account = obj.get_account()
         if account.props.provider_type == "lastfm":
             self._account.disconnect(self._music_disabled_id)
+            self._state = GoaLastFM.State.NOT_CONFIGURED
             self._reset_attributes()
+            self.notify("state")
 
     @log
     def _find_lastfm_account(self):
@@ -164,7 +184,7 @@ class LastFmScrobbler(GObject.GObject):
         self._report = self._settings.get_boolean("lastfm-report")
 
         self._scrobbled = False
-        self._account_state = GoaLastFM.State.NOT_CONFIGURED
+        self._account_state = GoaLastFM.State.NOT_ENABLED
 
         self._goa_lastfm = GoaLastFM()
         self._goa_lastfm.bind_property(
@@ -172,7 +192,7 @@ class LastFmScrobbler(GObject.GObject):
 
         self._soup_session = Soup.Session.new()
 
-    @GObject.Property(type=int, default=GoaLastFM.State.NOT_CONFIGURED)
+    @GObject.Property(type=int, default=GoaLastFM.State.NOT_ENABLED)
     def account_state(self):
         """Get the Last.fm account state
 
