@@ -76,15 +76,26 @@
             ]
         },
         {
+            "name" : "rest",
+            "buildsystem" : "autotools",
+            "sources" : [
+                {
+                    "type" : "git",
+                    "branch" : "librest-0-7",
+                    "url" : "https://gitlab.gnome.org/GNOME/librest.git"
+                }
+            ]
+        },
+        {
             "name": "gnome-online-accounts",
             "config-opts": [ "--enable-introspection",
                              "--disable-documentation",
-                             "--disable-backend",
                              "--disable-Werror" ],
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://gitlab.gnome.org/GNOME/gnome-online-accounts.git"
+                    "url": "https://gitlab.gnome.org/GNOME/gnome-online-accounts.git",
+                    "branch": "wip/jfelder/add-goabackend-introspection"
                 }
             ]
         },
