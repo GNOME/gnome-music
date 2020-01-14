@@ -22,7 +22,6 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-import logging
 import time
 
 from gettext import gettext as _
@@ -32,10 +31,7 @@ gi.require_versions({"Grl": "0.3"})
 from gi.repository import Gio, Grl, GLib, GObject
 
 from gnomemusic.coresong import CoreSong
-from gnomemusic.trackerwrapper import TrackerWrapper
 import gnomemusic.utils as utils
-
-logger = logging.getLogger(__name__)
 
 
 class GrlTrackerPlaylists(GObject.GObject):
@@ -58,9 +54,6 @@ class GrlTrackerPlaylists(GObject.GObject):
         Grl.METADATA_KEY_URL
     ]
 
-    def __repr__(self):
-        return "<GrlTrackerPlaylists>"
-
     def __init__(
             self, source, coremodel, application, grilo, tracker_wrapper):
         """Initialize GrlTrackerPlaylists.
@@ -79,12 +72,14 @@ class GrlTrackerPlaylists(GObject.GObject):
         self._coremodel = coremodel
         self._coreselection = application.props.coreselection
         self._grilo = grilo
+        self._log = application.props.log
         self._source = source
         self._model = self._coremodel.props.playlists
         self._model_filter = self._coremodel.props.playlists_filter
         self._user_model_filter = self._coremodel.props.user_playlists_filter
         self._pls_todelete = []
         self._tracker = tracker_wrapper.props.tracker
+        self._tracker_wrapper = tracker_wrapper
         self._window = application.props.window
 
         self._user_model_filter.set_filter_func(self._user_playlists_filter)
@@ -100,7 +95,7 @@ class GrlTrackerPlaylists(GObject.GObject):
             "source": self._source,
             "application": self._application,
             "grilo": self._grilo,
-            "tracker": self._tracker
+            "tracker_wrapper": self._tracker_wrapper
         }
 
         smart_playlists = {
@@ -144,7 +139,7 @@ class GrlTrackerPlaylists(GObject.GObject):
     def _add_user_playlist(
             self, source, op_id, media, remaining, data=None, error=None):
         if error:
-            print("ERROR", error)
+            self._log.warning("Error: {}".format(error))
             self._window.notifications_popup.pop_loading()
             return
         if not media:
@@ -154,7 +149,7 @@ class GrlTrackerPlaylists(GObject.GObject):
         playlist = Playlist(
             media=media, source=self._source, coremodel=self._coremodel,
             application=self._application, grilo=self._grilo,
-            tracker=self._tracker)
+            tracker_wrapper=self._tracker_wrapper)
 
         self._model.append(playlist)
         callback = data
@@ -295,12 +290,10 @@ class Playlist(GObject.GObject):
     query = GObject.Property(type=str, default=None)
     tag_text = GObject.Property(type=str, default=None)
 
-    def __repr__(self):
-        return "<Playlist>"
-
     def __init__(
             self, media=None, query=None, tag_text=None, source=None,
-            coremodel=None, application=None, grilo=None, tracker=None):
+            coremodel=None, application=None, grilo=None,
+            tracker_wrapper=None):
 
         super().__init__()
         """Initialize a playlist
@@ -313,7 +306,8 @@ class Playlist(GObject.GObject):
        :param CoreModel coremodel: The CoreModel instance
        :param Application application: The Application instance
        :param CoreGrilo grilo: The CoreGrilo instance
-       :param TrackerWrapper tracker: The TrackerWrapper instance
+       :param TrackerWrapper tracker_wrapper: The TrackerWrapper
+            instance
         """
         if media:
             self.props.pl_id = media.get_id()
@@ -330,7 +324,9 @@ class Playlist(GObject.GObject):
         self._coremodel = coremodel
         self._coreselection = application.props.coreselection
         self._grilo = grilo
-        self._tracker = tracker
+        self._log = application.props.log
+        self._tracker = tracker_wrapper.props.tracker
+        self._tracker_wrapper = tracker_wrapper
         self._window = application.props.window
 
         self._fast_options = Grl.OperationOptions()
@@ -434,7 +430,7 @@ class Playlist(GObject.GObject):
             try:
                 conn.update_finish(res)
             except GLib.Error as e:
-                logger.warning(
+                self._log.warning(
                     "Unable to rename playlist from {} to {}: {}".format(
                         self._title, new_name, e.message))
             else:
@@ -699,9 +695,6 @@ class Playlist(GObject.GObject):
 class SmartPlaylist(Playlist):
     """Base class for smart playlists"""
 
-    def __repr__(self):
-        return "<SmartPlaylist>"
-
     def __init__(self, **args):
         super().__init__(**args)
 
@@ -716,7 +709,7 @@ class SmartPlaylist(Playlist):
 
             def _add_to_model(source, op_id, media, remaining, error):
                 if error:
-                    print("ERROR", error)
+                    self._log.warning("Error: {}".format(error))
                     self._window.notifications_popup.pop_loading()
                     self.emit("playlist-loaded")
                     return
@@ -771,7 +764,7 @@ class MostPlayed(SmartPlaylist):
         }
         ORDER BY DESC(?count) LIMIT 50
         """.replace('\n', ' ').strip() % {
-            "location_filter": TrackerWrapper.location_filter()
+            "location_filter": self._tracker_wrapper.location_filter()
         }
 
 
@@ -807,7 +800,7 @@ class NeverPlayed(SmartPlaylist):
             %(location_filter)s
         } ORDER BY nfo:fileLastAccessed(?song) LIMIT 50
         """.replace('\n', ' ').strip() % {
-            "location_filter": TrackerWrapper.location_filter()
+            "location_filter": self._tracker_wrapper.location_filter()
         }
 
 
@@ -853,7 +846,7 @@ class RecentlyPlayed(SmartPlaylist):
         } ORDER BY DESC(?last_played) LIMIT 50
         """.replace('\n', ' ').strip() % {
             'compare_date': compare_date,
-            "location_filter": TrackerWrapper.location_filter()
+            "location_filter": self._tracker_wrapper.location_filter()
         }
 
 
@@ -898,7 +891,7 @@ class RecentlyAdded(SmartPlaylist):
         } ORDER BY DESC(tracker:added(?song)) LIMIT 50
         """.replace('\n', ' ').strip() % {
             'compare_date': compare_date,
-            "location_filter": TrackerWrapper.location_filter()
+            "location_filter": self._tracker_wrapper.location_filter()
         }
 
 
@@ -936,5 +929,5 @@ class Favorites(SmartPlaylist):
                 %(location_filter)s
             } ORDER BY DESC(tracker:added(?song))
         """.replace('\n', ' ').strip() % {
-            "location_filter": TrackerWrapper.location_filter()
+            "location_filter": self._tracker_wrapper.location_filter()
         }

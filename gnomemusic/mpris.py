@@ -23,28 +23,26 @@
 # delete this exception statement from your version.
 
 from itertools import chain
-import logging
 import re
 
 from gi.repository import Gio, GLib
 
-from gnomemusic import log
 from gnomemusic.albumartcache import lookup_art_file_from_cache
-from gnomemusic.widgets.songwidget import SongWidget
 from gnomemusic.gstplayer import Playback
 from gnomemusic.player import PlayerPlaylist, RepeatMode
-
-logger = logging.getLogger(__name__)
+from gnomemusic.widgets.songwidget import SongWidget
 
 
 class DBusInterface:
 
-    def __init__(self, name, path):
+    def __init__(self, name, path, application):
         """Etablish a D-Bus session connection
 
         :param str name: interface name
         :param str path: object path
+        :param GtkApplication application: The Application object
         """
+        self._log = application.props.log
         self._path = path
         self._signals = None
         Gio.bus_get(Gio.BusType.SESSION, None, self._bus_get_sync, name)
@@ -53,7 +51,7 @@ class DBusInterface:
         try:
             self._con = Gio.bus_get_finish(res)
         except GLib.Error as e:
-            logger.warning(
+            self._log.warning(
                 "Unable to connect to to session bus: {}".format(e.message))
             return
 
@@ -278,15 +276,13 @@ class MPRIS(DBusInterface):
 
     _playlist_nb_songs = 10
 
-    def __repr__(self):
-        return "<MPRIS>"
-
     def __init__(self, app):
         name = 'org.mpris.MediaPlayer2.GnomeMusic'
         path = '/org/mpris/MediaPlayer2'
-        super().__init__(name, path)
+        super().__init__(name, path, app)
 
         self._app = app
+        self._log = app.props.log
         self._player = app.props.player
         self._player.connect(
             'song-changed', self._on_current_song_changed)
@@ -320,7 +316,6 @@ class MPRIS(DBusInterface):
         self._previous_mpris_playlist = self._get_active_playlist()
         self._previous_playback_status = "Stopped"
 
-    @log
     def _get_playback_status(self):
         state = self._player.props.state
         if state == Playback.STOPPED:
@@ -330,7 +325,6 @@ class MPRIS(DBusInterface):
         else:
             return 'Playing'
 
-    @log
     def _get_loop_status(self):
         if self._player.props.repeat_mode == RepeatMode.ALL:
             return "Playlist"
@@ -339,7 +333,6 @@ class MPRIS(DBusInterface):
         else:
             return "None"
 
-    @log
     def _get_metadata(self, coresong=None, index=None):
         song_dbus_path = self._get_song_dbus_path(coresong, index)
         if not self._player.props.current_song:
@@ -398,7 +391,6 @@ class MPRIS(DBusInterface):
 
         return metadata
 
-    @log
     def _get_song_dbus_path(self, coresong=None, index=None):
         """Convert a Grilo media to a D-Bus path
 
@@ -425,7 +417,6 @@ class MPRIS(DBusInterface):
             id_hex, index)
         return path
 
-    @log
     def _update_tracklist(self):
         previous_path_list = self._path_list
         self._path_list = []
@@ -472,7 +463,6 @@ class MPRIS(DBusInterface):
             current_song_path = self._get_song_dbus_path()
             self._track_list_replaced(self._path_list, current_song_path)
 
-    @log
     def _get_playlist_dbus_path(self, playlist):
         """Convert a playlist to a D-Bus path
 
@@ -487,13 +477,11 @@ class MPRIS(DBusInterface):
         pl_id = playlist.props.pl_id or playlist.props.tag_text
         return "/org/gnome/GnomeMusic/Playlist/{}".format(pl_id)
 
-    @log
     def _get_mpris_playlist_from_playlist(self, playlist):
         playlist_name = playlist.props.title
         path = self._get_playlist_dbus_path(playlist)
         return (path, playlist_name, "")
 
-    @log
     def _get_active_playlist(self):
         """Get Active Maybe_Playlist
 
@@ -514,7 +502,6 @@ class MPRIS(DBusInterface):
             current_playlist)
         return (True, mpris_playlist)
 
-    @log
     def _on_current_song_changed(self, player):
         # In repeat song mode, no metadata has changed if the
         # player was already started
@@ -558,7 +545,6 @@ class MPRIS(DBusInterface):
         self._properties_changed(
             MPRIS.MEDIA_PLAYER2_PLAYER_IFACE, properties, [])
 
-    @log
     def _on_player_state_changed(self, klass, args):
         playback_status = self._get_playback_status()
         if playback_status == self._previous_playback_status:
@@ -569,7 +555,6 @@ class MPRIS(DBusInterface):
             MPRIS.MEDIA_PLAYER2_PLAYER_IFACE,
             {'PlaybackStatus': GLib.Variant('s', playback_status), }, [])
 
-    @log
     def _on_repeat_mode_changed(self, player, param):
         self._update_tracklist()
 
@@ -590,12 +575,10 @@ class MPRIS(DBusInterface):
         self._properties_changed(
             MPRIS.MEDIA_PLAYER2_PLAYER_IFACE, properties, [])
 
-    @log
     def _on_seek_finished(self, player):
         position_second = self._player.get_position()
         self._seeked(int(position_second * 1e6))
 
-    @log
     def _on_player_playlist_changed(self, coremodel, playlist_type):
         self._player_playlist_type = playlist_type
 
@@ -622,7 +605,6 @@ class MPRIS(DBusInterface):
         self._properties_changed(
             MPRIS.MEDIA_PLAYER2_PLAYLISTS_IFACE, properties, [])
 
-    @log
     def _on_playlist_renamed(self, playlist, param):
         mpris_playlist = self._get_mpris_playlist_from_playlist(playlist)
         self._dbus_emit_signal('PlaylistChanged', {'Playlist': mpris_playlist})
@@ -829,7 +811,7 @@ class MPRIS(DBusInterface):
         except KeyError:
             msg = "MPRIS does not handle {} property from {} interface".format(
                 property_name, interface_name)
-            logger.warning(msg)
+            self._log.warning(msg)
             raise ValueError(msg)
 
     def _get_all(self, interface_name):
@@ -893,7 +875,7 @@ class MPRIS(DBusInterface):
         elif interface_name == 'org.freedesktop.DBus.Introspectable':
             return {}
         else:
-            logger.warning(
+            self._log.warning(
                 "MPRIS does not implement {} interface".format(interface_name))
 
     def _set(self, interface_name, property_name, new_value):
@@ -916,7 +898,7 @@ class MPRIS(DBusInterface):
                 else:
                     self._player.props.repeat_mode = RepeatMode.NONE
         else:
-            logger.warning(
+            self._log.warning(
                 "MPRIS does not implement {} interface".format(interface_name))
 
     def _properties_changed(self, interface_name, changed_properties,

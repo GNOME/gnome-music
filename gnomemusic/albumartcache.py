@@ -23,7 +23,6 @@
 # delete this exception statement from your version.
 
 from enum import Enum
-import logging
 from math import pi
 import os
 
@@ -34,13 +33,9 @@ gi.require_version('MediaArt', '2.0')
 from gi.repository import (Gdk, GdkPixbuf, Gio, GLib, GObject, Gtk, MediaArt,
                            Gst, GstTag, GstPbutils)
 
-from gnomemusic import log
+from gnomemusic.musiclogger import MusicLogger
 
 
-logger = logging.getLogger(__name__)
-
-
-@log
 def lookup_art_file_from_cache(coresong):
     """Lookup MediaArt cache art of an album or song.
 
@@ -62,7 +57,6 @@ def lookup_art_file_from_cache(coresong):
     return thumb_file
 
 
-@log
 def _make_icon_frame(icon_surface, art_size=None, scale=1, default_icon=False):
     border = 3
     degrees = pi / 180
@@ -130,14 +124,9 @@ class DefaultIcon(GObject.GObject):
     _cache = {}
     _default_theme = Gtk.IconTheme.get_default()
 
-    def __repr__(self):
-        return '<DefaultIcon>'
-
-    @log
     def __init__(self):
         super().__init__()
 
-    @log
     def _make_default_icon(self, icon_type, art_size, scale):
         icon_info = self._default_theme.lookup_icon_for_scale(
             icon_type.value, art_size.width / 3, scale, 0)
@@ -147,7 +136,6 @@ class DefaultIcon(GObject.GObject):
 
         return icon_surface
 
-    @log
     def get(self, icon_type, art_size, scale=1):
         """Returns the requested symbolic icon
 
@@ -196,10 +184,6 @@ class Art(GObject.GObject):
             self.width = width
             self.height = height
 
-    def __repr__(self):
-        return '<Art>'
-
-    @log
     def __init__(self, size, coresong, scale=1):
         super().__init__()
 
@@ -213,7 +197,6 @@ class Art(GObject.GObject):
         self._surface = None
         self._scale = scale
 
-    @log
     def lookup(self):
         """Starts the art lookup sequence"""
         if self._in_blacklist():
@@ -225,14 +208,12 @@ class Art(GObject.GObject):
         cache.connect('hit', self._cache_hit)
         cache.query(self._coresong)
 
-    @log
     def _cache_miss(self, klass):
         embedded_art = EmbeddedArt()
         embedded_art.connect('found', self._embedded_art_found)
         embedded_art.connect('unavailable', self._embedded_art_unavailable)
         embedded_art.query(self._coresong)
 
-    @log
     def _cache_hit(self, klass, pixbuf):
         surface = Gdk.cairo_surface_create_from_pixbuf(
             pixbuf, self._scale, None)
@@ -241,7 +222,6 @@ class Art(GObject.GObject):
 
         self.emit('finished')
 
-    @log
     def _embedded_art_found(self, klass):
         cache = Cache()
         # In case of an error in local art retrieval, there are two
@@ -254,7 +234,6 @@ class Art(GObject.GObject):
         cache.connect('hit', self._cache_hit)
         cache.query(self._coresong)
 
-    @log
     def _embedded_art_unavailable(self, klass):
         remote_art = RemoteArt()
         remote_art.connect('retrieved', self._remote_art_retrieved)
@@ -262,30 +241,25 @@ class Art(GObject.GObject):
         remote_art.connect('no-remote-sources', self._remote_art_no_sources)
         remote_art.query(self._coresong)
 
-    @log
     def _remote_art_retrieved(self, klass):
         cache = Cache()
         cache.connect('miss', self._remote_art_unavailable)
         cache.connect('hit', self._cache_hit)
         cache.query(self._coresong)
 
-    @log
     def _remote_art_unavailable(self, klass):
         self._add_to_blacklist()
         self._no_art_available()
 
-    @log
     def _remote_art_no_sources(self, klass):
         self._no_art_available()
 
-    @log
     def _no_art_available(self):
         self._surface = DefaultIcon().get(
             DefaultIcon.Type.MUSIC, self._size, self._scale)
 
         self.emit('finished')
 
-    @log
     def _add_to_blacklist(self):
         # FIXME: coresong can be a CoreAlbum
         try:
@@ -300,7 +274,6 @@ class Art(GObject.GObject):
         album_stripped = MediaArt.strip_invalid_entities(album)
         self._blacklist[artist].append(album_stripped)
 
-    @log
     def _in_blacklist(self):
         # FIXME: coresong can be a CoreAlbum
         try:
@@ -336,12 +309,10 @@ class Cache(GObject.GObject):
         'hit': (GObject.SignalFlags.RUN_FIRST, None, (GObject.GObject, ))
     }
 
-    def __repr__(self):
-        return '<Cache>'
-
-    @log
     def __init__(self):
         super().__init__()
+
+        self._log = MusicLogger()
 
         # FIXME: async
         self.cache_dir = os.path.join(GLib.get_user_cache_dir(), 'media-art')
@@ -349,11 +320,10 @@ class Cache(GObject.GObject):
             try:
                 Gio.file_new_for_path(self.cache_dir).make_directory(None)
             except GLib.Error as error:
-                logger.warning(
+                self._log.warning(
                     "Error: {}, {}".format(error.domain, error.message))
                 return
 
-    @log
     def query(self, coresong):
         """Start the cache query
 
@@ -367,36 +337,36 @@ class Cache(GObject.GObject):
 
         self.emit('miss')
 
-    @log
     def _open_stream(self, thumb_file, result, arguments):
         try:
             stream = thumb_file.read_finish(result)
         except GLib.Error as error:
-            logger.warning("Error: {}, {}".format(error.domain, error.message))
+            self._log.warning(
+                "Error: {}, {}".format(error.domain, error.message))
             self.emit('miss')
             return
 
         GdkPixbuf.Pixbuf.new_from_stream_async(
             stream, None, self._pixbuf_loaded, None)
 
-    @log
     def _pixbuf_loaded(self, stream, result, data):
         try:
             pixbuf = GdkPixbuf.Pixbuf.new_from_stream_finish(result)
         except GLib.Error as error:
-            logger.warning("Error: {}, {}".format(error.domain, error.message))
+            self._log.warning(
+                "Error: {}, {}".format(error.domain, error.message))
             self.emit('miss')
             return
 
         stream.close_async(GLib.PRIORITY_LOW, None, self._close_stream, None)
         self.emit('hit', pixbuf)
 
-    @log
     def _close_stream(self, stream, result, data):
         try:
             stream.close_finish(result)
         except GLib.Error as error:
-            logger.warning("Error: {}, {}".format(error.domain, error.message))
+            self._log.warning(
+                "Error: {}, {}".format(error.domain, error.message))
 
 
 class EmbeddedArt(GObject.GObject):
@@ -414,15 +384,17 @@ class EmbeddedArt(GObject.GObject):
     def __repr__(self):
         return '<EmbeddedArt>'
 
-    @log
     def __init__(self):
         super().__init__()
+
+        self._log = MusicLogger()
 
         try:
             Gst.init(None)
             GstPbutils.pb_utils_init()
         except GLib.Error as error:
-            logger.warning("Error: {}, {}".format(error.domain, error.message))
+            self._log.warning(
+                "Error: {}, {}".format(error.domain, error.message))
             return
 
         self._media_art = MediaArt.Process.new()
@@ -432,7 +404,6 @@ class EmbeddedArt(GObject.GObject):
         self._coresong = None
         self._path = None
 
-    @log
     def query(self, coresong):
         """Start the local query
 
@@ -457,7 +428,8 @@ class EmbeddedArt(GObject.GObject):
         try:
             discoverer = GstPbutils.Discoverer.new(Gst.SECOND)
         except GLib.Error as error:
-            logger.warning("Error: {}, {}".format(error.domain, error.message))
+            self._log.warning(
+                "Error: {}, {}".format(error.domain, error.message))
             self._lookup_cover_in_directory()
             return
 
@@ -476,12 +448,11 @@ class EmbeddedArt(GObject.GObject):
         success = discoverer.discover_uri_async(self._coresong.props.url)
 
         if not success:
-            logger.warning("Could not add url to discoverer.")
+            self._log.warning("Could not add url to discoverer.")
             self.emit('unavailable')
             discoverer.stop()
             return
 
-    @log
     def _discovered(self, discoverer, info, error):
         tags = info.get_tags()
         index = 0
@@ -489,7 +460,7 @@ class EmbeddedArt(GObject.GObject):
         if (error is not None
                 or tags is None):
             if error:
-                logger.warning("Discoverer error: {}, {}".format(
+                self._log.warning("Discoverer error: {}, {}".format(
                     Gst.CoreError(error.code), error.message))
             discoverer.stop()
             self.emit('unavailable')
@@ -520,14 +491,13 @@ class EmbeddedArt(GObject.GObject):
                 discoverer.stop()
                 return
             except GLib.Error as error:
-                logger.warning("Error: {}, {}".format(
+                self._log.warning("Error: {}, {}".format(
                     MediaArt.Error(error.code), error.message))
 
         discoverer.stop()
 
         self._lookup_cover_in_directory()
 
-    @log
     def _lookup_cover_in_directory(self):
         # Find local art in cover.jpeg files.
         self._media_art.uri_async(
@@ -535,7 +505,6 @@ class EmbeddedArt(GObject.GObject):
             self._coresong.props.url, self._artist, self._album,
             GLib.PRIORITY_LOW, None, self._uri_async_cb, None)
 
-    @log
     def _uri_async_cb(self, src, result, data):
         try:
             success = self._media_art.uri_finish(result)
@@ -549,7 +518,7 @@ class EmbeddedArt(GObject.GObject):
                 self.emit('found')
                 return
             else:
-                logger.warning("Error: {}, {}".format(
+                self._log.warning("Error: {}, {}".format(
                     MediaArt.Error(error.code), error.message))
 
         self.emit('unavailable')
@@ -567,19 +536,16 @@ class RemoteArt(GObject.GObject):
         'no-remote-sources': (GObject.SignalFlags.RUN_FIRST, None, ())
     }
 
-    def __repr__(self):
-        return '<RemoteArt>'
-
-    @log
     def __init__(self):
         super().__init__()
+
+        self._log = MusicLogger()
 
         self._artist = None
         self._album = None
         self._coresong = None
         self._grilo = None
 
-    @log
     def query(self, coresong):
         """Start the remote query
 
@@ -618,14 +584,13 @@ class RemoteArt(GObject.GObject):
             self._grilo.get_album_art_for_item(
                 self._coresong, self._remote_album_art)
 
-    @log
     def _delete_callback(self, src, result, data):
         try:
             src.delete_finish(result)
         except GLib.Error as error:
-            logger.warning("Error: {}, {}".format(error.domain, error.message))
+            self._log.warning(
+                "Error: {}, {}".format(error.domain, error.message))
 
-    @log
     def _splice_callback(self, src, result, data):
         tmp_file, iostream = data
 
@@ -635,7 +600,8 @@ class RemoteArt(GObject.GObject):
         try:
             src.splice_finish(result)
         except GLib.Error as error:
-            logger.warning("Error: {}, {}".format(error.domain, error.message))
+            self._log.warning(
+                "Error: {}, {}".format(error.domain, error.message))
             self.emit('unavailable')
             return
 
@@ -650,7 +616,8 @@ class RemoteArt(GObject.GObject):
             # FIXME: I/O blocking
             MediaArt.file_to_jpeg(tmp_file.get_path(), cache_path)
         except GLib.Error as error:
-            logger.warning("Error: {}, {}".format(error.domain, error.message))
+            self._log.warning(
+                "Error: {}, {}".format(error.domain, error.message))
             self.emit('unavailable')
             return
 
@@ -659,26 +626,27 @@ class RemoteArt(GObject.GObject):
         tmp_file.delete_async(
             GLib.PRIORITY_LOW, None, self._delete_callback, None)
 
-    @log
     def _close_iostream_callback(self, src, result, data):
         try:
             src.close_finish(result)
         except GLib.Error as error:
-            logger.warning("Error: {}, {}".format(error.domain, error.message))
+            self._log.warning(
+                "Error: {}, {}".format(error.domain, error.message))
 
-    @log
     def _read_callback(self, src, result, data):
         try:
             istream = src.read_finish(result)
         except GLib.Error as error:
-            logger.warning("Error: {}, {}".format(error.domain, error.message))
+            self._log.warning(
+                "Error: {}, {}".format(error.domain, error.message))
             self.emit('unavailable')
             return
 
         try:
             [tmp_file, iostream] = Gio.File.new_tmp()
         except GLib.Error as error:
-            logger.warning("Error: {}, {}".format(error.domain, error.message))
+            self._log.warning(
+                "Error: {}, {}".format(error.domain, error.message))
             self.emit('unavailable')
             return
 
@@ -690,10 +658,9 @@ class RemoteArt(GObject.GObject):
             | Gio.OutputStreamSpliceFlags.CLOSE_TARGET, GLib.PRIORITY_LOW,
             None, self._splice_callback, [tmp_file, iostream])
 
-    @log
     def _remote_album_art(self, source, param, item, count, error):
         if error:
-            logger.warning("Grilo error {}".format(error))
+            self._log.warning("Grilo error {}".format(error))
             self.emit('unavailable')
             return
 
