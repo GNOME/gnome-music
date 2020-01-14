@@ -26,9 +26,8 @@ from enum import IntEnum
 from hashlib import md5
 
 import gi
-gi.require_version('Goa', '1.0')
-gi.require_version('Soup', '2.4')
-from gi.repository import GLib, Goa, GObject, Soup
+gi.require_versions({"Goa": "1.0", "GoaBackend": "1.0", "Soup": "2.4"})
+from gi.repository import GLib, Goa, GoaBackend, GObject, Soup
 
 from gnomemusic.musiclogger import MusicLogger
 import gnomemusic.utils as utils
@@ -39,11 +38,18 @@ class GoaLastFM(GObject.GObject):
     """
 
     class State(IntEnum):
-        """GoaLastFM account State"""
+        """GoaLastFM account State.
 
-        NOT_CONFIGURED = 0
-        DISABLED = 1
-        ENABLED = 2
+        NOT_AVAILABLE: GOA does not handle Last.fm accounts
+        NOT_CONFIGURED: GOA handles Last.fm but no user account has
+                        been configured
+        DISABLED: a user account exists, but it is disabled
+        ENABLED: a user account exists and is enabled
+        """
+        NOT_AVAILABLE = 0
+        NOT_CONFIGURED = 1
+        DISABLED = 2
+        ENABLED = 3
 
     def __init__(self):
         super().__init__()
@@ -51,15 +57,33 @@ class GoaLastFM(GObject.GObject):
         self._log = MusicLogger()
 
         self._client = None
+        self._state = GoaLastFM.State.NOT_AVAILABLE
         self._reset_attributes()
-        Goa.Client.new(None, self._new_client_callback)
+        GoaBackend.Provider.get_all(self._get_all_providers_cb, None)
 
     def _reset_attributes(self):
         self._account = None
         self._authentication = None
-        self._state = GoaLastFM.State.NOT_CONFIGURED
         self._music_disabled_id = None
-        self.notify("state")
+
+    def _get_all_providers_cb(self, source, result, data):
+        try:
+            retrieved, providers = GoaBackend.Provider.get_all_finish(result)
+        except GLib.Error as error:
+            self._log.warning("Error: {}, {}".format(
+                Goa.Error(error.code), error.message))
+            return
+
+        if retrieved is False:
+            self._log.warning("Unable to get the list of GoaProvider.")
+            return
+
+        for provider in providers:
+            if provider.get_provider_name() == "Last.fm":
+                self._state = GoaLastFM.State.NOT_CONFIGURED
+                Goa.Client.new(None, self._new_client_callback)
+                self.notify("state")
+                break
 
     def _new_client_callback(self, source, result):
         try:
@@ -80,7 +104,9 @@ class GoaLastFM(GObject.GObject):
         account = obj.get_account()
         if account.props.provider_type == "lastfm":
             self._account.disconnect(self._music_disabled_id)
+            self._state = GoaLastFM.State.NOT_CONFIGURED
             self._reset_attributes()
+            self.notify("state")
 
     def _find_lastfm_account(self):
         accounts = self._client.get_accounts()
@@ -152,7 +178,7 @@ class LastFmScrobbler(GObject.GObject):
         self._report = self._settings.get_boolean("lastfm-report")
 
         self._scrobbled = False
-        self._account_state = GoaLastFM.State.NOT_CONFIGURED
+        self._account_state = GoaLastFM.State.NOT_AVAILABLE
 
         self._goa_lastfm = GoaLastFM()
         self._goa_lastfm.bind_property(
@@ -161,7 +187,7 @@ class LastFmScrobbler(GObject.GObject):
         self._soup_session = Soup.Session.new()
         self._scrobble_cache = []
 
-    @GObject.Property(type=int, default=GoaLastFM.State.NOT_CONFIGURED)
+    @GObject.Property(type=int, default=GoaLastFM.State.NOT_AVAILABLE)
     def account_state(self):
         """Get the Last.fm account state
 
