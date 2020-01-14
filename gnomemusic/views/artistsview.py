@@ -61,6 +61,8 @@ class ArtistsView(BaseView):
         self._application = application
         self._artists = {}
 
+        self._selected_artist = None
+
         self._window = application.props.window
         self._coremodel = application.props.coremodel
         self._model = self._coremodel.props.artists_sort
@@ -153,6 +155,9 @@ class ArtistsView(BaseView):
             artist_tile.props.selected = not artist_tile.props.selected
             return
 
+        selected_row = self._sidebar.get_selected_row()
+        self._selected_artist = selected_row.get_child().props.coreartist
+
         # Prepare a new artist_albums_widget here
         coreartist = artist_tile.props.coreartist
         if coreartist.props.artist in self._loaded_artists:
@@ -196,6 +201,18 @@ class ArtistsView(BaseView):
             self._sidebar.props.selection_mode = Gtk.SelectionMode.NONE
         else:
             self._sidebar.props.selection_mode = Gtk.SelectionMode.SINGLE
+            selected_row = self._sidebar.get_row_at_index(0)
+            if selected_row is None:
+                self._selected_artist = None
+                return
+
+            for row in self._sidebar:
+                if row.get_child().props.coreartist == self._selected_artist:
+                    selected_row = row
+                    break
+
+            self._sidebar.select_row(selected_row)
+            self._selected_artist = None
 
     @log
     def _toggle_all_selection(self, selected):
