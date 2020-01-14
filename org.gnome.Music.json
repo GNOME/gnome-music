@@ -16,6 +16,7 @@
         "--filesystem=xdg-run/dconf", "--filesystem=~/.config/dconf:ro",
         "--talk-name=ca.desrt.dconf", "--env=DCONF_USER_CONFIG_DIR=.config/dconf",
         "--own-name=org.mpris.MediaPlayer2.GnomeMusic",
+        "--talk-name=org.gnome.ControlCenter",
         "--talk-name=org.gnome.SettingsDaemon.MediaKeys",
         "--talk-name=com.intel.dleyna-server",
         "--talk-name=org.gtk.vfs",
