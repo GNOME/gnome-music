@@ -46,12 +46,11 @@ class AlbumWidget(Gtk.EventBox):
     _composer_label = Gtk.Template.Child()
     _composer_info_label = Gtk.Template.Child()
     _cover_stack = Gtk.Template.Child()
-    _listbox = Gtk.Template.Child()
+    _disc_list_box = Gtk.Template.Child()
     _released_info_label = Gtk.Template.Child()
     _running_info_label = Gtk.Template.Child()
     _title_label = Gtk.Template.Child()
 
-    selected_items_count = GObject.Property(type=int, default=0, minimum=0)
     selection_mode = GObject.Property(type=bool, default=False)
 
     _duration = 0
@@ -72,6 +71,16 @@ class AlbumWidget(Gtk.EventBox):
         self._parent_view = parent_view
         self._player = player
 
+<<<<<<< HEAD
+=======
+        self.bind_property(
+            "selection-mode", self._disc_list_box, "selection-mode",
+            GObject.BindingFlags.BIDIRECTIONAL
+            | GObject.BindingFlags.SYNC_CREATE)
+
+        self.connect("notify::selection-mode", self._on_selection_mode_changed)
+
+>>>>>>> 2e7354c27dee90a52031e7db5e2b603402637b0a
     def update(self, corealbum):
         """Update the album widget.
 
@@ -101,7 +110,7 @@ class AlbumWidget(Gtk.EventBox):
         self._album_model = self._corealbum.props.model
         self._model_signal_id = self._album_model.connect_after(
             "items-changed", self._on_model_items_changed)
-        self._listbox.bind_model(self._album_model, self._create_widget)
+        self._disc_list_box.bind_model(self._album_model, self._create_widget)
 
         self._on_duration_changed(self._corealbum, None)
         self._duration_signal_id = self._corealbum.connect(
@@ -113,7 +122,7 @@ class AlbumWidget(Gtk.EventBox):
         disc_box = self._create_disc_box(
             disc.props.disc_nr, disc.model)
 
-        self.bind_property(
+        self._disc_list_box.bind_property(
             "selection-mode", disc_box, "selection-mode",
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
@@ -133,15 +142,11 @@ class AlbumWidget(Gtk.EventBox):
     def _on_model_items_changed(self, model, position, removed, added):
         n_items = model.get_n_items()
         if n_items == 1:
-            row = self._listbox.get_row_at_index(0)
-            row.props.selectable = False
-            discbox = row.get_child()
+            discbox = self._disc_list_box.get_row_at_index(0)
             discbox.props.show_disc_label = False
         else:
             for i in range(n_items):
-                row = self._listbox.get_row_at_index(i)
-                row.props.selectable = False
-                discbox = row.get_child()
+                discbox = self._disc_list_box.get_row_at_index(i)
                 discbox.props.show_disc_label = True
 
     def _set_composer_label(self, corealbum):
@@ -162,6 +167,7 @@ class AlbumWidget(Gtk.EventBox):
         self._running_info_label.props.label = ngettext(
             "{} minute", "{} minutes", mins).format(mins)
 
+<<<<<<< HEAD
     def _on_selection_changed(self, klass, value):
         n_items = 0
         for song in self._model[0]:
@@ -170,6 +176,8 @@ class AlbumWidget(Gtk.EventBox):
 
         self.props.selected_items_count = n_items
 
+=======
+>>>>>>> 2e7354c27dee90a52031e7db5e2b603402637b0a
     def _song_activated(self, widget, song_widget):
         if self.props.selection_mode:
             song_widget.props.selected = not song_widget.props.selected
@@ -189,10 +197,19 @@ class AlbumWidget(Gtk.EventBox):
         return True
 
     def select_all(self):
-        self._listbox.select_all()
+        self._disc_list_box.select_all()
 
+    def deselect_all(self):
+        self._disc_list_box.deselect_all()
+
+<<<<<<< HEAD
     def select_none(self):
         self._listbox.select_none()
+=======
+    def _on_selection_mode_changed(self, widget, value):
+        if not self.props.selection_mode:
+            self.deselect_all()
+>>>>>>> 2e7354c27dee90a52031e7db5e2b603402637b0a
 
     @GObject.Property(
         type=Grl.Media, default=None, flags=GObject.ParamFlags.READABLE)

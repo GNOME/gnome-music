@@ -87,9 +87,9 @@ class Window(Gtk.ApplicationWindow):
         select_all = Gio.SimpleAction.new('select_all', None)
         select_all.connect('activate', self._select_all)
         self.add_action(select_all)
-        select_none = Gio.SimpleAction.new('select_none', None)
-        select_none.connect('activate', self._select_none)
-        self.add_action(select_none)
+        deselect_all = Gio.SimpleAction.new('deselect_all', None)
+        deselect_all.connect('activate', self._deselect_all)
+        self.add_action(deselect_all)
 
         self.set_size_request(200, 100)
         WindowPlacement(self)
@@ -273,11 +273,6 @@ class Window(Gtk.ApplicationWindow):
         self.views[View.PLAYLIST] = PlaylistsView(self._app, self._player)
         self.views[View.SEARCH] = SearchView(self._app, self._player)
 
-        selectable_views = [View.ALBUM, View.ARTIST, View.SONG, View.SEARCH]
-        for view in selectable_views:
-            self.views[view].bind_property(
-                'selected-items-count', self, 'selected-items-count')
-
         # empty view has already been created in self._setup_view starting at
         # View.ALBUM
         # empty view state is changed once album view is visible to prevent it
@@ -312,15 +307,15 @@ class Window(Gtk.ApplicationWindow):
         view.select_all()
 
     @log
-    def _select_none(self, action=None, param=None):
+    def _deselect_all(self, action=None, param=None):
         if not self.props.selection_mode:
             return
         if self._headerbar.props.state == HeaderBar.State.MAIN:
             view = self.props.active_view
-            view.unselect_all()
+            view.deselect_all()
         else:
             view = self.props.active_view.get_visible_child()
-            view.select_none()
+            view.deselect_all()
 
     @log
     def _on_key_press(self, widget, event):
@@ -372,7 +367,7 @@ class Window(Gtk.ApplicationWindow):
         # Ctrl+Shift+<KEY>
         elif modifiers == shift_ctrl_mask:
             if keyval == Gdk.KEY_A:
-                self._select_none()
+                self._deselect_all()
         # Alt+<KEY>
         elif modifiers == mod1_mask:
             # Go back from child view on Alt + Left

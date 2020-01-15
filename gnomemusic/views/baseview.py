@@ -30,7 +30,6 @@ from gnomemusic import log
 class BaseView(Gtk.Stack):
     """Base Class for all view classes"""
 
-    selected_items_count = GObject.Property(type=int, default=0, minimum=0)
     selection_mode = GObject.Property(type=bool, default=False)
 
     def __repr__(self):
@@ -66,12 +65,12 @@ class BaseView(Gtk.Stack):
         self.add(self._grid)
         self.show_all()
 
-        self._selection_mode_id = self.connect(
-            "notify::selection-mode", self._on_selection_mode_changed)
-
         self.bind_property(
-            'selection-mode', self._window, 'selection-mode',
-            GObject.BindingFlags.BIDIRECTIONAL)
+            "selection-mode", self._window, "selection-mode",
+            GObject.BindingFlags.DEFAULT)
+
+        self._selection_mode_id = self._window.connect(
+            "notify::selection-mode", self._on_selection_mode_changed)
 
     @log
     def _setup_view(self):
@@ -80,6 +79,11 @@ class BaseView(Gtk.Stack):
 
     @log
     def _on_selection_mode_changed(self, widget, data=None):
-        if (self.get_parent().get_visible_child() == self
-                and not self.props.selection_mode):
-            self.unselect_all()
+        selection_mode = self._window.props.selection_mode
+        if (selection_mode == self.props.selection_mode
+                or self.get_parent().get_visible_child() != self):
+            return
+
+        self.props.selection_mode = selection_mode
+        if self.props.selection_mode is False:
+            self.deselect_all()
