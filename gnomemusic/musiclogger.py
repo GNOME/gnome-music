@@ -23,6 +23,7 @@
 # delete this exception statement from your version.
 
 import inspect
+import os
 
 from gi.repository import GLib, GObject
 
@@ -36,11 +37,21 @@ class MusicLogger(GObject.GObject):
     _DOMAIN = "org.gnome.Music"
 
     def _log(self, message, level):
-        variant_message = GLib.Variant("s", message)
         stack = inspect.stack()
-        variant_file = GLib.Variant("s", stack[2][1])
-        variant_line = GLib.Variant("i", stack[2][2])
-        variant_func = GLib.Variant("s", stack[2][3])
+
+        filename = os.path.basename(stack[2][1])
+        line = stack[2][2]
+        function = stack[2][3]
+
+        if level in [GLib.LogLevelFlags.LEVEL_DEBUG,
+                     GLib.LogLevelFlags.LEVEL_WARNING]:
+            message = "({}, {}, {}) {}".format(
+                filename, function, line, message)
+
+        variant_message = GLib.Variant("s", message)
+        variant_file = GLib.Variant("s", filename)
+        variant_line = GLib.Variant("i", line)
+        variant_func = GLib.Variant("s", function)
 
         variant_dict = GLib.Variant("a{sv}", {
             "MESSAGE": variant_message,
