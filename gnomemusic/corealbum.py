@@ -67,7 +67,7 @@ class CoreAlbum(GObject.GObject):
         self.props.composer = media.get_composer()
         self.props.title = utils.get_media_title(media)
         self.props.url = media.get_url()
-        self.props.year = utils.get_media_year(media)
+        self.props.year = utils.get_media_year(media, True)
 
     @GObject.Property(
         type=Gio.ListModel, default=None, flags=GObject.ParamFlags.READABLE)
