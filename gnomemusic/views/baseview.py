@@ -67,9 +67,9 @@ class BaseView(Gtk.Stack):
 
         self.bind_property(
             "selection-mode", self._window, "selection-mode",
-            GObject.BindingFlags.DEFAULT)
+            GObject.BindingFlags.BIDIRECTIONAL)
 
-        self._selection_mode_id = self._window.connect(
+        self._selection_mode_id = self.connect(
             "notify::selection-mode", self._on_selection_mode_changed)
 
     @log
@@ -79,11 +79,8 @@ class BaseView(Gtk.Stack):
 
     @log
     def _on_selection_mode_changed(self, widget, data=None):
-        selection_mode = self._window.props.selection_mode
-        if (selection_mode == self.props.selection_mode
-                or self.get_parent().get_visible_child() != self):
+        if self.get_parent().get_visible_child() != self:
             return
 
-        self.props.selection_mode = selection_mode
         if self.props.selection_mode is False:
             self.deselect_all()
