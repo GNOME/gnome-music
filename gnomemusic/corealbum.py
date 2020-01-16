@@ -64,7 +64,7 @@ class CoreAlbum(GObject.GObject):
         self.props.composer = media.get_composer()
         self.props.title = utils.get_media_title(media)
         self.props.url = media.get_url()
-        self.props.year = utils.get_media_year(media)
+        self.props.year = utils.get_media_year(media, True)
 
     def _get_album_model(self):
         disc_model = Gio.ListStore()
