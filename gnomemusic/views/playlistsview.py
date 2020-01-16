@@ -102,7 +102,7 @@ class PlaylistsView(BaseView):
         self._on_playlists_model_changed(self._model, 0, 0, 0)
 
         # Selection is only possible from the context menu
-        self._window.disconnect(self._selection_mode_id)
+        self.disconnect(self._selection_mode_id)
 
         self.show_all()
 
