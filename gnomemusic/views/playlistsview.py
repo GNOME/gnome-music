@@ -97,7 +97,7 @@ class PlaylistsView(BaseView):
             "notify::active-playlist", self._on_active_playlist_changed)
 
         # Selection is only possible from the context menu
-        self._window.disconnect(self._selection_mode_id)
+        self.disconnect(self._selection_mode_id)
 
         self.show_all()
 
