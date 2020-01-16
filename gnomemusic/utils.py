@@ -109,17 +109,20 @@ def get_media_title(item):
     return title
 
 
-def get_media_year(item):
+def get_media_year(item, fill_empty=False):
     """Returns the year when the media was created.
 
-    :param item: A Grilo Media object
-    :return: The creation year or '----' if not defined
+    :param Grl.Media item: A Grilo Media object
+    :param bool fill_empty: If True return '----' if date not defined
+    :return: The creation year if defined
     :rtype: string
     """
     date = item.get_creation_date()
 
     if not date:
-        return "----"
+        if fill_empty is True:
+            return "----"
+        return ""
 
     return str(date.get_year())
 
