@@ -1,4 +1,4 @@
-# Copyright (c) 2016 The GNOME Music Developers
+# Copyright 2020 The GNOME Music Developers
 #
 # GNOME Music is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -26,7 +26,6 @@ from gettext import gettext as _
 
 from gi.repository import GObject, Gtk
 
-from gnomemusic import log
 from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
 from gnomemusic.widgets.userplaylistwidget import UserPlaylistWidget
 from gnomemusic.widgets.playlisttile import PlaylistTile
@@ -44,10 +43,6 @@ class PlaylistsView(Gtk.Stack):
     _smart_sidebar = Gtk.Template.Child()
     _user_sidebar = Gtk.Template.Child()
 
-    def __repr__(self):
-        return '<PlaylistsView>'
-
-    @log
     def __init__(self, application, player):
         """Initialize
 
@@ -80,7 +75,6 @@ class PlaylistsView(Gtk.Stack):
         self._coremodel.connect(
             "notify::active-playlist", self._on_active_playlist_changed)
 
-    @log
     def _add_user_playlist_to_sidebar(self, playlist):
         """Add a playlist to sidebar
 
@@ -128,7 +122,6 @@ class PlaylistsView(Gtk.Stack):
         self._smart_playlist_view.props.visible = True
 
     @Gtk.Template.Callback()
-    @log
     def _on_user_playlist_activated(self, sidebar, row):
         """Update view with content from selected playlist"""
         self._smart_sidebar.unselect_all()
@@ -163,7 +156,8 @@ class PlaylistsView(Gtk.Stack):
         self._user_sidebar.select_row(playlist_row)
         self._on_user_playlist_activated(self._user_sidebar, playlist_row)
 
-    @GObject.Property(type=bool, default=False)
+    @GObject.Property(
+        type=bool, default=False, flags=GObject.ParamFlags.READABLE)
     def rename_active(self):
         """Indicate if renaming dialog is active"""
         return self._playlist_widget.props.rename_active
