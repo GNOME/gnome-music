@@ -83,11 +83,13 @@ class GrlTrackerPlaylists(GObject.GObject):
         self._model = self._coremodel.props.playlists
         self._model_filter = self._coremodel.props.playlists_filter
         self._user_model_filter = self._coremodel.props.user_playlists_filter
+        self._smart_model_filter = self._coremodel.props.smart_playlists_filter
         self._pls_todelete = []
         self._tracker = tracker_wrapper.props.tracker
         self._window = application.props.window
 
         self._user_model_filter.set_filter_func(self._user_playlists_filter)
+        self._smart_model_filter.set_filter_func(self._smart_playlists_filter)
 
         self._fast_options = Grl.OperationOptions()
         self._fast_options.set_resolution_flags(
@@ -167,6 +169,9 @@ class GrlTrackerPlaylists(GObject.GObject):
     def _user_playlists_filter(self, playlist):
         return (playlist not in self._pls_todelete
                 and playlist.props.is_smart is False)
+
+    def _smart_playlists_filter(self, playlist):
+        return playlist.props.is_smart is True
 
     def stage_playlist_deletion(self, playlist):
         """Adds playlist to the list of playlists to delete
