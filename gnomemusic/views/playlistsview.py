@@ -1,4 +1,4 @@
-# Copyright (c) 2016 The GNOME Music Developers
+# Copyright 2020 The GNOME Music Developers
 #
 # GNOME Music is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -26,7 +26,6 @@ from gettext import gettext as _
 
 from gi.repository import GObject, Gtk
 
-from gnomemusic import log
 from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
 from gnomemusic.widgets.userplaylistwidget import UserPlaylistWidget
 from gnomemusic.widgets.playlisttile import PlaylistTile
@@ -44,10 +43,6 @@ class PlaylistsView(Gtk.Stack):
     _smart_sidebar = Gtk.Template.Child()
     _user_sidebar = Gtk.Template.Child()
 
-    def __repr__(self):
-        return '<PlaylistsView>'
-
-    @log
     def __init__(self, application, player):
         """Initialize
 
@@ -83,7 +78,6 @@ class PlaylistsView(Gtk.Stack):
         self._on_user_playlists_model_changed(
             self._users_playlists_model, 0, 0, 0)
 
-    @log
     def _add_user_playlist_to_sidebar(self, playlist):
         """Add a playlist to sidebar
 
@@ -127,7 +121,6 @@ class PlaylistsView(Gtk.Stack):
         self._smart_playlist_view.props.visible = True
 
     @Gtk.Template.Callback()
-    @log
     def _on_user_playlist_activated(self, sidebar, row):
         """Update view with content from selected playlist"""
         self._smart_sidebar.unselect_all()
