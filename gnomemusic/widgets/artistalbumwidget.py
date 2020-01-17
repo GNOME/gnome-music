@@ -95,6 +95,11 @@ class ArtistAlbumWidget(Gtk.Box):
         disc_box = self._create_disc_box(disc.props.disc_nr, disc.model)
 
         self._disc_list_box.bind_property(
+            "selection-mode-allowed", disc_box, "selection-mode-allowed",
+            GObject.BindingFlags.BIDIRECTIONAL
+            | GObject.BindingFlags.SYNC_CREATE)
+
+        self._disc_list_box.bind_property(
             "selection-mode", disc_box, "selection-mode",
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
