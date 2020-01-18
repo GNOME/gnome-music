@@ -32,11 +32,11 @@ from gnomemusic.widgets.playlistdialog import PlaylistDialog
 from gnomemusic.widgets.songwidget import SongWidget
 
 
-@Gtk.Template(resource_path="/org/gnome/Music/ui/PlaylistsWidget.ui")
-class PlaylistsWidget(Gtk.Box):
+@Gtk.Template(resource_path="/org/gnome/Music/ui/UserPlaylistWidget.ui")
+class UserPlaylistWidget(Gtk.Box):
     """Widget to display playlist content a list"""
 
-    __gtype_name__ = "PlaylistsWidget"
+    __gtype_name__ = "UserPlaylistWidget"
 
     _pl_ctrls = Gtk.Template.Child()
     _songs_list = Gtk.Template.Child()
