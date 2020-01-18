@@ -24,15 +24,11 @@
 
 from gettext import gettext as _
 
-from gi.repository import Gdk, GObject, Gtk
+from gi.repository import GObject, Gtk
 
-from gnomemusic.player import PlayerPlaylist
-from gnomemusic.widgets.playlistcontextmenu import PlaylistContextMenu
-from gnomemusic.widgets.playlistcontrols import PlaylistControls  # noqa: F401
-from gnomemusic.widgets.playlistdialog import PlaylistDialog
-from gnomemusic.widgets.notificationspopup import PlaylistNotification
+from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
+from gnomemusic.widgets.playlistswidget import PlaylistsWidget
 from gnomemusic.widgets.playlisttile import PlaylistTile
-from gnomemusic.widgets.songwidget import SongWidget
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/PlaylistsView.ui")
@@ -41,10 +37,8 @@ class PlaylistsView(Gtk.Stack):
 
     __gtype_name__ = "PlaylistsView"
 
-    _pl_ctrls = Gtk.Template.Child()
+    _main_container = Gtk.Template.Child()
     _sidebar = Gtk.Template.Child()
-    _view = Gtk.Template.Child()
-    _view_ctrlr = Gtk.Template.Child()
 
     def __init__(self, application, player):
         """Initialize
@@ -67,22 +61,8 @@ class PlaylistsView(Gtk.Stack):
         # had no user interaction since.
         self._untouched_list = True
 
-        self._song_popover = PlaylistContextMenu(application, self._view)
-
-        self._pl_ctrls.props.application = application
-
-        play_song = self._window.lookup_action("play_song")
-        play_song.connect("activate", self._play_song)
-
-        add_song = self._window.lookup_action("add_song_to_playlist")
-        add_song.connect("activate", self._add_song_to_playlist)
-
-        self._remove_song_action = self._window.lookup_action("remove_song")
-        self._remove_song_action.connect(
-            "activate", self._stage_song_for_deletion)
-
-        playlist_play_action = self._window.lookup_action("playlist_play")
-        playlist_play_action.connect("activate", self._on_play_playlist)
+        self._playlist_widget = PlaylistsWidget(application, self)
+        self._main_container.add(self._playlist_widget)
 
         self._sidebar.bind_model(self._model, self._add_playlist_to_sidebar)
 
@@ -120,53 +100,14 @@ class PlaylistsView(Gtk.Stack):
             self._sidebar.select_row(row_next)
             self._on_playlist_activated(self._sidebar, row_next, True)
 
-    @Gtk.Template.Callback()
-    def _on_view_right_clicked(self, gesture, n_press, x, y):
-        requested_row = self._view.get_row_at_y(y)
-        self._view.select_row(requested_row)
-
-        _, y0 = requested_row.translate_coordinates(self._view, 0, 0)
-        row_height = requested_row.get_allocated_height()
-        rect = Gdk.Rectangle()
-        rect.x = x
-        rect.y = y0 + 0.5 * row_height
-
-        self._song_popover.props.relative_to = self._view
-        self._song_popover.props.pointing_to = rect
-        self._song_popover.popup()
-
-    def _play_song(self, menuitem, data=None):
-        selected_row = self._view.get_selected_row()
-        song_widget = selected_row.get_child()
-        self._view.unselect_all()
-        self._song_activated(song_widget)
-
-    def _add_song_to_playlist(self, menuitem, data=None):
-        selected_row = self._view.get_selected_row()
-        song_widget = selected_row.get_child()
-        coresong = song_widget.props.coresong
-
-        playlist_dialog = PlaylistDialog(self._window)
-        if playlist_dialog.run() == Gtk.ResponseType.ACCEPT:
-            playlist = playlist_dialog.props.selected_playlist
-            playlist.add_songs([coresong])
-
-        self._view.unselect_all()
-        playlist_dialog.destroy()
-
-    def _stage_song_for_deletion(self, menuitem, data=None):
-        selected_row = self._view.get_selected_row()
-        position = selected_row.get_index()
-        song_widget = selected_row.get_child()
-        coresong = song_widget.props.coresong
-
+    @GObject.Property(
+        type=Playlist, default=None, flags=GObject.ParamFlags.READABLE)
+    def current_playlist(self):
         selection = self._sidebar.get_selected_row()
-        selected_playlist = selection.props.playlist
+        if selection is None:
+            return None
 
-        notification = PlaylistNotification(  # noqa: F841
-            self._window.notifications_popup, self._coremodel,
-            PlaylistNotification.Type.SONG, selected_playlist, position,
-            coresong)
+        return selection.props.playlist
 
     @Gtk.Template.Callback()
     def _on_playlist_activated(self, sidebar, row, untouched=False):
@@ -174,14 +115,7 @@ class PlaylistsView(Gtk.Stack):
         if untouched is False:
             self._untouched_list = False
 
-        playlist = row.props.playlist
-
-        self._view.bind_model(
-            playlist.props.model, self._create_song_widget, playlist)
-
-        self._pl_ctrls.props.playlist = playlist
-
-        self._remove_song_action.set_enabled(not playlist.props.is_smart)
+        self.notify("current-playlist")
 
     def _on_active_playlist_changed(self, klass, val):
         """Selects the active playlist when an MPRIS client
@@ -205,48 +139,7 @@ class PlaylistsView(Gtk.Stack):
         self._sidebar.select_row(playlist_row)
         self._on_playlist_activated(self._sidebar, playlist_row)
 
-    def _create_song_widget(self, coresong, playlist):
-        can_dnd = not playlist.props.is_smart
-        song_widget = SongWidget(coresong, can_dnd, True)
-        song_widget.props.show_song_number = False
-
-        song_widget.connect('button-release-event', self._song_activated)
-        if can_dnd is True:
-            song_widget.connect("widget_moved", self._on_song_widget_moved)
-
-        return song_widget
-
-    def _song_activated(self, widget=None, event=None):
-        coresong = None
-        if widget is not None:
-            coresong = widget.props.coresong
-
-        signal_id = None
-
-        def _on_playlist_loaded(klass, playlist_type):
-            self._player.play(coresong)
-            self._coremodel.disconnect(signal_id)
-
-        selection = self._sidebar.get_selected_row()
-        current_playlist = selection.props.playlist
-        signal_id = self._coremodel.connect(
-            "playlist-loaded", _on_playlist_loaded)
-        self._coremodel.props.active_playlist = current_playlist
-        self._coremodel.set_player_model(
-            PlayerPlaylist.Type.PLAYLIST, current_playlist.props.model)
-
-        return True
-
-    def _on_play_playlist(self, menuitem, data=None):
-        self._song_activated()
-
     @GObject.Property(type=bool, default=False)
     def rename_active(self):
         """Indicate if renaming dialog is active"""
-        return self._pl_ctrls.props.rename_active
-
-    def _on_song_widget_moved(self, target, source_position):
-        target_position = target.get_parent().get_index()
-        selection = self._sidebar.get_selected_row()
-        current_playlist = selection.props.playlist
-        current_playlist.reorder(source_position, target_position)
+        return self._playlist_widget.props.rename_active
