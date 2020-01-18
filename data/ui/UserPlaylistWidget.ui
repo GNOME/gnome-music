@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <template class="PlaylistsWidget" parent="GtkBox">
+  <template class="UserPlaylistWidget" parent="GtkBox">
     <property name="orientation">vertical</property>
     <property name="visible">True</property>
     <child>
