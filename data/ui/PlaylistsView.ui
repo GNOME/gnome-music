@@ -4,7 +4,7 @@
   <template class="PlaylistsView" parent="GtkStack">
     <property name="visible">True</property>
     <child>
-      <object class="GtkBox" id="main_container">
+      <object class="GtkBox" id="_main_container">
         <property name="visible">True</property>
         <child>
           <object class="GtkScrolledWindow" id="all_playlists">
@@ -23,41 +23,8 @@
           </object>
         </child>
         <child>
-          <object class="GtkBox" id="main_view_container">
-            <property name="orientation">vertical</property>
-            <property name="visible">True</property>
-            <child>
-              <object class="PlaylistControls" id="_pl_ctrls">
-                <property name="visible">True</property>
-              </object>
-            </child>
-            <child>
-              <object class="GtkScrolledWindow" id="playlist-container">
-                <property name="vexpand">True</property>
-                <property name="visible">True</property>
-                <child>
-                  <object class="GtkListBox" id="_view">
-                    <property name="margin-left">80</property>
-                    <property name="margin-right">80</property>
-                    <property name="margin-top">20</property>
-                    <property name="valign">start</property>
-                    <property name="visible">True</property>
-                    <style>
-                      <class name="songs-list"/>
-                    </style>
-                  </object>
-                </child>
-              </object>
-            </child>
-          </object>
         </child>
       </object>
     </child>
   </template>
-  <object class="GtkGestureMultiPress" id="_view_ctrlr">
-    <property name="widget">_view</property>
-    <property name="propagation_phase">capture</property>
-    <property name="button">3</property>
-    <signal name="pressed" handler="_on_view_right_clicked" swapped="no"/>
-  </object>
 </interface>
