@@ -23,7 +23,6 @@
     <file preprocess="xml-stripblanks">ui/PlaylistDialog.ui</file>
     <file preprocess="xml-stripblanks">ui/PlaylistDialogRow.ui</file>
     <file preprocess="xml-stripblanks">ui/PlaylistsView.ui</file>
-    <file preprocess="xml-stripblanks">ui/PlaylistsWidget.ui</file>
     <file preprocess="xml-stripblanks">ui/PlaylistTile.ui</file>
     <file preprocess="xml-stripblanks">ui/SearchHeaderBar.ui</file>
     <file preprocess="xml-stripblanks">ui/SearchView.ui</file>
@@ -33,6 +32,7 @@
     <file preprocess="xml-stripblanks">ui/SmartPlaylistsWidget.ui</file>
     <file preprocess="xml-stripblanks">ui/SongWidget.ui</file>
     <file preprocess="xml-stripblanks">ui/TwoLineTip.ui</file>
+    <file preprocess="xml-stripblanks">ui/UserPlaylistWidget.ui</file>
     <file preprocess="xml-stripblanks">ui/Window.ui</file>
   </gresource>
 </gresources>

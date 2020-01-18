@@ -27,7 +27,7 @@ from gettext import gettext as _
 from gi.repository import GObject, Gtk
 
 from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
-from gnomemusic.widgets.playlistswidget import PlaylistsWidget
+from gnomemusic.widgets.userplaylistwidget import UserPlaylistWidget
 from gnomemusic.widgets.playlisttile import PlaylistTile
 from gnomemusic.widgets.smartplaylistswidget import SmartPlaylistsWidget
 
@@ -60,7 +60,7 @@ class PlaylistsView(Gtk.Stack):
         self._window = application.props.window
         self._player = player
 
-        self._user_playlist_view = PlaylistsWidget(application, self)
+        self._user_playlist_view = UserPlaylistWidget(application, self)
         self._main_container.add(self._user_playlist_view)
 
         self._smart_playlist_view = SmartPlaylistsWidget(
