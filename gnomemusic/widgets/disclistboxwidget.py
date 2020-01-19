@@ -115,7 +115,6 @@ class DiscBox(Gtk.ListBoxRow):
 
         return song_widget
 
-    @log
     def _song_activated(self, controller, n_click, x, y):
         widget = controller.get_widget()
 
