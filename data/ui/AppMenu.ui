@@ -17,9 +17,6 @@
             <property name="action_name">app.lastfm-configure</property>
             <property name="text" translatable="yes">Last.fm Account</property>
           </object>
-          <packing>
-            <property name="position">0</property>
-          </packing>
         </child>
         <child>
           <object class="GtkBox" id="_lastfm_box">
@@ -44,17 +41,11 @@
               </object>
             </child>
           </object>
-          <packing>
-            <property name="position">1</property>
-          </packing>
         </child>
         <child>
           <object class="GtkSeparator">
             <property name="visible">True</property>
           </object>
-          <packing>
-            <property name="position">2</property>
-          </packing>
         </child>
         <child>
           <object class="GtkModelButton" id="_keyboard_shortcuts_model_button">
@@ -65,9 +56,6 @@
             <property name="action_name">win.show-help-overlay</property>
             <property name="text" translatable="yes">_Keyboard Shortcuts</property>
           </object>
-          <packing>
-            <property name="position">3</property>
-          </packing>
         </child>
         <child>
           <object class="GtkModelButton" id="_help_model_button">
@@ -78,9 +66,6 @@
             <property name="action_name">app.help</property>
             <property name="text" translatable="yes">_Help</property>
           </object>
-          <packing>
-            <property name="position">4</property>
-          </packing>
         </child>
         <child>
           <object class="GtkModelButton" id="_about_model_button">
@@ -91,9 +76,6 @@
             <property name="action_name">app.about</property>
             <property name="text" translatable="yes">_About Music</property>
           </object>
-          <packing>
-            <property name="position">5</property>
-          </packing>
         </child>
       </object>
     </child>
