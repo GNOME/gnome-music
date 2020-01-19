@@ -6,7 +6,10 @@
       <object class="GtkBox">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="margin">6</property>
+        <property name="margin-bottom">6</property>
+        <property name="margin-end">6</property>
+        <property name="margin-start">6</property>
+        <property name="margin-top">6</property>
         <property name="orientation">vertical</property>
         <child>
           <object class="GtkModelButton" id="lastfm_account_button">
@@ -17,19 +20,16 @@
             <property name="action_name">app.lastfm-configure</property>
             <property name="text" translatable="yes">Last.fm Account</property>
           </object>
-          <packing>
-            <property name="position">0</property>
-          </packing>
         </child>
         <child>
           <object class="GtkBox" id="_lastfm_box">
-            <property name="margin-left">5</property>
-            <property name="margin-right">5</property>
+            <property name="margin-end">5</property>
+            <property name="margin-start">5</property>
             <property name="visible">False</property>
             <child>
               <object class="GtkLabel">
                 <property name="can_focus">False</property>
-                <property name="margin-right">12</property>
+                <property name="margin-end">12</property>
                 <property name="halign">start</property>
                 <property name="hexpand">False</property>
                 <property name="visible">True</property>
@@ -44,17 +44,11 @@
               </object>
             </child>
           </object>
-          <packing>
-            <property name="position">1</property>
-          </packing>
         </child>
         <child>
           <object class="GtkSeparator">
             <property name="visible">True</property>
           </object>
-          <packing>
-            <property name="position">2</property>
-          </packing>
         </child>
         <child>
           <object class="GtkModelButton" id="_keyboard_shortcuts_model_button">
@@ -65,9 +59,6 @@
             <property name="action_name">win.show-help-overlay</property>
             <property name="text" translatable="yes">_Keyboard Shortcuts</property>
           </object>
-          <packing>
-            <property name="position">3</property>
-          </packing>
         </child>
         <child>
           <object class="GtkModelButton" id="_help_model_button">
@@ -78,9 +69,6 @@
             <property name="action_name">app.help</property>
             <property name="text" translatable="yes">_Help</property>
           </object>
-          <packing>
-            <property name="position">4</property>
-          </packing>
         </child>
         <child>
           <object class="GtkModelButton" id="_about_model_button">
@@ -91,9 +79,6 @@
             <property name="action_name">app.about</property>
             <property name="text" translatable="yes">_About Music</property>
           </object>
-          <packing>
-            <property name="position">5</property>
-          </packing>
         </child>
       </object>
     </child>
