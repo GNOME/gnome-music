@@ -15,16 +15,13 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="halign">fill</property>
-            <!-- <property name="hexpand">True</property> -->
-            <property name="no_show_all">True</property>
+            <!-- <property name="hexpand">True</property>
+            <property name="no_show_all">True</property> -->
             <property name="xalign">0.0</property>
             <style>
               <class name="disc-label"/>
             </style>
           </object>
-          <packing>
-            <property name="position">0</property>
-          </packing>
         </child>
         <child>
           <object class="GtkListBox" id="_list_box">
@@ -36,9 +33,6 @@
               <class name="songs-list"/>
             </style>
           </object>
-          <packing>
-            <property name="position">1</property>
-          </packing>
         </child>
       </object>
     </child>
