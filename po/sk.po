@@ -7,46 +7,57 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2018-02-23 22:13+0000\n"
-"PO-Revision-Date: 2018-02-25 14:18+0100\n"
-"Last-Translator: Dušan Kazik <prescott66@mail.com>\n"
+"POT-Creation-Date: 2020-01-15 19:29+0000\n"
+"PO-Revision-Date: 2020-01-20 09:57+0100\n"
+"Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak <gnome-sk-list@gnome.org>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 1 : (n>=2 && n<=4) ? 2 : 0;\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.2.4\n"
 
-#: data/org.gnome.Music.appdata.xml.in:6
+#: data/org.gnome.Music.appdata.xml.in.in:6
 msgid "GNOME Music"
 msgstr "Hudba prostredia GNOME"
 
-#: data/org.gnome.Music.appdata.xml.in:7 data/org.gnome.Music.desktop.in:5
+#: data/org.gnome.Music.appdata.xml.in.in:7
+#: data/org.gnome.Music.desktop.in.in:5
 msgid "Play and organize your music collection"
 msgstr "Prehráva a organizuje vašu hudobnú zbierku"
 
-#: data/org.gnome.Music.appdata.xml.in:9
-msgid "Music is the new GNOME music playing application."
-msgstr "Hudba je nová aplikácia na prehrávanie hudby v prostredí GNOME."
+#: data/org.gnome.Music.appdata.xml.in.in:9
+msgid ""
+"An easy way to play your music. Automatically discover music on your "
+"computer, the local network and internet services."
+msgstr ""
+"Jednoduchý spôsob ako prehrávať vašu hudbu. Automaticky objavujte hudbu vo "
+"vašom počítači, sieti a internetových službách."
 
-#: data/org.gnome.Music.desktop.in:3 gnomemusic/application.py:55
-#: gnomemusic/application.py:104 gnomemusic/toolbar.py:91
-#: gnomemusic/window.py:68 data/AboutDialog.ui.in:7
+#: data/org.gnome.Music.appdata.xml.in.in:12
+msgid ""
+"Find tracks in your local collection, get music from DLNA servers or try "
+"something new with the Jamendo and Magnatune services."
+msgstr ""
+"Nájdite skladby vo vašej miestnej zbierke, získajte hudbu zo serverov DLNA, "
+"alebo vyskúšajte niečo nové so službami Jamendo a Magnatune."
+
+#: data/org.gnome.Music.appdata.xml.in.in:67
+msgid "The GNOME Music developers"
+msgstr "Vývojári aplikácie Hudba prostredia GNOME"
+
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:60
+#: gnomemusic/window.py:77
 msgid "Music"
 msgstr "Hudba"
 
-#: data/org.gnome.Music.desktop.in:4
+#: data/org.gnome.Music.desktop.in.in:4
 msgid "Music Player"
 msgstr "Prehrávač hudby"
 
-#. Translators: Do NOT translate or transliterate this text (this is an icon file name)!
-#: data/org.gnome.Music.desktop.in:7
-msgid "org.gnome.Music"
-msgstr "org.gnome.Music"
-
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
-#: data/org.gnome.Music.desktop.in:13
+#: data/org.gnome.Music.desktop.in.in:13
 msgid "Music;Player;"
 msgstr "Hudba;Hudobný;Prehrávač;"
 
@@ -93,254 +104,54 @@ msgstr ""
 "všetkých skladieb)."
 
 #: data/org.gnome.Music.gschema.xml:33
-msgid "Search mode"
-msgstr "Režim vyhľadávania"
-
-#: data/org.gnome.Music.gschema.xml:34
-msgid "If true, the search bar is shown."
-msgstr "Ak je nastavené na true, bude zobrazený panel vyhľadávania."
-
-#: data/org.gnome.Music.gschema.xml:38
-msgid "Notifications mode"
-msgstr "Režim oznámení"
-
-#: data/org.gnome.Music.gschema.xml:39
-msgid "Enables or disables playback notifications"
-msgstr "Povolí alebo zakáže oznámenia o prehrávaní"
-
-#: data/org.gnome.Music.gschema.xml:43
 msgid "Enable ReplayGain"
 msgstr "Povoliť ReplayGain"
 
-#: data/org.gnome.Music.gschema.xml:44
+#: data/org.gnome.Music.gschema.xml:34
 msgid "Enables or disables ReplayGain for albums"
 msgstr "Povolí alebo zakáže ReplayGain pre albumy"
 
-#: data/org.gnome.Music.gschema.xml:48
+#: data/org.gnome.Music.gschema.xml:38
 msgid "Inital state has been displayed"
 msgstr "Počiatočný stav bol zobrazený"
 
-#: data/org.gnome.Music.gschema.xml:49
+#: data/org.gnome.Music.gschema.xml:39
 msgid "Set to true when initial state has been displayed"
 msgstr "Nastavte na hodnotu TRUE, keď počiatočný stav bol zobrazený"
 
-#: gnomemusic/notification.py:55 data/PlayerToolbar.ui:70
-msgid "Previous"
-msgstr "Predchádzajúca"
+#: data/org.gnome.Music.gschema.xml:43
+msgid "Inhibit system suspend"
+msgstr "Potlačiť uspatie systému"
 
-#: gnomemusic/notification.py:58 gnomemusic/player.py:536
-msgid "Pause"
-msgstr "Pozastaviť"
+#: data/org.gnome.Music.gschema.xml:44
+msgid "Enables or disables inhibiting system suspend while playing music"
+msgstr "Povolí alebo zakáže potlačenie uspatia systému počas prehrávania hudby"
 
-#: gnomemusic/notification.py:61 gnomemusic/player.py:539
-#: data/PlayerToolbar.ui:87 data/PlaylistContextMenu.ui:5
-msgid "Play"
-msgstr "Prehrať"
+#: data/org.gnome.Music.gschema.xml:48
+msgid "Report music history to Last.fm"
+msgstr "Nahlásiť históriu hudby službe Last.fm"
 
-# DK: skladba
-#: gnomemusic/notification.py:63 data/PlayerToolbar.ui:104
-msgid "Next"
-msgstr "Nasledujúca"
+#: data/org.gnome.Music.gschema.xml:49
+msgid ""
+"Enables or disables sending scrobbles and the “currently playing” info to "
+"Last.fm."
+msgstr ""
+"Povolí alebo zakáže odosielanie názvov skladieb (scrobbling) a informáciu "
+"„aktuálne prehrávané“ službe Last.fm."
 
-#: gnomemusic/player.py:1076
-msgid "Unable to play the file"
-msgstr "Nie je možné prehrať tento súbor"
-
-#. TRANSLATORS: this is a button to launch a codec installer.
-#. %s will be replaced with the software installer's name, e.g.
-#. 'Software' in case of gnome-software.
-#: gnomemusic/player.py:1081
-#, python-format
-msgid "_Find in %s"
-msgstr "_Nájsť pomocou programu %s"
-
-#. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/player.py:1091
-msgid " and "
-msgstr " a "
-
-#. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/player.py:1094
-msgid ", "
-msgstr ", "
-
-#: gnomemusic/player.py:1095
-#, python-format
-msgid "%s is required to play the file, but is not installed."
-msgid_plural "%s are required to play the file, but are not installed."
-msgstr[0] ""
-"Kodeky %s sú potrebné na prehranie tohto súboru, ale nie sú nainštalované."
-msgstr[1] ""
-"Kodek %s je potrebný na prehranie tohto súboru, ale nie je nainštalovaný."
-msgstr[2] ""
-"Kodeky %s sú potrebné na prehranie tohto súboru, ale nie sú nainštalované."
-
-#. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:58
-msgid "Most Played"
-msgstr "Najviac prehrávané"
-
-#. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:63
-msgid "Never Played"
-msgstr "Nikdy neprehraté"
-
-#. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:68
-msgid "Recently Played"
-msgstr "Nedávno prehrávané"
-
-#. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:73
-msgid "Recently Added"
-msgstr "Nedávno pridané"
-
-#. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:78
-msgid "Favorite Songs"
-msgstr "Obľúbené skladby"
-
-#: gnomemusic/searchbar.py:64 gnomemusic/searchbar.py:114
-msgid "All"
-msgstr "Všetko"
-
-#: gnomemusic/searchbar.py:65
-msgid "Artist"
-msgstr "Interpret"
-
-#: gnomemusic/searchbar.py:66
-msgid "Album"
-msgstr "Album"
-
-#: gnomemusic/searchbar.py:67 data/AlbumWidget.ui:171
-msgid "Composer"
-msgstr "Skladateľ"
-
-#: gnomemusic/searchbar.py:68
-msgid "Track Title"
-msgstr "Názov stopy"
-
-#: gnomemusic/searchbar.py:115
-msgid "Local"
-msgstr "Miestne"
-
-#: gnomemusic/searchbar.py:258
-msgid "Sources"
-msgstr "Zdroje"
-
-#: gnomemusic/searchbar.py:266
-msgid "Match"
-msgstr "Vhodné hľadanému výrazu"
-
-#: gnomemusic/utils.py:75
-msgid "Unknown Artist"
-msgstr "Neznámy interpret"
-
-# uri
-#: gnomemusic/utils.py:87
-msgid "Untitled"
-msgstr "Nepomenovaný"
-
-#: gnomemusic/views/albumsview.py:45 gnomemusic/views/searchview.py:501
-msgid "Albums"
-msgstr "Albumy"
-
-#: gnomemusic/views/artistsview.py:56 gnomemusic/views/searchview.py:503
-msgid "Artists"
-msgstr "Interpreti"
-
-#: gnomemusic/views/baseview.py:188
-msgid "Selected {} item"
-msgid_plural "Selected {} items"
-msgstr[0] "Vybraných {} položiek"
-msgstr[1] "Vybraná {} položka"
-msgstr[2] "Vybrané {} položky"
-
-#: gnomemusic/views/baseview.py:193 gnomemusic/views/baseview.py:284
-#: gnomemusic/widgets/albumwidget.py:189
-#: gnomemusic/widgets/artistalbumswidget.py:232 data/headerbar.ui:32
-msgid "Click on items to select them"
-msgstr "Kliknutím na položku ju vyberiete"
-
-#: gnomemusic/views/emptysearchview.py:53
-msgid "Try a different search"
-msgstr "Skúste vyhľadať niečo iné"
-
-#: gnomemusic/views/emptyview.py:51
-msgid "Music folder"
-msgstr "priečinku s hudbou"
-
-#: gnomemusic/views/initialstateview.py:50
-msgid "Hey DJ"
-msgstr "Hey DJ"
-
-#: gnomemusic/views/playlistview.py:63 gnomemusic/views/searchview.py:507
-msgid "Playlists"
-msgstr "Zoznamy skladieb"
-
-#: gnomemusic/views/playlistview.py:604
-#, python-format
-msgid "%d Song"
-msgid_plural "%d Songs"
-msgstr[0] "%d skladieb"
-msgstr[1] "%d skladba"
-msgstr[2] "%d skladby"
-
-#: gnomemusic/views/playlistview.py:647
-msgid "Playlist {} removed"
-msgstr "Zoznam skladieb {} bol odstránený"
-
-#: gnomemusic/views/playlistview.py:653
-msgid "{} removed from {}"
-msgstr "Skladba {} odstránená zo zoznamu skladieb {}"
-
-#: gnomemusic/views/searchview.py:505 gnomemusic/views/songsview.py:55
-msgid "Songs"
-msgstr "Skladby"
-
-#: gnomemusic/widgets/albumwidget.py:185
-#: gnomemusic/widgets/artistalbumswidget.py:228
-#, python-format
-msgid "Selected %d item"
-msgid_plural "Selected %d items"
-msgstr[0] "Vybraných %d položiek"
-msgstr[1] "Vybraná %d položka"
-msgstr[2] "Vybrané %d položky"
-
-#: gnomemusic/widgets/albumwidget.py:281 gnomemusic/widgets/albumwidget.py:326
-#, python-format
-msgid "%d min"
-msgstr "%d min"
-
-#: gnomemusic/widgets/disclistboxwidget.py:192
-msgid "Disc {}"
-msgstr "Disk č. {}"
-
-#: gnomemusic/widgets/notificationspopup.py:169
-msgid "Loading"
-msgstr "Načítava sa"
-
-#: gnomemusic/widgets/notificationspopup.py:231
-msgid "_Undo"
-msgstr "Vrátiť _späť"
-
-#: gnomemusic/window.py:245
-msgid "Empty"
-msgstr "Prázdne"
-
-#: data/AboutDialog.ui.in:9
+#: data/ui/AboutDialog.ui.in:9
 msgid "Copyright © 2018 GNOME Music Developers"
-msgstr "Autorské práva © 2018 Vývojári programu Hudba prostredia GNOME"
+msgstr "Autorské práva © 2018 Vývojári aplikácie Hudba prostredia GNOME"
 
-#: data/AboutDialog.ui.in:10
+#: data/ui/AboutDialog.ui.in:10
 msgid "A music player and management application for GNOME."
 msgstr "Aplikácia na prehrávanie a správu hudby prostredia GNOME."
 
-#: data/AboutDialog.ui.in:12
+#: data/ui/AboutDialog.ui.in:12
 msgid "Visit GNOME Music website"
 msgstr "Navštíviť domovskú stránku aplikácie Hudba prostredia GNOME"
 
-#: data/AboutDialog.ui.in:13
+#: data/ui/AboutDialog.ui.in:13
 msgid ""
 "GNOME Music is free software; you can redistribute it and/or modify it under "
 "the terms of the GNU General Public License as published by the Free "
@@ -365,10 +176,10 @@ msgid ""
 "statement from your version.\n"
 "\n"
 "“Magic of the vinyl” by Sami Pyylampi image is licensed by CC-BY-SA 2.0 "
-"https://www.flickr.com/photos/_spy_/12270839403\n"
+"https://www.flickr.com/photos/_spy_/12270839403"
 msgstr ""
-"Program Hudba prostredia GNOME je slobodný softvér; môžete ho ďalej šíriť a "
-"upravovať podľa ustanovení licencie GNU General Public Licence (Všeobecná "
+"Aplikácia Hudba prostredia GNOME je slobodný softvér; môžete ho ďalej šíriť "
+"a upravovať podľa ustanovení licencie GNU General Public Licence (Všeobecná "
 "zverejňovacia licencia GNU), vydávanej nadáciou Free Software Foundation a "
 "to buď podľa 2. verzie tejto licencie, alebo (podľa vášho uváženia) "
 "ktorejkoľvek neskoršej verzie.\n"
@@ -391,232 +202,499 @@ msgstr ""
 "výnimku z vyhlásenia vo vašej verzii kódu.\n"
 "\n"
 "Obrázok „Magic of the vinyl“ od Samiho Pyylampiho je vytvorený pod licenciou "
-"CC-BY-SA 2.0 https://www.flickr.com/photos/_spy_/12270839403\n"
+"CC-BY-SA 2.0 https://www.flickr.com/photos/_spy_/12270839403"
 
-#: data/AlbumWidget.ui:110
+#: data/ui/AlbumWidget.ui:105
 msgid "Released"
 msgstr "Vydaný"
 
-#: data/AlbumWidget.ui:126
+#: data/ui/AlbumWidget.ui:121
 msgid "Running Length"
 msgstr "Dĺžka"
 
-#: data/app-menu.ui:5
+#: data/ui/AlbumWidget.ui:166
+msgid "Composer"
+msgstr "Skladateľ"
+
+#: data/ui/AppMenu.ui:20
+msgid "Last.fm Account"
+msgstr "Účet služby Last.fm"
+
+#: data/ui/AppMenu.ui:39
+msgid "Report Music Listening"
+msgstr "Nahlásiť počúvanie hudby"
+
+#: data/ui/AppMenu.ui:70
 msgid "_Keyboard Shortcuts"
 msgstr "_Klávesové skratky"
 
-#: data/app-menu.ui:9
+#: data/ui/AppMenu.ui:84
 msgid "_Help"
 msgstr "_Pomocník"
 
-#: data/app-menu.ui:15
-msgid "_About"
-msgstr "_O programe"
+#: data/ui/AppMenu.ui:98
+msgid "_About Music"
+msgstr "_O aplikácii Hudba"
 
-#: data/app-menu.ui:19
-msgid "_Quit"
-msgstr "U_končiť"
+#: data/ui/HeaderBar.ui:16
+msgid "Menu"
+msgstr "Ponuka"
 
-#: data/headerbar.ui:7
-msgid "Select All"
-msgstr "Vybrať všetko"
-
-#: data/headerbar.ui:11
-msgid "Select None"
-msgstr "Zrušiť výber"
-
-# DK:tooltip
-#: data/headerbar.ui:66
-msgid "Search"
-msgstr "Vyhľadávanie"
-
-#: data/headerbar.ui:89
+#: data/ui/HeaderBar.ui:39 data/ui/SearchHeaderBar.ui:16
 msgid "Select"
 msgstr "Vybrať"
 
-#: data/headerbar.ui:111 data/PlaylistDialog.ui:264
+#: data/ui/HeaderBar.ui:61 data/ui/PlaylistDialog.ui:244
+#: data/ui/SearchHeaderBar.ui:38
 msgid "_Cancel"
 msgstr "_Zrušiť"
 
-#: data/headerbar.ui:129
+# DK:tooltip
+#: data/ui/HeaderBar.ui:80 data/ui/SearchHeaderBar.ui:57
+msgid "Search"
+msgstr "Vyhľadávanie"
+
+#: data/ui/HeaderBar.ui:103
 msgid "Back"
 msgstr "Späť"
 
-#: data/help-overlay.ui:13
+#: data/ui/help-overlay.ui:13
 msgctxt "shortcut window"
 msgid "General"
 msgstr "Všeobecné"
 
-#: data/help-overlay.ui:17
+#: data/ui/help-overlay.ui:17
 msgctxt "shortcut window"
 msgid "Close window"
 msgstr "Zatvorenie okna"
 
-#: data/help-overlay.ui:24
+#: data/ui/help-overlay.ui:24
 msgctxt "shortcut window"
 msgid "Search"
 msgstr "Vyhľadanie"
 
-#: data/help-overlay.ui:31
+#: data/ui/help-overlay.ui:31
 msgctxt "shortcut window"
 msgid "Help"
 msgstr "Pomocník"
 
-#: data/help-overlay.ui:38
+#: data/ui/help-overlay.ui:38
 msgctxt "shortcut window"
 msgid "Shortcuts"
 msgstr "Skratky"
 
-#: data/help-overlay.ui:47
+#: data/ui/help-overlay.ui:47
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Prehrávanie"
 
-#: data/help-overlay.ui:51
+#: data/ui/help-overlay.ui:51
 msgctxt "shortcut window"
 msgid "Play/Pause"
 msgstr "Prehranie/Pozastavenie"
 
 # DK: skladba
-#: data/help-overlay.ui:58
+#: data/ui/help-overlay.ui:58
 msgctxt "shortcut window"
 msgid "Next song"
 msgstr "Nasledujúca skladba"
 
-#: data/help-overlay.ui:65
+#: data/ui/help-overlay.ui:65
 msgctxt "shortcut window"
 msgid "Previous song"
 msgstr "Predchádzajúca skladba"
 
-#: data/help-overlay.ui:72
+#: data/ui/help-overlay.ui:72
 msgctxt "shortcut window"
 msgid "Toggle repeat"
 msgstr "Prepnutie opakovania"
 
-#: data/help-overlay.ui:79
+#: data/ui/help-overlay.ui:79
 msgctxt "shortcut window"
 msgid "Toggle shuffle"
 msgstr "Prepnutie zamiešania"
 
-#: data/help-overlay.ui:88
+#: data/ui/help-overlay.ui:88
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "Navigácia"
 
-#: data/help-overlay.ui:92
+#: data/ui/help-overlay.ui:92
 msgctxt "shortcut window"
 msgid "Go to Albums"
 msgstr "Prejdenie na albumy"
 
-#: data/help-overlay.ui:99
+#: data/ui/help-overlay.ui:99
 msgctxt "shortcut window"
 msgid "Go to Artists"
 msgstr "Prejdenie na interpretov"
 
-#: data/help-overlay.ui:106
+#: data/ui/help-overlay.ui:106
 msgctxt "shortcut window"
 msgid "Go to Songs"
 msgstr "Prejdenie na skladby"
 
 # gtk button
-#: data/help-overlay.ui:113
+#: data/ui/help-overlay.ui:113
 msgctxt "shortcut window"
 msgid "Go to Playlists"
 msgstr "Prejdenie na zoznamy skladieb"
 
-#: data/help-overlay.ui:120
+#: data/ui/help-overlay.ui:120
 msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Prejdenie späť"
 
-#: data/NoMusic.ui:35
-msgid "No music found"
-msgstr "Nenašla sa žiadna hudba"
-
-#. Translators: %s will be replaced with a link with text 'Music folder'
-#: data/NoMusic.ui:55
-#, python-format
-msgid "The contents of your %s will appear here."
-msgstr "Tu sa zobrazí obsah vášho %s."
-
 # GtkRadioMenuItem
-#: data/PlayerToolbar.ui:6
+#: data/ui/PlayerToolbar.ui:6
 msgid "Shuffle"
 msgstr "Zamiešať"
 
-#: data/PlayerToolbar.ui:11
+#: data/ui/PlayerToolbar.ui:11
 msgid "Repeat All"
 msgstr "Opakovať všetko"
 
-#: data/PlayerToolbar.ui:16
+#: data/ui/PlayerToolbar.ui:16
 msgid "Repeat Song"
 msgstr "Opakovať skladbu"
 
 # GtkRadioMenuItem
 #. Causes tracks to play in random order
-#: data/PlayerToolbar.ui:21
+#: data/ui/PlayerToolbar.ui:21
 msgid "Shuffle/Repeat Off"
 msgstr "Vypnúť zamiešanie/opakovanie"
 
+#: data/ui/PlayerToolbar.ui:70
+msgid "Previous"
+msgstr "Predchádzajúca"
+
+#: data/ui/PlayerToolbar.ui:86 gnomemusic/widgets/playertoolbar.py:159
+msgid "Play"
+msgstr "Prehrať"
+
+# DK: skladba
+#: data/ui/PlayerToolbar.ui:102
+msgid "Next"
+msgstr "Nasledujúca"
+
+#: data/ui/PlaylistContextMenu.ui:5
+msgctxt "context menu item"
+msgid "Play"
+msgstr "Prehrať"
+
 # gtk button
-#: data/PlaylistContextMenu.ui:9
+#: data/ui/PlaylistContextMenu.ui:9
 msgid "Add to Playlist…"
 msgstr "Pridať do zoznamu skladieb…"
 
 # gtk button
-#: data/PlaylistContextMenu.ui:13
+#: data/ui/PlaylistContextMenu.ui:13
 msgid "Remove From Playlist"
 msgstr "Odstrániť zo zoznamu skladieb"
 
-#: data/PlaylistControls.ui:6
+#: data/ui/PlaylistControls.ui:6
 msgid "_Play"
 msgstr "_Prehrať"
 
-#: data/PlaylistControls.ui:10
+#: data/ui/PlaylistControls.ui:10
 msgid "_Delete"
 msgstr "O_dstrániť"
 
-#: data/PlaylistControls.ui:14
+#: data/ui/PlaylistControls.ui:14
 msgid "_Rename…"
 msgstr "_Premenovať…"
 
-#: data/PlaylistControls.ui:33
+#: data/ui/PlaylistControls.ui:40
 msgid "Playlist Name"
 msgstr "Názov zoznamu skladieb"
 
-#: data/PlaylistControls.ui:65
+#: data/ui/PlaylistControls.ui:74
 msgid "_Done"
 msgstr "_Dokončiť"
 
-#: data/PlaylistDialog.ui:63
+#: data/ui/PlaylistDialog.ui:66
 msgid "Enter a name for your first playlist"
 msgstr "Zadajte názov vášho prvého zoznamu skladieb"
 
-#: data/PlaylistDialog.ui:88
+#: data/ui/PlaylistDialog.ui:92
 msgid "C_reate"
 msgstr "Vytvo_riť"
 
-#: data/PlaylistDialog.ui:157
-msgid "New Playlist"
-msgstr "Nový zoznam skladieb"
+#: data/ui/PlaylistDialog.ui:155
+msgid "New Playlist…"
+msgstr "Nový zoznam skladieb…"
 
-#: data/PlaylistDialog.ui:170
+#: data/ui/PlaylistDialog.ui:169
 msgid "Add"
 msgstr "Pridať"
 
-# dialog title
-#: data/PlaylistDialog.ui:261
-msgid "Select Playlist"
-msgstr "Výber zoznamu skladieb"
+# gtk button
+#: data/ui/PlaylistDialog.ui:241
+msgid "Add to Playlist"
+msgstr "Pridanie do zoznamu skladieb"
 
-#: data/PlaylistDialog.ui:276
+#: data/ui/PlaylistDialog.ui:257
 msgid "_Add"
 msgstr "_Pridať"
 
+#: data/ui/SearchView.ui:44 gnomemusic/views/artistsview.py:59
+msgid "Artists"
+msgstr "Interpreti"
+
+#: data/ui/SearchView.ui:54 data/ui/SearchView.ui:107
+msgid "View All"
+msgstr "Zobraziť všetko"
+
+#: data/ui/SearchView.ui:97 gnomemusic/views/albumsview.py:62
+msgid "Albums"
+msgstr "Albumy"
+
+#: data/ui/SearchView.ui:150 gnomemusic/views/songsview.py:57
+msgid "Songs"
+msgstr "Skladby"
+
+#: data/ui/SelectionBarMenuButton.ui:7
+msgid "Select All"
+msgstr "Vybrať všetko"
+
+#: data/ui/SelectionBarMenuButton.ui:11
+msgid "Select None"
+msgstr "Zrušiť výber"
+
+#: data/ui/SelectionBarMenuButton.ui:31 gnomemusic/widgets/headerbar.py:75
+msgid "Click on items to select them"
+msgstr "Kliknutím na položku ju vyberiete"
+
 # gtk button
-#: data/SelectionToolbar.ui:9
+#: data/ui/SelectionToolbar.ui:9
 msgid "_Add to Playlist"
 msgstr "_Pridať do zoznamu skladieb"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:748
+msgid "Most Played"
+msgstr "Najviac prehrávané"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:785
+msgid "Never Played"
+msgstr "Nikdy neprehraté"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:821
+msgid "Recently Played"
+msgstr "Nedávno prehrávané"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:867
+msgid "Recently Added"
+msgstr "Nedávno pridané"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:912
+msgid "Favorite Songs"
+msgstr "Obľúbené skladby"
+
+#: gnomemusic/gstplayer.py:403
+msgid "Unable to play the file"
+msgstr "Nie je možné prehrať tento súbor"
+
+#: gnomemusic/gstplayer.py:409
+msgid "_Find in {}"
+msgstr "_Nájsť pomocou programu {}"
+
+#. TRANSLATORS: separator for two codecs
+#: gnomemusic/gstplayer.py:420
+msgid " and "
+msgstr " a "
+
+#. TRANSLATORS: separator for a list of codecs
+#: gnomemusic/gstplayer.py:423
+msgid ", "
+msgstr ", "
+
+#: gnomemusic/gstplayer.py:425
+msgid "{} is required to play the file, but is not installed."
+msgid_plural "{} are required to play the file, but are not installed."
+msgstr[0] ""
+"Kodeky {} sú potrebné na prehranie tohto súboru, ale nie sú nainštalované."
+msgstr[1] ""
+"Kodek {} je potrebný na prehranie tohto súboru, ale nie je nainštalovaný."
+msgstr[2] ""
+"Kodeky {} sú potrebné na prehranie tohto súboru, ale nie sú nainštalované."
+
+#: gnomemusic/inhibitsuspend.py:72
+msgid "Playing music"
+msgstr "Prehráva sa hudba"
+
+#: gnomemusic/utils.py:64
+msgid "Unknown album"
+msgstr "Neznámy album"
+
+#: gnomemusic/utils.py:85
+msgid "Unknown Artist"
+msgstr "Neznámy interpret"
+
+#: gnomemusic/views/emptyview.py:73
+msgid "Your XDG Music directory is not set."
+msgstr "Váš hudobný XDG adresár nie je nastavený."
+
+#: gnomemusic/views/emptyview.py:80
+msgid "Music folder"
+msgstr "priečinku s hudbou"
+
+#. TRANSLATORS: This is a label to display a link to open user's music
+#. folder. {} will be replaced with the translated text 'Music folder'
+#: gnomemusic/views/emptyview.py:84
+msgid "The contents of your {} will appear here."
+msgstr "Tu sa zobrazí obsah vášho {}."
+
+#: gnomemusic/views/emptyview.py:120
+msgid "Hey DJ"
+msgstr "Hey DJ"
+
+#: gnomemusic/views/emptyview.py:130 gnomemusic/views/emptyview.py:136
+msgid "No music found"
+msgstr "Nenašla sa žiadna hudba"
+
+#: gnomemusic/views/emptyview.py:138
+msgid "Try a different search"
+msgstr "Skúste vyhľadať niečo iné"
+
+#: gnomemusic/views/emptyview.py:144
+msgid "GNOME Music could not connect to Tracker"
+msgstr "Aplikácii Hudba prostredia GNOME sa nepodarilo pripojiť k sledovaču"
+
+#: gnomemusic/views/emptyview.py:147
+msgid "Your music files cannot be indexed without Tracker running"
+msgstr "Vaše hudobné súbory nemôžu byť indexované bez spusteného sledovača"
+
+#: gnomemusic/views/emptyview.py:155
+msgid "Your system Tracker version seems outdated"
+msgstr "Zdá sa, že verzia vášho systémového sledovača je zastaralá"
+
+#: gnomemusic/views/emptyview.py:158
+msgid "Music needs Tracker version 2.3.0 or higher"
+msgstr "Aplikácia Hudba vyžaduje verziu sledovača 2.3.0 alebo vyššiu"
+
+#: gnomemusic/views/playlistsview.py:58
+msgid "Playlists"
+msgstr "Zoznamy skladieb"
+
+#: gnomemusic/views/searchview.py:363
+msgid "Artists Results"
+msgstr "Výsledky s interpretami"
+
+#: gnomemusic/views/searchview.py:377
+msgid "Albums Results"
+msgstr "Výsledky s albumami"
+
+#: gnomemusic/widgets/albumwidget.py:165
+msgid "{} minute"
+msgid_plural "{} minutes"
+msgstr[0] "{} minút"
+msgstr[1] "{} minúta"
+msgstr[2] "{} minúty"
+
+#: gnomemusic/widgets/disclistboxwidget.py:76
+msgid "Disc {}"
+msgstr "Disk č. {}"
+
+#: gnomemusic/widgets/headerbar.py:72
+msgid "Selected {} item"
+msgid_plural "Selected {} items"
+msgstr[0] "Vybraných {} položiek"
+msgstr[1] "Vybraná {} položka"
+msgstr[2] "Vybrané {} položky"
+
+#: gnomemusic/widgets/notificationspopup.py:171
+msgid "Loading"
+msgstr "Načítava sa"
+
+#: gnomemusic/widgets/notificationspopup.py:244
+msgid "_Undo"
+msgstr "Vrátiť _späť"
+
+#: gnomemusic/widgets/notificationspopup.py:259
+msgid "Playlist {} removed"
+msgstr "Zoznam skladieb {} bol odstránený"
+
+#: gnomemusic/widgets/notificationspopup.py:263
+msgid "{} removed from {}"
+msgstr "Skladba {} odstránená zo zoznamu skladieb {}"
+
+#: gnomemusic/widgets/playertoolbar.py:156
+msgid "Pause"
+msgstr "Pozastaviť"
+
+#: gnomemusic/widgets/playlistcontrols.py:112
+msgid "{} Song"
+msgid_plural "{} Songs"
+msgstr[0] "{} skladieb"
+msgstr[1] "{} skladba"
+msgstr[2] "{} skladby"
+
+#~ msgid "Music is the new GNOME music playing application."
+#~ msgstr "Hudba je nová aplikácia na prehrávanie hudby v prostredí GNOME."
+
+#~ msgid "org.gnome.Music"
+#~ msgstr "org.gnome.Music"
+
+#~ msgid "Search mode"
+#~ msgstr "Režim vyhľadávania"
+
+#~ msgid "If true, the search bar is shown."
+#~ msgstr "Ak je nastavené na true, bude zobrazený panel vyhľadávania."
+
+#~ msgid "Notifications mode"
+#~ msgstr "Režim oznámení"
+
+#~ msgid "Enables or disables playback notifications"
+#~ msgstr "Povolí alebo zakáže oznámenia o prehrávaní"
+
+#~ msgid "All"
+#~ msgstr "Všetko"
+
+#~ msgid "Artist"
+#~ msgstr "Interpret"
+
+#~ msgid "Album"
+#~ msgstr "Album"
+
+#~ msgid "Track Title"
+#~ msgstr "Názov stopy"
+
+#~ msgid "Local"
+#~ msgstr "Miestne"
+
+#~ msgid "Sources"
+#~ msgstr "Zdroje"
+
+#~ msgid "Match"
+#~ msgstr "Vhodné hľadanému výrazu"
+
+# uri
+#~ msgid "Untitled"
+#~ msgstr "Nepomenovaný"
+
+#~ msgid "Selected %d item"
+#~ msgid_plural "Selected %d items"
+#~ msgstr[0] "Vybraných %d položiek"
+#~ msgstr[1] "Vybraná %d položka"
+#~ msgstr[2] "Vybrané %d položky"
+
+#~ msgid "%d min"
+#~ msgstr "%d min"
+
+#~ msgid "Empty"
+#~ msgstr "Prázdne"
+
+#~ msgid "_Quit"
+#~ msgstr "U_končiť"
+
+# dialog title
+#~ msgid "Select Playlist"
+#~ msgstr "Výber zoznamu skladieb"
 
 #~ msgid "the|a|an"
 #~ msgstr "the|a|an"
@@ -632,9 +710,6 @@ msgstr "_Pridať do zoznamu skladieb"
 #~ "Toto nastavenie upravuje počet znakov názvu skladby v zobrazení "
 #~ "interpreta. Znaky nad tento počet budú nahradené výpustkom. Na zakázanie "
 #~ "tejto funkcie zadajte hodnotu -1."
-
-#~ msgid "Unknown Album"
-#~ msgstr "Neznámy album"
 
 #~ msgid "the a an"
 #~ msgstr "the"
