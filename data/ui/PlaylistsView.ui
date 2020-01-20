@@ -7,8 +7,8 @@
       <object class="GtkBox" id="_main_container">
         <property name="visible">True</property>
         <child>
-          <object class="GtkScrolledWindow" id="all_playlists">
-            <property name="visible">True</property>
+          <object class="GtkScrolledWindow" id="_all_playlists_sidebar">
+            <property name="visible">False</property>
             <property name="width-request">220</property>
             <style>
               <class name="sidebar"/>
