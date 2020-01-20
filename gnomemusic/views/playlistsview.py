@@ -39,6 +39,7 @@ class PlaylistsView(Gtk.Stack):
 
     __gtype_name__ = "PlaylistsView"
 
+    _all_playlists_sidebar = Gtk.Template.Child()
     _main_container = Gtk.Template.Child()
     _smart_sidebar = Gtk.Template.Child()
     _user_sidebar = Gtk.Template.Child()
@@ -93,6 +94,8 @@ class PlaylistsView(Gtk.Stack):
         self._coremodel.disconnect(self._loaded_id)
         self._users_playlists_model.connect(
             "items-changed", self._on_user_playlists_model_changed)
+        self._on_user_playlists_model_changed(
+            self._users_playlists_model, 0, 0, 0)
 
         smart_row = self._smart_sidebar.get_row_at_index(0)
         self._smart_sidebar.select_row(smart_row)
@@ -100,6 +103,7 @@ class PlaylistsView(Gtk.Stack):
 
     def _on_user_playlists_model_changed(
             self, model, position, removed, added):
+        self._all_playlists_sidebar.props.visible = (model.get_n_items() > 0)
         if removed == 0:
             return
 
