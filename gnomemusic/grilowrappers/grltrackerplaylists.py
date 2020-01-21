@@ -170,6 +170,7 @@ class GrlTrackerPlaylists(GObject.GObject):
         """
         self._pls_todelete.append(playlist)
         self._model_filter.set_filter_func(self._playlists_filter)
+        self._user_model_filter.set_filter_func(self._user_playlists_filter)
 
     def finish_playlist_deletion(self, playlist, deleted):
         """Removes playlist from the list of playlists to delete
@@ -193,6 +194,8 @@ class GrlTrackerPlaylists(GObject.GObject):
                     break
 
             self._model_filter.set_filter_func(self._playlists_filter)
+            self._user_model_filter.set_filter_func(
+                self._user_playlists_filter)
             self._window.notifications_popup.pop_loading()
 
         self._window.notifications_popup.push_loading()
