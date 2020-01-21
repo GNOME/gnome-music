@@ -93,7 +93,7 @@ class PlaylistsView(BaseView):
 
         self._loaded_id = self._coremodel.connect(
             "playlists-loaded", self._on_playlists_loaded)
-        self._active_playlist_id = self._coremodel.connect(
+        self._coremodel.connect(
             "notify::active-playlist", self._on_active_playlist_changed)
 
         # Selection is only possible from the context menu
@@ -211,22 +211,14 @@ class PlaylistsView(BaseView):
         self._remove_song_action.set_enabled(not playlist.props.is_smart)
 
     def _on_active_playlist_changed(self, klass, val):
-        """Selects and starts playing a playlist.
-
-        If the view has not been populated yet, populate it and then
-        select the requested playlist. Otherwise, directly select the
-        requested playlist and start playing.
-
-        :param CoreModel klass: Main CoreModel
-        :param GParamObject val: value
+        """Selects the active playlist when an MPRIS client
+           has changed it.
         """
         playlist = self._coremodel.props.active_playlist
-        if playlist is None:
+        selection = self._sidebar.get_selected_row()
+        if (playlist is None
+                or playlist == selection.props.playlist):
             return
-
-        def _on_playlist_loaded(playlist):
-            playlist.disconnect(playlist_ready_id)
-            self._song_activated(None)
 
         playlist_row = None
         for row in self._sidebar:
@@ -237,18 +229,8 @@ class PlaylistsView(BaseView):
         if not playlist_row:
             return
 
-        selection = self._sidebar.get_selected_row()
-        if selection.get_index() == playlist_row.get_index():
-            self._song_activated(None)
-            return
-
-        self._sidebar.select_row(row)
-        self._on_playlist_activated(self._sidebar, row)
-        if playlist.props.model.get_n_items() > 0:
-            self._song_activated(None)
-        else:
-            playlist_ready_id = playlist.connect(
-                "playlist-loaded", _on_playlist_loaded)
+        self._sidebar.select_row(playlist_row)
+        self._on_playlist_activated(self._sidebar, playlist_row)
 
     def _create_song_widget(self, coresong, playlist):
         can_dnd = not playlist.props.is_smart
@@ -269,16 +251,14 @@ class PlaylistsView(BaseView):
         signal_id = None
 
         def _on_playlist_loaded(klass, playlist_type):
+            self._coremodel.props.active_playlist = current_playlist
             self._player.play(coresong)
-            self._coremodel.handler_unblock(self._active_playlist_id)
             self._coremodel.disconnect(signal_id)
 
         selection = self._sidebar.get_selected_row()
         current_playlist = selection.props.playlist
         signal_id = self._coremodel.connect(
             "playlist-loaded", _on_playlist_loaded)
-        self._coremodel.handler_block(self._active_playlist_id)
-        self._coremodel.props.active_playlist = current_playlist
         self._coremodel.set_player_model(
             PlayerPlaylist.Type.PLAYLIST, current_playlist.props.model)
 
