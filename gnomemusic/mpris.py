@@ -761,6 +761,17 @@ class MPRIS(DBusInterface):
             "CurrentTrack": self._get_song_dbus_path()}
         self._dbus_emit_signal("TrackListReplaced", parameters)
 
+    def _load_player_playlist(self, playlist):
+        def _on_playlist_loaded(klass, playlist_type):
+            self._player.play()
+            self._coremodel.disconnect(loaded_id)
+
+        loaded_id = self._coremodel.connect(
+            "playlist-loaded", _on_playlist_loaded)
+        self._coremodel.props.active_playlist = playlist
+        self._coremodel.set_player_model(
+            PlayerPlaylist.Type.PLAYLIST, playlist.props.model)
+
     def _activate_playlist(self, playlist_path):
         """Starts playing the given playlist (MPRIS Method).
 
@@ -772,8 +783,18 @@ class MPRIS(DBusInterface):
                 selected_playlist = playlist
                 break
 
-        if selected_playlist is not None:
-            self._coremodel.props.active_playlist = selected_playlist
+        if selected_playlist is None:
+            return
+
+        def _on_playlist_model_loaded(playlist):
+            playlist.disconnect(signal_id)
+            self._load_player_playlist(playlist)
+
+        if selected_playlist.props.model.get_n_items() > 0:
+            self._load_player_playlist(selected_playlist)
+        else:
+            signal_id = selected_playlist.connect(
+                "playlist-loaded", _on_playlist_model_loaded)
 
     def _get_playlists(self, index, max_count, order, reverse):
         """Gets a set of playlists (MPRIS Method).
