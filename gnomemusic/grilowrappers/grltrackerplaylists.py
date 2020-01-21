@@ -698,11 +698,13 @@ class SmartPlaylist(Playlist):
                 if error:
                     print("ERROR", error)
                     self._window.notifications_popup.pop_loading()
+                    self.emit("playlist-loaded")
                     return
 
                 if not media:
                     self.props.count = self._model.get_n_items()
                     self._window.notifications_popup.pop_loading()
+                    self.emit("playlist-loaded")
                     return
 
                 coresong = CoreSong(media, self._coreselection, self._grilo)
