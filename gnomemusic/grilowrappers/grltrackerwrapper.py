@@ -326,6 +326,7 @@ class GrlTrackerWrapper(GObject.GObject):
             nie:title(?song) AS ?title
             nmm:artistName(nmm:performer(?song)) AS ?artist
             nie:title(nmm:musicAlbum(?song)) AS ?album
+            ?album_artist AS ?album_artist
             nfo:duration(?song) AS ?duration
             nie:usageCounter(?song) AS ?play_count
             nmm:trackNumber(?song) AS ?track_number
@@ -344,6 +345,10 @@ class GrlTrackerWrapper(GObject.GObject):
                 ?song tracker:hasExternalReference ?track_id .
                 ?track_id tracker:referenceSource
                     "https://musicbrainz.org/doc/Track" .
+            }
+            OPTIONAL {
+                ?song nmm:musicAlbum ?album .
+                ?album nmm:albumArtist/nmm:artistName ?album_artist .
             }
             OPTIONAL {
                 ?song nao:hasTag ?tag .
@@ -420,6 +425,7 @@ class GrlTrackerWrapper(GObject.GObject):
             nie:title(?song) AS ?title
             nmm:artistName(nmm:performer(?song)) AS ?artist
             nie:title(nmm:musicAlbum(?song)) AS ?album
+            ?album_artist AS ?album_artist
             nfo:duration(?song) AS ?duration
             nie:usageCounter(?song) AS ?play_count
             nmm:trackNumber(?song) AS ?track_number
@@ -438,6 +444,10 @@ class GrlTrackerWrapper(GObject.GObject):
                 ?song tracker:hasExternalReference ?track_id .
                 ?track_id tracker:referenceSource
                     "https://musicbrainz.org/doc/Track" .
+            }
+            OPTIONAL {
+                ?song nmm:musicAlbum ?album .
+                ?album nmm:albumArtist/nmm:artistName ?album_artist .
             }
             OPTIONAL {
                 ?song nao:hasTag ?tag .
@@ -686,6 +696,7 @@ class GrlTrackerWrapper(GObject.GObject):
             nie:title(?song) AS ?title
             nmm:artistName(nmm:performer(?song)) AS ?artist
             nie:title(nmm:musicAlbum(?song)) AS ?album
+            ?album_artist AS ?album_artist
             nfo:duration(?song) AS ?duration
             nmm:trackNumber(?song) AS ?track_number
             nmm:setNumber(nmm:musicAlbumDisc(?song)) AS ?album_disc_number
@@ -706,6 +717,7 @@ class GrlTrackerWrapper(GObject.GObject):
                 ?track_id tracker:referenceSource
                     "https://musicbrainz.org/doc/Track" .
             }
+            OPTIONAL { ?album nmm:albumArtist/nmm:artistName ?album_artist . }
             OPTIONAL { ?song nao:hasTag ?tag .
                        FILTER (?tag = nao:predefined-tag-favorite) } .
             FILTER ( tracker:id(?album) = %(album_id)s
