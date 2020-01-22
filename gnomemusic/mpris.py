@@ -299,8 +299,13 @@ class MPRIS(DBusInterface):
             "playlist-loaded", self._on_player_playlist_changed)
 
         self._playlists_model = self._coremodel.props.playlists_sort
-        self._playlists_loaded_id = self._coremodel.connect(
-            "playlists-loaded", self._on_playlists_loaded)
+
+        if self._coremodel.props.playlists_available is True:
+            self._playlists_loaded_id = None
+            self._on_playlists_available()
+        else:
+            self._playlists_loaded_id = self._coremodel.connect(
+                "notify::playlists-available", self._on_playlists_available)
 
         self._player_playlist_type = None
         self._path_list = []
@@ -603,8 +608,14 @@ class MPRIS(DBusInterface):
         self._properties_changed(
             MPRIS.MEDIA_PLAYER2_PLAYLISTS_IFACE, properties, [])
 
-    def _on_playlists_loaded(self, klass):
-        self._coremodel.disconnect(self._playlists_loaded_id)
+    def _on_playlists_available(self, klass=None, value=None):
+        if self._coremodel.props.playlists_available is False:
+            return
+
+        if self._playlists_loaded_id is not None:
+            self._coremodel.disconnect(self._playlists_loaded_id)
+            self._playlists_loaded_id = None
+
         for playlist in self._playlists_model:
             playlist.connect("notify::title", self._on_playlist_renamed)
             playlist.connect(
