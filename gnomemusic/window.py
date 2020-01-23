@@ -43,6 +43,7 @@ from gnomemusic.widgets.playertoolbar import PlayerToolbar  # noqa: F401
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
 from gnomemusic.widgets.searchheaderbar import SearchHeaderBar
 from gnomemusic.widgets.selectiontoolbar import SelectionToolbar  # noqa: F401
+from gnomemusic.widgets.songeditordialog import SongEditorDialog
 from gnomemusic.windowplacement import WindowPlacement
 
 
@@ -165,6 +166,7 @@ class Window(Adw.ApplicationWindow):
 
         self._selection_toolbar.connect(
             'add-to-playlist', self._on_add_to_playlist)
+        self._selection_toolbar.connect("edit-details", self._on_edit_tags)
         self._search.connect("notify::state", self._on_search_state_changed)
 
         self._headerbar.props.state = HeaderBar.State.MAIN
@@ -470,6 +472,25 @@ class Window(Adw.ApplicationWindow):
         self._playlist_dialog.props.transient_for = self
         self._playlist_dialog.connect("response", on_response)
         self._playlist_dialog.present()
+
+    def _on_edit_tags(self, widget: SelectionToolbar) -> None:
+        def on_response(dialog: PlaylistDialog, response_id: int) -> None:
+            self.props.selection_mode = False
+            song_editor_dialog.destroy()
+
+        if self._stack.get_visible_child() == self.views[View.PLAYLIST]:
+            return
+
+        coreselection = self._app.props.coreselection
+        selected_songs = coreselection.props.selected_songs
+
+        if len(selected_songs) < 1:
+            return
+
+        song_editor_dialog = SongEditorDialog(self._app, selected_songs[0])
+        song_editor_dialog.props.transient_for = self
+        song_editor_dialog.connect("response", on_response)
+        song_editor_dialog.present()
 
     def set_player_visible(self, visible):
         """Set PlayWidget action visibility

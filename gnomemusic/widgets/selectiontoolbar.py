@@ -31,9 +31,11 @@ class SelectionToolbar(Gtk.ActionBar):
     __gtype_name__ = 'SelectionToolbar'
 
     _add_to_playlist_button = Gtk.Template.Child()
+    _edit_details_button = Gtk.Template.Child()
 
     __gsignals__ = {
-        'add-to-playlist': (GObject.SignalFlags.RUN_FIRST, None, ())
+        'add-to-playlist': (GObject.SignalFlags.RUN_FIRST, None, ()),
+        "edit-details": (GObject.SignalFlags.RUN_FIRST, None, ())
     }
 
     selected_songs_count = GObject.Property(type=int, default=0, minimum=0)
@@ -50,8 +52,12 @@ class SelectionToolbar(Gtk.ActionBar):
     def _on_add_to_playlist_button_clicked(self, widget):
         self.emit('add-to-playlist')
 
+    @Gtk.Template.Callback()
+    def _on_edit_tags_button_clicked(self, widget):
+        self.emit("edit-details")
+
     def _on_songs_selection_changed(self, widget, data):
-        if self.props.selected_songs_count > 0:
-            self._add_to_playlist_button.props.sensitive = True
-        else:
-            self._add_to_playlist_button.props.sensitive = False
+        selection_size: int = self.props.selected_songs_count
+
+        self._add_to_playlist_button.props.sensitive = (selection_size > 0)
+        self._edit_details_button.props.sensitive = (selection_size == 1)
