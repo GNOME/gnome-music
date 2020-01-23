@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2019-11-27 14:53+0000\n"
-"PO-Revision-Date: 2019-11-27 22:57+0800\n"
-"Last-Translator: pan93412 <pan93412@gmail.com>\n"
+"POT-Creation-Date: 2020-01-15 20:09+0000\n"
+"PO-Revision-Date: 2020-01-22 14:38+0800\n"
+"Last-Translator: Yi-Jyun Pan <pan93412@gmail.com>\n"
 "Language-Team: Chinese <zh-l10n@linux.org.tw>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 19.11.80\n"
+"X-Generator: Poedit 2.2.4\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
@@ -41,11 +41,11 @@ msgstr ""
 "在您的本地集合中找尋曲目，從 DLNA 伺服器取得音樂或透過 Jamendo 和 Magnatune "
 "服務找尋些新音樂。"
 
-#: data/org.gnome.Music.appdata.xml.in.in:52
+#: data/org.gnome.Music.appdata.xml.in.in:67
 msgid "The GNOME Music developers"
 msgstr "GNOME 音樂開發團隊"
 
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:59
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:60
 #: gnomemusic/window.py:77
 msgid "Music"
 msgstr "音樂"
@@ -123,6 +123,16 @@ msgstr "防止系統暫停"
 msgid "Enables or disables inhibiting system suspend while playing music"
 msgstr "啟用或停用音樂播放時的防止系統暫停功能"
 
+#: data/org.gnome.Music.gschema.xml:48
+msgid "Report music history to Last.fm"
+msgstr "回報音樂歷史記錄至 Last.fm"
+
+#: data/org.gnome.Music.gschema.xml:49
+msgid ""
+"Enables or disables sending scrobbles and the “currently playing” info to "
+"Last.fm."
+msgstr "啟用／停用傳送音樂記錄及「目前播放」資訊給 Last.fm。"
+
 #: data/ui/AboutDialog.ui.in:9
 msgid "Copyright © 2018 GNOME Music Developers"
 msgstr "著作權所有 © 2018 GNOME Music 開發團隊"
@@ -194,15 +204,23 @@ msgstr "播放長度"
 msgid "Composer"
 msgstr "作曲家"
 
-#: data/ui/AppMenu.ui:21
+#: data/ui/AppMenu.ui:20
+msgid "Last.fm Account"
+msgstr "Last.fm 帳戶"
+
+#: data/ui/AppMenu.ui:39
+msgid "Report Music Listening"
+msgstr "回報聆聽中的音樂"
+
+#: data/ui/AppMenu.ui:70
 msgid "_Keyboard Shortcuts"
 msgstr "鍵盤捷徑鍵(_K)"
 
-#: data/ui/AppMenu.ui:35
+#: data/ui/AppMenu.ui:84
 msgid "_Help"
 msgstr "求助(_H)"
 
-#: data/ui/AppMenu.ui:49
+#: data/ui/AppMenu.ui:98
 msgid "_About Music"
 msgstr "關於音樂(_A)"
 
@@ -406,7 +424,7 @@ msgstr "演出者"
 msgid "View All"
 msgstr "檢視全部"
 
-#: data/ui/SearchView.ui:97 gnomemusic/views/albumsview.py:63
+#: data/ui/SearchView.ui:97 gnomemusic/views/albumsview.py:62
 msgid "Albums"
 msgstr "專輯"
 
@@ -431,27 +449,27 @@ msgid "_Add to Playlist"
 msgstr "加入至播放清單(_A)"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:727
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:748
 msgid "Most Played"
 msgstr "最常播放"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:764
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:785
 msgid "Never Played"
 msgstr "從未播放"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:800
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:821
 msgid "Recently Played"
 msgstr "最近播放"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:846
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:867
 msgid "Recently Added"
 msgstr "最近加入"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:891
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:912
 msgid "Favorite Songs"
 msgstr "喜愛的歌曲"
 
@@ -482,11 +500,11 @@ msgstr[0] "需要 {} 才能播放這個檔案，但尚未安裝。"
 msgid "Playing music"
 msgstr "正在播放音樂"
 
-#: gnomemusic/utils.py:62
+#: gnomemusic/utils.py:64
 msgid "Unknown album"
 msgstr "未知專輯"
 
-#: gnomemusic/utils.py:83
+#: gnomemusic/utils.py:85
 msgid "Unknown Artist"
 msgstr "不明的演出者"
 
@@ -529,7 +547,6 @@ msgid "Your system Tracker version seems outdated"
 msgstr "系統 Tracker 版本似乎過舊"
 
 #: gnomemusic/views/emptyview.py:158
-#| msgid "Music needs Tracker version 2.2.0 or higher"
 msgid "Music needs Tracker version 2.3.0 or higher"
 msgstr "《音樂》需要 Tracker 2.3.0 版或更新版本"
 
@@ -537,20 +554,20 @@ msgstr "《音樂》需要 Tracker 2.3.0 版或更新版本"
 msgid "Playlists"
 msgstr "播放清單"
 
-#: gnomemusic/views/searchview.py:366
+#: gnomemusic/views/searchview.py:363
 msgid "Artists Results"
 msgstr "演出者結果"
 
-#: gnomemusic/views/searchview.py:380
+#: gnomemusic/views/searchview.py:377
 msgid "Albums Results"
 msgstr "專輯結果"
 
-#: gnomemusic/widgets/albumwidget.py:145
+#: gnomemusic/widgets/albumwidget.py:165
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} 分鐘"
 
-#: gnomemusic/widgets/disclistboxwidget.py:82
+#: gnomemusic/widgets/disclistboxwidget.py:76
 msgid "Disc {}"
 msgstr "碟片 {}"
 
@@ -559,19 +576,19 @@ msgid "Selected {} item"
 msgid_plural "Selected {} items"
 msgstr[0] "己選擇 {} 項目"
 
-#: gnomemusic/widgets/notificationspopup.py:168
+#: gnomemusic/widgets/notificationspopup.py:171
 msgid "Loading"
 msgstr "正在載入"
 
-#: gnomemusic/widgets/notificationspopup.py:241
+#: gnomemusic/widgets/notificationspopup.py:244
 msgid "_Undo"
 msgstr "復原(_U)"
 
-#: gnomemusic/widgets/notificationspopup.py:256
+#: gnomemusic/widgets/notificationspopup.py:259
 msgid "Playlist {} removed"
 msgstr "播放清單 {} 已移除"
 
-#: gnomemusic/widgets/notificationspopup.py:260
+#: gnomemusic/widgets/notificationspopup.py:263
 msgid "{} removed from {}"
 msgstr "{} 已從 {} 移除"
 
@@ -579,7 +596,7 @@ msgstr "{} 已從 {} 移除"
 msgid "Pause"
 msgstr "暫停"
 
-#: gnomemusic/widgets/playlistcontrols.py:83
+#: gnomemusic/widgets/playlistcontrols.py:112
 msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} 首歌曲"
