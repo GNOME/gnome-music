@@ -131,7 +131,8 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://gitlab.gnome.org/GNOME/grilo-plugins.git"
+                    "url": "https://gitlab.gnome.org/GNOME/grilo-plugins.git",
+                    "branch": "wip/jfelder/music-songeditor"
                 }
             ],
             "cleanup": [ "/include" ]
