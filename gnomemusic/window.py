@@ -44,6 +44,7 @@ from gnomemusic.widgets.playertoolbar import PlayerToolbar
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
 from gnomemusic.widgets.searchheaderbar import SearchHeaderBar
 from gnomemusic.widgets.selectiontoolbar import SelectionToolbar  # noqa: F401
+from gnomemusic.widgets.songeditordialog import SongEditorDialog
 from gnomemusic.windowplacement import WindowPlacement
 
 import logging
@@ -134,6 +135,8 @@ class Window(Gtk.ApplicationWindow):
         self._player_toolbar = PlayerToolbar()
         self._player_toolbar.props.player = self._player
 
+        self._selection_toolbar.props.stack = self._stack
+
         self._headerbar.connect(
             'back-button-clicked', self._switch_back_from_childview)
 
@@ -180,6 +183,7 @@ class Window(Gtk.ApplicationWindow):
 
         self._selection_toolbar.connect(
             'add-to-playlist', self._on_add_to_playlist)
+        self._selection_toolbar.connect("edit-details", self._on_edit_tags)
         self._search.connect("notify::state", self._on_search_state_changed)
 
         self._headerbar.props.state = HeaderBar.State.MAIN
@@ -507,6 +511,22 @@ class Window(Gtk.ApplicationWindow):
 
         self.props.selection_mode = False
         playlist_dialog.destroy()
+
+    def _on_edit_tags(self, widget):
+        if self._stack.get_visible_child() == self.views[View.PLAYLIST]:
+            return
+
+        selected_songs = self._app._coreselection.props.selected_items
+
+        if len(selected_songs) < 1:
+            return
+
+        grilo = self._app.props.coremodel.props.grilo
+        song_editor_dialog = SongEditorDialog(self, selected_songs[0], grilo)
+        song_editor_dialog.run()
+
+        self.props.selection_mode = False
+        song_editor_dialog.destroy()
 
     @log
     def set_player_visible(self, visible):
