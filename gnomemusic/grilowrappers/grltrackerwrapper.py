@@ -51,6 +51,7 @@ class GrlTrackerWrapper(GObject.GObject):
         Grl.METADATA_KEY_ID,
         Grl.METADATA_KEY_MB_ARTIST_ID,
         Grl.METADATA_KEY_MB_RECORDING_ID,
+        Grl.METADATA_KEY_MB_RELEASE_ID,
         Grl.METADATA_KEY_MB_TRACK_ID,
         Grl.METADATA_KEY_PLAY_COUNT,
         Grl.METADATA_KEY_THUMBNAIL,
@@ -328,6 +329,7 @@ class GrlTrackerWrapper(GObject.GObject):
             nmm:artistName(nmm:performer(?song)) AS ?artist
             tracker:referenceIdentifier(?artist_id) AS ?mb_artist_id
             nie:title(nmm:musicAlbum(?song)) AS ?album
+            tracker:referenceIdentifier(?release_id) AS ?mb_release_id
             ?album_artist AS ?album_artist
             nfo:duration(?song) AS ?duration
             nie:usageCounter(?song) AS ?play_count
@@ -351,6 +353,12 @@ class GrlTrackerWrapper(GObject.GObject):
             OPTIONAL {
                 ?song nmm:musicAlbum ?album .
                 ?album nmm:albumArtist/nmm:artistName ?album_artist .
+            }
+            OPTIONAL {
+                ?song nmm:musicAlbum ?album .
+                ?album tracker:hasExternalReference ?release_id .
+                ?release_id tracker:referenceSource
+                    "https://musicbrainz.org/doc/Release" .
             }
             OPTIONAL {
                 ?song nmm:performer ?artist .
@@ -434,6 +442,7 @@ class GrlTrackerWrapper(GObject.GObject):
             nmm:artistName(nmm:performer(?song)) AS ?artist
             tracker:referenceIdentifier(?artist_id) AS ?mb_artist_id
             nie:title(nmm:musicAlbum(?song)) AS ?album
+            tracker:referenceIdentifier(?release_id) AS ?mb_release_id
             ?album_artist AS ?album_artist
             nfo:duration(?song) AS ?duration
             nie:usageCounter(?song) AS ?play_count
@@ -457,6 +466,12 @@ class GrlTrackerWrapper(GObject.GObject):
             OPTIONAL {
                 ?song nmm:musicAlbum ?album .
                 ?album nmm:albumArtist/nmm:artistName ?album_artist .
+            }
+            OPTIONAL {
+                ?song nmm:musicAlbum ?album .
+                ?album tracker:hasExternalReference ?release_id .
+                ?release_id tracker:referenceSource
+                    "https://musicbrainz.org/doc/Release" .
             }
             OPTIONAL {
                 ?song nmm:performer ?artist .
@@ -712,6 +727,7 @@ class GrlTrackerWrapper(GObject.GObject):
             nmm:artistName(nmm:performer(?song)) AS ?artist
             tracker:referenceIdentifier(?artist_id) AS ?mb_artist_id
             nie:title(nmm:musicAlbum(?song)) AS ?album
+            tracker:referenceIdentifier(?release_id) AS ?mb_release_id
             ?album_artist AS ?album_artist
             nfo:duration(?song) AS ?duration
             nmm:trackNumber(?song) AS ?track_number
@@ -734,6 +750,11 @@ class GrlTrackerWrapper(GObject.GObject):
                     "https://musicbrainz.org/doc/Track" .
             }
             OPTIONAL { ?album nmm:albumArtist/nmm:artistName ?album_artist . }
+            OPTIONAL {
+                ?album tracker:hasExternalReference ?release_id .
+                ?release_id tracker:referenceSource
+                    "https://musicbrainz.org/doc/Release" .
+            }
             OPTIONAL {
                 ?song nmm:performer ?artist .
                 ?artist tracker:hasExternalReference ?artist_id .
