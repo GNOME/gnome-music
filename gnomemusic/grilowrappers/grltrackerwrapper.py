@@ -50,6 +50,7 @@ class GrlTrackerWrapper(GObject.GObject):
         Grl.METADATA_KEY_FAVOURITE,
         Grl.METADATA_KEY_ID,
         Grl.METADATA_KEY_MB_RECORDING_ID,
+        Grl.METADATA_KEY_MB_TRACK_ID,
         Grl.METADATA_KEY_PLAY_COUNT,
         Grl.METADATA_KEY_THUMBNAIL,
         Grl.METADATA_KEY_TITLE,
@@ -319,6 +320,7 @@ class GrlTrackerWrapper(GObject.GObject):
             nie:title(?song) AS ?title
             tracker:id(?song) AS ?id
             tracker:referenceIdentifier(?recording_id) AS ?mb_recording_id
+            tracker:referenceIdentifier(?track_id) AS ?mb_track_id
             ?song
             nie:url(?song) AS ?url
             nie:title(?song) AS ?title
@@ -337,6 +339,11 @@ class GrlTrackerWrapper(GObject.GObject):
                 ?song tracker:hasExternalReference ?recording_id .
                 ?recording_id tracker:referenceSource
                     "https://musicbrainz.org/doc/Recording" .
+            }
+            OPTIONAL {
+                ?song tracker:hasExternalReference ?track_id .
+                ?track_id tracker:referenceSource
+                    "https://musicbrainz.org/doc/Track" .
             }
             OPTIONAL {
                 ?song nao:hasTag ?tag .
@@ -407,6 +414,7 @@ class GrlTrackerWrapper(GObject.GObject):
             nie:title(?song) AS ?title
             tracker:id(?song) AS ?id
             tracker:referenceIdentifier(?recording_id) AS ?mb_recording_id
+            tracker:referenceIdentifier(?track_id) AS ?mb_track_id
             ?song
             nie:url(?song) AS ?url
             nie:title(?song) AS ?title
@@ -425,6 +433,11 @@ class GrlTrackerWrapper(GObject.GObject):
                 ?song tracker:hasExternalReference ?recording_id .
                 ?recording_id tracker:referenceSource
                     "https://musicbrainz.org/doc/Recording" .
+            }
+            OPTIONAL {
+                ?song tracker:hasExternalReference ?track_id .
+                ?track_id tracker:referenceSource
+                    "https://musicbrainz.org/doc/Track" .
             }
             OPTIONAL {
                 ?song nao:hasTag ?tag .
@@ -668,6 +681,7 @@ class GrlTrackerWrapper(GObject.GObject):
             ?song AS ?tracker_urn
             tracker:id(?song) AS ?id
             tracker:referenceIdentifier(?recording_id) AS ?mb_recording_id
+            tracker:referenceIdentifier(?track_id) AS ?mb_track_id
             nie:url(?song) AS ?url
             nie:title(?song) AS ?title
             nmm:artistName(nmm:performer(?song)) AS ?artist
@@ -686,6 +700,11 @@ class GrlTrackerWrapper(GObject.GObject):
                 ?song tracker:hasExternalReference ?recording_id .
                 ?recording_id tracker:referenceSource
                     "https://musicbrainz.org/doc/Recording" .
+            }
+            OPTIONAL {
+                ?song tracker:hasExternalReference ?track_id .
+                ?track_id tracker:referenceSource
+                    "https://musicbrainz.org/doc/Track" .
             }
             OPTIONAL { ?song nao:hasTag ?tag .
                        FILTER (?tag = nao:predefined-tag-favorite) } .
