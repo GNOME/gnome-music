@@ -49,6 +49,7 @@ class GrlTrackerWrapper(GObject.GObject):
         Grl.METADATA_KEY_DURATION,
         Grl.METADATA_KEY_FAVOURITE,
         Grl.METADATA_KEY_ID,
+        Grl.METADATA_KEY_MB_ARTIST_ID,
         Grl.METADATA_KEY_MB_RECORDING_ID,
         Grl.METADATA_KEY_MB_TRACK_ID,
         Grl.METADATA_KEY_PLAY_COUNT,
@@ -325,6 +326,7 @@ class GrlTrackerWrapper(GObject.GObject):
             nie:url(?song) AS ?url
             nie:title(?song) AS ?title
             nmm:artistName(nmm:performer(?song)) AS ?artist
+            tracker:referenceIdentifier(?artist_id) AS ?mb_artist_id
             nie:title(nmm:musicAlbum(?song)) AS ?album
             ?album_artist AS ?album_artist
             nfo:duration(?song) AS ?duration
@@ -349,6 +351,12 @@ class GrlTrackerWrapper(GObject.GObject):
             OPTIONAL {
                 ?song nmm:musicAlbum ?album .
                 ?album nmm:albumArtist/nmm:artistName ?album_artist .
+            }
+            OPTIONAL {
+                ?song nmm:performer ?artist .
+                ?artist tracker:hasExternalReference ?artist_id .
+                ?artist_id tracker:referenceSource
+                    "https://musicbrainz.org/doc/Artist" .
             }
             OPTIONAL {
                 ?song nao:hasTag ?tag .
@@ -432,6 +440,7 @@ class GrlTrackerWrapper(GObject.GObject):
             nie:url(?song) AS ?url
             nie:title(?song) AS ?title
             nmm:artistName(nmm:performer(?song)) AS ?artist
+            tracker:referenceIdentifier(?artist_id) AS ?mb_artist_id
             nie:title(nmm:musicAlbum(?song)) AS ?album
             ?album_artist AS ?album_artist
             nfo:duration(?song) AS ?duration
@@ -456,6 +465,12 @@ class GrlTrackerWrapper(GObject.GObject):
             OPTIONAL {
                 ?song nmm:musicAlbum ?album .
                 ?album nmm:albumArtist/nmm:artistName ?album_artist .
+            }
+            OPTIONAL {
+                ?song nmm:performer ?artist .
+                ?artist tracker:hasExternalReference ?artist_id .
+                ?artist_id tracker:referenceSource
+                    "https://musicbrainz.org/doc/Artist" .
             }
             OPTIONAL {
                 ?song nao:hasTag ?tag .
@@ -703,6 +718,7 @@ class GrlTrackerWrapper(GObject.GObject):
             nie:url(?song) AS ?url
             nie:title(?song) AS ?title
             nmm:artistName(nmm:performer(?song)) AS ?artist
+            tracker:referenceIdentifier(?artist_id) AS ?mb_artist_id
             nie:title(nmm:musicAlbum(?song)) AS ?album
             ?album_artist AS ?album_artist
             nfo:duration(?song) AS ?duration
@@ -726,6 +742,12 @@ class GrlTrackerWrapper(GObject.GObject):
                     "https://musicbrainz.org/doc/Track" .
             }
             OPTIONAL { ?album nmm:albumArtist/nmm:artistName ?album_artist . }
+            OPTIONAL {
+                ?song nmm:performer ?artist .
+                ?artist tracker:hasExternalReference ?artist_id .
+                ?artist_id tracker:referenceSource
+                    "https://musicbrainz.org/doc/Artist" .
+            }
             OPTIONAL { ?song nao:hasTag ?tag .
                        FILTER (?tag = nao:predefined-tag-favorite) } .
             FILTER ( tracker:id(?album) = %(album_id)s
