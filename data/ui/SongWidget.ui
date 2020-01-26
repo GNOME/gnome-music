@@ -146,6 +146,9 @@
                 <property name="valign">center</property>
                 <property name="hexpand">True</property>
                 <property name="single_line_mode">True</property>
+                <attributes>
+                  <attribute name="font-features" value="tnum=1"/>
+                </attributes>
               </object>
             </child>
           </object>

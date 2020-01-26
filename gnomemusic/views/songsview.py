@@ -128,7 +128,9 @@ class SongsView(BaseView):
         column_album.props.expand = True
         self._view.append_column(column_album)
 
-        duration_renderer = Gtk.CellRendererText(xalign=1.0)
+        attrs = Pango.AttrList()
+        attrs.insert(Pango.AttrFontFeatures.new("tnum=1"))
+        duration_renderer = Gtk.CellRendererText(xalign=1.0, attributes=attrs)
         column_duration = Gtk.TreeViewColumn(
             "Duration", duration_renderer, text=5)
         self._view.append_column(column_duration)
