@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2019-08-06 17:01+0000\n"
-"PO-Revision-Date: 2019-08-17 16:20+0300\n"
+"POT-Creation-Date: 2020-01-15 19:29+0000\n"
+"PO-Revision-Date: 2020-01-26 16:49+0200\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: suomi <lokalisointi-lista@googlegroups.com>\n"
 "Language: fi\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.2.4\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
 msgid "GNOME Music"
@@ -43,11 +43,11 @@ msgstr ""
 "Etsi kappaleita paikallisesta kokoelmastasi, toista musiikkia DLNA-"
 "palvelimilta tai löydä jotain uutta Jamendo- ja Magnatune-palveluista."
 
-#: data/org.gnome.Music.appdata.xml.in.in:52
+#: data/org.gnome.Music.appdata.xml.in.in:67
 msgid "The GNOME Music developers"
 msgstr "Gnomen musiikkisoittimen kehittäjät"
 
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:59
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:60
 #: gnomemusic/window.py:77
 msgid "Music"
 msgstr "Musiikki"
@@ -128,6 +128,18 @@ msgstr ""
 "Ottaa käyttöön tai poistaa käytöstä järjestelmän valmiustilaan siirtymisen "
 "estämisen kun musiikkia toistetaan"
 
+#: data/org.gnome.Music.gschema.xml:48
+msgid "Report music history to Last.fm"
+msgstr "Raportoi kuunteluhistoria Last.fm:ään"
+
+#: data/org.gnome.Music.gschema.xml:49
+msgid ""
+"Enables or disables sending scrobbles and the “currently playing” info to "
+"Last.fm."
+msgstr ""
+"Ottaa käyttöön tai poistaa käytöstä kuunteluhistorian ja \"Nyt toistetaan\"-"
+"tietojen lähettämisen Last.fm:ään."
+
 #: data/ui/AboutDialog.ui.in:9
 msgid "Copyright © 2018 GNOME Music Developers"
 msgstr "Tekijänoikeus © 2018 Gnomen musiikkisoittimen kehittäjät"
@@ -176,40 +188,48 @@ msgstr "Julkaistu"
 msgid "Running Length"
 msgstr "Kesto"
 
-#: data/ui/AlbumWidget.ui:166 gnomemusic/widgets/searchbar.py:70
+#: data/ui/AlbumWidget.ui:166
 msgid "Composer"
 msgstr "Säveltäjä"
 
-#: data/ui/AppMenu.ui:21
+#: data/ui/AppMenu.ui:20
+msgid "Last.fm Account"
+msgstr "Last.fm-tili"
+
+#: data/ui/AppMenu.ui:39
+msgid "Report Music Listening"
+msgstr "Raportoi kuunteluhistoria"
+
+#: data/ui/AppMenu.ui:70
 msgid "_Keyboard Shortcuts"
 msgstr "_Pikanäppäimet"
 
-#: data/ui/AppMenu.ui:35
+#: data/ui/AppMenu.ui:84
 msgid "_Help"
 msgstr "_Ohje"
 
-#: data/ui/AppMenu.ui:49
+#: data/ui/AppMenu.ui:98
 msgid "_About Music"
 msgstr "_Tietoja - Musiikki"
 
-#: data/ui/HeaderBar.ui:13
+#: data/ui/HeaderBar.ui:16
 msgid "Menu"
 msgstr "Valikko"
 
-#: data/ui/HeaderBar.ui:36 data/ui/SearchHeaderBar.ui:13
+#: data/ui/HeaderBar.ui:39 data/ui/SearchHeaderBar.ui:16
 msgid "Select"
 msgstr "Valitse"
 
-#: data/ui/HeaderBar.ui:58 data/ui/PlaylistDialog.ui:244
-#: data/ui/SearchHeaderBar.ui:35
+#: data/ui/HeaderBar.ui:61 data/ui/PlaylistDialog.ui:244
+#: data/ui/SearchHeaderBar.ui:38
 msgid "_Cancel"
 msgstr "_Peru"
 
-#: data/ui/HeaderBar.ui:77 data/ui/SearchHeaderBar.ui:54
+#: data/ui/HeaderBar.ui:80 data/ui/SearchHeaderBar.ui:57
 msgid "Search"
 msgstr "Hae"
 
-#: data/ui/HeaderBar.ui:100
+#: data/ui/HeaderBar.ui:103
 msgid "Back"
 msgstr "Takaisin"
 
@@ -319,7 +339,7 @@ msgstr "Sekoitus/kertaus pois"
 msgid "Previous"
 msgstr "Edellinen"
 
-#: data/ui/PlayerToolbar.ui:86 gnomemusic/widgets/playertoolbar.py:153
+#: data/ui/PlayerToolbar.ui:86 gnomemusic/widgets/playertoolbar.py:159
 msgid "Play"
 msgstr "Toista"
 
@@ -388,15 +408,15 @@ msgstr "_Lisää"
 msgid "Artists"
 msgstr "Esittäjät"
 
-#: data/ui/SearchView.ui:54 data/ui/SearchView.ui:104
+#: data/ui/SearchView.ui:54 data/ui/SearchView.ui:107
 msgid "View All"
 msgstr "Näytä kaikki"
 
-#: data/ui/SearchView.ui:94 gnomemusic/views/albumsview.py:61
+#: data/ui/SearchView.ui:97 gnomemusic/views/albumsview.py:62
 msgid "Albums"
 msgstr "Albumit"
 
-#: data/ui/SearchView.ui:144 gnomemusic/views/songsview.py:57
+#: data/ui/SearchView.ui:150 gnomemusic/views/songsview.py:57
 msgid "Songs"
 msgstr "Kappaleet"
 
@@ -417,27 +437,27 @@ msgid "_Add to Playlist"
 msgstr "Lisää _soittolistalle"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:673
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:748
 msgid "Most Played"
 msgstr "Eniten toistettu"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:707
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:785
 msgid "Never Played"
 msgstr "Ei koskaan toistettu"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:740
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:821
 msgid "Recently Played"
 msgstr "Äskettäin toistettu"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:784
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:867
 msgid "Recently Added"
 msgstr "Äskettäin lisätty"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:827
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:912
 msgid "Favorite Songs"
 msgstr "Suosikkikappaleet"
 
@@ -469,51 +489,55 @@ msgstr[1] "{} vaaditaan tiedoston toistamiseksi, mutta niitä ei ole asennettu."
 msgid "Playing music"
 msgstr "Toistetaan musiikkia"
 
-#: gnomemusic/utils.py:62
+#: gnomemusic/utils.py:64
 msgid "Unknown album"
 msgstr "Tuntematon albumi"
 
-#: gnomemusic/utils.py:83
+#: gnomemusic/utils.py:85
 msgid "Unknown Artist"
 msgstr "Tuntematon esittäjä"
 
-#: gnomemusic/views/emptyview.py:79
+#: gnomemusic/views/emptyview.py:73
+msgid "Your XDG Music directory is not set."
+msgstr "XDG Musiikki -kansiota ei ole määritetty."
+
+#: gnomemusic/views/emptyview.py:80
 msgid "Music folder"
 msgstr "Musiikkikansio"
 
 #. TRANSLATORS: This is a label to display a link to open user's music
 #. folder. {} will be replaced with the translated text 'Music folder'
-#: gnomemusic/views/emptyview.py:83
+#: gnomemusic/views/emptyview.py:84
 msgid "The contents of your {} will appear here."
 msgstr "{}n sisältö ilmestyy tähän."
 
-#: gnomemusic/views/emptyview.py:119
+#: gnomemusic/views/emptyview.py:120
 msgid "Hey DJ"
 msgstr "Hei DJ"
 
-#: gnomemusic/views/emptyview.py:129 gnomemusic/views/emptyview.py:135
+#: gnomemusic/views/emptyview.py:130 gnomemusic/views/emptyview.py:136
 msgid "No music found"
 msgstr "Musiikkia ei löytynyt"
 
-#: gnomemusic/views/emptyview.py:137
+#: gnomemusic/views/emptyview.py:138
 msgid "Try a different search"
 msgstr "Kokeile haku eri ehdoilla"
 
-#: gnomemusic/views/emptyview.py:143
+#: gnomemusic/views/emptyview.py:144
 msgid "GNOME Music could not connect to Tracker"
 msgstr "Musiikki ei voinut yhdistää Trackeriin"
 
-#: gnomemusic/views/emptyview.py:146
+#: gnomemusic/views/emptyview.py:147
 msgid "Your music files cannot be indexed without Tracker running"
 msgstr "Musiikkitiedostojasi ei voi indeksoida, jos Tracker ei ole käynnissä"
 
-#: gnomemusic/views/emptyview.py:154
+#: gnomemusic/views/emptyview.py:155
 msgid "Your system Tracker version seems outdated"
 msgstr "Järjestelmään asennettu Tracker vaikuttaa olevan vanhentunut"
 
-#: gnomemusic/views/emptyview.py:157
-msgid "Music needs Tracker version 2.2.0 or higher"
-msgstr "Musiikki tarvitsee Trackerin version 2.2.0 tai uudemman"
+#: gnomemusic/views/emptyview.py:158
+msgid "Music needs Tracker version 2.3.0 or higher"
+msgstr "Musiikki tarvitsee Trackerin version 2.3.0 tai uudemman"
 
 #: gnomemusic/views/playlistsview.py:58
 msgid "Playlists"
@@ -527,13 +551,13 @@ msgstr "Esittäjätulokset"
 msgid "Albums Results"
 msgstr "Albumitulokset"
 
-#: gnomemusic/widgets/albumwidget.py:147
+#: gnomemusic/widgets/albumwidget.py:165
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} minuutti"
 msgstr[1] "{} minuuttia"
 
-#: gnomemusic/widgets/disclistboxwidget.py:82
+#: gnomemusic/widgets/disclistboxwidget.py:76
 msgid "Disc {}"
 msgstr "Levy {}"
 
@@ -543,59 +567,52 @@ msgid_plural "Selected {} items"
 msgstr[0] "Valittu {} kohde"
 msgstr[1] "Valittu {} kohdetta"
 
-#: gnomemusic/widgets/notificationspopup.py:168
+#: gnomemusic/widgets/notificationspopup.py:171
 msgid "Loading"
 msgstr "Ladataan"
 
-#: gnomemusic/widgets/notificationspopup.py:241
+#: gnomemusic/widgets/notificationspopup.py:244
 msgid "_Undo"
 msgstr "_Kumoa"
 
-#: gnomemusic/widgets/notificationspopup.py:256
+#: gnomemusic/widgets/notificationspopup.py:259
 msgid "Playlist {} removed"
 msgstr "Soittolista {} poistettu"
 
-#: gnomemusic/widgets/notificationspopup.py:260
+#: gnomemusic/widgets/notificationspopup.py:263
 msgid "{} removed from {}"
 msgstr "{} poistettu soittolistalta {}"
 
-#: gnomemusic/widgets/playertoolbar.py:150
+#: gnomemusic/widgets/playertoolbar.py:156
 msgid "Pause"
 msgstr "Keskeytä"
 
-#: gnomemusic/widgets/playlistcontrols.py:83
+#: gnomemusic/widgets/playlistcontrols.py:112
 msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} kappale"
 msgstr[1] "{} kappaletta"
 
-#: gnomemusic/widgets/searchbar.py:67 gnomemusic/widgets/searchbar.py:116
-msgid "All"
-msgstr "Kaikki"
+#~ msgid "All"
+#~ msgstr "Kaikki"
 
-#: gnomemusic/widgets/searchbar.py:68
-msgid "Artist"
-msgstr "Esittäjä"
+#~ msgid "Artist"
+#~ msgstr "Esittäjä"
 
-#: gnomemusic/widgets/searchbar.py:69
-msgid "Album"
-msgstr "Albumi"
+#~ msgid "Album"
+#~ msgstr "Albumi"
 
-#: gnomemusic/widgets/searchbar.py:71
-msgid "Track Title"
-msgstr "Kappaleen nimi"
+#~ msgid "Track Title"
+#~ msgstr "Kappaleen nimi"
 
-#: gnomemusic/widgets/searchbar.py:117
-msgid "Local"
-msgstr "Paikalliset"
+#~ msgid "Local"
+#~ msgstr "Paikalliset"
 
-#: gnomemusic/widgets/searchbar.py:286
-msgid "Sources"
-msgstr "Lähteet"
+#~ msgid "Sources"
+#~ msgstr "Lähteet"
 
-#: gnomemusic/widgets/searchbar.py:297
-msgid "Match"
-msgstr "Vastaavuus"
+#~ msgid "Match"
+#~ msgstr "Vastaavuus"
 
 #~ msgid "@icon@"
 #~ msgstr "@icon@"
