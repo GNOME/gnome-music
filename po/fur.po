@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2019-11-09 21:05+0000\n"
-"PO-Revision-Date: 2019-11-18 09:35+0100\n"
+"POT-Creation-Date: 2020-01-26 14:51+0000\n"
+"PO-Revision-Date: 2020-01-27 09:25+0100\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -43,11 +43,11 @@ msgstr ""
 "Cjate i tocs te colezion locâl, oten musiche dai servidôrs DLNA o cîr alc di "
 "gnûf cui servizis Jamendo e Magnatune."
 
-#: data/org.gnome.Music.appdata.xml.in.in:52
+#: data/org.gnome.Music.appdata.xml.in.in:67
 msgid "The GNOME Music developers"
 msgstr "I svilupadôrs di GNOME Musiche"
 
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:59
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:60
 #: gnomemusic/window.py:77
 msgid "Music"
 msgstr "Musiche"
@@ -129,6 +129,18 @@ msgstr ""
 "Abilite o disabilite la inibizion a sospindi il sisteme intant che si scolte "
 "la musiche"
 
+#: data/org.gnome.Music.gschema.xml:48
+msgid "Report music history to Last.fm"
+msgstr "Invie la cronologjie de musiche a Last.fm"
+
+#: data/org.gnome.Music.gschema.xml:49
+msgid ""
+"Enables or disables sending scrobbles and the “currently playing” info to "
+"Last.fm."
+msgstr ""
+"Al abilite o al disabilite l'inviâ i tiei gjenars di musiche preferide e lis "
+"informazions ce che tu stâs scoltant a Last.fm."
+
 #: data/ui/AboutDialog.ui.in:9
 msgid "Copyright © 2018 GNOME Music Developers"
 msgstr "Copyright © 2018 Svilupadôrs di GNOME Musiche"
@@ -206,15 +218,23 @@ msgstr "Durade"
 msgid "Composer"
 msgstr "Compositôr"
 
-#: data/ui/AppMenu.ui:21
+#: data/ui/AppMenu.ui:20
+msgid "Last.fm Account"
+msgstr "Account Last.fm"
+
+#: data/ui/AppMenu.ui:39
+msgid "Report Music Listening"
+msgstr "Invie la musiche che tu scoltis"
+
+#: data/ui/AppMenu.ui:70
 msgid "_Keyboard Shortcuts"
 msgstr "_Scurtis di tastiere"
 
-#: data/ui/AppMenu.ui:35
+#: data/ui/AppMenu.ui:84
 msgid "_Help"
 msgstr "_Jutori"
 
-#: data/ui/AppMenu.ui:49
+#: data/ui/AppMenu.ui:98
 msgid "_About Music"
 msgstr "_Informazions su Musiche"
 
@@ -418,7 +438,7 @@ msgstr "Artiscj"
 msgid "View All"
 msgstr "Visualize dut"
 
-#: data/ui/SearchView.ui:97 gnomemusic/views/albumsview.py:63
+#: data/ui/SearchView.ui:97 gnomemusic/views/albumsview.py:62
 msgid "Albums"
 msgstr "Album"
 
@@ -443,27 +463,27 @@ msgid "_Add to Playlist"
 msgstr "_Zonte ae liste des musichis"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:727
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:749
 msgid "Most Played"
 msgstr "Plui scoltats"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:764
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:786
 msgid "Never Played"
 msgstr "Mai scoltât"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:800
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:822
 msgid "Recently Played"
 msgstr "Scoltât di recent"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:846
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:868
 msgid "Recently Added"
 msgstr "Zontât di recent"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:891
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:913
 msgid "Favorite Songs"
 msgstr "Tocs preferîts"
 
@@ -495,11 +515,11 @@ msgstr[1] "A coventin {} par riprodusi il file, ma no son instalâts."
 msgid "Playing music"
 msgstr "Riproduzion musiche"
 
-#: gnomemusic/utils.py:62
+#: gnomemusic/utils.py:64
 msgid "Unknown album"
 msgstr "Album no cognossût"
 
-#: gnomemusic/utils.py:83
+#: gnomemusic/utils.py:85
 msgid "Unknown Artist"
 msgstr "Artist no cognossût"
 
@@ -554,21 +574,21 @@ msgstr "Musiche al à bisugne de version 2.3.0 (o plui resinte) di Tracker"
 msgid "Playlists"
 msgstr "Listis di musichis"
 
-#: gnomemusic/views/searchview.py:366
+#: gnomemusic/views/searchview.py:363
 msgid "Artists Results"
 msgstr "Risultâts artiscj"
 
-#: gnomemusic/views/searchview.py:380
+#: gnomemusic/views/searchview.py:377
 msgid "Albums Results"
 msgstr "Risultâts album"
 
-#: gnomemusic/widgets/albumwidget.py:145
+#: gnomemusic/widgets/albumwidget.py:165
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} minût"
 msgstr[1] "{} minûts"
 
-#: gnomemusic/widgets/disclistboxwidget.py:82
+#: gnomemusic/widgets/disclistboxwidget.py:76
 msgid "Disc {}"
 msgstr "Disc {}"
 
@@ -578,19 +598,19 @@ msgid_plural "Selected {} items"
 msgstr[0] "Selezionât {} element"
 msgstr[1] "Selezionâts {} elements"
 
-#: gnomemusic/widgets/notificationspopup.py:168
+#: gnomemusic/widgets/notificationspopup.py:171
 msgid "Loading"
 msgstr "Daûr a cjariâ"
 
-#: gnomemusic/widgets/notificationspopup.py:241
+#: gnomemusic/widgets/notificationspopup.py:244
 msgid "_Undo"
 msgstr "A_nule"
 
-#: gnomemusic/widgets/notificationspopup.py:256
+#: gnomemusic/widgets/notificationspopup.py:259
 msgid "Playlist {} removed"
 msgstr "Liste di musichis {} gjavade"
 
-#: gnomemusic/widgets/notificationspopup.py:260
+#: gnomemusic/widgets/notificationspopup.py:263
 msgid "{} removed from {}"
 msgstr "{} gjavât di {}"
 
@@ -598,7 +618,7 @@ msgstr "{} gjavât di {}"
 msgid "Pause"
 msgstr "Pause"
 
-#: gnomemusic/widgets/playlistcontrols.py:83
+#: gnomemusic/widgets/playlistcontrols.py:112
 msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} Cjançon"
