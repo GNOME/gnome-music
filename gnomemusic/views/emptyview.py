@@ -69,7 +69,6 @@ class EmptyView(Gtk.Stack):
                 GLib.UserDirectory.DIRECTORY_MUSIC)
             assert music_folder is not None
         except (TypeError, AssertionError):
-            print("XDG Music dir is not set")
             self._content_text = _("Your XDG Music directory is not set.")
             return
 
