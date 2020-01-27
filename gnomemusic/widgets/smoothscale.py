@@ -22,14 +22,10 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-import logging
-
 from gi.repository import GLib, GObject, Gtk
 
 from gnomemusic import log
 from gnomemusic.gstplayer import Playback
-
-logger = logging.getLogger(__name__)
 
 
 class SmoothScale(Gtk.Scale):
