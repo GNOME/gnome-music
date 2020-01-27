@@ -219,7 +219,6 @@ class PlayerPlaylist(GObject.GObject):
 
         for idx, coresong in enumerate(self._model):
             if coresong.props.state == SongWidget.State.PLAYING:
-                print("position", idx)
                 self._position = idx
                 return coresong
 
