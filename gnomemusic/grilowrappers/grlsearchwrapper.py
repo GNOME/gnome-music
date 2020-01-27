@@ -70,6 +70,7 @@ class GrlSearchWrapper(GObject.GObject):
         self._coremodel = coremodel
         self._coreselection = application.props.coreselection
         self._grilo = grilo
+        self._log = application.props.log
         self._source = source
 
         self._song_search_proxy = self._coremodel.props.songs_search_proxy
@@ -97,9 +98,10 @@ class GrlSearchWrapper(GObject.GObject):
 
         def _search_result_cb(source, op_id, media, remaining, error):
             if error:
-                print("error")
+                self._log.warning("Error: {}".format(error))
                 return
-            if media is None:
+
+            if not media:
                 return
 
             coresong = CoreSong(media, self._coreselection, self._grilo)
