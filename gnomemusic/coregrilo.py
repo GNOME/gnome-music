@@ -26,7 +26,6 @@ import gi
 gi.require_version('Grl', '0.3')
 from gi.repository import Grl, GLib, GObject
 
-# from gnomemusic.grilowrappers.grldleynawrapper import GrlDLeynaWrapper
 from gnomemusic.grilowrappers.grlsearchwrapper import GrlSearchWrapper
 from gnomemusic.grilowrappers.grltrackerwrapper import GrlTrackerWrapper
 from gnomemusic.trackerwrapper import TrackerState, TrackerWrapper
@@ -139,10 +138,6 @@ class CoreGrilo(GObject.GObject):
                 source, self._coremodel, self._application, self,
                 self._tracker_wrapper)
             self._wrappers[source.props.source_id] = new_wrapper
-        # elif source.props.source_id[:10] == "grl-dleyna":
-        #     new_wrapper = GrlDLeynaWrapper(
-        #         source, self._coremodel, self._coreselection, self)
-        #     self._wrappers.append(new_wrapper)
             self._log.debug("Adding wrapper {}".format(new_wrapper))
         elif (source.props.source_id not in self._search_wrappers.keys()
                 and source.props.source_id not in self._wrappers.keys()
