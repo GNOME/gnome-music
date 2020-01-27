@@ -46,9 +46,6 @@ from gnomemusic.widgets.searchheaderbar import SearchHeaderBar
 from gnomemusic.widgets.selectiontoolbar import SelectionToolbar  # noqa: F401
 from gnomemusic.windowplacement import WindowPlacement
 
-import logging
-logger = logging.getLogger(__name__)
-
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/Window.ui")
 class Window(Gtk.ApplicationWindow):

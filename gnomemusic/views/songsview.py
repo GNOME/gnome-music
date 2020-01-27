@@ -22,7 +22,6 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-import logging
 from gettext import gettext as _
 from gi.repository import Gdk, Gtk, Pango
 
@@ -32,8 +31,6 @@ from gnomemusic.player import PlayerPlaylist
 from gnomemusic.utils import SongStateIcon
 from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.starhandlerwidget import StarHandlerWidget
-
-logger = logging.getLogger(__name__)
 
 
 class SongsView(BaseView):
