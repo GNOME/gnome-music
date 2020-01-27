@@ -79,6 +79,7 @@ class GrlTrackerPlaylists(GObject.GObject):
         self._coremodel = coremodel
         self._coreselection = application.props.coreselection
         self._grilo = grilo
+        self._log = application.props.log
         self._source = source
         self._model = self._coremodel.props.playlists
         self._model_filter = self._coremodel.props.playlists_filter
@@ -144,7 +145,7 @@ class GrlTrackerPlaylists(GObject.GObject):
     def _add_user_playlist(
             self, source, op_id, media, remaining, data=None, error=None):
         if error:
-            print("ERROR", error)
+            self._log.warning("Error: {}".format(error))
             self._window.notifications_popup.pop_loading()
             return
         if not media:
@@ -330,6 +331,7 @@ class Playlist(GObject.GObject):
         self._coremodel = coremodel
         self._coreselection = application.props.coreselection
         self._grilo = grilo
+        self._log = application.props.log
         self._tracker = tracker
         self._window = application.props.window
 
@@ -716,7 +718,7 @@ class SmartPlaylist(Playlist):
 
             def _add_to_model(source, op_id, media, remaining, error):
                 if error:
-                    print("ERROR", error)
+                    self._log.warning("Error: {}".format(error))
                     self._window.notifications_popup.pop_loading()
                     self.emit("playlist-loaded")
                     return
