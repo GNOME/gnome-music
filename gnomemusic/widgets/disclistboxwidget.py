@@ -64,8 +64,6 @@ class DiscBox(Gtk.ListBoxRow):
             'show-disc-label', self._disc_label, 'visible',
             GObject.BindingFlags.SYNC_CREATE)
 
-        self._selection_mode_allowed = True
-
         self._list_box.bind_model(self._model, self._create_widget)
 
     def set_disc_number(self, disc_number):
