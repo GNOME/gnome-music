@@ -9,7 +9,7 @@
       </item>
       <item>
         <attribute name="label" translatable="yes">Select None</attribute>
-        <attribute name="action">win.select_none</attribute>
+        <attribute name="action">win.deselect_all</attribute>
       </item>
     </section>
   </menu>
