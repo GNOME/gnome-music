@@ -1,0 +1,616 @@
+# Malay translation for gnome-music.
+# Copyright (C) 2020 gnome-music's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-music package.
+# abuyop <abuyop@gmail.com>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-music master\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
+"POT-Creation-Date: 2020-01-27 08:27+0000\n"
+"PO-Revision-Date: 2020-01-27 17:58+0800\n"
+"Language-Team: Pasukan Terjemahan GNOME Malaysia\n"
+"Language: ms\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Last-Translator: abuyop <abuyop@gmail.com>\n"
+"X-Generator: Poedit 2.0.6\n"
+
+#: data/org.gnome.Music.appdata.xml.in.in:6
+msgid "GNOME Music"
+msgstr "Muzik GNOME"
+
+#: data/org.gnome.Music.appdata.xml.in.in:7
+#: data/org.gnome.Music.desktop.in.in:5
+msgid "Play and organize your music collection"
+msgstr "Main dan urus koleksi muzik anda"
+
+#: data/org.gnome.Music.appdata.xml.in.in:9
+msgid ""
+"An easy way to play your music. Automatically discover music on your "
+"computer, the local network and internet services."
+msgstr ""
+"Satu cara mudah memainkan muzik anda. Temui muzik di dalam komputer anda, "
+"rangkaian setempat dan perkhidmatan internet secara automatik."
+
+#: data/org.gnome.Music.appdata.xml.in.in:12
+msgid ""
+"Find tracks in your local collection, get music from DLNA servers or try "
+"something new with the Jamendo and Magnatune services."
+msgstr ""
+"Cari trek-trek dalam koleksi setempat anda, dapatkan muzik menerusi pelayan-"
+"pelayan DLNA atau cuba sesuatu yang baharu dengan perkhidmatan Jamendo dan "
+"Magnatune."
+
+#: data/org.gnome.Music.appdata.xml.in.in:67
+msgid "The GNOME Music developers"
+msgstr "Para Pembangun Muzik GNOME"
+
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:60
+#: gnomemusic/window.py:77
+msgid "Music"
+msgstr "Muzik"
+
+#: data/org.gnome.Music.desktop.in.in:4
+msgid "Music Player"
+msgstr "Pemain Muzik"
+
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/org.gnome.Music.desktop.in.in:13
+msgid "Music;Player;"
+msgstr "Muzik;Pemain;"
+
+#: data/org.gnome.Music.gschema.xml:12
+msgid "Window size"
+msgstr "Saiz tetingkap"
+
+#: data/org.gnome.Music.gschema.xml:13
+msgid "Window size (width and height)."
+msgstr "Saiz tetingkap (lebar dan tinggi)."
+
+#: data/org.gnome.Music.gschema.xml:17
+msgid "Window position"
+msgstr "Kedudukan tetingkap"
+
+#: data/org.gnome.Music.gschema.xml:18
+msgid "Window position (x and y)."
+msgstr "Kedudukan tetingkap (x dan y)."
+
+#: data/org.gnome.Music.gschema.xml:22
+msgid "Window maximized"
+msgstr "Tetingkap dimaksimumkan"
+
+#: data/org.gnome.Music.gschema.xml:23
+msgid "Window maximized state."
+msgstr "Keadaan tetingkap dimaksimumkan."
+
+#: data/org.gnome.Music.gschema.xml:27
+msgid "Playback repeat mode"
+msgstr "Mod ulang main balik"
+
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: data/org.gnome.Music.gschema.xml:29
+msgid ""
+"Value identifies whether to repeat or randomize playback through the "
+"collection. Allowed values are: “none” (repeat and shuffle are off), "
+"“song” (repeat current song), “all” (repeat playlist, no shuffle), "
+"“shuffle” (shuffle playlist, presumes repeat all)."
+msgstr ""
+"Nilai dikenal pasti sama ada mahu ulang atau rawakkan main balik menyeluruhi "
+"koleksi. Nilai-nilai dibenarkan adalah: none” (ulang dan kocok dimatikan), "
+"“song” (ulang lagu semasa), “all” (ulang senarai main, tanpa kocok), "
+"“shuffle” (kocok senarai main, sambung ulang semua)."
+
+#: data/org.gnome.Music.gschema.xml:33
+msgid "Enable ReplayGain"
+msgstr "Benarkan Gandaan Main Semula"
+
+#: data/org.gnome.Music.gschema.xml:34
+msgid "Enables or disables ReplayGain for albums"
+msgstr "Benarkan atau lumpuhkan Gandaan Main Semula untuk album"
+
+#: data/org.gnome.Music.gschema.xml:38
+msgid "Inital state has been displayed"
+msgstr "Keadaan awal telah dipaparkan"
+
+#: data/org.gnome.Music.gschema.xml:39
+msgid "Set to true when initial state has been displayed"
+msgstr "Tetapkan pada benar ketika keadaan awal telah dipaparkan"
+
+#: data/org.gnome.Music.gschema.xml:43
+msgid "Inhibit system suspend"
+msgstr "Rencat tangguh sistem"
+
+#: data/org.gnome.Music.gschema.xml:44
+msgid "Enables or disables inhibiting system suspend while playing music"
+msgstr "Benar atau lumpuhkan perencatan tangguh sistem ketika memainkan muzik"
+
+#: data/org.gnome.Music.gschema.xml:48
+msgid "Report music history to Last.fm"
+msgstr "Lapor sejarah muzik ke Last.fm"
+
+#: data/org.gnome.Music.gschema.xml:49
+msgid ""
+"Enables or disables sending scrobbles and the “currently playing” info to "
+"Last.fm."
+msgstr ""
+"Benar atau lumpuhkan penghantaran scrobble dan maklumat \"semasa dimainkan\" "
+"ke Last.fm."
+
+#: data/ui/AboutDialog.ui.in:9
+msgid "Copyright © 2018 GNOME Music Developers"
+msgstr "Hak cipta © 2018 Para Pembangun Muzik GNOME"
+
+#: data/ui/AboutDialog.ui.in:10
+msgid "A music player and management application for GNOME."
+msgstr "Sebuah pemain muzik dan aplikasi pengurusan untuk GNOME."
+
+#: data/ui/AboutDialog.ui.in:12
+msgid "Visit GNOME Music website"
+msgstr "Lawati tapak sesawang Muzik GNOME"
+
+#: data/ui/AboutDialog.ui.in:13
+msgid ""
+"GNOME Music is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 2 of the License, or (at your option) "
+"any later version.\n"
+"\n"
+"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"\n"
+"The GNOME Music authors hereby grant permission for non-GPL compatible "
+"GStreamer plugins to be used and distributed together with GStreamer and "
+"GNOME Music.  This permission is above and beyond the permissions granted by "
+"the GPL license by which GNOME Music is covered.  If you modify this code, "
+"you may extend this exception to your version of the code, but you are not "
+"obligated to do so.  If you do not wish to do so, delete this exception "
+"statement from your version.\n"
+"\n"
+"“Magic of the vinyl” by Sami Pyylampi image is licensed by CC-BY-SA 2.0 "
+"https://www.flickr.com/photos/_spy_/12270839403"
+msgstr ""
+"Muzik GNOME merupakan perisian bebas; anda boleh mengedar ia semula dan/atau "
+"mengubah suainya di bawah terma-terma Lesen Awam Am GNU sepertimana yang "
+"diterbitkan oleh Free Software Foundation; sama ada versi 2 dari Lesen, atau "
+"(mengikut pilihan anda) mana-mana versi terkemudian.\n"
+"\n"
+"Muzik GNOME diedarkan dengan harapan ia akan berguna, tetapi TANPA APA-APA "
+"JAMINAN; tanpa jaminan dikenakan terhadap KEBOLEHDAGANGAN atau KESESUAIAN "
+"ATAS TUJUAN TERTENTU. Sila rujuk Lesen Awam Am GNU untuk perincian lanjut.\n"
+"\n"
+"Anda seharusnya telah menerima satu salinan Lesen Awam Am GNU bersama-sama "
+"dengan Muzik GNOME; jika tiada, sila rujuk kepada Free Software Foundation, "
+"Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"\n"
+"Para pengarang Muzik GNOME dengan ini memberi keizinan penggunaan pemalam-"
+"pemalam GStreamer serasi bukan-GPL dan diedar bersama-sama dengan GStreamer "
+"dan Muzik GNOME. Keizinan ini melangkaui keizinan yang diberikan oleh lesen "
+"GPL yang mana Muzik GNOME diliputi. Jika anda mengubah suai kod ini, anda "
+"boleh lanjutkan pengecualian ini pada versi kod anda, tetapi anda tidak "
+"diwajibkan membuatnya. Jika anda tidak mahu membuatnya, maka padam penyataan "
+"pengecualian ini dari versi anda.\n"
+"\n"
+"“Magic of the vinyl” oleh Sami Pyylampi image dilesenkan oleh CC-BY-SA 2.0 "
+"https://www.flickr.com/photos/_spy_/12270839403"
+
+#: data/ui/AlbumWidget.ui:105
+msgid "Released"
+msgstr "Dilepaskan"
+
+#: data/ui/AlbumWidget.ui:121
+msgid "Running Length"
+msgstr "Tempoh Dijalankan"
+
+#: data/ui/AlbumWidget.ui:166
+msgid "Composer"
+msgstr "Penggubah"
+
+#: data/ui/AppMenu.ui:20
+msgid "Last.fm Account"
+msgstr "Akaun Last.fm"
+
+#: data/ui/AppMenu.ui:39
+msgid "Report Music Listening"
+msgstr "Lapor Pendengaran Muzik"
+
+#: data/ui/AppMenu.ui:70
+msgid "_Keyboard Shortcuts"
+msgstr "Pintasan Papan _Kekunci"
+
+#: data/ui/AppMenu.ui:84
+msgid "_Help"
+msgstr "_Bantuan"
+
+#: data/ui/AppMenu.ui:98
+msgid "_About Music"
+msgstr "Perih_al Muzik"
+
+#: data/ui/HeaderBar.ui:16
+msgid "Menu"
+msgstr "Menu"
+
+#: data/ui/HeaderBar.ui:39 data/ui/SearchHeaderBar.ui:16
+msgid "Select"
+msgstr "Pilih"
+
+#: data/ui/HeaderBar.ui:61 data/ui/PlaylistDialog.ui:244
+#: data/ui/SearchHeaderBar.ui:38
+msgid "_Cancel"
+msgstr "_Batal"
+
+#: data/ui/HeaderBar.ui:80 data/ui/SearchHeaderBar.ui:57
+msgid "Search"
+msgstr "Gelintar"
+
+#: data/ui/HeaderBar.ui:103
+msgid "Back"
+msgstr "Undur"
+
+#: data/ui/help-overlay.ui:13
+msgctxt "shortcut window"
+msgid "General"
+msgstr "Am"
+
+#: data/ui/help-overlay.ui:17
+msgctxt "shortcut window"
+msgid "Close window"
+msgstr "Tutup tetingkap"
+
+#: data/ui/help-overlay.ui:24
+msgctxt "shortcut window"
+msgid "Search"
+msgstr "Gelintar"
+
+#: data/ui/help-overlay.ui:31
+msgctxt "shortcut window"
+msgid "Help"
+msgstr "Bantuan"
+
+#: data/ui/help-overlay.ui:38
+msgctxt "shortcut window"
+msgid "Shortcuts"
+msgstr "Pintasan"
+
+#: data/ui/help-overlay.ui:47
+msgctxt "shortcut window"
+msgid "Playback"
+msgstr "Main Balik"
+
+#: data/ui/help-overlay.ui:51
+msgctxt "shortcut window"
+msgid "Play/Pause"
+msgstr "Main/Jeda"
+
+#: data/ui/help-overlay.ui:58
+msgctxt "shortcut window"
+msgid "Next song"
+msgstr "Lagu berikutnya"
+
+#: data/ui/help-overlay.ui:65
+msgctxt "shortcut window"
+msgid "Previous song"
+msgstr "Lagu terdahulu"
+
+#: data/ui/help-overlay.ui:72
+msgctxt "shortcut window"
+msgid "Toggle repeat"
+msgstr "Togol ulang"
+
+#: data/ui/help-overlay.ui:79
+msgctxt "shortcut window"
+msgid "Toggle shuffle"
+msgstr "Togol kocok"
+
+#: data/ui/help-overlay.ui:88
+msgctxt "shortcut window"
+msgid "Navigation"
+msgstr "Navigasi"
+
+#: data/ui/help-overlay.ui:92
+msgctxt "shortcut window"
+msgid "Go to Albums"
+msgstr "Pergi ke Album"
+
+#: data/ui/help-overlay.ui:99
+msgctxt "shortcut window"
+msgid "Go to Artists"
+msgstr "Pergi ke Artis"
+
+#: data/ui/help-overlay.ui:106
+msgctxt "shortcut window"
+msgid "Go to Songs"
+msgstr "Pergi ke Lagu"
+
+#: data/ui/help-overlay.ui:113
+msgctxt "shortcut window"
+msgid "Go to Playlists"
+msgstr "Pergi ke Senarai-Main"
+
+#: data/ui/help-overlay.ui:120
+msgctxt "shortcut window"
+msgid "Go back"
+msgstr "Kembali"
+
+#: data/ui/PlayerToolbar.ui:6
+msgid "Shuffle"
+msgstr "Kocok"
+
+#: data/ui/PlayerToolbar.ui:11
+msgid "Repeat All"
+msgstr "Ulang Semua"
+
+#: data/ui/PlayerToolbar.ui:16
+msgid "Repeat Song"
+msgstr "Ulang Lagu"
+
+#. Causes tracks to play in random order
+#: data/ui/PlayerToolbar.ui:21
+msgid "Shuffle/Repeat Off"
+msgstr "Kocok/Ulang Mati"
+
+#: data/ui/PlayerToolbar.ui:70
+msgid "Previous"
+msgstr "Terdahulu"
+
+#: data/ui/PlayerToolbar.ui:86 gnomemusic/widgets/playertoolbar.py:159
+msgid "Play"
+msgstr "Main"
+
+#: data/ui/PlayerToolbar.ui:102
+msgid "Next"
+msgstr "Berikutnya"
+
+#: data/ui/PlaylistContextMenu.ui:5
+msgctxt "context menu item"
+msgid "Play"
+msgstr "Main"
+
+#: data/ui/PlaylistContextMenu.ui:9
+msgid "Add to Playlist…"
+msgstr "Tambah ke Senarai Main…"
+
+#: data/ui/PlaylistContextMenu.ui:13
+msgid "Remove From Playlist"
+msgstr "Buang dari Senarai Main"
+
+#: data/ui/PlaylistControls.ui:6
+msgid "_Play"
+msgstr "_Main"
+
+#: data/ui/PlaylistControls.ui:10
+msgid "_Delete"
+msgstr "Pa_dam"
+
+#: data/ui/PlaylistControls.ui:14
+msgid "_Rename…"
+msgstr "_Nama Semula…"
+
+#: data/ui/PlaylistControls.ui:40
+msgid "Playlist Name"
+msgstr "Nama Senarai Main"
+
+#: data/ui/PlaylistControls.ui:74
+msgid "_Done"
+msgstr "_Selesai"
+
+#: data/ui/PlaylistDialog.ui:66
+msgid "Enter a name for your first playlist"
+msgstr "Masukkan satu nama untuk senarai main pertama anda"
+
+#: data/ui/PlaylistDialog.ui:92
+msgid "C_reate"
+msgstr "C_ipta"
+
+#: data/ui/PlaylistDialog.ui:155
+msgid "New Playlist…"
+msgstr "Senarai Main Baharu…"
+
+#: data/ui/PlaylistDialog.ui:169
+msgid "Add"
+msgstr "Tambah"
+
+#: data/ui/PlaylistDialog.ui:241
+msgid "Add to Playlist"
+msgstr "Tambah ke Senarai Main"
+
+#: data/ui/PlaylistDialog.ui:257
+msgid "_Add"
+msgstr "T_ambah"
+
+#: data/ui/SearchView.ui:44 gnomemusic/views/artistsview.py:59
+msgid "Artists"
+msgstr "Artis"
+
+#: data/ui/SearchView.ui:54 data/ui/SearchView.ui:107
+msgid "View All"
+msgstr "Lihat Semua"
+
+#: data/ui/SearchView.ui:97 gnomemusic/views/albumsview.py:62
+msgid "Albums"
+msgstr "Album"
+
+#: data/ui/SearchView.ui:150 gnomemusic/views/songsview.py:57
+msgid "Songs"
+msgstr "Lagu"
+
+#: data/ui/SelectionBarMenuButton.ui:7
+msgid "Select All"
+msgstr "Pilih Semua"
+
+#: data/ui/SelectionBarMenuButton.ui:11
+msgid "Select None"
+msgstr "Jangan Pilih Apa-apa"
+
+#: data/ui/SelectionBarMenuButton.ui:31 gnomemusic/widgets/headerbar.py:75
+msgid "Click on items to select them"
+msgstr "Klik pada item-item untuk memilihnya"
+
+#: data/ui/SelectionToolbar.ui:9
+msgid "_Add to Playlist"
+msgstr "T_ambah ke Senarai Main"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:749
+msgid "Most Played"
+msgstr "Terbanyak Dimainkan"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:786
+msgid "Never Played"
+msgstr "Tidak Sesekali Dimainkan"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:822
+msgid "Recently Played"
+msgstr "Dimainkan Baru-Baru Ini"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:868
+msgid "Recently Added"
+msgstr "Ditambah Baru-Baru Ini"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:913
+msgid "Favorite Songs"
+msgstr "Lagu Kegemaran"
+
+#: gnomemusic/gstplayer.py:403
+msgid "Unable to play the file"
+msgstr "Tidak boleh memainkan fail"
+
+#: gnomemusic/gstplayer.py:409
+msgid "_Find in {}"
+msgstr "_Cari dalam {}"
+
+#. TRANSLATORS: separator for two codecs
+#: gnomemusic/gstplayer.py:420
+msgid " and "
+msgstr " dan "
+
+#. TRANSLATORS: separator for a list of codecs
+#: gnomemusic/gstplayer.py:423
+msgid ", "
+msgstr ", "
+
+#: gnomemusic/gstplayer.py:425
+msgid "{} is required to play the file, but is not installed."
+msgid_plural "{} are required to play the file, but are not installed."
+msgstr[0] "{} diperlukan untuk memainkan fail, tetapi tidak dipasang."
+msgstr[1] "{} diperlukan untuk memainkan fail, tetapi tidak dipasang."
+
+#: gnomemusic/inhibitsuspend.py:72
+msgid "Playing music"
+msgstr "Memainkan muzik"
+
+#: gnomemusic/utils.py:64
+msgid "Unknown album"
+msgstr "Album tidak diketahui"
+
+#: gnomemusic/utils.py:85
+msgid "Unknown Artist"
+msgstr "Artis Tidak Diketahui"
+
+#: gnomemusic/views/emptyview.py:73
+msgid "Your XDG Music directory is not set."
+msgstr "Direktori Muzik XDG anda tidak ditetapkan."
+
+#: gnomemusic/views/emptyview.py:80
+msgid "Music folder"
+msgstr "Folder muzik"
+
+#. TRANSLATORS: This is a label to display a link to open user's music
+#. folder. {} will be replaced with the translated text 'Music folder'
+#: gnomemusic/views/emptyview.py:84
+msgid "The contents of your {} will appear here."
+msgstr "Kandungan {} anda akan muncul di sini."
+
+#: gnomemusic/views/emptyview.py:120
+msgid "Hey DJ"
+msgstr "Hai DJ"
+
+#: gnomemusic/views/emptyview.py:130 gnomemusic/views/emptyview.py:136
+msgid "No music found"
+msgstr "Tiada muzik ditemui"
+
+#: gnomemusic/views/emptyview.py:138
+msgid "Try a different search"
+msgstr "Cuba gelintar lain"
+
+#: gnomemusic/views/emptyview.py:144
+msgid "GNOME Music could not connect to Tracker"
+msgstr "Muzik GNOME tidak dapat bersambung dengan Penjejak"
+
+#: gnomemusic/views/emptyview.py:147
+msgid "Your music files cannot be indexed without Tracker running"
+msgstr "Fail muzik anda tidak dapat diindekskan tanpa menjalankan Penjejak"
+
+#: gnomemusic/views/emptyview.py:155
+msgid "Your system Tracker version seems outdated"
+msgstr "Versi Penjejak sistem anda nampaknya telah lapuk"
+
+#: gnomemusic/views/emptyview.py:158
+msgid "Music needs Tracker version 2.3.0 or higher"
+msgstr "Muzik memerlukan Penjejak versi 2.3.0 atau lebih terkini"
+
+#: gnomemusic/views/playlistsview.py:58
+msgid "Playlists"
+msgstr "Senarai Main"
+
+#: gnomemusic/views/searchview.py:363
+msgid "Artists Results"
+msgstr "Keputusan Artis"
+
+#: gnomemusic/views/searchview.py:377
+msgid "Albums Results"
+msgstr "Keputusan Album"
+
+#: gnomemusic/widgets/albumwidget.py:165
+msgid "{} minute"
+msgid_plural "{} minutes"
+msgstr[0] "{} minit"
+msgstr[1] "{} minit"
+
+#: gnomemusic/widgets/disclistboxwidget.py:76
+msgid "Disc {}"
+msgstr "Cakera {}"
+
+#: gnomemusic/widgets/headerbar.py:72
+msgid "Selected {} item"
+msgid_plural "Selected {} items"
+msgstr[0] "{} item terpilih"
+msgstr[1] "{} item terpilih"
+
+#: gnomemusic/widgets/notificationspopup.py:171
+msgid "Loading"
+msgstr "Memuatkan"
+
+#: gnomemusic/widgets/notificationspopup.py:244
+msgid "_Undo"
+msgstr "_Buat asal"
+
+#: gnomemusic/widgets/notificationspopup.py:259
+msgid "Playlist {} removed"
+msgstr "Senarai main {} telah dibuang"
+
+#: gnomemusic/widgets/notificationspopup.py:263
+msgid "{} removed from {}"
+msgstr "{} telah dibuang daripada {}"
+
+#: gnomemusic/widgets/playertoolbar.py:156
+msgid "Pause"
+msgstr "Jeda"
+
+#: gnomemusic/widgets/playlistcontrols.py:112
+msgid "{} Song"
+msgid_plural "{} Songs"
+msgstr[0] "{} Lagu"
+msgstr[1] "{} Lagu"
