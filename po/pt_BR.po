@@ -1,5 +1,5 @@
 # Brazilian Portuguese translation for gnome-music.
-# Copyright (C) 2019 gnome-music's COPYRIGHT HOLDER
+# Copyright (C) 2020 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-music package.
 # Georges Basile Stavracas Neto <georges.stavracas@gmail.com>, 2013.
 # Antonio Fernandes C. Neto <fernandesn@gnome.org>, 2013.
@@ -8,14 +8,14 @@
 # Felipe Braga <fbobraga@gmail.com>, 2015.
 # Enrico Nicoletto <liverig@gmail.com>, 2013-2016.
 # Fábio Nogueira <fnogueira@gnome.org> 2018.
-# Rafael Fontenelle <rafaelff@gnome.org>, 2012-2019.
+# Rafael Fontenelle <rafaelff@gnome.org>, 2012-2020.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2019-11-09 21:05+0000\n"
-"PO-Revision-Date: 2019-12-26 07:31-0300\n"
+"POT-Creation-Date: 2020-01-28 19:36+0000\n"
+"PO-Revision-Date: 2020-01-29 07:06-0300\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
@@ -51,11 +51,11 @@ msgstr ""
 "Encontre faixas em sua coleção local, obtenha músicas de servidores DLNA ou "
 "tente algo novo com os serviços Jamendo e Magnatune."
 
-#: data/org.gnome.Music.appdata.xml.in.in:52
+#: data/org.gnome.Music.appdata.xml.in.in:67
 msgid "The GNOME Music developers"
 msgstr "Os Desenvolvedores do GNOME Música"
 
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:59
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:60
 #: gnomemusic/window.py:77
 msgid "Music"
 msgstr "Música"
@@ -136,6 +136,18 @@ msgstr ""
 "Habilita ou desabilita inibição de suspensão do sistema enquanto reproduz "
 "música"
 
+#: data/org.gnome.Music.gschema.xml:48
+msgid "Report music history to Last.fm"
+msgstr "Relatar histórico de músicas para o Last.fm"
+
+#: data/org.gnome.Music.gschema.xml:49
+msgid ""
+"Enables or disables sending scrobbles and the “currently playing” info to "
+"Last.fm."
+msgstr ""
+"Habilita ou desabilita enviar scrobbles e a informação “currently playing” "
+"para o Last.fm."
+
 #: data/ui/AboutDialog.ui.in:9
 msgid "Copyright © 2018 GNOME Music Developers"
 msgstr "Copyright © 2018 Desenvolvedores do GNOME Música"
@@ -213,15 +225,23 @@ msgstr "Comprimento de reprodução"
 msgid "Composer"
 msgstr "Compositor"
 
-#: data/ui/AppMenu.ui:21
+#: data/ui/AppMenu.ui:20
+msgid "Last.fm Account"
+msgstr "Conta do Last.fm"
+
+#: data/ui/AppMenu.ui:39
+msgid "Report Music Listening"
+msgstr "Relatar música sendo ouvida"
+
+#: data/ui/AppMenu.ui:70
 msgid "_Keyboard Shortcuts"
 msgstr "A_talhos de teclado"
 
-#: data/ui/AppMenu.ui:35
+#: data/ui/AppMenu.ui:84
 msgid "_Help"
 msgstr "A_juda"
 
-#: data/ui/AppMenu.ui:49
+#: data/ui/AppMenu.ui:98
 msgid "_About Music"
 msgstr "_Sobre o Música"
 
@@ -425,7 +445,7 @@ msgstr "Artistas"
 msgid "View All"
 msgstr "Ver tudo"
 
-#: data/ui/SearchView.ui:97 gnomemusic/views/albumsview.py:63
+#: data/ui/SearchView.ui:97 gnomemusic/views/albumsview.py:62
 msgid "Albums"
 msgstr "Álbuns"
 
@@ -450,27 +470,27 @@ msgid "_Add to Playlist"
 msgstr "_Adicionar para lista de reprodução"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:727
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:749
 msgid "Most Played"
 msgstr "Mais tocadas"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:764
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:786
 msgid "Never Played"
 msgstr "Nunca tocadas"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:800
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:822
 msgid "Recently Played"
 msgstr "Recentemente tocadas"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:846
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:868
 msgid "Recently Added"
 msgstr "Recentemente adicionadas"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:891
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:913
 msgid "Favorite Songs"
 msgstr "Músicas favoritas"
 
@@ -503,11 +523,11 @@ msgstr[1] ""
 msgid "Playing music"
 msgstr "Reproduzindo música"
 
-#: gnomemusic/utils.py:62
+#: gnomemusic/utils.py:64
 msgid "Unknown album"
 msgstr "Álbum desconhecido"
 
-#: gnomemusic/utils.py:83
+#: gnomemusic/utils.py:85
 msgid "Unknown Artist"
 msgstr "Artista desconhecido"
 
@@ -550,7 +570,6 @@ msgid "Your system Tracker version seems outdated"
 msgstr "A versão do Tracker do seu sistema parece estar desatualizada"
 
 #: gnomemusic/views/emptyview.py:158
-#| msgid "Music needs Tracker version 2.2.0 or higher"
 msgid "Music needs Tracker version 2.3.0 or higher"
 msgstr "Música precisa do Tracker na versão 2.3.0 ou mais novo"
 
@@ -558,21 +577,21 @@ msgstr "Música precisa do Tracker na versão 2.3.0 ou mais novo"
 msgid "Playlists"
 msgstr "Listas de reprodução"
 
-#: gnomemusic/views/searchview.py:366
+#: gnomemusic/views/searchview.py:363
 msgid "Artists Results"
 msgstr "Resultados de artistas"
 
-#: gnomemusic/views/searchview.py:380
+#: gnomemusic/views/searchview.py:377
 msgid "Albums Results"
 msgstr "Resultados de álbuns"
 
-#: gnomemusic/widgets/albumwidget.py:145
+#: gnomemusic/widgets/albumwidget.py:165
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} minuto"
 msgstr[1] "{} minutos"
 
-#: gnomemusic/widgets/disclistboxwidget.py:82
+#: gnomemusic/widgets/disclistboxwidget.py:74
 msgid "Disc {}"
 msgstr "Disco {}"
 
@@ -582,19 +601,19 @@ msgid_plural "Selected {} items"
 msgstr[0] "{} item selecionado"
 msgstr[1] "{} itens selecionados"
 
-#: gnomemusic/widgets/notificationspopup.py:168
+#: gnomemusic/widgets/notificationspopup.py:171
 msgid "Loading"
 msgstr "Carregando"
 
-#: gnomemusic/widgets/notificationspopup.py:241
+#: gnomemusic/widgets/notificationspopup.py:244
 msgid "_Undo"
 msgstr "_Desfazer"
 
-#: gnomemusic/widgets/notificationspopup.py:256
+#: gnomemusic/widgets/notificationspopup.py:259
 msgid "Playlist {} removed"
 msgstr "Lista de reprodução {} removida"
 
-#: gnomemusic/widgets/notificationspopup.py:260
+#: gnomemusic/widgets/notificationspopup.py:263
 msgid "{} removed from {}"
 msgstr "{} removida de {}"
 
@@ -602,7 +621,7 @@ msgstr "{} removida de {}"
 msgid "Pause"
 msgstr "Pausar"
 
-#: gnomemusic/widgets/playlistcontrols.py:83
+#: gnomemusic/widgets/playlistcontrols.py:112
 msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} música"
