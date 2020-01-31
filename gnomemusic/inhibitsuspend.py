@@ -21,15 +21,10 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-import logging
-
 from gettext import gettext as _
 from gi.repository import Gtk, GObject
 
-from gnomemusic import log
 from gnomemusic.gstplayer import Playback
-
-logger = logging.getLogger(__name__)
 
 
 class InhibitSuspend(GObject.GObject):
@@ -39,10 +34,6 @@ class InhibitSuspend(GObject.GObject):
     until the application has played all the songs in the playlist.
     """
 
-    def __repr__(self):
-        return '<InhibitSuspend>'
-
-    @log
     def __init__(self, application):
         """Initialize supend inhibitor
 
@@ -51,6 +42,7 @@ class InhibitSuspend(GObject.GObject):
         super().__init__()
 
         self._application = application
+        self._log = application.props.log
         self._player = application.props.player
         self._inhibit_cookie = 0
 
@@ -61,7 +53,6 @@ class InhibitSuspend(GObject.GObject):
         self._settings.connect(
             'changed::inhibit-suspend', self._on_inhibit_suspend_changed)
 
-    @log
     def _inhibit_suspend(self):
         if (self._inhibit_cookie == 0
                 and self._should_inhibit):
@@ -72,20 +63,17 @@ class InhibitSuspend(GObject.GObject):
                 _("Playing music"))
 
             if self._inhibit_cookie == 0:
-                logger.warning("Unable to inhibit automatic system suspend")
+                self._log.warning("Unable to inhibit automatic system suspend")
 
-    @log
     def _uninhibit_suspend(self):
         if self._inhibit_cookie != 0:
             self._application.uninhibit(self._inhibit_cookie)
             self._inhibit_cookie = 0
 
-    @log
     def _on_inhibit_suspend_changed(self, settings, value):
         self._should_inhibit = value
         self._on_player_state_changed(None, None)
 
-    @log
     def _on_player_state_changed(self, klass, arguments):
         if (self._player.props.state == Playback.PLAYING
                 or self._player.props.state == Playback.LOADING):
