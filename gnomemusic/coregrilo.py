@@ -171,29 +171,24 @@ class CoreGrilo(GObject.GObject):
         for wrapper in self._wrappers.values():
             wrapper.populate_album_disc_songs(media, discnr, callback)
 
-    def _store_metadata(self, source, media, key):
-        """Convenience function to store metadata
-
-        Wrap the metadata store call in a idle_add compatible form.
-        :param source: A Grilo source object
-        :param media: A Grilo media item
-        :param key: A Grilo metadata key
-        """
-        # FIXME: Doing this async crashes.
-        try:
-            source.store_metadata_sync(
-                media, [key], Grl.WriteFlags.NORMAL)
-        except GLib.Error as error:
-            # FIXME: Do not print.
-            print("Error {}: {}".format(error.domain, error.message))
-
-        return GLib.SOURCE_REMOVE
-
     def writeback(self, media, key):
+        """Store the values associated with the keys.
+
+        :param Grl.Media media: A Grilo media item
+        :param int key: a Grilo metadata key
+        """
+        def _store_metadata_cb(source, media, failed_keys, data, error):
+            # FIXME: Do not print.
+            if error is not None:
+                print("Error {}: {}".format(error.domain, error.message))
+            if failed_keys:
+                print("Unable to update the following keys", failed_keys)
+
         for wrapper in self._wrappers.values():
             if media.get_source() == wrapper.source.props.source_id:
-                GLib.idle_add(
-                    self._store_metadata, wrapper.props.source, media, key)
+                wrapper.props.source.store_metadata(
+                    media, [key], Grl.WriteFlags.NORMAL, _store_metadata_cb,
+                    None)
                 break
 
     def search(self, text):
