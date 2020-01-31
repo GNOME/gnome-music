@@ -24,7 +24,6 @@
 
 from enum import IntEnum
 from random import randint, randrange
-import logging
 import time
 
 import gi
@@ -32,13 +31,9 @@ gi.require_version('GstPbutils', '1.0')
 from gi.repository import GObject, GstPbutils
 from gi._gi import pygobject_new_full
 
-from gnomemusic import log
 from gnomemusic.coresong import CoreSong
 from gnomemusic.gstplayer import GstPlayer, Playback
 from gnomemusic.widgets.songwidget import SongWidget
-
-
-logger = logging.getLogger(__name__)
 
 
 class RepeatMode(IntEnum):
@@ -66,16 +61,13 @@ class PlayerPlaylist(GObject.GObject):
 
     repeat_mode = GObject.Property(type=int, default=RepeatMode.NONE)
 
-    def __repr__(self):
-        return '<PlayerPlayList>'
-
-    @log
     def __init__(self, application):
         super().__init__()
 
         GstPbutils.pb_utils_init()
 
         self._app = application
+        self._log = application.props.log
         self._position = 0
 
         self._validation_songs = {}
@@ -87,7 +79,6 @@ class PlayerPlaylist(GObject.GObject):
 
         self.connect("notify::repeat-mode", self._on_repeat_mode_changed)
 
-    @log
     def has_next(self):
         """Test if there is a song after the current one.
 
@@ -101,7 +92,6 @@ class PlayerPlaylist(GObject.GObject):
 
         return False
 
-    @log
     def has_previous(self):
         """Test if there is a song before the current one.
 
@@ -135,7 +125,6 @@ class PlayerPlaylist(GObject.GObject):
 
         return self._model[next_position]
 
-    @log
     def next(self):
         """Go to the next song in the playlist.
 
@@ -164,7 +153,6 @@ class PlayerPlaylist(GObject.GObject):
         self._validate_next_song()
         return True
 
-    @log
     def previous(self):
         """Go to the previous song in the playlist.
 
@@ -258,7 +246,6 @@ class PlayerPlaylist(GObject.GObject):
 
         return None
 
-    @log
     def _on_repeat_mode_changed(self, klass, param):
 
         def _wrap_list_store_sort_func(func):
@@ -287,11 +274,11 @@ class PlayerPlaylist(GObject.GObject):
 
         url = coresong.props.url
         if not url:
-            logger.warning(
+            self._log.warning(
                 "The item {} doesn't have a URL set.".format(coresong))
             return
         if not url.startswith("file://"):
-            logger.debug(
+            self._log.debug(
                 "Skipping validation of {} as not a local file".format(url))
             return
 
@@ -330,7 +317,7 @@ class PlayerPlaylist(GObject.GObject):
         coresong = self._validation_songs[url]
 
         if error:
-            logger.warning("Info {}: error: {}".format(info, error))
+            self._log.warning("Info {}: error: {}".format(info, error))
             coresong.props.validation = CoreSong.Validation.FAILED
         else:
             coresong.props.validation = CoreSong.Validation.SUCCEEDED
@@ -350,10 +337,6 @@ class Player(GObject.GObject):
     state = GObject.Property(type=int, default=Playback.STOPPED)
     duration = GObject.Property(type=float, default=-1.)
 
-    def __repr__(self):
-        return '<Player>'
-
-    @log
     def __init__(self, application):
         """Initialize the player
 
@@ -369,7 +352,7 @@ class Player(GObject.GObject):
         # TODO: Improve playlist handling so this hack is no longer
         # needed.
         self._gapless_set = False
-
+        self._log = application.props.log
         self._playlist = PlayerPlaylist(self._app)
 
         self._playlist_model = self._app.props.coremodel.props.playlist_sort
@@ -436,7 +419,6 @@ class Player(GObject.GObject):
                 and model.get_n_items() == 0):
             self.stop()
 
-    @log
     def _on_about_to_finish(self, klass):
         if self.props.has_next:
             next_coresong = self._playlist.get_next()
@@ -444,7 +426,6 @@ class Player(GObject.GObject):
             self._gst_player.props.url = new_url
             self._gapless_set = True
 
-    @log
     def _on_eos(self, klass):
         self._playlist.next()
 
@@ -508,17 +489,14 @@ class Player(GObject.GObject):
         if self.props.current_song is not None:
             self._gst_player.props.state = Playback.PLAYING
 
-    @log
     def pause(self):
         """Pause"""
         self._gst_player.props.state = Playback.PAUSED
 
-    @log
     def stop(self):
         """Stop"""
         self._gst_player.props.state = Playback.STOPPED
 
-    @log
     def next(self):
         """"Play next song
 
@@ -527,7 +505,6 @@ class Player(GObject.GObject):
         if self._playlist.next():
             self.play(self._playlist.props.current_song)
 
-    @log
     def previous(self):
         """Play previous song
 
@@ -541,7 +518,6 @@ class Player(GObject.GObject):
         if self._playlist.previous():
             self.play(self._playlist.props.current_song)
 
-    @log
     def play_pause(self):
         """Toggle play/pause state"""
         if self.props.state == Playback.PLAYING:
@@ -549,9 +525,8 @@ class Player(GObject.GObject):
         else:
             self.play()
 
-    @log
     def _on_clock_tick(self, klass, tick):
-        logger.debug("Clock tick {}, player at {} seconds".format(
+        self._log.debug("Clock tick {}, player at {} seconds".format(
             tick, self._gst_player.props.position))
 
         current_song = self._playlist.props.current_song
@@ -582,7 +557,6 @@ class Player(GObject.GObject):
                 current_song.bump_play_count()
                 current_song.set_last_played()
 
-    @log
     def _on_repeat_setting_changed(self, settings, value):
         self.props.repeat_mode = settings.get_enum('repeat')
 
@@ -617,7 +591,6 @@ class Player(GObject.GObject):
         """
         return self._playlist.props.current_song
 
-    @log
     def get_position(self):
         """Get player position.
 
@@ -628,7 +601,6 @@ class Player(GObject.GObject):
         return self._gst_player.props.position
 
     # TODO: used by MPRIS
-    @log
     def set_position(self, position_second):
         """Change GstPlayer position.
 
@@ -643,7 +615,6 @@ class Player(GObject.GObject):
         if position_second <= duration_second:
             self._gst_player.seek(position_second)
 
-    @log
     def _on_seek_finished(self, klass):
         # FIXME: Just a proxy
         self.emit('seek-finished')
