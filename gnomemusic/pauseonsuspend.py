@@ -24,12 +24,9 @@
 import os
 
 from gi.repository import GLib, Gio, GObject
-import logging
 
-from gnomemusic import log
 from gnomemusic.gstplayer import Playback
-
-logger = logging.getLogger(__name__)
+from gnomemusic.musiclogger import MusicLogger
 
 
 class PauseOnSuspend(GObject.GObject):
@@ -39,16 +36,14 @@ class PauseOnSuspend(GObject.GObject):
     and inhibit suspend before pause.
     """
 
-    def __repr__(self):
-        return '<PauseOnSuspend>'
-
-    @log
     def __init__(self, player):
         """Initialize pause on supend handling
 
         :param Player player: Player object
         """
         super().__init__()
+
+        self._log = MusicLogger()
 
         self._player = player
         self._init_pause_on_suspend()
@@ -59,7 +54,6 @@ class PauseOnSuspend(GObject.GObject):
         self._previous_state = self._player.props.state
         self._player.connect("notify::state", self._on_player_state_changed)
 
-    @log
     def _on_player_state_changed(self, klass, arguments):
         new_state = self._player.props.state
         if self._previous_state == new_state:
@@ -75,7 +69,6 @@ class PauseOnSuspend(GObject.GObject):
 
         self._previous_state = new_state
 
-    @log
     def _take_lock(self):
         variant = GLib.Variant(
             "(ssss)",
@@ -91,7 +84,6 @@ class PauseOnSuspend(GObject.GObject):
             "Inhibit", variant, Gio.DBusCallFlags.NONE,
             -1, None, self._on_inhibit)
 
-    @log
     def _on_inhibit(self, proxy, task, data=None):
         if not self._suspend_proxy:
             return
@@ -102,17 +94,15 @@ class PauseOnSuspend(GObject.GObject):
             self._connection = self._suspend_proxy.connect(
                 "g-signal", self._pause_playing)
         except GLib.Error as e:
-            logger.warning(
+            self._log.warning(
                 "Error: Failed to finish proxy call:", e.message)
 
-    @log
     def _release_lock(self):
         if self._file_descriptor >= 0:
             os.close(self._file_descriptor)
             self._file_descriptor = -1
             self._suspend_proxy.disconnect(self._connection)
 
-    @log
     def _init_pause_on_suspend(self):
         Gio.DBusProxy.new_for_bus(
             Gio.BusType.SYSTEM,
@@ -122,16 +112,14 @@ class PauseOnSuspend(GObject.GObject):
             "org.freedesktop.login1.Manager", None,
             self._suspend_proxy_ready)
 
-    @log
     def _suspend_proxy_ready(self, proxy, result, data=None):
         try:
             self._suspend_proxy = proxy.new_finish(result)
         except GLib.Error as e:
-            logger.warning(
+            self._log.warning(
                 "Error: Failed to contact logind daemon:", e.message)
             return
 
-    @log
     def _pause_playing(self, proxy, sender, signal, parameters):
         if signal != "PrepareForSleep":
             return
