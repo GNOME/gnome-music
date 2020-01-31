@@ -239,6 +239,10 @@ class CoreGrilo(GObject.GObject):
         :param str playlist_title: playlist title
         :param callback: function to perform once, the playlist is created
         """
+        for idx, playlist_model in enumerate(self._coremodel.props.playlists):
+            if playlist_model._title == playlist_title:
+                return
+
         for wrapper in self._wrappers.values():
             if wrapper.source.props.source_id == "grl-tracker-source":
                 wrapper.create_playlist(playlist_title, callback)

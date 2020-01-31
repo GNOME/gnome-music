@@ -127,7 +127,7 @@ class PlaylistDialog(Gtk.Dialog):
             self.response(Gtk.ResponseType.ACCEPT)
 
         text = self._add_playlist_entry.props.text
-        if text:
+        if text:            
             self._coremodel.create_playlist(text, select_and_close_dialog)
 
     @Gtk.Template.Callback()
