@@ -1,4 +1,4 @@
-# Copyright (c) 2016 The GNOME Music Developers
+# Copyright 2020 The GNOME Music Developers
 #
 # GNOME Music is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -139,7 +139,8 @@ class PlaylistsView(Gtk.Stack):
         self._sidebar.select_row(playlist_row)
         self._on_playlist_activated(self._sidebar, playlist_row)
 
-    @GObject.Property(type=bool, default=False)
+    @GObject.Property(
+        type=bool, default=False, flags=GObject.ParamFlags.READABLE)
     def rename_active(self):
         """Indicate if renaming dialog is active"""
         return self._playlist_widget.props.rename_active
