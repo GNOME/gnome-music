@@ -24,8 +24,6 @@
 
 from gi.repository import GObject, Gtk
 
-from gnomemusic import log
-
 
 @Gtk.Template(resource_path='/org/gnome/Music/ui/TwoLineTip.ui')
 class TwoLineTip(Gtk.Box):
@@ -43,10 +41,6 @@ class TwoLineTip(Gtk.Box):
     subtitle = GObject.Property(type=str)
     subtitle_visible = GObject.Property(type=bool, default=True)
 
-    def __repr__(self):
-        return '<TwoLineTip>'
-
-    @log
     def __init__(self):
         super().__init__()
 
