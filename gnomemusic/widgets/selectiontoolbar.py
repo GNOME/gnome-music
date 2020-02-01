@@ -24,8 +24,6 @@
 
 from gi.repository import GObject, Gtk
 
-from gnomemusic import log
-
 
 @Gtk.Template(resource_path='/org/gnome/Music/ui/SelectionToolbar.ui')
 class SelectionToolbar(Gtk.ActionBar):
@@ -40,10 +38,6 @@ class SelectionToolbar(Gtk.ActionBar):
 
     selected_items_count = GObject.Property(type=int, default=0, minimum=0)
 
-    def __repr__(self):
-        return '<SelectionToolbar>'
-
-    @log
     def __init__(self):
         super().__init__()
 
@@ -53,11 +47,9 @@ class SelectionToolbar(Gtk.ActionBar):
         self.notify("selected-items-count")
 
     @Gtk.Template.Callback()
-    @log
     def _on_add_to_playlist_button_clicked(self, widget):
         self.emit('add-to-playlist')
 
-    @log
     def _on_item_selection_changed(self, widget, data):
         if self.props.selected_items_count > 0:
             self._add_to_playlist_button.props.sensitive = True
