@@ -25,6 +25,9 @@
               <object class="GtkImage">
                 <property name="visible">True</property>
                 <property name="icon-name">list-drag-handle-symbolic</property>
+                <style>
+                  <class name="drag-handle"/>
+                </style>
               </object>
             </child>
           </object>
