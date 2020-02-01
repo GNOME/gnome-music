@@ -62,9 +62,6 @@ class GrlTrackerWrapper(GObject.GObject):
         Grl.METADATA_KEY_THUMBNAIL,
     ]
 
-    def __repr__(self):
-        return "<GrlTrackerWrapper>"
-
     def __init__(
             self, source, coremodel, application, grilo, tracker_wrapper):
         """Initialize the Tracker wrapper
