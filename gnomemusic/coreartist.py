@@ -26,7 +26,6 @@ import gi
 gi.require_version('Grl', '0.3')
 from gi.repository import Gio, Grl, GObject
 
-from gnomemusic import log
 from gnomemusic.artistart import ArtistArt
 import gnomemusic.utils as utils
 
@@ -38,7 +37,6 @@ class CoreArtist(GObject.GObject):
     artist = GObject.Property(type=str)
     media = GObject.Property(type=Grl.Media)
 
-    @log
     def __init__(self, media, coremodel):
         super().__init__()
 
@@ -50,7 +48,6 @@ class CoreArtist(GObject.GObject):
 
         self.update(media)
 
-    @log
     def update(self, media):
         self.props.media = media
         self.props.artist = utils.get_artist_name(media)
