@@ -51,9 +51,6 @@ class CoreGrilo(GObject.GObject):
     cover_sources = GObject.Property(type=bool, default=False)
     tracker_available = GObject.Property(type=int)
 
-    def __repr__(self):
-        return "<CoreGrilo>"
-
     def __init__(self, coremodel, application):
         """Initiate the CoreGrilo object
 
