@@ -27,7 +27,6 @@ from enum import IntEnum
 from gettext import gettext as _
 from gi.repository import GLib, GObject, Gtk, Tracker
 
-from gnomemusic import log
 from gnomemusic.albumartcache import Art
 
 
@@ -56,10 +55,6 @@ class EmptyView(Gtk.Stack):
     _main_label = Gtk.Template.Child()
     _icon = Gtk.Template.Child()
 
-    def __repr__(self):
-        return "<EmptyView>"
-
-    @log
     def __init__(self):
         super().__init__()
 
@@ -113,7 +108,6 @@ class EmptyView(Gtk.Stack):
             self._set_tracker_outdated_state()
         self.show_all()
 
-    @log
     def _set_initial_state(self):
         self._information_label.props.label = self._content_text
         self._main_label.props.label = _("Hey DJ")
@@ -124,19 +118,16 @@ class EmptyView(Gtk.Stack):
         self._icon.props.height_request = Art.Size.LARGE.height
         self._icon.props.width_request = Art.Size.LARGE.width
 
-    @log
     def _set_empty_state(self):
         self._main_label.props.label = _("No music found")
         self._information_label.props.label = self._content_text
 
-    @log
     def _set_search_state(self):
         self._main_label.props.margin_bottom = 12
         self._main_label.props.label = _("No music found")
         self._icon.props.margin_bottom = 18
         self._information_label.props.label = _("Try a different search")
 
-    @log
     def _set_no_tracker_state(self):
         self._main_label.props.margin_bottom = 12
         self._main_label.props.label = _(
@@ -147,7 +138,6 @@ class EmptyView(Gtk.Stack):
 
         self._icon.props.icon_name = "dialog-error-symbolic"
 
-    @log
     def _set_tracker_outdated_state(self):
         self._main_label.props.margin_bottom = 12
         self._main_label.props.label = _(
@@ -158,12 +148,10 @@ class EmptyView(Gtk.Stack):
 
         self._icon.props.icon_name = "dialog-error-symbolic"
 
-    @log
     def select_all(self):
         """Cannot select songs from EmptyView."""
         pass
 
-    @log
     def deselect_all(self):
         """Cannot select songs from EmptyView."""
         pass
