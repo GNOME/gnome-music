@@ -24,7 +24,6 @@
 
 from gi.repository import GLib, GObject, Gtk
 
-from gnomemusic import log
 from gnomemusic.albumartcache import Art
 from gnomemusic.artistart import ArtistCache, DefaultIcon
 from gnomemusic.coreartist import CoreArtist
@@ -42,10 +41,6 @@ class ArtistArtStack(Gtk.Stack):
 
     _default_icon = DefaultIcon()
 
-    def __repr__(self):
-        return "ArtistArtStack"
-
-    @log
     def __init__(self, size=Art.Size.MEDIUM):
         """Initialize the CoverStack
 
@@ -123,7 +118,6 @@ class ArtistArtStack(Gtk.Stack):
             self._cover_b.props.surface = surface
             self.props.visible_child_name = "B"
 
-    @log
     def update(self, coresong):
         """Update the stack with the given CoreSong
 
@@ -145,7 +139,6 @@ class ArtistArtStack(Gtk.Stack):
         self._handler_id = self._art.connect("finished", self._art_retrieved)
         self._art.lookup()
 
-    @log
     def _set_loading_child(self):
         self.props.visible_child_name = "loading"
         self._active_child = self.props.visible_child_name
@@ -153,7 +146,6 @@ class ArtistArtStack(Gtk.Stack):
 
         return GLib.SOURCE_REMOVE
 
-    @log
     def _art_retrieved(self, klass):
         if self._timeout:
             GLib.source_remove(self._timeout)
