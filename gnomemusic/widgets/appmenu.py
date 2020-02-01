@@ -36,9 +36,6 @@ class AppMenu(Gtk.PopoverMenu):
     _lastfm_box = Gtk.Template.Child()
     _lastfm_switch = Gtk.Template.Child()
 
-    def __repr__(self):
-        return "<AppMenu>"
-
     def __init__(self, application):
         """Initialize the application menu
 
