@@ -26,7 +26,6 @@ import gi
 gi.require_version('Grl', '0.3')
 from gi.repository import Gdk, GObject, Gtk
 
-from gnomemusic import log
 from gnomemusic.albumartcache import Art
 from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.widgets.twolinetip import TwoLineTip
@@ -54,10 +53,6 @@ class AlbumCover(Gtk.FlowBoxChild):
     selection_mode = GObject.Property(
         type=bool, default=False, flags=GObject.ParamFlags.READWRITE)
 
-    def __repr__(self):
-        return '<AlbumCover>'
-
-    @log
     def __init__(self, corealbum):
         """Initialize the AlbumCover
 
@@ -122,7 +117,6 @@ class AlbumCover(Gtk.FlowBoxChild):
         return self._corealbum
 
     @Gtk.Template.Callback()
-    @log
     def _on_album_event(self, evbox, event, data=None):
         modifiers = Gtk.accelerator_get_default_mod_mask()
         if ((event.get_state() & modifiers) == Gdk.ModifierType.CONTROL_MASK
@@ -133,7 +127,6 @@ class AlbumCover(Gtk.FlowBoxChild):
             self.props.selected = not self.props.selected
 
     @Gtk.Template.Callback()
-    @log
     def _on_tooltip_query(self, widget, x, y, kb, tooltip, data=None):
         tooltip.set_custom(self._tooltip)
 
