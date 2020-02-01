@@ -32,6 +32,11 @@ class MusicLogger(GObject.GObject):
     """GLib logging wrapper
 
     A tiny wrapper aroung the default GLib logger.
+
+    * Message is for user facing warnings, which ideally should be in
+      the application.
+    * Warning is for logging non-fatal errors during execution.
+    * Debug is for developer use as a way to get more runtime info.
     """
 
     _DOMAIN = "org.gnome.Music"
