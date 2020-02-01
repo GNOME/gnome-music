@@ -25,7 +25,6 @@
 from gettext import gettext as _
 from gi.repository import Gdk, Gtk
 
-from gnomemusic import log
 from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.artistalbumswidget import ArtistAlbumsWidget
 from gnomemusic.widgets.artisttile import ArtistTile
@@ -38,10 +37,6 @@ class ArtistsView(BaseView):
     all albums by this artist on the right side.
     """
 
-    def __repr__(self):
-        return '<ArtistsView>'
-
-    @log
     def __init__(self, application, player):
         """Initialize
 
@@ -127,7 +122,6 @@ class ArtistsView(BaseView):
         self._sidebar.select_row(first_row)
         self._on_artist_activated(self._sidebar, first_row)
 
-    @log
     def _setup_view(self):
         self._view_container = Gtk.ScrolledWindow(hexpand=True, vexpand=True)
         self._box.pack_start(self._view_container, True, True, 0)
@@ -137,7 +131,6 @@ class ArtistsView(BaseView):
             vhomogeneous=False)
         self._view_container.add(self._view)
 
-    @log
     def _on_artist_activated(self, sidebar, row, data=None):
         """Initializes new artist album widgets"""
         # On application start the first row of ArtistView is activated
@@ -176,7 +169,6 @@ class ArtistsView(BaseView):
 
         self._loaded_artists.append(coreartist.props.artist)
 
-    @log
     def _on_sidebar_clicked(self, gesture, n_press, x, y):
         success, state = Gtk.get_current_event_state()
         modifiers = Gtk.accelerator_get_default_mod_mask()
@@ -184,7 +176,6 @@ class ArtistsView(BaseView):
                 and not self.props.selection_mode):
             self.props.selection_mode = True
 
-    @log
     def _on_selection_mode_changed(self, widget, data=None):
         if self.get_parent().get_visible_child() != self:
             return
@@ -209,7 +200,6 @@ class ArtistsView(BaseView):
             self._sidebar.select_row(selected_row)
             self._selected_artist = None
 
-    @log
     def _toggle_all_selection(self, selected):
 
         def toggle_selection(child):
@@ -217,10 +207,8 @@ class ArtistsView(BaseView):
 
         self._sidebar.foreach(toggle_selection)
 
-    @log
     def select_all(self):
         self._toggle_all_selection(True)
 
-    @log
     def deselect_all(self):
         self._toggle_all_selection(False)
