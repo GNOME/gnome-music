@@ -28,7 +28,6 @@ import gi
 gi.require_version("Gd", "1.0")
 from gi.repository import GLib, GObject, Gd, Gtk
 
-from gnomemusic import log
 from gnomemusic.search import Search
 from gnomemusic.widgets.headerbar import HeaderBar, SelectionBarMenuButton
 
@@ -56,10 +55,6 @@ class SearchHeaderBar(Gtk.HeaderBar):
     selection_mode_allowed = GObject.Property(type=bool, default=True)
     stack = GObject.Property(type=Gtk.Stack)
 
-    def __repr__(self):
-        return "<SearchHeaderBar>"
-
-    @log
     def __init__(self, application):
         super().__init__()
 
@@ -162,18 +157,15 @@ class SearchHeaderBar(Gtk.HeaderBar):
             self._entry.props.visible = False
 
     @Gtk.Template.Callback()
-    @log
     def _on_cancel_button_clicked(self, button):
         self.props.selection_mode = False
 
-    @log
     def _update(self):
         if self.props.selection_mode:
             self.props.custom_title = self._selection_menu
         else:
             self.props.custom_title = self._entry
 
-    @log
     def _on_selection_mode_allowed_changed(self, widget, data):
         if self.props.selection_mode_allowed:
             self._select_button.props.sensitive = True
