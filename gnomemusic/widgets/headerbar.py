@@ -41,9 +41,6 @@ class SelectionBarMenuButton(Gtk.MenuButton):
 
     _menu_label = Gtk.Template.Child()
 
-    def __repr__(self):
-        return "<SelectionBarMenuButton>"
-
     def __init__(self):
         super().__init__()
 
