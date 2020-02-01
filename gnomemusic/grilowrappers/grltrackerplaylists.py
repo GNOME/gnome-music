@@ -22,7 +22,6 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-import logging
 import time
 
 from gettext import gettext as _
@@ -34,8 +33,6 @@ from gi.repository import Gio, Grl, GLib, GObject
 from gnomemusic.coresong import CoreSong
 from gnomemusic.trackerwrapper import TrackerWrapper
 import gnomemusic.utils as utils
-
-logger = logging.getLogger(__name__)
 
 
 class GrlTrackerPlaylists(GObject.GObject):
@@ -57,9 +54,6 @@ class GrlTrackerPlaylists(GObject.GObject):
         Grl.METADATA_KEY_TRACK_NUMBER,
         Grl.METADATA_KEY_URL
     ]
-
-    def __repr__(self):
-        return "<GrlTrackerPlaylists>"
 
     def __init__(
             self, source, coremodel, application, grilo, tracker_wrapper):
@@ -296,9 +290,6 @@ class Playlist(GObject.GObject):
     query = GObject.Property(type=str, default=None)
     tag_text = GObject.Property(type=str, default=None)
 
-    def __repr__(self):
-        return "<Playlist>"
-
     def __init__(
             self, media=None, query=None, tag_text=None, source=None,
             coremodel=None, application=None, grilo=None, tracker=None):
@@ -436,7 +427,7 @@ class Playlist(GObject.GObject):
             try:
                 conn.update_finish(res)
             except GLib.Error as e:
-                logger.warning(
+                self._log.warning(
                     "Unable to rename playlist from {} to {}: {}".format(
                         self._title, new_name, e.message))
             else:
@@ -700,9 +691,6 @@ class Playlist(GObject.GObject):
 
 class SmartPlaylist(Playlist):
     """Base class for smart playlists"""
-
-    def __repr__(self):
-        return "<SmartPlaylist>"
 
     def __init__(self, **args):
         super().__init__(**args)
