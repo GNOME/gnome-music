@@ -24,7 +24,7 @@
             <child>
               <object class="GtkImage">
                 <property name="visible">True</property>
-                <property name="icon-name">open-menu-symbolic</property>
+                <property name="icon-name">list-drag-handle-symbolic</property>
               </object>
             </child>
           </object>
