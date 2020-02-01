@@ -24,7 +24,6 @@
 
 from gi.repository import GObject, Gtk
 
-from gnomemusic import log
 from gnomemusic.coreartist import CoreArtist
 
 
@@ -46,10 +45,6 @@ class ArtistTile(Gtk.ListBoxRow):
     selection_mode = GObject.Property(type=bool, default=False)
     text = GObject.Property(type=str, default='')
 
-    def __repr__(self):
-        return '<ArtistTile>'
-
-    @log
     def __init__(self, coreartist=None):
         super().__init__()
 
