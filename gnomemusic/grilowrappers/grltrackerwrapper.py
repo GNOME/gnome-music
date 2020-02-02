@@ -179,7 +179,7 @@ class GrlTrackerWrapper(GObject.GObject):
             'location_filter': self._tracker_wrapper.location_filter()
         }
 
-        def check_album_cb(source, op_id, media, user_data, error):
+        def check_album_cb(source, op_id, media, remaining, error):
             if error:
                 self._log.warning("Error: {}".format(error))
                 return
@@ -240,7 +240,7 @@ class GrlTrackerWrapper(GObject.GObject):
             'location_filter': self._tracker_wrapper.location_filter()
         }
 
-        def check_artist_cb(source, op_id, media, user_data, error):
+        def check_artist_cb(source, op_id, media, remaining, error):
             if error:
                 self._log.warning("Error: {}".format(error))
                 return
@@ -328,7 +328,7 @@ class GrlTrackerWrapper(GObject.GObject):
 
     def _changed_media(self, media_ids):
 
-        def _update_changed_media(source, op_id, media, user_data, error):
+        def _update_changed_media(source, op_id, media, remaining, error):
             if error:
                 self._log.warning("Error: {}".format(error))
                 return
@@ -356,7 +356,7 @@ class GrlTrackerWrapper(GObject.GObject):
         self._window.notifications_popup.push_loading()
         songs_added = []
 
-        def _add_to_model(source, op_id, media, user_data, error):
+        def _add_to_model(source, op_id, media, remaining, error):
             if error:
                 self._log.warning("Error: {}".format(error))
                 self._window.notifications_popup.pop_loading()
@@ -410,7 +410,7 @@ class GrlTrackerWrapper(GObject.GObject):
         self._window.notifications_popup.push_loading()
         albums_added = []
 
-        def _add_to_albums_model(source, op_id, media, user_data, error):
+        def _add_to_albums_model(source, op_id, media, remaining, error):
             if error:
                 self._log.warning("Error: {}".format(error))
                 self._window.notifications_popup.pop_loading()
@@ -464,7 +464,7 @@ class GrlTrackerWrapper(GObject.GObject):
         self._window.notifications_popup.push_loading()
         artists_added = []
 
-        def _add_to_artists_model(source, op_id, media, user_data, error):
+        def _add_to_artists_model(source, op_id, media, remaining, error):
             if error:
                 self._log.warning("Error: {}".format(error))
                 self._window.notifications_popup.pop_loading()
@@ -547,7 +547,7 @@ class GrlTrackerWrapper(GObject.GObject):
 
         albums = []
 
-        def query_cb(source, op_id, media, user_data, error):
+        def query_cb(source, op_id, media, remaining, error):
             if error:
                 self._log.warning("Error: {}".format(error))
                 self._window.notifications_popup.pop_loading()
@@ -597,7 +597,7 @@ class GrlTrackerWrapper(GObject.GObject):
             'location_filter': self._tracker_wrapper.location_filter()
         }
 
-        def _disc_nr_cb(source, op_id, media, user_data, error):
+        def _disc_nr_cb(source, op_id, media, remaining, error):
             if error:
                 self._log.warning("Error: {}".format(error))
                 self._window.notifications_popup.pop_loading()
@@ -711,7 +711,7 @@ class GrlTrackerWrapper(GObject.GObject):
         def artist_filter(coreartist):
             return coreartist.media.get_id() in artist_filter_ids
 
-        def artist_search_cb(source, op_id, media, data, error):
+        def artist_search_cb(source, op_id, media, remaining, error):
             if error:
                 self._log.warning("Error: {}".format(error))
                 self._window.notifications_popup.pop_loading()
@@ -766,7 +766,7 @@ class GrlTrackerWrapper(GObject.GObject):
         def album_filter(corealbum):
             return corealbum.media.get_id() in album_filter_ids
 
-        def albums_search_cb(source, op_id, media, data, error):
+        def albums_search_cb(source, op_id, media, remaining, error):
             if error:
                 self._log.warning("Error: {}".format(error))
                 self._window.notifications_popup.pop_loading()
@@ -827,7 +827,7 @@ class GrlTrackerWrapper(GObject.GObject):
         def songs_filter(coresong):
             return coresong.media.get_id() in filter_ids
 
-        def songs_search_cb(source, op_id, media, data, error):
+        def songs_search_cb(source, op_id, media, remaining, error):
             if error:
                 self._log.warning("Error: {}".format(error))
                 self._window.notifications_popup.pop_loading()
