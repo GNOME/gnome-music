@@ -26,7 +26,6 @@ from gettext import gettext as _
 
 from gi.repository import Gdk, GObject, Gtk
 
-from gnomemusic import log
 from gnomemusic.player import PlayerPlaylist
 from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.playlistcontextmenu import PlaylistContextMenu
@@ -40,10 +39,6 @@ from gnomemusic.widgets.songwidget import SongWidget
 class PlaylistsView(BaseView):
     """Main view for playlists"""
 
-    def __repr__(self):
-        return '<PlaylistsView>'
-
-    @log
     def __init__(self, application, player):
         """Initialize
 
@@ -106,7 +101,6 @@ class PlaylistsView(BaseView):
 
         self.show_all()
 
-    @log
     def _setup_view(self):
         view_container = Gtk.ScrolledWindow(hexpand=True, vexpand=True)
         self._box.pack_start(view_container, True, True, 0)
@@ -125,7 +119,6 @@ class PlaylistsView(BaseView):
 
         view_container.add(self._view)
 
-    @log
     def _add_playlist_to_sidebar(self, playlist):
         """Add a playlist to sidebar
 
@@ -154,7 +147,6 @@ class PlaylistsView(BaseView):
             self._sidebar.select_row(row_next)
             self._on_playlist_activated(self._sidebar, row_next, True)
 
-    @log
     def _on_view_right_clicked(self, gesture, n_press, x, y):
         requested_row = self._view.get_row_at_y(y)
         self._view.select_row(requested_row)
@@ -169,7 +161,6 @@ class PlaylistsView(BaseView):
         self._song_popover.props.pointing_to = rect
         self._song_popover.popup()
 
-    @log
     def _play_song(self, menuitem, data=None):
         selected_row = self._view.get_selected_row()
         song_widget = selected_row.get_child()
@@ -189,7 +180,6 @@ class PlaylistsView(BaseView):
         self._view.unselect_all()
         playlist_dialog.destroy()
 
-    @log
     def _stage_song_for_deletion(self, menuitem, data=None):
         selected_row = self._view.get_selected_row()
         position = selected_row.get_index()
@@ -204,7 +194,6 @@ class PlaylistsView(BaseView):
             PlaylistNotification.Type.SONG, selected_playlist, position,
             coresong)
 
-    @log
     def _on_playlist_activated(self, sidebar, row, untouched=False):
         """Update view with content from selected playlist"""
         if untouched is False:

@@ -30,6 +30,12 @@ from gnomemusic.coresong import CoreSong
 
 
 class GrlSearchWrapper(GObject.GObject):
+    """Wrapper for a generic Grilo source search.
+
+    Grilo has -besides source specific queries- an option to do a
+    generic source search, if the source supports it. This class wraps
+    such a search.
+    """
 
     METADATA_KEYS = [
         Grl.METADATA_KEY_ALBUM,
@@ -48,15 +54,23 @@ class GrlSearchWrapper(GObject.GObject):
         Grl.METADATA_KEY_URL
     ]
 
-    def __repr__(self):
-        return "<GrlSearchWrapper>"
+    def __init__(self, source, coremodel, application, grilo):
+        """Initialize a search wrapper
 
-    def __init__(self, source, coremodel, coreselection, grilo):
+        Initialize a generic Grilo source search wrapper.
+
+        :param Grl.Source source: The Grilo source to wrap
+        :param CoreModel coremodel: CoreModel instance to use models
+         from
+        :param Application application: Application instance
+        :param CoreGrilo grilo: The CoreGrilo instance
+        """
         super().__init__()
 
         self._coremodel = coremodel
-        self._coreselection = coreselection
+        self._coreselection = application.props.coreselection
         self._grilo = grilo
+        self._log = application.props.log
         self._source = source
 
         self._song_search_proxy = self._coremodel.props.songs_search_proxy
@@ -75,14 +89,19 @@ class GrlSearchWrapper(GObject.GObject):
             Grl.ResolutionFlags.FAST_ONLY | Grl.ResolutionFlags.IDLE_RELAY)
 
     def search(self, text):
+        """Initiate a search
+
+        :param str text: The text to search
+        """
         with self._song_search_store.freeze_notify():
             self._song_search_store.remove_all()
 
         def _search_result_cb(source, op_id, media, remaining, error):
             if error:
-                print("error")
+                self._log.warning("Error: {}".format(error))
                 return
-            if media is None:
+
+            if not media:
                 return
 
             coresong = CoreSong(media, self._coreselection, self._grilo)

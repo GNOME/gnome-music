@@ -26,7 +26,6 @@ import gi
 gi.require_version('Grl', '0.3')
 from gi.repository import Grl, GLib, GObject
 
-# from gnomemusic.grilowrappers.grldleynawrapper import GrlDLeynaWrapper
 from gnomemusic.grilowrappers.grlsearchwrapper import GrlSearchWrapper
 from gnomemusic.grilowrappers.grltrackerwrapper import GrlTrackerWrapper
 from gnomemusic.trackerwrapper import TrackerState, TrackerWrapper
@@ -52,9 +51,6 @@ class CoreGrilo(GObject.GObject):
     cover_sources = GObject.Property(type=bool, default=False)
     tracker_available = GObject.Property(type=int)
 
-    def __repr__(self):
-        return "<CoreGrilo>"
-
     def __init__(self, coremodel, application):
         """Initiate the CoreGrilo object
 
@@ -66,6 +62,7 @@ class CoreGrilo(GObject.GObject):
         self._application = application
         self._coremodel = coremodel
         self._coreselection = application.props.coreselection
+        self._log = application.props.log
         self._search_wrappers = {}
         self._thumbnail_sources = []
         self._thumbnail_sources_timeout = None
@@ -115,8 +112,8 @@ class CoreGrilo(GObject.GObject):
             try:
                 registry.unregister_source(source)
             except GLib.GError:
-                print("Failed to unregister {}".format(
-                    source.props.source_id))
+                self._log.warning(
+                    "Failed to unregister {}".format(source.props.source_id))
             return
 
         if Grl.METADATA_KEY_THUMBNAIL in source.supported_keys():
@@ -132,29 +129,25 @@ class CoreGrilo(GObject.GObject):
         new_state = self._tracker_wrapper.props.tracker_available
         if (source.props.source_id == "grl-tracker-source"
                 and source.props.source_id not in self._wrappers.keys()
-                and TrackerWrapper.location_filter() is not None
+                and self._tracker_wrapper.location_filter() is not None
                 and new_state == TrackerState.AVAILABLE):
             new_wrapper = GrlTrackerWrapper(
                 source, self._coremodel, self._application, self,
                 self._tracker_wrapper)
             self._wrappers[source.props.source_id] = new_wrapper
-        # elif source.props.source_id[:10] == "grl-dleyna":
-        #     new_wrapper = GrlDLeynaWrapper(
-        #         source, self._coremodel, self._coreselection, self)
-        #     self._wrappers.append(new_wrapper)
-            print("wrapper", new_wrapper)
+            self._log.debug("Adding wrapper {}".format(new_wrapper))
         elif (source.props.source_id not in self._search_wrappers.keys()
                 and source.props.source_id not in self._wrappers.keys()
                 and source.props.source_id != "grl-tracker-source"
                 and source.get_supported_media() & Grl.MediaType.AUDIO
                 and source.supported_operations() & Grl.SupportedOps.SEARCH):
             self._search_wrappers[source.props.source_id] = GrlSearchWrapper(
-                source, self._coremodel, self._coreselection, self)
-            print("search source", source)
+                source, self._coremodel, self._application, self)
+            self._log.debug("Adding search source {}".format(source))
 
     def _on_source_removed(self, registry, source):
         # FIXME: Handle removing sources.
-        print("removed,", source.props.source_id)
+        self._log.debug("Removed source {}".format(source.props.source_id))
 
         # FIXME: Only removes search sources atm.
         self._search_wrappers.pop(source.props.source_id, None)
@@ -184,8 +177,8 @@ class CoreGrilo(GObject.GObject):
             source.store_metadata_sync(
                 media, [key], Grl.WriteFlags.NORMAL)
         except GLib.Error as error:
-            # FIXME: Do not print.
-            print("Error {}: {}".format(error.domain, error.message))
+            self._log.warning(
+                "Error {}: {}".format(error.domain, error.message))
 
         return GLib.SOURCE_REMOVE
 

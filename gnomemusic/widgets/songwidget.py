@@ -29,7 +29,6 @@ gi.require_version('Dazzle', '1.0')
 from gi.repository import Gdk, GObject, Gtk
 from gi.repository.Dazzle import BoldingLabel  # noqa: F401
 
-from gnomemusic import log
 from gnomemusic import utils
 from gnomemusic.coresong import CoreSong
 from gnomemusic.utils import SongStateIcon
@@ -85,10 +84,6 @@ class SongWidget(Gtk.EventBox):
         PLAYING = 1
         UNPLAYED = 2
 
-    def __repr__(self):
-        return '<SongWidget>'
-
-    @log
     def __init__(self, coresong, can_dnd=False, show_artist_and_album=False):
         """Instanciates a SongWidget
 
@@ -174,7 +169,6 @@ class SongWidget(Gtk.EventBox):
                 Gtk.DestDefaults.ALL, entries, Gdk.DragAction.MOVE)
 
     @Gtk.Template.Callback()
-    @log
     def _on_selection_changed(self, klass, value):
         self.emit('selection-changed')
 
@@ -221,7 +215,6 @@ class SongWidget(Gtk.EventBox):
         self.props.select_click = not self.props.select_click
 
     @Gtk.Template.Callback()
-    @log
     def _on_star_toggle(self, widget, event):
         (_, button) = event.get_button()
         if button != Gdk.BUTTON_PRIMARY:
@@ -233,12 +226,10 @@ class SongWidget(Gtk.EventBox):
         return True
 
     @Gtk.Template.Callback()
-    @log
     def _on_star_hover(self, widget, event):
         self._star_image.props.hover = True
 
     @Gtk.Template.Callback()
-    @log
     def _on_star_unhover(self, widget, event):
         self._star_image.props.hover = False
 

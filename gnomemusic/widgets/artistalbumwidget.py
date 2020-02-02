@@ -24,7 +24,6 @@
 
 from gi.repository import GObject, Gtk
 
-from gnomemusic import log
 from gnomemusic.albumartcache import Art
 from gnomemusic.widgets.disclistboxwidget import DiscBox
 from gnomemusic.widgets.songwidget import SongWidget
@@ -47,9 +46,6 @@ class ArtistAlbumWidget(Gtk.Box):
             GObject.SignalFlags.RUN_FIRST, None, (SongWidget, )
         ),
     }
-
-    def __repr__(self):
-        return '<ArtistAlbumWidget>'
 
     def __init__(
             self, corealbum, selection_mode_allowed, size_group=None,
@@ -128,12 +124,10 @@ class ArtistAlbumWidget(Gtk.Box):
 
         self.emit("song-activated", song_widget)
 
-    @log
     def select_all(self):
         """Select all items"""
         self._disc_list_box.select_all()
 
-    @log
     def deselect_all(self):
         """Deselect all items"""
         self._disc_list_box.deselect_all()

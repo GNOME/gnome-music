@@ -23,18 +23,12 @@
 # delete this exception statement from your version.
 
 from enum import IntEnum
-import logging
 
 from gettext import gettext as _, ngettext
 import gi
 gi.require_version('Gst', '1.0')
 gi.require_version('GstPbutils', '1.0')
 from gi.repository import GLib, Gtk, Gio, GObject, Gst, GstPbutils
-
-
-from gnomemusic import log
-
-logger = logging.getLogger(__name__)
 
 
 class Playback(IntEnum):
@@ -59,10 +53,6 @@ class GstPlayer(GObject.GObject):
         "stream-start": (GObject.SignalFlags.RUN_FIRST, None, ())
     }
 
-    def __repr__(self):
-        return '<GstPlayer>'
-
-    @log
     def __init__(self, application):
         """Initialize the GStreamer player
 
@@ -74,6 +64,7 @@ class GstPlayer(GObject.GObject):
 
         self._application = application
         self._duration = -1.
+        self._log = application.props.log
         self._seek = False
         self._tick = 0
 
@@ -101,7 +92,6 @@ class GstPlayer(GObject.GObject):
 
         self.props.state = Playback.STOPPED
 
-    @log
     def _setup_replaygain(self):
         """Set up replaygain"""
         self._rg_volume = Gst.ElementFactory.make("rgvolume", "rg volume")
@@ -123,21 +113,18 @@ class GstPlayer(GObject.GObject):
         if (not self._filter_bin
                 or not self._rg_volume
                 or not self._rg_limiter):
-            logger.debug("Replay Gain is not available")
+            self._log.message("Replay Gain is not available")
             return
 
-    @log
     def _on_replaygain_setting_changed(self, settings, value):
         if value:
             self._player.set_property("audio-filter", self._filter_bin)
         else:
             self._player.set_property("audio-filter", None)
 
-    @log
     def _on_about_to_finish(self, klass):
         self.emit("about-to-finish")
 
-    @log
     def _on_async_done(self, bus, message):
         success, duration = self._player.query_duration(
             Gst.Format.TIME)
@@ -153,23 +140,19 @@ class GstPlayer(GObject.GObject):
 
         self.notify("state")
 
-    @log
     def _on_new_clock(self, bus, message):
         clock = message.parse_new_clock()
         id_ = clock.new_periodic_id(0, 1 * Gst.SECOND)
         clock.id_wait_async(id_, self._on_clock_tick, None)
 
-    @log
     def _on_clock_tick(self, clock, time, id, data):
         self.emit("clock-tick", self._tick)
         self._tick += 1
 
-    @log
     def _on_bus_element(self, bus, message):
         if GstPbutils.is_missing_plugin_message(message):
             self._missing_plugin_messages.append(message)
 
-    @log
     def _on_bus_stream_start(self, bus, message):
         def delayed_query():
             self._on_async_done(None, None)
@@ -180,7 +163,6 @@ class GstPlayer(GObject.GObject):
         # have been set yet.
         GLib.timeout_add(1, delayed_query)
 
-    @log
     def _on_bus_error(self, bus, message):
         if self._is_missing_plugin_message(message):
             self.props.state = Playback.PAUSED
@@ -191,20 +173,18 @@ class GstPlayer(GObject.GObject):
         debug = debug.split('\n')
         debug = [('     ') + line.lstrip() for line in debug]
         debug = '\n'.join(debug)
-        logger.warning("URI: {}".format(self.props.url))
-        logger.warning(
+        self._log.warning("URI: {}".format(self.props.url))
+        self._log.warning(
             "Error from element {}: {}".format(
                 message.src.get_name(), error.message))
-        logger.warning("Debugging info:\n{}".format(debug))
+        self._log.warning("Debugging info:\n{}".format(debug))
 
         self.emit("error")
         return True
 
-    @log
     def _on_bus_eos(self, bus, message):
         self.emit('eos')
 
-    @log
     def _get_playback_status(self):
         ok, state, pending = self._player.get_state(0)
 
@@ -298,7 +278,6 @@ class GstPlayer(GObject.GObject):
         """
         self._duration = duration
 
-    @log
     def seek(self, seconds):
         """Seek to position
 
@@ -308,7 +287,6 @@ class GstPlayer(GObject.GObject):
             Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT,
             seconds * Gst.SECOND)
 
-    @log
     def _start_plugin_installation(
             self, missing_plugin_messages, confirm_search):
         install_ctx = GstPbutils.InstallPluginsContext.new()
@@ -333,7 +311,6 @@ class GstPlayer(GObject.GObject):
         GstPbutils.install_plugins_async(
             installer_details, install_ctx, on_install_done)
 
-    @log
     def _show_codec_confirmation_dialog(
             self, install_helper_name, missing_plugin_messages):
         active_window = self._application.props.active_window
@@ -355,7 +332,6 @@ class GstPlayer(GObject.GObject):
         dialog.connect('response', on_dialog_response)
         dialog.present()
 
-    @log
     def _handle_missing_plugins(self):
         if not self._missing_plugin_messages:
             return
@@ -380,7 +356,6 @@ class GstPlayer(GObject.GObject):
         # codec installation.
         self._start_plugin_installation(missing_plugin_messages, True)
 
-    @log
     def _is_missing_plugin_message(self, message):
         error, debug = message.parse_error()
 
@@ -392,10 +367,6 @@ class GstPlayer(GObject.GObject):
 
 class MissingCodecsDialog(Gtk.MessageDialog):
 
-    def __repr__(self):
-        return '<MissingCodecsDialog>'
-
-    @log
     def __init__(self, parent_window, install_helper_name):
         super().__init__(
             transient_for=parent_window, modal=True, destroy_with_parent=True,
@@ -412,7 +383,6 @@ class MissingCodecsDialog(Gtk.MessageDialog):
         Gtk.StyleContext.add_class(
             self.find_button.get_style_context(), 'suggested-action')
 
-    @log
     def set_codec_names(self, codec_names):
         n_codecs = len(codec_names)
         if n_codecs == 2:

@@ -24,18 +24,14 @@
 
 from enum import IntEnum
 from hashlib import md5
-import logging
 
 import gi
 gi.require_version('Goa', '1.0')
 gi.require_version('Soup', '2.4')
 from gi.repository import GLib, Goa, GObject, Soup
 
-from gnomemusic import log
+from gnomemusic.musiclogger import MusicLogger
 import gnomemusic.utils as utils
-
-
-logger = logging.getLogger(__name__)
 
 
 class GoaLastFM(GObject.GObject):
@@ -49,12 +45,10 @@ class GoaLastFM(GObject.GObject):
         DISABLED = 1
         ENABLED = 2
 
-    def __repr__(self):
-        return '<GoaLastFM>'
-
-    @log
     def __init__(self):
         super().__init__()
+
+        self._log = MusicLogger()
 
         self._client = None
         self._reset_attributes()
@@ -67,12 +61,11 @@ class GoaLastFM(GObject.GObject):
         self._music_disabled_id = None
         self.notify("state")
 
-    @log
     def _new_client_callback(self, source, result):
         try:
             self._client = source.new_finish(result)
         except GLib.Error as error:
-            logger.warning("Error: {}, {}".format(
+            self._log.warning("Error: {}, {}".format(
                 Goa.Error(error.code), error.message))
             return
 
@@ -89,7 +82,6 @@ class GoaLastFM(GObject.GObject):
             self._account.disconnect(self._music_disabled_id)
             self._reset_attributes()
 
-    @log
     def _find_lastfm_account(self):
         accounts = self._client.get_accounts()
 
@@ -103,7 +95,6 @@ class GoaLastFM(GObject.GObject):
                 self._goa_music_disabled(self._account)
                 break
 
-    @log
     def _goa_music_disabled(self, klass, args=None):
         if self._account.props.music_disabled is True:
             self._state = GoaLastFM.State.DISABLED
@@ -141,7 +132,7 @@ class GoaLastFM(GObject.GObject):
         try:
             return self._authentication.call_get_access_token_sync(None)[0]
         except GLib.Error as e:
-            logger.warning(
+            self._log.warning(
                 "Error: Unable to retrieve last.fm session key", e.message)
             return None
 
@@ -149,10 +140,6 @@ class GoaLastFM(GObject.GObject):
 class LastFmScrobbler(GObject.GObject):
     """Scrobble songs to Last.fm"""
 
-    def __repr__(self):
-        return '<LastFmScrobbler>'
-
-    @log
     def __init__(self, application):
         """Intialize LastFm Scrobbler
 
@@ -160,6 +147,7 @@ class LastFmScrobbler(GObject.GObject):
         """
         super().__init__()
 
+        self._log = application.props.log
         self._settings = application.props.settings
         self._report = self._settings.get_boolean("lastfm-report")
 
@@ -236,13 +224,12 @@ class LastFmScrobbler(GObject.GObject):
     def scrobbled(self, scrobbled):
         self._scrobbled = scrobbled
 
-    @log
     def _lastfm_api_call(self, media, time_stamp, request_type_key):
         """Internal method called by self.scrobble"""
         api_key = self._goa_lastfm.client_id
         sk = self._goa_lastfm.session_key
         if sk is None:
-            logger.warning(
+            self._log.warning(
                 "Error: Unable to perform last.fm api call", request_type_key)
             return
         secret = self._goa_lastfm.secret
@@ -317,19 +304,17 @@ class LastFmScrobbler(GObject.GObject):
         self._soup_session.queue_message(
             msg, self._lastfm_api_callback, request_type_key)
 
-    @log
     def _lastfm_api_callback(self, session, msg, request_type_key):
         """Internall callback method called by queue_message"""
         status_code = msg.props.status_code
         if status_code != 200:
-            logger.warning("Failed to {} track {} : {}".format(
+            self._log.debug("Failed to {} track {} : {}".format(
                 request_type_key, status_code, msg.props.reason_phrase))
-            logger.warning(msg.props.response_body.data)
+            self._log.debug(msg.props.response_body.data)
         elif (status_code == 200
                 and request_type_key == "scrobble"):
             self._scrobble_cache.clear()
 
-    @log
     def scrobble(self, coresong, time_stamp):
         """Scrobble a song to Last.fm.
 
@@ -346,7 +331,6 @@ class LastFmScrobbler(GObject.GObject):
         media = coresong.props.media
         self._lastfm_api_call(media, time_stamp, "scrobble")
 
-    @log
     def now_playing(self, coresong):
         """Set now playing song to Last.fm
 

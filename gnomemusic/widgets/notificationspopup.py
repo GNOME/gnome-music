@@ -26,8 +26,6 @@ from enum import IntEnum
 from gettext import gettext as _
 from gi.repository import GLib, GObject, Gtk
 
-from gnomemusic import log
-
 
 class NotificationsPopup(Gtk.Revealer):
     """Display notification messages as popups
@@ -40,16 +38,11 @@ class NotificationsPopup(Gtk.Revealer):
 
     __gtype_name__ = "NotificationsPopup"
 
-    def __repr__(self):
-        return '<NotificationsPopup>'
-
-    @log
     def __init__(self):
         super().__init__()
 
         self._setup_view()
 
-    @log
     def _setup_view(self):
         frame = Gtk.Frame()
         frame.get_style_context().add_class('app-notification')
@@ -67,14 +60,12 @@ class NotificationsPopup(Gtk.Revealer):
         self.show_all()
         self._loading_notification.hide()
 
-    @log
     def _hide_notifications(self, notification, remove):
         if remove:
             self._grid.remove(notification)
         self._loading_notification.hide()
         self.hide()
 
-    @log
     def _set_visibility(self, notification, remove=False):
         """Display or hide Notifications Popup.
 
@@ -99,7 +90,6 @@ class NotificationsPopup(Gtk.Revealer):
                 duration + 100, self._hide_notifications, notification, remove)
         self.set_reveal_child(not invisible)
 
-    @log
     def pop_loading(self):
         """Decrease loading notification counter.
 
@@ -107,7 +97,6 @@ class NotificationsPopup(Gtk.Revealer):
         """
         self._loading_notification.pop()
 
-    @log
     def push_loading(self):
         """Increase loading notification counter.
 
@@ -115,7 +104,6 @@ class NotificationsPopup(Gtk.Revealer):
         """
         self._loading_notification.push()
 
-    @log
     def add_notification(self, notification):
         """Display a new notification
 
@@ -125,7 +113,6 @@ class NotificationsPopup(Gtk.Revealer):
         self.show()
         self.set_reveal_child(True)
 
-    @log
     def remove_notification(self, notification):
         """Removes notification.
 
@@ -133,7 +120,6 @@ class NotificationsPopup(Gtk.Revealer):
         """
         self._set_visibility(notification, True)
 
-    @log
     def terminate_pending(self):
         """Terminate all pending playlists notifications"""
         children = self._grid.get_children()
@@ -154,10 +140,6 @@ class LoadingNotification(Gtk.Grid):
         'invisible': (GObject.SignalFlags.RUN_FIRST, None, ())
     }
 
-    def __repr__(self):
-        return '<LoadingNotification>'
-
-    @log
     def __init__(self):
         super().__init__(column_spacing=18)
         self._counter = 0
@@ -172,7 +154,6 @@ class LoadingNotification(Gtk.Grid):
         self.add(label)
         self.show_all()
 
-    @log
     def pop(self):
         """Decrease the counter. Hide notification if it reaches 0."""
         self._counter = self._counter - 1
@@ -185,7 +166,6 @@ class LoadingNotification(Gtk.Grid):
                 self._timeout_id = 0
             self.emit('invisible')
 
-    @log
     def push(self):
         """Increase the counter. Start notification if necessary."""
         def callback():
@@ -212,10 +192,6 @@ class PlaylistNotification(Gtk.Grid):
         PLAYLIST = 0
         SONG = 1
 
-    def __repr__(self):
-        return '<PlaylistNotification>'
-
-    @log
     def __init__(
             self, notifications_popup, coremodel, type_, playlist,
             position=None, coresong=None):
@@ -265,7 +241,6 @@ class PlaylistNotification(Gtk.Grid):
 
         return msg
 
-    @log
     def _undo_deletion(self, widget_):
         """Undo deletion and remove notification"""
         if self._timeout_id > 0:

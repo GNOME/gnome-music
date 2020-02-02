@@ -31,7 +31,6 @@ from gnomemusic.coreartist import CoreArtist
 from gnomemusic.coredisc import CoreDisc
 from gnomemusic.coresong import CoreSong
 from gnomemusic.grilowrappers.grltrackerplaylists import GrlTrackerPlaylists
-from gnomemusic.trackerwrapper import TrackerWrapper
 
 
 class GrlTrackerWrapper(GObject.GObject):
@@ -62,9 +61,6 @@ class GrlTrackerWrapper(GObject.GObject):
         Grl.METADATA_KEY_THUMBNAIL,
     ]
 
-    def __repr__(self):
-        return "<GrlTrackerWrapper>"
-
     def __init__(
             self, source, coremodel, application, grilo, tracker_wrapper):
         """Initialize the Tracker wrapper
@@ -82,6 +78,7 @@ class GrlTrackerWrapper(GObject.GObject):
         self._coreselection = application.props.coreselection
         self._grilo = grilo
         self._source = source
+        self._log = application.props.log
         self._model = self._coremodel.props.songs
         self._albums_model = self._coremodel.props.albums
         self._album_ids = {}
@@ -93,6 +90,7 @@ class GrlTrackerWrapper(GObject.GObject):
         self._artist_search_model = self._coremodel.props.artists_search
         self._batch_changed_media_ids = {}
         self._content_changed_timeout = None
+        self._tracker_wrapper = tracker_wrapper
         self._window = application.props.window
 
         self._song_search_tracker = Gfm.FilterListModel.new(self._model)
@@ -141,10 +139,12 @@ class GrlTrackerWrapper(GObject.GObject):
             # it means 'added' to Music.
             if (change_type == Grl.SourceChangeType.CHANGED
                     or change_type == Grl.SourceChangeType.ADDED):
-                print("ADDED/CHANGED", media_ids)
+                self._log.debug(
+                    "Added/Changed media(s): {}".format(media_ids))
                 self._changed_media(media_ids)
             elif change_type == Grl.SourceChangeType.REMOVED:
-                print("REMOVED", media_ids)
+                self._log.debug(
+                    "Removed media(s): {}".format(media_ids))
                 self._remove_media(media_ids)
 
         self._check_album_change()
@@ -176,18 +176,20 @@ class GrlTrackerWrapper(GObject.GObject):
             %(location_filter)s
         } GROUP BY ?album
         """.replace('\n', ' ').strip() % {
-            'location_filter': TrackerWrapper.location_filter()
+            'location_filter': self._tracker_wrapper.location_filter()
         }
 
         def check_album_cb(source, op_id, media, user_data, error):
             if error:
-                print("ERROR", error)
+                self._log.warning("Error: {}".format(error))
                 return
 
             if not media:
                 changed_ids = set(
                     album_ids.keys()) ^ set(self._album_ids.keys())
-                print("ALBUMS CHANGED", changed_ids)
+
+                self._log.debug(
+                    "Albums changed ID's: {}".format(changed_ids))
 
                 for key in changed_ids:
                     if key in album_ids:
@@ -235,18 +237,19 @@ class GrlTrackerWrapper(GObject.GObject):
         }
         GROUP BY ?artist_bind
         """.replace('\n', ' ').strip() % {
-            'location_filter': TrackerWrapper.location_filter()
+            'location_filter': self._tracker_wrapper.location_filter()
         }
 
         def check_artist_cb(source, op_id, media, user_data, error):
             if error:
-                print("ERROR", error)
+                self._log.warning("Error: {}".format(error))
                 return
 
             if not media:
                 changed_ids = set(
                     artist_ids.keys()) ^ set(self._artist_ids.keys())
-                print("ARTISTS CHANGED", changed_ids)
+                self._log.debug(
+                    "Artists changed ID's: {}".format(changed_ids))
 
                 for key in changed_ids:
                     if key in artist_ids:
@@ -277,14 +280,14 @@ class GrlTrackerWrapper(GObject.GObject):
             try:
                 coresong = self._hash.pop(media_id)
             except KeyError:
-                print("Removal KeyError")
+                self._log.warning("Removal KeyError.")
                 return
 
             for idx, coresong_model in enumerate(self._model):
                 if coresong_model is coresong:
-                    print(
-                        "removing", coresong.props.media.get_id(),
-                        coresong.props.title)
+                    self._log.debug("Removing: {}, {}".format(
+                        coresong.props.media.get_id(), coresong.props.title))
+
                     self._model.remove(idx)
                     break
 
@@ -317,7 +320,7 @@ class GrlTrackerWrapper(GObject.GObject):
             %(location_filter)s
         }
         """.replace('\n', ' ').strip() % {
-            'location_filter': TrackerWrapper.location_filter(),
+            'location_filter': self._tracker_wrapper.location_filter(),
             'media_ids': media_ids
         }
 
@@ -327,14 +330,16 @@ class GrlTrackerWrapper(GObject.GObject):
 
         def _update_changed_media(source, op_id, media, user_data, error):
             if error:
-                print("ERROR", error)
+                self._log.warning("Error: {}".format(error))
                 return
 
             if not media:
                 return
 
             if media.get_id() not in self._hash:
-                print("Media not in hash", media.get_id())
+                self._log.debug(
+                    "Media {} not in hash".format(media.get_id()))
+
                 song = CoreSong(media, self._coreselection, self._grilo)
                 self._model.append(song)
                 self._hash[media.get_id()] = song
@@ -353,7 +358,7 @@ class GrlTrackerWrapper(GObject.GObject):
 
         def _add_to_model(source, op_id, media, user_data, error):
             if error:
-                print("ERROR", error)
+                self._log.warning("Error: {}".format(error))
                 self._window.notifications_popup.pop_loading()
                 return
 
@@ -395,7 +400,7 @@ class GrlTrackerWrapper(GObject.GObject):
         }
         ORDER BY ?title
         """.replace('\n', ' ').strip() % {
-            'location_filter': TrackerWrapper.location_filter()
+            'location_filter': self._tracker_wrapper.location_filter()
         }
 
         options = self._fast_options.copy()
@@ -407,7 +412,7 @@ class GrlTrackerWrapper(GObject.GObject):
 
         def _add_to_albums_model(source, op_id, media, user_data, error):
             if error:
-                print("ERROR", error)
+                self._log.warning("Error: {}".format(error))
                 self._window.notifications_popup.pop_loading()
                 return
 
@@ -448,7 +453,7 @@ class GrlTrackerWrapper(GObject.GObject):
         GROUP BY ?album
         ORDER BY ?title ?album_artist ?artist ?creation_date
         """.replace('\n', ' ').strip() % {
-            'location_filter': TrackerWrapper.location_filter()
+            'location_filter': self._tracker_wrapper.location_filter()
         }
 
         options = self._fast_options.copy()
@@ -461,7 +466,7 @@ class GrlTrackerWrapper(GObject.GObject):
 
         def _add_to_artists_model(source, op_id, media, user_data, error):
             if error:
-                print("ERROR", error)
+                self._log.warning("Error: {}".format(error))
                 self._window.notifications_popup.pop_loading()
                 return
 
@@ -500,7 +505,7 @@ class GrlTrackerWrapper(GObject.GObject):
         GROUP BY ?artist_bind
         ORDER BY ?artist_bind
         """.replace('\n', ' ').strip() % {
-            'location_filter': TrackerWrapper.location_filter()
+            'location_filter': self._tracker_wrapper.location_filter()
         }
 
         options = self._fast_options.copy()
@@ -537,14 +542,14 @@ class GrlTrackerWrapper(GObject.GObject):
         ORDER BY ?date ?album
         """.replace('\n', ' ').strip() % {
             'artist_id': int(artist_id),
-            'location_filter': TrackerWrapper.location_filter()
+            'location_filter': self._tracker_wrapper.location_filter()
         }
 
         albums = []
 
         def query_cb(source, op_id, media, user_data, error):
             if error:
-                print("ERROR", error)
+                self._log.warning("Error: {}".format(error))
                 self._window.notifications_popup.pop_loading()
                 return
 
@@ -589,12 +594,12 @@ class GrlTrackerWrapper(GObject.GObject):
         ORDER BY ?album_disc_number
         """.replace('\n', ' ').strip() % {
             'album_id': int(album_id),
-            'location_filter': TrackerWrapper.location_filter()
+            'location_filter': self._tracker_wrapper.location_filter()
         }
 
         def _disc_nr_cb(source, op_id, media, user_data, error):
             if error:
-                print("ERROR", error)
+                self._log.warning("Error: {}".format(error))
                 self._window.notifications_popup.pop_loading()
                 return
 
@@ -650,7 +655,7 @@ class GrlTrackerWrapper(GObject.GObject):
         """.replace('\n', ' ').strip() % {
             'album_id': album_id,
             'disc_nr': disc_nr,
-            'location_filter': TrackerWrapper.location_filter()
+            'location_filter': self._tracker_wrapper.location_filter()
         }
 
         options = self._fast_options.copy()
@@ -697,7 +702,7 @@ class GrlTrackerWrapper(GObject.GObject):
         }
         LIMIT 50
         """.replace('\n', ' ').strip() % {
-            'location_filter': TrackerWrapper.location_filter(),
+            'location_filter': self._tracker_wrapper.location_filter(),
             'name': term
         }
 
@@ -708,7 +713,7 @@ class GrlTrackerWrapper(GObject.GObject):
 
         def artist_search_cb(source, op_id, media, data, error):
             if error:
-                print("ERROR", error)
+                self._log.warning("Error: {}".format(error))
                 self._window.notifications_popup.pop_loading()
                 return
 
@@ -752,7 +757,7 @@ class GrlTrackerWrapper(GObject.GObject):
         }
         LIMIT 50
         """.replace('\n', ' ').strip() % {
-            'location_filter': TrackerWrapper.location_filter(),
+            'location_filter': self._tracker_wrapper.location_filter(),
             'name': term
         }
 
@@ -763,7 +768,7 @@ class GrlTrackerWrapper(GObject.GObject):
 
         def albums_search_cb(source, op_id, media, data, error):
             if error:
-                print("ERROR", error)
+                self._log.warning("Error: {}".format(error))
                 self._window.notifications_popup.pop_loading()
                 return
 
@@ -813,7 +818,7 @@ class GrlTrackerWrapper(GObject.GObject):
         }
         LIMIT 50
         """.replace('\n', ' ').strip() % {
-            'location_filter': TrackerWrapper.location_filter(),
+            'location_filter': self._tracker_wrapper.location_filter(),
             'name': term
         }
 
@@ -824,7 +829,7 @@ class GrlTrackerWrapper(GObject.GObject):
 
         def songs_search_cb(source, op_id, media, data, error):
             if error:
-                print("ERROR", error)
+                self._log.warning("Error: {}".format(error))
                 self._window.notifications_popup.pop_loading()
                 return
 
@@ -895,7 +900,7 @@ class GrlTrackerWrapper(GObject.GObject):
         }
         """.replace("\n", " ").strip() % {
                 'album_id': album_id,
-                'location_filter': TrackerWrapper.location_filter()
+                'location_filter': self._tracker_wrapper.location_filter()
         }
 
         return query
@@ -937,7 +942,7 @@ class GrlTrackerWrapper(GObject.GObject):
             %(location_filter)s
         }
         """.replace("\n", " ").strip() % {
-            'location_filter': TrackerWrapper.location_filter(),
+            'location_filter': self._tracker_wrapper.location_filter(),
             'song_id': song_id
         }
 

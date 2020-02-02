@@ -26,8 +26,6 @@ from enum import IntEnum
 
 from gi.repository import GObject
 
-from gnomemusic import log
-
 
 class Search(GObject.GObject):
 
@@ -45,9 +43,5 @@ class Search(GObject.GObject):
     search_mode_active = GObject.Property(type=bool, default=False)
     state = GObject.Property(type=int, default=0)
 
-    def __repr__(self):
-        return "<Search>"
-
-    @log
     def __init__(self):
         super().__init__()
