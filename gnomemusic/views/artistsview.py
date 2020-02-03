@@ -23,7 +23,7 @@
 # delete this exception statement from your version.
 
 from gettext import gettext as _
-from gi.repository import Gdk, Gtk
+from gi.repository import Gdk, GObject, Gtk
 
 from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.artistalbumswidget import ArtistAlbumsWidget
@@ -83,8 +83,6 @@ class ArtistsView(BaseView):
     def _create_widget(self, coreartist):
         row = ArtistTile(coreartist)
         row.props.text = coreartist.props.artist
-
-        self.bind_property("selection-mode", row, "selection-mode")
 
         return row
 
@@ -156,7 +154,13 @@ class ArtistsView(BaseView):
             return
 
         self._artist_albums = ArtistAlbumsWidget(
-            coreartist, self._application, False)
+            coreartist, self._application, True)
+
+        self.bind_property(
+            "selection-mode", self._artist_albums, "selection-mode",
+            GObject.BindingFlags.SYNC_CREATE
+            | GObject.BindingFlags.BIDIRECTIONAL)
+
         artist_albums_frame = Gtk.Frame(
             shadow_type=Gtk.ShadowType.NONE, hexpand=True)
         artist_albums_frame.add(self._artist_albums)
@@ -182,7 +186,6 @@ class ArtistsView(BaseView):
 
         super()._on_selection_mode_changed(widget, data)
 
-        self._view.props.sensitive = not self.props.selection_mode
         if self.props.selection_mode:
             self._sidebar.props.selection_mode = Gtk.SelectionMode.NONE
         else:
