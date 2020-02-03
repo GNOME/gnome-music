@@ -23,7 +23,7 @@
 # delete this exception statement from your version.
 
 from gettext import gettext as _
-from gi.repository import Gdk, Gtk
+from gi.repository import Gdk, GObject, Gtk
 
 from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.artistalbumswidget import ArtistAlbumsWidget
@@ -69,11 +69,6 @@ class ArtistsView(BaseView):
         self._sidebar.props.selection_mode = Gtk.SelectionMode.SINGLE
         self._sidebar.connect('row-activated', self._on_artist_activated)
 
-        self._ctrl = Gtk.GestureMultiPress().new(self._sidebar)
-        self._ctrl.props.propagation_phase = Gtk.PropagationPhase.CAPTURE
-        self._ctrl.props.button = Gdk.BUTTON_PRIMARY
-        self._ctrl.connect("released", self._on_sidebar_clicked)
-
         self._loaded_artists = []
         self._loading_id = 0
 
@@ -82,8 +77,6 @@ class ArtistsView(BaseView):
     def _create_widget(self, coreartist):
         row = ArtistTile(coreartist)
         row.props.text = coreartist.props.artist
-
-        self.bind_property("selection-mode", row, "selection-mode")
 
         return row
 
@@ -140,7 +133,6 @@ class ArtistsView(BaseView):
         # ArtistsView, to circumvent this issue.
         if (self.props.selection_mode
                 and self._window.props.active_view is self):
-            row.props.selected = not row.props.selected
             return
 
         selected_row = self._sidebar.get_selected_row()
@@ -155,7 +147,13 @@ class ArtistsView(BaseView):
             return
 
         self._artist_albums = ArtistAlbumsWidget(
-            coreartist, self._application, False)
+            coreartist, self._application, True)
+
+        self.bind_property(
+            "selection-mode", self._artist_albums, "selection-mode",
+            GObject.BindingFlags.SYNC_CREATE
+            | GObject.BindingFlags.BIDIRECTIONAL)
+
         artist_albums_frame = Gtk.Frame(
             shadow_type=Gtk.ShadowType.NONE, hexpand=True)
         artist_albums_frame.add(self._artist_albums)
@@ -168,20 +166,12 @@ class ArtistsView(BaseView):
 
         self._loaded_artists.append(coreartist.props.artist)
 
-    def _on_sidebar_clicked(self, gesture, n_press, x, y):
-        success, state = Gtk.get_current_event_state()
-        modifiers = Gtk.accelerator_get_default_mod_mask()
-        if ((state & modifiers) == Gdk.ModifierType.CONTROL_MASK
-                and not self.props.selection_mode):
-            self.props.selection_mode = True
-
     def _on_selection_mode_changed(self, widget, data=None):
         if self.get_parent().get_visible_child() != self:
             return
 
         super()._on_selection_mode_changed(widget, data)
 
-        self._view.props.sensitive = not self.props.selection_mode
         if self.props.selection_mode:
             self._sidebar.props.selection_mode = Gtk.SelectionMode.NONE
         else:
@@ -199,15 +189,12 @@ class ArtistsView(BaseView):
             self._sidebar.select_row(selected_row)
             self._selected_artist = None
 
-    def _toggle_all_selection(self, selected):
-
-        def toggle_selection(child):
-            child.props.selected = selected
-
-        self._sidebar.foreach(toggle_selection)
-
     def select_all(self):
-        self._toggle_all_selection(True)
+        current_frame = self._view.get_visible_child()
+        for row in current_frame.get_child():
+            row.get_child().select_all()
 
     def deselect_all(self):
-        self._toggle_all_selection(False)
+        current_frame = self._view.get_visible_child()
+        for row in current_frame.get_child():
+            row.get_child().deselect_all()
