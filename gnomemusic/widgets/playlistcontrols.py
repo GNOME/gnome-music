@@ -42,28 +42,50 @@ class PlaylistControls(Gtk.Grid):
     _rename_done_button = Gtk.Template.Child()
     _songs_count_label = Gtk.Template.Child()
 
-    def __init__(self, application):
-        """Initialize
-
-        :param GtkApplication application: The application object
-        """
+    def __init__(self):
         super().__init__()
+
+        self._application = None
 
         self._playlist = None
         self._count_id = 0
         self._binding_count = None
-        self._coremodel = application.props.coremodel
-        self._window = application.props.window
 
         self._delete_action = Gio.SimpleAction.new("playlist_delete", None)
         self._delete_action.connect("activate", self._on_delete_action)
-        self._window.add_action(self._delete_action)
 
         self._play_action = Gio.SimpleAction.new("playlist_play", None)
-        self._window.add_action(self._play_action)
 
         self._rename_action = Gio.SimpleAction.new("playlist_rename", None)
         self._rename_action.connect("activate", self._on_rename_action)
+
+    # FIXME: This is a workaround for not being able to pass the application
+    # object via init when using Gtk.Builder.
+    @GObject.Property(default=None)
+    def application(self):
+        """The Application object used
+
+        :return: application object
+        :rtype: Application
+        """
+        return self._application
+
+    @application.setter
+    def application(self, application):
+        """Set the Application object used
+
+        :param Application application: The Application to use
+        """
+        if (application is None
+                or (self._application is not None
+                    and self._player != application)):
+            return
+
+        self._coremodel = application.props.coremodel
+        self._window = application.props.window
+
+        self._window.add_action(self._delete_action)
+        self._window.add_action(self._play_action)
         self._window.add_action(self._rename_action)
 
     def _on_rename_action(self, menuitem, data=None):

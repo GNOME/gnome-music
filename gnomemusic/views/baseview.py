@@ -63,8 +63,7 @@ class BaseView(Gtk.Stack):
             "selection-mode", self._window, "selection-mode",
             GObject.BindingFlags.BIDIRECTIONAL)
 
-        self._selection_mode_id = self.connect(
-            "notify::selection-mode", self._on_selection_mode_changed)
+        self.connect("notify::selection-mode", self._on_selection_mode_changed)
 
     def _setup_view(self):
         """Instantiate and set up the view object"""
