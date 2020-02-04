@@ -133,7 +133,8 @@ class GoaLastFM(GObject.GObject):
             return self._authentication.call_get_access_token_sync(None)[0]
         except GLib.Error as e:
             self._log.warning(
-                "Error: Unable to retrieve last.fm session key", e.message)
+                "Error: Unable to retrieve last.fm session key: {}".format(
+                    e.message))
             return None
 
 
@@ -230,7 +231,8 @@ class LastFmScrobbler(GObject.GObject):
         sk = self._goa_lastfm.session_key
         if sk is None:
             self._log.warning(
-                "Error: Unable to perform last.fm api call", request_type_key)
+                "Error: Unable to perform last.fm api call {}".format(
+                    request_type_key))
             return
         secret = self._goa_lastfm.secret
 
