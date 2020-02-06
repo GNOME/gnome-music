@@ -301,8 +301,8 @@ class ErrorNotification(Gtk.Grid):
         self.add(self._label)
         self.show_all()
 
-        self._timeout_id = GLib.timeout_add_seconds(5, self._finish_deletion)
+        self._timeout_id = GLib.timeout_add_seconds(5, self._finish_message_removal)
         self._notifications_popup.add_notification(self)
 
-    def _finish_deletion(self):
+    def _finish_message_removal(self):
         self._notifications_popup.remove_notification(self)
