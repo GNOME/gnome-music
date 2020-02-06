@@ -71,7 +71,6 @@ class PlaylistControls(Gtk.Grid):
         self._enable_rename_playlist(self.props.playlist)
 
     def _on_delete_action(self, menutime, data=None):
-        print(dir(self._window.props))
         PlaylistNotification(
             self._window.notifications_popup, self._coremodel,
             PlaylistNotification.Type.PLAYLIST, self.props.playlist)
