@@ -285,3 +285,24 @@ class PlaylistNotification(Gtk.Grid):
             self._coremodel.finish_playlist_deletion(self._playlist, True)
         else:
             self._playlist.finish_song_deletion(self._coresong)
+
+class ErrorNotification(Gtk.Grid):
+    def __repr__(self):
+        return '<ErrorNotification>'
+    
+    def __init__(self, notifications_popup, msg):
+        super().__init__(column_spacing=18)
+        self._notifications_popup = notifications_popup
+
+        self._msg = msg
+        message = self._msg
+        self._label = Gtk.Label(
+            label=message, halign=Gtk.Align.START, hexpand=True)
+        self.add(self._label)
+        self.show_all()
+
+        self._timeout_id = GLib.timeout_add_seconds(5, self._finish_deletion)
+        self._notifications_popup.add_notification(self)
+
+    def _finish_deletion(self):
+        self._notifications_popup.remove_notification(self)
