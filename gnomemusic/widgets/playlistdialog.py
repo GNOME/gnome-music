@@ -128,14 +128,16 @@ class PlaylistDialog(Gtk.Dialog):
             self.response(Gtk.ResponseType.ACCEPT)
 
         _all_playlist_name = []
-        for pl in self._coremodel.props.playlists :
+        for pl in self._coremodel.props.playlists:
             _all_playlist_name.append(pl.props.title)
 
         text = self._add_playlist_entry.props.text
         if(text not in _all_playlist_name):
             self._coremodel.create_playlist(text, select_and_close_dialog)
         else:
-            ErrorNotification(self._app.props.window.notifications_popup, "Playlist already exists")
+            ErrorNotification(
+                self._app.props.window.notifications_popup,
+                "Playlist already exists")
 
     @Gtk.Template.Callback()
     @log
