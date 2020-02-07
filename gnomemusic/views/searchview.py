@@ -331,7 +331,7 @@ class SearchView(Gtk.Stack):
             return
 
         artist_albums_widget = ArtistAlbumsWidget(
-            coreartist, self._application, False)
+            coreartist, self._application, True)
         # FIXME: Recreating a view here. Alternate solution is used
         # in AlbumsView: one view created and an update function.
         # Settle on one design.
