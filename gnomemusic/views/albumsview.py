@@ -245,9 +245,15 @@ class AlbumsView(Gtk.Stack):
         Selects or deselects all items without sending the notify::active
         signal for performance purposes.
         """
-        with self._window._app.props.coreselection.freeze_notify():
-            for child in self._flowbox.get_children():
-                child.props.selected = selected
+        if self.get_visible_child() == self._album_widget:
+            if selected is True:
+                self._album_widget.select_all()
+            else:
+                self._album_widget.deselect_all()
+        else:
+            with self._window._app.props.coreselection.freeze_notify():
+                for child in self._flowbox.get_children():
+                    child.props.selected = selected
 
     def select_all(self):
         self._toggle_all_selection(True)
