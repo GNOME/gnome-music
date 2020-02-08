@@ -404,7 +404,7 @@ class SearchView(Gtk.Stack):
             with self._model.freeze_notify():
                 def song_select(child):
                     song_widget = child.get_child()
-                    song_widget.props.selected = value
+                    song_widget.props.coresong.props.selected = value
 
                 self._songs_listbox.foreach(song_select)
                 self._album_flowbox.foreach(child_select)
