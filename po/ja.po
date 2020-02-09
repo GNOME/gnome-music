@@ -1,19 +1,19 @@
 # Japanese translation for gnome-music.
-# Copyright (C) 2013-2015, 2019 gnome-music's COPYRIGHT HOLDER
+# Copyright (C) 2013-2015, 2019-2020 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-music package.
 # DanielaHidemiOyafuso <danielaoyafuso@gmail.com>, 2013.
 # Ikuya Awashiro <ikuya@fruitsbasket.info>, 2014.
 # Kento Tsuji <tuziemon@pclives.org>, 2014.
 # Hajime Taira <htaira@redhat.com>, 2015.
 # Jiro Matsuzawa <jmatsuzawa@gnome.org>, 2015.
-# sicklylife <translation@sicklylife.jp>, 2019.
+# sicklylife <translation@sicklylife.jp>, 2019-2020.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
 "POT-Creation-Date: 2020-01-15 19:29+0000\n"
-"PO-Revision-Date: 2019-09-05 22:00+0900\n"
+"PO-Revision-Date: 2020-02-09 23:00+0900\n"
 "Last-Translator: sicklylife <translation@sicklylife.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "Language: ja\n"
@@ -54,12 +54,12 @@ msgstr "ミュージック"
 
 #: data/org.gnome.Music.desktop.in.in:4
 msgid "Music Player"
-msgstr "音楽プレイヤー"
+msgstr "音楽プレーヤー"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.Music.desktop.in.in:13
 msgid "Music;Player;"
-msgstr "Music;Player;音楽;ミュージック;再生;プレイヤー;"
+msgstr "Music;Player;音楽;ミュージック;再生;プレーヤー;"
 
 #: data/org.gnome.Music.gschema.xml:12
 msgid "Window size"
@@ -142,7 +142,7 @@ msgstr "Copyright © 2018 GNOME Music Developers"
 
 #: data/ui/AboutDialog.ui.in:10
 msgid "A music player and management application for GNOME."
-msgstr "GNOME 向け音楽プレイヤーと管理アプリケーション"
+msgstr "GNOME 向け音楽プレーヤーと管理アプリケーション"
 
 #: data/ui/AboutDialog.ui.in:12
 msgid "Visit GNOME Music website"
@@ -190,7 +190,7 @@ msgstr "作曲者"
 
 #: data/ui/AppMenu.ui:20
 msgid "Last.fm Account"
-msgstr ""
+msgstr "Last.fm アカウント"
 
 #: data/ui/AppMenu.ui:39
 msgid "Report Music Listening"
@@ -206,7 +206,7 @@ msgstr "ヘルプ(_H)"
 
 #: data/ui/AppMenu.ui:98
 msgid "_About Music"
-msgstr "ミュージックについて(_A)"
+msgstr "“ミュージック”について(_A)"
 
 #: data/ui/HeaderBar.ui:16
 msgid "Menu"
@@ -531,10 +531,8 @@ msgid "Your system Tracker version seems outdated"
 msgstr "Tracker のバージョンが古すぎます"
 
 #: gnomemusic/views/emptyview.py:158
-#, fuzzy
-#| msgid "Music needs Tracker version 2.2.0 or higher"
 msgid "Music needs Tracker version 2.3.0 or higher"
-msgstr "Tracker のバージョン 2.2.0 以降が必要です"
+msgstr "Tracker のバージョン 2.3.0 以降が必要です"
 
 #: gnomemusic/views/playlistsview.py:58
 msgid "Playlists"
@@ -587,14 +585,6 @@ msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} 曲"
 
-#~ msgid "Search mode"
-#~ msgstr "検索モード"
-
-#~ msgid "If true, the search bar is shown."
-#~ msgstr "trueにすると検索バーを表示します。"
-
-#~ msgid "Notifications mode"
-#~ msgstr "通知モード"
 
 #~ msgid "Enables or disables playback notifications"
 #~ msgstr "再生中の曲の通知を有効にするかどうかの設定です。"
@@ -609,66 +599,20 @@ msgstr[0] "{} 曲"
 #~ "アーティストビューに表示されるトラック名の文字数を設定します。設定値を超え"
 #~ "るとトラック名が省略されます。無効にするには -1 を設定します"
 
-#~ msgid "Music is the new GNOME music playing application."
-#~ msgstr "ミュージックは GNOME の新しい音楽再生アプリケーションです。"
-
 #~ msgid "Untitled"
 #~ msgstr "タイトルなし"
 
 #~ msgid "Not playing"
 #~ msgstr "再生していません"
 
-#~ msgid "by %s, from %s"
-#~ msgstr "%s によるアルバム %s"
-
-#~ msgid "the a an"
-#~ msgstr "the a an"
-
-#~ msgid "All"
-#~ msgstr "すべて"
-
-#~ msgid "Artist"
-#~ msgstr "アーティスト"
-
-#~ msgid "Album"
-#~ msgstr "アルバム"
-
 #~ msgid "Track Title"
 #~ msgstr "トラック名"
-
-#~ msgid "Local"
-#~ msgstr "ローカル"
-
-#~ msgid "Sources"
-#~ msgstr "ソース"
 
 #~ msgid "Match"
 #~ msgstr "一致項目"
 
 #~ msgid "All Artists"
 #~ msgstr "すべてのアーティスト"
-
-#~ msgid "%d min"
-#~ msgstr "%d 分"
-
-#~ msgid "Empty"
-#~ msgstr "空"
-
-#~ msgid "_Quit"
-#~ msgstr "終了(_Q)"
-
-#~ msgid "Select Playlist"
-#~ msgstr "プレイリストの選択"
-
-#~ msgid ""
-#~ "No Music found!\n"
-#~ " Put some files into the folder %s"
-#~ msgstr ""
-#~ "音楽が見つかりません!\n"
-#~ " フォルダー %s にファイルを置いてください"
-
-#~ msgid "_New Playlist"
-#~ msgstr "新しいプレイリスト(_N)"
 
 #~ msgid "Load More"
 #~ msgstr "さらに読み込む"
