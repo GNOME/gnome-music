@@ -3,12 +3,12 @@
 # This file is distributed under the same license as the gnome-music package.
 #
 # Iñaki Larrañaga Murgoitio <dooteo@zundan.com>, 2013, 2014, 2015, 2016, 2017.
-# Asier Sarasua Garmendia <asier.saraua@gmail.com>, 2013, 2019.
+# Asier Sarasua Garmendia <asier.saraua@gmail.com>, 2013, 2019, 2020.
 msgid ""
 msgstr "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2019-08-06 17:01+0000\n"
-"PO-Revision-Date: 2019-08-11 10:00+0100\n"
+"POT-Creation-Date: 2020-01-15 19:29+0000\n"
+"PO-Revision-Date: 2020-02-09 10:00+0100\n"
 "Last-Translator: Asier Sarasua Garmendia <asier.sarasua@gmail.com>\n"
 "Language-Team: Basque <librezale@librezale.eus>\n"
 "Language: eu\n"
@@ -38,11 +38,11 @@ msgid ""
 "something new with the Jamendo and Magnatune services."
 msgstr "Aurkitu pistak zure bilduma lokalean, eskuratu musika DLNA zerbitzarietatik edo bilatuzerbait berria Jamendu eta Magnatune zerbitzuetan."
 
-#: data/org.gnome.Music.appdata.xml.in.in:52
+#: data/org.gnome.Music.appdata.xml.in.in:67
 msgid "The GNOME Music developers"
 msgstr "GNOME Musika aplikazioaren garatzaileak"
 
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:59
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:60
 #: gnomemusic/window.py:77
 msgid "Music"
 msgstr "Musika"
@@ -91,7 +91,7 @@ msgid ""
 "collection. Allowed values are: “none” (repeat and shuffle are off), "
 "“song” (repeat current song), “all” (repeat playlist, no shuffle), "
 "“shuffle” (shuffle playlist, presumes repeat all)."
-msgstr "Balioak erreprodukzioa errepikatuko edo ausaz erreproduzituko den bilduman zehar zehazten du. Balio erabilgarriak: “none“ (errepikatzea edo ausaz erreproduzitzea desgaituta), “song“ (errepikatu uneko abestia), “all“ (errepikatu erreprodukzio-zerrenda, ez-ausaz) eta “shuffle“ (ausaz erreproduzitu zerrenda, osoa errepikatuko duela suposatzen da)."
+msgstr "Balioak erreprodukzioa errepikatuko edo ausaz erreproduzituko den bilduman zehar zehazten du. Balio erabilgarriak: “none” (errepikatzea edo ausaz erreproduzitzea desgaituta), “song” (errepikatu uneko abestia), “all” (errepikatu erreprodukzio-zerrenda, ez-ausaz) eta “shuffle” (ausaz erreproduzitu zerrenda, osoa errepikatuko duela suposatzen da)."
 
 #: data/org.gnome.Music.gschema.xml:33
 msgid "Enable ReplayGain"
@@ -116,6 +116,16 @@ msgstr "Galarazi sistema esekitzea"
 #: data/org.gnome.Music.gschema.xml:44
 msgid "Enables or disables inhibiting system suspend while playing music"
 msgstr "Musika erreproduzitzen ari den bitartean sistema eseki dadin galarazten du"
+
+#: data/org.gnome.Music.gschema.xml:48
+msgid "Report music history to Last.fm"
+msgstr "Igorri musika-historia Last.fm guneari"
+
+#: data/org.gnome.Music.gschema.xml:49
+msgid ""
+"Enables or disables sending scrobbles and the “currently playing” info to "
+"Last.fm."
+msgstr "Abestien izenak eta \"unean erreproduzitzen\" Last-fm guneari igortzea gaitzen edo desgaitzen du."
 
 #: data/ui/AboutDialog.ui.in:9
 msgid "Copyright © 2018 GNOME Music Developers"
@@ -178,40 +188,48 @@ msgstr "Argitaratua"
 msgid "Running Length"
 msgstr "Iraupena"
 
-#: data/ui/AlbumWidget.ui:166 gnomemusic/widgets/searchbar.py:70
+#: data/ui/AlbumWidget.ui:166
 msgid "Composer"
 msgstr "Konpositorea"
 
-#: data/ui/AppMenu.ui:21
+#: data/ui/AppMenu.ui:20
+msgid "Last.fm Account"
+msgstr "Last.fm kontua"
+
+#: data/ui/AppMenu.ui:39
+msgid "Report Music Listening"
+msgstr "Eman musika entzutearen berri"
+
+#: data/ui/AppMenu.ui:70
 msgid "_Keyboard Shortcuts"
 msgstr "Las_ter-teklak"
 
-#: data/ui/AppMenu.ui:35
+#: data/ui/AppMenu.ui:84
 msgid "_Help"
 msgstr "_Laguntza"
 
-#: data/ui/AppMenu.ui:49
+#: data/ui/AppMenu.ui:98
 msgid "_About Music"
 msgstr "_Musikari buruz"
 
-#: data/ui/HeaderBar.ui:13
+#: data/ui/HeaderBar.ui:16
 msgid "Menu"
 msgstr "Menua"
 
-#: data/ui/HeaderBar.ui:36 data/ui/SearchHeaderBar.ui:13
+#: data/ui/HeaderBar.ui:39 data/ui/SearchHeaderBar.ui:16
 msgid "Select"
 msgstr "Hautatu"
 
-#: data/ui/HeaderBar.ui:58 data/ui/PlaylistDialog.ui:244
-#: data/ui/SearchHeaderBar.ui:35
+#: data/ui/HeaderBar.ui:61 data/ui/PlaylistDialog.ui:244
+#: data/ui/SearchHeaderBar.ui:38
 msgid "_Cancel"
 msgstr "_Utzi"
 
-#: data/ui/HeaderBar.ui:77 data/ui/SearchHeaderBar.ui:54
+#: data/ui/HeaderBar.ui:80 data/ui/SearchHeaderBar.ui:57
 msgid "Search"
 msgstr "Bilatu"
 
-#: data/ui/HeaderBar.ui:100
+#: data/ui/HeaderBar.ui:103
 msgid "Back"
 msgstr "Atzera"
 
@@ -321,7 +339,7 @@ msgstr "Ausaz/Ez errepikatu"
 msgid "Previous"
 msgstr "Aurrekoa"
 
-#: data/ui/PlayerToolbar.ui:86 gnomemusic/widgets/playertoolbar.py:153
+#: data/ui/PlayerToolbar.ui:86 gnomemusic/widgets/playertoolbar.py:159
 msgid "Play"
 msgstr "Erreproduzitu"
 
@@ -390,15 +408,15 @@ msgstr "_Gehitu"
 msgid "Artists"
 msgstr "Artistak"
 
-#: data/ui/SearchView.ui:54 data/ui/SearchView.ui:104
+#: data/ui/SearchView.ui:54 data/ui/SearchView.ui:107
 msgid "View All"
 msgstr "Ikusi dena"
 
-#: data/ui/SearchView.ui:94 gnomemusic/views/albumsview.py:61
+#: data/ui/SearchView.ui:97 gnomemusic/views/albumsview.py:62
 msgid "Albums"
 msgstr "Albumak"
 
-#: data/ui/SearchView.ui:144 gnomemusic/views/songsview.py:57
+#: data/ui/SearchView.ui:150 gnomemusic/views/songsview.py:57
 msgid "Songs"
 msgstr "Abestiak"
 
@@ -419,27 +437,27 @@ msgid "_Add to Playlist"
 msgstr "_Gehitu zerrendari"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:673
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:748
 msgid "Most Played"
 msgstr "Gehien erreproduzitua"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:707
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:785
 msgid "Never Played"
 msgstr "Inoiz erreproduzitu gabea"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:740
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:821
 msgid "Recently Played"
-msgstr "Duela gutxi erreproduzitua"
+msgstr "Azken aldian erreproduzitua"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:784
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:867
 msgid "Recently Added"
-msgstr "Duela gutxi gehituta"
+msgstr "Azken aldian gehitua"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:827
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:912
 msgid "Favorite Songs"
 msgstr "Gogoko abestiak"
 
@@ -471,51 +489,55 @@ msgstr[1] "{} behar dira fitxategia erreproduzitzeko, baina ez daude instalatuta
 msgid "Playing music"
 msgstr "Musika erreproduzitzen"
 
-#: gnomemusic/utils.py:62
+#: gnomemusic/utils.py:64
 msgid "Unknown album"
 msgstr "Album ezezaguna"
 
-#: gnomemusic/utils.py:83
+#: gnomemusic/utils.py:85
 msgid "Unknown Artist"
 msgstr "Artista ezezaguna"
 
-#: gnomemusic/views/emptyview.py:79
+#: gnomemusic/views/emptyview.py:73
+msgid "Your XDG Music directory is not set."
+msgstr "Zure XDG musika direktorioa ez dago ezarrita."
+
+#: gnomemusic/views/emptyview.py:80
 msgid "Music folder"
 msgstr "Musikaren karpeta"
 
 #. TRANSLATORS: This is a label to display a link to open user's music
 #. folder. {} will be replaced with the translated text 'Music folder'
-#: gnomemusic/views/emptyview.py:83
+#: gnomemusic/views/emptyview.py:84
 msgid "The contents of your {} will appear here."
 msgstr "Zure {} edukiak hemen agertuko dira."
 
-#: gnomemusic/views/emptyview.py:119
+#: gnomemusic/views/emptyview.py:120
 msgid "Hey DJ"
 msgstr "Hi DJ"
 
-#: gnomemusic/views/emptyview.py:129 gnomemusic/views/emptyview.py:135
+#: gnomemusic/views/emptyview.py:130 gnomemusic/views/emptyview.py:136
 msgid "No music found"
 msgstr "Ez da musikarik aurkitu"
 
-#: gnomemusic/views/emptyview.py:137
+#: gnomemusic/views/emptyview.py:138
 msgid "Try a different search"
 msgstr "Saiatu bestelako bilaketa"
 
-#: gnomemusic/views/emptyview.py:143
+#: gnomemusic/views/emptyview.py:144
 msgid "GNOME Music could not connect to Tracker"
 msgstr "GNOME Musika ezin izan da Tracker-ekin konektatu"
 
-#: gnomemusic/views/emptyview.py:146
+#: gnomemusic/views/emptyview.py:147
 msgid "Your music files cannot be indexed without Tracker running"
 msgstr "Zure musika-fitxategiak ezin dira indexatu Tracker exekutatzen ez bada"
 
-#: gnomemusic/views/emptyview.py:154
+#: gnomemusic/views/emptyview.py:155
 msgid "Your system Tracker version seems outdated"
 msgstr "Zure sistemako Tracker bertsioa zaharkituta dagoela dirudi"
 
-#: gnomemusic/views/emptyview.py:157
-msgid "Music needs Tracker version 2.2.0 or higher"
-msgstr "Musika aplikazioak Tracker 2.2.0 bertsioa edo berriagoa behar du"
+#: gnomemusic/views/emptyview.py:158
+msgid "Music needs Tracker version 2.3.0 or higher"
+msgstr "Musika aplikazioak Tracker 2.3.0 bertsioa edo berriagoa behar du"
 
 #: gnomemusic/views/playlistsview.py:58
 msgid "Playlists"
@@ -529,13 +551,13 @@ msgstr "Artisten emaitzak"
 msgid "Albums Results"
 msgstr "Albumen emaitzak"
 
-#: gnomemusic/widgets/albumwidget.py:147
+#: gnomemusic/widgets/albumwidget.py:165
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "Minutu {}"
 msgstr[1] "{} minutu"
 
-#: gnomemusic/widgets/disclistboxwidget.py:82
+#: gnomemusic/widgets/disclistboxwidget.py:76
 msgid "Disc {}"
 msgstr "{} diskoa"
 
@@ -545,59 +567,52 @@ msgid_plural "Selected {} items"
 msgstr[0] "Elementu {} hautatuta"
 msgstr[1] "{} elementu hautatuta"
 
-#: gnomemusic/widgets/notificationspopup.py:168
+#: gnomemusic/widgets/notificationspopup.py:171
 msgid "Loading"
 msgstr "Kargatzen"
 
-#: gnomemusic/widgets/notificationspopup.py:241
+#: gnomemusic/widgets/notificationspopup.py:244
 msgid "_Undo"
 msgstr "_Desegin"
 
-#: gnomemusic/widgets/notificationspopup.py:256
+#: gnomemusic/widgets/notificationspopup.py:259
 msgid "Playlist {} removed"
 msgstr "{} zerrenda kenduta"
 
-#: gnomemusic/widgets/notificationspopup.py:260
+#: gnomemusic/widgets/notificationspopup.py:263
 msgid "{} removed from {}"
 msgstr "{} kenduta hemendik: {}"
 
-#: gnomemusic/widgets/playertoolbar.py:150
+#: gnomemusic/widgets/playertoolbar.py:156
 msgid "Pause"
 msgstr "Pausatu"
 
-#: gnomemusic/widgets/playlistcontrols.py:83
+#: gnomemusic/widgets/playlistcontrols.py:112
 msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "Abesti {}"
 msgstr[1] "{} abesti"
 
-#: gnomemusic/widgets/searchbar.py:67 gnomemusic/widgets/searchbar.py:116
-msgid "All"
-msgstr "Denak"
+#~ msgid "All"
+#~ msgstr "Denak"
 
-#: gnomemusic/widgets/searchbar.py:68
-msgid "Artist"
-msgstr "Artista"
+#~ msgid "Artist"
+#~ msgstr "Artista"
 
-#: gnomemusic/widgets/searchbar.py:69
-msgid "Album"
-msgstr "Albuma"
+#~ msgid "Album"
+#~ msgstr "Albuma"
 
-#: gnomemusic/widgets/searchbar.py:71
-msgid "Track Title"
-msgstr "Pistaren titulua"
+#~ msgid "Track Title"
+#~ msgstr "Pistaren titulua"
 
-#: gnomemusic/widgets/searchbar.py:117
-msgid "Local"
-msgstr "Lokala"
+#~ msgid "Local"
+#~ msgstr "Lokala"
 
-#: gnomemusic/widgets/searchbar.py:286
-msgid "Sources"
-msgstr "Iturburuak"
+#~ msgid "Sources"
+#~ msgstr "Iturburuak"
 
-#: gnomemusic/widgets/searchbar.py:297
-msgid "Match"
-msgstr "Parekatu"
+#~ msgid "Match"
+#~ msgstr "Parekatu"
 
 #~ msgid "@icon@"
 #~ msgstr "@icon@"
