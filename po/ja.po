@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2019-09-02 16:56+0000\n"
+"POT-Creation-Date: 2020-01-15 19:29+0000\n"
 "PO-Revision-Date: 2019-09-05 22:00+0900\n"
 "Last-Translator: sicklylife <translation@sicklylife.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
@@ -43,12 +43,12 @@ msgid ""
 "something new with the Jamendo and Magnatune services."
 msgstr ""
 
-#: data/org.gnome.Music.appdata.xml.in.in:52
+#: data/org.gnome.Music.appdata.xml.in.in:67
 msgid "The GNOME Music developers"
 msgstr "The GNOME Music developers"
 
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:59
-#: gnomemusic/window.py:76
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:60
+#: gnomemusic/window.py:77
 msgid "Music"
 msgstr "ミュージック"
 
@@ -99,8 +99,8 @@ msgid ""
 msgstr ""
 "コレクションをリピートかランダム再生するかどうかの値です。使用可能な値: "
 "“none” (リピートとシャッフルを無効にする), “song” (再生中の曲をリピートす"
-"る), “all” (プレイリストをリピート、シャッフルしない), “shuffle” (プレイ"
-"リストをシャッフル、 プレイリストの全曲をリピートする)"
+"る), “all” (プレイリストをリピート、シャッフルしない), “shuffle” (プレイリス"
+"トをシャッフル、 プレイリストの全曲をリピートする)"
 
 #: data/org.gnome.Music.gschema.xml:33
 msgid "Enable ReplayGain"
@@ -124,6 +124,16 @@ msgstr ""
 
 #: data/org.gnome.Music.gschema.xml:44
 msgid "Enables or disables inhibiting system suspend while playing music"
+msgstr ""
+
+#: data/org.gnome.Music.gschema.xml:48
+msgid "Report music history to Last.fm"
+msgstr ""
+
+#: data/org.gnome.Music.gschema.xml:49
+msgid ""
+"Enables or disables sending scrobbles and the “currently playing” info to "
+"Last.fm."
 msgstr ""
 
 #: data/ui/AboutDialog.ui.in:9
@@ -178,36 +188,44 @@ msgstr "再生時間"
 msgid "Composer"
 msgstr "作曲者"
 
-#: data/ui/AppMenu.ui:21
+#: data/ui/AppMenu.ui:20
+msgid "Last.fm Account"
+msgstr ""
+
+#: data/ui/AppMenu.ui:39
+msgid "Report Music Listening"
+msgstr ""
+
+#: data/ui/AppMenu.ui:70
 msgid "_Keyboard Shortcuts"
 msgstr "キーボードショートカット(_K)"
 
-#: data/ui/AppMenu.ui:35
+#: data/ui/AppMenu.ui:84
 msgid "_Help"
 msgstr "ヘルプ(_H)"
 
-#: data/ui/AppMenu.ui:49
+#: data/ui/AppMenu.ui:98
 msgid "_About Music"
 msgstr "ミュージックについて(_A)"
 
-#: data/ui/HeaderBar.ui:13
+#: data/ui/HeaderBar.ui:16
 msgid "Menu"
 msgstr "メニュー"
 
-#: data/ui/HeaderBar.ui:36 data/ui/SearchHeaderBar.ui:13
+#: data/ui/HeaderBar.ui:39 data/ui/SearchHeaderBar.ui:16
 msgid "Select"
 msgstr "選択"
 
-#: data/ui/HeaderBar.ui:58 data/ui/PlaylistDialog.ui:244
-#: data/ui/SearchHeaderBar.ui:35
+#: data/ui/HeaderBar.ui:61 data/ui/PlaylistDialog.ui:244
+#: data/ui/SearchHeaderBar.ui:38
 msgid "_Cancel"
 msgstr "キャンセル(_C)"
 
-#: data/ui/HeaderBar.ui:77 data/ui/SearchHeaderBar.ui:54
+#: data/ui/HeaderBar.ui:80 data/ui/SearchHeaderBar.ui:57
 msgid "Search"
 msgstr "検索"
 
-#: data/ui/HeaderBar.ui:100
+#: data/ui/HeaderBar.ui:103
 msgid "Back"
 msgstr "戻る"
 
@@ -317,7 +335,7 @@ msgstr "シャッフル/リピートオフ"
 msgid "Previous"
 msgstr "前"
 
-#: data/ui/PlayerToolbar.ui:86 gnomemusic/widgets/playertoolbar.py:153
+#: data/ui/PlayerToolbar.ui:86 gnomemusic/widgets/playertoolbar.py:159
 msgid "Play"
 msgstr "再生"
 
@@ -390,7 +408,7 @@ msgstr "アーティスト"
 msgid "View All"
 msgstr "すべて表示"
 
-#: data/ui/SearchView.ui:97 gnomemusic/views/albumsview.py:61
+#: data/ui/SearchView.ui:97 gnomemusic/views/albumsview.py:62
 msgid "Albums"
 msgstr "アルバム"
 
@@ -415,27 +433,27 @@ msgid "_Add to Playlist"
 msgstr "プレイリストに追加(_A)"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:673
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:748
 msgid "Most Played"
 msgstr "最も再生した曲"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:707
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:785
 msgid "Never Played"
 msgstr "未再生の曲"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:740
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:821
 msgid "Recently Played"
 msgstr "最近再生した曲"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:784
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:867
 msgid "Recently Added"
 msgstr "最近追加した曲"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:827
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:912
 msgid "Favorite Songs"
 msgstr "お気に入りの曲"
 
@@ -466,70 +484,76 @@ msgstr[0] "ファイルの再生には {} が必要ですが、インストー�
 msgid "Playing music"
 msgstr ""
 
-#: gnomemusic/utils.py:62
+#: gnomemusic/utils.py:64
 msgid "Unknown album"
 msgstr "不明なアルバム"
 
-#: gnomemusic/utils.py:83
+#: gnomemusic/utils.py:85
 msgid "Unknown Artist"
 msgstr "不明なアーティスト"
 
-#: gnomemusic/views/emptyview.py:79
+#: gnomemusic/views/emptyview.py:73
+msgid "Your XDG Music directory is not set."
+msgstr ""
+
+#: gnomemusic/views/emptyview.py:80
 msgid "Music folder"
 msgstr "ミュージックフォルダー"
 
 #. TRANSLATORS: This is a label to display a link to open user's music
 #. folder. {} will be replaced with the translated text 'Music folder'
-#: gnomemusic/views/emptyview.py:83
+#: gnomemusic/views/emptyview.py:84
 msgid "The contents of your {} will appear here."
 msgstr "あなたの{}の内容がここに表示されます。"
 
-#: gnomemusic/views/emptyview.py:119
+#: gnomemusic/views/emptyview.py:120
 msgid "Hey DJ"
 msgstr ""
 
-#: gnomemusic/views/emptyview.py:129 gnomemusic/views/emptyview.py:135
+#: gnomemusic/views/emptyview.py:130 gnomemusic/views/emptyview.py:136
 msgid "No music found"
 msgstr "曲が見つかりません"
 
-#: gnomemusic/views/emptyview.py:137
+#: gnomemusic/views/emptyview.py:138
 msgid "Try a different search"
 msgstr "別の検索を試してください"
 
-#: gnomemusic/views/emptyview.py:143
+#: gnomemusic/views/emptyview.py:144
 msgid "GNOME Music could not connect to Tracker"
 msgstr "GNOME ミュージックが Tracker に接続できませんでした"
 
-#: gnomemusic/views/emptyview.py:146
+#: gnomemusic/views/emptyview.py:147
 msgid "Your music files cannot be indexed without Tracker running"
 msgstr "Tracker を実行していないと音楽ファイルはインデックスされません"
 
-#: gnomemusic/views/emptyview.py:154
+#: gnomemusic/views/emptyview.py:155
 msgid "Your system Tracker version seems outdated"
 msgstr "Tracker のバージョンが古すぎます"
 
-#: gnomemusic/views/emptyview.py:157
-msgid "Music needs Tracker version 2.2.0 or higher"
+#: gnomemusic/views/emptyview.py:158
+#, fuzzy
+#| msgid "Music needs Tracker version 2.2.0 or higher"
+msgid "Music needs Tracker version 2.3.0 or higher"
 msgstr "Tracker のバージョン 2.2.0 以降が必要です"
 
 #: gnomemusic/views/playlistsview.py:58
 msgid "Playlists"
 msgstr "プレイリスト"
 
-#: gnomemusic/views/searchview.py:365
+#: gnomemusic/views/searchview.py:363
 msgid "Artists Results"
 msgstr "アーティストの検索結果"
 
-#: gnomemusic/views/searchview.py:379
+#: gnomemusic/views/searchview.py:377
 msgid "Albums Results"
 msgstr "アルバムの検索結果"
 
-#: gnomemusic/widgets/albumwidget.py:147
+#: gnomemusic/widgets/albumwidget.py:165
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} 分"
 
-#: gnomemusic/widgets/disclistboxwidget.py:82
+#: gnomemusic/widgets/disclistboxwidget.py:76
 msgid "Disc {}"
 msgstr "ディスク {}"
 
@@ -538,27 +562,27 @@ msgid "Selected {} item"
 msgid_plural "Selected {} items"
 msgstr[0] "{} 件選択"
 
-#: gnomemusic/widgets/notificationspopup.py:168
+#: gnomemusic/widgets/notificationspopup.py:171
 msgid "Loading"
 msgstr "読み込み中"
 
-#: gnomemusic/widgets/notificationspopup.py:241
+#: gnomemusic/widgets/notificationspopup.py:244
 msgid "_Undo"
 msgstr "元に戻す(_U)"
 
-#: gnomemusic/widgets/notificationspopup.py:256
+#: gnomemusic/widgets/notificationspopup.py:259
 msgid "Playlist {} removed"
 msgstr "プレイリスト {} を削除しました"
 
-#: gnomemusic/widgets/notificationspopup.py:260
+#: gnomemusic/widgets/notificationspopup.py:263
 msgid "{} removed from {}"
 msgstr "{} を {} から削除しました"
 
-#: gnomemusic/widgets/playertoolbar.py:150
+#: gnomemusic/widgets/playertoolbar.py:156
 msgid "Pause"
 msgstr "一時停止"
 
-#: gnomemusic/widgets/playlistcontrols.py:83
+#: gnomemusic/widgets/playlistcontrols.py:112
 msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} 曲"
