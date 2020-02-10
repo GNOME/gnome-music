@@ -4,14 +4,14 @@
 #
 # Adam Matoušek <adamatousek@gmail.com>, 2013.
 # Vojtěch Cajtler <vcajtler@seznam.cz>, 2015
-# Marek Černocký <marek@manet.cz>, 2013, 2014, 2015, 2016, 2017, 2018, 2019.
+# Marek Černocký <marek@manet.cz>, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2019-08-12 20:25+0000\n"
-"PO-Revision-Date: 2019-08-16 11:08+0200\n"
+"POT-Creation-Date: 2020-01-31 12:23+0000\n"
+"PO-Revision-Date: 2020-02-11 00:38+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -46,11 +46,11 @@ msgstr ""
 "Hledejte si skladby ve své hudební sbírce, přistupujte k hudbě na serverech "
 "DLNA nebo zkuste něco nového díky službám Jamendo a Magnatune."
 
-#: data/org.gnome.Music.appdata.xml.in.in:52
+#: data/org.gnome.Music.appdata.xml.in.in:67
 msgid "The GNOME Music developers"
 msgstr "Vývojáři Hudby GNOME"
 
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:59
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:60
 #: gnomemusic/window.py:77
 msgid "Music"
 msgstr "Hudba"
@@ -131,6 +131,18 @@ msgid "Enables or disables inhibiting system suspend while playing music"
 msgstr ""
 "Zapne nebo vypne blokování uspávání systému ve chvíli, kdy se přehrává hudba."
 
+#: data/org.gnome.Music.gschema.xml:48
+msgid "Report music history to Last.fm"
+msgstr "Sdělovat Last.fm hudební historii"
+
+#: data/org.gnome.Music.gschema.xml:49
+msgid ""
+"Enables or disables sending scrobbles and the “currently playing” info to "
+"Last.fm."
+msgstr ""
+"Povolí nebo zakáže zasílání informací o dříve a právě přehrávaných skladbách "
+"do služby Last.fm."
+
 #: data/ui/AboutDialog.ui.in:9
 msgid "Copyright © 2018 GNOME Music Developers"
 msgstr "Copyright © 2018 Vývojáři Hudby GNOME"
@@ -203,40 +215,48 @@ msgstr "Vydáno"
 msgid "Running Length"
 msgstr "Délka"
 
-#: data/ui/AlbumWidget.ui:166 gnomemusic/widgets/searchbar.py:70
+#: data/ui/AlbumWidget.ui:166
 msgid "Composer"
 msgstr "Skladatel"
 
-#: data/ui/AppMenu.ui:21
+#: data/ui/AppMenu.ui:20
+msgid "Last.fm Account"
+msgstr "Účet Last.fm"
+
+#: data/ui/AppMenu.ui:39
+msgid "Report Music Listening"
+msgstr "Sdělovat poslouchané skladby"
+
+#: data/ui/AppMenu.ui:70
 msgid "_Keyboard Shortcuts"
 msgstr "_Klávesové zkratky"
 
-#: data/ui/AppMenu.ui:35
+#: data/ui/AppMenu.ui:84
 msgid "_Help"
 msgstr "_Nápověda"
 
-#: data/ui/AppMenu.ui:49
+#: data/ui/AppMenu.ui:98
 msgid "_About Music"
 msgstr "O _aplikaci Hudba"
 
-#: data/ui/HeaderBar.ui:13
+#: data/ui/HeaderBar.ui:16
 msgid "Menu"
 msgstr "Nabídka"
 
-#: data/ui/HeaderBar.ui:36 data/ui/SearchHeaderBar.ui:13
+#: data/ui/HeaderBar.ui:39 data/ui/SearchHeaderBar.ui:16
 msgid "Select"
 msgstr "Vybrat"
 
-#: data/ui/HeaderBar.ui:58 data/ui/PlaylistDialog.ui:244
-#: data/ui/SearchHeaderBar.ui:35
+#: data/ui/HeaderBar.ui:61 data/ui/PlaylistDialog.ui:244
+#: data/ui/SearchHeaderBar.ui:38
 msgid "_Cancel"
 msgstr "_Zrušit"
 
-#: data/ui/HeaderBar.ui:77 data/ui/SearchHeaderBar.ui:54
+#: data/ui/HeaderBar.ui:80 data/ui/SearchHeaderBar.ui:57
 msgid "Search"
 msgstr "Hledat"
 
-#: data/ui/HeaderBar.ui:100
+#: data/ui/HeaderBar.ui:103
 msgid "Back"
 msgstr "Zpět"
 
@@ -346,7 +366,7 @@ msgstr "Náhodně/opakování vypnuto"
 msgid "Previous"
 msgstr "Předchozí"
 
-#: data/ui/PlayerToolbar.ui:86 gnomemusic/widgets/playertoolbar.py:153
+#: data/ui/PlayerToolbar.ui:86 gnomemusic/widgets/playertoolbar.py:159
 msgid "Play"
 msgstr "Přehrát"
 
@@ -415,15 +435,15 @@ msgstr "Přid_at"
 msgid "Artists"
 msgstr "Umělci"
 
-#: data/ui/SearchView.ui:54 data/ui/SearchView.ui:104
+#: data/ui/SearchView.ui:54 data/ui/SearchView.ui:107
 msgid "View All"
 msgstr "Zobrazit vše"
 
-#: data/ui/SearchView.ui:94 gnomemusic/views/albumsview.py:61
+#: data/ui/SearchView.ui:97 gnomemusic/views/albumsview.py:62
 msgid "Albums"
 msgstr "Alba"
 
-#: data/ui/SearchView.ui:144 gnomemusic/views/songsview.py:57
+#: data/ui/SearchView.ui:150 gnomemusic/views/songsview.py:57
 msgid "Songs"
 msgstr "Skladby"
 
@@ -444,27 +464,27 @@ msgid "_Add to Playlist"
 msgstr "Přid_at do seznamu k přehrání"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:673
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:749
 msgid "Most Played"
 msgstr "Nejčastěji přehráváno"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:707
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:786
 msgid "Never Played"
 msgstr "Nikdy nepřehráno"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:740
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:822
 msgid "Recently Played"
 msgstr "Nedávno přehráno"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:784
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:868
 msgid "Recently Added"
 msgstr "Nedávno přidáno"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:827
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:913
 msgid "Favorite Songs"
 msgstr "Oblíbené skladby"
 
@@ -499,51 +519,55 @@ msgstr[2] ""
 msgid "Playing music"
 msgstr "Přehrává se hudba"
 
-#: gnomemusic/utils.py:62
+#: gnomemusic/utils.py:64
 msgid "Unknown album"
 msgstr "Neznámé album"
 
-#: gnomemusic/utils.py:83
+#: gnomemusic/utils.py:85
 msgid "Unknown Artist"
 msgstr "Neznámý umělec"
 
-#: gnomemusic/views/emptyview.py:79
+#: gnomemusic/views/emptyview.py:73
+msgid "Your XDG Music directory is not set."
+msgstr "Nemáte nastavenou složku Hudba dle standardu XDG."
+
+#: gnomemusic/views/emptyview.py:80
 msgid "Music folder"
 msgstr "Složka s hudbou"
 
 #. TRANSLATORS: This is a label to display a link to open user's music
 #. folder. {} will be replaced with the translated text 'Music folder'
-#: gnomemusic/views/emptyview.py:83
+#: gnomemusic/views/emptyview.py:84
 msgid "The contents of your {} will appear here."
 msgstr "Zde se objeví, co obsahuje vaše {}."
 
-#: gnomemusic/views/emptyview.py:119
+#: gnomemusic/views/emptyview.py:120
 msgid "Hey DJ"
 msgstr "Hej, DJ"
 
-#: gnomemusic/views/emptyview.py:129 gnomemusic/views/emptyview.py:135
+#: gnomemusic/views/emptyview.py:130 gnomemusic/views/emptyview.py:136
 msgid "No music found"
 msgstr "Nenalezena žádná hudba"
 
-#: gnomemusic/views/emptyview.py:137
+#: gnomemusic/views/emptyview.py:138
 msgid "Try a different search"
 msgstr "Zkuste hledat nějak jinak"
 
-#: gnomemusic/views/emptyview.py:143
+#: gnomemusic/views/emptyview.py:144
 msgid "GNOME Music could not connect to Tracker"
 msgstr "Hudbě GNOME se nezdařilo spojit s programem Tracker"
 
-#: gnomemusic/views/emptyview.py:146
+#: gnomemusic/views/emptyview.py:147
 msgid "Your music files cannot be indexed without Tracker running"
 msgstr "Pokud ten neběží, není možné indexovat hudební soubory"
 
-#: gnomemusic/views/emptyview.py:154
+#: gnomemusic/views/emptyview.py:155
 msgid "Your system Tracker version seems outdated"
 msgstr "Verze programu Tracker je pravděpodoně zastaralá"
 
-#: gnomemusic/views/emptyview.py:157
-msgid "Music needs Tracker version 2.2.0 or higher"
-msgstr "Hudba potřebuje program Tracker alespoň ve verzi 2.2.0 nebo vyšší"
+#: gnomemusic/views/emptyview.py:158
+msgid "Music needs Tracker version 2.3.0 or higher"
+msgstr "Hudba potřebuje program Tracker ve verzi 2.3.0 nebo vyšší"
 
 #: gnomemusic/views/playlistsview.py:58
 msgid "Playlists"
@@ -551,20 +575,20 @@ msgstr "Seznamy k přehrání"
 
 #: gnomemusic/views/searchview.py:363
 msgid "Artists Results"
-msgstr "Záznamy umělců"
+msgstr "Nalezení umělci"
 
 #: gnomemusic/views/searchview.py:377
 msgid "Albums Results"
-msgstr "Záznamy alb"
+msgstr "Nalezená alba"
 
-#: gnomemusic/widgets/albumwidget.py:147
+#: gnomemusic/widgets/albumwidget.py:165
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} minuta"
 msgstr[1] "{} minuty"
 msgstr[2] "{} minut"
 
-#: gnomemusic/widgets/disclistboxwidget.py:82
+#: gnomemusic/widgets/disclistboxwidget.py:74
 msgid "Disc {}"
 msgstr "Disk {}"
 
@@ -575,63 +599,29 @@ msgstr[0] "Vybrána {} položka"
 msgstr[1] "Vybrány {} položky"
 msgstr[2] "Vybráno {} položek"
 
-#: gnomemusic/widgets/notificationspopup.py:168
+#: gnomemusic/widgets/notificationspopup.py:171
 msgid "Loading"
 msgstr "Načítá se"
 
-#: gnomemusic/widgets/notificationspopup.py:241
+#: gnomemusic/widgets/notificationspopup.py:244
 msgid "_Undo"
 msgstr "_Zpět"
 
-#: gnomemusic/widgets/notificationspopup.py:256
+#: gnomemusic/widgets/notificationspopup.py:259
 msgid "Playlist {} removed"
 msgstr "Seznam k přehrání {} byl odstraněn"
 
-#: gnomemusic/widgets/notificationspopup.py:260
+#: gnomemusic/widgets/notificationspopup.py:263
 msgid "{} removed from {}"
 msgstr "Skladba {} byla odebrána ze seznamu {}"
 
-#: gnomemusic/widgets/playertoolbar.py:150
+#: gnomemusic/widgets/playertoolbar.py:156
 msgid "Pause"
 msgstr "Pozastavit"
 
-#: gnomemusic/widgets/playlistcontrols.py:83
+#: gnomemusic/widgets/playlistcontrols.py:112
 msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} skladba"
 msgstr[1] "{} skladby"
 msgstr[2] "{} skladeb"
-
-#: gnomemusic/widgets/searchbar.py:67 gnomemusic/widgets/searchbar.py:116
-msgid "All"
-msgstr "Vše"
-
-#: gnomemusic/widgets/searchbar.py:68
-msgid "Artist"
-msgstr "Umělce"
-
-#: gnomemusic/widgets/searchbar.py:69
-msgid "Album"
-msgstr "Album"
-
-#: gnomemusic/widgets/searchbar.py:71
-msgid "Track Title"
-msgstr "Název stopy"
-
-#: gnomemusic/widgets/searchbar.py:117
-msgid "Local"
-msgstr "Místní"
-
-#: gnomemusic/widgets/searchbar.py:286
-msgid "Sources"
-msgstr "Zdroje"
-
-#: gnomemusic/widgets/searchbar.py:297
-msgid "Match"
-msgstr "Porovnávat"
-
-#~ msgid "@icon@"
-#~ msgstr "@icon@"
-
-#~ msgid "Untitled"
-#~ msgstr "Bez názvu"
