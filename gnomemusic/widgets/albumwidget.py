@@ -55,21 +55,21 @@ class AlbumWidget(Gtk.EventBox):
 
     _duration = 0
 
-    def __init__(self, player, parent_view):
+    def __init__(self, application):
         """Initialize the AlbumWidget.
 
-        :param player: The player object
-        :param parent_view: The view this widget is part of
+        :param GtkApplication application: The application object
         """
         super().__init__()
 
+        self._application = application
         self._corealbum = None
+        self._coremodel = self._application.props.coremodel
         self._duration_signal_id = None
         self._model_signal_id = None
 
         self._cover_stack.props.size = Art.Size.LARGE
-        self._parent_view = parent_view
-        self._player = player
+        self._player = self._application.props.player
 
         self.bind_property(
             "selection-mode", self._disc_list_box, "selection-mode",
@@ -170,14 +170,14 @@ class AlbumWidget(Gtk.EventBox):
             return
 
         signal_id = None
-        coremodel = self._parent_view._window._app.props.coremodel
 
         def _on_playlist_loaded(klass, playlist_type):
             self._player.play(song_widget.props.coresong)
-            coremodel.disconnect(signal_id)
+            self._coremodel.disconnect(signal_id)
 
-        signal_id = coremodel.connect("playlist-loaded", _on_playlist_loaded)
-        coremodel.set_player_model(
+        signal_id = self._coremodel.connect(
+            "playlist-loaded", _on_playlist_loaded)
+        self._coremodel.set_player_model(
             PlayerPlaylist.Type.ALBUM, self._album_model)
 
         return True
