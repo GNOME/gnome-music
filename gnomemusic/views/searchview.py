@@ -22,7 +22,9 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from enum import IntEnum
 from gettext import gettext as _
+
 from gi.repository import Gdk, GObject, Gtk
 
 from gnomemusic.player import PlayerPlaylist
@@ -44,8 +46,18 @@ class SearchView(Gtk.Stack):
 
     __gtype_name__ = "SearchView"
 
+    class State(IntEnum):
+        """The different states of SearchView
+        """
+        MAIN = 0
+        ALL_ALBUMS = 1
+        ALL_ARTISTS = 2
+        ALBUM = 3
+        ARTIST = 4
+
     search_state = GObject.Property(type=int, default=Search.State.NONE)
     selection_mode = GObject.Property(type=bool, default=False)
+    state = GObject.Property(type=int, default=State.MAIN)
 
     _album_header = Gtk.Template.Child()
     _album_flowbox = Gtk.Template.Child()
@@ -317,6 +329,7 @@ class SearchView(Gtk.Stack):
         # Update and display the album widget if not in selection mode
         self._album_widget.update(corealbum)
 
+        self.props.state = SearchView.State.ALBUM
         self._headerbar.props.state = HeaderBar.State.SEARCH
         self._headerbar.props.title = corealbum.props.title
         self._headerbar.props.subtitle = corealbum.props.artist
@@ -331,7 +344,7 @@ class SearchView(Gtk.Stack):
             return
 
         artist_albums_widget = ArtistAlbumsWidget(
-            coreartist, self._application, False)
+            coreartist, self._application, True)
         # FIXME: Recreating a view here. Alternate solution is used
         # in AlbumsView: one view created and an update function.
         # Settle on one design.
@@ -345,6 +358,7 @@ class SearchView(Gtk.Stack):
             "selection-mode", artist_albums_widget, "selection-mode",
             GObject.BindingFlags.BIDIRECTIONAL)
 
+        self.props.state = SearchView.State.ARTIST
         self._headerbar.props.state = HeaderBar.State.SEARCH
         self._headerbar.props.title = coreartist.props.artist
         self._headerbar.props.subtitle = None
@@ -354,6 +368,7 @@ class SearchView(Gtk.Stack):
 
     @Gtk.Template.Callback()
     def _on_all_artists_clicked(self, widget, event, user_data=None):
+        self.props.state = SearchView.State.ALL_ARTISTS
         self._headerbar.props.state = HeaderBar.State.SEARCH
         self._headerbar.props.title = _("Artists Results")
         self._headerbar.props.subtitle = None
@@ -368,6 +383,7 @@ class SearchView(Gtk.Stack):
 
     @Gtk.Template.Callback()
     def _on_all_albums_clicked(self, widget, event, user_data=None):
+        self.props.state = SearchView.State.ALL_ALBUMS
         self._headerbar.props.state = HeaderBar.State.SEARCH
         self._headerbar.props.title = _("Albums Results")
         self._headerbar.props.subtitle = None
@@ -381,20 +397,36 @@ class SearchView(Gtk.Stack):
         self.props.search_mode_active = False
 
     def _select_all(self, value):
-        with self._model.freeze_notify():
-            def song_select(child):
-                song_widget = child.get_child()
-                song_widget.props.selected = value
+        def child_select(child):
+            child.props.selected = value
 
-            def album_select(child):
-                child.props.selected = value
+        if self.props.state == SearchView.State.MAIN:
+            with self._model.freeze_notify():
+                def song_select(child):
+                    song_widget = child.get_child()
+                    song_widget.props.coresong.props.selected = value
 
-            def artist_select(child):
-                child.props.selected = value
-
-            self._songs_listbox.foreach(song_select)
-            self._album_flowbox.foreach(album_select)
-            self._artist_flowbox.foreach(artist_select)
+                self._songs_listbox.foreach(song_select)
+                self._album_flowbox.foreach(child_select)
+                self._artist_flowbox.foreach(child_select)
+        elif self.props.state == SearchView.State.ALL_ALBUMS:
+            with self._model.freeze_notify():
+                self._album_all_flowbox.foreach(child_select)
+        elif self.props.state == SearchView.State.ALL_ARTISTS:
+            with self._model.freeze_notify():
+                self._artist_all_flowbox.foreach(child_select)
+        elif self.props.state == SearchView.State.ALBUM:
+            view = self.get_visible_child()
+            if value is True:
+                view.select_all()
+            else:
+                view.deselect_all()
+        elif self.props.state == SearchView.State.ARTIST:
+            view = self.get_visible_child().get_child().get_child()
+            if value is True:
+                view.select_all()
+            else:
+                view.deselect_all()
 
     def select_all(self):
         self._select_all(True)
@@ -412,6 +444,7 @@ class SearchView(Gtk.Stack):
 
         self.set_visible_child(self._search_results)
         self.props.search_mode_active = True
+        self.props.state = SearchView.State.MAIN
         self._headerbar.props.state = HeaderBar.State.MAIN
 
     def _on_selection_mode_changed(self, widget, data=None):

@@ -287,22 +287,14 @@ class Window(Gtk.ApplicationWindow):
     def _select_all(self, action=None, param=None):
         if not self.props.selection_mode:
             return
-        if self._headerbar.props.state == HeaderBar.State.MAIN:
-            view = self.props.active_view
-        else:
-            view = self.props.active_view.get_visible_child()
 
-        view.select_all()
+        self.props.active_view.select_all()
 
     def _deselect_all(self, action=None, param=None):
         if not self.props.selection_mode:
             return
-        if self._headerbar.props.state == HeaderBar.State.MAIN:
-            view = self.props.active_view
-            view.deselect_all()
-        else:
-            view = self.props.active_view.get_visible_child()
-            view.deselect_all()
+
+        self.props.active_view.deselect_all()
 
     def _on_key_press(self, widget, event):
         modifiers = event.get_state() & Gtk.accelerator_get_default_mod_mask()
