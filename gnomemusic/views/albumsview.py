@@ -199,14 +199,17 @@ class AlbumsView(Gtk.Stack):
         self._headerbar.props.subtitle = corealbum.props.artist
 
     def _toggle_all_selection(self, selected):
-        """
-        Selects or unselects all items without sending the notify::active
-        signal for performance purposes.
+        """Selects or deselects all items.
         """
         with self._window._app.props.coreselection.freeze_notify():
-            for child in self._flowbox.get_children():
-                child.props.selected = selected
-                child.props.corealbum.props.selected = selected
+            if self.get_visible_child() == self._album_widget:
+                if selected is True:
+                    self._album_widget.select_all()
+                else:
+                    self._album_widget.select_none()
+            else:
+                for child in self._flowbox.get_children():
+                    child.props.selected = selected
 
     def select_all(self):
         self._toggle_all_selection(True)
