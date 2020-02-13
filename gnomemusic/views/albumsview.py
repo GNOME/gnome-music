@@ -59,6 +59,7 @@ class AlbumsView(Gtk.Stack):
         self.name = "albums"
         self.title = _("Albums")
 
+        self._application = application
         self._window = application.props.window
         self._headerbar = self._window._headerbar
         self._adjustment_timeout_id = None
@@ -228,7 +229,7 @@ class AlbumsView(Gtk.Stack):
         if self.props.selection_mode is False:
             self.props.selection_mode = True
 
-        with self._window._app.props.coreselection.freeze_notify():
+        with self._application.props.coreselection.freeze_notify():
             if self._ctrl_hold is False:
                 self.deselect_all()
             for child in self._flowbox.get_selected_children():
@@ -241,13 +242,17 @@ class AlbumsView(Gtk.Stack):
         self._flowbox.props.selection_mode = Gtk.SelectionMode.NONE
 
     def _toggle_all_selection(self, selected):
+        """Selects or deselects all items.
         """
-        Selects or deselects all items without sending the notify::active
-        signal for performance purposes.
-        """
-        with self._window._app.props.coreselection.freeze_notify():
-            for child in self._flowbox.get_children():
-                child.props.selected = selected
+        with self._application.props.coreselection.freeze_notify():
+            if self.get_visible_child() == self._album_widget:
+                if selected is True:
+                    self._album_widget.select_all()
+                else:
+                    self._album_widget.deselect_all()
+            else:
+                for child in self._flowbox.get_children():
+                    child.props.selected = selected
 
     def select_all(self):
         self._toggle_all_selection(True)

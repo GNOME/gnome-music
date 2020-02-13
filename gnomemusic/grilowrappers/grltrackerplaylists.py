@@ -185,12 +185,16 @@ class GrlTrackerPlaylists(GObject.GObject):
             return
 
         def _delete_cb(conn, res, data):
-            # FIXME: Check for failure.
-            conn.update_finish(res)
-            for idx, playlist_model in enumerate(self._model):
-                if playlist_model is playlist:
-                    self._model.remove(idx)
-                    break
+            try:
+                conn.update_finish(res)
+            except GLib.Error as error:
+                self._log.warning("Unable to delete playlist {}: {}".format(
+                    playlist.props.title, error.message))
+            else:
+                for idx, playlist_model in enumerate(self._model):
+                    if playlist_model is playlist:
+                        self._model.remove(idx)
+                        break
 
             self._model_filter.set_filter_func(self._playlists_filter)
             self._window.notifications_popup.pop_loading()
@@ -199,15 +203,10 @@ class GrlTrackerPlaylists(GObject.GObject):
         query = """
         DELETE {
             ?playlist a rdfs:Resource .
-            ?entry a rdfs:Resource .
-
         }
         WHERE {
             ?playlist a nmm:Playlist ;
                       a nfo:MediaList .
-            OPTIONAL {
-                ?playlist nfo:hasMediaFileListEntry ?entry .
-            }
             FILTER (
             tracker:id(?playlist) = %(playlist_id)s
             )
