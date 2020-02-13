@@ -39,11 +39,10 @@ class SongsView(BaseView):
     and the album name.
     """
 
-    def __init__(self, application, player):
+    def __init__(self, application):
         """Initialize
 
         :param GtkApplication window: The application object
-        :param player: The main player object
         """
         self._coremodel = application.props.coremodel
         super().__init__('songs', _("Songs"), application)
@@ -56,7 +55,7 @@ class SongsView(BaseView):
 
         self._playlist_model = self._coremodel.props.playlist_sort
 
-        self._player = player
+        self._player = application.props.player
         self._player.connect('song-changed', self._update_model)
 
         self._model = self._view.props.model

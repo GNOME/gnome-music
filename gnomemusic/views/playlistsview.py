@@ -40,11 +40,10 @@ class PlaylistsView(Gtk.Stack):
     _main_container = Gtk.Template.Child()
     _sidebar = Gtk.Template.Child()
 
-    def __init__(self, application, player):
+    def __init__(self, application):
         """Initialize
 
         :param GtkApplication window: The application object
-        :param player: The main player object
         """
         super().__init__(transition_type=Gtk.StackTransitionType.CROSSFADE)
 
@@ -55,7 +54,6 @@ class PlaylistsView(Gtk.Stack):
         self._coremodel = application.props.coremodel
         self._model = self._coremodel.props.playlists_sort
         self._window = application.props.window
-        self._player = player
 
         # This indicates if the current list has been empty and has
         # had no user interaction since.

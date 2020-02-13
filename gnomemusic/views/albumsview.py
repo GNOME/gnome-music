@@ -48,7 +48,7 @@ class AlbumsView(Gtk.Stack):
     _flowbox = Gtk.Template.Child()
     _flowbox_long_press = Gtk.Template.Child()
 
-    def __init__(self, application, player=None):
+    def __init__(self, application):
         """Initialize AlbumsView
 
         :param application: The Application object

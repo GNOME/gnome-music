@@ -37,11 +37,10 @@ class ArtistsView(BaseView):
     all albums by this artist on the right side.
     """
 
-    def __init__(self, application, player):
+    def __init__(self, application):
         """Initialize
 
         :param GtkApplication application: The application object
-        :param player: The main player object
         """
         self._sidebar = Gtk.ListBox()
         sidebar_container = Gtk.ScrolledWindow()
