@@ -67,7 +67,7 @@ class AlbumsView(Gtk.Stack):
         self._widget_counter = 1
         self._ctrl_hold = False
 
-        model = self._window._app.props.coremodel.props.albums_sort
+        model = self._application.props.coremodel.props.albums_sort
         self._flowbox.bind_model(model, self._create_widget)
         self._flowbox.set_hadjustment(self._scrolled_window.get_hadjustment())
         self._flowbox.set_vadjustment(self._scrolled_window.get_vadjustment())
