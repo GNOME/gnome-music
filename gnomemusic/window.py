@@ -426,6 +426,7 @@ class Window(Gtk.ApplicationWindow):
         ]
         allowed = self._current_view not in no_selection_mode
         self._headerbar.props.selection_mode_allowed = allowed
+        self._search_headerbar.props.selection_mode_allowed = allowed
 
     def _toggle_view(self, view_enum):
         # TODO: The SEARCH state actually refers to the child state of
