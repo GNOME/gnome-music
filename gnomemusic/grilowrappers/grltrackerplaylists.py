@@ -201,15 +201,10 @@ class GrlTrackerPlaylists(GObject.GObject):
         query = """
         DELETE {
             ?playlist a rdfs:Resource .
-            ?entry a rdfs:Resource .
-
         }
         WHERE {
             ?playlist a nmm:Playlist ;
                       a nfo:MediaList .
-            OPTIONAL {
-                ?playlist nfo:hasMediaFileListEntry ?entry .
-            }
             FILTER (
             tracker:id(?playlist) = %(playlist_id)s
             )
