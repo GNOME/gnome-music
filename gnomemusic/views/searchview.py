@@ -72,7 +72,7 @@ class SearchView(Gtk.Stack):
     _view_all_albums = Gtk.Template.Child()
     _view_all_artists = Gtk.Template.Child()
 
-    def __init__(self, application, player=None):
+    def __init__(self, application):
         """Initialize SearchView
 
         :param GtkApplication application: The Application object

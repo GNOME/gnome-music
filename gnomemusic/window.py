@@ -256,11 +256,11 @@ class Window(Gtk.ApplicationWindow):
         self._headerbar.props.state = HeaderBar.State.MAIN
         self._headerbar.props.stack = self._stack
 
-        self.views[View.ALBUM] = AlbumsView(self._app, self._player)
-        self.views[View.ARTIST] = ArtistsView(self._app, self._player)
-        self.views[View.SONG] = SongsView(self._app, self._player)
-        self.views[View.PLAYLIST] = PlaylistsView(self._app, self._player)
-        self.views[View.SEARCH] = SearchView(self._app, self._player)
+        self.views[View.ALBUM] = AlbumsView(self._app)
+        self.views[View.ARTIST] = ArtistsView(self._app)
+        self.views[View.SONG] = SongsView(self._app)
+        self.views[View.PLAYLIST] = PlaylistsView(self._app)
+        self.views[View.SEARCH] = SearchView(self._app)
 
         # empty view has already been created in self._setup_view starting at
         # View.ALBUM
