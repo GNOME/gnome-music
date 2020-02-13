@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2019-08-06 17:01+0000\n"
-"PO-Revision-Date: 2019-08-22 00:01+0200\n"
+"POT-Creation-Date: 2020-01-15 19:29+0000\n"
+"PO-Revision-Date: 2020-02-13 22:20+0100\n"
 "Last-Translator: Марко М. Костић <marko.m.kostic@gmail.com>\n"
 "Language-Team: српски <gnome-sr@googlegroups.org>\n"
 "Language: sr\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=n==1? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Project-Style: gnome\n"
-"X-Generator: Poedit 2.2.3\n"
+"X-Generator: Poedit 2.3\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
 msgid "GNOME Music"
@@ -44,11 +44,11 @@ msgstr ""
 "Нађите нумере у вашој локалној збирци, добавите музику са ДЛНА сервера или "
 "пробајте нешто ново са Џамендо и Магнатјун услугама."
 
-#: data/org.gnome.Music.appdata.xml.in.in:52
+#: data/org.gnome.Music.appdata.xml.in.in:67
 msgid "The GNOME Music developers"
 msgstr "Програмери Гномове музике"
 
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:59
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:60
 #: gnomemusic/window.py:77
 msgid "Music"
 msgstr "Музика"
@@ -128,6 +128,18 @@ msgid "Enables or disables inhibiting system suspend while playing music"
 msgstr ""
 "Омогућава или онемогућава спречавање обуставе система док се пушта музика"
 
+#: data/org.gnome.Music.gschema.xml:48
+msgid "Report music history to Last.fm"
+msgstr "Пошаљи музички историјат на Last.fm"
+
+#: data/org.gnome.Music.gschema.xml:49
+msgid ""
+"Enables or disables sending scrobbles and the “currently playing” info to "
+"Last.fm."
+msgstr ""
+"Омогућава или онемогућава слање скроблова и податке о тренутном слушању на "
+"Last.fm."
+
 #: data/ui/AboutDialog.ui.in:9
 msgid "Copyright © 2018 GNOME Music Developers"
 msgstr "Ауторска права © 2018 Програмери Гномове музике"
@@ -201,40 +213,48 @@ msgstr "Издат"
 msgid "Running Length"
 msgstr "Дужина трајања"
 
-#: data/ui/AlbumWidget.ui:166 gnomemusic/widgets/searchbar.py:70
+#: data/ui/AlbumWidget.ui:166
 msgid "Composer"
 msgstr "Композитор"
 
-#: data/ui/AppMenu.ui:21
+#: data/ui/AppMenu.ui:20
+msgid "Last.fm Account"
+msgstr "Last.fm налог"
+
+#: data/ui/AppMenu.ui:39
+msgid "Report Music Listening"
+msgstr "Пошаљи податке о слушању"
+
+#: data/ui/AppMenu.ui:70
 msgid "_Keyboard Shortcuts"
 msgstr "_Пречице тастатуре"
 
-#: data/ui/AppMenu.ui:35
+#: data/ui/AppMenu.ui:84
 msgid "_Help"
 msgstr "По_моћ"
 
-#: data/ui/AppMenu.ui:49
+#: data/ui/AppMenu.ui:98
 msgid "_About Music"
 msgstr "_О Музици"
 
-#: data/ui/HeaderBar.ui:13
+#: data/ui/HeaderBar.ui:16
 msgid "Menu"
 msgstr "Изборник"
 
-#: data/ui/HeaderBar.ui:36 data/ui/SearchHeaderBar.ui:13
+#: data/ui/HeaderBar.ui:39 data/ui/SearchHeaderBar.ui:16
 msgid "Select"
 msgstr "Изабери"
 
-#: data/ui/HeaderBar.ui:58 data/ui/PlaylistDialog.ui:244
-#: data/ui/SearchHeaderBar.ui:35
+#: data/ui/HeaderBar.ui:61 data/ui/PlaylistDialog.ui:244
+#: data/ui/SearchHeaderBar.ui:38
 msgid "_Cancel"
 msgstr "_Откажи"
 
-#: data/ui/HeaderBar.ui:77 data/ui/SearchHeaderBar.ui:54
+#: data/ui/HeaderBar.ui:80 data/ui/SearchHeaderBar.ui:57
 msgid "Search"
 msgstr "Потражи"
 
-#: data/ui/HeaderBar.ui:100
+#: data/ui/HeaderBar.ui:103
 msgid "Back"
 msgstr "Назад"
 
@@ -344,7 +364,7 @@ msgstr "Искључи мешање/понављање"
 msgid "Previous"
 msgstr "Претходно"
 
-#: data/ui/PlayerToolbar.ui:86 gnomemusic/widgets/playertoolbar.py:153
+#: data/ui/PlayerToolbar.ui:86 gnomemusic/widgets/playertoolbar.py:159
 msgid "Play"
 msgstr "Пусти"
 
@@ -413,15 +433,15 @@ msgstr "_Додај"
 msgid "Artists"
 msgstr "Извођачи"
 
-#: data/ui/SearchView.ui:54 data/ui/SearchView.ui:104
+#: data/ui/SearchView.ui:54 data/ui/SearchView.ui:107
 msgid "View All"
 msgstr "Прикажи све"
 
-#: data/ui/SearchView.ui:94 gnomemusic/views/albumsview.py:61
+#: data/ui/SearchView.ui:97 gnomemusic/views/albumsview.py:62
 msgid "Albums"
 msgstr "Албуми"
 
-#: data/ui/SearchView.ui:144 gnomemusic/views/songsview.py:57
+#: data/ui/SearchView.ui:150 gnomemusic/views/songsview.py:57
 msgid "Songs"
 msgstr "Песме"
 
@@ -442,27 +462,27 @@ msgid "_Add to Playlist"
 msgstr "_Додај на списак нумера"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:673
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:748
 msgid "Most Played"
 msgstr "Највише пуштане"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:707
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:785
 msgid "Never Played"
 msgstr "Никад пуштане"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:740
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:821
 msgid "Recently Played"
 msgstr "Недавно пуштане"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:784
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:867
 msgid "Recently Added"
 msgstr "Недавно додате"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:827
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:912
 msgid "Favorite Songs"
 msgstr "Омиљене песме"
 
@@ -496,52 +516,56 @@ msgstr[3] "{} је потребан за пуштање датотеке али 
 msgid "Playing music"
 msgstr "Пуштам музику"
 
-#: gnomemusic/utils.py:62
+#: gnomemusic/utils.py:64
 msgid "Unknown album"
 msgstr "Непознат албум"
 
-#: gnomemusic/utils.py:83
+#: gnomemusic/utils.py:85
 msgid "Unknown Artist"
 msgstr "Непознат извођач"
 
-#: gnomemusic/views/emptyview.py:79
+#: gnomemusic/views/emptyview.py:73
+msgid "Your XDG Music directory is not set."
+msgstr "XDG музичка фасцикла није постављена."
+
+#: gnomemusic/views/emptyview.py:80
 msgid "Music folder"
 msgstr "Фасцикла са музиком"
 
 #. TRANSLATORS: This is a label to display a link to open user's music
 #. folder. {} will be replaced with the translated text 'Music folder'
-#: gnomemusic/views/emptyview.py:83
+#: gnomemusic/views/emptyview.py:84
 msgid "The contents of your {} will appear here."
 msgstr "Садржај фасцикле „{}“ ће се појавити овде."
 
-#: gnomemusic/views/emptyview.py:119
+#: gnomemusic/views/emptyview.py:120
 msgid "Hey DJ"
 msgstr "Хеј! Диџеј!"
 
-#: gnomemusic/views/emptyview.py:129 gnomemusic/views/emptyview.py:135
+#: gnomemusic/views/emptyview.py:130 gnomemusic/views/emptyview.py:136
 msgid "No music found"
 msgstr "Нисам пронашао музику"
 
-#: gnomemusic/views/emptyview.py:137
+#: gnomemusic/views/emptyview.py:138
 msgid "Try a different search"
 msgstr "Пробајте са другачијом претрагом"
 
-#: gnomemusic/views/emptyview.py:143
+#: gnomemusic/views/emptyview.py:144
 msgid "GNOME Music could not connect to Tracker"
 msgstr "Гномова Музика није могла да се повеже на Трагача"
 
-#: gnomemusic/views/emptyview.py:146
+#: gnomemusic/views/emptyview.py:147
 msgid "Your music files cannot be indexed without Tracker running"
 msgstr ""
 "Ваше музичке датотеке не могу бити пописане уколико Трагач није покренут"
 
-#: gnomemusic/views/emptyview.py:154
+#: gnomemusic/views/emptyview.py:155
 msgid "Your system Tracker version seems outdated"
 msgstr "Издање вашег системског трагача делује застарело"
 
-#: gnomemusic/views/emptyview.py:157
-msgid "Music needs Tracker version 2.2.0 or higher"
-msgstr "Музици је потребан трагач издања 2.2.0 или новије"
+#: gnomemusic/views/emptyview.py:158
+msgid "Music needs Tracker version 2.3.0 or higher"
+msgstr "Музици је потребан трагач издања 2.3.0 или новије"
 
 #: gnomemusic/views/playlistsview.py:58
 msgid "Playlists"
@@ -555,7 +579,7 @@ msgstr "Резултати извођача"
 msgid "Albums Results"
 msgstr "Резултати албума"
 
-#: gnomemusic/widgets/albumwidget.py:147
+#: gnomemusic/widgets/albumwidget.py:165
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} минут"
@@ -563,7 +587,7 @@ msgstr[1] "{} минута"
 msgstr[2] "{} минута"
 msgstr[3] "{} минут"
 
-#: gnomemusic/widgets/disclistboxwidget.py:82
+#: gnomemusic/widgets/disclistboxwidget.py:76
 msgid "Disc {}"
 msgstr "Диск {}"
 
@@ -575,27 +599,27 @@ msgstr[1] "Изабране су {} ставке"
 msgstr[2] "Изабрано је {} ставки"
 msgstr[3] "Изабрана је {} ставка"
 
-#: gnomemusic/widgets/notificationspopup.py:168
+#: gnomemusic/widgets/notificationspopup.py:171
 msgid "Loading"
 msgstr "Учитавам"
 
-#: gnomemusic/widgets/notificationspopup.py:241
+#: gnomemusic/widgets/notificationspopup.py:244
 msgid "_Undo"
 msgstr "_Опозови"
 
-#: gnomemusic/widgets/notificationspopup.py:256
+#: gnomemusic/widgets/notificationspopup.py:259
 msgid "Playlist {} removed"
 msgstr "Списак нумера {} је уклоњен"
 
-#: gnomemusic/widgets/notificationspopup.py:260
+#: gnomemusic/widgets/notificationspopup.py:263
 msgid "{} removed from {}"
 msgstr "Ставка {} уклоњена из {}"
 
-#: gnomemusic/widgets/playertoolbar.py:150
+#: gnomemusic/widgets/playertoolbar.py:156
 msgid "Pause"
 msgstr "Застани"
 
-#: gnomemusic/widgets/playlistcontrols.py:83
+#: gnomemusic/widgets/playlistcontrols.py:112
 msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} песма"
@@ -603,33 +627,26 @@ msgstr[1] "{} песме"
 msgstr[2] "{} песама"
 msgstr[3] "{} песма"
 
-#: gnomemusic/widgets/searchbar.py:67 gnomemusic/widgets/searchbar.py:116
-msgid "All"
-msgstr "Све"
+#~ msgid "All"
+#~ msgstr "Све"
 
-#: gnomemusic/widgets/searchbar.py:68
-msgid "Artist"
-msgstr "Извођач"
+#~ msgid "Artist"
+#~ msgstr "Извођач"
 
-#: gnomemusic/widgets/searchbar.py:69
-msgid "Album"
-msgstr "Албум"
+#~ msgid "Album"
+#~ msgstr "Албум"
 
-#: gnomemusic/widgets/searchbar.py:71
-msgid "Track Title"
-msgstr "Наслов нумере"
+#~ msgid "Track Title"
+#~ msgstr "Наслов нумере"
 
-#: gnomemusic/widgets/searchbar.py:117
-msgid "Local"
-msgstr "Месно"
+#~ msgid "Local"
+#~ msgstr "Месно"
 
-#: gnomemusic/widgets/searchbar.py:286
-msgid "Sources"
-msgstr "Извори"
+#~ msgid "Sources"
+#~ msgstr "Извори"
 
-#: gnomemusic/widgets/searchbar.py:297
-msgid "Match"
-msgstr "Поклопи"
+#~ msgid "Match"
+#~ msgstr "Поклопи"
 
 #~ msgid "@icon@"
 #~ msgstr "@icon@"
