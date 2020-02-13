@@ -53,7 +53,6 @@ class PlaylistsView(Gtk.Stack):
 
         self._coremodel = application.props.coremodel
         self._model = self._coremodel.props.playlists_sort
-        self._window = application.props.window
 
         # This indicates if the current list has been empty and has
         # had no user interaction since.
