@@ -28,7 +28,7 @@ from gettext import gettext as _
 
 import gi
 gi.require_versions({"Grl": "0.3"})
-from gi.repository import Gio, Grl, GLib, GObject
+from gi.repository import Gdk, Gio, Grl, GLib, GObject
 
 from gnomemusic.coresong import CoreSong
 import gnomemusic.utils as utils
@@ -77,12 +77,14 @@ class GrlTrackerPlaylists(GObject.GObject):
         self._model = self._coremodel.props.playlists
         self._model_filter = self._coremodel.props.playlists_filter
         self._user_model_filter = self._coremodel.props.user_playlists_filter
+        self._smart_model_filter = self._coremodel.props.smart_playlists_filter
         self._pls_todelete = []
         self._tracker = tracker_wrapper.props.tracker
         self._tracker_wrapper = tracker_wrapper
         self._window = application.props.window
 
         self._user_model_filter.set_filter_func(self._user_playlists_filter)
+        self._smart_model_filter.set_filter_func(self._smart_playlists_filter)
 
         self._fast_options = Grl.OperationOptions()
         self._fast_options.set_resolution_flags(
@@ -163,6 +165,9 @@ class GrlTrackerPlaylists(GObject.GObject):
         return (playlist not in self._pls_todelete
                 and playlist.props.is_smart is False)
 
+    def _smart_playlists_filter(self, playlist):
+        return playlist.props.is_smart is True
+
     def stage_playlist_deletion(self, playlist):
         """Adds playlist to the list of playlists to delete
 
@@ -170,6 +175,7 @@ class GrlTrackerPlaylists(GObject.GObject):
         """
         self._pls_todelete.append(playlist)
         self._model_filter.set_filter_func(self._playlists_filter)
+        self._user_model_filter.set_filter_func(self._user_playlists_filter)
 
     def finish_playlist_deletion(self, playlist, deleted):
         """Removes playlist from the list of playlists to delete
@@ -197,6 +203,8 @@ class GrlTrackerPlaylists(GObject.GObject):
                         break
 
             self._model_filter.set_filter_func(self._playlists_filter)
+            self._user_model_filter.set_filter_func(
+                self._user_playlists_filter)
             self._window.notifications_popup.pop_loading()
 
         self._window.notifications_popup.push_loading()
@@ -694,6 +702,9 @@ class Playlist(GObject.GObject):
 class SmartPlaylist(Playlist):
     """Base class for smart playlists"""
 
+    color = GObject.Property(type=Gdk.RGBA)
+    icon_name = GObject.Property(type=str, default=None)
+
     def __init__(self, **args):
         super().__init__(**args)
 
@@ -739,6 +750,8 @@ class MostPlayed(SmartPlaylist):
         self.props.tag_text = "MOST_PLAYED"
         # TRANSLATORS: this is a playlist name
         self._title = _("Most Played")
+        self.props.color = Gdk.RGBA(0.96, 0.47, 0.0)
+        self.props.icon_name = "audio-speakers-symbolic"
         self.props.query = """
         SELECT
             rdf:type(?song)
@@ -776,6 +789,8 @@ class NeverPlayed(SmartPlaylist):
         self.props.tag_text = "NEVER_PLAYED"
         # TRANSLATORS: this is a playlist name
         self._title = _("Never Played")
+        self.props.color = Gdk.RGBA(0.45, 0.62, 0.81)
+        self.props.icon_name = "dialog-question-symbolic"
         self.props.query = """
         SELECT
             rdf:type(?song)
@@ -812,6 +827,8 @@ class RecentlyPlayed(SmartPlaylist):
         self.props.tag_text = "RECENTLY_PLAYED"
         # TRANSLATORS: this is a playlist name
         self._title = _("Recently Played")
+        self.props.color = Gdk.RGBA(0.68, 0.50, 0.66)
+        self.props.icon_name = "document-open-recent-symbolic"
 
         sparql_midnight_dateTime_format = "%Y-%m-%dT00:00:00Z"
         days_difference = 7
@@ -858,6 +875,8 @@ class RecentlyAdded(SmartPlaylist):
         self.props.tag_text = "RECENTLY_ADDED"
         # TRANSLATORS: this is a playlist name
         self._title = _("Recently Added")
+        self.props.color = Gdk.RGBA(0.31, 0.60, 0.02)
+        self.props.icon_name = "list-add-symbolic"
 
         sparql_midnight_dateTime_format = "%Y-%m-%dT00:00:00Z"
         days_difference = 7
@@ -903,6 +922,8 @@ class Favorites(SmartPlaylist):
         self.props.tag_text = "FAVORITES"
         # TRANSLATORS: this is a playlist name
         self._title = _("Favorite Songs")
+        self.props.color = Gdk.RGBA(0.93, 0.83, 0.0)
+        self.props.icon_name = "starred-symbolic"
         self.props.query = """
             SELECT
                 rdf:type(?song)

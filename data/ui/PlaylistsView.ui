@@ -7,17 +7,70 @@
       <object class="GtkBox" id="_main_container">
         <property name="visible">True</property>
         <child>
-          <object class="GtkScrolledWindow" id="all_playlists">
-            <property name="visible">True</property>
+          <object class="GtkScrolledWindow" id="_all_playlists_sidebar">
+            <property name="visible">False</property>
             <property name="width-request">220</property>
             <style>
               <class name="sidebar"/>
             </style>
             <child>
-              <object class="GtkListBox" id="_sidebar">
-                <property name="selection-mode">single</property>
+              <object class="GtkBox">
+                <property name="orientation">vertical</property>
                 <property name="visible">True</property>
-                <signal name="row-activated" handler="_on_playlist_activated" swapped="no"/>
+                <child>
+                  <object class="GtkListBox" id="_smart_sidebar">
+                    <property name="margin-top">2</property>
+                    <property name="margin-bottom">2</property>
+                    <property name="visible">True</property>
+                    <property name="selection-mode">single</property>
+                    <signal name="row-activated" handler="_on_smart_playlist_activated" swapped="no"/>
+                    <child>
+                      <object class="GtkListBoxRow">
+                        <property name="visible">True</property>
+                        <child>
+                          <object class="GtkBox">
+                            <property name="margin">16</property>
+                            <property name="visible">True</property>
+                            <child>
+                              <object class="GtkImage" id="icon">
+                                <property name="can_focus">False</property>
+                                <property name="icon-name">folder-music-symbolic</property>
+                                <property name="icon-size">1</property>
+                                <property name="visible">True</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="can_focus">False</property>
+                                <property name="ellipsize">end</property>
+                                <property name="halign">start</property>
+                                <property name="hexpand">False</property>
+                                <property name="margin-left">8</property>
+                                <property name="visible">True</property>
+                                <property name="label" translatable="yes">Smart Playlists</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkSeparator">
+                    <property name="orientation">horizontal</property>
+                    <property name="visible">True</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkListBox" id="_user_sidebar">
+                    <property name="margin-top">2</property>
+                    <property name="margin-bottom">2</property>
+                    <property name="selection-mode">single</property>
+                    <property name="visible">True</property>
+                    <signal name="row-activated" handler="_on_user_playlist_activated" swapped="no"/>
+                  </object>
+                </child>
               </object>
             </child>
           </object>
