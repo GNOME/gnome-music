@@ -28,6 +28,13 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="3.34.3" date="2020-02-15">
+      <description>
+        <p>
+          Bugfixes and translation updates.
+        </p>
+      </description>
+    </release>
     <release version="3.34.1" date="2019-10-25">
       <description>
         <p>
