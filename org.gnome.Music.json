@@ -18,7 +18,6 @@
         "--own-name=org.mpris.MediaPlayer2.GnomeMusic",
         "--talk-name=org.gnome.ControlCenter",
         "--talk-name=org.gnome.SettingsDaemon.MediaKeys",
-        "--talk-name=com.intel.dleyna-server",
         "--talk-name=org.gtk.vfs",
         "--talk-name=org.gtk.vfs.*",
         "--socket=pulseaudio",
