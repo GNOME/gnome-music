@@ -5,22 +5,22 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
-"POT-Creation-Date: 2014-09-11 21:00+0000\n"
-"PO-Revision-Date: 2014-09-12 00:58+0200\n"
-"Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
+"POT-Creation-Date: 2019-09-23 20:29+0000\n"
+"PO-Revision-Date: 2020-02-15 22:07+0100\n"
+"Last-Translator: Fran Diéguez <frandieguez@gnome.org>\n"
 "Language-Team: gnome-l10n-gl@gnome.org\n"
 "Language: gl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Virtaal 0.7.1\n"
+"X-Generator: Poedit 2.3\n"
 "X-Project-Style: gnome\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
-msgstr "Fran Diéguez <frandieguez@gnome.org>, 2014."
+msgstr "Fran Diéguez <frandieguez@gnome.org>, 2014-2020."
 
 #. (itstool) path: credit/name
 #: C/introduction.page:11 C/index.page:11 C/play-music.page:11
@@ -44,10 +44,11 @@ msgstr "2014"
 #. (itstool) path: page/p
 #: C/introduction.page:18 C/introduction.page:23
 msgid ""
-"A simple and elegant replacement for using files to show the music directory."
+"A simple and elegant replacement for using <app>Files</app> to show the "
+"music directory."
 msgstr ""
-"Un substituto simple e elegante para usar ficheiros para mostrar o cartafol "
-"de música."
+"Un substituto simple e elegante para usar <app>Ficheiros</app> para mostrar "
+"o cartafol de música."
 
 #. (itstool) path: page/title
 #: C/introduction.page:22
@@ -143,8 +144,8 @@ msgid ""
 "You can view all your albums by clicking on the <gui style=\"button"
 "\">Albums</gui> button."
 msgstr ""
-"Pode ver todo os álbums premendo sobre o botón <gui style=\"button\""
-">Álbums</gui>."
+"Pode ver todo os álbums premendo sobre o botón <gui style=\"button\">Álbums</"
+"gui>."
 
 #. (itstool) path: steps/title
 #: C/playlist-create-albums.page:27
@@ -248,8 +249,8 @@ msgid ""
 "You can view all the songs by clicking on the <gui style=\"button\">Songs</"
 "gui> button."
 msgstr ""
-"Pode ver todas as canciónsemendo sobre o botón <gui style=\"button\""
-">Cancións</gui>."
+"Pode ver todas as canciónsemendo sobre o botón <gui style=\"button"
+"\">Cancións</gui>."
 
 #. (itstool) path: steps/title
 #: C/playlist-create-songs.page:27
@@ -261,7 +262,7 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/playlist-create-songs.page:32
 msgid "Select all the songs you want to add to the playlist."
-msgstr "Seleccione todas as cancións que quere engadir á lista de reprodución:"
+msgstr "Seleccione todas as cancións que quere engadir á lista de reprodución."
 
 #. (itstool) path: item/p
 #: C/playlist-create-songs.page:38
@@ -285,7 +286,7 @@ msgstr "Crear listas de reproducións usando artistas"
 #. (itstool) path: page/p
 #: C/playlist-create-artists.page:24
 msgid ""
-"You can view all the artists and their songs by clicking on the <gui syle="
+"You can view all the artists and their songs by clicking on the <gui style="
 "\"button\">Artists</gui> button."
 msgstr ""
 "Pode ver todos os artistas e as súas cancións premendo sobre o botón <gui "
@@ -301,7 +302,9 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/playlist-create-artists.page:33
 msgid "Select all the artists whose songs you want to add to the playlist."
-msgstr "Seleccione todos os artistas que quere engadir á lista de reprodución:"
+msgstr ""
+"Seleccione todos os artistas cuxas cancións quere engadir á lista de "
+"reprodución."
 
 #. (itstool) path: item/p
 #: C/playlist-create-artists.page:44
@@ -311,12 +314,12 @@ msgstr "Prema en <gui>Seleccionar</gui>."
 #. (itstool) path: info/desc
 #: C/playlist-delete.page:18
 msgid "Remove an unwanted playlist."
-msgstr "Quitar unha lista de reprodución non desexada"
+msgstr "Quitar unha lista de reprodución non desexada."
 
 #. (itstool) path: page/title
 #: C/playlist-delete.page:22
 msgid "Delete a playlist"
-msgstr "Eliminar unha lista de reprodución."
+msgstr "Eliminar unha lista de reprodución"
 
 #. (itstool) path: page/p
 #: C/playlist-delete.page:24
@@ -387,7 +390,7 @@ msgstr "Na barra de tarefas, prema no botón da parte dereita:"
 #. (itstool) path: item/p
 #: C/playlist-repeat.page:27
 msgid "Select <gui>Repeat Song</gui> to repeat a single song."
-msgstr "Seleccione <gui>Repetir canción</gui> para repetir unha soa canción:"
+msgstr "Seleccione <gui>Repetir canción</gui> para repetir unha soa canción."
 
 #. (itstool) path: item/p
 #: C/playlist-repeat.page:30
