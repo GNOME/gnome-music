@@ -48,7 +48,7 @@ class AlbumsView(Gtk.Stack):
     _flowbox = Gtk.Template.Child()
     _flowbox_long_press = Gtk.Template.Child()
 
-    def __init__(self, application, player=None):
+    def __init__(self, application):
         """Initialize AlbumsView
 
         :param application: The Application object
@@ -67,7 +67,7 @@ class AlbumsView(Gtk.Stack):
         self._widget_counter = 1
         self._ctrl_hold = False
 
-        model = self._window._app.props.coremodel.props.albums_sort
+        model = self._application.props.coremodel.props.albums_sort
         self._flowbox.bind_model(model, self._create_widget)
         self._flowbox.set_hadjustment(self._scrolled_window.get_hadjustment())
         self._flowbox.set_vadjustment(self._scrolled_window.get_vadjustment())
@@ -80,7 +80,7 @@ class AlbumsView(Gtk.Stack):
         self._window.connect(
             "notify::selection-mode", self._on_selection_mode_changed)
 
-        self._album_widget = AlbumWidget(application.props.player, self)
+        self._album_widget = AlbumWidget(self._application)
         self._album_widget.bind_property(
             "selection-mode", self, "selection-mode",
             GObject.BindingFlags.BIDIRECTIONAL)
