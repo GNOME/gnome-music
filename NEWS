@@ -1,3 +1,55 @@
+Overview of changes in 3.35.91
+==============================
+
+• Use natural order for sorting
+• Expose Last.fm scrobbler in the UI
+• Add local runtime cache for scrobbling
+• Add GLib style logging and remove old logging and debug switch
+
+Bugs fixed:
+ Sort albums title containing digits numerically (#22)
+ PlaylistsView: select the next playlist on deletion (#359)
+ Expose scrobbling support (#218)
+ Switching to playlist gives an empty view (#348)
+ Use tabular numbers for song duration (!623)
+ Crash after select all items (#364)
+ Deleting an empty playlist crashes (#365)
+ Disable selection button in Playlist View while searching (#366)
+ Help overlay remove Ctrl+F1 shortcut (!643)
+
+Thanks to our contributors this release:
+ Use Alexander Mikhaylenko
+ Chinmay Gurjar
+ Jean Felder
+ Marinus Schraal
+ Sabri Ünal
+
+Translation added:
+ Malay
+
+Updated translations:
+ Greek
+ Indonesian
+ Spanish
+ Slovak
+ Chinese (Taiwan)
+ Finnish
+ Friulian
+ Brazilian Portuguese
+ Italian
+ Swedish
+ Croatian
+ Persian
+ Lithuanian
+ Japanese
+ Basque
+ French
+ Turkish
+ Czech
+ British English
+ Serbian
+ Galician
+
 Overview of changes in 3.35.3
 =============================
 
