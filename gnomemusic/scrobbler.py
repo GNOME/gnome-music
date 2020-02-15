@@ -73,7 +73,7 @@ class GoaLastFM(GObject.GObject):
             self._client = source.new_finish(result)
         except GLib.Error as error:
             self._log.warning("Error: {}, {}".format(
-                Goa.Error(error.code), error.message))
+                error.code, error.message))
             return
 
         manager = self._client.get_manager()
