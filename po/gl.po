@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2020-02-13 15:47+0000\n"
-"PO-Revision-Date: 2020-02-14 22:54+0100\n"
+"POT-Creation-Date: 2020-02-15 14:09+0000\n"
+"PO-Revision-Date: 2020-02-15 21:47+0100\n"
 "Last-Translator: Fran Diéguez <frandieguez@gnome.org>\n"
 "Language-Team: Galician\n"
 "Language: gl\n"
@@ -44,11 +44,11 @@ msgstr ""
 "Atope pistas na súa colección local, obteña música desde servidores DLNA ou "
 "tente algo novo cos servizos Jamendo e Magnatune."
 
-#: data/org.gnome.Music.appdata.xml.in.in:67
+#: data/org.gnome.Music.appdata.xml.in.in:82
 msgid "The GNOME Music developers"
 msgstr "Os desenvolvedores de GNOME Music"
 
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:56
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:57
 #: gnomemusic/window.py:69
 msgid "Music"
 msgstr "Música"
@@ -218,23 +218,23 @@ msgstr "Lonxitude da execución"
 msgid "Composer"
 msgstr "Compositor"
 
-#: data/ui/AppMenu.ui:20
+#: data/ui/AppMenu.ui:20 data/ui/LastfmDialog.ui:8
 msgid "Last.fm Account"
 msgstr "Conta de Last.fm"
 
-#: data/ui/AppMenu.ui:39
+#: data/ui/AppMenu.ui:38
 msgid "Report Music Listening"
 msgstr "Información da música que se escoita"
 
-#: data/ui/AppMenu.ui:70
+#: data/ui/AppMenu.ui:69
 msgid "_Keyboard Shortcuts"
 msgstr "Atallos de _teclado"
 
-#: data/ui/AppMenu.ui:84
+#: data/ui/AppMenu.ui:83
 msgid "_Help"
 msgstr "_Axuda"
 
-#: data/ui/AppMenu.ui:98
+#: data/ui/AppMenu.ui:97
 msgid "_About Music"
 msgstr "_Sobre Música"
 
@@ -344,6 +344,27 @@ msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Ir atrás"
 
+#: data/ui/LastfmDialog.ui:21
+msgid ""
+"Last.fm is a music discovery service that gives you personalised "
+"recommendations based on the music you listen to."
+msgstr ""
+"Last.fm é un servizo de descubrimento de música que fornece recomendacións "
+"personalizadas baseadas na música que escoita."
+
+#: data/ui/LastfmDialog.ui:32 gnomemusic/widgets/lastfmdialog.py:58
+msgid "Music Reporting Not Setup"
+msgstr "Informe de música non configurado"
+
+#: data/ui/LastfmDialog.ui:46 gnomemusic/widgets/lastfmdialog.py:61
+msgid "Login to your Last.fm account to report your music listening."
+msgstr ""
+"Iniciar sesión na súa conta de Last.fm para informar da música que escoita."
+
+#: data/ui/LastfmDialog.ui:57 gnomemusic/widgets/lastfmdialog.py:59
+msgid "Login"
+msgstr "Iniciar sesión"
+
 #: data/ui/PlayerToolbar.ui:6
 msgid "Shuffle"
 msgstr "Aleatorio"
@@ -430,7 +451,7 @@ msgstr "Engadir á lista de reprodución"
 msgid "_Add"
 msgstr "_Engadir"
 
-#: data/ui/SearchView.ui:44 gnomemusic/views/artistsview.py:51
+#: data/ui/SearchView.ui:44 gnomemusic/views/artistsview.py:50
 msgid "Artists"
 msgstr "Artistas"
 
@@ -442,7 +463,7 @@ msgstr "Ver todo"
 msgid "Albums"
 msgstr "Álbumes"
 
-#: data/ui/SearchView.ui:150 gnomemusic/views/songsview.py:49
+#: data/ui/SearchView.ui:150 gnomemusic/views/songsview.py:48
 msgid "Songs"
 msgstr "Cancións"
 
@@ -567,7 +588,7 @@ msgstr "A versión de Tracker do seu sistema semella desfasada"
 msgid "Music needs Tracker version 2.3.0 or higher"
 msgstr "Música precisa Tracker versión 2.3.0 ou superior"
 
-#: gnomemusic/views/playlistsview.py:53
+#: gnomemusic/views/playlistsview.py:52
 msgid "Playlists"
 msgstr "Listas de reprodución"
 
@@ -594,6 +615,23 @@ msgid "Selected {} item"
 msgid_plural "Selected {} items"
 msgstr[0] "Elemento {} seleccionado"
 msgstr[1] "Elementos {} seleccionados"
+
+#: gnomemusic/widgets/lastfmdialog.py:65
+msgid "Your music listening is reported to Last.fm."
+msgstr "Estase informando a Last.fm da música que escoita."
+
+#: gnomemusic/widgets/lastfmdialog.py:67
+msgid "Your music listening is not reported to Last.fm."
+msgstr "Non se está informando a Last.fm da música que escoita."
+
+#. TRANSLATORS: displays the username of the Last.fm account
+#: gnomemusic/widgets/lastfmdialog.py:71
+msgid "Logged in as {}"
+msgstr "Sesión iniciada como {}"
+
+#: gnomemusic/widgets/lastfmdialog.py:72
+msgid "Configure"
+msgstr "Configurar"
 
 #: gnomemusic/widgets/notificationspopup.py:153
 msgid "Loading"
