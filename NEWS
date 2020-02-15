@@ -1,3 +1,9 @@
+Overview of changes in 3.35.91.1
+================================
+
+Bug fixed:
+ Possible crash on warning (!643)
+
 Overview of changes in 3.35.91
 ==============================
 
