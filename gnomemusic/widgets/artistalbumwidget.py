@@ -80,10 +80,10 @@ class ArtistAlbumWidget(Gtk.Box):
         if self._cover_size_group:
             self._cover_size_group.add_widget(self._cover_stack)
 
-        corealbum.props.model.connect_after(
-            "items-changed", self._on_model_items_changed)
         self._disc_list_box.bind_model(
             corealbum.props.model, self._create_widget)
+        corealbum.props.model.connect_after(
+            "items-changed", self._on_model_items_changed)
 
         corealbum.props.model.items_changed(0, 0, 0)
 
