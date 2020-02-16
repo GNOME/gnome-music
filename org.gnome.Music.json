@@ -5,7 +5,7 @@
     "sdk": "org.gnome.Sdk",
     "command": "gnome-music",
     "tags": ["devel", "development", "nightly"],
-    "desktop-file-name-prefix": "(Development) ",
+    "desktop-file-name-suffix": " ☢️",
     "finish-args": [
         "--share=ipc", "--socket=x11",
         "--share=network",
@@ -37,7 +37,7 @@
         "*.a"
     ],
     "modules": [
-        "subprojects/shared-modules/lua5.3/lua-5.3.2.json",
+        "subprojects/shared-modules/lua5.3/lua-5.3.5.json",
         {
             "name": "libmediaart",
             "sources": [
