@@ -25,6 +25,7 @@
 from gi.repository import GObject, Gtk
 
 from gnomemusic.albumartcache import Art
+from gnomemusic.musiclogger import MusicLogger
 from gnomemusic.widgets.disclistboxwidget import DiscBox
 from gnomemusic.widgets.songwidget import SongWidget
 
@@ -60,6 +61,10 @@ class ArtistAlbumWidget(Gtk.Box):
         :param GtkSizeGroup cover_size_group: SizeGroup for the cover
         """
         super().__init__(orientation=Gtk.Orientation.HORIZONTAL)
+
+        self._corealbum = corealbum
+
+        self._log = MusicLogger()
 
         self._size_group = size_group
         self._cover_size_group = cover_size_group
@@ -100,6 +105,10 @@ class ArtistAlbumWidget(Gtk.Box):
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
 
+        self._log.message(
+            "Creating disc_box '{}' for disc '{}' in model {}".format(
+                self._corealbum.props.title, disc.props.disc_nr,
+                self._corealbum.props.model))
         return disc_box
 
     def _create_disc_box(self, disc_nr, album_model):
@@ -113,7 +122,12 @@ class ArtistAlbumWidget(Gtk.Box):
         return disc_box
 
     def _on_model_items_changed(self, model, position, removed, added):
+        self._log.message("items-changed for model {}: {} {} {}".format(
+            model, position, removed, added))
         n_items = model.get_n_items()
+        self._log.message("n-items {} for '{}' by '{}'".format(
+            n_items, self._corealbum.props.title,
+            self._corealbum.props.artist))
         for i in range(n_items):
             discbox = self._disc_list_box.get_row_at_index(i)
             discbox.props.show_disc_label = (n_items > 1)
