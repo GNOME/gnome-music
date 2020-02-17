@@ -1,16 +1,16 @@
 # Hungarian translation for gnome-music.
-# Copyright (C) 2013, 2014, 2015, 2016, 2018, 2019 Free Software Foundation, Inc.
+# Copyright (C) 2013, 2014, 2015, 2016, 2018, 2019, 2020 Free Software Foundation, Inc.
 # This file is distributed under the same license as the gnome-music package.
 #
 # Gabor Kelemen <kelemeng at gnome dot hu>, 2013, 2016.
-# Balázs Meskó <mesko.balazs at fsf dot hu>, 2014, 2015.
-# Balázs Úr <ur.balazs at fsf dot hu>, 2013, 2014, 2015, 2016, 2018, 2019.
+# Balázs Meskó <mesko.balazs at fsf dot hu>, 2014, 2015, 2020.
+# Balázs Úr <ur.balazs at fsf dot hu>, 2013, 2014, 2015, 2016, 2018, 2019, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2019-08-06 17:01+0000\n"
-"PO-Revision-Date: 2019-08-24 21:15+0200\n"
+"POT-Creation-Date: 2020-02-15 11:24+0000\n"
+"PO-Revision-Date: 2020-02-17 21:45+0100\n"
 "Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
 "Language-Team: Hungarian <gnome-hu-list at gnome dot org>\n"
 "Language: hu\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 18.12.3\n"
+"X-Generator: Lokalize 19.04.3\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
 msgid "GNOME Music"
@@ -46,12 +46,12 @@ msgstr ""
 "kiszolgálókról vagy próbáljon ki valami újat a Jamendo és Magnatune "
 "szolgáltatásokkal."
 
-#: data/org.gnome.Music.appdata.xml.in.in:52
+#: data/org.gnome.Music.appdata.xml.in.in:67
 msgid "The GNOME Music developers"
 msgstr "A GNOME Zene fejlesztői"
 
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:59
-#: gnomemusic/window.py:77
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:57
+#: gnomemusic/window.py:69
 msgid "Music"
 msgstr "Zene"
 
@@ -132,6 +132,18 @@ msgstr ""
 "Engedélyezi vagy letiltja a rendszer felfüggesztésének megakadályozását "
 "zenelejátszás közben"
 
+#: data/org.gnome.Music.gschema.xml:48
+msgid "Report music history to Last.fm"
+msgstr "Zenék előzményeinek jelentése a Last.fm felé"
+
+#: data/org.gnome.Music.gschema.xml:49
+msgid ""
+"Enables or disables sending scrobbles and the “currently playing” info to "
+"Last.fm."
+msgstr ""
+"Engedélyezi vagy letiltja az előzmények és a „most játszott” információk "
+"elküldését a Last.fm-nek."
+
 #: data/ui/AboutDialog.ui.in:9
 msgid "Copyright © 2018 GNOME Music Developers"
 msgstr "Copyright © 2018 GNOME Zene fejlesztők"
@@ -202,40 +214,48 @@ msgstr "Kiadva"
 msgid "Running Length"
 msgstr "Futási hossz"
 
-#: data/ui/AlbumWidget.ui:166 gnomemusic/widgets/searchbar.py:70
+#: data/ui/AlbumWidget.ui:166
 msgid "Composer"
 msgstr "Zeneszerző"
 
-#: data/ui/AppMenu.ui:21
+#: data/ui/AppMenu.ui:20 data/ui/LastfmDialog.ui:8
+msgid "Last.fm Account"
+msgstr "Last.fm-fiók"
+
+#: data/ui/AppMenu.ui:38
+msgid "Report Music Listening"
+msgstr "Zenehallgatás jelentése"
+
+#: data/ui/AppMenu.ui:69
 msgid "_Keyboard Shortcuts"
 msgstr "_Gyorsbillentyűk"
 
-#: data/ui/AppMenu.ui:35
+#: data/ui/AppMenu.ui:83
 msgid "_Help"
 msgstr "_Súgó"
 
-#: data/ui/AppMenu.ui:49
+#: data/ui/AppMenu.ui:97
 msgid "_About Music"
 msgstr "A Zene _névjegye"
 
-#: data/ui/HeaderBar.ui:13
+#: data/ui/HeaderBar.ui:16
 msgid "Menu"
 msgstr "Menü"
 
-#: data/ui/HeaderBar.ui:36 data/ui/SearchHeaderBar.ui:13
+#: data/ui/HeaderBar.ui:39 data/ui/SearchHeaderBar.ui:16
 msgid "Select"
 msgstr "Kiválasztás"
 
-#: data/ui/HeaderBar.ui:58 data/ui/PlaylistDialog.ui:244
-#: data/ui/SearchHeaderBar.ui:35
+#: data/ui/HeaderBar.ui:61 data/ui/PlaylistDialog.ui:244
+#: data/ui/SearchHeaderBar.ui:38
 msgid "_Cancel"
 msgstr "_Mégse"
 
-#: data/ui/HeaderBar.ui:77 data/ui/SearchHeaderBar.ui:54
+#: data/ui/HeaderBar.ui:80 data/ui/SearchHeaderBar.ui:57
 msgid "Search"
 msgstr "Keresés"
 
-#: data/ui/HeaderBar.ui:100
+#: data/ui/HeaderBar.ui:103
 msgid "Back"
 msgstr "Vissza"
 
@@ -324,6 +344,26 @@ msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Vissza"
 
+#: data/ui/LastfmDialog.ui:21
+msgid ""
+"Last.fm is a music discovery service that gives you personalised "
+"recommendations based on the music you listen to."
+msgstr ""
+"A Last.fm egy zenefelfedező szolgáltatás, amely személyre szabott "
+"ajánlásokat ad az alapján, hogy milyen zenét hallgat."
+
+#: data/ui/LastfmDialog.ui:32 gnomemusic/widgets/lastfmdialog.py:58
+msgid "Music Reporting Not Setup"
+msgstr "A zenejelentés nincs beállítva"
+
+#: data/ui/LastfmDialog.ui:46 gnomemusic/widgets/lastfmdialog.py:61
+msgid "Login to your Last.fm account to report your music listening."
+msgstr "Jelentkezzen be a Last.fm-fiókjába, hogy jelentse, mit hallgat."
+
+#: data/ui/LastfmDialog.ui:57 gnomemusic/widgets/lastfmdialog.py:59
+msgid "Login"
+msgstr "Bejelentkezés"
+
 #: data/ui/PlayerToolbar.ui:6
 msgid "Shuffle"
 msgstr "Véletlen sorrend"
@@ -345,7 +385,7 @@ msgstr "Véletlen/Ismétlés kikapcsolva"
 msgid "Previous"
 msgstr "Előző"
 
-#: data/ui/PlayerToolbar.ui:86 gnomemusic/widgets/playertoolbar.py:153
+#: data/ui/PlayerToolbar.ui:86 gnomemusic/widgets/playertoolbar.py:147
 msgid "Play"
 msgstr "Lejátszás"
 
@@ -378,11 +418,11 @@ msgstr "_Törlés"
 msgid "_Rename…"
 msgstr "Át_nevezés…"
 
-#: data/ui/PlaylistControls.ui:40
+#: data/ui/PlaylistControls.ui:41
 msgid "Playlist Name"
 msgstr "Lejátszólista neve"
 
-#: data/ui/PlaylistControls.ui:74
+#: data/ui/PlaylistControls.ui:75
 msgid "_Done"
 msgstr "_Kész"
 
@@ -410,19 +450,19 @@ msgstr "Hozzáadás a lejátszólistához"
 msgid "_Add"
 msgstr "_Hozzáadás"
 
-#: data/ui/SearchView.ui:44 gnomemusic/views/artistsview.py:59
+#: data/ui/SearchView.ui:44 gnomemusic/views/artistsview.py:51
 msgid "Artists"
 msgstr "Előadók"
 
-#: data/ui/SearchView.ui:54 data/ui/SearchView.ui:104
+#: data/ui/SearchView.ui:54 data/ui/SearchView.ui:107
 msgid "View All"
 msgstr "Összes megtekintése"
 
-#: data/ui/SearchView.ui:94 gnomemusic/views/albumsview.py:61
+#: data/ui/SearchView.ui:97 gnomemusic/views/albumsview.py:60
 msgid "Albums"
 msgstr "Albumok"
 
-#: data/ui/SearchView.ui:144 gnomemusic/views/songsview.py:57
+#: data/ui/SearchView.ui:150 gnomemusic/views/songsview.py:49
 msgid "Songs"
 msgstr "Számok"
 
@@ -434,7 +474,7 @@ msgstr "Összes kijelölése"
 msgid "Select None"
 msgstr "Kijelölés törlése"
 
-#: data/ui/SelectionBarMenuButton.ui:31 gnomemusic/widgets/headerbar.py:75
+#: data/ui/SelectionBarMenuButton.ui:31 gnomemusic/widgets/headerbar.py:71
 msgid "Click on items to select them"
 msgstr "Kattintson az elemekre a kiválasztásukhoz"
 
@@ -443,187 +483,179 @@ msgid "_Add to Playlist"
 msgstr "Hozzá_adás a lejátszólistához"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:673
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:741
 msgid "Most Played"
 msgstr "Legtöbbet lejátszott"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:707
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:778
 msgid "Never Played"
 msgstr "Sosem lejátszott"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:740
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:814
 msgid "Recently Played"
 msgstr "Legutóbb lejátszott"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:784
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:860
 msgid "Recently Added"
 msgstr "Legutóbb hozzáadott"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:827
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:905
 msgid "Favorite Songs"
 msgstr "Kedvenc számok"
 
-#: gnomemusic/gstplayer.py:403
+#: gnomemusic/gstplayer.py:374
 msgid "Unable to play the file"
 msgstr "Nem lehet lejátszani a fájlt"
 
-#: gnomemusic/gstplayer.py:409
+#: gnomemusic/gstplayer.py:380
 msgid "_Find in {}"
 msgstr "_Keresés ebben: {}"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:420
+#: gnomemusic/gstplayer.py:390
 msgid " and "
 msgstr " és "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:423
+#: gnomemusic/gstplayer.py:393
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:425
+#: gnomemusic/gstplayer.py:395
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "{} szükséges a fájl lejátszásához, de nincs telepítve."
 msgstr[1] "{} szükségesek a fájl lejátszásához, de nincsenek telepítve."
 
-#: gnomemusic/inhibitsuspend.py:72
+#: gnomemusic/inhibitsuspend.py:63
 msgid "Playing music"
 msgstr "Zene lejátszása"
 
-#: gnomemusic/utils.py:62
+#: gnomemusic/utils.py:64
 msgid "Unknown album"
 msgstr "Ismeretlen album"
 
-#: gnomemusic/utils.py:83
+#: gnomemusic/utils.py:85
 msgid "Unknown Artist"
 msgstr "Ismeretlen előadó"
 
+#: gnomemusic/views/emptyview.py:67
+msgid "Your XDG Music directory is not set."
+msgstr "Az XDG Zenék könyvtára nincs beállítva."
+
 # A ~/Zenék
-#: gnomemusic/views/emptyview.py:79
+#: gnomemusic/views/emptyview.py:74
 msgid "Music folder"
 msgstr "Zenék mappa"
 
 # %s = "Zenék mappa"
 #. TRANSLATORS: This is a label to display a link to open user's music
 #. folder. {} will be replaced with the translated text 'Music folder'
-#: gnomemusic/views/emptyview.py:83
+#: gnomemusic/views/emptyview.py:78
 msgid "The contents of your {} will appear here."
 msgstr "A {} tartalma itt fog megjelenni."
 
-#: gnomemusic/views/emptyview.py:119
+#: gnomemusic/views/emptyview.py:113
 msgid "Hey DJ"
 msgstr "Hé DJ"
 
-#: gnomemusic/views/emptyview.py:129 gnomemusic/views/emptyview.py:135
+#: gnomemusic/views/emptyview.py:122 gnomemusic/views/emptyview.py:127
 msgid "No music found"
 msgstr "Nem található zene"
 
-#: gnomemusic/views/emptyview.py:137
+#: gnomemusic/views/emptyview.py:129
 msgid "Try a different search"
 msgstr "Próbáljon egy másik keresést"
 
-#: gnomemusic/views/emptyview.py:143
+#: gnomemusic/views/emptyview.py:134
 msgid "GNOME Music could not connect to Tracker"
 msgstr "A GNOME Zene nem tudott kapcsolódni a Trackerhez"
 
-#: gnomemusic/views/emptyview.py:146
+#: gnomemusic/views/emptyview.py:137
 msgid "Your music files cannot be indexed without Tracker running"
 msgstr "A zenefájlokat nem lehet indexelni a Tracker futtatása nélkül"
 
-#: gnomemusic/views/emptyview.py:154
+#: gnomemusic/views/emptyview.py:144
 msgid "Your system Tracker version seems outdated"
 msgstr "A rendszer Tracker verziója elavultnak tűnik"
 
-#: gnomemusic/views/emptyview.py:157
-msgid "Music needs Tracker version 2.2.0 or higher"
-msgstr "A Zene a Tracker 2.2.0 vagy újabb verzióját igényli"
+#: gnomemusic/views/emptyview.py:147
+#| msgid "Music needs Tracker version 2.2.0 or higher"
+msgid "Music needs Tracker version 2.3.0 or higher"
+msgstr "A Zene a Tracker 2.3.0 vagy újabb verzióját igényli"
 
-#: gnomemusic/views/playlistsview.py:58
+#: gnomemusic/views/playlistsview.py:53
 msgid "Playlists"
 msgstr "Lejátszólisták"
 
-#: gnomemusic/views/searchview.py:363
-#| msgid "Artists"
+#: gnomemusic/views/searchview.py:373
 msgid "Artists Results"
 msgstr "Előadók találatai"
 
-#: gnomemusic/views/searchview.py:377
-#| msgid "Albums"
+#: gnomemusic/views/searchview.py:388
 msgid "Albums Results"
 msgstr "Albumok találatai"
 
-#: gnomemusic/widgets/albumwidget.py:147
+#: gnomemusic/widgets/albumwidget.py:165
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} perc"
 msgstr[1] "{} perc"
 
 # FIXME ez lehet, hogy egy lemezcím, vagy sorszám, akkor nem lesz szép.
-#: gnomemusic/widgets/disclistboxwidget.py:82
+#: gnomemusic/widgets/disclistboxwidget.py:74
 msgid "Disc {}"
 msgstr "Lemez {}"
 
-#: gnomemusic/widgets/headerbar.py:72
+#: gnomemusic/widgets/headerbar.py:68
 msgid "Selected {} item"
 msgid_plural "Selected {} items"
 msgstr[0] "{} elem kijelölve"
 msgstr[1] "{} elem kijelölve"
 
-#: gnomemusic/widgets/notificationspopup.py:168
+#: gnomemusic/widgets/lastfmdialog.py:65
+msgid "Your music listening is reported to Last.fm."
+msgstr "A hallgatott zenék jelentésre kerülnek a Last.fm-nek."
+
+#: gnomemusic/widgets/lastfmdialog.py:67
+msgid "Your music listening is not reported to Last.fm."
+msgstr "A hallgatott zenék nem kerülnek jelentésre a Last.fm-nek."
+
+#. TRANSLATORS: displays the username of the Last.fm account
+#: gnomemusic/widgets/lastfmdialog.py:71
+msgid "Logged in as {}"
+msgstr "Bejelentkezve mint {}"
+
+#: gnomemusic/widgets/lastfmdialog.py:72
+msgid "Configure"
+msgstr "Beállítás"
+
+#: gnomemusic/widgets/notificationspopup.py:153
 msgid "Loading"
 msgstr "Betöltés"
 
-#: gnomemusic/widgets/notificationspopup.py:241
+#: gnomemusic/widgets/notificationspopup.py:220
 msgid "_Undo"
 msgstr "_Visszavonás"
 
-#: gnomemusic/widgets/notificationspopup.py:256
+#: gnomemusic/widgets/notificationspopup.py:235
 msgid "Playlist {} removed"
 msgstr "A(z) {} lejátszólista eltávolítva"
 
-#: gnomemusic/widgets/notificationspopup.py:260
+#: gnomemusic/widgets/notificationspopup.py:239
 msgid "{} removed from {}"
 msgstr "{} eltávolítva innen: {}"
 
-#: gnomemusic/widgets/playertoolbar.py:150
+#: gnomemusic/widgets/playertoolbar.py:144
 msgid "Pause"
 msgstr "Szünet"
 
-#: gnomemusic/widgets/playlistcontrols.py:83
+#: gnomemusic/widgets/playlistcontrols.py:129
 msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} szám"
 msgstr[1] "{} szám"
-
-#: gnomemusic/widgets/searchbar.py:67 gnomemusic/widgets/searchbar.py:116
-msgid "All"
-msgstr "Mind"
-
-#: gnomemusic/widgets/searchbar.py:68
-msgid "Artist"
-msgstr "Előadó"
-
-#: gnomemusic/widgets/searchbar.py:69
-msgid "Album"
-msgstr "Album"
-
-#: gnomemusic/widgets/searchbar.py:71
-msgid "Track Title"
-msgstr "Dal címe"
-
-#: gnomemusic/widgets/searchbar.py:117
-msgid "Local"
-msgstr "Helyi"
-
-#: gnomemusic/widgets/searchbar.py:286
-msgid "Sources"
-msgstr "Források"
-
-#: gnomemusic/widgets/searchbar.py:297
-msgid "Match"
-msgstr "Találat"
