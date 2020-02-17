@@ -61,6 +61,8 @@ class ArtistAlbumWidget(Gtk.Box):
         """
         super().__init__(orientation=Gtk.Orientation.HORIZONTAL)
 
+        self._corealbum = corealbum
+
         self._size_group = size_group
         self._cover_size_group = cover_size_group
 
@@ -113,8 +115,13 @@ class ArtistAlbumWidget(Gtk.Box):
         return disc_box
 
     def _on_model_items_changed(self, model, position, removed, added):
+        print("items-changed", model, position, removed, added)
         n_items = model.get_n_items()
+        print("n-items {} for {} by {}".format(
+            n_items, self._corealbum.props.title,
+            self._corealbum.props.artist))
         for i in range(n_items):
+            print(i)
             discbox = self._disc_list_box.get_row_at_index(i)
             discbox.props.show_disc_label = (n_items > 1)
 
