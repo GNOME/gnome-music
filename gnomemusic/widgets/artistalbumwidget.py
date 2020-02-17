@@ -102,6 +102,8 @@ class ArtistAlbumWidget(Gtk.Box):
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
 
+        print("creating disc_box {} disc {}".format(
+            self._corealbum.props.title, disc.props.disc_nr))
         return disc_box
 
     def _create_disc_box(self, disc_nr, album_model):
