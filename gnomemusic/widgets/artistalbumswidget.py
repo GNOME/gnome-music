@@ -80,6 +80,7 @@ class ArtistAlbumsWidget(Gtk.ListBox):
     def _add_album(self, corealbum):
         row = Gtk.ListBoxRow()
         row.props.selectable = False
+        row.props.activatable = False
 
         widget = ArtistAlbumWidget(
             corealbum, self._selection_mode_allowed,
