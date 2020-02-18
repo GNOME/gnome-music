@@ -26,6 +26,7 @@ from gi.repository import GObject, Gtk
 
 from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
 from gnomemusic.widgets.playlistdialogrow import PlaylistDialogRow
+from gnomemusic.widgets.notificationspopup import ErrorNotification
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/PlaylistDialog.ui")
@@ -56,8 +57,8 @@ class PlaylistDialog(Gtk.Dialog):
 
         self.props.transient_for = parent
         self.set_titlebar(self._title_bar)
-
         self._user_playlists_available = False
+        self._app = parent._app
         self._coremodel = parent._app.props.coremodel
         self._listbox.bind_model(
             self._coremodel.props.user_playlists_sort,
@@ -115,9 +116,17 @@ class PlaylistDialog(Gtk.Dialog):
                     break
             self.response(Gtk.ResponseType.ACCEPT)
 
+        _all_playlist_name = []
+        for pl in self._coremodel.props.playlists:
+            _all_playlist_name.append(pl.props.title)
+
         text = self._add_playlist_entry.props.text
-        if text:
+        if(text not in _all_playlist_name):
             self._coremodel.create_playlist(text, select_and_close_dialog)
+        else:
+            ErrorNotification(
+                self._app.props.window.notifications_popup,
+                "Playlist already exists")
 
     @Gtk.Template.Callback()
     def _on_add_playlist_entry_changed(self, editable, data=None):
