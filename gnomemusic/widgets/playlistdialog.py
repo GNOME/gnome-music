@@ -47,6 +47,7 @@ class PlaylistDialog(Gtk.Dialog):
     _new_playlist_entry = Gtk.Template.Child()
     _first_playlist_button = Gtk.Template.Child()
     _first_playlist_entry = Gtk.Template.Child()
+    _error_revealer = Gtk.Template.Child()
 
     def __init__(self, parent):
         super().__init__()
@@ -62,8 +63,13 @@ class PlaylistDialog(Gtk.Dialog):
         self._listbox.bind_model(
             self._coremodel.props.user_playlists_sort,
             self._create_playlist_row)
+        self._coremodel.props.user_playlists_sort.connect(
+            "items-changed", self._update_playlist_names)
 
         self._set_view()
+
+        self._all_playlist_names = [pl.props.title
+                                    for pl in self._coremodel.props.playlists]
 
     def _set_view(self):
         if self._user_playlists_available:
@@ -121,11 +127,21 @@ class PlaylistDialog(Gtk.Dialog):
 
     @Gtk.Template.Callback()
     def _on_add_playlist_entry_changed(self, editable, data=None):
+        self._new_playlist_entry.get_style_context().remove_class('error')
+        pl_exists = editable.props.text in self._all_playlist_names
         if editable.props.text:
-            self._add_playlist_button.props.sensitive = True
+            self._add_playlist_button.props.sensitive = not pl_exists
+            self._error_revealer.props.reveal_child = pl_exists
+            if pl_exists:
+                self._new_playlist_entry.get_style_context().add_class('error')
         else:
             self._add_playlist_button.props.sensitive = False
+            self._error_revealer.props.reveal_child = False
 
     @Gtk.Template.Callback()
     def _on_add_playlist_entry_focused(self, editable, data=None):
         self._listbox.unselect_all()
+
+    def _update_playlist_names(self, model, position, removed, added):
+        self._all_playlist_names = [pl.props.title for pl in
+                                    self._coremodel.props.playlists]
