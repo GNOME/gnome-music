@@ -66,8 +66,7 @@ class PlaylistDialog(Gtk.Dialog):
 
         self._set_view()
 
-        self._all_playlist_names = []
-        self.populate_playlist_name()
+
 
     def _set_view(self):
         if self._user_playlists_available:
@@ -125,20 +124,21 @@ class PlaylistDialog(Gtk.Dialog):
 
     @Gtk.Template.Callback()
     def _on_add_playlist_entry_changed(self, editable, data=None):
+        all_playlist_names = []
+        for pl in self._coremodel.props.playlists:
+            all_playlist_names.append(pl.props.title)
+        self._new_playlist_entry.get_style_context().remove_class('error')
         if editable.props.text:
-            if editable.props.text not in self._all_playlist_names:
+            if editable.props.text not in all_playlist_names:
                 self._add_playlist_button.props.sensitive = True
                 self._error_revealer.props.reveal_child = False
             else:
                 self._add_playlist_button.props.sensitive = False
                 self._error_revealer.props.reveal_child = True
+                self._new_playlist_entry.get_style_context().add_class('error')
         else:
             self._add_playlist_button.props.sensitive = False
             self._error_revealer.props.reveal_child = False
-
-    def populate_playlist_name(self):
-        for pl in self._coremodel.props.playlists:
-            self._all_playlist_names.append(pl.props.title)
 
     @Gtk.Template.Callback()
     def _on_add_playlist_entry_focused(self, editable, data=None):
