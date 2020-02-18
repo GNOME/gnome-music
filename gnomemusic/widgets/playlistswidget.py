@@ -75,12 +75,17 @@ class PlaylistsWidget(Gtk.Box):
         playlist_play_action = self._window.lookup_action("playlist_play")
         playlist_play_action.connect("activate", self._on_play_playlist)
 
+        self._coremodel.connect(
+            "smart-playlist-change", self._on_smart_playlist_change)
+
     def _on_current_playlist_changed(self, playlists_view, value):
         """Update view with content from selected playlist"""
         playlist = self._playlists_view.props.current_playlist
 
         self._songs_list.bind_model(
             playlist.props.model, self._create_song_widget, playlist)
+        if playlist.props.is_smart:
+            playlist.update()
 
         self._pl_ctrls.props.playlist = playlist
 
@@ -120,6 +125,12 @@ class PlaylistsWidget(Gtk.Box):
         target_position = target.get_parent().get_index()
         current_playlist = self._playlists_view.props.current_playlist
         current_playlist.reorder(source_position, target_position)
+
+    def _on_smart_playlist_change(self, coremodel):
+        current_playlist = self._playlists_view.props.current_playlist
+        if (current_playlist is not None
+                and current_playlist.props.is_smart):
+            current_playlist.update()
 
     @Gtk.Template.Callback()
     def _songs_list_right_click(self, gesture, n_press, x, y):
