@@ -50,8 +50,6 @@ class ArtistAlbumsWidget(Gtk.ListBox):
         self._player = self._application.props.player
         self._selection_mode_allowed = selection_mode_allowed
 
-        self._widgets = []
-
         self._cover_size_group = Gtk.SizeGroup.new(
             Gtk.SizeGroupMode.HORIZONTAL)
         self._songs_grid_size_group = Gtk.SizeGroup.new(
@@ -92,20 +90,23 @@ class ArtistAlbumsWidget(Gtk.ListBox):
             | GObject.BindingFlags.SYNC_CREATE)
 
         row.add(widget)
-        self._widgets.append(widget)
         widget.connect("song-activated", self._song_activated)
 
         return row
 
     def select_all(self):
         """Select all items"""
-        for widget in self._widgets:
-            widget.select_all()
+        def toggle_selection(row):
+            row.get_child().select_all()
+
+        self.foreach(toggle_selection)
 
     def deselect_all(self):
         """Deselect all items"""
-        for widget in self._widgets:
-            widget.deselect_all()
+        def toggle_selection(row):
+            row.get_child().deselect_all()
+
+        self.foreach(toggle_selection)
 
     @GObject.Property(type=str, flags=GObject.ParamFlags.READABLE)
     def artist(self):
