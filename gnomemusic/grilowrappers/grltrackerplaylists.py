@@ -257,6 +257,20 @@ class GrlTrackerPlaylists(GObject.GObject):
         self._tracker.update_blank_async(
             query, GLib.PRIORITY_LOW, None, _create_cb, None)
 
+    def check_smart_playlist_change(self):
+        """Check if smart playlists need to be updated.
+
+        A smart playlist needs to be updated in two cases:
+        * it is being played (active_playlist)
+        * it is visible in PlaylistsView
+        """
+        active_playlist = self._coremodel.props.active_playlist
+        if (active_playlist is not None
+                and active_playlist.props.is_smart is True):
+            active_playlist.update()
+        else:
+            self._coremodel.emit("smart-playlist-change")
+
 
 class Playlist(GObject.GObject):
     """ Base class of all playlists """
@@ -728,6 +742,51 @@ class SmartPlaylist(Playlist):
                 self.props.query, self.METADATA_KEYS, options, _add_to_model)
 
         return self._model
+
+    def update(self):
+        """Updates playlist model."""
+        if self._model is None:
+            return
+
+        new_model_medias = []
+
+        def _fill_new_model(source, op_id, media, remaining, error):
+            if error:
+                return
+
+            if not media:
+                self._finish_update(new_model_medias)
+                return
+
+            new_model_medias.append(media)
+
+        options = self._fast_options.copy()
+        self._source.query(
+            self.props.query, self.METADATA_KEYS, options, _fill_new_model)
+
+    def _finish_update(self, new_model_medias):
+        if not new_model_medias:
+            self._model.remove_all()
+            return
+
+        current_models_ids = [coresong.props.media.get_id()
+                              for coresong in self._model]
+        new_model_ids = [media.get_id() for media in new_model_medias]
+
+        idx_to_delete = []
+        for idx, media_id in enumerate(current_models_ids):
+            if media_id not in new_model_ids:
+                idx_to_delete.insert(0, idx)
+
+        for idx in idx_to_delete:
+            self._model.remove(idx)
+            self.props.count -= 1
+
+        for idx, media in enumerate(new_model_medias):
+            if media.get_id() not in current_models_ids:
+                coresong = CoreSong(media, self._coreselection, self._grilo)
+                self._model.append(coresong)
+                self.props.count += 1
 
 
 class MostPlayed(SmartPlaylist):
