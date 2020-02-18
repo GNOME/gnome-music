@@ -66,8 +66,6 @@ class PlaylistDialog(Gtk.Dialog):
 
         self._set_view()
 
-
-
     def _set_view(self):
         if self._user_playlists_available:
             self._normal_box.show()
