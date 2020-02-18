@@ -149,6 +149,7 @@ class GrlTrackerWrapper(GObject.GObject):
 
         self._check_album_change()
         self._check_artist_change()
+        self._tracker_playlists.check_smart_playlist_change()
 
         self._batch_changed_media_ids = {}
         self._content_changed_timeout = None
