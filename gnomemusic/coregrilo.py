@@ -94,9 +94,10 @@ class CoreGrilo(GObject.GObject):
         new_state = self._tracker_wrapper.props.tracker_available
         # FIXME:No removal support yet.
         if new_state == TrackerState.AVAILABLE:
-            # FIXME: Look for a better way to just activate the Tracker
-            # plugin.
-            self._registry.load_all_plugins(True)
+            tracker_plugin = self._registry.lookup_plugin("grl-tracker")
+            if tracker_plugin:
+                self._registry.unload_plugin("grl-tracker")
+            self._registry.activate_plugin_by_id("grl-tracker")
 
     def _on_source_added(self, registry, source):
 
