@@ -125,18 +125,22 @@ class CoreGrilo(GObject.GObject):
 
         new_state = self._tracker_wrapper.props.tracker_available
         if (source.props.source_id == "grl-tracker-source"
-                and source.props.source_id not in self._wrappers.keys()
                 and TrackerWrapper.location_filter() is not None
                 and new_state == TrackerState.AVAILABLE):
-            new_wrapper = GrlTrackerWrapper(
-                source, self._coremodel, self._application, self,
-                self._tracker_wrapper)
-            self._wrappers[source.props.source_id] = new_wrapper
+            if source.props.source_id not in self._wrappers.keys():
+                new_wrapper = GrlTrackerWrapper(
+                    source, self._coremodel, self._application, self,
+                    self._tracker_wrapper)
+                self._wrappers[source.props.source_id] = new_wrapper
+                print("wrapper", new_wrapper)
+            else:
+                grl_tracker_wrapper = self._wrappers[source.props.source_id]
+                registry.unregister_source(grl_tracker_wrapper.props.source)
+                grl_tracker_wrapper.props.source = source
         # elif source.props.source_id[:10] == "grl-dleyna":
         #     new_wrapper = GrlDLeynaWrapper(
         #         source, self._coremodel, self._coreselection, self)
         #     self._wrappers.append(new_wrapper)
-            print("wrapper", new_wrapper)
         elif (source.props.source_id not in self._search_wrappers.keys()
                 and source.props.source_id not in self._wrappers.keys()
                 and source.get_supported_media() & Grl.MediaType.AUDIO
