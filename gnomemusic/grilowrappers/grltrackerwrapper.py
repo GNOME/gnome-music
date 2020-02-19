@@ -77,7 +77,7 @@ class GrlTrackerWrapper(GObject.GObject):
         self._coremodel = coremodel
         self._coreselection = application.props.coreselection
         self._grilo = grilo
-        self._source = source
+        self._source = None
         self._log = application.props.log
         self._model = self._coremodel.props.songs
         self._albums_model = self._coremodel.props.albums
@@ -101,20 +101,37 @@ class GrlTrackerWrapper(GObject.GObject):
         self._fast_options.set_resolution_flags(
             Grl.ResolutionFlags.FAST_ONLY | Grl.ResolutionFlags.IDLE_RELAY)
 
-        self._initial_songs_fill(self._source)
-        self._initial_albums_fill(self._source)
-        self._initial_artists_fill(self._source)
+        self._content_changed_id = None
+        self.props.source = source
+
+        self._initial_songs_fill(self.props.source)
+        self._initial_albums_fill(self.props.source)
+        self._initial_artists_fill(self.props.source)
 
         self._tracker_playlists = GrlTrackerPlaylists(
             source, coremodel, application, grilo, tracker_wrapper)
 
-        self._source.notify_change_start()
-        self._source.connect("content-changed", self._batch_content_changed)
-
-    @GObject.Property(
-        type=Grl.Source, default=None, flags=GObject.ParamFlags.READABLE)
+    @GObject.Property(type=Grl.Source, default=None)
     def source(self):
         return self._source
+
+    @source.setter
+    def source(self, new_source):
+        """Set a new grilo tracker source
+
+        Everytime, the tracker plugin is loaded, a new source is
+        created. The source needs to be updated to get notifications.
+
+        :param Grl.Source new_source: new grilo tracker source
+        """
+        if self._content_changed_id is not None:
+            self._source.disconnect(self._content_changed_id)
+            self._content_changed_id = None
+
+        self._source = new_source
+        self._source.notify_change_start()
+        self._content_changed_id = self._source.connect(
+            "content-changed", self._batch_content_changed)
 
     def _batch_content_changed(self, source, medias, change_type, loc_unknown):
         if medias == []:
@@ -212,7 +229,7 @@ class GrlTrackerWrapper(GObject.GObject):
 
         options = self._fast_options.copy()
 
-        self._source.query(
+        self.props.source.query(
             query, self.METADATA_KEYS, options, check_album_cb)
 
     def _check_artist_change(self):
@@ -272,7 +289,7 @@ class GrlTrackerWrapper(GObject.GObject):
 
         options = self._fast_options.copy()
 
-        self._source.query(
+        self.props.source.query(
             query, self.METADATA_KEYS, options, check_artist_cb)
 
     def _remove_media(self, media_ids):
@@ -348,7 +365,7 @@ class GrlTrackerWrapper(GObject.GObject):
 
         options = self._fast_options.copy()
 
-        self._source.query(
+        self.props.source.query(
             self._song_media_query(media_ids), self.METADATA_KEYS,
             options, _update_changed_media)
 
@@ -404,7 +421,8 @@ class GrlTrackerWrapper(GObject.GObject):
         }
 
         options = self._fast_options.copy()
-        self._source.query(query, self.METADATA_KEYS, options, _add_to_model)
+        self.props.source.query(
+            query, self.METADATA_KEYS, options, _add_to_model)
 
     def _initial_albums_fill(self, source):
         self._window.notifications_popup.push_loading()
@@ -568,7 +586,7 @@ class GrlTrackerWrapper(GObject.GObject):
             return False
 
         options = self._fast_options.copy()
-        self._source.query(
+        self.props.source.query(
             query, [Grl.METADATA_KEY_TITLE], options, query_cb)
 
     def get_album_discs(self, media, disc_model):
@@ -612,7 +630,7 @@ class GrlTrackerWrapper(GObject.GObject):
             disc_model.append(coredisc)
 
         options = self._fast_options.copy()
-        self._source.query(
+        self.props.source.query(
             query, [Grl.METADATA_KEY_ALBUM_DISC_NUMBER], options, _disc_nr_cb)
 
     def populate_album_disc_songs(self, media, disc_nr, callback):
@@ -659,7 +677,7 @@ class GrlTrackerWrapper(GObject.GObject):
         }
 
         options = self._fast_options.copy()
-        self._source.query(query, self.METADATA_KEYS, options, callback)
+        self.props.source.query(query, self.METADATA_KEYS, options, callback)
 
     def search(self, text):
         # FIXME: Searches are limited to not bog down the UI with
@@ -725,7 +743,7 @@ class GrlTrackerWrapper(GObject.GObject):
             artist_filter_ids.append(media.get_id())
 
         options = self._fast_options.copy()
-        self._source.query(
+        self.props.source.query(
             query, self.METADATA_KEYS, options, artist_search_cb)
 
         # Album search
@@ -780,7 +798,7 @@ class GrlTrackerWrapper(GObject.GObject):
             album_filter_ids.append(media.get_id())
 
         options = self._fast_options.copy()
-        self._source.query(
+        self.props.source.query(
             query, self.METADATA_KEYS, options, albums_search_cb)
 
         # Song search
@@ -842,7 +860,8 @@ class GrlTrackerWrapper(GObject.GObject):
 
         options = self._fast_options.copy()
 
-        self._source.query(query, self.METADATA_KEYS, options, songs_search_cb)
+        self.props.source.query(
+            query, self.METADATA_KEYS, options, songs_search_cb)
 
     def get_album_art_for_item(self, coresong, callback):
         """Placeholder until we got a better solution
@@ -860,7 +879,7 @@ class GrlTrackerWrapper(GObject.GObject):
             | Grl.ResolutionFlags.IDLE_RELAY)
         full_options.set_count(1)
 
-        self._source.query(
+        self.props.source.query(
             query, self.METADATA_THUMBNAIL_KEYS, full_options, callback)
 
     def _get_album_for_album_id(self, album_id):
@@ -963,7 +982,7 @@ class GrlTrackerWrapper(GObject.GObject):
         full_options.set_resolution_flags(
             Grl.ResolutionFlags.FULL | Grl.ResolutionFlags.IDLE_RELAY)
 
-        self._source.resolve(
+        self.props.source.resolve(
             media, [Grl.METADATA_KEY_THUMBNAIL], full_options, _resolve_cb,
             None)
 
