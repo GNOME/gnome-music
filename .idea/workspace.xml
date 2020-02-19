@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="fdd671ed-478c-4354-917a-87514e269f11" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/gnomemusic/coregrilo.py" beforeDir="false" afterPath="$PROJECT_DIR$/gnomemusic/coregrilo.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1YUcz6DB6pCrXQePFG81giCy1fs" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="fdd671ed-478c-4354-917a-87514e269f11" name="Default Changelist" comment="" />
+      <created>1583000879171</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1583000879171</updated>
+      <workItem from="1583000914184" duration="381000" />
+      <workItem from="1583001301615" duration="26000" />
+      <workItem from="1583001345303" duration="43000" />
+      <workItem from="1583001401859" duration="13000" />
+      <workItem from="1583004501885" duration="70000" />
+      <workItem from="1584522733612" duration="13000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="778" y="311" width="424" height="491" key="FileChooserDialogImpl" timestamp="1583001365082">
+      <screen x="70" y="27" width="1850" height="1053" />
+    </state>
+    <state x="778" y="311" width="424" height="491" key="FileChooserDialogImpl/70.27.1850.1053@70.27.1850.1053" timestamp="1583001365082" />
+    <state x="651" y="381" key="com.intellij.ide.util.TipDialog" timestamp="1583000922420">
+      <screen x="70" y="27" width="1850" height="1053" />
+    </state>
+    <state x="651" y="381" key="com.intellij.ide.util.TipDialog/70.27.1850.1053@70.27.1850.1053" timestamp="1583000922420" />
+    <state x="741" y="247" width="488" height="627" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1583001182543">
+      <screen x="70" y="27" width="1850" height="1053" />
+    </state>
+    <state x="741" y="247" width="488" height="627" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/70.27.1850.1053@70.27.1850.1053" timestamp="1583001182543" />
+  </component>
+</project>
