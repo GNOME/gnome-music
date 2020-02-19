@@ -220,12 +220,11 @@ class PlaylistNotification(Gtk.Grid):
         undo_button = Gtk.Button.new_with_mnemonic(_("_Undo"))
         undo_button.connect("clicked", self._undo_deletion)
         close_button = Gtk.Button.new_from_icon_name(
-                        _("window-close-symbolic"), 2)
+            _("window-close-symbolic"), 2)
         close_button.connect("clicked", self._close_popup)
         self.add(undo_button)
         self.add(close_button)
         self.show_all()
-        print(dir(Gtk.Button.new_from_icon_name))
 
         if self.type_ == PlaylistNotification.Type.PLAYLIST:
             self._coremodel.stage_playlist_deletion(self._playlist)
