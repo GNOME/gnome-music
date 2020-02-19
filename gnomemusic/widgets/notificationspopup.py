@@ -217,6 +217,10 @@ class PlaylistNotification(Gtk.Grid):
             label=message, halign=Gtk.Align.START, hexpand=True)
         self.add(self._label)
 
+        close_button = Gtk.Button.new_from_icon_name(
+            "window-close-symbolic", Gtk.IconSize.BUTTON)
+        close_button.connect("clicked", self._close_notification)
+        close_button.set_relief(Gtk.ReliefStyle.NONE)
         undo_button = Gtk.Button.new_with_mnemonic(_("_Undo"))
         undo_button.connect("clicked", self._undo_deletion)
         self.add(undo_button)
