@@ -2,16 +2,16 @@
 # Copyright (C) 2012 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same licence as the gnome-music package.
 # Chris Leonard <cjlhomeaddress@gmail.com>, 2012.
-# Zander Brown <zbrown@gnome.org>, 2019-2020.
 # Bruce Cowan <bruce@bcowan.me.uk>, 2013-2020.
+# Zander Brown <zbrown@gnome.org>, 2019-2020.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2020-02-03 07:56+0000\n"
-"PO-Revision-Date: 2020-02-11 20:01+0000\n"
-"Last-Translator: Bruce Cowan <bruce@bcowan.me.uk>\n"
+"POT-Creation-Date: 2020-02-22 01:05+0000\n"
+"PO-Revision-Date: 2020-02-22 16:34+0000\n"
+"Last-Translator: Zander Brown <zbrown@gnome.org>\n"
 "Language-Team: English - United Kingdom <en_GB@li.org>\n"
 "Language: en_GB\n"
 "MIME-Version: 1.0\n"
@@ -46,11 +46,11 @@ msgstr ""
 "Find tracks in your local collection, get music from DLNA servers or try "
 "something new with the Jamendo and Magnatune services."
 
-#: data/org.gnome.Music.appdata.xml.in.in:67
+#: data/org.gnome.Music.appdata.xml.in.in:82
 msgid "The GNOME Music developers"
 msgstr "The GNOME Music developers"
 
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:56
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:57
 #: gnomemusic/window.py:69
 msgid "Music"
 msgstr "Music"
@@ -217,23 +217,23 @@ msgstr "Running Length"
 msgid "Composer"
 msgstr "Composer"
 
-#: data/ui/AppMenu.ui:20
+#: data/ui/AppMenu.ui:20 data/ui/LastfmDialog.ui:8
 msgid "Last.fm Account"
 msgstr "Last.fm Account"
 
-#: data/ui/AppMenu.ui:39
+#: data/ui/AppMenu.ui:38
 msgid "Report Music Listening"
 msgstr "Report Music Listening"
 
-#: data/ui/AppMenu.ui:70
+#: data/ui/AppMenu.ui:69
 msgid "_Keyboard Shortcuts"
 msgstr "_Keyboard Shortcuts"
 
-#: data/ui/AppMenu.ui:84
+#: data/ui/AppMenu.ui:83
 msgid "_Help"
 msgstr "_Help"
 
-#: data/ui/AppMenu.ui:98
+#: data/ui/AppMenu.ui:97
 msgid "_About Music"
 msgstr "_About Music"
 
@@ -343,6 +343,26 @@ msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Go back"
 
+#: data/ui/LastfmDialog.ui:21
+msgid ""
+"Last.fm is a music discovery service that gives you personalised "
+"recommendations based on the music you listen to."
+msgstr ""
+"Last.fm is a music discovery service that gives you personalised "
+"recommendations based on the music you listen to."
+
+#: data/ui/LastfmDialog.ui:32 gnomemusic/widgets/lastfmdialog.py:58
+msgid "Music Reporting Not Setup"
+msgstr "Music Reporting Not Setup"
+
+#: data/ui/LastfmDialog.ui:46 gnomemusic/widgets/lastfmdialog.py:61
+msgid "Login to your Last.fm account to report your music listening."
+msgstr "Login to your Last.fm account to report your music listening."
+
+#: data/ui/LastfmDialog.ui:57 gnomemusic/widgets/lastfmdialog.py:59
+msgid "Login"
+msgstr "Login"
+
 #: data/ui/PlayerToolbar.ui:6
 msgid "Shuffle"
 msgstr "Shuffle"
@@ -429,7 +449,7 @@ msgstr "Add to Playlist"
 msgid "_Add"
 msgstr "_Add"
 
-#: data/ui/SearchView.ui:44 gnomemusic/views/artistsview.py:51
+#: data/ui/SearchView.ui:44 gnomemusic/views/artistsview.py:50
 msgid "Artists"
 msgstr "Artists"
 
@@ -441,7 +461,7 @@ msgstr "View All"
 msgid "Albums"
 msgstr "Albums"
 
-#: data/ui/SearchView.ui:150 gnomemusic/views/songsview.py:49
+#: data/ui/SearchView.ui:150 gnomemusic/views/songsview.py:48
 msgid "Songs"
 msgstr "Songs"
 
@@ -462,27 +482,27 @@ msgid "_Add to Playlist"
 msgstr "_Add to Playlist"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:742
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:741
 msgid "Most Played"
 msgstr "Most Played"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:779
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:778
 msgid "Never Played"
 msgstr "Never Played"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:815
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:814
 msgid "Recently Played"
 msgstr "Recently Played"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:861
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:860
 msgid "Recently Added"
 msgstr "Recently Added"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:906
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:905
 msgid "Favorite Songs"
 msgstr "Favourite Songs"
 
@@ -564,15 +584,15 @@ msgstr "Your system Tracker version seems outdated"
 msgid "Music needs Tracker version 2.3.0 or higher"
 msgstr "Music needs Tracker version 2.3.0 or higher"
 
-#: gnomemusic/views/playlistsview.py:53
+#: gnomemusic/views/playlistsview.py:52
 msgid "Playlists"
 msgstr "Playlists"
 
-#: gnomemusic/views/searchview.py:358
+#: gnomemusic/views/searchview.py:373
 msgid "Artists Results"
 msgstr "Artists"
 
-#: gnomemusic/views/searchview.py:372
+#: gnomemusic/views/searchview.py:388
 msgid "Albums Results"
 msgstr "Albums"
 
@@ -591,6 +611,25 @@ msgid "Selected {} item"
 msgid_plural "Selected {} items"
 msgstr[0] "Selected {} item"
 msgstr[1] "Selected {} items"
+
+#: gnomemusic/widgets/lastfmdialog.py:65
+#| msgid "Report music history to Last.fm"
+msgid "Your music listening is reported to Last.fm."
+msgstr "Your music listening is reported to Last.fm."
+
+#: gnomemusic/widgets/lastfmdialog.py:67
+#| msgid "Report music history to Last.fm"
+msgid "Your music listening is not reported to Last.fm."
+msgstr "Your music listening is not reported to Last.fm."
+
+#. TRANSLATORS: displays the username of the Last.fm account
+#: gnomemusic/widgets/lastfmdialog.py:71
+msgid "Logged in as {}"
+msgstr "Logged in as {}"
+
+#: gnomemusic/widgets/lastfmdialog.py:72
+msgid "Configure"
+msgstr "Configure"
 
 #: gnomemusic/widgets/notificationspopup.py:153
 msgid "Loading"
