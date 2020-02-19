@@ -90,6 +90,16 @@ class CoreGrilo(GObject.GObject):
 
         self._registry.load_all_plugins(True)
 
+    @GObject.Property(
+        type=Grl.Registry, default=None, flags=GObject.ParamFlags.READABLE)
+    def registry(self):
+        """Get grilo plugin manager
+
+        :returns: Grilo Registry object
+        :rtype: Grl.Registry
+        """
+        return self._registry
+
     def _on_tracker_available_changed(self, klass, value):
         new_state = self._tracker_wrapper.props.tracker_available
         # FIXME:No removal support yet.
