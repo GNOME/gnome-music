@@ -6,14 +6,14 @@
 # Ask Hjorth Larsen <asklarsen@gmail.com>, 2015, 2016, 2017, 2018.
 # scootergrisen, 2015.
 # Joe Hansen (joedalton2@yahoo.dk), 2017.
-# Alan Mortensen <alanmortensen.am@gmail.com>, 2019.
+# Alan Mortensen <alanmortensen.am@gmail.com>, 2019-20.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2019-09-02 16:56+0000\n"
-"PO-Revision-Date: 2019-09-09 01:34+0200\n"
+"POT-Creation-Date: 2020-02-15 11:24+0000\n"
+"PO-Revision-Date: 2020-02-16 13:58+0100\n"
 "Last-Translator: Alan Mortensen <alanmortensen.am@gmail.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
@@ -50,12 +50,12 @@ msgstr ""
 "Find spor i din lokale samling, hent musik fra DLNA-servere eller prøv noget "
 "nyt med tjenesterne Jamendo og Magnatune."
 
-#: data/org.gnome.Music.appdata.xml.in.in:52
+#: data/org.gnome.Music.appdata.xml.in.in:67
 msgid "The GNOME Music developers"
 msgstr "GNOME Musik-udviklerne"
 
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:59
-#: gnomemusic/window.py:76
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:57
+#: gnomemusic/window.py:69
 msgid "Music"
 msgstr "Musik"
 
@@ -135,6 +135,19 @@ msgstr ""
 "Aktiverer eller deaktiverer forhindring af systemhviletilstand ved "
 "afspilning af musik"
 
+#: data/org.gnome.Music.gschema.xml:48
+msgid "Report music history to Last.fm"
+msgstr "Rapportér musikhistorik til Last.fm"
+
+# https://en.wikipedia.org/wiki/Last.fm
+#: data/org.gnome.Music.gschema.xml:49
+msgid ""
+"Enables or disables sending scrobbles and the “currently playing” info to "
+"Last.fm."
+msgstr ""
+"Aktiverer eller deaktiverer, at der sendes “scrobbler” og “afspilles nu”-"
+"information til Last.fm."
+
 #: data/ui/AboutDialog.ui.in:9
 msgid "Copyright © 2018 GNOME Music Developers"
 msgstr "Ophavsret © 2018 GNOME Musik-udviklerne"
@@ -211,36 +224,44 @@ msgstr "Spilletid"
 msgid "Composer"
 msgstr "Komponist"
 
-#: data/ui/AppMenu.ui:21
+#: data/ui/AppMenu.ui:20 data/ui/LastfmDialog.ui:8
+msgid "Last.fm Account"
+msgstr "Konto til Last.fm"
+
+#: data/ui/AppMenu.ui:38
+msgid "Report Music Listening"
+msgstr "Rapportér musikken, du lytter til"
+
+#: data/ui/AppMenu.ui:69
 msgid "_Keyboard Shortcuts"
 msgstr "_Tastaturgenveje"
 
-#: data/ui/AppMenu.ui:35
+#: data/ui/AppMenu.ui:83
 msgid "_Help"
 msgstr "_Hjælp"
 
-#: data/ui/AppMenu.ui:49
+#: data/ui/AppMenu.ui:97
 msgid "_About Music"
 msgstr "_Om Musik"
 
-#: data/ui/HeaderBar.ui:13
+#: data/ui/HeaderBar.ui:16
 msgid "Menu"
 msgstr "Menu"
 
-#: data/ui/HeaderBar.ui:36 data/ui/SearchHeaderBar.ui:13
+#: data/ui/HeaderBar.ui:39 data/ui/SearchHeaderBar.ui:16
 msgid "Select"
 msgstr "Vælg"
 
-#: data/ui/HeaderBar.ui:58 data/ui/PlaylistDialog.ui:244
-#: data/ui/SearchHeaderBar.ui:35
+#: data/ui/HeaderBar.ui:61 data/ui/PlaylistDialog.ui:244
+#: data/ui/SearchHeaderBar.ui:38
 msgid "_Cancel"
 msgstr "_Annullér"
 
-#: data/ui/HeaderBar.ui:77 data/ui/SearchHeaderBar.ui:54
+#: data/ui/HeaderBar.ui:80 data/ui/SearchHeaderBar.ui:57
 msgid "Search"
 msgstr "Søg"
 
-#: data/ui/HeaderBar.ui:100
+#: data/ui/HeaderBar.ui:103
 msgid "Back"
 msgstr "Tilbage"
 
@@ -330,6 +351,27 @@ msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Gå tilbage"
 
+#: data/ui/LastfmDialog.ui:21
+msgid ""
+"Last.fm is a music discovery service that gives you personalised "
+"recommendations based on the music you listen to."
+msgstr ""
+"Last.fm er en musikopdagelsestjeneste, som giver dig personliggjorte "
+"anbefalinger baseret på den musik, du lytter til."
+
+#: data/ui/LastfmDialog.ui:32 gnomemusic/widgets/lastfmdialog.py:58
+msgid "Music Reporting Not Setup"
+msgstr "Musikrapportering ikke sat op"
+
+#: data/ui/LastfmDialog.ui:46 gnomemusic/widgets/lastfmdialog.py:61
+msgid "Login to your Last.fm account to report your music listening."
+msgstr ""
+"Log ind på din konto til Last.fm for at rapportere den musik, du lytter til."
+
+#: data/ui/LastfmDialog.ui:57 gnomemusic/widgets/lastfmdialog.py:59
+msgid "Login"
+msgstr "Log ind"
+
 #: data/ui/PlayerToolbar.ui:6
 msgid "Shuffle"
 msgstr "Bland"
@@ -351,7 +393,7 @@ msgstr "Bland/gentag fra"
 msgid "Previous"
 msgstr "Forrige"
 
-#: data/ui/PlayerToolbar.ui:86 gnomemusic/widgets/playertoolbar.py:153
+#: data/ui/PlayerToolbar.ui:86 gnomemusic/widgets/playertoolbar.py:147
 msgid "Play"
 msgstr "Afspil"
 
@@ -384,11 +426,11 @@ msgstr "_Slet"
 msgid "_Rename…"
 msgstr "_Omdøb …"
 
-#: data/ui/PlaylistControls.ui:40
+#: data/ui/PlaylistControls.ui:41
 msgid "Playlist Name"
 msgstr "Navn på afspilningsliste"
 
-#: data/ui/PlaylistControls.ui:74
+#: data/ui/PlaylistControls.ui:75
 msgid "_Done"
 msgstr "_Færdig"
 
@@ -416,7 +458,7 @@ msgstr "Tilføj til afspilningsliste"
 msgid "_Add"
 msgstr "_Tilføj"
 
-#: data/ui/SearchView.ui:44 gnomemusic/views/artistsview.py:59
+#: data/ui/SearchView.ui:44 gnomemusic/views/artistsview.py:51
 msgid "Artists"
 msgstr "Kunstnere"
 
@@ -424,11 +466,11 @@ msgstr "Kunstnere"
 msgid "View All"
 msgstr "Vis alle"
 
-#: data/ui/SearchView.ui:97 gnomemusic/views/albumsview.py:61
+#: data/ui/SearchView.ui:97 gnomemusic/views/albumsview.py:60
 msgid "Albums"
 msgstr "Album"
 
-#: data/ui/SearchView.ui:150 gnomemusic/views/songsview.py:57
+#: data/ui/SearchView.ui:150 gnomemusic/views/songsview.py:49
 msgid "Songs"
 msgstr "Sange"
 
@@ -440,7 +482,7 @@ msgstr "Vælg alle"
 msgid "Select None"
 msgstr "Vælg ingen"
 
-#: data/ui/SelectionBarMenuButton.ui:31 gnomemusic/widgets/headerbar.py:75
+#: data/ui/SelectionBarMenuButton.ui:31 gnomemusic/widgets/headerbar.py:71
 msgid "Click on items to select them"
 msgstr "Klik på elementerne for at vælge dem"
 
@@ -449,153 +491,174 @@ msgid "_Add to Playlist"
 msgstr "_Tilføj til afspilningsliste"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:673
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:741
 msgid "Most Played"
 msgstr "Mest afspillet"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:707
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:778
 msgid "Never Played"
 msgstr "Aldrig afspillet"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:740
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:814
 msgid "Recently Played"
 msgstr "Afspillet for nylig"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:784
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:860
 msgid "Recently Added"
 msgstr "Tilføjet for nylig"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:827
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:905
 msgid "Favorite Songs"
 msgstr "Yndlingssange"
 
-#: gnomemusic/gstplayer.py:403
+#: gnomemusic/gstplayer.py:374
 msgid "Unable to play the file"
 msgstr "Kan ikke afspille filen"
 
-#: gnomemusic/gstplayer.py:409
+#: gnomemusic/gstplayer.py:380
 msgid "_Find in {}"
 msgstr "_Find i {}"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:420
+#: gnomemusic/gstplayer.py:390
 msgid " and "
 msgstr " og "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:423
+#: gnomemusic/gstplayer.py:393
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:425
+#: gnomemusic/gstplayer.py:395
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "{} kræves for at afspille filen, men er ikke installeret."
 msgstr[1] "{} kræves for at afspille filen, men er ikke installeret."
 
-#: gnomemusic/inhibitsuspend.py:72
+#: gnomemusic/inhibitsuspend.py:63
 msgid "Playing music"
 msgstr "Afspiller musik"
 
-#: gnomemusic/utils.py:62
+#: gnomemusic/utils.py:64
 msgid "Unknown album"
 msgstr "Ukendt album"
 
-#: gnomemusic/utils.py:83
+#: gnomemusic/utils.py:85
 msgid "Unknown Artist"
 msgstr "Ukendt kunstner"
 
-#: gnomemusic/views/emptyview.py:79
+#: gnomemusic/views/emptyview.py:67
+msgid "Your XDG Music directory is not set."
+msgstr "Din XDG-musikmappe er ikke angivet."
+
+#: gnomemusic/views/emptyview.py:74
 msgid "Music folder"
 msgstr "Musikmappe"
 
 #. TRANSLATORS: This is a label to display a link to open user's music
 #. folder. {} will be replaced with the translated text 'Music folder'
-#: gnomemusic/views/emptyview.py:83
+#: gnomemusic/views/emptyview.py:78
 msgid "The contents of your {} will appear here."
 msgstr "Indholdet af din {} vil blive vist her."
 
-#: gnomemusic/views/emptyview.py:119
+#: gnomemusic/views/emptyview.py:113
 msgid "Hey DJ"
 msgstr "Hey DJ"
 
-#: gnomemusic/views/emptyview.py:129 gnomemusic/views/emptyview.py:135
+#: gnomemusic/views/emptyview.py:122 gnomemusic/views/emptyview.py:127
 msgid "No music found"
 msgstr "Ingen musik fundet"
 
-#: gnomemusic/views/emptyview.py:137
+#: gnomemusic/views/emptyview.py:129
 msgid "Try a different search"
 msgstr "Prøv en anden søgning"
 
-#: gnomemusic/views/emptyview.py:143
+#: gnomemusic/views/emptyview.py:134
 msgid "GNOME Music could not connect to Tracker"
 msgstr "GNOME Musik kunne ikke forbinde til Tracker"
 
-#: gnomemusic/views/emptyview.py:146
+#: gnomemusic/views/emptyview.py:137
 msgid "Your music files cannot be indexed without Tracker running"
 msgstr "Dine musikfiler kan ikke indekseres, hvis ikke Tracker kører"
 
-#: gnomemusic/views/emptyview.py:154
+#: gnomemusic/views/emptyview.py:144
 msgid "Your system Tracker version seems outdated"
 msgstr "Dit system synes at have en gammel version af Tracker"
 
-#: gnomemusic/views/emptyview.py:157
-msgid "Music needs Tracker version 2.2.0 or higher"
-msgstr "Musik kræver Tracker version 2.2.0 eller nyere"
+#: gnomemusic/views/emptyview.py:147
+msgid "Music needs Tracker version 2.3.0 or higher"
+msgstr "Musik kræver Tracker version 2.3.0 eller nyere"
 
-#: gnomemusic/views/playlistsview.py:58
+#: gnomemusic/views/playlistsview.py:53
 msgid "Playlists"
 msgstr "Afspilningslister"
 
-#: gnomemusic/views/searchview.py:365
+#: gnomemusic/views/searchview.py:373
 msgid "Artists Results"
 msgstr "Resultater — kunstnere"
 
-#: gnomemusic/views/searchview.py:379
+#: gnomemusic/views/searchview.py:388
 msgid "Albums Results"
 msgstr "Resultater — albummer"
 
-#: gnomemusic/widgets/albumwidget.py:147
+#: gnomemusic/widgets/albumwidget.py:165
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} minut"
 msgstr[1] "{} minutter"
 
-#: gnomemusic/widgets/disclistboxwidget.py:82
+#: gnomemusic/widgets/disclistboxwidget.py:74
 msgid "Disc {}"
 msgstr "Disk {}"
 
-#: gnomemusic/widgets/headerbar.py:72
+#: gnomemusic/widgets/headerbar.py:68
 msgid "Selected {} item"
 msgid_plural "Selected {} items"
 msgstr[0] "{} element valgt"
 msgstr[1] "{} elementer valgt"
 
-#: gnomemusic/widgets/notificationspopup.py:168
+#: gnomemusic/widgets/lastfmdialog.py:65
+msgid "Your music listening is reported to Last.fm."
+msgstr "Musikken, du lytter til, rapporteres til Last.fm."
+
+#: gnomemusic/widgets/lastfmdialog.py:67
+msgid "Your music listening is not reported to Last.fm."
+msgstr "Musikken, du lytter til, rapporteres ikke til Last.fm."
+
+#. TRANSLATORS: displays the username of the Last.fm account
+#: gnomemusic/widgets/lastfmdialog.py:71
+msgid "Logged in as {}"
+msgstr "Logget ind som {}"
+
+#: gnomemusic/widgets/lastfmdialog.py:72
+msgid "Configure"
+msgstr "Konfigurér"
+
+#: gnomemusic/widgets/notificationspopup.py:153
 msgid "Loading"
 msgstr "Indlæser"
 
-#: gnomemusic/widgets/notificationspopup.py:241
+#: gnomemusic/widgets/notificationspopup.py:220
 msgid "_Undo"
 msgstr "_Fortryd"
 
-#: gnomemusic/widgets/notificationspopup.py:256
+#: gnomemusic/widgets/notificationspopup.py:235
 msgid "Playlist {} removed"
 msgstr "Afspilningslisten {} fjernet"
 
-#: gnomemusic/widgets/notificationspopup.py:260
+#: gnomemusic/widgets/notificationspopup.py:239
 msgid "{} removed from {}"
 msgstr "{} fjernet fra {}"
 
-#: gnomemusic/widgets/playertoolbar.py:150
+#: gnomemusic/widgets/playertoolbar.py:144
 msgid "Pause"
 msgstr "Pause"
 
-#: gnomemusic/widgets/playlistcontrols.py:83
+#: gnomemusic/widgets/playlistcontrols.py:129
 msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} sang"
