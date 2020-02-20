@@ -35,6 +35,17 @@ from gnomemusic.grilowrappers.grltrackerplaylists import GrlTrackerPlaylists
 
 class GrlTrackerWrapper(GObject.GObject):
     """Wrapper for the Grilo Tracker source.
+
+    Communication with Tracker is done here mostly using the query()
+    function provided by the Grilo plugin for Tracker. Queries are
+    written in SPARQL, adhering to libtracker-sparql. In order to map a
+    column of the query to a Grilo metadata key, SPARQL's alias feature
+    ('AS') is used.
+
+    The Grilo Tracker plugin sends back GrlMedia instances matching the
+    query by calling the specified callback. Once no further matches are
+    found, the plugin calls the callback once more, setting its `media`
+    argument to NULL.
     """
 
     _SPLICE_SIZE = 100
@@ -374,22 +385,32 @@ class GrlTrackerWrapper(GObject.GObject):
                 self._model.splice(self._model.get_n_items(), 0, songs_added)
                 songs_added.clear()
 
+        metadata_keys = [
+            Grl.METADATA_KEY_ALBUM,
+            Grl.METADATA_KEY_ALBUM_DISC_NUMBER,
+            Grl.METADATA_KEY_ARTIST,
+            Grl.METADATA_KEY_DURATION,
+            Grl.METADATA_KEY_FAVOURITE,
+            Grl.METADATA_KEY_ID,
+            Grl.METADATA_KEY_PLAY_COUNT,
+            Grl.METADATA_KEY_TITLE,
+            Grl.METADATA_KEY_TRACK_NUMBER,
+            Grl.METADATA_KEY_URL
+        ]
+
         query = """
         SELECT
             rdf:type(?song)
-            ?song AS ?tracker_urn
-            nie:title(?song) AS ?title
-            tracker:id(?song) AS ?id
-            ?song
-            nie:url(?song) AS ?url
-            nie:title(?song) AS ?title
-            nmm:artistName(nmm:performer(?song)) AS ?artist
             nie:title(nmm:musicAlbum(?song)) AS ?album
-            nfo:duration(?song) AS ?duration
-            nie:usageCounter(?song) AS ?play_count
-            nmm:trackNumber(?song) AS ?track_number
             nmm:setNumber(nmm:musicAlbumDisc(?song)) AS ?album_disc_number
+            nmm:artistName(nmm:performer(?song)) AS ?artist
+            nfo:duration(?song) AS ?duration
             ?tag AS ?favourite
+            tracker:id(?song) AS ?id
+            nie:usageCounter(?song) AS ?play_count
+            nie:title(?song) AS ?title
+            nmm:trackNumber(?song) AS ?track_number
+            nie:url(?song) AS ?url
         WHERE {
             ?song a nmm:MusicPiece .
             OPTIONAL {
@@ -404,7 +425,7 @@ class GrlTrackerWrapper(GObject.GObject):
         }
 
         options = self._fast_options.copy()
-        self._source.query(query, self.METADATA_KEYS, options, _add_to_model)
+        self._source.query(query, metadata_keys, options, _add_to_model)
 
     def _initial_albums_fill(self, source):
         self._window.notifications_popup.push_loading()
@@ -430,16 +451,26 @@ class GrlTrackerWrapper(GObject.GObject):
                     self._albums_model.get_n_items(), 0, albums_added)
                 albums_added.clear()
 
+        metadata_keys = [
+            Grl.METADATA_KEY_ALBUM_ARTIST,
+            Grl.METADATA_KEY_ARTIST,
+            Grl.METADATA_KEY_COMPOSER,
+            Grl.METADATA_KEY_CREATION_DATE,
+            Grl.METADATA_KEY_ID,
+            Grl.METADATA_KEY_TITLE,
+            Grl.METADATA_KEY_URL
+        ]
+
         query = """
         SELECT
             rdf:type(?album)
-            tracker:id(?album) AS ?id
-            nie:title(?album) AS ?title
-            ?composer AS ?composer
             ?album_artist AS ?album_artist
             nmm:artistName(?performer) AS ?artist
-            nie:url(?song) AS ?url
+            ?composer AS ?composer
             YEAR(MAX(nie:contentCreated(?song))) AS ?creation_date
+            tracker:id(?album) AS ?id
+            nie:title(?album) AS ?title
+            nie:url(?song) AS ?url
         WHERE
         {
             ?album a nmm:MusicAlbum .
@@ -458,7 +489,7 @@ class GrlTrackerWrapper(GObject.GObject):
 
         options = self._fast_options.copy()
 
-        source.query(query, self.METADATA_KEYS, options, _add_to_albums_model)
+        source.query(query, metadata_keys, options, _add_to_albums_model)
 
     def _initial_artists_fill(self, source):
         self._window.notifications_popup.push_loading()
@@ -485,25 +516,30 @@ class GrlTrackerWrapper(GObject.GObject):
                     self._artists_model.get_n_items(), 0, artists_added)
                 artists_added.clear()
 
+        metadata_keys = [
+            Grl.METADATA_KEY_ARTIST,
+            Grl.METADATA_KEY_ID,
+        ]
+
         query = """
         SELECT
-            rdf:type(?artist)
-            COALESCE(tracker:id(?album_artist), tracker:id(?artist)) AS ?id
-            ?artist_bind AS ?artist
+            rdf:type(?song_artist)
+            COALESCE(nmm:artistName(?album_artist),
+                     nmm:artistName(?song_artist)) AS ?artist
+            COALESCE(tracker:id(?album_artist),
+                     tracker:id(?song_artist)) AS ?id
         WHERE {
             ?song a nmm:MusicPiece;
                     nmm:musicAlbum ?album;
-                    nmm:performer ?artist .
+                    nmm:performer ?song_artist .
             OPTIONAL {
                 ?album a nmm:MusicAlbum;
                          nmm:albumArtist ?album_artist .
             }
-            BIND(COALESCE(nmm:artistName(?album_artist),
-                          nmm:artistName(?artist)) AS ?artist_bind)
             %(location_filter)s
         }
-        GROUP BY ?artist_bind
-        ORDER BY ?artist_bind
+        GROUP BY ?artist
+        ORDER BY ?artist
         """.replace('\n', ' ').strip() % {
             'location_filter': self._tracker_wrapper.location_filter()
         }
@@ -511,7 +547,7 @@ class GrlTrackerWrapper(GObject.GObject):
         options = self._fast_options.copy()
 
         source.query(
-            query, [Grl.METADATA_KEY_ARTIST], options, _add_to_artists_model)
+            query, metadata_keys, options, _add_to_artists_model)
 
     def get_artist_albums(self, media, model):
         """Get all albums by an artist
