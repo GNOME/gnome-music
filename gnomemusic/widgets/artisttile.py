@@ -36,13 +36,9 @@ class ArtistTile(Gtk.ListBoxRow):
 
     __gtype_name__ = 'ArtistTile'
 
-    _check = Gtk.Template.Child()
     _label = Gtk.Template.Child()
-    _revealer = Gtk.Template.Child()
 
     coreartist = GObject.Property(type=CoreArtist, default=None)
-    selected = GObject.Property(type=bool, default=False)
-    selection_mode = GObject.Property(type=bool, default=False)
     text = GObject.Property(type=str, default='')
 
     def __init__(self, coreartist=None):
@@ -50,14 +46,6 @@ class ArtistTile(Gtk.ListBoxRow):
 
         self.props.coreartist = coreartist
 
-        self.bind_property(
-            'selected', self._check, 'active',
-            GObject.BindingFlags.BIDIRECTIONAL)
-        if coreartist:
-            self.bind_property(
-                "selected", coreartist, "selected",
-                GObject.BindingFlags.BIDIRECTIONAL)
-        self.bind_property('selection-mode', self._revealer, 'reveal-child')
         self.bind_property('text', self._label, 'label')
         self.bind_property('text', self._label, 'tooltip-text')
 
