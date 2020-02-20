@@ -94,9 +94,10 @@ class CoreGrilo(GObject.GObject):
         new_state = self._tracker_wrapper.props.tracker_available
         # FIXME:No removal support yet.
         if new_state == TrackerState.AVAILABLE:
-            # FIXME: Look for a better way to just activate the Tracker
-            # plugin.
-            self._registry.load_all_plugins(True)
+            tracker_plugin = self._registry.lookup_plugin("grl-tracker")
+            if tracker_plugin:
+                self._registry.unload_plugin("grl-tracker")
+            self._registry.activate_plugin_by_id("grl-tracker")
 
     def _on_source_added(self, registry, source):
 
@@ -128,14 +129,18 @@ class CoreGrilo(GObject.GObject):
 
         new_state = self._tracker_wrapper.props.tracker_available
         if (source.props.source_id == "grl-tracker-source"
-                and source.props.source_id not in self._wrappers.keys()
                 and self._tracker_wrapper.location_filter() is not None
                 and new_state == TrackerState.AVAILABLE):
-            new_wrapper = GrlTrackerWrapper(
-                source, self._coremodel, self._application, self,
-                self._tracker_wrapper)
-            self._wrappers[source.props.source_id] = new_wrapper
-            self._log.debug("Adding wrapper {}".format(new_wrapper))
+            if source.props.source_id not in self._wrappers.keys():
+                new_wrapper = GrlTrackerWrapper(
+                    source, self._coremodel, self._application, self,
+                    self._tracker_wrapper)
+                self._wrappers[source.props.source_id] = new_wrapper
+                self._log.debug("Adding wrapper {}".format(new_wrapper))
+            else:
+                grl_tracker_wrapper = self._wrappers[source.props.source_id]
+                registry.unregister_source(grl_tracker_wrapper.props.source)
+                grl_tracker_wrapper.props.source = source
         elif (source.props.source_id not in self._search_wrappers.keys()
                 and source.props.source_id not in self._wrappers.keys()
                 and source.props.source_id != "grl-tracker-source"
