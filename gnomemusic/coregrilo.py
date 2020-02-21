@@ -182,6 +182,8 @@ class CoreGrilo(GObject.GObject):
             if failed_keys:
                 self._log.warning("Unable to update {}".format(failed_keys))
 
+            self._coremodel.emit("smart-playlist-change")
+
         for wrapper in self._wrappers.values():
             if media.get_source() == wrapper.source.props.source_id:
                 wrapper.props.source.store_metadata(
