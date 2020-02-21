@@ -242,9 +242,10 @@ class CoreModel(GObject.GObject):
 
                     self._playlist_model.insert(position + i, song)
 
-                    song.bind_property(
-                        "state", coresong, "state",
-                        GObject.BindingFlags.SYNC_CREATE)
+                    coresong.bind_property(
+                        "state", song, "state",
+                        GObject.BindingFlags.BIDIRECTIONAL
+                        | GObject.BindingFlags.SYNC_CREATE)
                     coresong.bind_property(
                         "validation", song, "validation",
                         GObject.BindingFlags.BIDIRECTIONAL
@@ -286,9 +287,10 @@ class CoreModel(GObject.GObject):
                     self.props.grilo)
 
                 songs_added.append(song)
-                song.bind_property(
-                    "state", model_song, "state",
-                    GObject.BindingFlags.SYNC_CREATE)
+                model_song.bind_property(
+                    "state", song, "state",
+                    GObject.BindingFlags.BIDIRECTIONAL
+                    | GObject.BindingFlags.SYNC_CREATE)
                 model_song.bind_property(
                     "validation", song, "validation",
                     GObject.BindingFlags.BIDIRECTIONAL
