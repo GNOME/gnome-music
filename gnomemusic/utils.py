@@ -28,6 +28,7 @@ import unicodedata
 
 from gettext import gettext as _
 from gi.repository import Gio
+from gi._gi import pygobject_new_full
 
 
 class SongStateIcon(Enum):
@@ -167,3 +168,14 @@ def natural_sort_names(name_a, name_b):
                 for tmp in re.split(r"(\d+)", normalize_caseless(text))]
 
     return _extract_numbers(name_b) < _extract_numbers(name_a)
+
+
+def wrap_list_store_sort_func(func):
+    """PyGI wrapper for SortListModel set_sort_func.
+    """
+    def wrap(a, b, *user_data):
+        a = pygobject_new_full(a, False)
+        b = pygobject_new_full(b, False)
+        return func(a, b, *user_data)
+
+    return wrap
