@@ -192,6 +192,9 @@ class PlaylistNotification(Gtk.Grid):
         PLAYLIST = 0
         SONG = 1
 
+    class IconSize(IntEnum):
+        CANCEL_ICON_SIZE = 1
+
     def __init__(
             self, notifications_popup, coremodel, type_, playlist,
             position=None, coresong=None):
@@ -220,8 +223,9 @@ class PlaylistNotification(Gtk.Grid):
         undo_button = Gtk.Button.new_with_mnemonic(_("_Undo"))
         undo_button.connect("clicked", self._undo_deletion)
         close_button = Gtk.Button.new_from_icon_name(
-            _("window-close-symbolic"), 2)
-        close_button.connect("clicked", self._close_popup)
+            "window-close-symbolic",
+            PlaylistNotification.IconSize.CANCEL_ICON_SIZE)
+        close_button.connect("clicked", self._close_notification)
         self.add(undo_button)
         self.add(close_button)
         self.show_all()
@@ -258,9 +262,10 @@ class PlaylistNotification(Gtk.Grid):
             self._playlist.undo_pending_song_deletion(
                 self._coresong, self._position)
 
-    def _close_popup(self, widget_):
+    def _close_notification(self, widget_):
+        GLib.source_remove(self._timeout_id)
         self._timeout_id = 0
-        self._coremodel.finish_playlist_deletion(self._playlist, True)
+        self._finish_deletion()
         self._notifications_popup.remove_notification(self)
 
     def _finish_deletion(self):
