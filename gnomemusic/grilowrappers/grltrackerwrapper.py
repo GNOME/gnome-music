@@ -74,6 +74,7 @@ class GrlTrackerWrapper(GObject.GObject):
         """
         super().__init__()
 
+        self._application = application
         self._coremodel = coremodel
         self._coreselection = application.props.coreselection
         self._grilo = grilo
@@ -90,6 +91,7 @@ class GrlTrackerWrapper(GObject.GObject):
         self._artist_search_model = self._coremodel.props.artists_search
         self._batch_changed_media_ids = {}
         self._content_changed_timeout = None
+        self._tracker_playlists = None
         self._tracker_wrapper = tracker_wrapper
         self._window = application.props.window
 
@@ -107,9 +109,6 @@ class GrlTrackerWrapper(GObject.GObject):
         self._initial_songs_fill(self.props.source)
         self._initial_albums_fill(self.props.source)
         self._initial_artists_fill(self.props.source)
-
-        self._tracker_playlists = GrlTrackerPlaylists(
-            source, coremodel, application, grilo, tracker_wrapper)
 
     @GObject.Property(type=Grl.Source, default=None)
     def source(self):
@@ -383,6 +382,11 @@ class GrlTrackerWrapper(GObject.GObject):
             if not media:
                 self._model.splice(self._model.get_n_items(), 0, songs_added)
                 self._window.notifications_popup.pop_loading()
+
+                self._tracker_playlists = GrlTrackerPlaylists(
+                    self.props.source, self._coremodel, self._application,
+                    self._grilo, self._tracker_wrapper, self._hash)
+
                 return
 
             song = CoreSong(media, self._coreselection, self._grilo)
