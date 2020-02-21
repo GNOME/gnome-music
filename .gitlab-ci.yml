@@ -1,4 +1,5 @@
 image: registry.gitlab.gnome.org/gnome/gnome-runtime-images/gnome:3.34
+image: fedora:28
 stages:
   - check
   - build-flatpak
