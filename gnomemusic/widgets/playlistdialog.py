@@ -48,7 +48,6 @@ class PlaylistDialog(Gtk.Dialog):
     _first_playlist_button = Gtk.Template.Child()
     _first_playlist_entry = Gtk.Template.Child()
     _error_revealer = Gtk.Template.Child()
-    _error_label = Gtk.Template.Child()
 
     def __init__(self, parent):
         super().__init__()
@@ -134,7 +133,6 @@ class PlaylistDialog(Gtk.Dialog):
         pl_exists = editable.props.text in self._all_playlist_names
         if editable.props.text:
             self._add_playlist_button.props.sensitive = not pl_exists
-            self._error_revealer.props.visible = True
             self._error_revealer.props.reveal_child = pl_exists
             if pl_exists:
                 self._new_playlist_entry.get_style_context().add_class('error')
