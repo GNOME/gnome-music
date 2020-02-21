@@ -27,8 +27,9 @@ import time
 from gettext import gettext as _
 
 import gi
-gi.require_versions({"Grl": "0.3"})
-from gi.repository import Gio, Grl, GLib, GObject
+gi.require_versions({"Gfm": "0.1", "Grl": "0.3"})
+from gi.repository import Gfm, Gio, Grl, GLib, GObject
+from gi._gi import pygobject_new_full
 
 from gnomemusic.coresong import CoreSong
 import gnomemusic.utils as utils
@@ -844,6 +845,61 @@ class MostPlayed(SmartPlaylist):
         """.replace('\n', ' ').strip() % {
             "location_filter": self._tracker_wrapper.location_filter()
         }
+
+    def _wrap_list_store_sort_func(self, func):
+
+        def wrap(a, b, *user_data):
+            a = pygobject_new_full(a, False)
+            b = pygobject_new_full(b, False)
+            return func(a, b, *user_data)
+
+        return wrap
+
+    @GObject.Property(type=Gio.ListStore, default=None)
+    def model(self):
+
+        def play_count_sort(coresong_a, coresong_b):
+            return coresong_a.props.play_count < coresong_b.props.play_count
+
+        if self._model is None:
+            self._model = Gio.ListStore.new(CoreSong)
+            self._filter_model = Gfm.SortListModel.new(self._model)
+            self._filter_model.set_sort_func(
+                self._wrap_list_store_sort_func(play_count_sort))
+
+            self._window.notifications_popup.push_loading()
+
+            def _add_to_model(source, op_id, media, remaining, error):
+                if error:
+                    self._log.warning("Error: {}".format(error))
+                    self._window.notifications_popup.pop_loading()
+                    self.emit("playlist-loaded")
+                    return
+
+                if not media:
+                    self.props.count = self._model.get_n_items()
+                    self._window.notifications_popup.pop_loading()
+                    self.emit("playlist-loaded")
+                    return
+
+                coresong = CoreSong(media, self._coreselection, self._grilo)
+                self._bind_to_main_song(coresong)
+                self._model.append(coresong)
+
+            options = self._fast_options.copy()
+
+            self._source.query(
+                self.props.query, self.METADATA_KEYS, options, _add_to_model)
+
+        return self._filter_model
+
+    def _finish_update(self, new_model_medias):
+        super()._finish_update(new_model_medias)
+
+        self._filter_model.resort()
+
+        for idx, coresong in enumerate(self._filter_model):
+            print(idx, coresong.props.play_count, coresong.props.title)
 
 
 class NeverPlayed(SmartPlaylist):
