@@ -27,8 +27,8 @@ import time
 from gettext import gettext as _
 
 import gi
-gi.require_versions({"Grl": "0.3"})
-from gi.repository import Gio, Grl, GLib, GObject
+gi.require_versions({"Gfm": "0.1", "Grl": "0.3"})
+from gi.repository import Gfm, Gio, Grl, GLib, GObject
 
 from gnomemusic.coresong import CoreSong
 import gnomemusic.utils as utils
@@ -732,11 +732,18 @@ class SmartPlaylist(Playlist):
         super().__init__(**args)
 
         self.props.is_smart = True
+        self._filter_model = None
+
+    def _playlist_sort(self, coresong_a, coresong_b):
+        return 0
 
     @GObject.Property(type=Gio.ListStore, default=None)
     def model(self):
         if self._model is None:
             self._model = Gio.ListStore.new(CoreSong)
+            self._filter_model = Gfm.SortListModel.new(self._model)
+            self._filter_model.set_sort_func(
+                utils.wrap_list_store_sort_func(self._playlist_sort))
 
             self._window.notifications_popup.push_loading()
 
@@ -762,7 +769,7 @@ class SmartPlaylist(Playlist):
             self._source.query(
                 self.props.query, self.METADATA_KEYS, options, _add_to_model)
 
-        return self._model
+        return self._filter_model
 
     def update(self):
         """Updates playlist model."""
@@ -810,6 +817,8 @@ class SmartPlaylist(Playlist):
                 self._model.append(coresong)
                 self.props.count += 1
 
+        self._filter_model.resort()
+
 
 class MostPlayed(SmartPlaylist):
     """Most Played smart playlist"""
@@ -846,6 +855,30 @@ class MostPlayed(SmartPlaylist):
         """.replace('\n', ' ').strip() % {
             "location_filter": self._tracker_wrapper.location_filter()
         }
+
+    def _playlist_sort(self, coresong_a, coresong_b):
+        playcount_a = coresong_a.props.play_count
+        playcount_b = coresong_b.props.play_count
+
+        if playcount_a != playcount_b:
+            return coresong_a.props.play_count < coresong_b.props.play_count
+
+        title_a = coresong_a.props.title
+        title_b = coresong_b.props.title
+        title_cmp = utils.natural_sort_names(title_a, title_b)
+        if title_cmp != 0:
+            return title_cmp
+
+        album_a = coresong_a.props.album
+        album_b = coresong_b.props.album
+        album_cmp = utils.natural_sort_names(album_a, album_b)
+        if album_cmp != 0:
+            return album_cmp
+
+        artist_a = coresong_a.props.artist
+        artist_b = coresong_b.props.artist
+
+        return utils.natural_sort_names(artist_a, artist_b)
 
 
 class NeverPlayed(SmartPlaylist):
