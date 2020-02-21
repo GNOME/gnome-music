@@ -96,6 +96,14 @@ class CoreAlbum(GObject.GObject):
                     coredisc.connect(
                         "notify::duration", self._on_duration_changed)
 
+    def update_discs(self):
+        """Update CoreDiscs model"""
+        if not self.props.model_loaded:
+            return
+
+        for coredisc in self.props.model:
+            coredisc.update_content()
+
     def _on_duration_changed(self, coredisc, duration):
         duration = 0
 
