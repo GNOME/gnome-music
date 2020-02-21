@@ -86,9 +86,19 @@ class CoreAlbum(GObject.GObject):
         return disc_model_sort
 
     @GObject.Property(
+        type=bool, default=False, flags=GObject.ParamFlags.READABLE)
+    def model_loaded(self) -> bool:
+        """Check if the model has already been loaded
+
+        :returns: True if the model is loaded
+        :rtype: bool
+        """
+        return self._model is not None
+
+    @GObject.Property(
         type=Gio.ListModel, default=None, flags=GObject.ParamFlags.READABLE)
     def model(self):
-        if self._model is None:
+        if not self.props.model_loaded:
             self._model = self._get_album_model()
             self._model.connect("items-changed", self._on_list_items_changed)
             self._model.items_changed(0, 0, self._model.get_n_items())
