@@ -60,6 +60,7 @@ stop_review:
         - tags
 
 flake8:
+  image: fedora:28
   stage: check
   script:
     - dnf install -y python3-flake8
