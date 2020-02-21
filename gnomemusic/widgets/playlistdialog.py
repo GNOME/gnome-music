@@ -67,7 +67,8 @@ class PlaylistDialog(Gtk.Dialog):
 
         self._set_view()
 
-        self._all_playlist_names = [pl.props.title for pl in self._coremodel.props.playlists]
+        self._all_playlist_names = [pl.props.title
+                                    for pl in self._coremodel.props.playlists]
 
     def _set_view(self):
         if self._user_playlists_available:
@@ -125,7 +126,8 @@ class PlaylistDialog(Gtk.Dialog):
 
     @Gtk.Template.Callback()
     def _on_add_playlist_entry_changed(self, editable, data=None):
-        self._coremodel.props.user_playlists_sort.connect('items-changed',
+        self._coremodel.props.user_playlists_sort.connect(
+            'items-changed',
             self._update_playlist_names)
 
         self._new_playlist_entry.get_style_context().remove_class('error')
@@ -146,5 +148,5 @@ class PlaylistDialog(Gtk.Dialog):
 
     def _update_playlist_names(self, model, position, removed, added):
         print(model)
-        self._all_playlist_names = [pl.props.title for
-                pl in self._coremodel.props.playlists]
+        self._all_playlist_names = [pl.props.title for pl in
+                                    self._coremodel.props.playlists]
