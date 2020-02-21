@@ -27,7 +27,6 @@ import math
 import gi
 gi.require_version("Gfm", "0.1")
 from gi.repository import GObject, Gio, Gfm, Gtk
-from gi._gi import pygobject_new_full
 
 from gnomemusic.coreartist import CoreArtist
 from gnomemusic.coregrilo import CoreGrilo
@@ -94,12 +93,12 @@ class CoreModel(GObject.GObject):
         self._album_model = Gio.ListStore()
         self._album_model_sort = Gfm.SortListModel.new(self._album_model)
         self._album_model_sort.set_sort_func(
-            self._wrap_list_store_sort_func(self._albums_sort))
+            utils.wrap_list_store_sort_func(self._albums_sort))
 
         self._artist_model = Gio.ListStore.new(CoreArtist)
         self._artist_model_sort = Gfm.SortListModel.new(self._artist_model)
         self._artist_model_sort.set_sort_func(
-            self._wrap_list_store_sort_func(self._artist_sort))
+            utils.wrap_list_store_sort_func(self._artist_sort))
 
         self._playlist_model = Gio.ListStore.new(CoreSong)
         self._playlist_model_sort = Gfm.SortListModel.new(self._playlist_model)
@@ -128,14 +127,14 @@ class CoreModel(GObject.GObject):
         self._playlists_model_sort = Gfm.SortListModel.new(
             self._playlists_model_filter)
         self._playlists_model_sort.set_sort_func(
-            self._wrap_list_store_sort_func(self._playlists_sort))
+            utils.wrap_list_store_sort_func(self._playlists_sort))
 
         self._user_playlists_model_filter = Gfm.FilterListModel.new(
             self._playlists_model)
         self._user_playlists_model_sort = Gfm.SortListModel.new(
             self._user_playlists_model_filter)
         self._user_playlists_model_sort.set_sort_func(
-            self._wrap_list_store_sort_func(self._playlists_sort))
+            utils.wrap_list_store_sort_func(self._playlists_sort))
 
         self.props.grilo = CoreGrilo(self, application)
         # FIXME: Not all instances of internal _grilo use have been
@@ -184,15 +183,6 @@ class CoreModel(GObject.GObject):
             playlist_a.props.creation_date)
         return math.copysign(1, date_diff)
 
-    def _wrap_list_store_sort_func(self, func):
-
-        def wrap(a, b, *user_data):
-            a = pygobject_new_full(a, False)
-            b = pygobject_new_full(b, False)
-            return func(a, b, *user_data)
-
-        return wrap
-
     def get_album_model(self, media):
         disc_model = Gio.ListStore()
         disc_model_sort = Gfm.SortListModel.new(disc_model)
@@ -201,7 +191,7 @@ class CoreModel(GObject.GObject):
             return disc_a.props.disc_nr - disc_b.props.disc_nr
 
         disc_model_sort.set_sort_func(
-            self._wrap_list_store_sort_func(_disc_order_sort))
+            utils.wrap_list_store_sort_func(_disc_order_sort))
 
         self.props.grilo.get_album_discs(media, disc_model)
 
@@ -219,7 +209,7 @@ class CoreModel(GObject.GObject):
             return album_a.props.year > album_b.props.year
 
         albums_model_sort.set_sort_func(
-            self._wrap_list_store_sort_func(_album_sort))
+            utils.wrap_list_store_sort_func(_album_sort))
 
         return albums_model_sort
 
