@@ -23,7 +23,7 @@
 # delete this exception statement from your version.
 
 from __future__ import annotations
-from typing import Callable, Dict, List, Optional
+from typing import Callable, Dict, List, Optional, Set
 import typing
 
 import gi
@@ -370,6 +370,135 @@ class GrlTrackerWrapper(GObject.GObject):
         self.props.source.query(
             query, metadata_keys, self._fast_options, check_artist_cb)
 
+    def check_album_disc_changes(self, media: Grl.Media) -> None:
+        """Update album and corediscs model
+
+        :param Grl.Media media: media with the album id
+        """
+        def _check_discs_cb(
+                source: Grl.Source, op_id: int, media: Optional[Grl.Media],
+                remaining: int, error: Optional[GLib.Error]) -> None:
+            if error:
+                self._log.warning(
+                    "Error on album disc change check: {}".format(error))
+                return
+
+            if not media:
+                corealbum: CoreAlbum = self._album_ids[album_id]
+                new_discs: List[int] = [media.get_album_disc_number()
+                                        for media in medias]
+                discs: List[int] = [disc.props.disc_nr
+                                    for disc in corealbum.props.disc_model]
+                changed_discs: Set[int] = set(new_discs) ^ set(discs)
+                disc_list: Gfm.SortListModel = corealbum.props.disc_model
+                disc_model: Gio.ListModel = disc_list.get_model()
+                for disc_nr in changed_discs:
+                    if disc_nr in new_discs:
+                        for media in medias:
+                            if media.get_album_disc_number() == disc_nr:
+                                break
+                        self._log.debug(
+                            "Add Disc {} to album {}".format(
+                                disc_nr, corealbum.props.title))
+                        coredisc: CoreDisc = CoreDisc(
+                            self._application, media, disc_nr)
+                        disc_model.append(coredisc)
+                    elif disc_nr in discs:
+                        for idx, coredisc in enumerate(disc_model):
+                            if coredisc.props.disc_nr == disc_nr:
+                                self._log.debug(
+                                    "Remove disc {} from album {}".format(
+                                        disc_nr, corealbum.props.title))
+                                disc_model.remove(idx)
+                                break
+
+                corealbum.update_discs()
+                return
+
+            medias.append(media)
+
+        medias: List[Grl.Media] = []
+        album_id: str = media.get_id()
+        query: str = """
+        SELECT
+            ?type ?id ?albumDiscNumber
+        WHERE {
+            SERVICE <dbus:%(miner_fs_busname)s> {
+                GRAPH tracker:Audio {
+                    SELECT DISTINCT
+                        %(media_type)s AS ?type
+                        ?album AS ?id
+                        nmm:setNumber(nmm:musicAlbumDisc(?song))
+                            AS ?albumDiscNumber
+                    WHERE {
+                        ?song a nmm:MusicPiece;
+                                nmm:musicAlbum ?album .
+                        FILTER ( ?album = <%(album_id)s> )
+                        %(location_filter)s
+                    }
+                    ORDER BY ?albumDiscNumber
+                }
+            }
+        }
+        """.replace("\n", " ").strip() % {
+            "miner_fs_busname": self._tracker_wrapper.props.miner_fs_busname,
+            "media_type": int(Grl.MediaType.CONTAINER),
+            "album_id": album_id,
+            "location_filter": self._tracker_wrapper.location_filter()
+        }
+
+        self.props.source.query(
+            query, [Grl.METADATA_KEY_ID, Grl.METADATA_KEY_ALBUM_DISC_NUMBER],
+            self._fast_options, _check_discs_cb)
+
+    def _check_album_content_change(self, song_id):
+        def _check_change_cb(
+                source: Grl.Source, op_id: int, media: Optional[Grl.Media],
+                remaining: int, error: Optional[GLib.Error]) -> None:
+            if error:
+                self._log.warning(
+                    "Error on album content change check: {}".format(error))
+                return
+
+            if not media:
+                return
+
+            corealbum: Optional[CoreAlbum] = self._album_ids.get(
+                media.get_id(), None)
+            if (corealbum is None
+                    or not corealbum.props.model_loaded):
+                return
+
+            self.check_album_disc_changes(media)
+
+        query: str = """
+        SELECT
+            ?type ?id
+        WHERE {
+            SERVICE <dbus:%(miner_fs_busname)s> {
+                GRAPH tracker:Audio {
+                    SELECT
+                        %(media_type)s AS ?type
+                        ?album AS ?id
+                    WHERE {
+                        ?song a nmm:MusicPiece ;
+                                nmm:musicAlbum ?album .
+                        FILTER ( ?song = <%(song_id)s> )
+                        %(location_filter)s
+                    }
+                }
+            }
+        }
+        """.replace("\n", " ").strip() % {
+            "miner_fs_busname": self._tracker_wrapper.props.miner_fs_busname,
+            "media_type": int(Grl.MediaType.CONTAINER),
+            "song_id": song_id,
+            "location_filter": self._tracker_wrapper.location_filter()
+        }
+
+        self.props.source.query(
+            query, [Grl.METADATA_KEY_ID], self._fast_options, _check_change_cb)
+
     def _remove_media(self, media_ids: List[str]) -> None:
         for media_id in media_ids:
             try:
@@ -457,6 +586,7 @@ class GrlTrackerWrapper(GObject.GObject):
                 self._hash[media_id].update(media)
 
             media_ids.remove(media_id)
+            self._check_album_content_change(media.get_id())
 
         self.props.source.query(
             self._song_media_query(media_ids),

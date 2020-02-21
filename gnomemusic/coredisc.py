@@ -77,6 +77,13 @@ class CoreDisc(GObject.GObject):
         return self._model
 
     def _on_disc_changed(self, model, position, removed, added):
+        # If a CoreDisc becomes empty, it needs to be removed from its
+        # CoreAlbum.
+        if (removed > 0
+                and model.get_n_items() == 0):
+            self._coregrilo.check_album_disc_changes(self.props.media)
+            return
+
         with self.freeze_notify():
             duration = 0
             for coresong in model:
@@ -84,6 +91,11 @@ class CoreDisc(GObject.GObject):
                 duration += coresong.props.duration
 
             self.props.duration = duration
+
+    def update_content(self) -> None:
+        """Update the model"""
+        self._get_album_disc(
+            self.props.media, self.props.disc_nr, self._filter_model)
 
     def _get_album_disc(self, media, discnr, model):
         album_ids = []

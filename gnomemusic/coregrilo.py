@@ -200,6 +200,14 @@ class CoreGrilo(GObject.GObject):
         self._wrappers[source].populate_album_disc_songs(
             media, discnr, callback)
 
+    def check_album_disc_changes(self, media: Grl.Media) -> None:
+        """Update album and corediscs model
+
+        :param Grl.Media media: media with the album id
+        """
+        source: str = media.get_source()
+        self._wrappers[source].check_album_disc_changes(media)
+
     def writeback(self, media, key):
         """Store the values associated with the key.
 
