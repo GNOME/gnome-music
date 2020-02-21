@@ -15,7 +15,7 @@ variables:
 flatpak:
   stage: build-flatpak
   script:
-    - flatpak-builder --stop-at=${FLATPAK_MODULE} app ${MANIFEST_PATH}
+    - flatpak-builder --user --disable-rofiles-fuse --stop-at=${FLATPAK_MODULE} app ${MANIFEST_PATH}
     - flatpak build app meson --prefix=/app _build
     - flatpak build app ninja -C _build install
     - flatpak-builder --finish-only --repo=repo app ${MANIFEST_PATH}
@@ -60,6 +60,7 @@ stop_review:
         - tags
 
 flake8:
+  image: fedora:28
   stage: check
   script:
     - dnf install -y python3-flake8
