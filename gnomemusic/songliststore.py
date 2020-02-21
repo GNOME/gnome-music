@@ -23,7 +23,6 @@
 # delete this exception statement from your version.
 
 from gi.repository import Gfm, Gio, GObject, Gtk
-from gi._gi import pygobject_new_full
 
 import gnomemusic.utils as utils
 
@@ -39,7 +38,7 @@ class SongListStore(Gtk.ListStore):
 
         self._model = Gfm.SortListModel.new(model)
         self._model.set_sort_func(
-            self._wrap_list_store_sort_func(self._songs_sort))
+            utils.wrap_list_store_sort_func(self._songs_sort))
 
         self.set_column_types([
             GObject.TYPE_STRING,    # play or invalid icon
@@ -55,15 +54,6 @@ class SongListStore(Gtk.ListStore):
         ])
 
         self._model.connect("items-changed", self._on_items_changed)
-
-    def _wrap_list_store_sort_func(self, func):
-
-        def wrap(a, b, *user_data):
-            a = pygobject_new_full(a, False)
-            b = pygobject_new_full(b, False)
-            return func(a, b, *user_data)
-
-        return wrap
 
     def _songs_sort(self, song_a, song_b):
         title_a = song_a.props.title

@@ -29,11 +29,11 @@ import time
 import gi
 gi.require_version('GstPbutils', '1.0')
 from gi.repository import GObject, GstPbutils
-from gi._gi import pygobject_new_full
 
 from gnomemusic.coresong import CoreSong
 from gnomemusic.gstplayer import GstPlayer, Playback
 from gnomemusic.widgets.songwidget import SongWidget
+import gnomemusic.utils as utils
 
 
 class RepeatMode(IntEnum):
@@ -247,22 +247,13 @@ class PlayerPlaylist(GObject.GObject):
         return None
 
     def _on_repeat_mode_changed(self, klass, param):
-
-        def _wrap_list_store_sort_func(func):
-            def wrap(a, b, *user_data):
-                a = pygobject_new_full(a, False)
-                b = pygobject_new_full(b, False)
-                return func(a, b, *user_data)
-
-            return wrap
-
         # FIXME: This shuffle is too simple.
         def _shuffle_sort(song_a, song_b):
             return randint(-1, 1)
 
         if self.props.repeat_mode == RepeatMode.SHUFFLE:
             self._model.set_sort_func(
-                _wrap_list_store_sort_func(_shuffle_sort))
+                utils.wrap_list_store_sort_func(_shuffle_sort))
         elif self.props.repeat_mode in [RepeatMode.NONE, RepeatMode.ALL]:
             self._model.set_sort_func(None)
 
