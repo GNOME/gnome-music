@@ -35,13 +35,11 @@ $ ninja install
 
 ## Coding style
 
-GNOME Music is written in Python and aspires to adhere to the coding style described in the python style guide [PEP-8](https://www.python.org/dev/peps/pep-0008/).
+GNOME Music is written in Python and adheres to the coding style described in the python style guide [PEP-8](https://www.python.org/dev/peps/pep-0008/).
 
-Since Music was written over many years and by many different contributors without a single style being enforced, it currently is in a mixed style state. The goal is to eventually consistently follow  [PEP-8](https://www.python.org/dev/peps/pep-0008/) for style and [PEP-257](https://www.python.org/dev/peps/pep-0257/) for docstrings. The content of docstrings uses the [Sphinx markup style](http://www.sphinx-doc.org/).
+Docstrings adhere to [PEP-257](https://www.python.org/dev/peps/pep-0257/). The content of docstrings uses the [Sphinx markup style](http://www.sphinx-doc.org/). Docstrings should be added to all (new) public functions.
 
-Docstrings should be added to all (new) public functions.
-
-Since looking at the surrounding code might give mixed results, take note of the following rules as a basic style guide.
+Take note of the following rules as a basic style guide, but when in doubt consult PEP-8.
 
 ### Line length
 
