@@ -368,7 +368,7 @@ class Playlist(GObject.GObject):
         SELECT
             rdf:type(?song)
             ?song AS ?tracker_urn
-            tracker:id(?entry) AS ?id
+            tracker:id(?song) AS ?id
             nie:url(?song) AS ?url
             nie:title(?song) AS ?title
             nmm:artistName(nmm:performer(?song)) AS ?artist
@@ -596,7 +596,7 @@ class Playlist(GObject.GObject):
             SELECT
                 rdf:type(?song)
                 ?song AS ?tracker_urn
-                tracker:id(?entry) AS ?id
+                tracker:id(?song) AS ?id
                 nie:url(?song) AS ?url
                 nie:title(?song) AS ?title
                 nmm:artistName(nmm:performer(?song)) AS ?artist
