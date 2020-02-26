@@ -690,6 +690,23 @@ class Playlist(GObject.GObject):
                 query, GLib.PRIORITY_LOW, None, _position_changed_cb,
                 position)
 
+    def export(self, playlist_path):
+        """Save playlist to an m3u8 file.
+
+        :param str playlist_path: filename to write playlist content
+        """
+        song_content = ["#EXTINF:{},{} - {}\n{}\n".format(
+            song.props.duration, song.props.artist,
+            song.props.title, song.props.url)
+            for song in self.model]
+        pl_content = "#EXTM3U\n\n" + "\n".join(song_content)
+
+        try:
+            GLib.file_set_contents(playlist_path, pl_content.encode("utf-8"))
+        except GLib.Error as e:
+            self._log.warning(
+                "Unable to save playlist: {}, {}".format(e.domain, e.message))
+
 
 class SmartPlaylist(Playlist):
     """Base class for smart playlists"""
