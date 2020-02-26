@@ -78,7 +78,7 @@ class PlaylistControls(Gtk.Grid):
         """
         if (application is None
                 or (self._application is not None
-                    and self._player != application)):
+                    and self._application != application)):
             return
 
         self._coremodel = application.props.coremodel
