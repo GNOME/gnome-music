@@ -144,7 +144,6 @@ class PlaylistControls(Gtk.Grid):
         :return: Renaming dialog active
         :rtype: bool
         """
-
         return self._name_stack.props.visible_child_name == "renaming_dialog"
 
     @GObject.Property(
