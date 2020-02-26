@@ -82,6 +82,7 @@ class PlaylistControls(Gtk.Grid):
             return
 
         self._coremodel = application.props.coremodel
+        self._player = application.props.player
         self._window = application.props.window
 
         self._window.add_action(self._delete_action)
@@ -89,16 +90,15 @@ class PlaylistControls(Gtk.Grid):
         self._window.add_action(self._rename_action)
 
     def _on_delete_action(self, menutime, data=None):
+        active_playlist = self._coremodel.props.active_playlist
+        if (active_playlist is not None
+                and active_playlist == self.props.playlist):
+            self._player.stop()
+            self._window.set_player_visible(False)
+
         PlaylistNotification(
             self._window.notifications_popup, self._coremodel,
             PlaylistNotification.Type.PLAYLIST, self.props.playlist)
-
-        # FIXME: Should Check that the playlist is not playing
-        # playlist_id = selection.playlist.props.pl_id
-        # if self._player.playing_playlist(
-        #         PlayerPlaylist.Type.PLAYLIST, playlist_id):
-        #     self._player.stop()
-        #     self._window.set_player_visible(False)
 
     @Gtk.Template.Callback()
     def _on_rename_entry_changed(self, selection):
