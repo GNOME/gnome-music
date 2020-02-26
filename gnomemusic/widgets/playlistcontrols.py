@@ -23,8 +23,9 @@
 # delete this exception statement from your version.
 
 import gettext
+from gettext import gettext as _
 
-from gi.repository import Gdk, GObject, Gio, Gtk
+from gi.repository import Gdk, GLib, GObject, Gio, Gtk
 
 from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
 from gnomemusic.widgets.notificationspopup import PlaylistNotification
@@ -59,6 +60,9 @@ class PlaylistControls(Gtk.Grid):
         self._rename_action = Gio.SimpleAction.new("playlist_rename", None)
         self._rename_action.connect("activate", self._on_rename_action)
 
+        self._export_action = Gio.SimpleAction.new("playlist_export", None)
+        self._export_action.connect("activate", self._on_export_action)
+
     # FIXME: This is a workaround for not being able to pass the application
     # object via init when using Gtk.Builder.
     @GObject.Property(default=None)
@@ -87,6 +91,38 @@ class PlaylistControls(Gtk.Grid):
         self._window.add_action(self._delete_action)
         self._window.add_action(self._play_action)
         self._window.add_action(self._rename_action)
+        self._window.add_action(self._export_action)
+
+    def _on_export_action(self, action, parameter):
+        export_dialog = Gtk.FileChooserDialog(
+            _("Save Playlist"), self._window,  Gtk.FileChooserAction.SAVE,
+            (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
+             Gtk.STOCK_SAVE, Gtk.ResponseType.ACCEPT))
+        export_dialog.props.modal = True
+
+        pl_name = self.props.playlist.props.title
+        export_dialog.set_current_name("{}.m3u8".format(pl_name))
+        music_dir = GLib.get_user_special_dir(
+            GLib.UserDirectory.DIRECTORY_MUSIC)
+        export_dialog.set_current_folder_uri(GLib.filename_to_uri(music_dir))
+        export_dialog.set_do_overwrite_confirmation(True)
+
+        filter_pl = Gtk.FileFilter()
+        filter_pl.set_name(_("Playlists"))
+        filter_pl.add_mime_type("audio/x-mpegurl")
+        filter_pl.add_mime_type("audio/mpegurl")
+        export_dialog.add_filter(filter_pl)
+
+        filter_any = Gtk.FileFilter()
+        filter_any.set_name(_("Any files"))
+        filter_any.add_pattern("*")
+        export_dialog.add_filter(filter_any)
+
+        if export_dialog.run() == Gtk.ResponseType.ACCEPT:
+            pl_filename = export_dialog.get_filename()
+            self.props.playlist.export(pl_filename)
+
+        export_dialog.destroy()
 
     def _on_rename_action(self, menuitem, data=None):
         self._enable_rename_playlist(self.props.playlist)
@@ -129,7 +165,9 @@ class PlaylistControls(Gtk.Grid):
             "{} Song", "{} Songs", self.props.playlist.count).format(
                 self.props.playlist.count)
 
-        self._play_action.props.enabled = self.props.playlist.props.count > 0
+        not_empty = self.props.playlist.props.count > 0
+        self._play_action.props.enabled = not_empty
+        self._export_action.props.enabled = not_empty
 
     def _enable_rename_playlist(self, pl_torename):
         """Enables rename button and entry
