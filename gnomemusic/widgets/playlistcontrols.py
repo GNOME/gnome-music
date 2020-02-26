@@ -57,7 +57,7 @@ class PlaylistControls(Gtk.Grid):
         self._play_action = Gio.SimpleAction.new("playlist_play", None)
 
         self._rename_action = Gio.SimpleAction.new("playlist_rename", None)
-        self._rename_action.connect("activate", self._on_rename_action)
+        self._rename_action.connect("activate", self._enable_rename_playlist)
 
     # FIXME: This is a workaround for not being able to pass the application
     # object via init when using Gtk.Builder.
@@ -87,9 +87,6 @@ class PlaylistControls(Gtk.Grid):
         self._window.add_action(self._delete_action)
         self._window.add_action(self._play_action)
         self._window.add_action(self._rename_action)
-
-    def _on_rename_action(self, menuitem, data=None):
-        self._enable_rename_playlist(self.props.playlist)
 
     def _on_delete_action(self, menutime, data=None):
         PlaylistNotification(
@@ -131,13 +128,10 @@ class PlaylistControls(Gtk.Grid):
 
         self._play_action.props.enabled = self.props.playlist.props.count > 0
 
-    def _enable_rename_playlist(self, pl_torename):
-        """Enables rename button and entry
-
-        :param Playlist pl_torename : The playlist to rename
-        """
+    def _enable_rename_playlist(self, menuitem, data=None):
         self._name_stack.props.visible_child_name = "renaming_dialog"
-        self._set_rename_entry_text_and_focus(pl_torename.props.title)
+        self._rename_entry.props.text = self.props.playlist.props.title
+        self._rename_entry.grab_focus()
 
     def _disable_rename_playlist(self):
         """Disables rename button and entry"""
@@ -150,12 +144,7 @@ class PlaylistControls(Gtk.Grid):
         :return: Renaming dialog active
         :rtype: bool
         """
-
         return self._name_stack.props.visible_child_name == "renaming_dialog"
-
-    def _set_rename_entry_text_and_focus(self, text):
-        self._rename_entry.props.text = text
-        self._rename_entry.grab_focus()
 
     @GObject.Property(
         type=Playlist, default=None, flags=GObject.ParamFlags.READWRITE)
