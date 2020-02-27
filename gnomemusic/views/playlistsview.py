@@ -340,16 +340,15 @@ class PlaylistsView(BaseView):
         selected_row = self._sidebar.get_selected_row()
         selected_playlist = selected_row.props.playlist
 
+        active_playlist = self._coremodel.props.active_playlist
+        if (active_playlist is not None
+                and active_playlist == selected_playlist):
+            self._player.stop()
+            self._window.set_player_visible(False)
+
         notification = PlaylistNotification(  # noqa: F841
             self._window.notifications_popup, self._coremodel,
             PlaylistNotification.Type.PLAYLIST, selected_playlist)
-
-        # FIXME: Should Check that the playlist is not playing
-        # playlist_id = selection.playlist.props.pl_id
-        # if self._player.playing_playlist(
-        #         PlayerPlaylist.Type.PLAYLIST, playlist_id):
-        #     self._player.stop()
-        #     self._window.set_player_visible(False)
 
     def _on_song_widget_moved(self, target, source_position):
         target_position = target.get_parent().get_index()
