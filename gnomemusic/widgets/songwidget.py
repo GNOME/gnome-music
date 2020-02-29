@@ -306,3 +306,23 @@ class SongWidget(Gtk.EventBox):
             self._play_icon.set_visible(True)
         else:
             self._play_icon.props.icon_name = SongStateIcon.PLAYING.value
+
+    @GObject.Property(type=str, default="")
+    def song_number(self):
+        """Get song number label
+
+        :returns: the song number
+        :rtype: str
+        """
+        return self._number_label.props.label
+
+    @song_number.setter
+    def song_number(self, new_nr):
+        """Set song number label from an integer
+
+        :param int new_nr: new song number
+        """
+        if new_nr == 0:
+            new_nr = ""
+
+        self._number_label.props.label = str(new_nr)
