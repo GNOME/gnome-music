@@ -95,25 +95,29 @@ class SongWidget(Gtk.EventBox):
         self._selection_mode = False
         self._state = SongWidget.State.UNPLAYED
 
-        song_number = self.props.coresong.props.track_number
-        if song_number == 0:
-            song_number = ""
-        self._number_label.set_text(str(song_number))
+        self.props.coresong.bind_property(
+            "track-number", self, "song-number",
+            GObject.BindingFlags.SYNC_CREATE)
 
-        title = self.props.coresong.props.title
         self._title_label.set_max_width_chars(50)
-        self._title_label.set_text(title)
-        self._title_label.props.tooltip_text = title
+        self.props.coresong.bind_property(
+            "title", self._title_label, "label",
+            GObject.BindingFlags.SYNC_CREATE)
+        self.props.coresong.bind_property(
+            "title", self._title_label, "tooltip-text",
+            GObject.BindingFlags.SYNC_CREATE)
 
         time = utils.seconds_to_string(self.props.coresong.props.duration)
         self._duration_label.props.label = time
 
         if show_artist_and_album is True:
-            album = self.props.coresong.props.album
-            self._album_label.props.label = album
+            self.props.coresong.bind_property(
+                "album", self._album_label, "label",
+                GObject.BindingFlags.SYNC_CREATE)
             self._album_label.props.visible = True
-            artist = self.props.coresong.props.artist
-            self._artist_label.props.label = artist
+            self.props.coresong.bind_property(
+                "artist", self._artist_label, "label",
+                GObject.BindingFlags.SYNC_CREATE)
             self._artist_box.props.visible = True
         else:
             self._size_group.remove_widget(self._album_duration_box)
