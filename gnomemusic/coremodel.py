@@ -231,6 +231,16 @@ class CoreModel(GObject.GObject):
             self.emit("playlist-loaded", playlist_type)
             return
 
+        def bind_song_properties(model_song, player_song):
+            model_song.bind_property(
+                "state", player_song, "state",
+                GObject.BindingFlags.BIDIRECTIONAL
+                | GObject.BindingFlags.SYNC_CREATE)
+            model_song.bind_property(
+                "validation", player_song, "validation",
+                GObject.BindingFlags.BIDIRECTIONAL
+                | GObject.BindingFlags.SYNC_CREATE)
+
         def _on_items_changed(model, position, removed, added):
             songs_list = []
             if added > 0:
@@ -239,15 +249,7 @@ class CoreModel(GObject.GObject):
                     song = CoreSong(
                         coresong.props.media, self._coreselection,
                         self.props.grilo)
-
-                    coresong.bind_property(
-                        "state", song, "state",
-                        GObject.BindingFlags.SYNC_CREATE)
-                    coresong.bind_property(
-                        "validation", song, "validation",
-                        GObject.BindingFlags.BIDIRECTIONAL
-                        | GObject.BindingFlags.SYNC_CREATE)
-
+                    bind_song_properties(coresong, song)
                     songs_list.append(song)
 
             self._playlist_model.splice(position, removed, songs_list)
@@ -282,16 +284,8 @@ class CoreModel(GObject.GObject):
                 song = CoreSong(
                     model_song.props.media, self._coreselection,
                     self.props.grilo)
-
+                bind_song_properties(model_song, song)
                 songs_added.append(song)
-                model_song.bind_property(
-                    "state", song, "state",
-                    GObject.BindingFlags.BIDIRECTIONAL
-                    | GObject.BindingFlags.SYNC_CREATE)
-                model_song.bind_property(
-                    "validation", song, "validation",
-                    GObject.BindingFlags.BIDIRECTIONAL
-                    | GObject.BindingFlags.SYNC_CREATE)
 
         elif playlist_type == PlayerPlaylist.Type.ARTIST:
             proxy_model = Gio.ListStore.new(Gio.ListModel)
@@ -308,15 +302,8 @@ class CoreModel(GObject.GObject):
                 song = CoreSong(
                     model_song.props.media, self._coreselection,
                     self.props.grilo)
-
+                bind_song_properties(model_song, song)
                 songs_added.append(song)
-                song.bind_property(
-                    "state", model_song, "state",
-                    GObject.BindingFlags.SYNC_CREATE)
-                model_song.bind_property(
-                    "validation", song, "validation",
-                    GObject.BindingFlags.BIDIRECTIONAL
-                    | GObject.BindingFlags.SYNC_CREATE)
 
         elif playlist_type == PlayerPlaylist.Type.SONGS:
             self._current_playlist_model = self._songliststore.props.model
@@ -340,16 +327,8 @@ class CoreModel(GObject.GObject):
                 song = CoreSong(
                     model_song.props.media, self._coreselection,
                     self.props.grilo)
-
+                bind_song_properties(model_song, song)
                 songs_added.append(song)
-
-                song.bind_property(
-                    "state", model_song, "state",
-                    GObject.BindingFlags.SYNC_CREATE)
-                model_song.bind_property(
-                    "validation", song, "validation",
-                    GObject.BindingFlags.BIDIRECTIONAL
-                    | GObject.BindingFlags.SYNC_CREATE)
 
         self._playlist_model.splice(
             0, self._playlist_model.get_n_items(), songs_added)
