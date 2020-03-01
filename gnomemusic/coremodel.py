@@ -250,9 +250,10 @@ class CoreModel(GObject.GObject):
                         coresong.props.media, self._coreselection,
                         self.props.grilo)
 
-                    song.bind_property(
-                        "state", coresong, "state",
-                        GObject.BindingFlags.SYNC_CREATE)
+                    coresong.bind_property(
+                        "state", song, "state",
+                        GObject.BindingFlags.BIDIRECTIONAL
+                        | GObject.BindingFlags.SYNC_CREATE)
                     coresong.bind_property(
                         "validation", song, "validation",
                         GObject.BindingFlags.BIDIRECTIONAL
