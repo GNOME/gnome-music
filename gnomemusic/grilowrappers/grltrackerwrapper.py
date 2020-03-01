@@ -79,7 +79,7 @@ class GrlTrackerWrapper(GObject.GObject):
         self._grilo = grilo
         self._source = None
         self._log = application.props.log
-        self._model = self._coremodel.props.songs
+        self._songs_model = self._coremodel.props.songs
         self._albums_model = self._coremodel.props.albums
         self._album_ids = {}
         self._artists_model = self._coremodel.props.artists
@@ -93,7 +93,7 @@ class GrlTrackerWrapper(GObject.GObject):
         self._tracker_wrapper = tracker_wrapper
         self._window = application.props.window
 
-        self._song_search_tracker = Gfm.FilterListModel.new(self._model)
+        self._song_search_tracker = Gfm.FilterListModel.new(self._songs_model)
         self._song_search_tracker.set_filter_func(lambda a: False)
         self._song_search_proxy.append(self._song_search_tracker)
 
@@ -301,12 +301,12 @@ class GrlTrackerWrapper(GObject.GObject):
                 self._log.warning("Removal KeyError.")
                 return
 
-            for idx, coresong_model in enumerate(self._model):
+            for idx, coresong_model in enumerate(self._songs_model):
                 if coresong_model is coresong:
                     self._log.debug("Removing: {}, {}".format(
                         coresong.props.media.get_id(), coresong.props.title))
 
-                    self._model.remove(idx)
+                    self._songs_model.remove(idx)
                     break
 
     def _song_media_query(self, media_ids):
@@ -359,7 +359,7 @@ class GrlTrackerWrapper(GObject.GObject):
                     "Media {} not in hash".format(media.get_id()))
 
                 song = CoreSong(media, self._coreselection, self._grilo)
-                self._model.append(song)
+                self._songs_model.append(song)
                 self._hash[media.get_id()] = song
             else:
                 self._hash[media.get_id()].update(media)
@@ -381,7 +381,8 @@ class GrlTrackerWrapper(GObject.GObject):
                 return
 
             if not media:
-                self._model.splice(self._model.get_n_items(), 0, songs_added)
+                self._songs_model.splice(
+                    self._songs_model.get_n_items(), 0, songs_added)
                 self._window.notifications_popup.pop_loading()
                 return
 
@@ -389,7 +390,8 @@ class GrlTrackerWrapper(GObject.GObject):
             songs_added.append(song)
             self._hash[media.get_id()] = song
             if len(songs_added) == self._SPLICE_SIZE:
-                self._model.splice(self._model.get_n_items(), 0, songs_added)
+                self._songs_model.splice(
+                    self._songs_model.get_n_items(), 0, songs_added)
                 songs_added.clear()
 
         query = """
