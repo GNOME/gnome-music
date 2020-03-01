@@ -85,8 +85,8 @@ class CoreModel(GObject.GObject):
         self._current_playlist_model = None
         self._previous_playlist_model = None
 
-        self._model = Gio.ListStore.new(CoreSong)
-        self._songliststore = SongListStore(self._model)
+        self._songs_model = Gio.ListStore.new(CoreSong)
+        self._songliststore = SongListStore(self._songs_model)
 
         self._coreselection = application.props.coreselection
         self._album_model = Gio.ListStore()
@@ -140,7 +140,8 @@ class CoreModel(GObject.GObject):
         # fixed.
         self._grilo = self.props.grilo
 
-        self._model.connect("items-changed", self._on_songs_items_changed)
+        self._songs_model.connect(
+            "items-changed", self._on_songs_items_changed)
 
     def _on_songs_items_changed(self, model, position, removed, added):
         available = self.props.songs_available
@@ -364,7 +365,7 @@ class CoreModel(GObject.GObject):
     @GObject.Property(
         type=Gio.ListStore, default=None, flags=GObject.ParamFlags.READABLE)
     def songs(self):
-        return self._model
+        return self._songs_model
 
     @GObject.Property(
         type=Gio.ListStore, default=None, flags=GObject.ParamFlags.READABLE)
