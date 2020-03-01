@@ -242,10 +242,7 @@ class CoreModel(GObject.GObject):
             return
 
         def _on_items_changed(model, position, removed, added):
-            if removed > 0:
-                for i in list(range(removed)):
-                    self._playlist_model.remove(position)
-
+            songs_list = []
             if added > 0:
                 for i in list(range(added)):
                     coresong = model[position + i]
@@ -253,15 +250,18 @@ class CoreModel(GObject.GObject):
                         coresong.props.media, self._coreselection,
                         self.props.grilo)
 
-                    self._playlist_model.insert(position + i, song)
-
-                    song.bind_property(
-                        "state", coresong, "state",
-                        GObject.BindingFlags.SYNC_CREATE)
+                    coresong.bind_property(
+                        "state", song, "state",
+                        GObject.BindingFlags.BIDIRECTIONAL
+                        | GObject.BindingFlags.SYNC_CREATE)
                     coresong.bind_property(
                         "validation", song, "validation",
                         GObject.BindingFlags.BIDIRECTIONAL
                         | GObject.BindingFlags.SYNC_CREATE)
+
+                    songs_list.append(song)
+
+            self._playlist_model.splice(position, removed, songs_list)
 
         played_states = [SongWidget.State.PLAYING, SongWidget.State.PLAYED]
         for song in self._playlist_model:

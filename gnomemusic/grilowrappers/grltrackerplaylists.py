@@ -771,22 +771,22 @@ class SmartPlaylist(Playlist):
 
         current_models_ids = [coresong.props.media.get_id()
                               for coresong in self._model]
-        new_model_ids = [media.get_id() for media in new_model_medias]
 
-        idx_to_delete = []
-        for idx, media_id in enumerate(current_models_ids):
-            if media_id not in new_model_ids:
-                idx_to_delete.insert(0, idx)
+        new_songs = []
+        for media in new_model_medias:
+            coresong = CoreSong(media, self._coreselection, self._grilo)
+            new_songs.append(coresong)
+            try:
+                idx = current_models_ids.index(media.get_id())
+            except ValueError:
+                continue
 
-        for idx in idx_to_delete:
-            self._model.remove(idx)
-            self.props.count -= 1
+            current_song = self._model[idx]
+            coresong.props.state = current_song.props.state
+            coresong.props.validation = current_song.props.validation
 
-        for idx, media in enumerate(new_model_medias):
-            if media.get_id() not in current_models_ids:
-                coresong = CoreSong(media, self._coreselection, self._grilo)
-                self._model.append(coresong)
-                self.props.count += 1
+        self._model.splice(0, self._model.get_n_items(), new_songs)
+        self.props.count = len(new_songs)
 
 
 class MostPlayed(SmartPlaylist):
