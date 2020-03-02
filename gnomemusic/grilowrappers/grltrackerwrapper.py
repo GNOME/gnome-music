@@ -921,25 +921,6 @@ class GrlTrackerWrapper(GObject.GObject):
             query, self.METADATA_THUMBNAIL_KEYS, full_options,
             art_retrieved_cb)
 
-    def get_album_art_for_item(self, coresong, callback):
-        """Placeholder until we got a better solution
-        """
-        item_id = coresong.props.media.get_id()
-
-        if coresong.props.media.is_audio():
-            query = self._get_album_for_song_id(item_id)
-        else:
-            query = self._get_album_for_album_id(item_id)
-
-        full_options = Grl.OperationOptions()
-        full_options.set_resolution_flags(
-            Grl.ResolutionFlags.FULL
-            | Grl.ResolutionFlags.IDLE_RELAY)
-        full_options.set_count(1)
-
-        self.props.source.query(
-            query, self.METADATA_THUMBNAIL_KEYS, full_options, callback)
-
     def _get_album_for_album_id(self, album_id):
         # Even though we check for the album_artist, we fill
         # the artist key, since Grilo coverart plugins use
