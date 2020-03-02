@@ -433,7 +433,7 @@ class Playlist(GObject.GObject):
         properties = [
             "album", "album_disc_number", "artist", "duration", "media",
             "grlid", "play_count", "state", "title", "track_number", "url",
-            "validation", "favorite", "selected"]
+            "validation", "favorite", "selected", "last_played"]
 
         for prop in properties:
             main_coresong.bind_property(
@@ -947,6 +947,7 @@ class RecentlyPlayed(SmartPlaylist):
             nie:usageCounter(?song) AS ?play_count
             nmm:trackNumber(?song) AS ?track_number
             nmm:setNumber(nmm:musicAlbumDisc(?song)) AS ?album_disc_number
+            ?last_played AS ?last_played_time
             ?tag AS ?favourite
         WHERE {
             ?song a nmm:MusicPiece ;
@@ -962,6 +963,29 @@ class RecentlyPlayed(SmartPlaylist):
             "location_filter": self._tracker_wrapper.location_filter()
         }
 
+    def _playlist_sort(self, coresong_a, coresong_b):
+        last_played_a = coresong_a.props.last_played.format_iso8601()
+        last_played_b = coresong_b.props.last_played.format_iso8601()
+
+        if last_played_a != last_played_b:
+            return last_played_a < last_played_b
+
+        title_a = coresong_a.props.title
+        title_b = coresong_b.props.title
+        title_cmp = utils.natural_sort_names(title_a, title_b)
+        if title_cmp != 0:
+            return title_cmp
+
+        album_a = coresong_a.props.album
+        album_b = coresong_b.props.album
+        album_cmp = utils.natural_sort_names(album_a, album_b)
+        if album_cmp != 0:
+            return album_cmp
+
+        artist_a = coresong_a.props.artist
+        artist_b = coresong_b.props.artist
+
+        return utils.natural_sort_names(artist_a, artist_b)
 
 class RecentlyAdded(SmartPlaylist):
     """Recently Added smart playlist"""
