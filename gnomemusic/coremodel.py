@@ -27,7 +27,6 @@ import math
 import gi
 gi.require_version("Gfm", "0.1")
 from gi.repository import GObject, Gio, Gfm, Gtk
-from gi._gi import pygobject_new_full
 
 from gnomemusic.coreartist import CoreArtist
 from gnomemusic.coregrilo import CoreGrilo
@@ -94,12 +93,12 @@ class CoreModel(GObject.GObject):
         self._album_model = Gio.ListStore()
         self._album_model_sort = Gfm.SortListModel.new(self._album_model)
         self._album_model_sort.set_sort_func(
-            self._wrap_list_store_sort_func(self._albums_sort))
+            utils.wrap_list_store_sort_func(self._albums_sort))
 
         self._artist_model = Gio.ListStore.new(CoreArtist)
         self._artist_model_sort = Gfm.SortListModel.new(self._artist_model)
         self._artist_model_sort.set_sort_func(
-            self._wrap_list_store_sort_func(self._artist_sort))
+            utils.wrap_list_store_sort_func(self._artist_sort))
 
         self._playlist_model = Gio.ListStore.new(CoreSong)
         self._playlist_model_sort = Gfm.SortListModel.new(self._playlist_model)
@@ -128,14 +127,14 @@ class CoreModel(GObject.GObject):
         self._playlists_model_sort = Gfm.SortListModel.new(
             self._playlists_model_filter)
         self._playlists_model_sort.set_sort_func(
-            self._wrap_list_store_sort_func(self._playlists_sort))
+            utils.wrap_list_store_sort_func(self._playlists_sort))
 
         self._user_playlists_model_filter = Gfm.FilterListModel.new(
             self._playlists_model)
         self._user_playlists_model_sort = Gfm.SortListModel.new(
             self._user_playlists_model_filter)
         self._user_playlists_model_sort.set_sort_func(
-            self._wrap_list_store_sort_func(self._playlists_sort))
+            utils.wrap_list_store_sort_func(self._playlists_sort))
 
         self.props.grilo = CoreGrilo(self, application)
         # FIXME: Not all instances of internal _grilo use have been
@@ -184,15 +183,6 @@ class CoreModel(GObject.GObject):
             playlist_a.props.creation_date)
         return math.copysign(1, date_diff)
 
-    def _wrap_list_store_sort_func(self, func):
-
-        def wrap(a, b, *user_data):
-            a = pygobject_new_full(a, False)
-            b = pygobject_new_full(b, False)
-            return func(a, b, *user_data)
-
-        return wrap
-
     def get_album_model(self, media):
         disc_model = Gio.ListStore()
         disc_model_sort = Gfm.SortListModel.new(disc_model)
@@ -201,7 +191,7 @@ class CoreModel(GObject.GObject):
             return disc_a.props.disc_nr - disc_b.props.disc_nr
 
         disc_model_sort.set_sort_func(
-            self._wrap_list_store_sort_func(_disc_order_sort))
+            utils.wrap_list_store_sort_func(_disc_order_sort))
 
         self.props.grilo.get_album_discs(media, disc_model)
 
@@ -219,7 +209,7 @@ class CoreModel(GObject.GObject):
             return album_a.props.year > album_b.props.year
 
         albums_model_sort.set_sort_func(
-            self._wrap_list_store_sort_func(_album_sort))
+            utils.wrap_list_store_sort_func(_album_sort))
 
         return albums_model_sort
 
@@ -241,27 +231,27 @@ class CoreModel(GObject.GObject):
             self.emit("playlist-loaded", playlist_type)
             return
 
-        def _on_items_changed(model, position, removed, added):
-            if removed > 0:
-                for i in list(range(removed)):
-                    self._playlist_model.remove(position)
+        def _bind_song_properties(model_song, player_song):
+            model_song.bind_property(
+                "state", player_song, "state",
+                GObject.BindingFlags.BIDIRECTIONAL
+                | GObject.BindingFlags.SYNC_CREATE)
+            player_song.bind_property(
+                "validation", model_song, "validation",
+                GObject.BindingFlags.SYNC_CREATE)
 
+        def _on_items_changed(model, position, removed, added):
+            songs_list = []
             if added > 0:
                 for i in list(range(added)):
                     coresong = model[position + i]
                     song = CoreSong(
                         coresong.props.media, self._coreselection,
                         self.props.grilo)
+                    _bind_song_properties(coresong, song)
+                    songs_list.append(song)
 
-                    self._playlist_model.insert(position + i, song)
-
-                    song.bind_property(
-                        "state", coresong, "state",
-                        GObject.BindingFlags.SYNC_CREATE)
-                    coresong.bind_property(
-                        "validation", song, "validation",
-                        GObject.BindingFlags.BIDIRECTIONAL
-                        | GObject.BindingFlags.SYNC_CREATE)
+            self._playlist_model.splice(position, removed, songs_list)
 
         played_states = [SongWidget.State.PLAYING, SongWidget.State.PLAYED]
         for song in self._playlist_model:
@@ -293,15 +283,8 @@ class CoreModel(GObject.GObject):
                 song = CoreSong(
                     model_song.props.media, self._coreselection,
                     self.props.grilo)
-
+                _bind_song_properties(model_song, song)
                 songs_added.append(song)
-                song.bind_property(
-                    "state", model_song, "state",
-                    GObject.BindingFlags.SYNC_CREATE)
-                model_song.bind_property(
-                    "validation", song, "validation",
-                    GObject.BindingFlags.BIDIRECTIONAL
-                    | GObject.BindingFlags.SYNC_CREATE)
 
         elif playlist_type == PlayerPlaylist.Type.ARTIST:
             proxy_model = Gio.ListStore.new(Gio.ListModel)
@@ -318,15 +301,8 @@ class CoreModel(GObject.GObject):
                 song = CoreSong(
                     model_song.props.media, self._coreselection,
                     self.props.grilo)
-
+                _bind_song_properties(model_song, song)
                 songs_added.append(song)
-                song.bind_property(
-                    "state", model_song, "state",
-                    GObject.BindingFlags.SYNC_CREATE)
-                model_song.bind_property(
-                    "validation", song, "validation",
-                    GObject.BindingFlags.BIDIRECTIONAL
-                    | GObject.BindingFlags.SYNC_CREATE)
 
         elif playlist_type == PlayerPlaylist.Type.SONGS:
             self._current_playlist_model = self._songliststore.props.model
@@ -350,16 +326,8 @@ class CoreModel(GObject.GObject):
                 song = CoreSong(
                     model_song.props.media, self._coreselection,
                     self.props.grilo)
-
+                _bind_song_properties(model_song, song)
                 songs_added.append(song)
-
-                song.bind_property(
-                    "state", model_song, "state",
-                    GObject.BindingFlags.SYNC_CREATE)
-                model_song.bind_property(
-                    "validation", song, "validation",
-                    GObject.BindingFlags.BIDIRECTIONAL
-                    | GObject.BindingFlags.SYNC_CREATE)
 
         self._playlist_model.splice(
             0, self._playlist_model.get_n_items(), songs_added)

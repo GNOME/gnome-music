@@ -55,7 +55,8 @@ class GrlTrackerPlaylists(GObject.GObject):
     ]
 
     def __init__(
-            self, source, coremodel, application, grilo, tracker_wrapper):
+            self, source, coremodel, application, grilo, tracker_wrapper,
+            songs_hash):
         """Initialize GrlTrackerPlaylists.
 
         :param Grl.TrackerSource source: The Tracker source to wrap
@@ -78,6 +79,7 @@ class GrlTrackerPlaylists(GObject.GObject):
         self._model_filter = self._coremodel.props.playlists_filter
         self._user_model_filter = self._coremodel.props.user_playlists_filter
         self._pls_todelete = []
+        self._songs_hash = songs_hash
         self._tracker = tracker_wrapper.props.tracker
         self._tracker_wrapper = tracker_wrapper
         self._window = application.props.window
@@ -95,7 +97,8 @@ class GrlTrackerPlaylists(GObject.GObject):
             "source": self._source,
             "application": self._application,
             "grilo": self._grilo,
-            "tracker_wrapper": self._tracker_wrapper
+            "tracker_wrapper": self._tracker_wrapper,
+            "songs_hash": self._songs_hash
         }
 
         smart_playlists = {
@@ -149,7 +152,7 @@ class GrlTrackerPlaylists(GObject.GObject):
         playlist = Playlist(
             media=media, source=self._source, coremodel=self._coremodel,
             application=self._application, grilo=self._grilo,
-            tracker_wrapper=self._tracker_wrapper)
+            tracker_wrapper=self._tracker_wrapper, songs_hash=self._songs_hash)
 
         self._model.append(playlist)
         callback = data
@@ -306,7 +309,7 @@ class Playlist(GObject.GObject):
     def __init__(
             self, media=None, query=None, tag_text=None, source=None,
             coremodel=None, application=None, grilo=None,
-            tracker_wrapper=None):
+            tracker_wrapper=None, songs_hash=None):
 
         super().__init__()
         """Initialize a playlist
@@ -338,6 +341,7 @@ class Playlist(GObject.GObject):
         self._coreselection = application.props.coreselection
         self._grilo = grilo
         self._log = application.props.log
+        self._songs_hash = songs_hash
         self._tracker = tracker_wrapper.props.tracker
         self._tracker_wrapper = tracker_wrapper
         self._window = application.props.window
@@ -368,7 +372,7 @@ class Playlist(GObject.GObject):
         SELECT
             rdf:type(?song)
             ?song AS ?tracker_urn
-            tracker:id(?entry) AS ?id
+            tracker:id(?song) AS ?id
             nie:url(?song) AS ?url
             nie:title(?song) AS ?title
             nmm:artistName(nmm:performer(?song)) AS ?artist
@@ -412,6 +416,7 @@ class Playlist(GObject.GObject):
                 return
 
             coresong = CoreSong(media, self._coreselection, self._grilo)
+            self._bind_to_main_song(coresong)
             if coresong not in self._songs_todelete:
                 self._model.append(coresong)
 
@@ -421,6 +426,20 @@ class Playlist(GObject.GObject):
 
         self._source.query(
             query, self.METADATA_KEYS, options, _add_to_playlist_cb, None)
+
+    def _bind_to_main_song(self, coresong):
+        main_coresong = self._songs_hash[coresong.props.media.get_id()]
+
+        properties = [
+            "album", "album_disc_number", "artist", "duration", "media",
+            "grlid", "play_count", "state", "title", "track_number", "url",
+            "validation", "favorite", "selected"]
+
+        for prop in properties:
+            main_coresong.bind_property(
+                prop, coresong, prop,
+                GObject.BindingFlags.BIDIRECTIONAL
+                | GObject.BindingFlags.SYNC_CREATE)
 
     @GObject.Property(type=str, default=None)
     def title(self):
@@ -584,6 +603,7 @@ class Playlist(GObject.GObject):
                 return
 
             coresong = CoreSong(media, self._coreselection, self._grilo)
+            self._bind_to_main_song(coresong)
             if coresong not in self._songs_todelete:
                 self._model.append(coresong)
 
@@ -596,7 +616,7 @@ class Playlist(GObject.GObject):
             SELECT
                 rdf:type(?song)
                 ?song AS ?tracker_urn
-                tracker:id(?entry) AS ?id
+                tracker:id(?song) AS ?id
                 nie:url(?song) AS ?url
                 nie:title(?song) AS ?title
                 nmm:artistName(nmm:performer(?song)) AS ?artist
@@ -734,6 +754,7 @@ class SmartPlaylist(Playlist):
                     return
 
                 coresong = CoreSong(media, self._coreselection, self._grilo)
+                self._bind_to_main_song(coresong)
                 self._model.append(coresong)
 
             options = self._fast_options.copy()
@@ -785,6 +806,7 @@ class SmartPlaylist(Playlist):
         for idx, media in enumerate(new_model_medias):
             if media.get_id() not in current_models_ids:
                 coresong = CoreSong(media, self._coreselection, self._grilo)
+                self._bind_to_main_song(coresong)
                 self._model.append(coresong)
                 self.props.count += 1
 
