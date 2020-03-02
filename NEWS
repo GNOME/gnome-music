@@ -1,3 +1,45 @@
+Overview of changes in 3.35.92
+==============================
+
+• Restore smart playlists update
+• Improve Tracker content tracking
+• Flatpak cleanups and updates
+
+Bugs fixed:
+ Properly load Grilo Tracker plugin (!650)
+ Stop a deleted playlist if it is playing (!661)
+ Misc playlists fixes  (!654)
+ Flatpak: remove unused dleyna support (!644)
+ flatpak assorted fixes (!645)
+
+Thanks to our contributors this release:
+ Georges Basile Stavracas Neto
+ Jackson Campolattaro
+ Marinus Schraal
+ Jean Felder
+
+Updated translations:
+ Brazilian Portuguese
+ British English
+ Catalan
+ Chinese (Taiwan)
+ Croatian
+ Czech
+ Danish
+ Finnish
+ French
+ Galician
+ Hungarian
+ Korean
+ Indonesian
+ Lithuanian
+ Persian
+ Polish
+ Serbian
+ Spanish
+ Swedish
+ Turkish
+
 Overview of changes in 3.35.91.1
 ================================
 

@@ -28,6 +28,21 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="3.35.92" date="2020-03-02" type="development">
+      <description>
+        <p>
+          This is an unstable release in the 3.35 development series,
+          with the following improvements:
+        </p>
+        <ul>
+          <li>Restore smart playlists update</li>
+          <li>Improve Tracker content tracking</li>
+          <li>Flatpak cleanups and updates</li>
+          <li>Lots of general cleanups and bugfixes</li>
+        </ul>
+        <p>This release also updates translations.</p>
+      </description>
+    </release>
     <release version="3.35.91" date="2020-02-15" type="development">
       <description>
         <p>
