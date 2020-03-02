@@ -735,7 +735,22 @@ class SmartPlaylist(Playlist):
         self._filter_model = None
 
     def _playlist_sort(self, coresong_a, coresong_b):
-        return 0
+        title_a = coresong_a.props.title
+        title_b = coresong_b.props.title
+        title_cmp = utils.natural_sort_names(title_a, title_b)
+        if title_cmp != 0:
+            return title_cmp
+
+        album_a = coresong_a.props.album
+        album_b = coresong_b.props.album
+        album_cmp = utils.natural_sort_names(album_a, album_b)
+        if album_cmp != 0:
+            return album_cmp
+
+        artist_a = coresong_a.props.artist
+        artist_b = coresong_b.props.artist
+
+        return utils.natural_sort_names(artist_a, artist_b)
 
     @GObject.Property(type=Gio.ListStore, default=None)
     def model(self):
@@ -863,22 +878,7 @@ class MostPlayed(SmartPlaylist):
         if playcount_a != playcount_b:
             return coresong_a.props.play_count < coresong_b.props.play_count
 
-        title_a = coresong_a.props.title
-        title_b = coresong_b.props.title
-        title_cmp = utils.natural_sort_names(title_a, title_b)
-        if title_cmp != 0:
-            return title_cmp
-
-        album_a = coresong_a.props.album
-        album_b = coresong_b.props.album
-        album_cmp = utils.natural_sort_names(album_a, album_b)
-        if album_cmp != 0:
-            return album_cmp
-
-        artist_a = coresong_a.props.artist
-        artist_b = coresong_b.props.artist
-
-        return utils.natural_sort_names(artist_a, artist_b)
+        return super()._playlist_sort(coresong_a, coresong_b)
 
 
 class NeverPlayed(SmartPlaylist):
@@ -970,22 +970,8 @@ class RecentlyPlayed(SmartPlaylist):
         if last_played_a != last_played_b:
             return last_played_a < last_played_b
 
-        title_a = coresong_a.props.title
-        title_b = coresong_b.props.title
-        title_cmp = utils.natural_sort_names(title_a, title_b)
-        if title_cmp != 0:
-            return title_cmp
+        return super()._playlist_sort(coresong_a, coresong_b)
 
-        album_a = coresong_a.props.album
-        album_b = coresong_b.props.album
-        album_cmp = utils.natural_sort_names(album_a, album_b)
-        if album_cmp != 0:
-            return album_cmp
-
-        artist_a = coresong_a.props.artist
-        artist_b = coresong_b.props.artist
-
-        return utils.natural_sort_names(artist_a, artist_b)
 
 class RecentlyAdded(SmartPlaylist):
     """Recently Added smart playlist"""
