@@ -25,31 +25,35 @@
 from gettext import gettext as _
 from gi.repository import GObject, Gtk
 
-from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.artistalbumswidget import ArtistAlbumsWidget
 from gnomemusic.widgets.artisttile import ArtistTile
 
 
-class ArtistsView(BaseView):
+@Gtk.Template(resource_path="/org/gnome/Music/ui/ArtistsView.ui")
+class ArtistsView(Gtk.Stack):
     """Main view of all available artists
 
     Consists of a list of artists on the left side and an overview of
     all albums by this artist on the right side.
     """
 
+    __gtype_name__ = "ArtistsView"
+
+    _artist_container = Gtk.Template.Child()
+    _artist_view = Gtk.Template.Child()
+    _sidebar = Gtk.Template.Child()
+    _sidebar_ctrlr = Gtk.Template.Child()
+
     def __init__(self, application):
         """Initialize
 
         :param GtkApplication application: The application object
         """
-        self._sidebar = Gtk.ListBox()
-        self._sidebar.props.visible = True
-        sidebar_container = Gtk.ScrolledWindow()
-        sidebar_container.add(self._sidebar)
-        sidebar_container.props.visible = True
+        super().__init__(transition_type=Gtk.StackTransitionType.CROSSFADE)
 
-        super().__init__(
-            'artists', _("Artists"), application, sidebar_container)
+        # FIXME: Make these properties.
+        self.name = "artists"
+        self.title = _("Artists")
 
         self._application = application
         self._artists = {}
@@ -71,10 +75,11 @@ class ArtistsView(BaseView):
             "items-changed", self._on_model_items_changed)
         self._on_model_items_changed(self._model, 0, 0, 0)
 
-        sidebar_container.props.width_request = 220
-        sidebar_container.get_style_context().add_class('sidebar')
-        self._sidebar.props.selection_mode = Gtk.SelectionMode.SINGLE
-        self._sidebar.connect('row-activated', self._on_artist_activated)
+        self._selection_mode = False
+
+        self._window.bind_property(
+            "selection-mode", self, "selection-mode",
+            GObject.BindingFlags.BIDIRECTIONAL)
 
     def _create_widget(self, coreartist):
         row = ArtistTile(coreartist)
@@ -109,28 +114,17 @@ class ArtistsView(BaseView):
             return
 
         self._loaded_artists.remove(removed_artist)
-        if self._view.get_visible_child_name() == removed_artist:
+        if self._artist_view.get_visible_child_name() == removed_artist:
             row_next = (self._sidebar.get_row_at_index(position)
                         or self._sidebar.get_row_at_index(position - 1))
             if row_next:
                 self._sidebar.select_row(row_next)
                 self._on_artist_activated(self._sidebar, row_next, True)
 
-        removed_frame = self._view.get_child_by_name(removed_artist)
-        self._view.remove(removed_frame)
+        removed_frame = self._artist_view.get_child_by_name(removed_artist)
+        self._artist_view.remove(removed_frame)
 
-    def _setup_view(self):
-        self._view_container = Gtk.ScrolledWindow(hexpand=True, vexpand=True)
-        self._box.pack_start(self._view_container, True, True, 0)
-
-        self._view = Gtk.Stack(
-            transition_type=Gtk.StackTransitionType.CROSSFADE,
-            vhomogeneous=False)
-        self._view_container.add(self._view)
-
-        self._view.props.visible = True
-        self._view_container.props.visible = True
-
+    @Gtk.Template.Callback()
     def _on_artist_activated(self, sidebar, row, data=None, untouched=False):
         """Initializes new artist album widgets"""
         # On application start the first row of ArtistView is activated
@@ -152,9 +146,9 @@ class ArtistsView(BaseView):
         # Prepare a new artist_albums_widget here
         coreartist = row.props.coreartist
         if coreartist.props.artist in self._loaded_artists:
-            scroll_vadjustment = self._view_container.props.vadjustment
+            scroll_vadjustment = self._artist_container.props.vadjustment
             scroll_vadjustment.props.value = 0.
-            self._view.set_visible_child_name(coreartist.props.artist)
+            self._artist_view.set_visible_child_name(coreartist.props.artist)
             return
 
         self._artist_albums = ArtistAlbumsWidget(coreartist, self._application)
@@ -169,23 +163,39 @@ class ArtistsView(BaseView):
         artist_albums_frame.add(self._artist_albums)
         artist_albums_frame.show()
 
-        self._view.add_named(artist_albums_frame, coreartist.props.artist)
-        scroll_vadjustment = self._view_container.props.vadjustment
+        self._artist_view.add_named(
+            artist_albums_frame, coreartist.props.artist)
+        scroll_vadjustment = self._artist_container.props.vadjustment
         scroll_vadjustment.props.value = 0.
-        self._view.set_visible_child(artist_albums_frame)
+        self._artist_view.set_visible_child(artist_albums_frame)
 
         self._loaded_artists.append(coreartist.props.artist)
 
-    def _on_selection_mode_changed(self, widget, data=None):
-        if self.get_parent().get_visible_child() != self:
+    @GObject.Property(type=bool, default=False)
+    def selection_mode(self):
+        """selection mode getter
+
+        :returns: If selection mode is active
+        :rtype: bool
+        """
+        return self._selection_mode
+
+    @selection_mode.setter
+    def selection_mode(self, value):
+        """selection-mode setter
+
+        :param bool value: Activate selection mode
+        """
+        if (value == self._selection_mode
+                or self.get_parent().get_visible_child() != self):
             return
 
-        super()._on_selection_mode_changed(widget, data)
-        self._sidebar.props.sensitive = not self.props.selection_mode
-
-        if self.props.selection_mode:
+        self._selection_mode = value
+        self._sidebar.props.sensitive = not self._selection_mode
+        if self._selection_mode:
             self._sidebar.props.selection_mode = Gtk.SelectionMode.NONE
         else:
+            self.deselect_all()
             self._sidebar.props.selection_mode = Gtk.SelectionMode.SINGLE
             selected_row = self._sidebar.get_row_at_index(0)
             if selected_row is None:
@@ -201,11 +211,11 @@ class ArtistsView(BaseView):
             self._selected_artist = None
 
     def select_all(self):
-        current_frame = self._view.get_visible_child()
+        current_frame = self._artist_view.get_visible_child()
         for row in current_frame.get_child():
             row.get_child().select_all()
 
     def deselect_all(self):
-        current_frame = self._view.get_visible_child()
+        current_frame = self._artist_view.get_visible_child()
         for row in current_frame.get_child():
             row.get_child().deselect_all()
