@@ -11,6 +11,7 @@
     <file preprocess="xml-stripblanks">ui/ArtistSearchTile.ui</file>
     <file preprocess="xml-stripblanks">ui/AppMenu.ui</file>
     <file preprocess="xml-stripblanks">ui/ArtistAlbumWidget.ui</file>
+    <file preprocess="xml-stripblanks">ui/ArtistsView.ui</file>
     <file preprocess="xml-stripblanks">ui/ArtistTile.ui</file>
     <file preprocess="xml-stripblanks">ui/DiscBox.ui</file>
     <file preprocess="xml-stripblanks">ui/DropDown.ui</file>
