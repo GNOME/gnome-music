@@ -23,114 +23,71 @@
 # delete this exception statement from your version.
 
 from gettext import gettext as _
-from gi.repository import Gdk, Gtk, Pango
+from gi.repository import Gdk, GObject, Gtk, Pango
 
 from gnomemusic.coresong import CoreSong
 from gnomemusic.player import PlayerPlaylist
 from gnomemusic.utils import SongStateIcon
-from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.starhandlerwidget import StarHandlerWidget
 
 
-class SongsView(BaseView):
+@Gtk.Template(resource_path="/org/gnome/Music/ui/SongsView.ui")
+class SongsView(Gtk.Stack):
     """Main view of all songs sorted artistwise
 
     Consists all songs along with songname, star, length, artist
     and the album name.
     """
 
+    __gtype_name__ = "SongsView"
+
+    _duration_renderer = Gtk.Template.Child()
+    _now_playing_column = Gtk.Template.Child()
+    _now_playing_cell = Gtk.Template.Child()
+    _songs_ctrlr = Gtk.Template.Child()
+    _songs_view = Gtk.Template.Child()
+    _star_column = Gtk.Template.Child()
+
     def __init__(self, application):
         """Initialize
 
         :param GtkApplication window: The application object
         """
+        super().__init__(transition_type=Gtk.StackTransitionType.CROSSFADE)
+
+        # FIXME: Make these properties.
+        self.name = "songs"
+        self.title = _("Songs")
+
+        self._window = application.props.window
         self._coremodel = application.props.coremodel
-        super().__init__('songs', _("Songs"), application)
 
         self._iter_to_clean = None
-
-        self._view.get_style_context().add_class('songs-list-old')
-
-        self._add_list_renderers()
+        self._set_list_renderers()
 
         self._playlist_model = self._coremodel.props.playlist_sort
+        self._songs_view.props.model = self._coremodel.props.songs_gtkliststore
+        self._model = self._songs_view.props.model
 
         self._player = application.props.player
         self._player.connect('song-changed', self._update_model)
 
-        self._model = self._view.props.model
-        self._view.show()
+        self._selection_mode = False
 
-    def _setup_view(self):
-        view_container = Gtk.ScrolledWindow(hexpand=True, vexpand=True)
-        self._box.pack_start(view_container, True, True, 0)
+        self._window.bind_property(
+            "selection-mode", self, "selection-mode",
+            GObject.BindingFlags.BIDIRECTIONAL)
 
-        self._view = Gtk.TreeView()
-        self._view.props.headers_visible = False
-        self._view.props.valign = Gtk.Align.START
-        self._view.props.model = self._coremodel.props.songs_gtkliststore
-        self._view.props.activate_on_single_click = True
+    def _set_list_renderers(self):
+        self._now_playing_column.set_cell_data_func(
+            self._now_playing_cell, self._on_list_widget_icon_render, None)
 
-        self._ctrl = Gtk.GestureMultiPress().new(self._view)
-        self._ctrl.props.propagation_phase = Gtk.PropagationPhase.CAPTURE
-        self._ctrl.connect("released", self._on_view_clicked)
-
-        self._view.get_selection().props.mode = Gtk.SelectionMode.SINGLE
-        self._view.connect('row-activated', self._on_item_activated)
-
-        view_container.add(self._view)
-
-        self._view.props.visible = True
-        view_container.props.visible = True
-
-    def _add_list_renderers(self):
-        now_playing_symbol_renderer = Gtk.CellRendererPixbuf(
-            xpad=0, xalign=0.5, yalign=0.5)
-        column_now_playing = Gtk.TreeViewColumn()
-        column_now_playing.props.fixed_width = 48
-        column_now_playing.pack_start(now_playing_symbol_renderer, False)
-        column_now_playing.set_cell_data_func(
-            now_playing_symbol_renderer, self._on_list_widget_icon_render,
-            None)
-        self._view.append_column(column_now_playing)
-
-        selection_renderer = Gtk.CellRendererToggle()
-        column_selection = Gtk.TreeViewColumn(
-            "Selected", selection_renderer, active=1)
-        column_selection.props.visible = False
-        column_selection.props.fixed_width = 48
-        self._view.append_column(column_selection)
-
-        title_renderer = Gtk.CellRendererText(
-            xpad=0, xalign=0.0, yalign=0.5, height=48,
-            ellipsize=Pango.EllipsizeMode.END)
-        column_title = Gtk.TreeViewColumn("Title", title_renderer, text=2)
-        column_title.props.expand = True
-        self._view.append_column(column_title)
-
-        artist_renderer = Gtk.CellRendererText(
-            xpad=32, ellipsize=Pango.EllipsizeMode.END)
-        column_artist = Gtk.TreeViewColumn("Artist", artist_renderer, text=3)
-        column_artist.props.expand = True
-        self._view.append_column(column_artist)
-
-        album_renderer = Gtk.CellRendererText(
-            xpad=32, ellipsize=Pango.EllipsizeMode.END)
-        column_album = Gtk.TreeViewColumn("Album", album_renderer, text=4)
-        column_album.props.expand = True
-        self._view.append_column(column_album)
+        self._star_handler = StarHandlerWidget(self, 6)
+        self._star_handler.add_star_renderers(self._star_column)
 
         attrs = Pango.AttrList()
         attrs.insert(Pango.AttrFontFeatures.new("tnum=1"))
-        duration_renderer = Gtk.CellRendererText(xalign=1.0, attributes=attrs)
-        column_duration = Gtk.TreeViewColumn(
-            "Duration", duration_renderer, text=5)
-        self._view.append_column(column_duration)
-
-        self._star_handler = StarHandlerWidget(self, 6)
-        column_star = Gtk.TreeViewColumn()
-        self._view.append_column(column_star)
-        self._star_handler.add_star_renderers(column_star)
+        self._duration_renderer.props.attributes = attrs
 
     def _on_list_widget_icon_render(self, col, cell, model, itr, data):
         current_song = self._player.props.current_song
@@ -147,22 +104,40 @@ class SongsView(BaseView):
         else:
             cell.props.visible = False
 
-    def _on_selection_mode_changed(self, widget, data=None):
-        if self.get_parent().get_visible_child() != self:
+    @GObject.Property(type=bool, default=False)
+    def selection_mode(self):
+        """selection mode getter
+
+        :returns: If selection mode is active
+        :rtype: bool
+        """
+        return self._selection_mode
+
+    @selection_mode.setter
+    def selection_mode(self, value):
+        """selection-mode setter
+
+        :param bool value: Activate selection mode
+        """
+        if (value == self._selection_mode
+                or self.get_parent().get_visible_child() != self):
             return
 
-        super()._on_selection_mode_changed(widget, data)
+        self._selection_mode = value
+        if self._selection_mode is False:
+            self.deselect_all()
 
-        cols = self._view.get_columns()
-        cols[1].props.visible = self.props.selection_mode
+        cols = self._songs_view.get_columns()
+        cols[1].props.visible = self._selection_mode
 
+    @Gtk.Template.Callback()
     def _on_item_activated(self, treeview, path, column):
         """Action performed when clicking on a song
 
         clicking on star column toggles favorite
         clicking on an other columns launches player
 
-        :param Gtk.TreeView treeview: self._view
+        :param Gtk.TreeView treeview: self._songs_view
         :param Gtk.TreePath path: activated row index
         :param Gtk.TreeViewColumn column: activated column
         """
@@ -173,15 +148,16 @@ class SongsView(BaseView):
         if self.props.selection_mode:
             return
 
-        itr = self._view.props.model.get_iter(path)
-        coresong = self._view.props.model[itr][7]
+        itr = self._model.get_iter(path)
+        coresong = self._model[itr][7]
         self._coremodel.set_player_model(
-            PlayerPlaylist.Type.SONGS, self._view.props.model)
+            PlayerPlaylist.Type.SONGS, self._model)
 
         self._player.play(coresong)
 
+    @Gtk.Template.Callback()
     def _on_view_clicked(self, gesture, n_press, x, y):
-        """Ctrl+click on self._view triggers selection mode."""
+        """Ctrl+click on self._songs_view triggers selection mode."""
         _, state = Gtk.get_current_event_state()
         modifiers = Gtk.accelerator_get_default_mod_mask()
         if (state & modifiers == Gdk.ModifierType.CONTROL_MASK
@@ -191,11 +167,11 @@ class SongsView(BaseView):
         # FIXME: In selection mode, star clicks might still trigger
         # activation.
         if self.props.selection_mode:
-            path = self._view.get_path_at_pos(x, y)
+            path = self._songs_view.get_path_at_pos(x, y)
             if path is None:
                 return
 
-            iter_ = self._view.props.model.get_iter(path[0])
+            iter_ = self._model.get_iter(path[0])
             new_fav_status = not self._model[iter_][1]
             self._model[iter_][1] = new_fav_status
             self._model[iter_][7].props.selected = new_fav_status
@@ -208,20 +184,20 @@ class SongsView(BaseView):
         # iter_to_clean is necessary because of a bug in GtkTreeView
         # See https://gitlab.gnome.org/GNOME/gtk/issues/503
         if self._iter_to_clean:
-            self._view.props.model[self._iter_to_clean][9] = False
+            self._model[self._iter_to_clean][9] = False
 
         index = self._player.props.position
         current_coresong = self._playlist_model[index]
-        for idx, liststore in enumerate(self._view.props.model):
+        for idx, liststore in enumerate(self._model):
             if liststore[7] == current_coresong:
                 break
 
-        iter_ = self._view.props.model.get_iter_from_string(str(idx))
-        path = self._view.props.model.get_path(iter_)
-        self._view.props.model[iter_][9] = True
-        self._view.scroll_to_cell(path, None, True, 0.5, 0.5)
+        iter_ = self._model.get_iter_from_string(str(idx))
+        path = self._model.get_path(iter_)
+        self._model[iter_][9] = True
+        self._songs_view.scroll_to_cell(path, None, True, 0.5, 0.5)
 
-        if self._view.props.model[iter_][0] != SongStateIcon.ERROR.value:
+        if self._model[iter_][0] != SongStateIcon.ERROR.value:
             self._iter_to_clean = iter_.copy()
 
         return False
