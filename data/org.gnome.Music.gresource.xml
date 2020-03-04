@@ -34,6 +34,7 @@
     <file preprocess="xml-stripblanks">ui/SearchView.ui</file>
     <file preprocess="xml-stripblanks">ui/SelectionBarMenuButton.ui</file>
     <file preprocess="xml-stripblanks">ui/SelectionToolbar.ui</file>
+    <file preprocess="xml-stripblanks">ui/SongsView.ui</file>
     <file preprocess="xml-stripblanks">ui/SongWidget.ui</file>
     <file preprocess="xml-stripblanks">ui/TwoLineTip.ui</file>
     <file preprocess="xml-stripblanks">ui/Window.ui</file>
