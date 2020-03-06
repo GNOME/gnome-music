@@ -7,13 +7,13 @@
 # Wouter Bolsterlee <wbolster@gnome.org>, 2013.
 # Hannie Dumoleyn <hannie@ubuntu-nl.org>, 2015.
 # Justin van Steijn <jvs@fsfe.org>, 2016.
-# Nathan Follens <nthn@unseen.is>, 2018-2019.
+# Nathan Follens <nthn@unseen.is>, 2018-2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2019-09-23 20:29+0000\n"
-"PO-Revision-Date: 2019-09-25 12:07+0200\n"
+"POT-Creation-Date: 2020-02-15 11:24+0000\n"
+"PO-Revision-Date: 2020-02-24 18:52+0100\n"
 "Last-Translator: Nathan Follens <nthn@unseen.is>\n"
 "Language-Team: Dutch <gnome-nl-list@gnome.org>\n"
 "Language: nl\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.2.3\n"
+"X-Generator: Poedit 2.3\n"
 "X-Project-Style: gnome\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
@@ -49,12 +49,12 @@ msgstr ""
 "Zoek nummers in uw lokale verzameling, haal muziek op van DLNA-servers of "
 "probeer eens iets nieuws met de Jamendo- en Magnatune-diensten."
 
-#: data/org.gnome.Music.appdata.xml.in.in:52
+#: data/org.gnome.Music.appdata.xml.in.in:67
 msgid "The GNOME Music developers"
 msgstr "De Gnome Muziek-ontwikkelaars"
 
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:59
-#: gnomemusic/window.py:76
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:57
+#: gnomemusic/window.py:69
 msgid "Music"
 msgstr "Muziek"
 
@@ -132,6 +132,18 @@ msgid "Enables or disables inhibiting system suspend while playing music"
 msgstr ""
 "Schakelt het verhinderen van de pauzestand van het systeem in of uit tijdens "
 "het afspelen van muziek"
+
+#: data/org.gnome.Music.gschema.xml:48
+msgid "Report music history to Last.fm"
+msgstr "Luistergeschiedenis doorgeven aan Last.fm"
+
+#: data/org.gnome.Music.gschema.xml:49
+msgid ""
+"Enables or disables sending scrobbles and the “currently playing” info to "
+"Last.fm."
+msgstr ""
+"Schakelt het verzenden van scrobbles en de ‘Luistert nu naar’-informatie "
+"naar Last.fm in of uit."
 
 #: data/ui/AboutDialog.ui.in:9
 msgid "Copyright © 2018 GNOME Music Developers"
@@ -211,36 +223,44 @@ msgstr "Speelduur"
 msgid "Composer"
 msgstr "Componist"
 
-#: data/ui/AppMenu.ui:21
+#: data/ui/AppMenu.ui:20 data/ui/LastfmDialog.ui:8
+msgid "Last.fm Account"
+msgstr "Last.fm-account"
+
+#: data/ui/AppMenu.ui:38
+msgid "Report Music Listening"
+msgstr "Luistergeschiedenis doorgeven"
+
+#: data/ui/AppMenu.ui:69
 msgid "_Keyboard Shortcuts"
 msgstr "_Sneltoetsen"
 
-#: data/ui/AppMenu.ui:35
+#: data/ui/AppMenu.ui:83
 msgid "_Help"
 msgstr "_Hulp"
 
-#: data/ui/AppMenu.ui:49
+#: data/ui/AppMenu.ui:97
 msgid "_About Music"
 msgstr "_Over Muziek"
 
-#: data/ui/HeaderBar.ui:13
+#: data/ui/HeaderBar.ui:16
 msgid "Menu"
 msgstr "Menu"
 
-#: data/ui/HeaderBar.ui:36 data/ui/SearchHeaderBar.ui:13
+#: data/ui/HeaderBar.ui:39 data/ui/SearchHeaderBar.ui:16
 msgid "Select"
 msgstr "Selecteren"
 
-#: data/ui/HeaderBar.ui:58 data/ui/PlaylistDialog.ui:244
-#: data/ui/SearchHeaderBar.ui:35
+#: data/ui/HeaderBar.ui:61 data/ui/PlaylistDialog.ui:244
+#: data/ui/SearchHeaderBar.ui:38
 msgid "_Cancel"
 msgstr "_Annuleren"
 
-#: data/ui/HeaderBar.ui:77 data/ui/SearchHeaderBar.ui:54
+#: data/ui/HeaderBar.ui:80 data/ui/SearchHeaderBar.ui:57
 msgid "Search"
 msgstr "Zoeken"
 
-#: data/ui/HeaderBar.ui:100
+#: data/ui/HeaderBar.ui:103
 msgid "Back"
 msgstr "Terug"
 
@@ -329,6 +349,27 @@ msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Teruggaan"
 
+#: data/ui/LastfmDialog.ui:21
+msgid ""
+"Last.fm is a music discovery service that gives you personalised "
+"recommendations based on the music you listen to."
+msgstr ""
+"Last.fm is een muziekontdekkingsdienst die u gepersonaliseerde aanbevelingen "
+"geeft op basis van de muziek die u beluistert."
+
+#: data/ui/LastfmDialog.ui:32 gnomemusic/widgets/lastfmdialog.py:58
+msgid "Music Reporting Not Setup"
+msgstr "Luistergeschiedenis doorgeven is niet ingesteld"
+
+#: data/ui/LastfmDialog.ui:46 gnomemusic/widgets/lastfmdialog.py:61
+msgid "Login to your Last.fm account to report your music listening."
+msgstr ""
+"Meld u aan bij uw Last.fm-account om uw luistergeschiedenis door te geven."
+
+#: data/ui/LastfmDialog.ui:57 gnomemusic/widgets/lastfmdialog.py:59
+msgid "Login"
+msgstr "Aanmelden"
+
 #: data/ui/PlayerToolbar.ui:6
 msgid "Shuffle"
 msgstr "Willekeurig"
@@ -350,7 +391,7 @@ msgstr "Willekeurig/Herhalen uit"
 msgid "Previous"
 msgstr "Vorige"
 
-#: data/ui/PlayerToolbar.ui:86 gnomemusic/widgets/playertoolbar.py:153
+#: data/ui/PlayerToolbar.ui:86 gnomemusic/widgets/playertoolbar.py:147
 msgid "Play"
 msgstr "Afspelen"
 
@@ -383,11 +424,11 @@ msgstr "Verwij_deren"
 msgid "_Rename…"
 msgstr "He_rnoemen…"
 
-#: data/ui/PlaylistControls.ui:40
+#: data/ui/PlaylistControls.ui:41
 msgid "Playlist Name"
 msgstr "Afspeellijstnaam"
 
-#: data/ui/PlaylistControls.ui:74
+#: data/ui/PlaylistControls.ui:75
 msgid "_Done"
 msgstr "_Klaar"
 
@@ -415,7 +456,7 @@ msgstr "Toevoegen aan afspeellijst"
 msgid "_Add"
 msgstr "_Toevoegen"
 
-#: data/ui/SearchView.ui:44 gnomemusic/views/artistsview.py:59
+#: data/ui/SearchView.ui:44 gnomemusic/views/artistsview.py:51
 msgid "Artists"
 msgstr "Artiesten"
 
@@ -423,11 +464,11 @@ msgstr "Artiesten"
 msgid "View All"
 msgstr "Alles tonen"
 
-#: data/ui/SearchView.ui:97 gnomemusic/views/albumsview.py:61
+#: data/ui/SearchView.ui:97 gnomemusic/views/albumsview.py:60
 msgid "Albums"
 msgstr "Muziekalbum"
 
-#: data/ui/SearchView.ui:150 gnomemusic/views/songsview.py:57
+#: data/ui/SearchView.ui:150 gnomemusic/views/songsview.py:49
 msgid "Songs"
 msgstr "Nummers"
 
@@ -439,7 +480,7 @@ msgstr "Alles selecteren"
 msgid "Select None"
 msgstr "Niets selecteren"
 
-#: data/ui/SelectionBarMenuButton.ui:31 gnomemusic/widgets/headerbar.py:75
+#: data/ui/SelectionBarMenuButton.ui:31 gnomemusic/widgets/headerbar.py:71
 msgid "Click on items to select them"
 msgstr "Klik op items om deze te selecteren"
 
@@ -448,49 +489,49 @@ msgid "_Add to Playlist"
 msgstr "Toevoegen aan _afspeellijst"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:695
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:741
 msgid "Most Played"
 msgstr "Meest afgespeeld"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:732
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:778
 msgid "Never Played"
 msgstr "Nooit afgespeeld"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:768
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:814
 msgid "Recently Played"
 msgstr "Onlangs afgespeeld"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:814
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:860
 msgid "Recently Added"
 msgstr "Onlangs toegevoegd"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:859
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:905
 msgid "Favorite Songs"
 msgstr "Favoriete nummers"
 
-#: gnomemusic/gstplayer.py:403
+#: gnomemusic/gstplayer.py:374
 msgid "Unable to play the file"
 msgstr "Kan het bestand niet afspelen"
 
-#: gnomemusic/gstplayer.py:409
+#: gnomemusic/gstplayer.py:380
 msgid "_Find in {}"
 msgstr "_Zoeken in {}"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:420
+#: gnomemusic/gstplayer.py:390
 msgid " and "
 msgstr " en "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:423
+#: gnomemusic/gstplayer.py:393
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:425
+#: gnomemusic/gstplayer.py:395
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] ""
@@ -498,107 +539,128 @@ msgstr[0] ""
 msgstr[1] ""
 "{} zijn vereist om het bestand af te spelen, maar zijn niet geïnstalleerd."
 
-#: gnomemusic/inhibitsuspend.py:72
+#: gnomemusic/inhibitsuspend.py:63
 msgid "Playing music"
 msgstr "Muziek wordt afgespeeld"
 
-#: gnomemusic/utils.py:62
+#: gnomemusic/utils.py:64
 msgid "Unknown album"
 msgstr "Onbekend album"
 
-#: gnomemusic/utils.py:83
+#: gnomemusic/utils.py:85
 msgid "Unknown Artist"
 msgstr "Onbekende artiest"
 
-#: gnomemusic/views/emptyview.py:79
+#: gnomemusic/views/emptyview.py:67
+msgid "Your XDG Music directory is not set."
+msgstr "Uw XDG-muziekmap is niet ingesteld."
+
+#: gnomemusic/views/emptyview.py:74
 msgid "Music folder"
 msgstr "Muziekmap"
 
 #. TRANSLATORS: This is a label to display a link to open user's music
 #. folder. {} will be replaced with the translated text 'Music folder'
-#: gnomemusic/views/emptyview.py:83
+#: gnomemusic/views/emptyview.py:78
 msgid "The contents of your {} will appear here."
 msgstr "De inhoud van uw {} zal hier verschijnen."
 
-#: gnomemusic/views/emptyview.py:119
+#: gnomemusic/views/emptyview.py:113
 msgid "Hey DJ"
 msgstr "Hoi DJ"
 
-#: gnomemusic/views/emptyview.py:129 gnomemusic/views/emptyview.py:135
+#: gnomemusic/views/emptyview.py:122 gnomemusic/views/emptyview.py:127
 msgid "No music found"
 msgstr "Geen muziek gevonden"
 
-#: gnomemusic/views/emptyview.py:137
+#: gnomemusic/views/emptyview.py:129
 msgid "Try a different search"
 msgstr "Probeer een andere zoekopdracht"
 
-#: gnomemusic/views/emptyview.py:143
+#: gnomemusic/views/emptyview.py:134
 msgid "GNOME Music could not connect to Tracker"
 msgstr "Gnome Muziek kon geen verbinding maken met Tracker"
 
-#: gnomemusic/views/emptyview.py:146
+#: gnomemusic/views/emptyview.py:137
 msgid "Your music files cannot be indexed without Tracker running"
 msgstr ""
 "Uw muziekbestanden kunnen niet geïndexeerd worden zonder dat Tracker wordt "
 "uitgevoerd"
 
-#: gnomemusic/views/emptyview.py:154
+#: gnomemusic/views/emptyview.py:144
 msgid "Your system Tracker version seems outdated"
 msgstr "Uw versie van Tracker is verouderd"
 
-#: gnomemusic/views/emptyview.py:157
-msgid "Music needs Tracker version 2.2.0 or higher"
-msgstr "Gnome Muziek vereist versie 2.2.0 of hoger van Tracker"
+#: gnomemusic/views/emptyview.py:147
+msgid "Music needs Tracker version 2.3.0 or higher"
+msgstr "Muziek vereist versie 2.3.0 of hoger van Tracker"
 
-#: gnomemusic/views/playlistsview.py:58
+#: gnomemusic/views/playlistsview.py:53
 msgid "Playlists"
 msgstr "Afspeellijsten"
 
-#: gnomemusic/views/searchview.py:365
+#: gnomemusic/views/searchview.py:373
 msgid "Artists Results"
 msgstr "Artiestresultaten"
 
-#: gnomemusic/views/searchview.py:379
+#: gnomemusic/views/searchview.py:388
 msgid "Albums Results"
 msgstr "Albumresultaten"
 
-#: gnomemusic/widgets/albumwidget.py:147
+#: gnomemusic/widgets/albumwidget.py:165
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} minuut"
 msgstr[1] "{} minuten"
 
-#: gnomemusic/widgets/disclistboxwidget.py:82
+#: gnomemusic/widgets/disclistboxwidget.py:74
 msgid "Disc {}"
 msgstr "Schijf {}"
 
-#: gnomemusic/widgets/headerbar.py:72
+#: gnomemusic/widgets/headerbar.py:68
 msgid "Selected {} item"
 msgid_plural "Selected {} items"
 msgstr[0] "{} item geselecteerd"
 msgstr[1] "{} items geselecteerd"
 
-#: gnomemusic/widgets/notificationspopup.py:168
+#: gnomemusic/widgets/lastfmdialog.py:65
+msgid "Your music listening is reported to Last.fm."
+msgstr "Uw luistergeschiedenis wordt doorgegeven aan Last.fm."
+
+#: gnomemusic/widgets/lastfmdialog.py:67
+msgid "Your music listening is not reported to Last.fm."
+msgstr "Uw luistergeschiedenis wordt niet doorgegeven aan Last.fm."
+
+#. TRANSLATORS: displays the username of the Last.fm account
+#: gnomemusic/widgets/lastfmdialog.py:71
+msgid "Logged in as {}"
+msgstr "Aangemeld als {}"
+
+#: gnomemusic/widgets/lastfmdialog.py:72
+msgid "Configure"
+msgstr "Configureren"
+
+#: gnomemusic/widgets/notificationspopup.py:153
 msgid "Loading"
 msgstr "Laden"
 
-#: gnomemusic/widgets/notificationspopup.py:241
+#: gnomemusic/widgets/notificationspopup.py:220
 msgid "_Undo"
 msgstr "_Ongedaan maken"
 
-#: gnomemusic/widgets/notificationspopup.py:256
+#: gnomemusic/widgets/notificationspopup.py:235
 msgid "Playlist {} removed"
 msgstr "Afspeellijst {} verwijderd"
 
-#: gnomemusic/widgets/notificationspopup.py:260
+#: gnomemusic/widgets/notificationspopup.py:239
 msgid "{} removed from {}"
 msgstr "{} verwijderd uit {}"
 
-#: gnomemusic/widgets/playertoolbar.py:150
+#: gnomemusic/widgets/playertoolbar.py:144
 msgid "Pause"
 msgstr "Pauzeren"
 
-#: gnomemusic/widgets/playlistcontrols.py:83
+#: gnomemusic/widgets/playlistcontrols.py:129
 msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} nummer"
