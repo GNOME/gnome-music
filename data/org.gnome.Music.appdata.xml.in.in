@@ -28,6 +28,19 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="3.36.0" date="2020-03-07">
+      <description>
+        <p>
+          First stable release for GNOME 3.36. Besides a general focus on
+          stability there are some notable improvements:
+        </p>
+        <ul>
+          <li>Restore smart playlists update</li>
+          <li>Expose Last.fm scrobbler in the UI</li>
+        </ul>
+        <p>This release also updates translations.</p>
+      </description>
+    </release>
     <release version="3.35.92" date="2020-03-02" type="development">
       <description>
         <p>
