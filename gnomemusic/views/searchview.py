@@ -275,6 +275,7 @@ class SearchView(Gtk.Stack):
         last_visible_child = self._album_flowbox.get_child_at_index(idx - 1)
         if last_visible_child is None:
             return
+
         first_row_last = self._album_flowbox.get_child_at_index((idx - 1) // 2)
         second_row_pos = last_visible_child.get_allocation().x
         first_row_pos = first_row_last.get_allocation().x
@@ -318,6 +319,7 @@ class SearchView(Gtk.Stack):
         last_child = self._artist_flowbox.get_child_at_index(idx - 1)
         if last_child is None:
             return
+
         last_child_allocation = last_child.get_allocation()
         child_width = last_child_allocation.width
         if (last_child_allocation.x + 2 * child_width) < allocation.width:
