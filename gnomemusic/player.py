@@ -251,7 +251,15 @@ class PlayerPlaylist(GObject.GObject):
         def _shuffle_sort(song_a, song_b):
             return randint(-1, 1)
 
+        def _shuffle_n_times(n_times):
+            # called once in constructor
+            n_times -= 1
+            for n in range(n_times):
+                self.connect(
+                    "notify::repeat-mode", self._on_repeat_mode_changed)
+
         if self.props.repeat_mode == RepeatMode.SHUFFLE:
+            _shuffle_n_times(3)
             self._model.set_sort_func(
                 utils.wrap_list_store_sort_func(_shuffle_sort))
         elif self.props.repeat_mode in [RepeatMode.NONE, RepeatMode.ALL]:
