@@ -25,6 +25,7 @@
 from enum import IntEnum
 from random import randint, randrange
 import time
+import traceback
 
 import gi
 gi.require_version('GstPbutils', '1.0')
@@ -78,6 +79,9 @@ class PlayerPlaylist(GObject.GObject):
         self._model = self._app.props.coremodel.props.playlist_sort
 
         self.connect("notify::repeat-mode", self._on_repeat_mode_changed)
+
+        print("Constructor of PlayerPlaylist >> If playlist is not "
+                "displayed below that means self._model is empty")
 
     def has_next(self):
         """Test if there is a song after the current one.
@@ -249,6 +253,7 @@ class PlayerPlaylist(GObject.GObject):
     def _on_repeat_mode_changed(self, klass, param):
         # FIXME: This shuffle is too simple.
         def _shuffle_sort(song_a, song_b):
+            traceback.print_stack()
             return randint(-1, 1)
 
         def _shuffle_n_times(n_times):
@@ -259,9 +264,15 @@ class PlayerPlaylist(GObject.GObject):
                     "notify::repeat-mode", self._on_repeat_mode_changed)
 
         if self.props.repeat_mode == RepeatMode.SHUFFLE:
-            _shuffle_n_times(3)
-            self._model.set_sort_func(
-                utils.wrap_list_store_sort_func(_shuffle_sort))
+            # _shuffle_n_times(3)
+            for i in range(3):
+                self._model.set_sort_func(
+                    utils.wrap_list_store_sort_func(_shuffle_sort))
+                # print playlist to stdout
+                print("_on_repeat_mode_changed >> print playlist")
+                for s in self._model:
+                    print(s.props.title)
+                print(" ++++++++++++++++++++ ")
         elif self.props.repeat_mode in [RepeatMode.NONE, RepeatMode.ALL]:
             self._model.set_sort_func(None)
 
