@@ -76,12 +76,10 @@ class PlayerPlaylist(GObject.GObject):
         self._discoverer.connect("discovered", self._on_discovered)
         self._discoverer.start()
 
+        self._coremodel = self._app.props.coremodel
         self._model = self._app.props.coremodel.props.playlist_sort
 
         self.connect("notify::repeat-mode", self._on_repeat_mode_changed)
-
-        print("Constructor of PlayerPlaylist >> If playlist is not "
-                "displayed below that means self._model is empty")
 
     def has_next(self):
         """Test if there is a song after the current one.
@@ -251,28 +249,34 @@ class PlayerPlaylist(GObject.GObject):
         return None
 
     def _on_repeat_mode_changed(self, klass, param):
-        # FIXME: This shuffle is too simple.
-        def _shuffle_sort(song_a, song_b):
-            traceback.print_stack()
-            return randint(-1, 1)
+        self._coremodel._playlist_mode = self.props.repeat_mode
 
-        def _shuffle_n_times(n_times):
-            # called once in constructor
-            n_times -= 1
+        def _shuffle_n_times(_model, n_times=16):
+            current_song = self.props.current_song
+
+            # FIXME: This shuffle is too simple.
+            def _shuffle_sort(song_a, song_b):
+                if current_song is not None:
+                    if (song_a == current_song):
+                        return -1
+                    elif (song_b == current_song):
+                        return 1
+                    else:
+                        return randint(-1, 1)
+                # Current_song remains None during initial run
+                # of application with default mode as shuffle.
+                # This else is to prevent application to break.
+                else:
+                    return randint(-1, 1)
+
             for n in range(n_times):
-                self.connect(
-                    "notify::repeat-mode", self._on_repeat_mode_changed)
+                _model.set_sort_func(
+                    utils.wrap_list_store_sort_func(_shuffle_sort))
+
+        self._coremodel._shuffle_n_times = _shuffle_n_times
 
         if self.props.repeat_mode == RepeatMode.SHUFFLE:
-            # _shuffle_n_times(3)
-            for i in range(3):
-                self._model.set_sort_func(
-                    utils.wrap_list_store_sort_func(_shuffle_sort))
-                # print playlist to stdout
-                print("_on_repeat_mode_changed >> print playlist")
-                for s in self._model:
-                    print(s.props.title)
-                print(" ++++++++++++++++++++ ")
+            _shuffle_n_times(self._model)
         elif self.props.repeat_mode in [RepeatMode.NONE, RepeatMode.ALL]:
             self._model.set_sort_func(None)
 

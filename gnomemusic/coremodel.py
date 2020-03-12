@@ -36,7 +36,7 @@ from gnomemusic.player import PlayerPlaylist
 from gnomemusic.songliststore import SongListStore
 from gnomemusic.widgets.songwidget import SongWidget
 import gnomemusic.utils as utils
-
+from gnomemusic.player import RepeatMode
 
 class CoreModel(GObject.GObject):
     """Provides all the list models used in Music
@@ -142,6 +142,9 @@ class CoreModel(GObject.GObject):
         self._grilo = self.props.grilo
 
         self._model.connect("items-changed", self._on_songs_items_changed)
+
+        self._playlist_mode = None
+        self._shuffle_n_times = None
 
     def _on_songs_items_changed(self, model, position, removed, added):
         available = self.props.songs_available
@@ -331,6 +334,11 @@ class CoreModel(GObject.GObject):
 
         self._playlist_model.splice(
             0, self._playlist_model.get_n_items(), songs_added)
+
+        # Due to _playlist_model.splice(), playlist is shuffled once.
+        # To shuffle it n_times, explicitly call _shuffle_n_times
+        if self._playlist_mode == RepeatMode.SHUFFLE:
+            self._shuffle_n_times(self._playlist_model_sort)
 
         if self._current_playlist_model is not None:
             self._player_signal_id = self._current_playlist_model.connect(
