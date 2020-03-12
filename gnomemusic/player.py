@@ -25,7 +25,6 @@
 from enum import IntEnum
 from random import randint, randrange
 import time
-import traceback
 
 import gi
 gi.require_version('GstPbutils', '1.0')

@@ -38,6 +38,7 @@ from gnomemusic.widgets.songwidget import SongWidget
 import gnomemusic.utils as utils
 from gnomemusic.player import RepeatMode
 
+
 class CoreModel(GObject.GObject):
     """Provides all the list models used in Music
 
