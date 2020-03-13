@@ -39,6 +39,9 @@ class ArtistsView(Gtk.Stack):
 
     __gtype_name__ = "ArtistsView"
 
+    title = GObject.Property(
+        type=str, default=_("Artists"), flags=GObject.ParamFlags.READABLE)
+
     _artist_container = Gtk.Template.Child()
     _artist_view = Gtk.Template.Child()
     _sidebar = Gtk.Template.Child()
@@ -51,9 +54,7 @@ class ArtistsView(Gtk.Stack):
         """
         super().__init__(transition_type=Gtk.StackTransitionType.CROSSFADE)
 
-        # FIXME: Make these properties.
         self.props.name = "artists"
-        self.title = _("Artists")
 
         self._application = application
         self._artists = {}
