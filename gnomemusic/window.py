@@ -250,9 +250,9 @@ class Window(Gtk.ApplicationWindow):
         # from being displayed during startup
         for i in self.views[View.ALBUM:]:
             if i.title:
-                self._stack.add_titled(i, i.name, i.title)
+                self._stack.add_titled(i, i.props.name, i.title)
             else:
-                self._stack.add_named(i, i.name)
+                self._stack.add_named(i, i.props.name)
 
         self._stack.props.visible_child = self.views[View.ALBUM]
 

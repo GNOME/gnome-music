@@ -48,7 +48,7 @@ class PlaylistsView(Gtk.Stack):
         super().__init__(transition_type=Gtk.StackTransitionType.CROSSFADE)
 
         # FIXME: Make these properties.
-        self.name = "playlists"
+        self.props.name = "playlists"
         self.title = _("Playlists")
 
         self._coremodel = application.props.coremodel
