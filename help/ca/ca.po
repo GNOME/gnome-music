@@ -42,7 +42,7 @@ msgid ""
 "A simple and elegant replacement for using <app>Files</app> to show the "
 "music directory."
 msgstr ""
-"Un senzill i elegant reemplaçament per utilitzar el <app>Fitxers</app> per mostrar el "
+"Un senzill i elegant reemplaçament per a utilitzar el <app>Fitxers</app> per mostrar el "
 "directori de música."
 
 #. (itstool) path: page/title
@@ -144,7 +144,7 @@ msgstr ""
 #. (itstool) path: steps/title
 #: C/playlist-create-albums.page:27
 msgid "To add all the songs in an album:"
-msgstr "Per afegir totes les cançons a un àlbum:"
+msgstr "Per a afegir totes les cançons a un àlbum:"
 
 #. (itstool) path: item/p
 #: C/playlist-create-albums.page:29 C/playlist-create-songs.page:29
@@ -188,7 +188,7 @@ msgstr ""
 #. (itstool) path: steps/title
 #: C/playlist-create-albums.page:49
 msgid "To add selected songs from an album:"
-msgstr "Per afegir les cançons seleccionades d'un àlbum:"
+msgstr "Per a afegir les cançons seleccionades d'un àlbum:"
 
 #. (itstool) path: item/p
 #: C/playlist-create-albums.page:51
@@ -213,7 +213,7 @@ msgid ""
 "gui><gui>Select All</gui></guiseq> in the toolbar or press "
 "<keyseq><key>Ctrl</key><key>A</key></keyseq>."
 msgstr ""
-"Per seleccionar totes les cançons fer clic a <guiseq><gui>Feu clic als "
+"Per a seleccionar totes les cançons fer clic a <guiseq><gui>Feu clic als "
 "elements per seleccionar-los</gui><gui>Selecciona-ho tot</gui></guiseq> a la "
 "barra d'eines o premeu <keyseq><key>Ctrl</key><key>A</key></keyseq>."
 
@@ -224,7 +224,7 @@ msgid ""
 "To clear the selection click <guiseq><gui>Click on items to select them</"
 "gui><gui>Select None</gui></guiseq> in the toolbar."
 msgstr ""
-"Per netejar la selecció actual feu clic a <guiseq><gui>Feu clic als elements "
+"Per a netejar la selecció actual feu clic a <guiseq><gui>Feu clic als elements "
 "per seleccionar-los</gui><gui>No en seleccionis cap</gui></guiseq> a la barra "
 "d'eines."
 
@@ -250,7 +250,7 @@ msgstr ""
 #. (itstool) path: steps/title
 #: C/playlist-create-songs.page:27
 msgid "To create a new playlist while in <em>Songs</em> view:"
-msgstr "Per crear una nova llista de reproducció a la vista <em>Cançons</em>:"
+msgstr "Per a crear una nova llista de reproducció a la vista <em>Cançons</em>:"
 
 #. (itstool) path: item/p
 #: C/playlist-create-songs.page:32
@@ -291,7 +291,7 @@ msgstr ""
 #: C/playlist-create-artists.page:28
 msgid "To create a new playlist while in <em>Artists</em> view:"
 msgstr ""
-"Per crear una nova llista de reproducció mentre s'està a la vista "
+"Per a crear una nova llista de reproducció mentre s'està a la vista "
 "<em>Artistes</em>:"
 
 #. (itstool) path: item/p
@@ -390,13 +390,13 @@ msgstr "A la barra de tasques, feu clic al botó del costat dret:"
 #. (itstool) path: item/p
 #: C/playlist-repeat.page:27
 msgid "Select <gui>Repeat Song</gui> to repeat a single song."
-msgstr "Seleccioneu <gui>Repeteix la cançó</gui> per repetir una única cançó."
+msgstr "Seleccioneu <gui>Repeteix la cançó</gui> per a repetir una única cançó."
 
 #. (itstool) path: item/p
 #: C/playlist-repeat.page:30
 msgid "Select <gui>Repeat All</gui> to repeat all the song in the playlist."
 msgstr ""
-"Seleccioneu <gui>Repeteix-ho tot</gui> per repetir totes les cançons de la "
+"Seleccioneu <gui>Repeteix-ho tot</gui> per a repetir totes les cançons de la "
 "llista de reproducció."
 
 #. (itstool) path: info/desc
