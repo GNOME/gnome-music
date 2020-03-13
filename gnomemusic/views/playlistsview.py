@@ -37,6 +37,9 @@ class PlaylistsView(Gtk.Stack):
 
     __gtype_name__ = "PlaylistsView"
 
+    title = GObject.Property(
+        type=str, default=_("Playlists"), flags=GObject.ParamFlags.READABLE)
+
     _main_container = Gtk.Template.Child()
     _sidebar = Gtk.Template.Child()
 
@@ -47,9 +50,7 @@ class PlaylistsView(Gtk.Stack):
         """
         super().__init__(transition_type=Gtk.StackTransitionType.CROSSFADE)
 
-        # FIXME: Make these properties.
         self.props.name = "playlists"
-        self.title = _("Playlists")
 
         self._coremodel = application.props.coremodel
         self._model = self._coremodel.props.playlists_sort

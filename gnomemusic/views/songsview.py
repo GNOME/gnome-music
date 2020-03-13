@@ -41,6 +41,9 @@ class SongsView(Gtk.ScrolledWindow):
 
     __gtype_name__ = "SongsView"
 
+    title = GObject.Property(
+        type=str, default=_("Songs"), flags=GObject.ParamFlags.READABLE)
+
     _duration_renderer = Gtk.Template.Child()
     _now_playing_column = Gtk.Template.Child()
     _now_playing_cell = Gtk.Template.Child()
@@ -55,9 +58,7 @@ class SongsView(Gtk.ScrolledWindow):
         """
         super().__init__()
 
-        # FIXME: Make these properties.
         self.props.name = "songs"
-        self.title = _("Songs")
 
         self._window = application.props.window
         self._coremodel = application.props.coremodel
