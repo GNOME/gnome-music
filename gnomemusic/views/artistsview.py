@@ -51,7 +51,7 @@ class ArtistsView(Gtk.Box):
         super().__init__()
 
         # FIXME: Make these properties.
-        self.name = "artists"
+        self.props.name = "artists"
         self.title = _("Artists")
 
         self._application = application
