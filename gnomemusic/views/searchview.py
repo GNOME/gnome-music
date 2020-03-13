@@ -199,7 +199,7 @@ class SearchView(Gtk.Stack):
         nr_albums = self._album_model.get_n_items()
         self._view_all_albums.props.visible = (nr_albums > model.get_n_items())
 
-        def set_child_visible (child):
+        def set_child_visible(child):
             child.props.visible = True
 
         self._album_flowbox.foreach(set_child_visible)
@@ -214,7 +214,7 @@ class SearchView(Gtk.Stack):
         self._view_all_artists.props.visible = (
             nr_artists > model.get_n_items())
 
-        def set_child_visible (child):
+        def set_child_visible(child):
             child.props.visible = True
 
         self._artist_flowbox.foreach(set_child_visible)
