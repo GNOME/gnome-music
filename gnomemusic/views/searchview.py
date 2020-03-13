@@ -80,7 +80,7 @@ class SearchView(Gtk.Stack):
         super().__init__(transition_type=Gtk.StackTransitionType.CROSSFADE)
 
         # FIXME: Make these properties.
-        self.name = "search"
+        self.props.name = "search"
         self.title = None
 
         self._application = application

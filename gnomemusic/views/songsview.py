@@ -56,7 +56,7 @@ class SongsView(Gtk.Stack):
         super().__init__(transition_type=Gtk.StackTransitionType.CROSSFADE)
 
         # FIXME: Make these properties.
-        self.name = "songs"
+        self.props.name = "songs"
         self.title = _("Songs")
 
         self._window = application.props.window
