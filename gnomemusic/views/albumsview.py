@@ -56,7 +56,7 @@ class AlbumsView(Gtk.Stack):
         super().__init__(transition_type=Gtk.StackTransitionType.CROSSFADE)
 
         # FIXME: Make these properties.
-        self.name = "albums"
+        self.props.name = "albums"
         self.title = _("Albums")
 
         self._application = application

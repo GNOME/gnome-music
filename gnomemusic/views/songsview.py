@@ -56,7 +56,7 @@ class SongsView(Gtk.Box):
         super().__init__()
 
         # FIXME: Make these properties.
-        self.name = "songs"
+        self.props.name = "songs"
         self.title = _("Songs")
 
         self._window = application.props.window
