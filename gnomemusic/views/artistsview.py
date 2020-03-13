@@ -52,7 +52,7 @@ class ArtistsView(Gtk.Stack):
         super().__init__(transition_type=Gtk.StackTransitionType.CROSSFADE)
 
         # FIXME: Make these properties.
-        self.name = "artists"
+        self.props.name = "artists"
         self.title = _("Artists")
 
         self._application = application
