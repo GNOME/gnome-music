@@ -67,6 +67,8 @@ class CoverStack(Gtk.Stack):
         self.props.transition_type = Gtk.StackTransitionType.CROSSFADE
         self.props.visible_child_name = "loading"
 
+        self.connect("destroy", self._on_destroy)
+
         self.show_all()
 
     @GObject.Property(type=object, flags=GObject.ParamFlags.READWRITE)
@@ -134,3 +136,12 @@ class CoverStack(Gtk.Stack):
         self._art = None
 
         self.emit('updated')
+
+    def _on_destroy(self, widget):
+        # If the CoverStack is destroyed while the art is updated,
+        # an error can be coccur once the art is retrieved because
+        # the CoverStack does not have children anymore.
+        if (self._art is not None and
+                self._handler_id is not None):
+            self._art.disconnect(self._handler_id)
+            self._handler_id = None
