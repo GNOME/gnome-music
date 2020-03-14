@@ -249,12 +249,12 @@ class PlayerPlaylist(GObject.GObject):
     def _on_repeat_mode_changed(self, klass, param):
         def _shuffle_sort(song_a, song_b):
             if ((song_a.props.state == SongWidget.State.UNPLAYED or
-                    song_a.props.state == None) and
-                        song_b.props.state == SongWidget.State.PLAYED):
+                    song_a.props.state is None) and
+                    song_b.props.state == SongWidget.State.PLAYED):
                 return 1
             elif ((song_a.props.state == SongWidget.State.UNPLAYED or
-                    song_a.props.state == None) and
-                        song_b.props.state == SongWidget.State.PLAYING):
+                    song_a.props.state is None) and
+                    song_b.props.state == SongWidget.State.PLAYING):
                 return 1
             elif (song_a.props.state == SongWidget.State.PLAYING and
                     song_b.props.state == SongWidget.State.PLAYED):
@@ -264,14 +264,14 @@ class PlayerPlaylist(GObject.GObject):
                 return -1
             elif (song_a.props.state == SongWidget.State.PLAYING and
                     (song_b.props.state == SongWidget.State.UNPLAYED or
-                        song_b.props.state == None)):
-                return -1   
+                        song_b.props.state is None)):
+                return -1
             elif (song_a.props.state == SongWidget.State.PLAYED and
                     (song_b.props.state == SongWidget.State.UNPLAYED or
-                        song_b.props.state == None)):
+                        song_b.props.state is None)):
                 return -1
             else:
-                return randint(-1, 1)      
+                return randint(-1, 1)
 
         if self.props.repeat_mode == RepeatMode.SHUFFLE:
             # min_n_times defines minimum times to shuffle playlist
@@ -285,11 +285,9 @@ class PlayerPlaylist(GObject.GObject):
             # level_of_randomness is proportional to n_times
             level_of_randomness = 100
 
-            n_times = max(min_n_times,
-                        int(max_n_times -
-                            (self._model.get_n_items() /
-                                level_of_randomness)))
-            
+            n_times = max(min_n_times, int(max_n_times - (
+                self._model.get_n_items() / level_of_randomness)))
+
             for n in range(n_times):
                 self._model.set_sort_func(
                     utils.wrap_list_store_sort_func(_shuffle_sort))
