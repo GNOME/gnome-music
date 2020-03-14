@@ -248,27 +248,29 @@ class PlayerPlaylist(GObject.GObject):
 
     def _on_repeat_mode_changed(self, klass, param):
         def _shuffle_sort(song_a, song_b):
-            if ((song_a.props.state == SongWidget.State.UNPLAYED or
-                    song_a.props.state is None) and
-                    song_b.props.state == SongWidget.State.PLAYED):
+            if ((song_a.props.state == SongWidget.State.UNPLAYED
+                    or song_a.props.state is None)
+                    and song_b.props.state == SongWidget.State.PLAYED):
                 return 1
-            elif ((song_a.props.state == SongWidget.State.UNPLAYED or
-                    song_a.props.state is None) and
-                    song_b.props.state == SongWidget.State.PLAYING):
+            elif ((song_a.props.state == SongWidget.State.UNPLAYED
+                    or song_a.props.state is None)
+                    and song_b.props.state == SongWidget.State.PLAYING):
                 return 1
-            elif (song_a.props.state == SongWidget.State.PLAYING and
-                    song_b.props.state == SongWidget.State.PLAYED):
+            elif (song_a.props.state == SongWidget.State.PLAYING
+                    and song_b.props.state == SongWidget.State.PLAYED):
                 return 1
-            elif (song_a.props.state == SongWidget.State.PLAYED and
-                    song_b.props.state == SongWidget.State.PLAYING):
+            elif (song_a.props.state == SongWidget.State.PLAYED
+                    and song_b.props.state == SongWidget.State.PLAYING):
                 return -1
-            elif (song_a.props.state == SongWidget.State.PLAYING and
-                    (song_b.props.state == SongWidget.State.UNPLAYED or
-                        song_b.props.state is None)):
+            elif (song_a.props.state == SongWidget.State.PLAYING
+                    and (
+                        song_b.props.state == SongWidget.State.UNPLAYED
+                        or song_b.props.state is None)):
                 return -1
-            elif (song_a.props.state == SongWidget.State.PLAYED and
-                    (song_b.props.state == SongWidget.State.UNPLAYED or
-                        song_b.props.state is None)):
+            elif (song_a.props.state == SongWidget.State.PLAYED
+                    and (
+                        song_b.props.state == SongWidget.State.UNPLAYED
+                        or song_b.props.state is None)):
                 return -1
             else:
                 return randint(-1, 1)
