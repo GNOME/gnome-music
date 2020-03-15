@@ -49,8 +49,6 @@ class NotificationsPopup(Gtk.Revealer):
         self._loading_notification.connect('invisible', self._set_visibility)
         self._grid.add(self._loading_notification)
 
-        self._loading_notification.hide()
-
     def _hide_notifications(self, notification, remove):
         if remove:
             self._grid.remove(notification)
@@ -154,7 +152,7 @@ class LoadingNotification(Gtk.Grid):
     def push(self):
         """Increase the counter. Start notification if necessary."""
         def callback():
-            self.show_all()
+            self.props.visible = True
             self.emit('visible')
 
         if self._counter == 0:

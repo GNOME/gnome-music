@@ -3,6 +3,7 @@
   <!-- interface-requires gtk+ 3.0 -->
   <template class="EmptyView" parent="GtkStack">
     <property name="transition_type">crossfade</property>
+    <property name="visible">True</property>
     <child>
       <object class="GtkBox" id="_container">
         <property name="visible">True</property>
@@ -32,6 +33,7 @@
         <child>
           <object class="GtkBox" id="box">
             <property name="orientation">vertical</property>
+                <property name="visible">True</property>
             <child>
               <object class="GtkLabel" id="_main_label">
                 <property name="visible">True</property>

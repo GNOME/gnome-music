@@ -57,7 +57,10 @@ class BaseView(Gtk.Stack):
         self.title = title
 
         self.add(self._grid)
-        self.show_all()
+
+        self._grid.props.visible = True
+        self._box.props.visible = True
+        self.props.visible = True
 
         self.bind_property(
             "selection-mode", self._window, "selection-mode",
