@@ -69,6 +69,8 @@ class PlaylistsView(Gtk.Stack):
         self._model.connect("items-changed", self._on_playlists_model_changed)
         self._on_playlists_model_changed(self._model, 0, 0, 0)
 
+        self.props.visible = True
+
     def _add_playlist_to_sidebar(self, playlist):
         """Add a playlist to sidebar
 

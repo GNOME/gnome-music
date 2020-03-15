@@ -32,6 +32,7 @@
         <child>
           <object class="GtkBox" id="box">
             <property name="orientation">vertical</property>
+                <property name="visible">True</property>
             <child>
               <object class="GtkLabel" id="_main_label">
                 <property name="visible">True</property>
