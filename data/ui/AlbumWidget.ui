@@ -39,6 +39,8 @@
                     <property name="valign">start</property>
                     <property name="margin_start">1</property>
                     <property name="margin_end">1</property>
+                    <property name="hhomogeneous">False</property>
+                    <property name="vhomogeneous">False</property>
                   </object>
                   <packing>
                     <property name="position">0</property>
