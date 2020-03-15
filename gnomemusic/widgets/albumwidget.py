@@ -24,7 +24,7 @@
 
 from gettext import ngettext
 
-from gi.repository import GObject, Grl, Gtk
+from gi.repository import Gdk, GObject, Grl, Gtk
 
 from gnomemusic.albumartcache import Art
 from gnomemusic.player import PlayerPlaylist
@@ -49,6 +49,8 @@ class AlbumWidget(Gtk.EventBox):
     _disc_list_box = Gtk.Template.Child()
     _released_info_label = Gtk.Template.Child()
     _running_info_label = Gtk.Template.Child()
+    _scroll_ctrlr = Gtk.Template.Child()
+    _scrolled_window = Gtk.Template.Child()
     _title_label = Gtk.Template.Child()
 
     selection_mode = GObject.Property(type=bool, default=False)
@@ -201,3 +203,23 @@ class AlbumWidget(Gtk.EventBox):
         :rtype: CoreAlbum
         """
         return self._corealbum
+
+    @Gtk.Template.Callback()
+    def _on_scroll_begin(self, widget):
+        gdk_window = self.get_window()
+        self._cursor = gdk_window.get_cursor()
+
+        display = gdk_window.get_display()
+        new_cursor = Gdk.Cursor.new_from_name(display, "all-scroll")
+        gdk_window.set_cursor(new_cursor)
+
+    @Gtk.Template.Callback()
+    def _on_scroll_end(self, widget):
+        gdk_window = self.get_window()
+        gdk_window.set_cursor(self._cursor)
+
+    @Gtk.Template.Callback()
+    def _on_scroll(self, controller, dx, dy):
+        vadjustment = self._scrolled_window.props.vadjustment
+        vadjustment.props.value += dy * vadjustment.props.step_increment
+        return True
