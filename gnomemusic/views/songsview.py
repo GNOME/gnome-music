@@ -26,6 +26,7 @@ from gettext import gettext as _
 from gi.repository import Gdk, Gtk, Pango
 
 from gnomemusic.coresong import CoreSong
+from gnomemusic.musiclogger import MusicLogger
 from gnomemusic.player import PlayerPlaylist
 from gnomemusic.utils import SongStateIcon
 from gnomemusic.views.baseview import BaseView
@@ -38,6 +39,8 @@ class SongsView(BaseView):
     Consists all songs along with songname, star, length, artist
     and the album name.
     """
+
+    _log = MusicLogger()
 
     def __init__(self, application):
         """Initialize
@@ -117,8 +120,15 @@ class SongsView(BaseView):
         column_album.props.expand = True
         self._view.append_column(column_album)
 
-        attrs = Pango.AttrList()
-        attrs.insert(Pango.AttrFontFeatures.new("tnum=1"))
+        attrs = None
+        # The attributes syntax is only possible with Pango 1.44 and above
+        # https://gitlab.gnome.org/GNOME/pygobject/issues/312
+        try:
+            attrs = Pango.AttrList()
+            attrs.insert(Pango.AttrFontFeatures.new("tnum=1"))
+        except AttributeError as error:
+            self._log.warning("Error: {}".format(error))
+
         duration_renderer = Gtk.CellRendererText(xalign=1.0, attributes=attrs)
         column_duration = Gtk.TreeViewColumn(
             "Duration", duration_renderer, text=5)
