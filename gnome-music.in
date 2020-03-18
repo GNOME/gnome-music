@@ -29,15 +29,16 @@ import os
 import signal
 import sys
 
-# Make sure we'll find the pygobject module, even in JHBuild
-sys.path.insert(1, '@pyexecdir@')
-# Make sure we'll find the gnomemusic module, even in JHBuild
-sys.path.insert(1, '@pythondir@')
-
 _LOCAL = @local_build@
 
-# In the local use case the installed schemas go in <builddir>/data
 if _LOCAL:
+    # In the local use, look for the pygobject module
+    sys.path.insert(1, '@pyexecdir@')
+
+    # In the local use case, use gnomemusic module from the sourcetree
+    sys.path.insert(1, '@pythondir@')
+
+    # In the local use case the installed schemas go in <builddir>/data
     os.environ["XDG_DATA_DIRS"] = '@schemasdir@:' + os.environ.get("XDG_DATA_DIRS", "")
 
 import gi
