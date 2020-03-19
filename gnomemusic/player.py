@@ -75,9 +75,12 @@ class PlayerPlaylist(GObject.GObject):
         self._discoverer.connect("discovered", self._on_discovered)
         self._discoverer.start()
 
+        self._playlist_model = self._app.props.coremodel.props.playlist
         self._model = self._app.props.coremodel.props.playlist_sort
 
         self.connect("notify::repeat-mode", self._on_repeat_mode_changed)
+        self._playlist_model.connect("items-changed", self._on_items_changed)
+        self._on_items_changed_sentinel = 0
 
     def has_next(self):
         """Test if there is a song after the current one.
@@ -246,16 +249,45 @@ class PlayerPlaylist(GObject.GObject):
 
         return None
 
+    def _on_items_changed(self, model, pos, removed, added):
+        if self.props.repeat_mode == RepeatMode.SHUFFLE:
+            if (self._on_items_changed_sentinel == 0
+                    and self._playlist_model.get_n_items()):
+                self._shuffle_playlist()
+            else:
+                self._on_items_changed_sentinel = 0
+
+    def _shuffle_playlist(self):
+        song_list = []
+        self._on_items_changed_sentinel = 1
+
+        def _fisher_yates_shuffle(song_list):
+            for n in range(len(song_list)-1, 0, -1):
+                rand_idx = randrange(n + 1)
+                song_list[n], song_list[rand_idx] = \
+                    song_list[rand_idx], song_list[n]
+
+        for coresong in self._model:
+            song_list.append(coresong)
+        _fisher_yates_shuffle(song_list)
+        self._playlist_model.splice(0, self._model.get_n_items(), song_list)
+
     def _on_repeat_mode_changed(self, klass, param):
-        # FIXME: This shuffle is too simple.
-        def _shuffle_sort(song_a, song_b):
-            return randint(-1, 1)
+        def _wrap_liststore_sort_func(func):
+            def wrap(a, b, *user_data):
+                return func(a.props.title, b.props.title, *user_data)
+            return wrap
 
         if self.props.repeat_mode == RepeatMode.SHUFFLE:
-            self._model.set_sort_func(
-                utils.wrap_list_store_sort_func(_shuffle_sort))
+            if (self._on_items_changed_sentinel == 0
+                    and self._playlist_model.get_n_items()):
+                self._shuffle_playlist()
+            else:
+                self._on_items_changed_sentinel = 0
+
         elif self.props.repeat_mode in [RepeatMode.NONE, RepeatMode.ALL]:
-            self._model.set_sort_func(None)
+            self._playlist_model.sort(
+                _wrap_liststore_sort_func(utils.natural_sort_names))
 
     def _validate_song(self, coresong):
         # Song is being processed or has already been processed.
