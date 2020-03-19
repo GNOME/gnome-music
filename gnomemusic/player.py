@@ -23,7 +23,7 @@
 # delete this exception statement from your version.
 
 from enum import IntEnum
-from random import randint, randrange
+from random import randrange
 import time
 
 import gi
@@ -262,7 +262,7 @@ class PlayerPlaylist(GObject.GObject):
         self._on_items_changed_sentinel = 1
 
         def _fisher_yates_shuffle(song_list):
-            for n in range(len(song_list)-1, 0, -1):
+            for n in range(len(song_list) - 1, 0, -1):
                 rand_idx = randrange(n + 1)
                 song_list[n], song_list[rand_idx] = \
                     song_list[rand_idx], song_list[n]
