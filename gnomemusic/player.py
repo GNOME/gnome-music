@@ -259,6 +259,10 @@ class PlayerPlaylist(GObject.GObject):
 
     def _shuffle_playlist(self):
         song_list = []
+        played_song_list = []
+        unplayed_song_list = []
+        current_song = None
+
         self._on_items_changed_sentinel = 1
 
         def _fisher_yates_shuffle(song_list):
@@ -268,8 +272,22 @@ class PlayerPlaylist(GObject.GObject):
                     song_list[rand_idx], song_list[n]
 
         for coresong in self._model:
-            song_list.append(coresong)
-        _fisher_yates_shuffle(song_list)
+            if coresong.props.state == SongWidget.State.PLAYED:
+                played_song_list.append(coresong)
+            elif (coresong.props.state == SongWidget.State.UNPLAYED
+                    or coresong.props.state is None):
+                unplayed_song_list.append(coresong)
+            elif coresong.props.state == SongWidget.State.PLAYING:
+                current_song = coresong
+
+        _fisher_yates_shuffle(played_song_list)
+        _fisher_yates_shuffle(unplayed_song_list)
+
+        song_list.extend(played_song_list)
+        if current_song is not None:
+            song_list.append(current_song)
+        song_list.extend(unplayed_song_list)
+
         self._playlist_model.splice(0, self._model.get_n_items(), song_list)
 
     def _on_repeat_mode_changed(self, klass, param):
