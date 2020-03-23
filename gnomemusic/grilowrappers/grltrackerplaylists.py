@@ -401,10 +401,12 @@ class Playlist(GObject.GObject):
                 NOT EXISTS { ?song a nmm:Video }
                 && NOT EXISTS { ?song a nmm:Playlist }
             )
+            %(location_filter)s
         }
         ORDER BY nfo:listPosition(?entry)
         """.replace('\n', ' ').strip() % {
-            'filter_clause': 'tracker:id(?playlist) = ' + self.props.pl_id
+            "filter_clause": 'tracker:id(?playlist) = ' + self.props.pl_id,
+            "location_filter": self._tracker_wrapper.location_filter()
         }
 
         def _add_to_playlist_cb(
@@ -645,9 +647,13 @@ class Playlist(GObject.GObject):
                     NOT EXISTS { ?song a nmm:Video }
                     && NOT EXISTS { ?song a nmm:Playlist }
                 )
+                %(location_filter)s
             }
             """.replace("\n", " ").strip() % {
-                "filter_clause": "tracker:id(?song) = " + media_id}
+                "filter_clause": "tracker:id(?song) = " + media_id,
+                "location_filter": self._tracker_wrapper.location_filter()
+            }
+
             options = self._fast_options.copy()
             self._source.query(
                 query, self.METADATA_KEYS, options, _add_to_model)
