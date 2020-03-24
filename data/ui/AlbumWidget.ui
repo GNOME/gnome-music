@@ -226,7 +226,6 @@
                     <property name="margin_bottom">64</property>
                     <property name="margin_end">32</property>
                     <property name="selection_mode">0</property>
-                    <property name="selection_mode_allowed">True</property>
                     <property name="visible">True</property>
                   </object>
                 </child>

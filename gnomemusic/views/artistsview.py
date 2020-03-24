@@ -147,7 +147,7 @@ class ArtistsView(BaseView):
             return
 
         self._artist_albums = ArtistAlbumsWidget(
-            coreartist, self._application, True)
+            coreartist, self._application)
 
         self.bind_property(
             "selection-mode", self._artist_albums, "selection-mode",
