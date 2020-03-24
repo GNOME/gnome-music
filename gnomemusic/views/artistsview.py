@@ -154,8 +154,7 @@ class ArtistsView(BaseView):
             self._view.set_visible_child_name(coreartist.props.artist)
             return
 
-        self._artist_albums = ArtistAlbumsWidget(
-            coreartist, self._application, True)
+        self._artist_albums = ArtistAlbumsWidget(coreartist, self._application)
 
         self.bind_property(
             "selection-mode", self._artist_albums, "selection-mode",

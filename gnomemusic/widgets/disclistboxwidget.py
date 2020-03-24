@@ -45,7 +45,6 @@ class DiscBox(Gtk.ListBoxRow):
     }
 
     selection_mode = GObject.Property(type=bool, default=False)
-    selection_mode_allowed = GObject.Property(type=bool, default=True)
     show_disc_label = GObject.Property(type=bool, default=False)
     show_durations = GObject.Property(type=bool, default=False)
     show_favorites = GObject.Property(type=bool, default=False)
@@ -125,8 +124,7 @@ class DiscBox(Gtk.ListBoxRow):
 
         mod_mask = Gtk.accelerator_get_default_mod_mask()
         if ((event.get_state() & mod_mask) == Gdk.ModifierType.CONTROL_MASK
-                and not self.props.selection_mode
-                and self.props.selection_mode_allowed):
+                and not self.props.selection_mode):
             self.props.selection_mode = True
             widget.props.select_click = True
             widget.props.coresong.props.selected = True
@@ -150,8 +148,6 @@ class DiscListBox(Gtk.ListBox):
     album
     """
     __gtype_name__ = 'DiscListBox'
-
-    selection_mode_allowed = GObject.Property(type=bool, default=False)
 
     def __init__(self):
         """Initialize"""
@@ -191,7 +187,4 @@ class DiscListBox(Gtk.ListBox):
 
         :param bool value: Activate selection mode
         """
-        if not self.props.selection_mode_allowed:
-            return
-
         self._selection_mode = value
