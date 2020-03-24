@@ -149,13 +149,13 @@ class DiscListBox(Gtk.ListBox):
     """
     __gtype_name__ = 'DiscListBox'
 
+    selection_mode = GObject.Property(type=bool, default=False)
+
     def __init__(self):
         """Initialize"""
         super().__init__()
 
         self.props.valign = Gtk.Align.START
-        self._selection_mode = False
-
         self.get_style_context().add_class("disc-list-box")
 
     def select_all(self):
@@ -171,20 +171,3 @@ class DiscListBox(Gtk.ListBox):
             child.deselect_all()
 
         self.foreach(child_deselect_all)
-
-    @GObject.Property(type=bool, default=False)
-    def selection_mode(self):
-        """selection mode getter
-
-        :returns: If selection mode is active
-        :rtype: bool
-        """
-        return self._selection_mode
-
-    @selection_mode.setter
-    def selection_mode(self, value):
-        """selection-mode setter
-
-        :param bool value: Activate selection mode
-        """
-        self._selection_mode = value
