@@ -79,8 +79,6 @@ class ArtistsView(BaseView):
         self._ctrl.props.button = Gdk.BUTTON_PRIMARY
         self._ctrl.connect("released", self._on_sidebar_clicked)
 
-        self._loading_id = 0
-
         self.show_all()
 
     def _create_widget(self, coreartist):
