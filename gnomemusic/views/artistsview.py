@@ -53,16 +53,21 @@ class ArtistsView(BaseView):
         self._artists = {}
 
         self._selected_artist = None
+        self._loaded_artists = []
+
+        # This indicates if the current list has been empty and has
+        # had no user interaction since.
+        self._untouched_list = True
 
         self._window = application.props.window
         self._coremodel = application.props.coremodel
         self._model = self._coremodel.props.artists_sort
 
+        self._sidebar.bind_model(self._model, self._create_widget)
+
         self._model.connect_after(
             "items-changed", self._on_model_items_changed)
-        self._sidebar.bind_model(self._model, self._create_widget)
-        self._loaded_id = self._coremodel.connect(
-            "artists-loaded", self._on_artists_loaded)
+        self._on_model_items_changed(self._model, 0, 0, 0)
 
         sidebar_container.props.width_request = 220
         sidebar_container.get_style_context().add_class('sidebar')
@@ -74,7 +79,6 @@ class ArtistsView(BaseView):
         self._ctrl.props.button = Gdk.BUTTON_PRIMARY
         self._ctrl.connect("released", self._on_sidebar_clicked)
 
-        self._loaded_artists = []
         self._loading_id = 0
 
         self.show_all()
@@ -88,6 +92,18 @@ class ArtistsView(BaseView):
         return row
 
     def _on_model_items_changed(self, model, position, removed, added):
+        if model.get_n_items() == 0:
+            self._untouched_list = True
+            return
+        elif self._untouched_list is True:
+            first_row = self._sidebar.get_row_at_index(0)
+            if first_row is None:
+                return
+
+            self._sidebar.select_row(first_row)
+            self._on_artist_activated(self._sidebar, first_row, True)
+            return
+
         if removed == 0:
             return
 
@@ -107,19 +123,10 @@ class ArtistsView(BaseView):
                         or self._sidebar.get_row_at_index(position - 1))
             if row_next:
                 self._sidebar.select_row(row_next)
-                self._on_artist_activated(self._sidebar, row_next)
+                self._on_artist_activated(self._sidebar, row_next, True)
 
         removed_frame = self._view.get_child_by_name(removed_artist)
         self._view.remove(removed_frame)
-
-    def _on_artists_loaded(self, klass):
-        self._coremodel.disconnect(self._loaded_id)
-        first_row = self._sidebar.get_row_at_index(0)
-        if first_row is None:
-            return
-
-        self._sidebar.select_row(first_row)
-        self._on_artist_activated(self._sidebar, first_row)
 
     def _setup_view(self):
         self._view_container = Gtk.ScrolledWindow(hexpand=True, vexpand=True)
@@ -130,7 +137,7 @@ class ArtistsView(BaseView):
             vhomogeneous=False)
         self._view_container.add(self._view)
 
-    def _on_artist_activated(self, sidebar, row, data=None):
+    def _on_artist_activated(self, sidebar, row, data=None, untouched=False):
         """Initializes new artist album widgets"""
         # On application start the first row of ArtistView is activated
         # to show an intial artist. When this happens while any of the
@@ -142,6 +149,9 @@ class ArtistsView(BaseView):
                 and self._window.props.active_view is self):
             row.props.selected = not row.props.selected
             return
+
+        if untouched is False:
+            self._untouched_list = False
 
         selected_row = self._sidebar.get_selected_row()
         self._selected_artist = selected_row.props.coreartist
