@@ -236,9 +236,6 @@ class CoreModel(GObject.GObject):
                 "state", player_song, "state",
                 GObject.BindingFlags.BIDIRECTIONAL
                 | GObject.BindingFlags.SYNC_CREATE)
-            player_song.bind_property(
-                "validation", model_song, "validation",
-                GObject.BindingFlags.SYNC_CREATE)
 
         def _on_items_changed(model, position, removed, added):
             songs_list = []
