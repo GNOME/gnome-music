@@ -41,6 +41,11 @@ class ArtistAlbumsWidget(Gtk.ListBox):
     selection_mode = GObject.Property(type=bool, default=False)
 
     def __init__(self, coreartist, application):
+        """Initialize the ArtistAlbumsWidget
+
+        :param CoreArtist coreartist: The CoreArtist object
+        :param Aplication application: The Application object
+        """
         super().__init__()
 
         self._application = application
