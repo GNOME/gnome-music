@@ -53,6 +53,7 @@ class ArtistsView(BaseView):
         self._artists = {}
 
         self._selected_artist = None
+        self._loaded_artists = []
 
         self._window = application.props.window
         self._coremodel = application.props.coremodel
@@ -61,8 +62,13 @@ class ArtistsView(BaseView):
         self._model.connect_after(
             "items-changed", self._on_model_items_changed)
         self._sidebar.bind_model(self._model, self._create_widget)
-        self._loaded_id = self._coremodel.connect(
-            "artists-loaded", self._on_artists_loaded)
+
+        if self._coremodel.props.artists_available is False:
+            self._loaded_id = self._coremodel.connect(
+                "notify::artists-available", self._on_artists_available)
+        else:
+            self._loaded_id = 0
+            self._on_artists_available()
 
         sidebar_container.props.width_request = 220
         sidebar_container.get_style_context().add_class('sidebar')
@@ -74,7 +80,6 @@ class ArtistsView(BaseView):
         self._ctrl.props.button = Gdk.BUTTON_PRIMARY
         self._ctrl.connect("released", self._on_sidebar_clicked)
 
-        self._loaded_artists = []
         self._loading_id = 0
 
         self.show_all()
@@ -112,8 +117,11 @@ class ArtistsView(BaseView):
         removed_frame = self._view.get_child_by_name(removed_artist)
         self._view.remove(removed_frame)
 
-    def _on_artists_loaded(self, klass):
-        self._coremodel.disconnect(self._loaded_id)
+    def _on_artists_available(self, klass=None, value=None):
+        if self._loaded_id > 0:
+            self._coremodel.disconnect(self._loaded_id)
+            self._loaded_id = 0
+
         first_row = self._sidebar.get_row_at_index(0)
         if first_row is None:
             return
