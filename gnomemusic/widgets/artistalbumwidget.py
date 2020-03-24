@@ -47,22 +47,16 @@ class ArtistAlbumWidget(Gtk.Box):
         ),
     }
 
-    def __init__(
-            self, corealbum, selection_mode_allowed, size_group=None,
-            cover_size_group=None):
+    def __init__(self, corealbum, size_group=None, cover_size_group=None):
         super().__init__(orientation=Gtk.Orientation.HORIZONTAL)
 
         self._size_group = size_group
         self._cover_size_group = cover_size_group
 
         self._selection_mode = False
-        self._selection_mode_allowed = selection_mode_allowed
 
         self._cover_stack.props.size = Art.Size.MEDIUM
         self._cover_stack.update(corealbum)
-
-        allowed = self._selection_mode_allowed
-        self._disc_list_box.props.selection_mode_allowed = allowed
 
         self.bind_property(
             'selection-mode', self._disc_list_box, 'selection-mode',
@@ -89,11 +83,6 @@ class ArtistAlbumWidget(Gtk.Box):
 
     def _create_widget(self, disc):
         disc_box = self._create_disc_box(disc.props.disc_nr, disc.model)
-
-        self._disc_list_box.bind_property(
-            "selection-mode-allowed", disc_box, "selection-mode-allowed",
-            GObject.BindingFlags.BIDIRECTIONAL
-            | GObject.BindingFlags.SYNC_CREATE)
 
         self._disc_list_box.bind_property(
             "selection-mode", disc_box, "selection-mode",

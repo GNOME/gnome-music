@@ -40,15 +40,13 @@ class ArtistAlbumsWidget(Gtk.ListBox):
 
     selection_mode = GObject.Property(type=bool, default=False)
 
-    def __init__(
-            self, coreartist, application, selection_mode_allowed=False):
+    def __init__(self, coreartist, application):
         super().__init__()
 
         self._application = application
         self._artist = coreartist.props.artist
         self._model = coreartist.props.model
         self._player = self._application.props.player
-        self._selection_mode_allowed = selection_mode_allowed
 
         self._cover_size_group = Gtk.SizeGroup.new(
             Gtk.SizeGroupMode.HORIZONTAL)
@@ -81,8 +79,7 @@ class ArtistAlbumsWidget(Gtk.ListBox):
         row.props.activatable = False
 
         widget = ArtistAlbumWidget(
-            corealbum, self._selection_mode_allowed,
-            self._songs_grid_size_group, self._cover_size_group)
+            corealbum, self._songs_grid_size_group, self._cover_size_group)
 
         self.bind_property(
             'selection-mode', widget, 'selection-mode',
