@@ -499,7 +499,6 @@ class GrlTrackerWrapper(GObject.GObject):
             if not media:
                 self._artists_model.splice(
                     self._artists_model.get_n_items(), 0, artists_added)
-                self._coremodel.emit("artists-loaded")
                 self._window.notifications_popup.pop_loading()
                 return
 
