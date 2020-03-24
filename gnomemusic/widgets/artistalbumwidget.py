@@ -31,6 +31,11 @@ from gnomemusic.widgets.songwidget import SongWidget
 
 @Gtk.Template(resource_path='/org/gnome/Music/ui/ArtistAlbumWidget.ui')
 class ArtistAlbumWidget(Gtk.Box):
+    """"Widget containing one album by an artist
+
+    The album cover and some information on one side and a
+    DiscListBox (list of all discs of the album) on the other side.
+    """
 
     __gtype_name__ = 'ArtistAlbumWidget'
 
@@ -49,6 +54,12 @@ class ArtistAlbumWidget(Gtk.Box):
 
     def __init__(
             self, corealbum, size_group=None, cover_size_group=None):
+        """Initialize the ArtistAlbumWidget
+
+        :param CoreAlbum corealbum: The CoreAlbum object
+        :param GtkSizeGroup size_group: SizeGroup for the discs
+        :param GtkSizeGroup cover_size_group: SizeGroup for the cover
+        """
         super().__init__(orientation=Gtk.Orientation.HORIZONTAL)
 
         self._size_group = size_group
