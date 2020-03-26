@@ -23,7 +23,7 @@
 # delete this exception statement from your version.
 
 import gi
-gi.require_versions({"Grl": "0.3"})
+gi.require_versions({"Gfm": "0.1", "Grl": "0.3"})
 from gi.repository import Gfm, Gio, Grl, GObject
 
 from gnomemusic.coresong import CoreSong
