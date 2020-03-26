@@ -179,7 +179,7 @@ class Window(Gtk.ApplicationWindow):
         self._app.props.coremodel.connect(
             "notify::songs-available", self._on_songs_available)
 
-        self._app.props.coremodel.props.grilo.connect(
+        self._app.props.coregrilo.connect(
             "notify::tracker-available", self._on_tracker_available)
 
         if self._app.props.coremodel.props.songs_available:
@@ -190,7 +190,7 @@ class Window(Gtk.ApplicationWindow):
     def _switch_to_empty_view(self):
         did_initial_state = self._settings.get_boolean('did-initial-state')
 
-        state = self._app.props.coremodel.props.grilo.props.tracker_available
+        state = self._app.props.coregrilo.props.tracker_available
         empty_view = self.views[View.EMPTY]
         if state == TrackerState.UNAVAILABLE:
             empty_view.props.state = EmptyView.State.NO_TRACKER
@@ -220,8 +220,7 @@ class Window(Gtk.ApplicationWindow):
         self.props.active_view = self._stack.props.visible_child
 
     def _on_tracker_available(self, klass, value):
-        grilo = self._app.props.coremodel.props.grilo
-        new_state = grilo.props.tracker_available
+        new_state = self._app.props.coregrilo.props.tracker_available
 
         if new_state != TrackerState.AVAILABLE:
             self._switch_to_empty_view()
