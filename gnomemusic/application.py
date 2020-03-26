@@ -34,6 +34,7 @@ from gettext import gettext as _
 
 from gi.repository import Gtk, Gio, GLib, Gdk, GObject
 
+from gnomemusic.coregrilo import CoreGrilo
 from gnomemusic.coremodel import CoreModel
 from gnomemusic.coreselection import CoreSelection
 from gnomemusic.inhibitsuspend import InhibitSuspend
@@ -64,6 +65,9 @@ class Application(Gtk.Application):
         self._log = MusicLogger()
         self._coreselection = CoreSelection()
         self._coremodel = CoreModel(self)
+        # Order is important: CoreGrilo initializes the Grilo sources,
+        # which in turn use CoreModel & CoreSelection extensively.
+        self._coregrilo = CoreGrilo(self)
 
         self._settings = Gio.Settings.new('org.gnome.Music')
         self._lastfm_scrobbler = LastFmScrobbler(self)
@@ -79,6 +83,16 @@ class Application(Gtk.Application):
         style_context = Gtk.StyleContext()
         style_context.add_provider_for_screen(
             screen, css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+
+    @GObject.Property(
+        type=CoreGrilo, default=None, flags=GObject.ParamFlags.READABLE)
+    def coregrilo(self):
+        """Get application-wide CoreGrilo instance.
+
+        :returns: The grilo wrapper
+        :rtype: CoreGrilo
+        """
+        return self._coregrilo
 
     @GObject.Property(
         type=MusicLogger, default=None, flags=GObject.ParamFlags.READABLE)

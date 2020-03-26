@@ -46,6 +46,7 @@ class CoreArtist(GObject.GObject):
         super().__init__()
 
         self._cached_thumbnail_uri = None
+        self._coregrilo = application.props.coregrilo
         self._coremodel = application.props.coremodel
         self._model = None
         self._selected = False
@@ -64,7 +65,7 @@ class CoreArtist(GObject.GObject):
 
         albums_model_sort = Gfm.SortListModel.new(albums_model_filter)
 
-        self._coremodel.props.grilo.get_artist_albums(
+        self._coregrilo.get_artist_albums(
             self.props.media, albums_model_filter)
 
         def _album_sort(album_a, album_b):
