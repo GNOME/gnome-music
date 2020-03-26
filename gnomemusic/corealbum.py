@@ -41,15 +41,15 @@ class CoreAlbum(GObject.GObject):
     url = GObject.Property(type=str)
     year = GObject.Property(type=str, default="----")
 
-    def __init__(self, media, coremodel):
+    def __init__(self, application, media):
         """Initiate the CoreAlbum object
 
+        :param Application application: The application object
         :param Grl.Media media: A media object
-        :param CoreModel coremodel: The CoreModel to use models from
         """
         super().__init__()
 
-        self._coremodel = coremodel
+        self._coremodel = application.props.coremodel
         self._model = None
         self._selected = False
         self.update(media)
