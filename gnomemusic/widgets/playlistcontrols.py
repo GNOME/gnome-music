@@ -98,7 +98,7 @@ class PlaylistControls(Gtk.Grid):
             self._window.set_player_visible(False)
 
         PlaylistNotification(
-            self._window.notifications_popup, self._coremodel,
+            self._window.notifications_popup, self._application,
             PlaylistNotification.Type.PLAYLIST, self.props.playlist)
 
     @Gtk.Template.Callback()
