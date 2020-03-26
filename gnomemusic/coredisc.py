@@ -32,10 +32,16 @@ class CoreDisc(GObject.GObject):
     duration = GObject.Property(type=int, default=None)
     media = GObject.Property(type=Grl.Media, default=None)
 
-    def __init__(self, media, nr, coremodel):
+    def __init__(self, media, nr, application):
+        """Initialize a CoreDisc object
+
+        :param Grl.Media media: A media object
+        :param int nr: The disc number to create an object for
+        :param Application application: The application object
+        """
         super().__init__()
 
-        self._coremodel = coremodel
+        self._coremodel = application.props.coremodel
         self._filter_model = None
         self._model = None
         self._old_album_ids = []
