@@ -221,7 +221,7 @@ class GrlTrackerWrapper(GObject.GObject):
             if media.get_id() in self._album_ids.keys():
                 album = self._album_ids[media.get_id()]
             else:
-                album = CoreAlbum(media, self._coremodel)
+                album = CoreAlbum(media, self._application)
 
             album_ids[media.get_id()] = album
 
@@ -446,7 +446,7 @@ class GrlTrackerWrapper(GObject.GObject):
                 self._window.notifications_popup.pop_loading()
                 return
 
-            album = CoreAlbum(media, self._coremodel)
+            album = CoreAlbum(media, self._application)
             self._album_ids[media.get_id()] = album
             albums_added.append(album)
             if len(albums_added) == self._SPLICE_SIZE:
