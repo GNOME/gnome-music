@@ -633,7 +633,7 @@ class GrlTrackerWrapper(GObject.GObject):
                 return
 
             disc_nr = media.get_album_disc_number()
-            coredisc = CoreDisc(media, disc_nr, self._coremodel)
+            coredisc = CoreDisc(self._application, media, disc_nr)
             disc_model.append(coredisc)
 
         options = self._fast_options.copy()
