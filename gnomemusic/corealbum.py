@@ -49,7 +49,7 @@ class CoreAlbum(GObject.GObject):
         """
         super().__init__()
 
-        self._coremodel = application.props.coremodel
+        self._coregrilo = application.props.coregrilo
         self._model = None
         self._selected = False
         self.update(media)
@@ -76,7 +76,7 @@ class CoreAlbum(GObject.GObject):
         disc_model_sort.set_sort_func(
             utils.wrap_list_store_sort_func(_disc_order_sort))
 
-        self._coremodel.props.grilo.get_album_discs(
+        self._coregrilo.get_album_discs(
             self.props.media, disc_model)
 
         return disc_model_sort
