@@ -432,10 +432,12 @@ class Playlist(GObject.GObject):
     def _bind_to_main_song(self, coresong):
         main_coresong = self._songs_hash[coresong.props.media.get_id()]
 
+        # It is not necessary to bind all the CoreSong properties:
+        # selected property is linked to a view
         properties = [
             "album", "album_disc_number", "artist", "duration", "media",
             "grlid", "play_count", "state", "title", "track_number", "url",
-            "validation", "favorite", "selected"]
+            "validation", "favorite"]
 
         for prop in properties:
             main_coresong.bind_property(
