@@ -493,7 +493,9 @@ class Player(GObject.GObject):
 
         Play the next song of the playlist, if any.
         """
-        if self._playlist.next():
+        if self._gapless_set:
+            self.set_position(0.0)
+        elif self._playlist.next():
             self.play(self._playlist.props.current_song)
 
     def previous(self):
@@ -502,12 +504,16 @@ class Player(GObject.GObject):
         Play the previous song of the playlist, if any.
         """
         position = self._gst_player.props.position
-        if position >= 5:
-            self.set_position(0.0)
-            return
+        if self._gapless_set:
+            self.stop()
 
-        if self._playlist.previous():
+        if (position < 5
+                and self._playlist.previous()):
             self.play(self._playlist.props.current_song)
+        elif self._gapless_set:
+            self.play(self._playlist.props.current_song)
+        else:
+            self.set_position(0.0)
 
     def play_pause(self):
         """Toggle play/pause state"""
