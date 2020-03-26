@@ -564,10 +564,7 @@ class RemoteArt(GObject.GObject):
         # FIXME: This is a total hack. It gets CoreModel from the
         # CoreAlbum or CoreSong about and then retrieves the CoreGrilo
         # instance.
-        try:
-            self._grilo = self._coresong._coremodel.props.grilo
-        except AttributeError:
-            self._grilo = self._coresong._grilo
+        self._grilo = self._coresong._coregrilo
 
         if not self._grilo.props.cover_sources:
             self.emit('no-remote-sources')

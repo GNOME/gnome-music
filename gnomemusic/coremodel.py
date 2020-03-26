@@ -29,7 +29,6 @@ gi.require_version("Gfm", "0.1")
 from gi.repository import GObject, Gio, Gfm, Gtk
 
 from gnomemusic.coreartist import CoreArtist
-from gnomemusic.coregrilo import CoreGrilo
 from gnomemusic.coresong import CoreSong
 from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
 from gnomemusic.player import PlayerPlaylist
@@ -70,7 +69,6 @@ class CoreModel(GObject.GObject):
     }
 
     active_playlist = GObject.Property(type=Playlist, default=None)
-    grilo = GObject.Property(type=CoreGrilo, default=None)
     songs_available = GObject.Property(type=bool, default=False)
 
     def __init__(self, application):
@@ -89,6 +87,7 @@ class CoreModel(GObject.GObject):
         self._songliststore = SongListStore(self._model)
 
         self._application = application
+
         self._albums_model = Gio.ListStore()
         self._albums_model_sort = Gfm.SortListModel.new(self._albums_model)
         self._albums_model_sort.set_sort_func(
@@ -134,8 +133,6 @@ class CoreModel(GObject.GObject):
             self._user_playlists_model_filter)
         self._user_playlists_model_sort.set_sort_func(
             utils.wrap_list_store_sort_func(self._playlists_sort))
-
-        self.props.grilo = CoreGrilo(self, application)
 
         self._model.connect("items-changed", self._on_songs_items_changed)
 
@@ -299,7 +296,7 @@ class CoreModel(GObject.GObject):
 
         :param Playlist playlist: playlist
         """
-        self.props.grilo.stage_playlist_deletion(playlist)
+        self._application.props.coregrilo.stage_playlist_deletion(playlist)
 
     def finish_playlist_deletion(self, playlist, deleted):
         """Finishes playlist deletion.
@@ -307,7 +304,8 @@ class CoreModel(GObject.GObject):
         :param Playlist playlist: playlist
         :param bool deleted: indicates if the playlist has been deleted
         """
-        self.props.grilo.finish_playlist_deletion(playlist, deleted)
+        self._application.props.coregrilo.finish_playlist_deletion(
+            playlist, deleted)
 
     def create_playlist(self, playlist_title, callback):
         """Creates a new user playlist.
@@ -315,10 +313,11 @@ class CoreModel(GObject.GObject):
         :param str playlist_title: playlist title
         :param callback: function to perform once, the playlist is created
         """
-        self.props.grilo.create_playlist(playlist_title, callback)
+        self._application.props.coregrilo.create_playlist(
+            playlist_title, callback)
 
     def search(self, text):
-        self.props.grilo.search(text)
+        self._application.props.coregrilo.search(text)
 
     @GObject.Property(
         type=Gio.ListStore, default=None, flags=GObject.ParamFlags.READABLE)

@@ -124,11 +124,11 @@ class ArtistArt(GObject.GObject):
 
     _log = MusicLogger()
 
-    def __init__(self, coreartist, coremodel):
+    def __init__(self, application, coreartist):
         """Initialize the ArtistArt.
 
+        :param Application application: The application object
         :param CoreArtist coreartist: The coreartist to use
-        :param CoreModel coremodel: The main coremodel
         """
         super().__init__()
 
@@ -138,12 +138,10 @@ class ArtistArt(GObject.GObject):
         if self._in_cache():
             return
 
-        grilo = coremodel.props.grilo
-
         self._coreartist.connect(
             "notify::thumbnail", self._on_thumbnail_changed)
 
-        grilo.get_artist_art(self._coreartist)
+        application.props.coregrilo.get_artist_art(self._coreartist)
 
     def _in_cache(self):
         success, thumb_file = MediaArt.get_file(
