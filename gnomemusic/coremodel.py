@@ -89,36 +89,36 @@ class CoreModel(GObject.GObject):
         self._songliststore = SongListStore(self._songs_model)
 
         self._application = application
-        self._album_model = Gio.ListStore()
-        self._album_model_sort = Gfm.SortListModel.new(self._album_model)
-        self._album_model_sort.set_sort_func(
+        self._albums_model = Gio.ListStore()
+        self._albums_model_sort = Gfm.SortListModel.new(self._albums_model)
+        self._albums_model_sort.set_sort_func(
             utils.wrap_list_store_sort_func(self._albums_sort))
 
-        self._artist_model = Gio.ListStore.new(CoreArtist)
-        self._artist_model_sort = Gfm.SortListModel.new(self._artist_model)
-        self._artist_model_sort.set_sort_func(
+        self._artists_model = Gio.ListStore.new(CoreArtist)
+        self._artists_model_sort = Gfm.SortListModel.new(self._artists_model)
+        self._artists_model_sort.set_sort_func(
             utils.wrap_list_store_sort_func(self._artist_sort))
 
         self._playlist_model = Gio.ListStore.new(CoreSong)
         self._playlist_model_sort = Gfm.SortListModel.new(self._playlist_model)
 
-        self._song_search_proxy = Gio.ListStore.new(Gfm.FilterListModel)
-        self._song_search_flatten = Gfm.FlattenListModel.new(CoreSong)
-        self._song_search_flatten.set_model(self._song_search_proxy)
+        self._songs_search_proxy = Gio.ListStore.new(Gfm.FilterListModel)
+        self._songs_search_flatten = Gfm.FlattenListModel.new(CoreSong)
+        self._songs_search_flatten.set_model(self._songs_search_proxy)
 
-        self._album_search_model = Gfm.FilterListModel.new(
-            self._album_model)
-        self._album_search_model.set_filter_func(lambda a: False)
+        self._albums_search_model = Gfm.FilterListModel.new(
+            self._albums_model)
+        self._albums_search_model.set_filter_func(lambda a: False)
 
-        self._album_search_filter = Gfm.FilterListModel.new(
-            self._album_search_model)
+        self._albums_search_filter = Gfm.FilterListModel.new(
+            self._albums_search_model)
 
-        self._artist_search_model = Gfm.FilterListModel.new(
-            self._artist_model)
-        self._artist_search_model.set_filter_func(lambda a: False)
+        self._artists_search_model = Gfm.FilterListModel.new(
+            self._artists_model)
+        self._artists_search_model.set_filter_func(lambda a: False)
 
-        self._artist_search_filter = Gfm.FilterListModel.new(
-            self._artist_search_model)
+        self._artists_search_filter = Gfm.FilterListModel.new(
+            self._artists_search_model)
 
         self._playlists_model = Gio.ListStore.new(Playlist)
         self._playlists_model_filter = Gfm.FilterListModel.new(
@@ -195,7 +195,7 @@ class CoreModel(GObject.GObject):
         return disc_model_sort
 
     def get_artist_album_model(self, media):
-        albums_model_filter = Gfm.FilterListModel.new(self._album_model)
+        albums_model_filter = Gfm.FilterListModel.new(self._albums_model)
         albums_model_filter.set_filter_func(lambda a: False)
 
         albums_model_sort = Gfm.SortListModel.new(albums_model_filter)
@@ -302,9 +302,9 @@ class CoreModel(GObject.GObject):
                     song.props.state = SongWidget.State.PLAYED
 
         elif playlist_type == PlayerPlaylist.Type.SEARCH_RESULT:
-            self._current_playlist_model = self._song_search_flatten
+            self._current_playlist_model = self._songs_search_flatten
 
-            for song in self._song_search_flatten:
+            for song in self._songs_search_flatten:
                 songs_added.append(song)
 
         elif playlist_type == PlayerPlaylist.Type.PLAYLIST:
@@ -359,12 +359,12 @@ class CoreModel(GObject.GObject):
     @GObject.Property(
         type=Gio.ListStore, default=None, flags=GObject.ParamFlags.READABLE)
     def albums(self):
-        return self._album_model
+        return self._albums_model
 
     @GObject.Property(
         type=Gio.ListStore, default=None, flags=GObject.ParamFlags.READABLE)
     def artists(self):
-        return self._artist_model
+        return self._artists_model
 
     @GObject.Property(
         type=Gio.ListStore, default=None, flags=GObject.ParamFlags.READABLE)
@@ -375,13 +375,13 @@ class CoreModel(GObject.GObject):
         type=Gfm.SortListModel, default=None,
         flags=GObject.ParamFlags.READABLE)
     def albums_sort(self):
-        return self._album_model_sort
+        return self._albums_model_sort
 
     @GObject.Property(
         type=Gfm.SortListModel, default=None,
         flags=GObject.ParamFlags.READABLE)
     def artists_sort(self):
-        return self._artist_model_sort
+        return self._artists_model_sort
 
     @GObject.Property(
         type=Gfm.SortListModel, default=None,
@@ -393,37 +393,37 @@ class CoreModel(GObject.GObject):
         type=Gfm.FilterListModel, default=None,
         flags=GObject.ParamFlags.READABLE)
     def songs_search(self):
-        return self._song_search_flatten
+        return self._songs_search_flatten
 
     @GObject.Property(
         type=Gio.ListStore, default=None,
         flags=GObject.ParamFlags.READABLE)
     def songs_search_proxy(self):
-        return self._song_search_proxy
+        return self._songs_search_proxy
 
     @GObject.Property(
         type=Gfm.FilterListModel, default=None,
         flags=GObject.ParamFlags.READABLE)
     def albums_search(self):
-        return self._album_search_model
+        return self._albums_search_model
 
     @GObject.Property(
         type=Gfm.FilterListModel, default=None,
         flags=GObject.ParamFlags.READABLE)
     def albums_search_filter(self):
-        return self._album_search_filter
+        return self._albums_search_filter
 
     @GObject.Property(
         type=Gfm.FilterListModel, default=None,
         flags=GObject.ParamFlags.READABLE)
     def artists_search(self):
-        return self._artist_search_model
+        return self._artists_search_model
 
     @GObject.Property(
         type=Gfm.FilterListModel, default=None,
         flags=GObject.ParamFlags.READABLE)
     def artists_search_filter(self):
-        return self._artist_search_filter
+        return self._artists_search_filter
 
     @GObject.Property(
         type=Gtk.ListStore, default=None, flags=GObject.ParamFlags.READABLE)
