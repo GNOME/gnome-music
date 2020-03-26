@@ -23,8 +23,8 @@
 # delete this exception statement from your version.
 
 import gi
-gi.require_version("Grl", "0.3")
-from gi.repository import Gio, Grl, GObject
+gi.require_versions({"Gfm": "0.1", "Grl": "0.3"})
+from gi.repository import Gfm, Gio, Grl, GObject
 
 import gnomemusic.utils as utils
 
@@ -66,11 +66,26 @@ class CoreAlbum(GObject.GObject):
         self.props.url = media.get_url()
         self.props.year = utils.get_media_year(media)
 
+    def _get_album_model(self):
+        disc_model = Gio.ListStore()
+        disc_model_sort = Gfm.SortListModel.new(disc_model)
+
+        def _disc_order_sort(disc_a, disc_b):
+            return disc_a.props.disc_nr - disc_b.props.disc_nr
+
+        disc_model_sort.set_sort_func(
+            utils.wrap_list_store_sort_func(_disc_order_sort))
+
+        self._coremodel.props.grilo.get_album_discs(
+            self.props.media, disc_model)
+
+        return disc_model_sort
+
     @GObject.Property(
         type=Gio.ListModel, default=None, flags=GObject.ParamFlags.READABLE)
     def model(self):
         if self._model is None:
-            self._model = self._coremodel.get_album_model(self.props.media)
+            self._model = self._get_album_model()
             self._model.connect("items-changed", self._on_list_items_changed)
 
         return self._model
