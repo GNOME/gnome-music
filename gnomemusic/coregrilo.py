@@ -51,16 +51,15 @@ class CoreGrilo(GObject.GObject):
     cover_sources = GObject.Property(type=bool, default=False)
     tracker_available = GObject.Property(type=int)
 
-    def __init__(self, coremodel, application):
+    def __init__(self, application):
         """Initiate the CoreGrilo object
 
-        :param CoreModel coremodel: The CoreModel instance to use
         :param Application application: The Application instance to use
         """
         super().__init__()
 
         self._application = application
-        self._coremodel = coremodel
+        self._coremodel = self._application.props.coremodel
         self._coreselection = application.props.coreselection
         self._log = application.props.log
         self._search_wrappers = {}
