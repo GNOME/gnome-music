@@ -494,6 +494,8 @@ class Player(GObject.GObject):
         Play the next song of the playlist, if any.
         """
         if self._playlist.next():
+            self._gst_player.props.state = Playback.STOPPED
+            self._gapless_set = False
             self.play(self._playlist.props.current_song)
 
     def previous(self):
@@ -507,6 +509,8 @@ class Player(GObject.GObject):
             return
 
         if self._playlist.previous():
+            self._gst_player.props.state = Playback.STOPPED
+            self._gapless_set = False
             self.play(self._playlist.props.current_song)
 
     def play_pause(self):
