@@ -81,6 +81,7 @@ class PlaylistControls(Gtk.Grid):
                     and self._application != application)):
             return
 
+        self._application = application
         self._coremodel = application.props.coremodel
         self._player = application.props.player
         self._window = application.props.window
