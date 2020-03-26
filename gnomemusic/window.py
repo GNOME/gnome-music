@@ -461,7 +461,8 @@ class Window(Gtk.ApplicationWindow):
         if len(selected_songs) < 1:
             return
 
-        playlist_dialog = PlaylistDialog(self)
+        playlist_dialog = PlaylistDialog(self._app)
+        playlist_dialog.props.transient_for = self
         if playlist_dialog.run() == Gtk.ResponseType.ACCEPT:
             playlist = playlist_dialog.props.selected_playlist
             playlist.add_songs(selected_songs)
