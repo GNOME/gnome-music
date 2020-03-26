@@ -59,6 +59,7 @@ class PlaylistDialog(Gtk.Dialog):
 
         self._user_playlists_available = False
         self._coremodel = parent._app.props.coremodel
+        self._coregrilo = parent._app.props.coregrilo
         self._listbox.bind_model(
             self._coremodel.props.user_playlists_sort,
             self._create_playlist_row)
@@ -117,7 +118,7 @@ class PlaylistDialog(Gtk.Dialog):
 
         text = self._add_playlist_entry.props.text
         if text:
-            self._coremodel.create_playlist(text, select_and_close_dialog)
+            self._coregrilo.create_playlist(text, select_and_close_dialog)
 
     @Gtk.Template.Callback()
     def _on_add_playlist_entry_changed(self, editable, data=None):
