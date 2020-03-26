@@ -291,9 +291,6 @@ class CoreModel(GObject.GObject):
 
         self.emit("playlist-loaded", playlist_type)
 
-    def search(self, text):
-        self._application.props.coregrilo.search(text)
-
     @GObject.Property(
         type=Gio.ListStore, default=None, flags=GObject.ParamFlags.READABLE)
     def songs(self):
