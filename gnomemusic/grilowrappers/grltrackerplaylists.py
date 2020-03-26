@@ -435,7 +435,7 @@ class Playlist(GObject.GObject):
         properties = [
             "album", "album_disc_number", "artist", "duration", "media",
             "grlid", "play_count", "state", "title", "track_number", "url",
-            "validation", "favorite", "selected"]
+            "validation", "favorite"]
 
         for prop in properties:
             main_coresong.bind_property(
