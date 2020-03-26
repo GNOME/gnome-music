@@ -61,21 +61,17 @@ class GrlTrackerWrapper(GObject.GObject):
         Grl.METADATA_KEY_THUMBNAIL,
     ]
 
-    def __init__(
-            self, source, coremodel, application, grilo, tracker_wrapper):
+    def __init__(self, source, application, tracker_wrapper):
         """Initialize the Tracker wrapper
 
         :param Grl.TrackerSource source: The Tracker source to wrap
-        :param CoreModel coremodel: CoreModel instance to use models
-        from
         :param Application application: Application instance
-        :param CoreGrilo grilo: The CoreGrilo instance
         :param TrackerWrapper tracker_wrapper: The TrackerWrapper instance
         """
         super().__init__()
 
         self._application = application
-        self._coremodel = coremodel
+        self._coremodel = application.props.coremodel
         self._log = application.props.log
         self._songs_model = self._coremodel.props.songs
         self._source = None
