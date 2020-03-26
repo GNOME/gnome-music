@@ -193,12 +193,12 @@ class PlaylistNotification(Gtk.Grid):
         SONG = 1
 
     def __init__(
-            self, notifications_popup, coremodel, type_, playlist,
+            self, notifications_popup, application, type_, playlist,
             position=None, coresong=None):
         """Creates a playlist deletion notification popup (song or playlist)
 
         :param GtkRevealer: notifications_popup: the popup object
-        :param CoreModel: core model
+        :param Apllication: application object
         :param type_: NotificationType (song or playlist)
         :param Playlist playlist: playlist
         :param int position: position of the object to delete
@@ -206,7 +206,7 @@ class PlaylistNotification(Gtk.Grid):
         """
         super().__init__(column_spacing=18)
         self._notifications_popup = notifications_popup
-        self._coremodel = coremodel
+        self._coremodel = application.props.coremodel
         self.type_ = type_
         self._playlist = playlist
         self._position = position
