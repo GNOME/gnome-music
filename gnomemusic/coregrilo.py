@@ -132,8 +132,7 @@ class CoreGrilo(GObject.GObject):
                 and new_state == TrackerState.AVAILABLE):
             if source.props.source_id not in self._wrappers.keys():
                 new_wrapper = GrlTrackerWrapper(
-                    source, self._coremodel, self._application, self,
-                    self._tracker_wrapper)
+                    source, self._application, self._tracker_wrapper)
                 self._wrappers[source.props.source_id] = new_wrapper
                 self._log.debug("Adding wrapper {}".format(new_wrapper))
             else:
