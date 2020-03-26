@@ -180,20 +180,6 @@ class CoreModel(GObject.GObject):
             playlist_a.props.creation_date)
         return math.copysign(1, date_diff)
 
-    def get_album_model(self, media):
-        disc_model = Gio.ListStore()
-        disc_model_sort = Gfm.SortListModel.new(disc_model)
-
-        def _disc_order_sort(disc_a, disc_b):
-            return disc_a.props.disc_nr - disc_b.props.disc_nr
-
-        disc_model_sort.set_sort_func(
-            utils.wrap_list_store_sort_func(_disc_order_sort))
-
-        self.props.grilo.get_album_discs(media, disc_model)
-
-        return disc_model_sort
-
     def get_artist_album_model(self, media):
         albums_model_filter = Gfm.FilterListModel.new(self._albums_model)
         albums_model_filter.set_filter_func(lambda a: False)
