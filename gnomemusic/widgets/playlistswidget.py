@@ -50,6 +50,7 @@ class PlaylistsWidget(Gtk.Box):
         """
         super().__init__()
 
+        self._application = application
         self._window = application.props.window
         self._coremodel = application.props.coremodel
         self._player = application.props.player
@@ -176,7 +177,7 @@ class PlaylistsWidget(Gtk.Box):
         current_playlist = self._playlists_view.props.current_playlist
 
         notification = PlaylistNotification(  # noqa: F841
-            self._window.notifications_popup, self._coremodel,
+            self._window.notifications_popup, self._application,
             PlaylistNotification.Type.SONG, current_playlist, position,
             coresong)
 
