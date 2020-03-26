@@ -23,7 +23,8 @@
 # delete this exception statement from your version.
 
 from gi.repository import GObject, Gio, Gfm, Grl
-from gi._gi import pygobject_new_full
+
+import gnomemusic.utils as utils
 
 
 class CoreDisc(GObject.GObject):
@@ -56,13 +57,16 @@ class CoreDisc(GObject.GObject):
 
     @GObject.Property(type=Gio.ListModel, default=None)
     def model(self):
+        def _disc_sort(song_a, song_b):
+            return song_a.props.track_number - song_b.props.track_number
+
         if self._model is None:
             self._filter_model = Gfm.FilterListModel.new(
                 self._coremodel.props.songs)
             self._filter_model.set_filter_func(lambda a: False)
             self._model = Gfm.SortListModel.new(self._filter_model)
             self._model.set_sort_func(
-                self._wrap_sort_func(self._disc_sort))
+                utils.wrap_list_store_sort_func(_disc_sort))
 
             self._model.connect("items-changed", self._on_disc_changed)
 
@@ -79,18 +83,6 @@ class CoreDisc(GObject.GObject):
                 duration += coresong.props.duration
 
             self.props.duration = duration
-
-    def _disc_sort(self, song_a, song_b):
-        return song_a.props.track_number - song_b.props.track_number
-
-    def _wrap_sort_func(self, func):
-
-        def wrap(a, b, *user_data):
-            a = pygobject_new_full(a, False)
-            b = pygobject_new_full(b, False)
-            return func(a, b, *user_data)
-
-        return wrap
 
     def _get_album_disc(self, media, discnr, model):
         album_ids = []
