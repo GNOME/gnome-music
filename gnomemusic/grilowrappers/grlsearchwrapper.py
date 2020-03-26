@@ -54,27 +54,23 @@ class GrlSearchWrapper(GObject.GObject):
         Grl.METADATA_KEY_URL
     ]
 
-    def __init__(self, source, coremodel, application, grilo):
+    def __init__(self, source, application):
         """Initialize a search wrapper
 
         Initialize a generic Grilo source search wrapper.
 
         :param Grl.Source source: The Grilo source to wrap
-        :param CoreModel coremodel: CoreModel instance to use models
-         from
         :param Application application: Application instance
-        :param CoreGrilo grilo: The CoreGrilo instance
         """
         super().__init__()
 
         self._application = application
-        self._coremodel = coremodel
         self._coreselection = application.props.coreselection
-        self._grilo = grilo
         self._log = application.props.log
         self._source = source
 
-        self._song_search_proxy = self._coremodel.props.songs_search_proxy
+        coremodel = application.props.coremodel
+        self._song_search_proxy = coremodel.props.songs_search_proxy
 
         self._song_search_store = Gio.ListStore.new(CoreSong)
         # FIXME: Workaround for adding the right list type to the proxy

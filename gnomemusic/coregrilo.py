@@ -146,7 +146,7 @@ class CoreGrilo(GObject.GObject):
                 and source.supported_operations() & Grl.SupportedOps.SEARCH
                 and "net:internet" not in source.props.source_tags):
             self._search_wrappers[source.props.source_id] = GrlSearchWrapper(
-                source, self._coremodel, self._application, self)
+                source, self._application)
             self._log.debug("Adding search source {}".format(source))
 
     def _on_source_removed(self, registry, source):
