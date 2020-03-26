@@ -291,31 +291,6 @@ class CoreModel(GObject.GObject):
 
         self.emit("playlist-loaded", playlist_type)
 
-    def stage_playlist_deletion(self, playlist):
-        """Prepares playlist deletion.
-
-        :param Playlist playlist: playlist
-        """
-        self._application.props.coregrilo.stage_playlist_deletion(playlist)
-
-    def finish_playlist_deletion(self, playlist, deleted):
-        """Finishes playlist deletion.
-
-        :param Playlist playlist: playlist
-        :param bool deleted: indicates if the playlist has been deleted
-        """
-        self._application.props.coregrilo.finish_playlist_deletion(
-            playlist, deleted)
-
-    def create_playlist(self, playlist_title, callback):
-        """Creates a new user playlist.
-
-        :param str playlist_title: playlist title
-        :param callback: function to perform once, the playlist is created
-        """
-        self._application.props.coregrilo.create_playlist(
-            playlist_title, callback)
-
     def search(self, text):
         self._application.props.coregrilo.search(text)
 
