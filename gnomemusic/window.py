@@ -151,7 +151,7 @@ class Window(Gtk.ApplicationWindow):
             "selection-mode", self._selection_toolbar, "visible")
         self.connect("notify::selection-mode", self._on_selection_mode_changed)
 
-        self.views = [Gtk.Box()] * len(View)
+        self.views = [None] * len(View)
         # Create only the empty view at startup
         # if no music, switch to empty view and hide stack
         # if some music is available, populate stack with mainviews,
@@ -243,15 +243,6 @@ class Window(Gtk.ApplicationWindow):
 
         self.views[View.EMPTY].props.state = EmptyView.State.SEARCH
 
-        # FIXME: In case Grilo is already initialized before the views
-        # get created, they never receive a 'ready' signal to trigger
-        # population. To fix this another check was added to baseview
-        # to populate if grilo is ready at the end of init. For this to
-        # work however, the headerbar stack needs to be created and
-        # populated. This is done below, by binding headerbar.stack to
-        # to window._stack. For this to succeed, the stack needs to be
-        # filled with something: Gtk.Box.
-        # This is a bit of circular logic that needs to be fixed.
         self._headerbar.props.state = HeaderBar.State.MAIN
         self._headerbar.props.stack = self._stack
 
