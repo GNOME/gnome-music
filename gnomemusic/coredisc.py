@@ -91,9 +91,6 @@ class CoreDisc(GObject.GObject):
         def _filter_func(core_song):
             return core_song.props.grlid in album_ids
 
-        def _reverse_sort(song_a, song_b, data=None):
-            return song_a.props.track_number - song_b.props.track_number
-
         def _callback(source, dunno, media, something, something2):
             if media is None:
                 if sorted(album_ids) == sorted(self._old_album_ids):
