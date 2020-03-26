@@ -58,7 +58,7 @@ class SearchHeaderBar(Gtk.HeaderBar):
     def __init__(self, application):
         super().__init__()
 
-        self._application = application
+        self._coregrilo = application.props.coregrilo
         self._selection_mode = False
         self._timeout = None
 
@@ -185,7 +185,7 @@ class SearchHeaderBar(Gtk.HeaderBar):
         search_term = self._entry.get_text()
         if search_term != "":
             self.props.stack.set_visible_child_name("search")
-            self._application.props.coremodel.search(search_term)
+            self._coregrilo.search(search_term)
         else:
             self._set_error_style(False)
 
