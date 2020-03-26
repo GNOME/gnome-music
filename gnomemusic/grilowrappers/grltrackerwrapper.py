@@ -281,7 +281,7 @@ class GrlTrackerWrapper(GObject.GObject):
             if media.get_id() in self._artist_ids.keys():
                 artist = self._artist_ids[media.get_id()]
             else:
-                artist = CoreArtist(media, self._coremodel)
+                artist = CoreArtist(self._application, media)
 
             artist_ids[media.get_id()] = artist
 
@@ -502,7 +502,7 @@ class GrlTrackerWrapper(GObject.GObject):
                 self._window.notifications_popup.pop_loading()
                 return
 
-            artist = CoreArtist(media, self._coremodel)
+            artist = CoreArtist(self._application, media)
             self._artist_ids[media.get_id()] = artist
             artists_added.append(artist)
             if len(artists_added) == self._SPLICE_SIZE:

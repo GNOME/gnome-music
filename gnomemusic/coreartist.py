@@ -37,11 +37,16 @@ class CoreArtist(GObject.GObject):
     artist = GObject.Property(type=str)
     media = GObject.Property(type=Grl.Media)
 
-    def __init__(self, media, coremodel):
+    def __init__(self, application, media):
+        """Initiate the CoreArtist object
+
+        :param Application application: The application object
+        :param Grl.Media media: A media object
+        """
         super().__init__()
 
         self._cached_thumbnail_uri = None
-        self._coremodel = coremodel
+        self._coremodel = application.props.coremodel
         self._model = None
         self._selected = False
         self._thumbnail = None
