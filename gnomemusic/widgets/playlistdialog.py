@@ -48,21 +48,25 @@ class PlaylistDialog(Gtk.Dialog):
     _first_playlist_button = Gtk.Template.Child()
     _first_playlist_entry = Gtk.Template.Child()
 
-    def __init__(self, parent):
+    def __init__(self, application):
+        """Initialize PlaylistDialog
+
+        :param Application application: The application object
+        """
         super().__init__()
+
+        self._coregrilo = application.props.coregrilo
 
         self._add_playlist_button = None
         self._add_playlist_entry = None
 
-        self.props.transient_for = parent
         self.set_titlebar(self._title_bar)
 
         self._user_playlists_available = False
-        self._coremodel = parent._app.props.coremodel
-        self._coregrilo = parent._app.props.coregrilo
+
+        coremodel = application.props.coremodel
         self._listbox.bind_model(
-            self._coremodel.props.user_playlists_sort,
-            self._create_playlist_row)
+            coremodel.props.user_playlists_sort, self._create_playlist_row)
 
         self._set_view()
 
