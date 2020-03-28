@@ -3,7 +3,7 @@
 <interface>
   <requires lib="gtk+" version="3.12"/>
   <template parent="GtkBox" class="ArtistAlbumWidget">
-    <property name="margin_top">30</property>
+    <property name="margin_top">20</property>
     <property name="margin_right">120</property>
     <property name="visible">True</property>
     <child>

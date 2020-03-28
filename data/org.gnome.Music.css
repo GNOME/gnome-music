@@ -57,6 +57,9 @@ box#ArtistAlbumsWidget .artist-label {
 }
 
 /* ArtistAlbumWidget */
+.artist-albums-widget {
+    margin: 0 0 20px 0;
+}
 .artist-albums-widget,
 .artist-albums-widget:hover {
     background-color: @theme_bg_color;
