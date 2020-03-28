@@ -27,6 +27,13 @@
       <image type="source">https://gitlab.gnome.org/GNOME/gnome-music/raw/master/data/screenshots/gnome-music-4.png</image>
     </screenshot>
   </screenshots>
+  <release version="3.34.5" date="2020-03-28">
+      <description>
+        <p>
+          Bugfixes and translation updates.
+        </p>
+      </description>
+  </release>
   <releases>
     <release version="3.36.0" date="2020-03-07">
       <description>

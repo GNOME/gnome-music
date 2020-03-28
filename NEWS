@@ -1,3 +1,29 @@
+Overview of changes in 3.36.1
+=============================
+
+• Fix crash when Pango 1.44 is not available
+• Do not change python module search path
+• Various CoreModel and Playlist binding optimizations
+• Various crash and bugfixes
+
+Bugs fixed:
+ Crash while searching due to bugs in searchview.py (#372)
+ Do not change the module search path (#377)
+ Wrong song count in favourite playlist (#376)
+ First song selected displays selected count as 2 (#379)
+ App crashing on start: type object 'AttrFontFeatures' has no attribute 'new' (#374)
+
+Thanks to our contributors this release:
+ Ashwani Singh Tanwar
+ Jean Felder
+ Marinus Schraal
+ Weifeng Lai
+
+Updated translations:
+ Catalan
+ Norwegian Bokmål
+ Ukrainian
+
 Overview of changes in 3.36.0
 =============================
 
