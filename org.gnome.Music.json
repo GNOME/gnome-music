@@ -7,7 +7,7 @@
     "tags": ["devel", "development", "nightly"],
     "desktop-file-name-suffix": " ☢️",
     "finish-args": [
-        "--share=ipc", "--socket=x11",
+        "--share=ipc", "--socket=fallback-x11",
         "--share=network",
         "--socket=wayland",
         "--talk-name=org.freedesktop.Tracker1",
