@@ -749,6 +749,7 @@ class SmartPlaylist(Playlist):
     def _finish_update(self, new_model_medias):
         if not new_model_medias:
             self._model.remove_all()
+            self.props.count = 0
             return
 
         current_models_ids = [coresong.props.media.get_id()
