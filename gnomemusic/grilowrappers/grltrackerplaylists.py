@@ -435,16 +435,19 @@ class Playlist(GObject.GObject):
         # It is not necessary to bind all the CoreSong properties:
         # selected property is linked to a view
         # validation is a short-lived playability check for local songs
-        properties = [
+        bidirectional_properties = [
             "album", "album_disc_number", "artist", "duration", "media",
-            "grlid", "play_count", "state", "title", "track_number", "url",
-            "favorite"]
+            "grlid", "play_count", "title", "track_number", "url", "favorite"]
 
-        for prop in properties:
+        for prop in bidirectional_properties:
             main_coresong.bind_property(
                 prop, coresong, prop,
                 GObject.BindingFlags.BIDIRECTIONAL
                 | GObject.BindingFlags.SYNC_CREATE)
+
+        # There is no need for the "state" property to be bidirectional
+        coresong.bind_property(
+            prop, main_coresong, "state", GObject.BindingFlags.DEFAULT)
 
     @GObject.Property(type=str, default=None)
     def title(self):
