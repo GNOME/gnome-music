@@ -28,6 +28,13 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="3.34.5" date="2020-03-28">
+      <description>
+        <p>
+          Restore smart playlists update and various bugfixes.
+        </p>
+      </description>
+    </release>
     <release version="3.34.3" date="2020-02-15">
       <description>
         <p>

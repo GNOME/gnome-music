@@ -1,3 +1,21 @@
+Overview of changes in 3.34.5
+=============================
+
+* Restore smart playlists updates
+* Various crash and bugfixes
+
+Bugs fixed:
+ Properly load tracker plugin (!652)
+ Stop a deleted playlist if it is playing (!662)
+ Fix crash in FlowBox allocations in SearchView (!685)
+ Reset count of a smart playlist when all songs are removed (!686)
+
+Thanks to our contributors this release:
+ Ashwani Singh Tanwar
+ Jean Felder
+ Marinus Schraal
+ Weifeng Lai
+
 Overview of changes in 3.34.4
 =============================
 
