@@ -434,10 +434,11 @@ class Playlist(GObject.GObject):
 
         # It is not necessary to bind all the CoreSong properties:
         # selected property is linked to a view
+        # validation is a short-lived playability check for local songs
         properties = [
             "album", "album_disc_number", "artist", "duration", "media",
             "grlid", "play_count", "state", "title", "track_number", "url",
-            "validation", "favorite"]
+            "favorite"]
 
         for prop in properties:
             main_coresong.bind_property(
