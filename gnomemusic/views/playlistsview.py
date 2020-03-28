@@ -115,6 +115,9 @@ class PlaylistsView(BaseView):
         self._active_playlist_id = self._coremodel.connect(
             "notify::active-playlist", self._on_active_playlist_changed)
 
+        self._coremodel.connect(
+            "smart-playlist-change", self._on_smart_playlist_change)
+
         self._model.connect("items-changed", self._on_playlists_model_changed)
         self._on_playlists_model_changed(self._model, 0, 0, 0)
 
@@ -170,6 +173,13 @@ class PlaylistsView(BaseView):
         if row_next:
             self._sidebar.select_row(row_next)
             self._on_playlist_activated(self._sidebar, row_next, True)
+
+    def _on_smart_playlist_change(self, coremodel):
+        selection = self._sidebar.get_selected_row()
+        current_playlist = selection.props.playlist
+        if (current_playlist is not None
+                and current_playlist.props.is_smart):
+            current_playlist.update()
 
     @log
     def _on_view_right_clicked(self, gesture, n_press, x, y):
@@ -234,6 +244,8 @@ class PlaylistsView(BaseView):
 
         self._view.bind_model(
             playlist.props.model, self._create_song_widget, playlist)
+        if playlist.props.is_smart:
+            playlist.update()
 
         self._pl_ctrls.props.playlist = playlist
 
