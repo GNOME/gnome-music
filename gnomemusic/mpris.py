@@ -277,7 +277,7 @@ class MPRIS(DBusInterface):
     _playlist_nb_songs = 10
 
     def __init__(self, app):
-        name = 'org.mpris.MediaPlayer2.GnomeMusic'
+        name = "org.mpris.MediaPlayer2.{}".format(app.props.application_id)
         path = '/org/mpris/MediaPlayer2'
         super().__init__(name, path, app)
 
