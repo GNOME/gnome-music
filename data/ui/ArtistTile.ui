@@ -4,36 +4,13 @@
     <property name="can_focus">False</property>
     <property name="visible">True</property>
     <child>
-      <object class="GtkBox">
+      <object class="GtkLabel" id="_label">
         <property name="can_focus">False</property>
+        <property name="ellipsize">end</property>
+        <property name="halign">start</property>
         <property name="hexpand">False</property>
-        <property name="orientation">horizontal</property>
+        <property name="margin">16</property>
         <property name="visible">True</property>
-        <child>
-          <object class="GtkRevealer" id="_revealer">
-            <property name="halign">fill</property>
-            <property name="hexpand">False</property>
-            <property name="reveal-child">False</property>
-            <property name="transition-type">slide-right</property>
-            <property name="visible">True</property>
-            <child>
-              <object class="GtkCheckButton" id="_check">
-                <property name="margin-start">12</property>
-                <property name="visible">True</property>
-              </object>
-            </child>
-          </object>
-        </child>
-        <child>
-          <object class="GtkLabel" id="_label">
-            <property name="can_focus">False</property>
-            <property name="ellipsize">end</property>
-            <property name="halign">start</property>
-            <property name="hexpand">True</property>
-            <property name="margin">16</property>
-            <property name="visible">True</property>
-          </object>
-        </child>
       </object>
     </child>
   </template>
