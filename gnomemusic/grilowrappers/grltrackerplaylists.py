@@ -840,7 +840,6 @@ class MostPlayed(SmartPlaylist):
             ?song AS ?tracker_urn
             nie:title(?song) AS ?title
             nie:url(?song) AS ?url
-            nie:title(?song) AS ?title
             nmm:artistName(nmm:performer(?song)) AS ?artist
             nie:title(nmm:musicAlbum(?song)) AS ?album
             nfo:duration(?song) AS ?duration
@@ -877,7 +876,6 @@ class NeverPlayed(SmartPlaylist):
             ?song AS ?tracker_urn
             nie:title(?song) AS ?title
             nie:url(?song) AS ?url
-            nie:title(?song) AS ?title
             nmm:artistName(nmm:performer(?song)) AS ?artist
             nie:title(nmm:musicAlbum(?song)) AS ?album
             nfo:duration(?song) AS ?duration
@@ -920,7 +918,6 @@ class RecentlyPlayed(SmartPlaylist):
             ?song AS ?tracker_urn
             nie:title(?song) AS ?title
             nie:url(?song) AS ?url
-            nie:title(?song) AS ?title
             nmm:artistName(nmm:performer(?song)) AS ?artist
             nie:title(nmm:musicAlbum(?song)) AS ?album
             nfo:duration(?song) AS ?duration
@@ -966,7 +963,6 @@ class RecentlyAdded(SmartPlaylist):
             ?song AS ?tracker_urn
             nie:title(?song) AS ?title
             nie:url(?song) AS ?url
-            nie:title(?song) AS ?title
             nmm:artistName(nmm:performer(?song)) AS ?artist
             nie:title(nmm:musicAlbum(?song)) AS ?album
             nfo:duration(?song) AS ?duration
@@ -1004,7 +1000,6 @@ class Favorites(SmartPlaylist):
                 ?song AS ?tracker_urn
                 nie:title(?song) AS ?title
                 nie:url(?song) AS ?url
-                nie:title(?song) AS ?title
                 nmm:artistName(nmm:performer(?song)) AS ?artist
                 nie:title(nmm:musicAlbum(?song)) AS ?album
                 nfo:duration(?song) AS ?duration
