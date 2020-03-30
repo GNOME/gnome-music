@@ -48,14 +48,6 @@ class NotificationsPopup(Gtk.Revealer):
         self._setup_view()
 
     def _setup_view(self):
-        # frame = Gtk.Frame()
-        # frame.get_style_context().add_class('app-notification')
-        # self.add(frame)
-
-        # self._grid = Gtk.Grid(
-        #     row_spacing=6, orientation=Gtk.Orientation.VERTICAL)
-        # frame.add(self._grid)
-
         self._loading_notification = LoadingNotification()
         self._loading_notification.connect('visible', self._set_visibility)
         self._loading_notification.connect('invisible', self._set_visibility)
