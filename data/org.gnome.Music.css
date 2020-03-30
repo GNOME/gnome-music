@@ -185,3 +185,7 @@ padding: 0px;
 .lastfm-status-label {
     font-weight: bold;
 }
+
+.error-label {
+    color: @error_color;
+}
