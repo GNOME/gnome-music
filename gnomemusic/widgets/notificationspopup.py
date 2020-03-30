@@ -39,7 +39,6 @@ class NotificationsPopup(Gtk.Revealer):
 
     __gtype_name__ = "NotificationsPopup"
 
-    _frame = Gtk.Template.Child()
     _grid = Gtk.Template.Child()
 
     def __init__(self):
