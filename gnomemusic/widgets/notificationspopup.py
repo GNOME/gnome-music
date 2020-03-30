@@ -27,6 +27,7 @@ from gettext import gettext as _
 from gi.repository import GLib, GObject, Gtk
 
 
+@Gtk.Template(resource_path="/org/gnome/Music/ui/NotificationsPopup.ui")
 class NotificationsPopup(Gtk.Revealer):
     """Display notification messages as popups
 
@@ -38,19 +39,22 @@ class NotificationsPopup(Gtk.Revealer):
 
     __gtype_name__ = "NotificationsPopup"
 
+    frame = Gtk.Template.Child()
+    _grid = Gtk.Template.Child()
+
     def __init__(self):
         super().__init__()
 
         self._setup_view()
 
     def _setup_view(self):
-        frame = Gtk.Frame()
-        frame.get_style_context().add_class('app-notification')
-        self.add(frame)
+        # frame = Gtk.Frame()
+        # frame.get_style_context().add_class('app-notification')
+        # self.add(frame)
 
-        self._grid = Gtk.Grid(
-            row_spacing=6, orientation=Gtk.Orientation.VERTICAL)
-        frame.add(self._grid)
+        # self._grid = Gtk.Grid(
+        #     row_spacing=6, orientation=Gtk.Orientation.VERTICAL)
+        # frame.add(self._grid)
 
         self._loading_notification = LoadingNotification()
         self._loading_notification.connect('visible', self._set_visibility)
