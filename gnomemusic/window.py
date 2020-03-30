@@ -38,7 +38,7 @@ from gnomemusic.views.searchview import SearchView
 from gnomemusic.views.songsview import SongsView
 from gnomemusic.views.playlistsview import PlaylistsView
 from gnomemusic.widgets.headerbar import HeaderBar
-from gnomemusic.widgets.notificationspopup import NotificationsPopup  # noqa
+from gnomemusic.widgets.notificationspopup import NotificationsPopup
 from gnomemusic.widgets.playertoolbar import PlayerToolbar
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
 from gnomemusic.widgets.searchheaderbar import SearchHeaderBar
@@ -55,7 +55,6 @@ class Window(Gtk.ApplicationWindow):
     selected_items_count = GObject.Property(type=int, default=0, minimum=0)
     selection_mode = GObject.Property(type=bool, default=False)
 
-    notifications_popup = Gtk.Template.Child()
     _box = Gtk.Template.Child()
     _overlay = Gtk.Template.Child()
     _selection_toolbar = Gtk.Template.Child()
@@ -121,6 +120,9 @@ class Window(Gtk.ApplicationWindow):
 
         self._search.connect(
             "notify::search-mode-active", self._on_search_mode_changed)
+
+        self.notifications_popup = NotificationsPopup()
+        self._overlay.add_overlay(self.notifications_popup)
 
         self._player_toolbar = PlayerToolbar()
         self._player_toolbar.props.player = self._player
