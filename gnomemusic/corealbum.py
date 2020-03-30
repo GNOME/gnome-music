@@ -67,6 +67,16 @@ class CoreAlbum(GObject.GObject):
         self.props.year = utils.get_media_year(media)
 
     @GObject.Property(
+        type=bool, default=False, flags=GObject.ParamFlags.READABLE)
+    def model_loaded(self):
+        """Check if the model has already been loaded
+
+        :returns: True if the model is loaded
+        :rtype: bool
+        """
+        return self._model is not None
+
+    @GObject.Property(
         type=Gio.ListModel, default=None, flags=GObject.ParamFlags.READABLE)
     def model(self):
         if self._model is None:
@@ -85,6 +95,14 @@ class CoreAlbum(GObject.GObject):
                     coredisc = model[position + i]
                     coredisc.connect(
                         "notify::duration", self._on_duration_changed)
+
+    def update_discs(self):
+        """Update CoreDiscs model"""
+        if not self.props.model_loaded:
+            return
+
+        for coredisc in self.props.model:
+            coredisc.update_content()
 
     def _on_duration_changed(self, coredisc, duration):
         duration = 0

@@ -292,6 +292,108 @@ class GrlTrackerWrapper(GObject.GObject):
         self.props.source.query(
             query, self.METADATA_KEYS, options, check_artist_cb)
 
+    def check_album_disc_changes(self, media):
+        """Update album and corediscs model
+
+        :param Grl.Media media: media with the album id
+        """
+        def _check_discs_cb(source, op_id, media, remaining, error):
+            if error:
+                self._log.warning(
+                    "Error on album disc change check: {}".format(error))
+                return
+
+            if not media:
+                corealbum = self._album_ids[album_id]
+                new_discs = [media.get_album_disc_number() for media in medias]
+                discs = [disc.props.disc_nr for disc in corealbum.props.model]
+                changed_discs = set(new_discs) ^ set(discs)
+                album_model = corealbum.props.model.get_model()
+                for disc_nr in changed_discs:
+                    if disc_nr in new_discs:
+                        for media in medias:
+                            if media.get_album_disc_number() == disc_nr:
+                                break
+                        self._log.debug(
+                            "Add Disc {} to album {}".format(
+                                disc_nr, corealbum.props.title))
+                        coredisc = CoreDisc(
+                            media, disc_nr, self._coremodel)
+                        album_model.append(coredisc)
+                    elif disc_nr in discs:
+                        for idx, coredisc in enumerate(album_model):
+                            if coredisc.props.disc_nr == disc_nr:
+                                self._log.debug(
+                                    "Remove disc {} from album {}".format(
+                                        disc_nr, corealbum.props.title))
+                                coredisc = corealbum.props.model[idx]
+                                album_model.remove(idx)
+                                break
+
+                corealbum.update_discs()
+                return
+
+            medias.append(media)
+
+        medias = []
+        album_id = media.get_id()
+        query = """
+        SELECT DISTINCT
+            rdf:type(?song)
+            tracker:id(?album) AS ?id
+            nmm:setNumber(nmm:musicAlbumDisc(?song)) as ?album_disc_number
+        WHERE {
+            ?song a nmm:MusicPiece;
+                    nmm:musicAlbum ?album .
+            FILTER ( tracker:id(?album) = %(album_id)s )
+            %(location_filter)s
+        }
+        ORDER BY ?album_disc_number
+        """.replace("\n", " ").strip() % {
+            "album_id": int(album_id),
+            "location_filter": self._tracker_wrapper.location_filter()
+        }
+
+        options = self._fast_options.copy()
+        self.props.source.query(
+            query, [Grl.METADATA_KEY_ID, Grl.METADATA_KEY_ALBUM_DISC_NUMBER],
+            options, _check_discs_cb)
+
+    def _check_album_content_change(self, song_id):
+        def _check_change_cb(source, op_id, media, remaining, error):
+            if error:
+                self._log.warning(
+                    "Error on album content change check: {}".format(error))
+                return
+
+            if not media:
+                return
+
+            corealbum = self._album_ids.get(media.get_id(), None)
+            if (corealbum is None
+                    or not corealbum.props.model_loaded):
+                return
+
+            self.check_album_disc_changes(media)
+
+        query = """
+        SELECT
+            rdf:type(?album)
+            tracker:id(?album) AS ?id
+        WHERE {
+            ?album a nmm:MusicAlbum .
+            ?song a nmm:MusicPiece ;
+                    nmm:musicAlbum ?album .
+            FILTER ( tracker:id(?song) = %(song_id)s )
+        }
+        """.replace("\n", " ").strip() % {
+            "song_id": song_id
+        }
+
+        options = self._fast_options.copy()
+        self.props.source.query(
+            query, [Grl.METADATA_KEY_ID], options, _check_change_cb)
+
     def _remove_media(self, media_ids):
         for media_id in media_ids:
             try:
@@ -362,6 +464,8 @@ class GrlTrackerWrapper(GObject.GObject):
                 self._hash[media.get_id()] = song
             else:
                 self._hash[media.get_id()].update(media)
+
+            self._check_album_content_change(media.get_id())
 
         options = self._fast_options.copy()
 

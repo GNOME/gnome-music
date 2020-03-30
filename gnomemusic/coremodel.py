@@ -213,6 +213,13 @@ class CoreModel(GObject.GObject):
 
         return albums_model_sort
 
+    def check_album_disc_changes(self, media):
+        """Update album and corediscs model
+
+        :param Grl.Media media: media with the album id
+        """
+        self.props.grilo.check_album_disc_changes(media)
+
     def set_player_model(self, playlist_type, model):
         """Set the model for PlayerPlaylist to use
 
