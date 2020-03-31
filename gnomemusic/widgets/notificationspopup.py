@@ -180,12 +180,19 @@ class LoadingNotification(Gtk.Grid):
         self._counter = self._counter + 1
 
 
+@Gtk.Template(resource_path="/org/gnome/Music/ui/PlaylistNotification.ui")
 class PlaylistNotification(Gtk.Grid):
     """Show a notification on playlist or song deletion.
 
     It also provides an option to undo removal. Notification is added
     to the NotificationsPopup.
     """
+
+    __gtype_name__ = "PlaylistNotification"
+
+    _undo_button = Gtk.Template.Child()
+    _close_button = Gtk.Template.Child()
+    _label = Gtk.Template.Child()
 
     class Type(IntEnum):
         """Enum for Playlists Notifications"""
@@ -213,20 +220,20 @@ class PlaylistNotification(Gtk.Grid):
         self._coresong = coresong
 
         message = self._create_notification_message()
-        self._label = Gtk.Label(
-            label=message, halign=Gtk.Align.START, hexpand=True)
-        self.add(self._label)
+        # self._label = Gtk.Label(
+        #     label=message, halign=Gtk.Align.START, hexpand=True)
+        # self.add(self._label)
 
-        close_button = Gtk.Button.new_from_icon_name(
-            "window-close-symbolic", Gtk.IconSize.BUTTON)
-        close_button.connect("clicked", self._close_notification)
-        close_button.props.relief = Gtk.ReliefStyle.NONE
+        # close_button = Gtk.Button.new_from_icon_name(
+        #     "window-close-symbolic", Gtk.IconSize.BUTTON)
+        # close_button.connect("clicked", self._close_notification)
+        self._close_button.props.relief = Gtk.ReliefStyle.NONE
 
-        undo_button = Gtk.Button.new_with_mnemonic(_("_Undo"))
-        undo_button.connect("clicked", self._undo_deletion)
-        self.add(undo_button)
-        self.add(close_button)
-        self.show_all()
+        # undo_button = Gtk.Button.new_with_mnemonic(_("_Undo"))
+        # undo_button.connect("clicked", self._undo_deletion)
+        # self.add(undo_button)
+        # self.add(close_button)
+        # self.show_all()
 
         if self.type_ == PlaylistNotification.Type.PLAYLIST:
             self._coremodel.stage_playlist_deletion(self._playlist)
@@ -247,6 +254,7 @@ class PlaylistNotification(Gtk.Grid):
 
         return msg
 
+    @Gtk.Template.Callback()
     def _undo_deletion(self, widget_):
         """Undo deletion and remove notification"""
         if self._timeout_id > 0:
@@ -260,6 +268,7 @@ class PlaylistNotification(Gtk.Grid):
             self._playlist.undo_pending_song_deletion(
                 self._coresong, self._position)
 
+    @Gtk.Template.Callback()
     def _close_notification(self, widget_):
         if self._timeout_id > 0:
             GLib.source_remove(self._timeout_id)
