@@ -136,9 +136,6 @@ class CoreModel(GObject.GObject):
             utils.wrap_list_store_sort_func(self._playlists_sort))
 
         self.props.grilo = CoreGrilo(self, application)
-        # FIXME: Not all instances of internal _grilo use have been
-        # fixed.
-        self._grilo = self.props.grilo
 
         self._songs_model.connect(
             "items-changed", self._on_songs_items_changed)
