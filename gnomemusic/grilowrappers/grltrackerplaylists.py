@@ -145,7 +145,6 @@ class GrlTrackerPlaylists(GObject.GObject):
         playlist = Playlist(
             media=media, source=self._source, application=self._application,
             tracker_wrapper=self._tracker_wrapper, songs_hash=self._songs_hash)
-
         self._model.append(playlist)
         callback = data
         if callback is not None:
