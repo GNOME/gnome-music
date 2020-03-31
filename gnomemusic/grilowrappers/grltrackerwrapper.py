@@ -61,26 +61,20 @@ class GrlTrackerWrapper(GObject.GObject):
         Grl.METADATA_KEY_THUMBNAIL,
     ]
 
-    def __init__(
-            self, source, coremodel, application, grilo, tracker_wrapper):
+    def __init__(self, source, application, tracker_wrapper):
         """Initialize the Tracker wrapper
 
         :param Grl.TrackerSource source: The Tracker source to wrap
-        :param CoreModel coremodel: CoreModel instance to use models
-        from
         :param Application application: Application instance
-        :param CoreGrilo grilo: The CoreGrilo instance
         :param TrackerWrapper tracker_wrapper: The TrackerWrapper instance
         """
         super().__init__()
 
         self._application = application
-        self._coremodel = coremodel
-        self._coreselection = application.props.coreselection
-        self._grilo = grilo
-        self._source = None
+        self._coremodel = application.props.coremodel
         self._log = application.props.log
         self._songs_model = self._coremodel.props.songs
+        self._source = None
         self._albums_model = self._coremodel.props.albums
         self._album_ids = {}
         self._artists_model = self._coremodel.props.artists
@@ -223,7 +217,7 @@ class GrlTrackerWrapper(GObject.GObject):
             if media.get_id() in self._album_ids.keys():
                 album = self._album_ids[media.get_id()]
             else:
-                album = CoreAlbum(media, self._coremodel)
+                album = CoreAlbum(self._application, media)
 
             album_ids[media.get_id()] = album
 
@@ -283,7 +277,7 @@ class GrlTrackerWrapper(GObject.GObject):
             if media.get_id() in self._artist_ids.keys():
                 artist = self._artist_ids[media.get_id()]
             else:
-                artist = CoreArtist(media, self._coremodel)
+                artist = CoreArtist(self._application, media)
 
             artist_ids[media.get_id()] = artist
 
@@ -357,7 +351,7 @@ class GrlTrackerWrapper(GObject.GObject):
                 self._log.debug(
                     "Media {} not in hash".format(media.get_id()))
 
-                song = CoreSong(media, self._coreselection, self._grilo)
+                song = CoreSong(self._application, media)
                 self._songs_model.append(song)
                 self._hash[media.get_id()] = song
             else:
@@ -388,12 +382,12 @@ class GrlTrackerWrapper(GObject.GObject):
                 # songs model fill, the playlists expect a filled songs
                 # hashtable.
                 self._tracker_playlists = GrlTrackerPlaylists(
-                    self.props.source, self._coremodel, self._application,
-                    self._grilo, self._tracker_wrapper, self._hash)
+                    self.props.source, self._application,
+                    self._tracker_wrapper, self._hash)
 
                 return
 
-            song = CoreSong(media, self._coreselection, self._grilo)
+            song = CoreSong(self._application, media)
             songs_added.append(song)
             self._hash[media.get_id()] = song
             if len(songs_added) == self._SPLICE_SIZE:
@@ -450,7 +444,7 @@ class GrlTrackerWrapper(GObject.GObject):
                 self._window.notifications_popup.pop_loading()
                 return
 
-            album = CoreAlbum(media, self._coremodel)
+            album = CoreAlbum(self._application, media)
             self._album_ids[media.get_id()] = album
             albums_added.append(album)
             if len(albums_added) == self._SPLICE_SIZE:
@@ -504,7 +498,7 @@ class GrlTrackerWrapper(GObject.GObject):
                 self._window.notifications_popup.pop_loading()
                 return
 
-            artist = CoreArtist(media, self._coremodel)
+            artist = CoreArtist(self._application, media)
             self._artist_ids[media.get_id()] = artist
             artists_added.append(artist)
             if len(artists_added) == self._SPLICE_SIZE:
@@ -635,7 +629,7 @@ class GrlTrackerWrapper(GObject.GObject):
                 return
 
             disc_nr = media.get_album_disc_number()
-            coredisc = CoreDisc(media, disc_nr, self._coremodel)
+            coredisc = CoreDisc(self._application, media, disc_nr)
             disc_model.append(coredisc)
 
         options = self._fast_options.copy()

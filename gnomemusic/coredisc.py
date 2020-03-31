@@ -23,7 +23,8 @@
 # delete this exception statement from your version.
 
 from gi.repository import GObject, Gio, Gfm, Grl
-from gi._gi import pygobject_new_full
+
+import gnomemusic.utils as utils
 
 
 class CoreDisc(GObject.GObject):
@@ -32,10 +33,17 @@ class CoreDisc(GObject.GObject):
     duration = GObject.Property(type=int, default=None)
     media = GObject.Property(type=Grl.Media, default=None)
 
-    def __init__(self, media, nr, coremodel):
+    def __init__(self, application, media, nr):
+        """Initialize a CoreDisc object
+
+        :param Application application: The application object
+        :param Grl.Media media: A media object
+        :param int nr: The disc number to create an object for
+        """
         super().__init__()
 
-        self._coremodel = coremodel
+        self._coregrilo = application.props.coregrilo
+        self._coremodel = application.props.coremodel
         self._filter_model = None
         self._model = None
         self._old_album_ids = []
@@ -49,13 +57,16 @@ class CoreDisc(GObject.GObject):
 
     @GObject.Property(type=Gio.ListModel, default=None)
     def model(self):
+        def _disc_sort(song_a, song_b):
+            return song_a.props.track_number - song_b.props.track_number
+
         if self._model is None:
             self._filter_model = Gfm.FilterListModel.new(
                 self._coremodel.props.songs)
             self._filter_model.set_filter_func(lambda a: False)
             self._model = Gfm.SortListModel.new(self._filter_model)
             self._model.set_sort_func(
-                self._wrap_sort_func(self._disc_sort))
+                utils.wrap_list_store_sort_func(_disc_sort))
 
             self._model.connect("items-changed", self._on_disc_changed)
 
@@ -73,27 +84,12 @@ class CoreDisc(GObject.GObject):
 
             self.props.duration = duration
 
-    def _disc_sort(self, song_a, song_b):
-        return song_a.props.track_number - song_b.props.track_number
-
-    def _wrap_sort_func(self, func):
-
-        def wrap(a, b, *user_data):
-            a = pygobject_new_full(a, False)
-            b = pygobject_new_full(b, False)
-            return func(a, b, *user_data)
-
-        return wrap
-
     def _get_album_disc(self, media, discnr, model):
         album_ids = []
         model_filter = model
 
         def _filter_func(core_song):
             return core_song.props.grlid in album_ids
-
-        def _reverse_sort(song_a, song_b, data=None):
-            return song_a.props.track_number - song_b.props.track_number
 
         def _callback(source, dunno, media, something, something2):
             if media is None:
@@ -105,8 +101,7 @@ class CoreDisc(GObject.GObject):
 
             album_ids.append(media.get_source() + media.get_id())
 
-        self._coremodel.props.grilo.populate_album_disc_songs(
-            media, discnr, _callback)
+        self._coregrilo.populate_album_disc_songs(media, discnr, _callback)
 
     @GObject.Property(
         type=bool, default=False, flags=GObject.BindingFlags.SYNC_CREATE)

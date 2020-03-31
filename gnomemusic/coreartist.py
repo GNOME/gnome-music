@@ -23,8 +23,8 @@
 # delete this exception statement from your version.
 
 import gi
-gi.require_version('Grl', '0.3')
-from gi.repository import Gio, Grl, GObject
+gi.require_versions({"Gfm": "0.1", "Grl": "0.3"})
+from gi.repository import Gfm, Gio, Grl, GObject
 
 from gnomemusic.artistart import ArtistArt
 import gnomemusic.utils as utils
@@ -37,11 +37,17 @@ class CoreArtist(GObject.GObject):
     artist = GObject.Property(type=str)
     media = GObject.Property(type=Grl.Media)
 
-    def __init__(self, media, coremodel):
+    def __init__(self, application, media):
+        """Initiate the CoreArtist object
+
+        :param Application application: The application object
+        :param Grl.Media media: A media object
+        """
         super().__init__()
 
         self._cached_thumbnail_uri = None
-        self._coremodel = coremodel
+        self._coregrilo = application.props.coregrilo
+        self._coremodel = application.props.coremodel
         self._model = None
         self._selected = False
         self._thumbnail = None
@@ -52,11 +58,28 @@ class CoreArtist(GObject.GObject):
         self.props.media = media
         self.props.artist = utils.get_artist_name(media)
 
+    def _get_artist_album_model(self):
+        albums_model_filter = Gfm.FilterListModel.new(
+            self._coremodel.props.albums)
+        albums_model_filter.set_filter_func(lambda a: False)
+
+        albums_model_sort = Gfm.SortListModel.new(albums_model_filter)
+
+        self._coregrilo.get_artist_albums(
+            self.props.media, albums_model_filter)
+
+        def _album_sort(album_a, album_b):
+            return album_a.props.year > album_b.props.year
+
+        albums_model_sort.set_sort_func(
+            utils.wrap_list_store_sort_func(_album_sort))
+
+        return albums_model_sort
+
     @GObject.Property(type=Gio.ListModel, default=None)
     def model(self):
         if self._model is None:
-            self._model = self._coremodel.get_artist_album_model(
-                self.props.media)
+            self._model = self._get_artist_album_model()
             self._model.connect("items-changed", self._on_items_changed)
 
         return self._model

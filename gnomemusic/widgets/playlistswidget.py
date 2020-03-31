@@ -50,6 +50,7 @@ class PlaylistsWidget(Gtk.Box):
         """
         super().__init__()
 
+        self._application = application
         self._window = application.props.window
         self._coremodel = application.props.coremodel
         self._player = application.props.player
@@ -159,7 +160,8 @@ class PlaylistsWidget(Gtk.Box):
         song_widget = selected_row.get_child()
         coresong = song_widget.props.coresong
 
-        playlist_dialog = PlaylistDialog(self._window)
+        playlist_dialog = PlaylistDialog(self._application)
+        playlist_dialog.props.transient_for = self._window
         if playlist_dialog.run() == Gtk.ResponseType.ACCEPT:
             playlist = playlist_dialog.props.selected_playlist
             playlist.add_songs([coresong])
@@ -176,7 +178,7 @@ class PlaylistsWidget(Gtk.Box):
         current_playlist = self._playlists_view.props.current_playlist
 
         notification = PlaylistNotification(  # noqa: F841
-            self._window.notifications_popup, self._coremodel,
+            self._window.notifications_popup, self._application,
             PlaylistNotification.Type.SONG, current_playlist, position,
             coresong)
 

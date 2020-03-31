@@ -51,16 +51,15 @@ class CoreGrilo(GObject.GObject):
     cover_sources = GObject.Property(type=bool, default=False)
     tracker_available = GObject.Property(type=int)
 
-    def __init__(self, coremodel, application):
+    def __init__(self, application):
         """Initiate the CoreGrilo object
 
-        :param CoreModel coremodel: The CoreModel instance to use
         :param Application application: The Application instance to use
         """
         super().__init__()
 
         self._application = application
-        self._coremodel = coremodel
+        self._coremodel = self._application.props.coremodel
         self._coreselection = application.props.coreselection
         self._log = application.props.log
         self._search_wrappers = {}
@@ -133,8 +132,7 @@ class CoreGrilo(GObject.GObject):
                 and new_state == TrackerState.AVAILABLE):
             if source.props.source_id not in self._wrappers.keys():
                 new_wrapper = GrlTrackerWrapper(
-                    source, self._coremodel, self._application, self,
-                    self._tracker_wrapper)
+                    source, self._application, self._tracker_wrapper)
                 self._wrappers[source.props.source_id] = new_wrapper
                 self._log.debug("Adding wrapper {}".format(new_wrapper))
             else:
@@ -148,7 +146,7 @@ class CoreGrilo(GObject.GObject):
                 and source.supported_operations() & Grl.SupportedOps.SEARCH
                 and "net:internet" not in source.props.source_tags):
             self._search_wrappers[source.props.source_id] = GrlSearchWrapper(
-                source, self._coremodel, self._application, self)
+                source, self._application)
             self._log.debug("Adding search source {}".format(source))
 
     def _on_source_removed(self, registry, source):
@@ -211,10 +209,9 @@ class CoreGrilo(GObject.GObject):
 
         :param Playlist playlist: playlist
         """
-        for wrapper in self._wrappers.values():
-            if wrapper.source.props.source_id == "grl-tracker-source":
-                wrapper.stage_playlist_deletion(playlist)
-                break
+        if "grl-tracker-source" in self._wrappers:
+            self._wrappers["grl-tracker-source"].stage_playlist_deletion(
+                playlist)
 
     def finish_playlist_deletion(self, playlist, deleted):
         """Finishes playlist deletion.
@@ -222,10 +219,9 @@ class CoreGrilo(GObject.GObject):
         :param Playlist playlist: playlist
         :param bool deleted: indicates if the playlist has been deleted
         """
-        for wrapper in self._wrappers.values():
-            if wrapper.source.props.source_id == "grl-tracker-source":
-                wrapper.finish_playlist_deletion(playlist, deleted)
-                break
+        if "grl-tracker-source" in self._wrappers:
+            self._wrappers["grl-tracker-source"].finish_playlist_deletion(
+                playlist, deleted)
 
     def create_playlist(self, playlist_title, callback):
         """Creates a new user playlist.
@@ -233,7 +229,6 @@ class CoreGrilo(GObject.GObject):
         :param str playlist_title: playlist title
         :param callback: function to perform once, the playlist is created
         """
-        for wrapper in self._wrappers.values():
-            if wrapper.source.props.source_id == "grl-tracker-source":
-                wrapper.create_playlist(playlist_title, callback)
-                break
+        if "grl-tracker-source" in self._wrappers:
+            self._wrappers["grl-tracker-source"].create_playlist(
+                playlist_title, callback)

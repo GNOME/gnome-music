@@ -151,7 +151,7 @@ class Window(Gtk.ApplicationWindow):
             "selection-mode", self._selection_toolbar, "visible")
         self.connect("notify::selection-mode", self._on_selection_mode_changed)
 
-        self.views = [Gtk.Box()] * len(View)
+        self.views = [None] * len(View)
         # Create only the empty view at startup
         # if no music, switch to empty view and hide stack
         # if some music is available, populate stack with mainviews,
@@ -179,7 +179,7 @@ class Window(Gtk.ApplicationWindow):
         self._app.props.coremodel.connect(
             "notify::songs-available", self._on_songs_available)
 
-        self._app.props.coremodel.props.grilo.connect(
+        self._app.props.coregrilo.connect(
             "notify::tracker-available", self._on_tracker_available)
 
         if self._app.props.coremodel.props.songs_available:
@@ -190,7 +190,7 @@ class Window(Gtk.ApplicationWindow):
     def _switch_to_empty_view(self):
         did_initial_state = self._settings.get_boolean('did-initial-state')
 
-        state = self._app.props.coremodel.props.grilo.props.tracker_available
+        state = self._app.props.coregrilo.props.tracker_available
         empty_view = self.views[View.EMPTY]
         if state == TrackerState.UNAVAILABLE:
             empty_view.props.state = EmptyView.State.NO_TRACKER
@@ -220,8 +220,7 @@ class Window(Gtk.ApplicationWindow):
         self.props.active_view = self._stack.props.visible_child
 
     def _on_tracker_available(self, klass, value):
-        grilo = self._app.props.coremodel.props.grilo
-        new_state = grilo.props.tracker_available
+        new_state = self._app.props.coregrilo.props.tracker_available
 
         if new_state != TrackerState.AVAILABLE:
             self._switch_to_empty_view()
@@ -244,15 +243,6 @@ class Window(Gtk.ApplicationWindow):
 
         self.views[View.EMPTY].props.state = EmptyView.State.SEARCH
 
-        # FIXME: In case Grilo is already initialized before the views
-        # get created, they never receive a 'ready' signal to trigger
-        # population. To fix this another check was added to baseview
-        # to populate if grilo is ready at the end of init. For this to
-        # work however, the headerbar stack needs to be created and
-        # populated. This is done below, by binding headerbar.stack to
-        # to window._stack. For this to succeed, the stack needs to be
-        # filled with something: Gtk.Box.
-        # This is a bit of circular logic that needs to be fixed.
         self._headerbar.props.state = HeaderBar.State.MAIN
         self._headerbar.props.stack = self._stack
 
@@ -471,7 +461,8 @@ class Window(Gtk.ApplicationWindow):
         if len(selected_songs) < 1:
             return
 
-        playlist_dialog = PlaylistDialog(self)
+        playlist_dialog = PlaylistDialog(self._app)
+        playlist_dialog.props.transient_for = self
         if playlist_dialog.run() == Gtk.ResponseType.ACCEPT:
             playlist = playlist_dialog.props.selected_playlist
             playlist.add_songs(selected_songs)

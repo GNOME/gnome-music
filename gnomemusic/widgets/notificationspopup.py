@@ -193,12 +193,12 @@ class PlaylistNotification(Gtk.Grid):
         SONG = 1
 
     def __init__(
-            self, notifications_popup, coremodel, type_, playlist,
+            self, notifications_popup, application, type_, playlist,
             position=None, coresong=None):
         """Creates a playlist deletion notification popup (song or playlist)
 
         :param GtkRevealer: notifications_popup: the popup object
-        :param CoreModel: core model
+        :param Apllication: application object
         :param type_: NotificationType (song or playlist)
         :param Playlist playlist: playlist
         :param int position: position of the object to delete
@@ -206,7 +206,7 @@ class PlaylistNotification(Gtk.Grid):
         """
         super().__init__(column_spacing=18)
         self._notifications_popup = notifications_popup
-        self._coremodel = coremodel
+        self._coregrilo = application.props.coregrilo
         self.type_ = type_
         self._playlist = playlist
         self._position = position
@@ -229,7 +229,7 @@ class PlaylistNotification(Gtk.Grid):
         self.show_all()
 
         if self.type_ == PlaylistNotification.Type.PLAYLIST:
-            self._coremodel.stage_playlist_deletion(self._playlist)
+            self._coregrilo.stage_playlist_deletion(self._playlist)
         else:
             playlist.stage_song_deletion(self._coresong, position)
 
@@ -255,7 +255,7 @@ class PlaylistNotification(Gtk.Grid):
 
         self._notifications_popup.remove_notification(self)
         if self.type_ == PlaylistNotification.Type.PLAYLIST:
-            self._coremodel.finish_playlist_deletion(self._playlist, False)
+            self._coregrilo.finish_playlist_deletion(self._playlist, False)
         else:
             self._playlist.undo_pending_song_deletion(
                 self._coresong, self._position)
@@ -270,6 +270,6 @@ class PlaylistNotification(Gtk.Grid):
     def _finish_deletion(self):
         self._notifications_popup.remove_notification(self)
         if self.type_ == PlaylistNotification.Type.PLAYLIST:
-            self._coremodel.finish_playlist_deletion(self._playlist, True)
+            self._coregrilo.finish_playlist_deletion(self._playlist, True)
         else:
             self._playlist.finish_song_deletion(self._coresong)

@@ -81,6 +81,7 @@ class PlaylistControls(Gtk.Grid):
                     and self._application != application)):
             return
 
+        self._application = application
         self._coremodel = application.props.coremodel
         self._player = application.props.player
         self._window = application.props.window
@@ -97,7 +98,7 @@ class PlaylistControls(Gtk.Grid):
             self._window.set_player_visible(False)
 
         PlaylistNotification(
-            self._window.notifications_popup, self._coremodel,
+            self._window.notifications_popup, self._application,
             PlaylistNotification.Type.PLAYLIST, self.props.playlist)
 
     @Gtk.Template.Callback()

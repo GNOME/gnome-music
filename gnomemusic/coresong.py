@@ -55,11 +55,16 @@ class CoreSong(GObject.GObject):
         FAILED = 2
         SUCCEEDED = 3
 
-    def __init__(self, media, coreselection, grilo):
+    def __init__(self, application, media):
+        """Initiate the CoreSong object
+
+        :param Application application: The application object
+        :param Grl.Media media: A media object
+        """
         super().__init__()
 
-        self._grilo = grilo
-        self._coreselection = coreselection
+        self._coregrilo = application.props.coregrilo
+        self._coreselection = application.props.coreselection
         self._favorite = False
         self._selected = False
 
@@ -94,7 +99,7 @@ class CoreSong(GObject.GObject):
             return
 
         self.props.media.set_favourite(self._favorite)
-        self._grilo.writeback(self.props.media, Grl.METADATA_KEY_FAVOURITE)
+        self._coregrilo.writeback(self.props.media, Grl.METADATA_KEY_FAVOURITE)
 
     @GObject.Property(type=bool, default=False)
     def selected(self):
@@ -128,11 +133,13 @@ class CoreSong(GObject.GObject):
             return
 
         self.props.media.set_play_count(self.props.play_count + 1)
-        self._grilo.writeback(self.props.media, Grl.METADATA_KEY_PLAY_COUNT)
+        self._coregrilo.writeback(
+            self.props.media, Grl.METADATA_KEY_PLAY_COUNT)
 
     def set_last_played(self):
         if not self._is_tracker:
             return
 
         self.props.media.set_last_played(GLib.DateTime.new_now_utc())
-        self._grilo.writeback(self.props.media, Grl.METADATA_KEY_LAST_PLAYED)
+        self._coregrilo.writeback(
+            self.props.media, Grl.METADATA_KEY_LAST_PLAYED)

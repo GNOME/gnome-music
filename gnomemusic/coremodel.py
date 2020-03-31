@@ -29,7 +29,6 @@ gi.require_version("Gfm", "0.1")
 from gi.repository import GObject, Gio, Gfm, Gtk
 
 from gnomemusic.coreartist import CoreArtist
-from gnomemusic.coregrilo import CoreGrilo
 from gnomemusic.coresong import CoreSong
 from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
 from gnomemusic.player import PlayerPlaylist
@@ -70,7 +69,6 @@ class CoreModel(GObject.GObject):
     }
 
     active_playlist = GObject.Property(type=Playlist, default=None)
-    grilo = GObject.Property(type=CoreGrilo, default=None)
     songs_available = GObject.Property(type=bool, default=False)
 
     def __init__(self, application):
@@ -88,37 +86,38 @@ class CoreModel(GObject.GObject):
         self._songs_model = Gio.ListStore.new(CoreSong)
         self._songliststore = SongListStore(self._songs_model)
 
-        self._coreselection = application.props.coreselection
-        self._album_model = Gio.ListStore()
-        self._album_model_sort = Gfm.SortListModel.new(self._album_model)
-        self._album_model_sort.set_sort_func(
+        self._application = application
+
+        self._albums_model = Gio.ListStore()
+        self._albums_model_sort = Gfm.SortListModel.new(self._albums_model)
+        self._albums_model_sort.set_sort_func(
             utils.wrap_list_store_sort_func(self._albums_sort))
 
-        self._artist_model = Gio.ListStore.new(CoreArtist)
-        self._artist_model_sort = Gfm.SortListModel.new(self._artist_model)
-        self._artist_model_sort.set_sort_func(
+        self._artists_model = Gio.ListStore.new(CoreArtist)
+        self._artists_model_sort = Gfm.SortListModel.new(self._artists_model)
+        self._artists_model_sort.set_sort_func(
             utils.wrap_list_store_sort_func(self._artist_sort))
 
         self._playlist_model = Gio.ListStore.new(CoreSong)
         self._playlist_model_sort = Gfm.SortListModel.new(self._playlist_model)
 
-        self._song_search_proxy = Gio.ListStore.new(Gfm.FilterListModel)
-        self._song_search_flatten = Gfm.FlattenListModel.new(CoreSong)
-        self._song_search_flatten.set_model(self._song_search_proxy)
+        self._songs_search_proxy = Gio.ListStore.new(Gfm.FilterListModel)
+        self._songs_search_flatten = Gfm.FlattenListModel.new(CoreSong)
+        self._songs_search_flatten.set_model(self._songs_search_proxy)
 
-        self._album_search_model = Gfm.FilterListModel.new(
-            self._album_model)
-        self._album_search_model.set_filter_func(lambda a: False)
+        self._albums_search_model = Gfm.FilterListModel.new(
+            self._albums_model)
+        self._albums_search_model.set_filter_func(lambda a: False)
 
-        self._album_search_filter = Gfm.FilterListModel.new(
-            self._album_search_model)
+        self._albums_search_filter = Gfm.FilterListModel.new(
+            self._albums_search_model)
 
-        self._artist_search_model = Gfm.FilterListModel.new(
-            self._artist_model)
-        self._artist_search_model.set_filter_func(lambda a: False)
+        self._artists_search_model = Gfm.FilterListModel.new(
+            self._artists_model)
+        self._artists_search_model.set_filter_func(lambda a: False)
 
-        self._artist_search_filter = Gfm.FilterListModel.new(
-            self._artist_search_model)
+        self._artists_search_filter = Gfm.FilterListModel.new(
+            self._artists_search_model)
 
         self._playlists_model = Gio.ListStore.new(Playlist)
         self._playlists_model_filter = Gfm.FilterListModel.new(
@@ -134,11 +133,6 @@ class CoreModel(GObject.GObject):
             self._user_playlists_model_filter)
         self._user_playlists_model_sort.set_sort_func(
             utils.wrap_list_store_sort_func(self._playlists_sort))
-
-        self.props.grilo = CoreGrilo(self, application)
-        # FIXME: Not all instances of internal _grilo use have been
-        # fixed.
-        self._grilo = self.props.grilo
 
         self._songs_model.connect(
             "items-changed", self._on_songs_items_changed)
@@ -183,36 +177,6 @@ class CoreModel(GObject.GObject):
             playlist_a.props.creation_date)
         return math.copysign(1, date_diff)
 
-    def get_album_model(self, media):
-        disc_model = Gio.ListStore()
-        disc_model_sort = Gfm.SortListModel.new(disc_model)
-
-        def _disc_order_sort(disc_a, disc_b):
-            return disc_a.props.disc_nr - disc_b.props.disc_nr
-
-        disc_model_sort.set_sort_func(
-            utils.wrap_list_store_sort_func(_disc_order_sort))
-
-        self.props.grilo.get_album_discs(media, disc_model)
-
-        return disc_model_sort
-
-    def get_artist_album_model(self, media):
-        albums_model_filter = Gfm.FilterListModel.new(self._album_model)
-        albums_model_filter.set_filter_func(lambda a: False)
-
-        albums_model_sort = Gfm.SortListModel.new(albums_model_filter)
-
-        self.props.grilo.get_artist_albums(media, albums_model_filter)
-
-        def _album_sort(album_a, album_b):
-            return album_a.props.year > album_b.props.year
-
-        albums_model_sort.set_sort_func(
-            utils.wrap_list_store_sort_func(_album_sort))
-
-        return albums_model_sort
-
     def set_player_model(self, playlist_type, model):
         """Set the model for PlayerPlaylist to use
 
@@ -242,9 +206,7 @@ class CoreModel(GObject.GObject):
             if added > 0:
                 for i in list(range(added)):
                     coresong = model[position + i]
-                    song = CoreSong(
-                        coresong.props.media, self._coreselection,
-                        self.props.grilo)
+                    song = CoreSong(self._application, coresong.props.media)
                     _bind_song_properties(coresong, song)
                     songs_list.append(song)
 
@@ -277,9 +239,7 @@ class CoreModel(GObject.GObject):
             self._current_playlist_model = self._flatten_model
 
             for model_song in self._flatten_model:
-                song = CoreSong(
-                    model_song.props.media, self._coreselection,
-                    self.props.grilo)
+                song = CoreSong(self._application, model_song.props.media)
                 _bind_song_properties(model_song, song)
                 songs_added.append(song)
 
@@ -295,9 +255,7 @@ class CoreModel(GObject.GObject):
             self._current_playlist_model = self._flatten_model
 
             for model_song in self._flatten_model:
-                song = CoreSong(
-                    model_song.props.media, self._coreselection,
-                    self.props.grilo)
+                song = CoreSong(self._application, model_song.props.media)
                 _bind_song_properties(model_song, song)
                 songs_added.append(song)
 
@@ -311,18 +269,16 @@ class CoreModel(GObject.GObject):
                     song.props.state = SongWidget.State.PLAYED
 
         elif playlist_type == PlayerPlaylist.Type.SEARCH_RESULT:
-            self._current_playlist_model = self._song_search_flatten
+            self._current_playlist_model = self._songs_search_flatten
 
-            for song in self._song_search_flatten:
+            for song in self._songs_search_flatten:
                 songs_added.append(song)
 
         elif playlist_type == PlayerPlaylist.Type.PLAYLIST:
             self._current_playlist_model = model
 
             for model_song in model:
-                song = CoreSong(
-                    model_song.props.media, self._coreselection,
-                    self.props.grilo)
+                song = CoreSong(self._application, model_song.props.media)
                 _bind_song_properties(model_song, song)
                 songs_added.append(song)
 
@@ -336,32 +292,6 @@ class CoreModel(GObject.GObject):
 
         self.emit("playlist-loaded", playlist_type)
 
-    def stage_playlist_deletion(self, playlist):
-        """Prepares playlist deletion.
-
-        :param Playlist playlist: playlist
-        """
-        self.props.grilo.stage_playlist_deletion(playlist)
-
-    def finish_playlist_deletion(self, playlist, deleted):
-        """Finishes playlist deletion.
-
-        :param Playlist playlist: playlist
-        :param bool deleted: indicates if the playlist has been deleted
-        """
-        self.props.grilo.finish_playlist_deletion(playlist, deleted)
-
-    def create_playlist(self, playlist_title, callback):
-        """Creates a new user playlist.
-
-        :param str playlist_title: playlist title
-        :param callback: function to perform once, the playlist is created
-        """
-        self.props.grilo.create_playlist(playlist_title, callback)
-
-    def search(self, text):
-        self.props.grilo.search(text)
-
     @GObject.Property(
         type=Gio.ListStore, default=None, flags=GObject.ParamFlags.READABLE)
     def songs(self):
@@ -370,12 +300,12 @@ class CoreModel(GObject.GObject):
     @GObject.Property(
         type=Gio.ListStore, default=None, flags=GObject.ParamFlags.READABLE)
     def albums(self):
-        return self._album_model
+        return self._albums_model
 
     @GObject.Property(
         type=Gio.ListStore, default=None, flags=GObject.ParamFlags.READABLE)
     def artists(self):
-        return self._artist_model
+        return self._artists_model
 
     @GObject.Property(
         type=Gio.ListStore, default=None, flags=GObject.ParamFlags.READABLE)
@@ -386,13 +316,13 @@ class CoreModel(GObject.GObject):
         type=Gfm.SortListModel, default=None,
         flags=GObject.ParamFlags.READABLE)
     def albums_sort(self):
-        return self._album_model_sort
+        return self._albums_model_sort
 
     @GObject.Property(
         type=Gfm.SortListModel, default=None,
         flags=GObject.ParamFlags.READABLE)
     def artists_sort(self):
-        return self._artist_model_sort
+        return self._artists_model_sort
 
     @GObject.Property(
         type=Gfm.SortListModel, default=None,
@@ -404,37 +334,37 @@ class CoreModel(GObject.GObject):
         type=Gfm.FilterListModel, default=None,
         flags=GObject.ParamFlags.READABLE)
     def songs_search(self):
-        return self._song_search_flatten
+        return self._songs_search_flatten
 
     @GObject.Property(
         type=Gio.ListStore, default=None,
         flags=GObject.ParamFlags.READABLE)
     def songs_search_proxy(self):
-        return self._song_search_proxy
+        return self._songs_search_proxy
 
     @GObject.Property(
         type=Gfm.FilterListModel, default=None,
         flags=GObject.ParamFlags.READABLE)
     def albums_search(self):
-        return self._album_search_model
+        return self._albums_search_model
 
     @GObject.Property(
         type=Gfm.FilterListModel, default=None,
         flags=GObject.ParamFlags.READABLE)
     def albums_search_filter(self):
-        return self._album_search_filter
+        return self._albums_search_filter
 
     @GObject.Property(
         type=Gfm.FilterListModel, default=None,
         flags=GObject.ParamFlags.READABLE)
     def artists_search(self):
-        return self._artist_search_model
+        return self._artists_search_model
 
     @GObject.Property(
         type=Gfm.FilterListModel, default=None,
         flags=GObject.ParamFlags.READABLE)
     def artists_search_filter(self):
-        return self._artist_search_filter
+        return self._artists_search_filter
 
     @GObject.Property(
         type=Gtk.ListStore, default=None, flags=GObject.ParamFlags.READABLE)
