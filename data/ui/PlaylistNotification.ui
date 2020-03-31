@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <object class="GtkImage" id="close_notification_window">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="icon_name">window-close-symbolic</property>
+    <property name="icon_size">1</property>
+  </object>
+    <template class="PlaylistNotification" parent="GtkGrid">
+    <property name="visible">True</property>
+    <property name="column_spacing">18</property>
+    <child>
+      <object class="GtkButton">
+        <property name="always_show_image">True</property>
+        <property name="image">close_notification_window</property>
+        <property name="image_position">right</property>
+        <property name="relief">none</property>
+        <property name="visible">True</property>
+        <signal name="clicked" handler="_close_notification" swapped="no"/>
+      </object>
+      <packing>
+        <property name="left_attach">2</property>
+        <property name="top_attach">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkButton">
+        <property name="label" translatable="yes">_Undo</property>
+        <property name="use_underline">True</property>
+        <property name="visible">True</property>
+        <signal name="clicked" handler="_undo_deletion" swapped="no"/>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="top_attach">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="_label">
+        <property name="visible">True</property>
+        <property name="halign">start</property>
+        <property name="hexpand">True</property>
+        <property name="label" translatable="yes"></property>
+      </object>
+      <packing>
+        <property name="left_attach">0</property>
+        <property name="top_attach">0</property>
+      </packing>
+    </child>
+  </template>
+</interface>
