@@ -20,13 +20,6 @@
                 <property name="visible">True</property>
               </object>
             </child>
-            <child type="overlay">
-              <object class="NotificationsPopup" id="notifications_popup">
-                <property name="halign">center</property>
-                <property name="transition-type">slide-down</property>
-                <property name="valign">start</property>
-              </object>
-            </child>
           </object>
         </child>
         <child>
