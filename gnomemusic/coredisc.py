@@ -41,6 +41,7 @@ class CoreDisc(GObject.GObject):
         """
         super().__init__()
 
+        self._coregrilo = application.props.coregrilo
         self._coremodel = application.props.coremodel
         self._filter_model = None
         self._model = None
@@ -111,8 +112,7 @@ class CoreDisc(GObject.GObject):
 
             album_ids.append(media.get_source() + media.get_id())
 
-        self._coremodel.props.grilo.populate_album_disc_songs(
-            media, discnr, _callback)
+        self._coregrilo.populate_album_disc_songs(media, discnr, _callback)
 
     @GObject.Property(
         type=bool, default=False, flags=GObject.BindingFlags.SYNC_CREATE)

@@ -544,7 +544,7 @@ class RemoteArt(GObject.GObject):
         self._artist = None
         self._album = None
         self._coresong = None
-        self._grilo = None
+        self._coregrilo = None
 
     def query(self, coresong):
         """Start the remote query
@@ -561,27 +561,24 @@ class RemoteArt(GObject.GObject):
 
         self.emit('no-remote-sources')
 
-        # FIXME: This is a total hack. It gets CoreModel from the
-        # CoreAlbum or CoreSong about and then retrieves the CoreGrilo
-        # instance.
-        try:
-            self._grilo = self._coresong._coremodel.props.grilo
-        except AttributeError:
-            self._grilo = self._coresong._grilo
+        # FIXME: This is a hack. It gets CoreGrilo from the CoreAlbum
+        # or CoreSong private instance.
+        self._coregrilo = self._coresong._coregrilo
 
-        if not self._grilo.props.cover_sources:
+        if not self._coregrilo.props.cover_sources:
             self.emit('no-remote-sources')
-            self._grilo.connect(
-                'notify::cover-sources', self._on_grilo_cover_sources_changed)
+            self._coregrilo.connect(
+                "notify::cover-sources",
+                self._on_coregrilo_cover_sources_changed)
         else:
             # FIXME: It seems this Grilo query does not always return,
             # especially on queries with little info.
-            self._grilo.get_album_art_for_item(
+            self._coregrilo.get_album_art_for_item(
                 self._coresong, self._remote_album_art)
 
-    def _on_grilo_cover_sources_changed(self, klass, data):
-        if self._grilo.props.cover_sources:
-            self._grilo.get_album_art_for_item(
+    def _on_coregrilo_cover_sources_changed(self, klass, data):
+        if self._coregrilo.props.cover_sources:
+            self._coregrilo.get_album_art_for_item(
                 self._coresong, self._remote_album_art)
 
     def _delete_callback(self, src, result, data):
