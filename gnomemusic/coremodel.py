@@ -87,6 +87,7 @@ class CoreModel(GObject.GObject):
         self._songliststore = SongListStore(self._songs_model)
 
         self._application = application
+
         self._albums_model = Gio.ListStore()
         self._albums_model_sort = Gfm.SortListModel.new(self._albums_model)
         self._albums_model_sort.set_sort_func(
