@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="NotificationsPopup" parent="GtkRevealer">
+    <property name="visible">True</property>
+    <property name="halign">center</property>
+    <property name="valign">start</property>
+    <child>
+      <object class="GtkFrame">
+        <property name="visible">True</property>
+        <property name="shadow_type">none</property>
+        <child>
+          <object class="GtkGrid" id="_grid">
+            <property name="visible">True</property>
+            <property name="orientation">vertical</property>
+            <property name="row_spacing">6</property>
+          </object>
+        </child>
+        <style>
+          <class name="app-notification"/>
+        </style>
+      </object>
+    </child>
+  </template>
+</interface>
