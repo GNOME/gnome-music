@@ -45,6 +45,7 @@ class CoreArtist(GObject.GObject):
         """
         super().__init__()
 
+        self._application = application
         self._cached_thumbnail_uri = None
         self._coregrilo = application.props.coregrilo
         self._coremodel = application.props.coremodel
@@ -111,7 +112,7 @@ class CoreArtist(GObject.GObject):
     def thumbnail(self):
         if self._thumbnail is None:
             self._thumbnail = ""
-            ArtistArt(self, self._coremodel)
+            ArtistArt(self._application, self)
 
         return self._thumbnail
 
