@@ -9,6 +9,7 @@ data/ui/AppMenu.ui
 data/ui/HeaderBar.ui
 data/ui/help-overlay.ui
 data/ui/LastfmDialog.ui
+data/ui/LoadingNotification.ui
 data/ui/PlayerToolbar.ui
 data/ui/PlaylistContextMenu.ui
 data/ui/PlaylistControls.ui

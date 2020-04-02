@@ -119,6 +119,7 @@ class NotificationsPopup(Gtk.Revealer):
                 notification._finish_deletion()
 
 
+@Gtk.Template(resource_path="/org/gnome/Music/ui/LoadingNotification.ui")
 class LoadingNotification(Gtk.Grid):
     """LoadingNotification displays a loading notification message
 
@@ -131,19 +132,12 @@ class LoadingNotification(Gtk.Grid):
         'invisible': (GObject.SignalFlags.RUN_FIRST, None, ())
     }
 
+    __gtype_name__ = "LoadingNotification"
+
     def __init__(self):
-        super().__init__(column_spacing=18)
+        super().__init__()
         self._counter = 0
         self._timeout_id = 0
-
-        spinner = Gtk.Spinner()
-        spinner.start()
-        self.add(spinner)
-
-        label = Gtk.Label(
-            label=_("Loading"), halign=Gtk.Align.START, hexpand=True)
-        self.add(label)
-        self.show_all()
 
     def pop(self):
         """Decrease the counter. Hide notification if it reaches 0."""
