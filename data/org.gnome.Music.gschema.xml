@@ -48,5 +48,10 @@
             <summary>Report music history to Last.fm</summary>
             <description>Enables or disables sending scrobbles and the “currently playing” info to Last.fm.</description>
         </key>
+	<key type="b" name="network-option">
+            <default>false</default>
+            <summary>Allow application to use internet</summary>
+            <description>It enables or disables music application to use the internet connetion</description>
+        </key>
     </schema>
 </schemalist>
