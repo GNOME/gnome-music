@@ -36,6 +36,7 @@ from gi.repository import (Gdk, GdkPixbuf, Gio, GLib, GObject, Gtk, MediaArt,
 from gnomemusic.musiclogger import MusicLogger
 
 
+
 def lookup_art_file_from_cache(coresong):
     """Lookup MediaArt cache art of an album or song.
 
@@ -196,6 +197,7 @@ class Art(GObject.GObject):
             self._url = None
         self._surface = None
         self._scale = scale
+        self._is_default_art = None
 
     def lookup(self):
         """Starts the art lookup sequence"""
@@ -203,10 +205,18 @@ class Art(GObject.GObject):
             self._no_art_available()
             return
 
-        cache = Cache()
-        cache.connect('miss', self._cache_miss)
-        cache.connect('hit', self._cache_hit)
-        cache.query(self._coresong)
+        if self._is_default_art:
+            remote_art = RemoteArt()
+            remote_art.connect("retrieved", self._remote_art_retrieved)
+            remote_art.connect("unavailable", self._remote_art_unavailable)
+            remote_art.connect(
+                "no-remote-sources", self._remote_art_no_sources)
+            remote_art.query(self._coresong)
+        else:
+            cache = Cache()
+            cache.connect("miss", self._cache_miss)
+            cache.connect("hit", self._cache_hit)
+            cache.query(self._coresong)
 
     def _cache_miss(self, klass):
         embedded_art = EmbeddedArt()
@@ -258,6 +268,7 @@ class Art(GObject.GObject):
         self._surface = DefaultIcon().get(
             DefaultIcon.Type.MUSIC, self._size, self._scale)
 
+        self._is_default_art = True
         self.emit('finished')
 
     def _add_to_blacklist(self):
@@ -545,12 +556,18 @@ class RemoteArt(GObject.GObject):
         self._album = None
         self._coresong = None
         self._coregrilo = None
+        self._remote_coverart_permission = (
+            Gio.Settings.new('org.gnome.Music').get_value('coverart-option'))
 
     def query(self, coresong):
         """Start the remote query
 
         :param CoreSong coresong: The CoreSong object to search art for
         """
+        if not self._remote_coverart_permission:
+            self.emit('no-remote-sources')
+            return
+
         # FIXME: coresong can be a CoreAlbum
         try:
             self._album = coresong.props.album
