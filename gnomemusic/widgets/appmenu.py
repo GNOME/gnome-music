@@ -85,4 +85,5 @@ class AppMenu(Gtk.PopoverMenu):
         self._lastfm_scrobbler.props.can_scrobble = state
 
     def _on_coverart_toggle(self, klass, state):
-        Gio.Settings.new('org.gnome.Music').set_boolean('coverart-option', state)
+        Gio.Settings.new('org.gnome.Music').set_boolean('coverart-option',
+	    state)
