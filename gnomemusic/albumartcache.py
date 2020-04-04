@@ -36,7 +36,7 @@ from gi.repository import (Gdk, GdkPixbuf, Gio, GLib, GObject, Gtk, MediaArt,
 from gnomemusic.musiclogger import MusicLogger
 
 remote_coverart_permission = (
-	Gio.Settings.new('org.gnome.Music').get_value('coverart-option'))
+    Gio.Settings.new('org.gnome.Music').get_value('coverart-option'))
 
 
 def lookup_art_file_from_cache(coresong):
