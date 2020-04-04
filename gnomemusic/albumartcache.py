@@ -212,7 +212,7 @@ class Art(GObject.GObject):
             remote_art.connect('retrieved', self._remote_art_retrieved)
             remote_art.connect('unavailable', self._remote_art_unavailable)
             remote_art.connect('no-remote-sources',
-                                self._remote_art_no_sources)
+        	self._remote_art_no_sources)
             remote_art.query(self._coresong)
         else:
             cache = Cache()
