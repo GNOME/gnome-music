@@ -38,6 +38,7 @@ from gnomemusic.musiclogger import MusicLogger
 remote_coverart_permission = (
 	Gio.Settings.new('org.gnome.Music').get_value('coverart-option'))
 
+
 def lookup_art_file_from_cache(coresong):
     """Lookup MediaArt cache art of an album or song.
 
@@ -210,7 +211,8 @@ class Art(GObject.GObject):
             remote_art = RemoteArt()
             remote_art.connect('retrieved', self._remote_art_retrieved)
             remote_art.connect('unavailable', self._remote_art_unavailable)
-            remote_art.connect('no-remote-sources', self._remote_art_no_sources)
+            remote_art.connect('no-remote-sources',
+                                self._remote_art_no_sources)
             remote_art.query(self._coresong)
         else:
             cache = Cache()
