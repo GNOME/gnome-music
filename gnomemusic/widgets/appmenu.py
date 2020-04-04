@@ -22,9 +22,10 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from gi.repository import Gtk
+from gi.repository import Gtk, Gio
 
 from gnomemusic.scrobbler import GoaLastFM
+from gnomemusic.widgets.coverstack import CoverStack
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/AppMenu.ui")
@@ -35,6 +36,7 @@ class AppMenu(Gtk.PopoverMenu):
 
     _lastfm_box = Gtk.Template.Child()
     _lastfm_switch = Gtk.Template.Child()
+    _coverart_switch = Gtk.Template.Child()
 
     def __init__(self, application):
         """Initialize the application menu
@@ -42,6 +44,10 @@ class AppMenu(Gtk.PopoverMenu):
         :param Application application: Application object
         """
         super().__init__()
+
+        self._model = application.props.coremodel.props.albums_sort
+
+        self._coverstack = CoverStack()
 
         self._lastfm_switcher_id = None
 
@@ -52,10 +58,10 @@ class AppMenu(Gtk.PopoverMenu):
         self._lastfm_scrobbler.connect(
             "notify::can-scrobble", self._on_scrobbler_state_changed)
         self._on_scrobbler_state_changed(None, None)
+        self._coverart_switch.connect("state-set", self._on_coverart_toggle)
 
     def _on_scrobbler_state_changed(self, klass, args):
         state = self._lastfm_scrobbler.props.account_state
-
         if state == GoaLastFM.State.NOT_AVAILABLE:
             self._lastfm_configure_action.props.enabled = False
             return
@@ -80,3 +86,10 @@ class AppMenu(Gtk.PopoverMenu):
 
     def _on_lastfm_switch_active(self, klass, state):
         self._lastfm_scrobbler.props.can_scrobble = state
+
+    def _on_coverart_toggle(self, klass, state):
+        Gio.Settings.new('org.gnome.Music').set_boolean('coverart-option',
+                                                        state)
+        if state == True:
+            for corealbum in self._model:
+                self._coverstack.update(corealbum)

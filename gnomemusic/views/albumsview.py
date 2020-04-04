@@ -31,7 +31,6 @@ from gnomemusic.widgets.headerbar import HeaderBar
 from gnomemusic.widgets.albumcover import AlbumCover
 from gnomemusic.widgets.albumwidget import AlbumWidget
 
-
 @Gtk.Template(resource_path="/org/gnome/Music/ui/AlbumsView.ui")
 class AlbumsView(Gtk.Stack):
     """Gridlike view of all albums
@@ -257,3 +256,4 @@ class AlbumsView(Gtk.Stack):
 
     def deselect_all(self):
         self._toggle_all_selection(False)
+
