@@ -48,5 +48,10 @@
             <summary>Report music history to Last.fm</summary>
             <description>Enables or disables sending scrobbles and the “currently playing” info to Last.fm.</description>
         </key>
+	<key type="b" name="coverart-option">
+            <default>false</default>
+            <summary>Download art from remote sources</summary>
+            <description>It enables or disables music app from downloading art from remote sources</description>
+        </key>
     </schema>
 </schemalist>
