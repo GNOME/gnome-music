@@ -40,7 +40,7 @@ class AlbumCover(Gtk.FlowBoxChild):
 
     __gtype_name__ = 'AlbumCover'
 
-    _cover_stack = Gtk.Template.Child()
+    _art_stack = Gtk.Template.Child()
     _check = Gtk.Template.Child()
     _title_label = Gtk.Template.Child()
     _artist_label = Gtk.Template.Child()
@@ -81,7 +81,7 @@ class AlbumCover(Gtk.FlowBoxChild):
 
         self.connect('query-tooltip', self._on_tooltip_query)
 
-        self._cover_stack.props.size = Art.Size.MEDIUM
+        self._art_stack.props.size = Art.Size.MEDIUM
 
         self.show()
 
@@ -95,7 +95,7 @@ class AlbumCover(Gtk.FlowBoxChild):
             return
 
         self._retrieved = True
-        self._cover_stack.update(self._corealbum)
+        self._art_stack.props.coreobject = self._corealbum
 
     @GObject.Property(type=CoreAlbum, flags=GObject.ParamFlags.READABLE)
     def corealbum(self):

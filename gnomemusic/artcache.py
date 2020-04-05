@@ -27,6 +27,8 @@ from math import pi
 import cairo
 from gi.repository import Gdk, GdkPixbuf, Gio, Gtk, GLib, GObject
 
+from gnomemusic.corealbum import CoreAlbum
+from gnomemusic.coreartist import CoreArtist
 from gnomemusic.musiclogger import MusicLogger
 
 
@@ -120,6 +122,7 @@ class DefaultIcon(GObject.GObject):
 
     class Type(Enum):
         ARTIST = "avatar-default-symbolic"
+        ARTIST_LOADING = "content-loading-symbolic"
         LOADING = "content-loading-symbolic"
         MUSIC = "folder-music-symbolic"
 
@@ -182,18 +185,30 @@ class ArtCache(GObject.GObject):
         self._size = size
         self._scale = scale
 
-        self._loading_icon = DefaultIcon().get(
-            DefaultIcon.Type.LOADING, self._size, self._scale, True)
-        self._default_icon = DefaultIcon().get(
-            DefaultIcon.Type.ARTIST, self._size, self._scale, True)
+        self._coreobject = None
+        self._default_icon = None
+        self._loading_icon = None
 
-    def query(self, coreartist):
+    def query(self, coreobject):
         """Start the cache query
 
-        :param CoreArtist coreartist: The object to search art for
+        :param coreobject: The object to search art for
         """
-        thumbnail_uri = coreartist.props.thumbnail
-        if thumbnail_uri == "loading":
+        self._coreobject = coreobject
+
+        if isinstance(coreobject, CoreArtist):
+            self._loading_icon = DefaultIcon().get(
+                DefaultIcon.Type.ARTIST_LOADING, self._size, self._scale, True)
+            self._default_icon = DefaultIcon().get(
+                DefaultIcon.Type.ARTIST, self._size, self._scale, True)
+        elif isinstance(coreobject, CoreAlbum):
+            self._loading_icon = DefaultIcon().get(
+                DefaultIcon.Type.LOADING, self._size, self._scale)
+            self._default_icon = DefaultIcon().get(
+                DefaultIcon.Type.MUSIC, self._size, self._scale)
+
+        thumbnail_uri = coreobject.props.thumbnail
+        if thumbnail_uri in ["loading", "", None]:
             self.emit("result", self._loading_icon)
             return
         elif thumbnail_uri == "generic":
@@ -233,8 +248,11 @@ class ArtCache(GObject.GObject):
 
         surface = Gdk.cairo_surface_create_from_pixbuf(
             pixbuf, self._scale, None)
-        surface = _make_icon_frame(
-            surface, self._size, self._scale, round_shape=True)
+        if isinstance(self._coreobject, CoreArtist):
+            surface = _make_icon_frame(
+                surface, self._size, self._scale, round_shape=True)
+        elif isinstance(self._coreobject, CoreAlbum):
+            surface = _make_icon_frame(surface, self._size, self._scale)
 
         self.emit("result", surface)
 
