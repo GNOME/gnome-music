@@ -29,15 +29,15 @@ from gnomemusic.artcache import ArtCache
 from gnomemusic.coreartist import CoreArtist
 
 
-class ArtistArtStack(Gtk.Stack):
+class ArtStack(Gtk.Stack):
     """Provides a smooth transition between image states
 
     Uses a Gtk.Stack to provide an in-situ transition between an image
-    state. Either between the "loading" state versus the "loaded" state
-    or in between songs.
+    state. Between the 'loading' and 'default' art state and in between
+    songs.
     """
 
-    __gtype_name__ = "ArtistArtStack"
+    __gtype_name__ = "ArtStack"
 
     def __init__(self, size=Art.Size.MEDIUM):
         """Initialize the ArtStack
@@ -79,27 +79,27 @@ class ArtistArtStack(Gtk.Stack):
         """
         self._size = value
 
-    @GObject.Property(type=CoreArtist, default=None)
-    def coreartist(self):
-        return self._coreartist
+    @GObject.Property(type=object, default=None)
+    def coreobject(self):
+        return self._coreobject
 
-    @coreartist.setter
-    def coreartist(self, coreartist):
-        self._coreartist = coreartist
+    @coreobject.setter
+    def coreobject(self, coreobject):
+        self._coreobject = coreobject
 
-        self._coreartist.connect(
+        self._coreobject.connect(
             "notify::thumbnail", self._on_thumbnail_changed)
 
-        if self._coreartist.props.thumbnail is not None:
-            self._on_thumbnail_changed(self._coreartist, None)
+        if self._coreobject.props.thumbnail is not None:
+            self._on_thumbnail_changed(self._coreobject, None)
 
-    def _on_thumbnail_changed(self, coreartist, uri):
+    def _on_thumbnail_changed(self, coreobject, uri):
         self._disconnect_cache()
 
         self._cache = ArtCache(self.props.size, self.props.scale_factor)
         self._handler_id = self._cache.connect("result", self._on_cache_result)
 
-        self._cache.query(coreartist)
+        self._cache.query(coreobject)
 
     def _on_cache_result(self, cache, surface):
         if self.props.visible_child_name == "B":
