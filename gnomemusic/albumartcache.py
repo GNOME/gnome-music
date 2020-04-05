@@ -34,6 +34,7 @@ gi.require_version("Soup", "2.4")
 from gi.repository import (Gdk, GdkPixbuf, Gio, GLib, GObject, Gtk, MediaArt,
                            Gst, GstTag, GstPbutils, Soup)
 
+from gnomemusic.artcache import DefaultIcon, _make_icon_frame
 from gnomemusic.musiclogger import MusicLogger
 
 
@@ -56,104 +57,6 @@ def lookup_art_file_from_cache(coresong):
         return None
 
     return thumb_file
-
-
-def _make_icon_frame(icon_surface, art_size=None, scale=1, default_icon=False):
-    border = 3
-    degrees = pi / 180
-    radius = 3
-
-    icon_w = icon_surface.get_width()
-    icon_h = icon_surface.get_height()
-    ratio = icon_h / icon_w
-
-    # Scale down the image according to the biggest axis
-    if ratio > 1:
-        w = int(art_size.width / ratio)
-        h = art_size.height
-    else:
-        w = art_size.width
-        h = int(art_size.height * ratio)
-
-    surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, w * scale, h * scale)
-    surface.set_device_scale(scale, scale)
-    ctx = cairo.Context(surface)
-
-    # draw outline
-    ctx.new_sub_path()
-    ctx.arc(w - radius, radius, radius - 0.5, -90 * degrees, 0 * degrees)
-    ctx.arc(w - radius, h - radius, radius - 0.5, 0 * degrees, 90 * degrees)
-    ctx.arc(radius, h - radius, radius - 0.5, 90 * degrees, 180 * degrees)
-    ctx.arc(radius, radius, radius - 0.5, 180 * degrees, 270 * degrees)
-    ctx.close_path()
-    ctx.set_line_width(0.6)
-    ctx.set_source_rgba(0, 0, 0, 0.7)
-    ctx.stroke_preserve()
-
-    matrix = cairo.Matrix()
-
-    if default_icon:
-        ctx.set_source_rgb(1, 1, 1)
-        ctx.fill()
-        ctx.set_source_rgba(0, 0, 0, 0.3)
-        ctx.mask_surface(icon_surface, w / 3, h / 3)
-        ctx.fill()
-    else:
-        matrix.scale(
-            icon_w / ((w - border * 2) * scale),
-            icon_h / ((h - border * 2) * scale))
-        matrix.translate(-border, -border)
-        ctx.set_source_surface(icon_surface, 0, 0)
-
-        pattern = ctx.get_source()
-        pattern.set_matrix(matrix)
-        ctx.fill()
-
-    ctx.rectangle(border, border, w - border * 2, h - border * 2)
-    ctx.clip()
-
-    return surface
-
-
-class DefaultIcon(GObject.GObject):
-    """Provides the symbolic fallback and loading icons."""
-
-    class Type(Enum):
-        LOADING = 'content-loading-symbolic'
-        MUSIC = 'folder-music-symbolic'
-
-    _cache = {}
-    _default_theme = Gtk.IconTheme.get_default()
-
-    def __init__(self):
-        super().__init__()
-
-    def _make_default_icon(self, icon_type, art_size, scale):
-        icon_info = self._default_theme.lookup_icon_for_scale(
-            icon_type.value, art_size.width / 3, scale, 0)
-        icon = icon_info.load_surface()
-
-        icon_surface = _make_icon_frame(icon, art_size, scale, True)
-
-        return icon_surface
-
-    def get(self, icon_type, art_size, scale=1):
-        """Returns the requested symbolic icon
-
-        Returns a cairo surface of the requested symbolic icon in the
-        given size.
-
-        :param enum icon_type: The DefaultIcon.Type of the icon
-        :param enum art_size: The Art.Size requested
-
-        :return: The symbolic icon
-        :rtype: cairo.Surface
-        """
-        if (icon_type, art_size, scale) not in self._cache.keys():
-            new_icon = self._make_default_icon(icon_type, art_size, scale)
-            self._cache[(icon_type, art_size, scale)] = new_icon
-
-        return self._cache[(icon_type, art_size, scale)]
 
 
 class Art(GObject.GObject):

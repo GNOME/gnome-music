@@ -24,7 +24,8 @@
 
 from gi.repository import GLib, GObject, Gtk
 
-from gnomemusic.albumartcache import Art, DefaultIcon
+from gnomemusic.albumartcache import Art
+from gnomemusic.artcache import DefaultIcon
 
 
 class CoverStack(Gtk.Stack):
