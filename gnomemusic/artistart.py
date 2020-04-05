@@ -141,9 +141,6 @@ class ArtistArt(GObject.GObject):
         if self._in_cache():
             return
 
-        self._coreartist.connect(
-            "notify::thumbnail", self._on_thumbnail_changed)
-
         application.props.coregrilo.get_artist_art(self._coreartist)
 
     def _in_cache(self):
@@ -151,102 +148,12 @@ class ArtistArt(GObject.GObject):
             self._artist, None, "artist")
         if (not success
                 or not thumb_file.query_exists()):
+            self._coreartist.props.thumbnail = "loading"
             return False
 
-        self._coreartist.props.cached_thumbnail_uri = thumb_file.get_path()
+        self._coreartist.props.thumbnail = thumb_file.get_path()
 
         return True
-
-    def _on_thumbnail_changed(self, coreartist, thumbnail):
-        uri = coreartist.props.thumbnail
-
-        if (uri is None
-                or uri == ""):
-            self._coreartist.props.cached_thumbnail_uri = ""
-            return
-
-        msg = Soup.Message.new("GET", uri)
-        self._soup_session.queue_message(msg, self._read_callback, None)
-
-    def _read_callback(self, src, result, data):
-        if result.props.status_code != 200:
-            self._log.debug(
-                "Failed to get remote art for the artist {} : {}".format(
-                    self._artist, result.props.reason_phrase))
-            return
-
-        try:
-            istream = Gio.MemoryInputStream.new_from_bytes(
-                result.props.response_body_data)
-        except GLib.Error as error:
-            self._log.warning(
-                "Error: {}, {}".format(error.domain, error.message))
-            self._coreartist.props.cached_thumbnail_uri = ""
-            return
-
-        try:
-            [tmp_file, iostream] = Gio.File.new_tmp()
-        except GLib.Error as error:
-            self._log.warning(
-                "Error: {}, {}".format(error.domain, error.message))
-            self._coreartist.props.cached_thumbnail_uri = ""
-            return
-
-        ostream = iostream.get_output_stream()
-        # FIXME: Passing the iostream here, otherwise it gets
-        # closed. PyGI specific issue?
-        ostream.splice_async(
-            istream, Gio.OutputStreamSpliceFlags.CLOSE_SOURCE
-            | Gio.OutputStreamSpliceFlags.CLOSE_TARGET, GLib.PRIORITY_LOW,
-            None, self._splice_callback, [tmp_file, iostream])
-
-    def _delete_callback(self, src, result, data):
-        try:
-            src.delete_finish(result)
-        except GLib.Error as error:
-            self._log.warning(
-                "Error: {}, {}".format(error.domain, error.message))
-
-    def _splice_callback(self, src, result, data):
-        tmp_file, iostream = data
-
-        iostream.close_async(
-            GLib.PRIORITY_LOW, None, self._close_iostream_callback, None)
-
-        try:
-            src.splice_finish(result)
-        except GLib.Error as error:
-            self._log.warning(
-                "Error: {}, {}".format(error.domain, error.message))
-            self._coreartist.props.cached_thumbnail_uri = ""
-            return
-
-        success, cache_path = MediaArt.get_path(self._artist, None, "artist")
-
-        if not success:
-            self._coreartist.props.cached_thumbnail_uri = ""
-            return
-
-        try:
-            # FIXME: I/O blocking
-            MediaArt.file_to_jpeg(tmp_file.get_path(), cache_path)
-        except GLib.Error as error:
-            self._log.warning(
-                "Error: {}, {}".format(error.domain, error.message))
-            self._coreartist.props.cached_thumbnail_uri = ""
-            return
-
-        self._in_cache()
-
-        tmp_file.delete_async(
-            GLib.PRIORITY_LOW, None, self._delete_callback, None)
-
-    def _close_iostream_callback(self, src, result, data):
-        try:
-            src.close_finish(result)
-        except GLib.Error as error:
-            self._log.warning(
-                "Error: {}, {}".format(error.domain, error.message))
 
 
 class ArtistCache(GObject.GObject):
@@ -269,6 +176,8 @@ class ArtistCache(GObject.GObject):
         self._size = size
         self._scale = scale
 
+        self._loading_icon = DefaultIcon().get(
+            DefaultIcon.Type.LOADING, self._size, self._scale)
         self._default_icon = DefaultIcon().get(
             DefaultIcon.Type.ARTIST, self._size, self._scale)
 
@@ -296,11 +205,12 @@ class ArtistCache(GObject.GObject):
 
         :param CoreSong coresong: The CoreSong object to search art for
         """
-        thumbnail_uri = coreartist.props.cached_thumbnail_uri
-        if thumbnail_uri == "":
-            self.emit("result", self._default_icon)
+        thumbnail_uri = coreartist.props.thumbnail
+        if thumbnail_uri == "loading":
+            self.emit("result", self._loading_icon)
             return
-        elif thumbnail_uri is None:
+        elif thumbnail_uri == "generic":
+            self.emit("result", self._default_icon)
             return
 
         thumb_file = Gio.File.new_for_path(thumbnail_uri)
