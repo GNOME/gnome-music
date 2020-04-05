@@ -40,7 +40,7 @@ class ArtistAlbumWidget(Gtk.Box):
     __gtype_name__ = 'ArtistAlbumWidget'
 
     _album_box = Gtk.Template.Child()
-    _cover_stack = Gtk.Template.Child()
+    _art_stack = Gtk.Template.Child()
     _disc_list_box = Gtk.Template.Child()
     _title_year = Gtk.Template.Child()
 
@@ -66,8 +66,8 @@ class ArtistAlbumWidget(Gtk.Box):
 
         self._selection_mode = False
 
-        self._cover_stack.props.size = Art.Size.MEDIUM
-        self._cover_stack.update(corealbum)
+        self._art_stack.props.size = Art.Size.MEDIUM
+        self._art_stack.props.coreobject = corealbum
 
         self.bind_property(
             'selection-mode', self._disc_list_box, 'selection-mode',
@@ -83,7 +83,7 @@ class ArtistAlbumWidget(Gtk.Box):
             self._size_group.add_widget(self._album_box)
 
         if self._cover_size_group:
-            self._cover_size_group.add_widget(self._cover_stack)
+            self._cover_size_group.add_widget(self._art_stack)
 
         corealbum.props.model.connect_after(
             "items-changed", self._on_model_items_changed)
