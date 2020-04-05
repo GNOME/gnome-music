@@ -49,7 +49,6 @@ class ArtistArtStack(Gtk.Stack):
         self._cache = None
         self._handler_id = None
         self._size = None
-        self._timeout = None
 
         self._cover_a = Gtk.Image()
         self._cover_b = Gtk.Image()
