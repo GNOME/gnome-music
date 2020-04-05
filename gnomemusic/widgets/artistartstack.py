@@ -87,7 +87,8 @@ class ArtistArtStack(Gtk.Stack):
         self._size = value
 
         icon = self._default_icon.get(
-            DefaultIcon.Type.LOADING, self.props.size, self.props.scale_factor)
+            DefaultIcon.Type.LOADING, self.props.size,
+            self.props.scale_factor, round_shape=True)
         self._loading_cover.props.surface = icon
 
     @GObject.Property(type=CoreArtist, default=None)
