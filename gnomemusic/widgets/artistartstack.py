@@ -108,6 +108,8 @@ class ArtistArtStack(Gtk.Stack):
             self._on_thumbnail_changed(self._coreartist, None)
 
     def _on_thumbnail_changed(self, coreartist, uri):
+        self._disconnect_cache()
+
         self._cache = ArtCache(self.props.size, self.props.scale_factor)
         self._handler_id = self._cache.connect("result", self._on_cache_result)
 
@@ -125,6 +127,9 @@ class ArtistArtStack(Gtk.Stack):
         # If the stack is destroyed while the art is updated, an error
         # can occur once the art is retrieved because the ArtStack does
         # not have children anymore.
+        self._disconnect_cache()
+
+    def _disconnect_cache(self):
         if (self._cache is not None
                 and self._handler_id is not None):
             self._cache.disconnect(self._handler_id)
