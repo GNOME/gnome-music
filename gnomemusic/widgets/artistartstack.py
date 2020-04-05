@@ -42,13 +42,13 @@ class ArtistArtStack(Gtk.Stack):
     _default_icon = DefaultIcon()
 
     def __init__(self, size=Art.Size.MEDIUM):
-        """Initialize the CoverStack
+        """Initialize the ArtStack
 
         :param Art.Size size: The size of the art used for the cover
         """
         super().__init__()
 
-        self._art = None
+        self._cache = None
         self._handler_id = None
         self._size = None
         self._timeout = None
@@ -67,11 +67,7 @@ class ArtistArtStack(Gtk.Stack):
         self.props.transition_type = Gtk.StackTransitionType.CROSSFADE
         self.props.visible_child_name = "loading"
 
-        self._loading_cover.props.visible = True
-        self._cover_a.props.visible = True
-        self._cover_b.props.visible = True
-
-        self.props.visible = True
+        self.connect("destroy", self._on_destroy)
 
     @GObject.Property(type=object, flags=GObject.ParamFlags.READWRITE)
     def size(self):
@@ -103,16 +99,16 @@ class ArtistArtStack(Gtk.Stack):
         self._coreartist = coreartist
 
         self._coreartist.connect(
-            "notify::cached-thumbnail-uri", self._on_thumbnail_changed)
+            "notify::thumbnail", self._on_thumbnail_changed)
 
         if self._coreartist.props.thumbnail is not None:
             self._on_thumbnail_changed(self._coreartist, None)
 
     def _on_thumbnail_changed(self, coreartist, uri):
-        cache = ArtistCache(self.props.size, self.props.scale_factor)
-        cache.connect("result", self._on_cache_result)
+        self._cache = ArtistCache(self.props.size, self.props.scale_factor)
+        self._handler_id = self._cache.connect("result", self._on_cache_result)
 
-        cache.query(coreartist)
+        self._cache.query(coreartist)
 
     def _on_cache_result(self, cache, surface):
         if self._active_child == "B":
@@ -121,3 +117,12 @@ class ArtistArtStack(Gtk.Stack):
         else:
             self._cover_b.props.surface = surface
             self.props.visible_child_name = "B"
+
+    def _on_destroy(self, widget):
+        # If the stacm is destroyed while the art is updated, an error
+        # can occur once the art is retrieved because the CoverStack
+        # does not have children anymore.
+        if (self._cache is not None
+                and self._handler_id is not None):
+            self._cache.disconnect(self._handler_id)
+            self._handler_id = None

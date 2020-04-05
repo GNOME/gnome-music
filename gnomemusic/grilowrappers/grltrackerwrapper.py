@@ -31,6 +31,7 @@ from gnomemusic.coreartist import CoreArtist
 from gnomemusic.coredisc import CoreDisc
 from gnomemusic.coresong import CoreSong
 from gnomemusic.grilowrappers.grltrackerplaylists import GrlTrackerPlaylists
+from gnomemusic.storeartistart import StoreArtistArt
 
 
 class GrlTrackerWrapper(GObject.GObject):
@@ -985,22 +986,33 @@ class GrlTrackerWrapper(GObject.GObject):
         return query
 
     def get_artist_art(self, coreartist):
+        """Retrieve artist art for the given CoreArtist
+
+        This retrieves art through Grilo online services only.
+
+        :param CoreArtist coreartist: CoreArtist to get art for
+        """
         media = coreartist.props.media
 
-        def _resolve_cb(source, op_id, resolved_media, data, error):
+        def art_resolved_cb(source, op_id, resolved_media, data, error):
+            if error:
+                self._log.warning("Error: {}".format(error))
+                coreartist.props.thumbnail = "generic"
+                return
+
             if resolved_media.get_thumbnail() is None:
-                coreartist.props.thumbnail = ""
+                coreartist.props.thumbnail = "generic"
                 return
 
             media.set_thumbnail(resolved_media.get_thumbnail())
-            coreartist.props.thumbnail = media.get_thumbnail()
+            StoreArtistArt(coreartist)
 
         full_options = Grl.OperationOptions()
         full_options.set_resolution_flags(
             Grl.ResolutionFlags.FULL | Grl.ResolutionFlags.IDLE_RELAY)
 
         self.props.source.resolve(
-            media, [Grl.METADATA_KEY_THUMBNAIL], full_options, _resolve_cb,
+            media, [Grl.METADATA_KEY_THUMBNAIL], full_options, art_resolved_cb,
             None)
 
     def stage_playlist_deletion(self, playlist):
