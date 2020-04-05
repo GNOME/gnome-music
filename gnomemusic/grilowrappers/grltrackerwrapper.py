@@ -985,6 +985,42 @@ class GrlTrackerWrapper(GObject.GObject):
 
         return query
 
+    def get_album_art(self, corealbum):
+        """Retrieve album art for the given CoreAlbum
+
+        :param CoreAlbum corealbum: CoreAlbum to get art for
+        """
+        media = corealbum.props.media
+
+        def art_retrieved_cb(source, op_id, queried_media, remaining, error):
+            if error:
+                self._log.warning("Error: {}".format(error))
+                corealbum.props.thumbnail = "generic"
+                return
+
+            if (remaining == 0
+                    and queried_media is None):
+                corealbum.props.thumbnail = "generic"
+                return
+
+            thumbnail_uri = queried_media.get_thumbnail()
+            if thumbnail_uri is None:
+                corealbum.props.thumbnail = "generic"
+            else:
+                media.set_thumbnail(thumbnail_uri)
+                StoreArtistArt(corealbum)
+
+        album_id = media.get_id()
+        query = self._get_album_for_album_id(album_id)
+
+        full_options = Grl.OperationOptions()
+        full_options.set_resolution_flags(
+            Grl.ResolutionFlags.FULL | Grl.ResolutionFlags.IDLE_RELAY)
+
+        self._source.query(
+            query, self.METADATA_THUMBNAIL_KEYS, full_options,
+            art_retrieved_cb)
+
     def get_artist_art(self, coreartist):
         """Retrieve artist art for the given CoreArtist
 
