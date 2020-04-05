@@ -26,7 +26,7 @@ from gi.repository import Gdk, GObject, Gtk
 
 from gnomemusic.albumartcache import Art
 from gnomemusic.coreartist import CoreArtist
-from gnomemusic.widgets.artistartstack import ArtistArtStack  # noqa: F401
+from gnomemusic.widgets.artstack import ArtStack  # noqa: F401
 from gnomemusic.widgets.twolinetip import TwoLineTip
 
 
@@ -40,7 +40,7 @@ class ArtistSearchTile(Gtk.FlowBoxChild):
     __gtype_name__ = "ArtistSearchTile"
 
     _artist_label = Gtk.Template.Child()
-    _artistart_stack = Gtk.Template.Child()
+    _art_stack = Gtk.Template.Child()
     _check = Gtk.Template.Child()
     _events = Gtk.Template.Child()
 
@@ -60,8 +60,8 @@ class ArtistSearchTile(Gtk.FlowBoxChild):
 
         self.props.coreartist = coreartist
 
-        self._artistart_stack.props.size = Art.Size.MEDIUM
-        self._artistart_stack.props.coreartist = self.props.coreartist
+        self._art_stack.props.size = Art.Size.MEDIUM
+        self._art_stack.props.coreobject = self.props.coreartist
 
         self._tooltip = TwoLineTip()
         self._tooltip.props.subtitle_visible = False
