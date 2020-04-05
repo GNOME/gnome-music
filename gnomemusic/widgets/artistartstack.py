@@ -25,7 +25,7 @@
 from gi.repository import GObject, Gtk
 
 from gnomemusic.albumartcache import Art
-from gnomemusic.artcache import ArtCache, DefaultIcon
+from gnomemusic.artcache import ArtCache
 from gnomemusic.coreartist import CoreArtist
 
 
@@ -39,8 +39,6 @@ class ArtistArtStack(Gtk.Stack):
 
     __gtype_name__ = "ArtistArtStack"
 
-    _default_icon = DefaultIcon()
-
     def __init__(self, size=Art.Size.MEDIUM):
         """Initialize the ArtStack
 
@@ -53,21 +51,17 @@ class ArtistArtStack(Gtk.Stack):
         self._size = None
         self._timeout = None
 
-        self._loading_cover = Gtk.Image()
         self._cover_a = Gtk.Image()
         self._cover_a.props.visible = True
         self._cover_b = Gtk.Image()
         self._cover_b.props.visible = True
 
-        self.add_named(self._loading_cover, "loading")
         self.add_named(self._cover_a, "A")
         self.add_named(self._cover_b, "B")
 
-        self._active_child = "loading"
-
         self.props.size = size
         self.props.transition_type = Gtk.StackTransitionType.CROSSFADE
-        self.props.visible_child_name = "loading"
+        self.props.visible_child_name = "A"
 
         self.connect("destroy", self._on_destroy)
 
@@ -87,11 +81,6 @@ class ArtistArtStack(Gtk.Stack):
         :param Art.Size value: The size to use for the cover
         """
         self._size = value
-
-        icon = self._default_icon.get(
-            DefaultIcon.Type.LOADING, self.props.size,
-            self.props.scale_factor, round_shape=True)
-        self._loading_cover.props.surface = icon
 
     @GObject.Property(type=CoreArtist, default=None)
     def coreartist(self):
@@ -116,7 +105,7 @@ class ArtistArtStack(Gtk.Stack):
         self._cache.query(coreartist)
 
     def _on_cache_result(self, cache, surface):
-        if self._active_child == "B":
+        if self.props.visible_child_name == "B":
             self._cover_a.props.surface = surface
             self.props.visible_child_name = "A"
         else:
