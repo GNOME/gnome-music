@@ -110,20 +110,21 @@ class CoreArtist(GObject.GObject):
 
     @GObject.Property(type=str, default=None)
     def thumbnail(self):
+        """Artist art thumbnail retrieval
+
+        :return: The artist art location or "generic" or "loading"
+        :rtype: string
+        """
         if self._thumbnail is None:
-            self._thumbnail = ""
+            self._thumbnail = "loading"
             ArtistArt(self._application, self)
 
         return self._thumbnail
 
     @thumbnail.setter
     def thumbnail(self, value):
+        """Artist art thumbnail setter
+
+        :param string value: path, "generic" or "loading"
+        """
         self._thumbnail = value
-
-    @GObject.Property(type=str, default=None)
-    def cached_thumbnail_uri(self):
-        return self._cached_thumbnail_uri
-
-    @cached_thumbnail_uri.setter
-    def cached_thumbnail_uri(self, value):
-        self._cached_thumbnail_uri = value
