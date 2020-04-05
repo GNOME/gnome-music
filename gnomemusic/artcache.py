@@ -30,7 +30,23 @@ from gi.repository import Gdk, GdkPixbuf, Gio, Gtk, GLib, GObject
 from gnomemusic.musiclogger import MusicLogger
 
 
-def _make_icon_frame(icon_surface, art_size=None, scale=1, default_icon=False):
+def _make_icon_frame(
+        icon_surface, art_size=None, scale=1, default_icon=False,
+        round_shape=False):
+    """Create an Art frame, square or round.
+
+    :param cairo.Surface icon_surface: The surface to use
+    :param art_size: The size of the art
+    :param int scale: The scale of the art
+    :param bool default_icon: Indicates of this is a default icon
+    :param bool round_shape: Square or round indicator
+
+    :return: The framed surface
+    :rtype: cairo.Surface
+    """
+    border = 3
+    degrees = pi / 180
+    radius = 3
     icon_w = icon_surface.get_width()
     icon_h = icon_surface.get_height()
     ratio = icon_h / icon_w
@@ -46,15 +62,26 @@ def _make_icon_frame(icon_surface, art_size=None, scale=1, default_icon=False):
     surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, w * scale, h * scale)
     surface.set_device_scale(scale, scale)
     ctx = cairo.Context(surface)
-
     matrix = cairo.Matrix()
 
-    line_width = 0.6
-    ctx.new_sub_path()
-    ctx.arc(w / 2, h / 2, (w / 2) - line_width, 0, 2 * pi)
-    ctx.set_source_rgba(0, 0, 0, 0.7)
-    ctx.set_line_width(line_width)
-    ctx.stroke_preserve()
+    if round_shape:
+        line_width = 0.6
+        ctx.new_sub_path()
+        ctx.arc(w / 2, h / 2, (w / 2) - line_width, 0, 2 * pi)
+        ctx.set_source_rgba(0, 0, 0, 0.7)
+        ctx.set_line_width(line_width)
+        ctx.stroke_preserve()
+    else:
+        # draw outline
+        ctx.new_sub_path()
+        ctx.arc(w - radius, radius, radius - 0.5, -90 * degrees, 0 * degrees)
+        ctx.arc(w - radius, h - radius, radius - 0.5, 0 * degrees, 90 * degrees)
+        ctx.arc(radius, h - radius, radius - 0.5, 90 * degrees, 180 * degrees)
+        ctx.arc(radius, radius, radius - 0.5, 180 * degrees, 270 * degrees)
+        ctx.close_path()
+        ctx.set_line_width(0.6)
+        ctx.set_source_rgba(0, 0, 0, 0.7)
+        ctx.stroke_preserve()
 
     if default_icon:
         ctx.set_source_rgb(1, 1, 1)
@@ -63,14 +90,25 @@ def _make_icon_frame(icon_surface, art_size=None, scale=1, default_icon=False):
         ctx.mask_surface(icon_surface, w / 3, h / 3)
         ctx.fill()
     else:
-        matrix.scale(icon_w / (w * scale), icon_h / (h * scale))
+        if round_shape:
+            matrix.scale(icon_w / (w * scale), icon_h / (h * scale))
+        else:
+            matrix.scale(
+                icon_w / ((w - border * 2) * scale),
+                icon_h / ((h - border * 2) * scale))
+            matrix.translate(-border, -border)
+
         ctx.set_source_surface(icon_surface, 0, 0)
 
         pattern = ctx.get_source()
         pattern.set_matrix(matrix)
         ctx.fill()
 
-    ctx.arc(w / 2, h / 2, w / 2, 0, 2 * pi)
+    if round_shape:
+        ctx.arc(w / 2, h / 2, w / 2, 0, 2 * pi)
+    else:
+        ctx.rectangle(border, border, w - border * 2, h - border * 2)
+
     ctx.clip()
 
     return surface
@@ -80,8 +118,9 @@ class DefaultIcon(GObject.GObject):
     """Provides the symbolic fallback and loading icons."""
 
     class Type(Enum):
-        LOADING = "content-loading-symbolic"
         ARTIST = "avatar-default-symbolic"
+        LOADING = "content-loading-symbolic"
+        MUSIC = "folder-music-symbolic"
 
     _cache = {}
     _default_theme = Gtk.IconTheme.get_default()
@@ -89,32 +128,36 @@ class DefaultIcon(GObject.GObject):
     def __init__(self):
         super().__init__()
 
-    def _make_default_icon(self, icon_type, art_size, scale):
+    def _make_default_icon(self, icon_type, art_size, scale, round_shape):
         icon_info = self._default_theme.lookup_icon_for_scale(
             icon_type.value, art_size.width / 3, scale, 0)
         icon = icon_info.load_surface()
 
-        icon_surface = _make_icon_frame(icon, art_size, scale, True)
+        icon_surface = _make_icon_frame(
+            icon, art_size, scale, True, round_shape=round_shape)
 
         return icon_surface
 
-    def get(self, icon_type, art_size, scale=1):
+    def get(self, icon_type, art_size, scale=1, round_shape=False):
         """Returns the requested symbolic icon
 
         Returns a cairo surface of the requested symbolic icon in the
-        given size.
+        given size and shape.
 
         :param enum icon_type: The DefaultIcon.Type of the icon
         :param enum art_size: The Art.Size requested
+        :param int scale: The scale
+        :param bool round_shape: Indicates square or round icon shape
 
         :return: The symbolic icon
         :rtype: cairo.Surface
         """
         if (icon_type, art_size, scale) not in self._cache.keys():
-            new_icon = self._make_default_icon(icon_type, art_size, scale)
-            self._cache[(icon_type, art_size, scale)] = new_icon
+            new_icon = self._make_default_icon(
+                icon_type, art_size, scale, round_shape)
+            self._cache[(icon_type, art_size, scale, round_shape)] = new_icon
 
-        return self._cache[(icon_type, art_size, scale)]
+        return self._cache[(icon_type, art_size, scale, round_shape)]
 
 
 class ArtCache(GObject.GObject):
@@ -139,9 +182,10 @@ class ArtCache(GObject.GObject):
         self._scale = scale
 
         self._loading_icon = DefaultIcon().get(
-            DefaultIcon.Type.LOADING, self._size, self._scale)
+            DefaultIcon.Type.LOADING, self._size, self._scale,
+            round_shape=True)
         self._default_icon = DefaultIcon().get(
-            DefaultIcon.Type.ARTIST, self._size, self._scale)
+            DefaultIcon.Type.ARTIST, self._size, self._scale, round_shape=True)
 
     def query(self, coreartist):
         """Start the cache query
@@ -189,7 +233,8 @@ class ArtCache(GObject.GObject):
 
         surface = Gdk.cairo_surface_create_from_pixbuf(
             pixbuf, self._scale, None)
-        surface = _make_icon_frame(surface, self._size, self._scale)
+        surface = _make_icon_frame(
+            surface, self._size, self._scale, round_shape=True)
 
         self.emit("result", surface)
 
