@@ -222,6 +222,10 @@ class CoreGrilo(GObject.GObject):
                 coresong, callback)
 
     def get_artist_art(self, coreartist):
+        """Retrieve artist art for the given CoreArtist
+
+        :param CoreArtist coreartist: CoreArtist to retrieve art for
+        """
         if "grl-tracker-source" in self._wrappers:
             self._wrappers["grl-tracker-source"].get_artist_art(coreartist)
 
