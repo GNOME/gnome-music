@@ -27,25 +27,27 @@ gi.require_versions({"MediaArt": "2.0", "Soup": "2.4"})
 from gi.repository import Gio, GLib, GObject, MediaArt, Soup
 
 from gnomemusic.musiclogger import MusicLogger
-
+from gnomemusic.coreartist import CoreArtist
+from gnomemusic.corealbum import CoreAlbum
 
 class StoreArtistArt(GObject.Object):
     """Stores Art in the MediaArt cache.
     """
 
-    def __init__(self, coreartist):
+    def __init__(self, coreobject):
         """Initialize StoreArtistArt
 
-        :param CoreArtist coreartist: The core artist to store art for
+        :param coreobject: The CoreArtist or CoreSong to store art for
         """
-        self._coreartist = coreartist
+        self._coreobject = coreobject
+
         self._log = MusicLogger()
         self._soup_session = Soup.Session.new()
 
-        uri = coreartist.props.media.get_thumbnail()
+        uri = coreobject.props.media.get_thumbnail()
         if (uri is None
                 or uri == ""):
-            self._coreartist.props.thumbnail = "generic"
+            self._coreobject.props.thumbnail = "generic"
 
             return
 
@@ -66,7 +68,7 @@ class StoreArtistArt(GObject.Object):
             except GLib.Error as error:
                 self._log.warning(
                     "Error: {}, {}".format(error.domain, error.message))
-                self._coreartist.props.thumbnail = "generic"
+                self._coreobject.props.thumbnail = "generic"
 
                 return
 
@@ -86,7 +88,7 @@ class StoreArtistArt(GObject.Object):
         except GLib.Error as error:
             self._log.warning(
                 "Error: {}, {}".format(error.domain, error.message))
-            self._coreartist.props.thumbnail = "generic"
+            self._coreobject.props.thumbnail = "generic"
             return
 
         istream = Gio.MemoryInputStream.new_from_bytes(
@@ -117,14 +119,21 @@ class StoreArtistArt(GObject.Object):
         except GLib.Error as error:
             self._log.warning(
                 "Error: {}, {}".format(error.domain, error.message))
-            self._coreartist.props.thumbnail = "generic"
+            self._coreobject.props.thumbnail = "generic"
             return
 
-        success, cache_path = MediaArt.get_path(
-            self._coreartist.props.artist, None, "artist")
+        if isinstance(self._coreobject, CoreArtist):
+            success, cache_path = MediaArt.get_path(
+                self._coreobject.props.artist, None, "artist")
+        elif isinstance(self._coreobject, CoreAlbum):
+            success, cache_path = MediaArt.get_path(
+                self._coreobject.props.artist, self._coreobject.props.title,
+                "album")
+        else:
+            success = False
 
         if not success:
-            self._coreartist.props.thumbnail = "generic"
+            self._coreobject.props.thumbnail = "generic"
             return
 
         try:
@@ -133,11 +142,11 @@ class StoreArtistArt(GObject.Object):
         except GLib.Error as error:
             self._log.warning(
                 "Error: {}, {}".format(error.domain, error.message))
-            self._coreartist.props.thumbnail = "generic"
+            self._coreobject.props.thumbnail = "generic"
             return
 
-        self._coreartist.props.media.set_thumbnail(cache_path)
-        self._coreartist.props.thumbnail = cache_path
+        self._coreobject.props.media.set_thumbnail(cache_path)
+        self._coreobject.props.thumbnail = cache_path
 
         tmp_file.delete_async(
             GLib.PRIORITY_LOW, None, self._delete_callback, None)
