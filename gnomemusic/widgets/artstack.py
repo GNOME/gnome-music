@@ -1,4 +1,4 @@
-# Copyright 2019 The GNOME Music developers
+# Copyright 2020 The GNOME Music developers
 #
 # GNOME Music is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -39,8 +39,8 @@ class ArtStack(Gtk.Stack):
 
     __gtype_name__ = "ArtStack"
 
-    def __init__(self, size=Art.Size.MEDIUM):
-        """Initialize the CoverStack
+    def __init__(self, size=ArtSize.MEDIUM):
+        """Initialize the ArtStack
 
         :param Art.Size size: The size of the art used for the cover
         """
@@ -112,9 +112,9 @@ class ArtStack(Gtk.Stack):
             self.props.visible_child_name = "B"
 
     def _on_destroy(self, widget):
-        # If the stacm is destroyed while the art is updated, an error
-        # can occur once the art is retrieved because the CoverStack
-        # does not have children anymore.
+        # If the stack is destroyed while the art is updated, an error
+        # can occur once the art is retrieved because the ArtStack does
+        # not have children anymore.
         self._disconnect_cache()
 
     def _disconnect_cache(self):
