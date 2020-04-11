@@ -698,13 +698,21 @@ class GrlTrackerWrapper(GObject.GObject):
         query = """
         SELECT DISTINCT
             rdf:type(?artist)
-            tracker:id(?artist) AS ?id
+            COALESCE(tracker:id(?album_artist), tracker:id(?artist)) AS ?id
+            ?artist_bind AS ?artist
         WHERE {
             ?song a nmm:MusicPiece ;
                     nmm:musicAlbum ?album ;
                     nmm:performer ?artist .
+            OPTIONAL {
+                ?album a nmm:MusicAlbum;
+                         nmm:albumArtist ?album_artist .
+            }
+            BIND(COALESCE(nmm:artistName(?album_artist),
+                          nmm:artistName(?artist)) AS ?artist_bind)
             BIND(tracker:normalize(
-                nmm:artistName(nmm:albumArtist(?album)), 'nfkd') AS ?match1) .
+                nmm:artistName(nmm:albumArtist(?artist_bind)),
+                    'nfkd') AS ?match1) .
             BIND(tracker:normalize(
                 nmm:artistName(nmm:performer(?song)), 'nfkd') AS ?match2) .
             BIND(tracker:normalize(nmm:composer(?song), 'nfkd') AS ?match4) .
