@@ -68,7 +68,6 @@ class Window(Gtk.ApplicationWindow):
         """
         super().__init__(application=app, title=_("Music"))
 
-        # Hack
         self._app = app
 
         self._app._coreselection.bind_property(
