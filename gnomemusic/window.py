@@ -38,8 +38,8 @@ from gnomemusic.views.searchview import SearchView
 from gnomemusic.views.songsview import SongsView
 from gnomemusic.views.playlistsview import PlaylistsView
 from gnomemusic.widgets.headerbar import HeaderBar
-from gnomemusic.widgets.notificationspopup import NotificationsPopup
-from gnomemusic.widgets.playertoolbar import PlayerToolbar
+from gnomemusic.widgets.notificationspopup import NotificationsPopup  # noqa
+from gnomemusic.widgets.playertoolbar import PlayerToolbar  # noqa: F401
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
 from gnomemusic.widgets.searchheaderbar import SearchHeaderBar
 from gnomemusic.widgets.selectiontoolbar import SelectionToolbar  # noqa: F401
@@ -55,8 +55,9 @@ class Window(Gtk.ApplicationWindow):
     selected_items_count = GObject.Property(type=int, default=0, minimum=0)
     selection_mode = GObject.Property(type=bool, default=False)
 
-    _box = Gtk.Template.Child()
+    notifications_popup = Gtk.Template.Child()
     _overlay = Gtk.Template.Child()
+    _player_toolbar = Gtk.Template.Child()
     _selection_toolbar = Gtk.Template.Child()
     _stack = Gtk.Template.Child()
 
@@ -121,10 +122,6 @@ class Window(Gtk.ApplicationWindow):
         self._search.connect(
             "notify::search-mode-active", self._on_search_mode_changed)
 
-        self.notifications_popup = NotificationsPopup()
-        self._overlay.add_overlay(self.notifications_popup)
-
-        self._player_toolbar = PlayerToolbar()
         self._player_toolbar.props.player = self._player
 
         self._headerbar.connect(
@@ -166,8 +163,6 @@ class Window(Gtk.ApplicationWindow):
         # Add the 'background' styleclass so it properly hides the
         # bottom line of the searchbar
         self._stack.get_style_context().add_class('background')
-
-        self._box.pack_end(self._player_toolbar, False, False, 0)
 
         self.set_titlebar(self._headerbar_stack)
 
