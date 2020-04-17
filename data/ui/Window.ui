@@ -4,7 +4,7 @@
     <property name="default-height">500</property>
     <property name="default-width">300</property>
     <child>
-      <object class="GtkBox" id="_box">
+      <object class="GtkBox">
         <property name="orientation">vertical</property>
         <property name="visible">True</property>
         <child>
@@ -20,10 +20,20 @@
                 <property name="visible">True</property>
               </object>
             </child>
+            <child type="overlay">
+              <object class="NotificationsPopup" id="notifications_popup">
+                <property name="halign">center</property>
+                <property name="transition-type">slide-down</property>
+                <property name="valign">start</property>
+              </object>
+            </child>
           </object>
         </child>
         <child>
           <object class="SelectionToolbar" id="_selection_toolbar"/>
+        </child>
+        <child>
+          <object class="PlayerToolbar" id="_player_toolbar"/>
         </child>
       </object>
     </child>
