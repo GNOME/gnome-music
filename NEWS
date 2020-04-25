@@ -1,3 +1,25 @@
+Overview of changes in 3.36.2
+=============================
+
+• Fix two crashers
+
+Bugs fixed:
+ Crash on playlist change check (#382)
+ Rare crash on some music files (!701)
+
+Thanks to our contributors this release:
+ Marinus Schraal
+
+Translation added:
+ Ukranian
+
+Updated translations:
+ Hebrew
+ Slovak
+ Russian
+ Slovenian
+ Chinese (China)
+
 Overview of changes in 3.36.1
 =============================
 
