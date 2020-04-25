@@ -472,6 +472,8 @@ class EmbeddedArt(GObject.GObject):
                 break
             index += 1
             struct = sample.get_info()
+            if struct is None:
+                break
             success, image_type = struct.get_enum(
                 'image-type', GstTag.TagImageType)
             if not success:
