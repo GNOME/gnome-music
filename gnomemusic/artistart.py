@@ -28,7 +28,9 @@ from math import pi
 import cairo
 import gi
 gi.require_version("MediaArt", "2.0")
-from gi.repository import Gdk, GdkPixbuf, Gio, GLib, GObject, Gtk, MediaArt
+gi.require_version('Soup', '2.4')
+from gi.repository import (Gdk, GdkPixbuf, Gio, GLib, GObject, Gtk, MediaArt,
+                           Soup)
 
 from gnomemusic.musiclogger import MusicLogger
 
@@ -134,6 +136,7 @@ class ArtistArt(GObject.GObject):
 
         self._coreartist = coreartist
         self._artist = self._coreartist.props.artist
+        self._soup_session = Soup.Session.new()
 
         if self._in_cache():
             return
@@ -162,13 +165,13 @@ class ArtistArt(GObject.GObject):
             self._coreartist.props.cached_thumbnail_uri = ""
             return
 
-        src = Gio.File.new_for_uri(uri)
-        src.read_async(
-            GLib.PRIORITY_LOW, None, self._read_callback, None)
+        msg = Soup.Message.new("GET", uri)
+        self._soup_session.queue_message(msg, self._read_callback, None)
 
     def _read_callback(self, src, result, data):
         try:
-            istream = src.read_finish(result)
+            istream = Gio.MemoryInputStream.new_from_bytes(
+                result.props.response_body_data)
         except GLib.Error as error:
             self._log.warning(
                 "Error: {}, {}".format(error.domain, error.message))

@@ -30,8 +30,9 @@ import cairo
 import gi
 gi.require_version('GstTag', '1.0')
 gi.require_version('MediaArt', '2.0')
+gi.require_version('Soup', '2.4')
 from gi.repository import (Gdk, GdkPixbuf, Gio, GLib, GObject, Gtk, MediaArt,
-                           Gst, GstTag, GstPbutils)
+                           Gst, GstTag, GstPbutils, Soup)
 
 from gnomemusic.musiclogger import MusicLogger
 
@@ -547,6 +548,7 @@ class RemoteArt(GObject.GObject):
         self._album = None
         self._coresong = None
         self._coregrilo = None
+        self._soup_session = Soup.Session.new()
 
     def query(self, coresong):
         """Start the remote query
@@ -634,7 +636,8 @@ class RemoteArt(GObject.GObject):
 
     def _read_callback(self, src, result, data):
         try:
-            istream = src.read_finish(result)
+            istream = Gio.MemoryInputStream.new_from_bytes(
+                result.props.response_body_data)
         except GLib.Error as error:
             self._log.warning(
                 "Error: {}, {}".format(error.domain, error.message))
@@ -670,6 +673,5 @@ class RemoteArt(GObject.GObject):
             self.emit('unavailable')
             return
 
-        src = Gio.File.new_for_uri(thumb_uri)
-        src.read_async(
-            GLib.PRIORITY_LOW, None, self._read_callback, None)
+        msg = Soup.Message.new("GET", thumb_uri)
+        self._soup_session.queue_message(msg, self._read_callback, None)
