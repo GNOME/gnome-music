@@ -19,14 +19,6 @@ flatpak:
         MESON_ARGS: "-Dprofile=development"
         RUNTIME_REPO: "https://nightly.gnome.org/gnome-nightly.flatpakrepo"
 
-review:
-    extends: .review
-    dependencies:
-        - flatpak
-
-stop_review:
-    extends: .stop_review
-
 nightly:
     extends: .publish_nightly
     dependencies:
