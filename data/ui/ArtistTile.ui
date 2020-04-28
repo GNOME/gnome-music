@@ -9,7 +9,9 @@
         <property name="ellipsize">end</property>
         <property name="halign">start</property>
         <property name="hexpand">False</property>
+<!--
         <property name="margin">16</property>
+-->
         <property name="visible">True</property>
       </object>
     </child>
