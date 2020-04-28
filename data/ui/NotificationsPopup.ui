@@ -7,7 +7,9 @@
     <child>
       <object class="GtkFrame">
         <property name="visible">True</property>
+<!--
         <property name="shadow_type">none</property>
+-->
         <child>
           <object class="GtkGrid" id="_grid">
             <property name="visible">True</property>
