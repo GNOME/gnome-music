@@ -105,14 +105,14 @@ class CoreModel(GObject.GObject):
         self._song_search_flatten.set_model(self._song_search_proxy)
 
         self._album_search_model = Gtk.FilterListModel.new(
-            self._album_model)
+            self._albums_model)
         self._album_search_model.set_filter_func(lambda a: False)
 
         self._album_search_filter = Gtk.FilterListModel.new(
             self._album_search_model)
 
         self._artist_search_model = Gtk.FilterListModel.new(
-            self._artist_model)
+            self._artists_model)
         self._artist_search_model.set_filter_func(lambda a: False)
 
         self._artist_search_filter = Gtk.FilterListModel.new(
