@@ -42,7 +42,7 @@ class PlaylistContextMenu(Gtk.Popover):
 
         window = application.props.window
 
-        self.props.relative_to = view
+        self.set_parent(view)
 
         # self.bind_model(self._song_menu, None)
 
