@@ -196,7 +196,6 @@
                 <property name="can_focus">False</property>
                 <property name="halign">start</property>
                 <property name="hexpand">True</property>
-                <property name="shadow_type">none</property>
                 <child>
                   <object class="DiscListBox" id="_disc_list_box">
                     <property name="can_focus">False</property>
