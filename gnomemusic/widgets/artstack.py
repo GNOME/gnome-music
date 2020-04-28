@@ -77,6 +77,7 @@ class ArtStack(Gtk.Stack):
 
         :param Art.Size value: The size to use for the cover
         """
+        self._cover_a.set_size_request(value.width, value.height)
         self._size = value
 
     @GObject.Property(type=object, default=None)
