@@ -39,6 +39,17 @@
     "modules": [
         "subprojects/shared-modules/lua5.3/lua-5.3.5.json",
         {
+            "name": "pygobject",
+            "buildsystem": "meson",
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://gitlab.gnome.org/GNOME/pygobject.git",
+                    "branch": "wip/jfelder/template-gtk4"
+                }
+            ]
+        },
+        {
             "name": "libmediaart",
             "sources": [
                 {
