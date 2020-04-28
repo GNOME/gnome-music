@@ -123,7 +123,7 @@ class DefaultIcon(GObject.GObject):
         MUSIC = 'folder-music-symbolic'
 
     _cache = {}
-    _default_theme = Gtk.IconTheme.get_default()
+    _default_theme = Gtk.IconTheme.new()
 
     def __init__(self):
         super().__init__()
