@@ -81,7 +81,7 @@ class Application(Gtk.Application):
         display = Gdk.Display.get_default()
         style_context = self._window.get_style_context()
         style_context.add_provider_for_display(
-             display, css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+            display, css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
 
     @GObject.Property(
         type=CoreGrilo, default=None, flags=GObject.ParamFlags.READABLE)
