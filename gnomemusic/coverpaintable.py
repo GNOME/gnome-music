@@ -27,7 +27,7 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
         degrees = pi / 180
         radius = 3
 
-        theme = Gtk.IconTheme.get_default()
+        theme = Gtk.IconTheme.new()
 
         pixbuf = theme.load_icon("content-loading-symbolic", w, 0)
         rect = Graphene.Rect().init(0, 0, width, height)
