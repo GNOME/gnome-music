@@ -26,7 +26,7 @@ from gi.repository import Gtk, Gdk, Gio, GLib, GObject
 from gettext import gettext as _
 
 from gnomemusic.gstplayer import Playback
-from gnomemusic.mediakeys import MediaKeys
+# from gnomemusic.mediakeys import MediaKeys
 from gnomemusic.player import RepeatMode
 from gnomemusic.search import Search
 from gnomemusic.trackerwrapper import TrackerState
@@ -93,7 +93,7 @@ class Window(Gtk.ApplicationWindow):
 
         self._setup_view()
 
-        MediaKeys(self._player, self)
+        # MediaKeys(self._player, self)
 
     def _setup_view(self):
         self._search = Search()
