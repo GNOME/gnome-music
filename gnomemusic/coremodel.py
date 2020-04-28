@@ -24,7 +24,6 @@
 
 import math
 
-import gi
 from gi.repository import GObject, Gio, Gtk
 
 from gnomemusic.coreartist import CoreArtist
