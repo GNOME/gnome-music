@@ -24,7 +24,7 @@
 
 import gettext
 
-from gi.repository import Gdk, GObject, Gio, Gtk
+from gi.repository import GObject, Gio, Gtk
 
 from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
 from gnomemusic.widgets.notificationspopup import PlaylistNotification
