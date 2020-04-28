@@ -5,7 +5,9 @@
     <child>
       <object class="GtkSpinner">
         <property name="visible">True</property>
+<!--
         <property name="active">True</property>
+-->
       </object>
     </child>
     <child>
