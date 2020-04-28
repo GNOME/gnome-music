@@ -159,7 +159,6 @@
                 <property name="width_request">600</property>
                 <property name="halign">start</property>
                 <property name="hexpand">1</property>
-                <property name="shadow_type">none</property>
                 <child>
                   <object class="DiscListBox" id="_disc_list_box">
                     <property name="can_focus">False</property>
