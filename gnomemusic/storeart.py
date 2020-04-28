@@ -31,7 +31,7 @@ from gnomemusic.coreartist import CoreArtist
 from gnomemusic.corealbum import CoreAlbum
 
 
-class StoreArtistArt(GObject.Object):
+class StoreArt(GObject.Object):
     """Stores Art in the MediaArt cache.
     """
 
