@@ -33,7 +33,6 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
         rect = Graphene.Rect().init(0, 0, width, height)
         snapshot.append_texture(pixbuf, rect)
 
-
         size = min(width, height)
 
         cr = snapshot.append_cairo(Graphene.Rect().init(
@@ -53,7 +52,7 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
         cr.set_source_rgb(1, 1, 1)
         cr.fill()
         cr.set_source_rgba(0, 0, 0, 0.3)
-        #ctx.mask_surface(icon_surface, w / 3, h / 3)
+        # ctx.mask_surface(icon_surface, w / 3, h / 3)
         cr.fill()
         # Gdk.cairo_set_source_pixbuf(cr, pixbuf, 0, 0)
         color = Gdk.RGBA(red=0.9, green=0.75, blue=0.75, alpha=.5)
@@ -62,7 +61,8 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
         rect = Graphene.Rect().init(0, 0, width, height)
 
         pixbuf = theme.load_icon("content-loading-symbolic", w, 0)
-        rect = Graphene.Rect().init(0 + border, 0 + border, width - border, height - border)
+        rect = Graphene.Rect().init(
+            0 + border, 0 + border, width - border, height - border)
         snapshot.append_texture(pixbuf, rect)
         # snapshot.append_color(color, rect)
 
