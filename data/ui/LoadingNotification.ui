@@ -4,8 +4,8 @@
     <property name="column_spacing">18</property>
     <child>
       <object class="GtkSpinner">
+        <property name="spinning">True</property>
         <property name="visible">True</property>
-        <property name="active">True</property>
       </object>
     </child>
     <child>
