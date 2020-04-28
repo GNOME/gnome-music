@@ -29,10 +29,12 @@
       </object>
     </child>
   </template>
+<!--
   <object class="GtkGestureMultiPress" id="_songs_list_ctrlr">
     <property name="widget">_songs_list</property>
     <property name="propagation-phase">capture</property>
     <property name="button">3</property>
     <signal name="pressed" handler="_songs_list_right_click" swapped="no"/>
   </object>
+-->
 </interface>
