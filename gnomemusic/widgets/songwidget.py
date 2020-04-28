@@ -24,7 +24,6 @@
 
 from enum import IntEnum
 
-import gi
 from gi.repository import Gdk, GObject, Gtk
 
 from gnomemusic import utils
@@ -176,7 +175,8 @@ class SongWidget(Gtk.Box):
     #     allocation = self.get_allocation()
 
     #     self._drag_widget = Gtk.ListBox()
-    #     self._drag_widget.set_size_request(allocation.width, allocation.height)
+    #     self._drag_widget.set_size_request(
+    #         allocation.width, allocation.height)
 
     #     drag_row = SongWidget(self.props.coresong)
     #     self._drag_widget.add(drag_row)
