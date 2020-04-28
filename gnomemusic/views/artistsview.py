@@ -164,8 +164,7 @@ class ArtistsView(BaseView):
             GObject.BindingFlags.SYNC_CREATE
             | GObject.BindingFlags.BIDIRECTIONAL)
 
-        artist_albums_frame = Gtk.Frame(
-            shadow_type=Gtk.ShadowType.NONE, hexpand=True)
+        artist_albums_frame = Gtk.Frame(hexpand=True)
         artist_albums_frame.add(self._artist_albums)
         artist_albums_frame.show()
 
