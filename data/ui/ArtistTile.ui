@@ -9,7 +9,10 @@
         <property name="ellipsize">end</property>
         <property name="halign">start</property>
         <property name="hexpand">False</property>
-        <property name="margin">16</property>
+        <property name="margin-bottom">16</property>
+        <property name="margin-end">16</property>
+        <property name="margin-start">16</property>
+        <property name="margin-top">16</property>
         <property name="visible">True</property>
       </object>
     </child>
