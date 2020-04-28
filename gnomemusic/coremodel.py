@@ -99,23 +99,23 @@ class CoreModel(GObject.GObject):
         self._playlist_model = Gio.ListStore.new(CoreSong)
         self._playlist_model_sort = Gtk.SortListModel.new(self._playlist_model)
 
-        self._song_search_proxy = Gio.ListStore.new(Gtk.FilterListModel)
-        self._song_search_flatten = Gtk.FlattenListModel.new(CoreSong)
-        self._song_search_flatten.set_model(self._song_search_proxy)
+        self._songs_search_proxy = Gio.ListStore.new(Gtk.FilterListModel)
+        self._songs_search_flatten = Gtk.FlattenListModel.new(CoreSong)
+        self._songs_search_flatten.set_model(self._songs_search_proxy)
 
-        self._album_search_model = Gtk.FilterListModel.new(
+        self._albums_search_model = Gtk.FilterListModel.new(
             self._albums_model)
-        self._album_search_model.set_filter_func(lambda a: False)
+        self._albums_search_model.set_filter_func(lambda a: False)
 
-        self._album_search_filter = Gtk.FilterListModel.new(
-            self._album_search_model)
+        self._albums_search_filter = Gtk.FilterListModel.new(
+            self._albums_search_model)
 
-        self._artist_search_model = Gtk.FilterListModel.new(
+        self._artists_search_model = Gtk.FilterListModel.new(
             self._artists_model)
-        self._artist_search_model.set_filter_func(lambda a: False)
+        self._artists_search_model.set_filter_func(lambda a: False)
 
-        self._artist_search_filter = Gtk.FilterListModel.new(
-            self._artist_search_model)
+        self._artists_search_filter = Gtk.FilterListModel.new(
+            self._artists_search_model)
 
         self._playlists_model = Gio.ListStore.new(Playlist)
         self._playlists_model_filter = Gtk.FilterListModel.new(
