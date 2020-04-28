@@ -31,7 +31,7 @@ from gnomemusic.coreartist import CoreArtist
 from gnomemusic.coredisc import CoreDisc
 from gnomemusic.coresong import CoreSong
 from gnomemusic.grilowrappers.grltrackerplaylists import GrlTrackerPlaylists
-from gnomemusic.storeartistart import StoreArtistArt
+from gnomemusic.storeart import StoreArt
 
 
 class GrlTrackerWrapper(GObject.GObject):
@@ -1008,7 +1008,7 @@ class GrlTrackerWrapper(GObject.GObject):
                 corealbum.props.thumbnail = "generic"
             else:
                 media.set_thumbnail(thumbnail_uri)
-                StoreArtistArt(corealbum)
+                StoreArt(corealbum)
 
         album_id = media.get_id()
         query = self._get_album_for_album_id(album_id)
@@ -1041,7 +1041,7 @@ class GrlTrackerWrapper(GObject.GObject):
                 return
 
             media.set_thumbnail(resolved_media.get_thumbnail())
-            StoreArtistArt(coreartist)
+            StoreArt(coreartist)
 
         full_options = Grl.OperationOptions()
         full_options.set_resolution_flags(
