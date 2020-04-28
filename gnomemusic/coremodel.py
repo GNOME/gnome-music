@@ -88,12 +88,12 @@ class CoreModel(GObject.GObject):
         self._application = application
 
         self._albums_model = Gio.ListStore()
-        self._albums_model_sort = Gfm.SortListModel.new(self._albums_model)
+        self._albums_model_sort = Gtk.SortListModel.new(self._albums_model)
         self._albums_model_sort.set_sort_func(
             utils.wrap_list_store_sort_func(self._albums_sort))
 
         self._artists_model = Gio.ListStore.new(CoreArtist)
-        self._artists_model_sort = Gfm.SortListModel.new(self._artists_model)
+        self._artists_model_sort = Gtk.SortListModel.new(self._artists_model)
         self._artists_model_sort.set_sort_func(
             utils.wrap_list_store_sort_func(self._artist_sort))
 
