@@ -29,9 +29,12 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
 
         theme = Gtk.IconTheme.new()
 
-        pixbuf = theme.load_icon("content-loading-symbolic", w, 0)
+        # pixbuf = theme.load_icon("content-loading-symbolic", w, 0)
+        icon_pt = theme.lookup_icon(
+            "content-loading-symbolic", None, w, 1, 0, 0)
+        texture = Gdk.Texture.new_from_file(icon_pt.get_file())
         rect = Graphene.Rect().init(0, 0, width, height)
-        snapshot.append_texture(pixbuf, rect)
+        snapshot.append_texture(texture, rect)
 
         size = min(width, height)
 
@@ -60,10 +63,13 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
         color.alpha = 1.0
         rect = Graphene.Rect().init(0, 0, width, height)
 
-        pixbuf = theme.load_icon("content-loading-symbolic", w, 0)
+        # pixbuf = theme.load_icon("content-loading-symbolic", w,# 0)
+        icon_pt = theme.lookup_icon(
+            "content-loading-symbolic", None, w, 1, 0, 0)
+        texture = Gdk.Texture.new_from_file(icon_pt.get_file())
         rect = Graphene.Rect().init(
             0 + border, 0 + border, width - border, height - border)
-        snapshot.append_texture(pixbuf, rect)
+        snapshot.append_texture(texture, rect)
         # snapshot.append_color(color, rect)
 
         # size = min(width, height)
