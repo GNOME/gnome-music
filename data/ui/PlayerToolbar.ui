@@ -189,7 +189,4 @@
       </object>
     </child>
   </template>
-  <object class="GtkRadioMenuItem" id="radiomenuitem1">
-    <property name="draw_as_radio">1</property>
-  </object>
 </interface>
