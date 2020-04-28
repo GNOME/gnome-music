@@ -23,7 +23,6 @@
 # delete this exception statement from your version.
 
 from enum import IntEnum
-from gettext import gettext as _
 
 from gi.repository import Gdk, GObject, Gtk
 
