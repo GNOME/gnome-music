@@ -14,10 +14,12 @@
         <property name="visible">True</property>
         <child>
           <object class="GtkListBox" id="_songs_list">
+<!--
             <property name="margin-left">80</property>
             <property name="margin-right">80</property>
             <property name="margin-top">20</property>
             <property name="margin-bottom">20</property>
+-->
             <property name="valign">start</property>
             <property name="visible">True</property>
             <style>
