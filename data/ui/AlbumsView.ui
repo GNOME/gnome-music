@@ -12,7 +12,9 @@
             <property name="halign">fill</property>
             <property name="hexpand">True</property>
             <property name="homogeneous">True</property>
+<!--
             <property name="margin">18</property>
+-->
             <property name="max-children-per-line">20</property>
             <property name="min-children-per-line">1</property>
             <property name="row_spacing">12</property>
