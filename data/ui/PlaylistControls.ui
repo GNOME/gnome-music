@@ -49,7 +49,9 @@
                 <child>
                   <object class="GtkEntry" id="_rename_entry">
                     <property name="can_focus">1</property>
+<!--
                     <property name="is_focus">1</property>
+-->
                     <property name="has_focus">1</property>
                     <property name="receives_default">1</property>
                     <signal name="activate" handler="_on_playlist_renamed" swapped="no"/>
