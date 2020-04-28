@@ -24,7 +24,6 @@
 
 from enum import IntEnum
 
-import gi
 from gi.repository import GLib, GObject, Gtk
 
 from gnomemusic.search import Search
