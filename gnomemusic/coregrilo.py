@@ -154,8 +154,8 @@ class CoreGrilo(GObject.GObject):
                 and source.props.source_id != "grl-tracker-source"
                 and source.get_supported_media() & Grl.MediaType.AUDIO
                 and source.supported_operations() & Grl.SupportedOps.SEARCH):
-            self._online_search_wrappers[source.props.source_id] = GrlSearchWrapper(
-                source, self._application)
+            self._online_search_wrappers[source.props.source_id] = (
+                GrlSearchWrapper(source, self._application))
             self._log.debug("Adding online search source {}".format(source))
 
     def _on_source_removed(self, registry, source):
