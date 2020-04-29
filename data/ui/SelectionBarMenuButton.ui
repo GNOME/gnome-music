@@ -15,7 +15,9 @@
   <template class="SelectionBarMenuButton" parent="GtkMenuButton">
     <property name="menu-model">selection-menu</property>
     <property name="can-focus">1</property>
+<!--
     <property name="relief">none</property>
+-->
     <child>
       <object class="GtkBox" id="selection-menu-button-box">
         <property name="spacing">6</property>
