@@ -28,7 +28,7 @@ from math import pi
 import cairo
 import gi
 gi.require_version("MediaArt", "2.0")
-gi.require_version('Soup', '2.4')
+gi.require_version("Soup", "2.4")
 from gi.repository import (Gdk, GdkPixbuf, Gio, GLib, GObject, Gtk, MediaArt,
                            Soup)
 
@@ -169,6 +169,11 @@ class ArtistArt(GObject.GObject):
         self._soup_session.queue_message(msg, self._read_callback, None)
 
     def _read_callback(self, src, result, data):
+        if result.props.status_code != 200:
+            self._log.debug("Failed to retrieve artist art : {}".format(
+                result.props.reason_phrase))
+            return
+
         try:
             istream = Gio.MemoryInputStream.new_from_bytes(
                 result.props.response_body_data)

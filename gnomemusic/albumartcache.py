@@ -30,7 +30,7 @@ import cairo
 import gi
 gi.require_version('GstTag', '1.0')
 gi.require_version('MediaArt', '2.0')
-gi.require_version('Soup', '2.4')
+gi.require_version("Soup", "2.4")
 from gi.repository import (Gdk, GdkPixbuf, Gio, GLib, GObject, Gtk, MediaArt,
                            Gst, GstTag, GstPbutils, Soup)
 
@@ -635,6 +635,11 @@ class RemoteArt(GObject.GObject):
                 "Error: {}, {}".format(error.domain, error.message))
 
     def _read_callback(self, src, result, data):
+        if result.props.status_code != 200:
+            self._log.debug("Failed to retrieve album art : {}".format(
+                result.props.reason_phrase))
+            return
+
         try:
             istream = Gio.MemoryInputStream.new_from_bytes(
                 result.props.response_body_data)
