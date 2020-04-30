@@ -139,7 +139,8 @@
         {
             "name": "gnome-music",
             "config-opts" : [
-                "-Dprofile=development"
+                "-Dprofile=development",
+                "-Dnetwork_tests=false",
             ],
             "buildsystem": "meson",
             "sources": [
