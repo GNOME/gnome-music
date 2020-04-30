@@ -62,11 +62,11 @@ i18n.merge_file(
 # Validating the appdata file
 appstream_util = find_program('appstream-util', required: false)
 if appstream_util.found()
-  test (
-    'Validate appdata file',
-    appstream_util,
-    args: ['validate-relax', join_paths(meson.current_build_dir (), APPLICATION_ID + '.appdata.xml')]
-  )
+  validate_args = ['validate-relax', join_paths(meson.current_build_dir (), APPLICATION_ID + '.appdata.xml')]
+  if not get_option('network_tests')
+    validate_args += '--nonet'
+  endif
+  test('Validate appdata file', appstream_util, args: validate_args)
 endif
 
 # Installing the default icon
