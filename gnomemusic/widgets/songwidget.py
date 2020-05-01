@@ -151,18 +151,18 @@ class SongWidget(Gtk.Box):
 
         # self._number_label.props.no_show_all = True
 
-        if can_dnd is True:
-            self._dnd_eventbox.props.visible = True
-            self._drag_widget = None
-            entries = [
-                Gtk.TargetEntry.new(
-                    "GTK_EVENT_BOX", Gtk.TargetFlags.SAME_APP, 0)
-            ]
-            self._dnd_eventbox.drag_source_set(
-                Gdk.ModifierType.BUTTON1_MASK, entries,
-                Gdk.DragAction.MOVE)
-            self.drag_dest_set(
-                Gtk.DestDefaults.ALL, entries, Gdk.DragAction.MOVE)
+        # if can_dnd is True:
+        #     self._dnd_eventbox.props.visible = True
+        #     self._drag_widget = None
+        #     entries = [
+        #         Gtk.TargetEntry.new(
+        #             "GTK_EVENT_BOX", Gtk.TargetFlags.SAME_APP, 0)
+        #     ]
+        #     self._dnd_eventbox.drag_source_set(
+        #         Gdk.ModifierType.BUTTON1_MASK, entries,
+        #         Gdk.DragAction.MOVE)
+        #     self.drag_dest_set(
+        #         Gtk.DestDefaults.ALL, entries, Gdk.DragAction.MOVE)
 
     # @Gtk.Template.Callback()
     # def _on_selection_changed(self, klass, value):
