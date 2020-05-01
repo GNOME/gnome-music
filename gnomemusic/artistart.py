@@ -170,8 +170,8 @@ class ArtistArt(GObject.GObject):
 
     def _read_callback(self, src, result, data):
         if result.props.status_code != 200:
-            self._log.debug("Failed to retrieve artist art : {}".format(
-                result.props.reason_phrase))
+            self._log.debug("Failed to retrieve art for artist {}: {}".format(
+                self._artist, result.props.reason_phrase))
             return
 
         try:
