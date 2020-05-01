@@ -636,8 +636,9 @@ class RemoteArt(GObject.GObject):
 
     def _read_callback(self, src, result, data):
         if result.props.status_code != 200:
-            self._log.debug("Failed to retrieve art for album {} : {}".format(
-                self._album, result.props.reason_phrase))
+            self._log.debug(
+                "Failed to get remote art for the album {} by {} : {}".format(
+                    self._album, self._artist, result.props.reason_phrase))
             return
 
         try:
