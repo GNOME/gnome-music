@@ -24,7 +24,7 @@
 
 from enum import IntEnum
 
-from gi.repository import Gdk, GObject, Gtk
+from gi.repository import GObject, Gtk
 
 from gnomemusic import utils
 from gnomemusic.coresong import CoreSong
@@ -139,18 +139,18 @@ class SongWidget(Gtk.Box):
         if not self.props.coresong.props.is_tracker:
             self._star_stack.props.visible_child_name = "empty"
 
-        if can_dnd is True:
-            self._dnd_eventbox.props.visible = True
-            self._drag_widget = None
-            entries = [
-                Gtk.TargetEntry.new(
-                    "GTK_EVENT_BOX", Gtk.TargetFlags.SAME_APP, 0)
-            ]
-            self._dnd_eventbox.drag_source_set(
-                Gdk.ModifierType.BUTTON1_MASK, entries,
-                Gdk.DragAction.MOVE)
-            self.drag_dest_set(
-                Gtk.DestDefaults.ALL, entries, Gdk.DragAction.MOVE)
+        # if can_dnd is True:
+        #     self._dnd_eventbox.props.visible = True
+        #     self._drag_widget = None
+        #     entries = [
+        #         Gtk.TargetEntry.new(
+        #             "GTK_EVENT_BOX", Gtk.TargetFlags.SAME_APP, 0)
+        #     ]
+        #     self._dnd_eventbox.drag_source_set(
+        #         Gdk.ModifierType.BUTTON1_MASK, entries,
+        #         Gdk.DragAction.MOVE)
+        #     self.drag_dest_set(
+        #         Gtk.DestDefaults.ALL, entries, Gdk.DragAction.MOVE)
 
     # @Gtk.Template.Callback()
     # def _on_selection_changed(self, klass, value):
