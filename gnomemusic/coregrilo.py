@@ -24,7 +24,7 @@
 
 import gi
 gi.require_version('Grl', '0.3')
-from gi.repository import Grl, GLib, GObject
+from gi.repository import Gio, Grl, GLib, GObject
 
 from gnomemusic.grilowrappers.grlsearchwrapper import GrlSearchWrapper
 from gnomemusic.grilowrappers.grltrackerwrapper import GrlTrackerWrapper
@@ -63,6 +63,7 @@ class CoreGrilo(GObject.GObject):
         self._coreselection = application.props.coreselection
         self._log = application.props.log
         self._search_wrappers = {}
+        self._online_search_wrappers = {}
         self._thumbnail_sources = []
         self._thumbnail_sources_timeout = None
         self._wrappers = {}
@@ -148,6 +149,14 @@ class CoreGrilo(GObject.GObject):
             self._search_wrappers[source.props.source_id] = GrlSearchWrapper(
                 source, self._application)
             self._log.debug("Adding search source {}".format(source))
+        elif (source.props.source_id not in self._online_search_wrappers.keys()
+                and source.props.source_id not in self._wrappers.keys()
+                and source.props.source_id != "grl-tracker-source"
+                and source.get_supported_media() & Grl.MediaType.AUDIO
+                and source.supported_operations() & Grl.SupportedOps.SEARCH):
+            self._online_search_wrappers[source.props.source_id] = (
+                GrlSearchWrapper(source, self._application))
+            self._log.debug("Adding online search source {}".format(source))
 
     def _on_source_removed(self, registry, source):
         # FIXME: Handle removing sources.
@@ -189,10 +198,22 @@ class CoreGrilo(GObject.GObject):
                 break
 
     def search(self, text):
+        network_access = (
+            Gio.Settings.new('org.gnome.Music').get_value('network-option'))
+
         for wrapper in self._wrappers.values():
+            print("1")
+            print(self._wrappers)
             wrapper.search(text)
         for wrapper in self._search_wrappers.values():
+            print("2")
+            print(self._search_wrappers)
             wrapper.search(text)
+        if network_access:
+            print(3)
+            print(self._online_search_wrappers)
+            for wrapper in self._online_search_wrappers.values():
+                wrapper.search(text)
 
     def get_album_art_for_item(self, coresong, callback):
         # Tracker not (yet) loaded.
