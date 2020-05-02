@@ -2,7 +2,6 @@
 <interface>
   <template class="ArtistTile" parent="GtkListBoxRow">
     <property name="can_focus">False</property>
-    <property name="visible">True</property>
     <child>
       <object class="GtkLabel" id="_label">
         <property name="can_focus">False</property>
@@ -13,7 +12,6 @@
         <property name="margin-end">16</property>
         <property name="margin-start">16</property>
         <property name="margin-top">16</property>
-        <property name="visible">True</property>
       </object>
     </child>
   </template>
