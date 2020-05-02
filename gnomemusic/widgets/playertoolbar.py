@@ -132,10 +132,10 @@ class PlayerToolbar(Gtk.ActionBar):
         if (self._player.props.state == Playback.STOPPED
                 and not self._player.props.has_next
                 and not self._player.props.has_previous):
-            self.hide()
+            self.props.revealed = False
             return
 
-        self.show()
+        self.props.revealed = True
 
         if self._player.props.state == Playback.PLAYING:
             icon_name = "media-playback-pause-symbolic"
