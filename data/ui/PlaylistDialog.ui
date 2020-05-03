@@ -9,7 +9,6 @@
     <property name="destroy_with_parent">True</property>
     <child internal-child="content_area">
       <object class="GtkBox" id="dialog-vbox">
-        <property name="visible">False</property>
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
         <child>
@@ -20,7 +19,6 @@
             <property name="transition_duration">250</property>
             <child>
               <object class="GtkBox" id="_empty_box">
-                <property name="visible">False</property>
                 <property name="can_focus">False</property>
                 <property name="orientation">vertical</property>
                 <child>
@@ -96,7 +94,6 @@
               <object class="GtkStackPage">
                 <property name="child">
                   <object class="GtkBox" id="_normal_box">
-                    <property name="visible">False</property>
                     <property name="can_focus">False</property>
                     <property name="orientation">vertical</property>
                     <child>
