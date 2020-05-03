@@ -298,7 +298,7 @@ class SearchView(Gtk.Stack):
         if nb_children == 0:
             return
 
-        first_child = self._album_flowbox.get_child_at_index(0)
+        first_child = self._artist_flowbox.get_child_at_index(0)
         # FIXME: It looks like it is possible that the widget is not
         # yet created, resulting in a crash with first_child being
         # None.
