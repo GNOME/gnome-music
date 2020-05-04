@@ -64,8 +64,6 @@ class ArtistAlbumsWidget(Gtk.ListBox):
         self.props.visible = True
 
     def _song_activated(self, widget, song_widget):
-        self._album = None
-
         if self.props.selection_mode:
             return
 
