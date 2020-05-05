@@ -252,10 +252,12 @@ class PlayerPlaylist(GObject.GObject):
             return randint(-1, 1)
 
         if self.props.repeat_mode == RepeatMode.SHUFFLE:
-            self._model.set_sort_func(
+            shuffle_sort = Gtk.CustomSorter()
+            shuffle_sort.set_sort_func(
                 utils.wrap_list_store_sort_func(_shuffle_sort))
+            self._mode.set_sorter(shuffle_sort)
         elif self.props.repeat_mode in [RepeatMode.NONE, RepeatMode.ALL]:
-            self._model.set_sort_func(None)
+            self._model.set_sorter(None)
 
     def _validate_song(self, coresong):
         # Song is being processed or has already been processed.

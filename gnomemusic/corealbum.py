@@ -73,8 +73,10 @@ class CoreAlbum(GObject.GObject):
         def _disc_order_sort(disc_a, disc_b):
             return disc_a.props.disc_nr - disc_b.props.disc_nr
 
-        disc_model_sort.set_sort_func(
+        disc_sorter = Gtk.CustomSorter()
+        disc_sorter.set_sort_func(
             utils.wrap_list_store_sort_func(_disc_order_sort))
+        disc_model_sort.set_sorter(disc_sorter)
 
         self._coregrilo.get_album_discs(
             self.props.media, disc_model)

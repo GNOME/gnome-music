@@ -62,7 +62,7 @@ class CoreArtist(GObject.GObject):
     def _get_artist_album_model(self):
         albums_model_filter = Gtk.FilterListModel.new(
             self._coremodel.props.albums)
-        albums_model_filter.set_filter_func(lambda a: False)
+        albums_model_filter.set_filter(Gtk.AnyFilter())
 
         albums_model_sort = Gtk.SortListModel.new(albums_model_filter)
 
@@ -72,8 +72,10 @@ class CoreArtist(GObject.GObject):
         def _album_sort(album_a, album_b):
             return album_a.props.year > album_b.props.year
 
-        albums_model_sort.set_sort_func(
+        albums_sorter = Gtk.CustomSorter()
+        albums_sorter.set_sort_func(
             utils.wrap_list_store_sort_func(_album_sort))
+        albums_model_sort.set_sorter(albums_sorter)
 
         return albums_model_sort
 
