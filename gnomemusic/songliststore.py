@@ -37,8 +37,10 @@ class SongListStore(Gtk.ListStore):
         super().__init__()
 
         self._model = Gtk.SortListModel.new(model)
-        self._model.set_sort_func(
+        sorter = Gtk.CustomSorter()
+        sorter.set_sort_func(
             utils.wrap_list_store_sort_func(self._songs_sort))
+        self._model.set_sorter(sorter)
 
         self.set_column_types([
             GObject.TYPE_STRING,    # play or invalid icon

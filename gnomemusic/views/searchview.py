@@ -87,13 +87,13 @@ class SearchView(Gtk.Stack):
         self._model = self._coremodel.props.songs_search
         self._album_model = self._coremodel.props.albums_search
         self._album_filter = self._coremodel.props.albums_search_filter
-        self._album_filter.set_filter_func(
-            self._core_filter, self._album_model, 12)
+        # self._album_filter.set_filter_func(
+        #     self._core_filter, self._album_model, 12)
 
         self._artist_model = self._coremodel.props.artists_search
         self._artist_filter = self._coremodel.props.artists_search_filter
-        self._artist_filter.set_filter_func(
-            self._core_filter, self._artist_model, 6)
+        # self._artist_filter.set_filter_func(
+        #     self._core_filter, self._artist_model, 6)
 
         self._model.connect_after(
             "items-changed", self._on_model_items_changed)
