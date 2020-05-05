@@ -90,7 +90,7 @@ class GrlTrackerWrapper(GObject.GObject):
         self._window = application.props.window
 
         self._song_search_tracker = Gtk.FilterListModel.new(self._songs_model)
-        self._song_search_tracker.set_filter_func(lambda a: False)
+        self._song_search_tracker.set_filter(Gtk.AnyFilter())
         self._song_search_proxy.append(self._song_search_tracker)
 
         self._fast_options = Grl.OperationOptions()
@@ -576,7 +576,9 @@ class GrlTrackerWrapper(GObject.GObject):
                 return
 
             if not media:
-                model.set_filter_func(albums_filter, albums)
+                custom_filter = Gtk.CustomFilter()
+                custom_filter.set_filter_func(albums_filter, albums)
+                model.set_filter(custom_filter)
                 self._window.notifications_popup.pop_loading()
                 return
 
@@ -746,7 +748,9 @@ class GrlTrackerWrapper(GObject.GObject):
                 return
 
             if not media:
-                self._artist_search_model.set_filter_func(artist_filter)
+                custom_filter = Gtk.CustomFilter()
+                custom_filter.set_filter(artist_filter)
+                self._artist_search_model.set_filter(custom_filter)
                 self._window.notifications_popup.pop_loading()
                 return
 
@@ -801,7 +805,9 @@ class GrlTrackerWrapper(GObject.GObject):
                 return
 
             if not media:
-                self._album_search_model.set_filter_func(album_filter)
+                custom_filter = Gtk.CustomFilter()
+                custom_filter.set_filter_func(album_filter)
+                self._album_search_model.set_filter(custom_filter)
                 self._window.notifications_popup.pop_loading()
                 return
 
@@ -862,7 +868,9 @@ class GrlTrackerWrapper(GObject.GObject):
                 return
 
             if not media:
-                self._song_search_tracker.set_filter_func(songs_filter)
+                custom_filter = Gtk.CustomFilter()
+                custom_filter.set_filter_func(songs_filter)
+                self._song_search_tracker.set_filter(custom_filter)
                 self._window.notifications_popup.pop_loading()
                 return
 

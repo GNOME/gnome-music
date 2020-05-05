@@ -77,7 +77,7 @@ class GrlSearchWrapper(GObject.GObject):
         # list model.
         self._song_search_model = Gtk.FilterListModel.new(
             self._song_search_store)
-        self._song_search_model.set_filter_func(lambda a: True)
+        self._song_search_model.set_filter(Gtk.AnyFilter())
         self._song_search_proxy.append(self._song_search_model)
 
         self._fast_options = Grl.OperationOptions()

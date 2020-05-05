@@ -28,7 +28,7 @@ from gettext import gettext as _
 
 import gi
 gi.require_versions({"Grl": "0.3"})
-from gi.repository import Gio, Grl, GLib, GObject
+from gi.repository import Gio, Grl, Gtk, GLib, GObject
 
 from gnomemusic.coresong import CoreSong
 import gnomemusic.utils as utils
@@ -78,7 +78,9 @@ class GrlTrackerPlaylists(GObject.GObject):
         self._tracker_wrapper = tracker_wrapper
         self._window = application.props.window
 
-        self._user_model_filter.set_filter_func(self._user_playlists_filter)
+        user_playlists_filter = Gtk.CustomFilter()
+        user_playlists_filter.set_filter_func(self._user_playlists_filter)
+        self._user_model_filter.set_filter(user_playlists_filter)
 
         self._fast_options = Grl.OperationOptions()
         self._fast_options.set_resolution_flags(
@@ -163,7 +165,9 @@ class GrlTrackerPlaylists(GObject.GObject):
         :param Playlist playlist: playlist
         """
         self._pls_todelete.append(playlist)
-        self._model_filter.set_filter_func(self._playlists_filter)
+        playlists_filter = Gtk.CustomFilter()
+        playlists_filter.set_filter_func(self._playlists_filter)
+        self._model_filter.set_filter(self._playlists_filter)
 
     def finish_playlist_deletion(self, playlist, deleted):
         """Removes playlist from the list of playlists to delete
@@ -171,11 +175,15 @@ class GrlTrackerPlaylists(GObject.GObject):
         :param Playlist playlist: playlist
         :param bool deleted: indicates if the playlist has been deleted
         """
+        playlists_filter = Gtk.CustomFilter()
+        playlists_filter.set_filter_func(self._playlists_filter)
+        user_playlists_filter = Gtk.CustomFilter()
+        user_playlists_filter.set_filter_func(self._playlists_filter)
+
         self._pls_todelete.remove(playlist)
         if deleted is False:
-            self._model_filter.set_filter_func(self._playlists_filter)
-            self._user_model_filter.set_filter_func(
-                self._user_playlists_filter)
+            self._model_filter.set_filter(playlists_filter)
+            self._user_model_filter.set_filter(user_playlists_filter)
             return
 
         def _delete_cb(conn, res, data):
@@ -190,7 +198,9 @@ class GrlTrackerPlaylists(GObject.GObject):
                         self._model.remove(idx)
                         break
 
-            self._model_filter.set_filter_func(self._playlists_filter)
+            playlists_filter = Gtk.CustomFilter()
+            playlists_filter.set_filter_func(self._playlists_filter)
+            self._model_filter.set_filter(playlists_filter)
             self._window.notifications_popup.pop_loading()
 
         self._window.notifications_popup.push_loading()

@@ -88,13 +88,17 @@ class CoreModel(GObject.GObject):
 
         self._albums_model = Gio.ListStore()
         self._albums_model_sort = Gtk.SortListModel.new(self._albums_model)
-        self._albums_model_sort.set_sort_func(
+        albums_sorter = Gtk.CustomSorter()
+        albums_sorter.set_sort_func(
             utils.wrap_list_store_sort_func(self._albums_sort))
+        self._albums_model_sort.set_sorter(albums_sorter)
 
         self._artists_model = Gio.ListStore.new(CoreArtist)
         self._artists_model_sort = Gtk.SortListModel.new(self._artists_model)
-        self._artists_model_sort.set_sort_func(
+        artists_sorter = Gtk.CustomSorter()
+        artists_sorter.set_sort_func(
             utils.wrap_list_store_sort_func(self._artist_sort))
+        self._artists_model_sort.set_sorter(artists_sorter)
 
         self._playlist_model = Gio.ListStore.new(CoreSong)
         self._playlist_model_sort = Gtk.SortListModel.new(self._playlist_model)
@@ -105,14 +109,14 @@ class CoreModel(GObject.GObject):
 
         self._albums_search_model = Gtk.FilterListModel.new(
             self._albums_model)
-        self._albums_search_model.set_filter_func(lambda a: False)
+        self._albums_search_model.set_filter(Gtk.AnyFilter())
 
         self._albums_search_filter = Gtk.FilterListModel.new(
             self._albums_search_model)
 
         self._artists_search_model = Gtk.FilterListModel.new(
             self._artists_model)
-        self._artists_search_model.set_filter_func(lambda a: False)
+        self._artists_search_model.set_filter(Gtk.AnyFilter())
 
         self._artists_search_filter = Gtk.FilterListModel.new(
             self._artists_search_model)
@@ -122,15 +126,19 @@ class CoreModel(GObject.GObject):
             self._playlists_model)
         self._playlists_model_sort = Gtk.SortListModel.new(
             self._playlists_model_filter)
-        self._playlists_model_sort.set_sort_func(
+        playlists_sorter = Gtk.CustomSorter()
+        playlists_sorter.set_sort_func(
             utils.wrap_list_store_sort_func(self._playlists_sort))
+        self._playlists_model_sort.set_sorter(playlists_sorter)
 
         self._user_playlists_model_filter = Gtk.FilterListModel.new(
             self._playlists_model)
         self._user_playlists_model_sort = Gtk.SortListModel.new(
             self._user_playlists_model_filter)
-        self._user_playlists_model_sort.set_sort_func(
+        user_playlists_sorter = Gtk.CustomSorter()
+        user_playlists_sorter.set_sort_func(
             utils.wrap_list_store_sort_func(self._playlists_sort))
+        self._user_playlists_model_sort.set_sorter(user_playlists_sorter)
 
         self._songs_model.connect(
             "items-changed", self._on_songs_items_changed)
