@@ -145,10 +145,10 @@ Recent PyGObject (3.29.1 and up) allows template usage and Music is [starting to
 The basic usage in Python is as follows, with the `widget.ui` file being a regular GTK template:
 
 ```python
-@Gtk.Template(resource_path='/org/gnome/Music/widget.ui')
+@Gtk.Template(resource_path="/org/gnome/Music/widget.ui")
 class Widget(Gtk.Widget):
 
-    __gtype_name__ = 'Widget'
+    __gtype_name__ = "Widget"
 
     _button = Gtk.Template.Child()
 
