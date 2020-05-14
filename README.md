@@ -33,6 +33,14 @@ You can also install Music system-wide by running:
 $ ninja install
 ```
 
+## Debugging
+
+GNOME Music uses [GLib logging facilities](https://developer.gnome.org/glib/stable/glib-running.html) to print debug messages. It can be activated by setting the `G_MESSAGES_DEBUG` environment variable:
+
+```sh
+G_MESSAGES_DEBUG=org.gnome.Music gnome-music
+```
+
 ## Coding style
 
 GNOME Music is written in Python and adheres to the coding style described in the python style guide [PEP-8](https://www.python.org/dev/peps/pep-0008/).
