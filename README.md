@@ -11,7 +11,7 @@ You can join the developers on IRC: [#gnome-music](irc://irc.gnome.org/gnome-mus
 
 Follow the [GNOME Newcomers guide](https://wiki.gnome.org/Newcomers/) and choose Music as your project. There are bugs labeled for newcomers, which should provide an easy entry point. Of course, feel free to pick something more challenging. Pick bugs if you can, not feature requests. The goal is to make the current Music experience sound & stable and only then extend it's functionality.
 
-### Build Music
+## Build Music
 
 Music uses the [meson](http://mesonbuild.com/) build system. Use the following commands to build Music from the source directory:
 
