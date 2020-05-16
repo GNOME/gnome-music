@@ -93,7 +93,7 @@ class ArtistAlbumWidget(Gtk.Box):
         corealbum.props.model.items_changed(0, 0, 0)
 
     def _create_widget(self, disc):
-        disc_box = self._create_disc_box(disc.props.disc_nr, disc.model)
+        disc_box = self._create_disc_box(disc)
 
         self._disc_list_box.bind_property(
             "selection-mode", disc_box, "selection-mode",
@@ -102,9 +102,8 @@ class ArtistAlbumWidget(Gtk.Box):
 
         return disc_box
 
-    def _create_disc_box(self, disc_nr, album_model):
-        disc_box = DiscBox(album_model)
-        disc_box.set_disc_number(disc_nr)
+    def _create_disc_box(self, coredisc):
+        disc_box = DiscBox(coredisc)
         disc_box.props.show_durations = True
         disc_box.props.show_favorites = True
         disc_box.props.show_song_numbers = True
