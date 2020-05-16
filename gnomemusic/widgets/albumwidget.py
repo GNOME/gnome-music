@@ -116,18 +116,13 @@ class AlbumWidget(Gtk.EventBox):
         self._album_model.items_changed(0, 0, 0)
 
     def _create_widget(self, disc):
-        disc_box = self._create_disc_box(disc)
+        disc_box = DiscBox(disc)
+        disc_box.connect('song-activated', self._song_activated)
 
         self._disc_list_box.bind_property(
             "selection-mode", disc_box, "selection-mode",
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
-
-        return disc_box
-
-    def _create_disc_box(self, coredisc):
-        disc_box = DiscBox(coredisc)
-        disc_box.connect('song-activated', self._song_activated)
 
         return disc_box
 
