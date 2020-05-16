@@ -104,7 +104,6 @@ class ArtistAlbumWidget(Gtk.Box):
 
     def _create_disc_box(self, coredisc):
         disc_box = DiscBox(coredisc)
-        disc_box.props.show_song_numbers = True
         disc_box.connect('song-activated', self._song_activated)
 
         return disc_box
