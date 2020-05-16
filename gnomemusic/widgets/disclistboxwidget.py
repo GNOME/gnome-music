@@ -50,27 +50,23 @@ class DiscBox(Gtk.ListBoxRow):
     show_favorites = GObject.Property(type=bool, default=False)
     show_song_numbers = GObject.Property(type=bool, default=False)
 
-    def __init__(self, model):
+    def __init__(self, coredisc):
         """Initialize
 
-        :param model: The Gio.ListStore to use
+        :param CoreDisc coredisc: The CoreDisc object to use
         """
         super().__init__()
 
-        self._model = model
+        self._model = coredisc.props.model
+
+        disc_nr = coredisc.props.disc_nr
+        self._disc_label.props.label = _("Disc {}").format(disc_nr)
 
         self.bind_property(
             'show-disc-label', self._disc_label, 'visible',
             GObject.BindingFlags.SYNC_CREATE)
 
         self._list_box.bind_model(self._model, self._create_widget)
-
-    def set_disc_number(self, disc_number):
-        """Set the dics number to display
-
-        :param int disc_number: Disc number to display
-        """
-        self._disc_label.props.label = _("Disc {}").format(disc_number)
 
     def select_all(self):
         """Select all songs"""
