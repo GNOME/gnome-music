@@ -46,7 +46,6 @@ class DiscBox(Gtk.ListBoxRow):
 
     selection_mode = GObject.Property(type=bool, default=False)
     show_disc_label = GObject.Property(type=bool, default=False)
-    show_song_numbers = GObject.Property(type=bool, default=False)
 
     def __init__(self, coredisc):
         """Initialize
@@ -89,10 +88,6 @@ class DiscBox(Gtk.ListBoxRow):
             "selection-mode", song_widget, "selection-mode",
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
-
-        self.bind_property(
-            "show-song-numbers", song_widget, "show-song-number",
-            GObject.BindingFlags.SYNC_CREATE)
 
         song_widget.connect('button-release-event', self._song_activated)
 
