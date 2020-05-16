@@ -59,7 +59,6 @@ class SongWidget(Gtk.EventBox):
     select_click = GObject.Property(type=bool, default=False)
     selected = GObject.Property(type=bool, default=False)
     show_duration = GObject.Property(type=bool, default=True)
-    show_favorite = GObject.Property(type=bool, default=True)
     show_song_number = GObject.Property(type=bool, default=True)
 
     _album_label = Gtk.Template.Child()
@@ -131,9 +130,6 @@ class SongWidget(Gtk.EventBox):
             | GObject.BindingFlags.SYNC_CREATE)
         self.bind_property(
             'show-duration', self._duration_label, 'visible',
-            GObject.BindingFlags.SYNC_CREATE)
-        self.bind_property(
-            'show-favorite', self._star_eventbox, 'visible',
             GObject.BindingFlags.SYNC_CREATE)
         self.bind_property(
             'show-song-number', self._number_label, 'visible',
