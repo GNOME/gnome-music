@@ -127,7 +127,6 @@ class AlbumWidget(Gtk.EventBox):
 
     def _create_disc_box(self, coredisc):
         disc_box = DiscBox(coredisc)
-        disc_box.props.show_durations = True
         disc_box.props.show_song_numbers = True
         disc_box.connect('song-activated', self._song_activated)
 
