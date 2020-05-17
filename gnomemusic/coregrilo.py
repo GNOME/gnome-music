@@ -87,6 +87,17 @@ class CoreGrilo(GObject.GObject):
         self._registry.connect('source-added', self._on_source_added)
         self._registry.connect('source-removed', self._on_source_removed)
 
+        self._plugins_loaded = False
+
+    def load_plugins(self):
+        """Load all the plugins.
+
+        This function can only be called once.
+        """
+        if self._plugins_loaded:
+            self._log.warning("Grilo plugins have already been loaded")
+
+        self._plugins_loaded = True
         self._registry.load_all_plugins(True)
 
     def _on_tracker_available_changed(self, klass, value):
