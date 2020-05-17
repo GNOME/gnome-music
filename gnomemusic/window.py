@@ -69,8 +69,9 @@ class Window(Gtk.ApplicationWindow):
         super().__init__(application=app, title=_("Music"))
 
         self._app = app
+        self._coreselection = app.props.coreselection
 
-        self._app._coreselection.bind_property(
+        self._coreselection.bind_property(
             "selected-items-count", self, "selected-items-count")
 
         self._settings = app.props.settings
@@ -452,7 +453,7 @@ class Window(Gtk.ApplicationWindow):
         if self.props.active_view == self.views[View.PLAYLIST]:
             return
 
-        selected_songs = self._app._coreselection.props.selected_items
+        selected_songs = self._coreselection.props.selected_items
 
         if len(selected_songs) < 1:
             return
