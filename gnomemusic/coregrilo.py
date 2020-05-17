@@ -85,6 +85,20 @@ class CoreGrilo(GObject.GObject):
         self._registry.connect('source-added', self._on_source_added)
         self._registry.connect('source-removed', self._on_source_removed)
 
+        self._plugins_loaded = False
+
+        weakref.finalize(self, Grl.deinit)
+
+    def load_plugins(self):
+        """Load all the plugins.
+
+        This function can only be called once.
+        """
+        if self._plugins_loaded:
+            self._log.warning("Grilo plugins have already been loaded")
+            return
+
+        self._plugins_loaded = True
         self._registry.load_all_plugins(False)
 
         tracker_available_state = self._tracker_wrapper.props.tracker_available
@@ -106,8 +120,6 @@ class CoreGrilo(GObject.GObject):
                 except GLib.GError:
                     self._log.debug(
                         "Failed to activate {} plugin.".format(plugin_id))
-
-        weakref.finalize(self, Grl.deinit)
 
     def _on_tracker_available_changed(self, klass, value):
         # FIXME:No removal support yet.

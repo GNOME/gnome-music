@@ -73,6 +73,7 @@ class Application(Adw.Application):
         # Order is important: CoreGrilo initializes the Grilo sources,
         # which in turn use CoreModel & CoreSelection extensively.
         self._coregrilo = CoreGrilo(self)
+        self._coregrilo.load_plugins()
 
         self._settings = Gio.Settings.new('org.gnome.Music')
         self._lastfm_scrobbler = LastFmScrobbler(self)
