@@ -46,8 +46,9 @@ class SongEditorDialog(Gtk.Dialog):
     _notifications_popup = Gtk.Template.Child()
     _prev_button = Gtk.Template.Child()
     _spinner = Gtk.Template.Child()
-    _spinner_label = Gtk.Template.Child()
+    _state_label = Gtk.Template.Child()
     _submit_button = Gtk.Template.Child()
+    _suggestion_label = Gtk.Template.Child()
     _url_label = Gtk.Template.Child()
     _use_suggestion_button = Gtk.Template.Child()
 
@@ -132,7 +133,7 @@ class SongEditorDialog(Gtk.Dialog):
 
     def _start_spinner(self):
         self._spinner.start()
-        self._spinner_label.props.label = _("Fetching metadata…")
+        self._state_label.props.label = _("Fetching metadata…")
 
     def _stop_spinner(self):
         self._spinner.stop()
@@ -142,7 +143,7 @@ class SongEditorDialog(Gtk.Dialog):
                 "{} suggestion found", "{} suggestions found",
                 len(self._suggestions)).format(len(self._suggestions))
 
-        self._spinner_label.props.label = label
+        self._state_label.props.label = label
 
     def _search_tags(self):
         self._start_spinner()
@@ -182,9 +183,15 @@ class SongEditorDialog(Gtk.Dialog):
                 suggestion.props.has_tooltip = True
                 suggestion.props.tooltip_text = value
 
+        nr_results = len(self._suggestions)
         self._next_button.props.sensitive = (
-            self._suggestion_index < len(self._suggestions) - 1)
+            self._suggestion_index < nr_results - 1)
         self._prev_button.props.sensitive = (self._suggestion_index > 0)
+
+        if nr_results > 1:
+            label = "({}/{})".format(self._suggestion_index + 1, nr_results)
+            self._suggestion_label.props.label = label
+            self._suggestion_label.props.visible = True
 
     def _on_entries_changed(self, widget=None, param=None):
         if self._suggestion_index >= 0:
