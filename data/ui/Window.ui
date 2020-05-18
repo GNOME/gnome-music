@@ -3,6 +3,12 @@
   <template class="Window" parent="GtkApplicationWindow">
     <property name="default-height">500</property>
     <property name="default-width">300</property>
+    <child type="titlebar">
+      <object class="GtkStack" id="_headerbar_stack">
+        <property name="transition-type">crossfade</property>
+        <property name="visible">True</property>
+      </object>
+    </child>
     <child>
       <object class="GtkBox">
         <property name="orientation">vertical</property>
