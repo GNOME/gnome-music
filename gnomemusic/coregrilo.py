@@ -22,6 +22,8 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+import weakref
+
 import gi
 gi.require_version('Grl', '0.3')
 from gi.repository import Grl, GLib, GObject
@@ -88,6 +90,8 @@ class CoreGrilo(GObject.GObject):
         self._registry.connect('source-removed', self._on_source_removed)
 
         self._registry.load_all_plugins(True)
+
+        weakref.finalize(self, Grl.deinit)
 
     def _on_tracker_available_changed(self, klass, value):
         new_state = self._tracker_wrapper.props.tracker_available
