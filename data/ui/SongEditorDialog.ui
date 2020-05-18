@@ -392,8 +392,15 @@
                   </object>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="_spinner_label">
-                    <property name="label" translatable="yes">Fetching metadata...</property>
+                  <object class="GtkLabel" id="_state_label">
+                    <style>
+                      <class name="dim-label"/>
+                    </style>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="_suggestion_label">
+                    <property name="visible">False</property>
                     <style>
                       <class name="dim-label"/>
                     </style>
