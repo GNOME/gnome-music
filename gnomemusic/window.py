@@ -38,8 +38,8 @@ from gnomemusic.views.searchview import SearchView
 from gnomemusic.views.songsview import SongsView
 from gnomemusic.views.playlistsview import PlaylistsView
 from gnomemusic.widgets.headerbar import HeaderBar
-from gnomemusic.widgets.notificationspopup import NotificationsPopup
-from gnomemusic.widgets.playertoolbar import PlayerToolbar
+from gnomemusic.widgets.notificationspopup import NotificationsPopup  # noqa
+from gnomemusic.widgets.playertoolbar import PlayerToolbar  # noqa: F401
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
 from gnomemusic.widgets.searchheaderbar import SearchHeaderBar
 from gnomemusic.widgets.selectiontoolbar import SelectionToolbar  # noqa: F401
@@ -55,8 +55,10 @@ class Window(Gtk.ApplicationWindow):
     selected_items_count = GObject.Property(type=int, default=0, minimum=0)
     selection_mode = GObject.Property(type=bool, default=False)
 
-    _box = Gtk.Template.Child()
+    notifications_popup = Gtk.Template.Child()
+    _headerbar_stack = Gtk.Template.Child()
     _overlay = Gtk.Template.Child()
+    _player_toolbar = Gtk.Template.Child()
     _selection_toolbar = Gtk.Template.Child()
     _stack = Gtk.Template.Child()
 
@@ -67,10 +69,10 @@ class Window(Gtk.ApplicationWindow):
         """
         super().__init__(application=app, title=_("Music"))
 
-        # Hack
         self._app = app
+        self._coreselection = app.props.coreselection
 
-        self._app._coreselection.bind_property(
+        self._coreselection.bind_property(
             "selected-items-count", self, "selected-items-count")
 
         self._settings = app.props.settings
@@ -96,15 +98,13 @@ class Window(Gtk.ApplicationWindow):
 
     def _setup_view(self):
         self._search = Search()
-        self._headerbar_stack = Gtk.Stack()
-        transition_type = Gtk.StackTransitionType.CROSSFADE
-        self._headerbar_stack.props.transition_type = transition_type
+
         self._headerbar = HeaderBar(self._app)
+        self._headerbar.props.stack = self._stack
         self._search_headerbar = SearchHeaderBar(self._app)
         self._search_headerbar.props.stack = self._stack
         self._headerbar_stack.add_named(self._headerbar, "main")
         self._headerbar_stack.add_named(self._search_headerbar, "search")
-        self._headerbar_stack.props.name = "search"
 
         self._search.bind_property(
             "search-mode-active", self._headerbar, "search-mode-active",
@@ -121,10 +121,6 @@ class Window(Gtk.ApplicationWindow):
         self._search.connect(
             "notify::search-mode-active", self._on_search_mode_changed)
 
-        self.notifications_popup = NotificationsPopup()
-        self._overlay.add_overlay(self.notifications_popup)
-
-        self._player_toolbar = PlayerToolbar()
         self._player_toolbar.props.player = self._player
 
         self._headerbar.connect(
@@ -167,16 +163,11 @@ class Window(Gtk.ApplicationWindow):
         # bottom line of the searchbar
         self._stack.get_style_context().add_class('background')
 
-        self._box.pack_end(self._player_toolbar, False, False, 0)
-
-        self.set_titlebar(self._headerbar_stack)
-
         self._selection_toolbar.connect(
             'add-to-playlist', self._on_add_to_playlist)
         self._search.connect("notify::state", self._on_search_state_changed)
 
         self._headerbar.props.state = HeaderBar.State.MAIN
-        self._headerbar_stack.props.visible = True
 
         self._app.props.coremodel.connect(
             "notify::songs-available", self._on_songs_available)
@@ -208,9 +199,9 @@ class Window(Gtk.ApplicationWindow):
 
     def _on_search_mode_changed(self, search, value):
         if self._search.props.search_mode_active:
-            self._headerbar_stack.set_visible_child_name("search")
+            self._headerbar_stack.props.visible_child_name = "search"
         else:
-            self._headerbar_stack.set_visible_child_name("main")
+            self._headerbar_stack.props.visible_child_name = "main"
 
     def _on_songs_available(self, klass, value):
         if self._app.props.coremodel.props.songs_available:
@@ -246,7 +237,6 @@ class Window(Gtk.ApplicationWindow):
         self.views[View.EMPTY].props.state = EmptyView.State.SEARCH
 
         self._headerbar.props.state = HeaderBar.State.MAIN
-        self._headerbar.props.stack = self._stack
 
         self.views[View.ALBUM] = AlbumsView(self._app)
         self.views[View.ARTIST] = ArtistsView(self._app)
@@ -264,7 +254,7 @@ class Window(Gtk.ApplicationWindow):
             else:
                 self._stack.add_named(i, i.name)
 
-        self._stack.set_visible_child(self.views[View.ALBUM])
+        self._stack.props.visible_child = self.views[View.ALBUM]
 
         self.views[View.SEARCH].bind_property(
             "search-state", self._search, "state",
@@ -436,7 +426,7 @@ class Window(Gtk.ApplicationWindow):
             return
 
         # Get back to the view before the search
-        self._stack.set_visible_child(self._view_before_search)
+        self._stack.props.visible_child = self._view_before_search
 
     def _switch_back_from_childview(self, klass=None):
         if self.props.selection_mode:
@@ -458,7 +448,7 @@ class Window(Gtk.ApplicationWindow):
         if self.props.active_view == self.views[View.PLAYLIST]:
             return
 
-        selected_songs = self._app._coreselection.props.selected_items
+        selected_songs = self._coreselection.props.selected_items
 
         if len(selected_songs) < 1:
             return
