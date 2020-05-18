@@ -52,6 +52,8 @@ class SongEditorDialog(Gtk.Dialog):
     _use_suggestion_button = Gtk.Template.Child()
 
     # tags entries and labels
+    _album_artist_entry = Gtk.Template.Child()
+    _album_artist_suggestion = Gtk.Template.Child()
     _album_entry = Gtk.Template.Child()
     _album_suggestion = Gtk.Template.Child()
     _artist_entry = Gtk.Template.Child()
@@ -71,6 +73,7 @@ class SongEditorDialog(Gtk.Dialog):
 
     _fields_getter = {
         "album": utils.get_album_title,
+        "album_artist": utils.get_album_artist,
         "artist": utils.get_song_artist,
         "disc": utils.get_album_disc_nr,
         "title": utils.get_media_title,
@@ -269,7 +272,6 @@ class SongEditorDialog(Gtk.Dialog):
         self._delete_notification()
 
         tags = {
-            "album-artist": None,
             "mb-recording-id": None,
             "mb-track-id": None,
             "mb-artist-id": None,
@@ -279,11 +281,11 @@ class SongEditorDialog(Gtk.Dialog):
 
         for field in self._fields_getter:
             entry = getattr(self, "_" + field + "_entry")
-            tags[field] = entry.props.text
+            tag_key = field.replace("_", "-")
+            tags[tag_key] = entry.props.text
 
         if self._chosen_suggestion_index > -1:
             media = self._suggestions[self._chosen_suggestion_index]
-            tags["album-artist"] = media.get_album_artist()
             tags["mb-recording-id"] = media.get_mb_recording_id()
             tags["mb-track-id"] = media.get_mb_track_id()
             tags["mb-artist-id"] = media.get_mb_artist_id()
