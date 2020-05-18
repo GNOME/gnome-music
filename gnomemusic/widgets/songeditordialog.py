@@ -62,6 +62,8 @@ class SongEditorDialog(Gtk.Dialog):
     _use_suggestion_button = Gtk.Template.Child()
 
     # tags entries and labels
+    _album_artist_entry = Gtk.Template.Child()
+    _album_artist_suggestion = Gtk.Template.Child()
     _album_entry = Gtk.Template.Child()
     _album_suggestion = Gtk.Template.Child()
     _artist_entry = Gtk.Template.Child()
@@ -88,6 +90,8 @@ class SongEditorDialog(Gtk.Dialog):
     _tags: List[Tag] = [
         Tag("album", utils.get_album_title, Grl.Media.set_album,
             Grl.METADATA_KEY_ALBUM),
+        Tag("album_artist", utils.get_album_artist,
+            Grl.Media.set_album_artist, Grl.METADATA_KEY_ALBUM_ARTIST),
         Tag("artist", utils.get_song_artist, Grl.Media.set_artist,
             Grl.METADATA_KEY_ARTIST),
         Tag("disc", utils.get_album_disc_nr, utils.set_album_disc_nr,
@@ -101,8 +105,6 @@ class SongEditorDialog(Gtk.Dialog):
     ]
 
     _internal_tags: List[Tag] = [
-        Tag("album-artist", Grl.Media.get_album_artist,
-            Grl.Media.set_album_artist, Grl.METADATA_KEY_ALBUM_ARTIST),
         Tag("mb-recording-id", Grl.Media.get_mb_recording_id,
             Grl.Media.set_mb_recording_id, Grl.METADATA_KEY_MB_RECORDING_ID),
         Tag("mb-track-id", Grl.Media.get_mb_track_id,
