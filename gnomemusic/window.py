@@ -199,9 +199,9 @@ class Window(Gtk.ApplicationWindow):
 
     def _on_search_mode_changed(self, search, value):
         if self._search.props.search_mode_active:
-            self._headerbar_stack.set_visible_child_name("search")
+            self._headerbar_stack.props.visible_child_name = "search"
         else:
-            self._headerbar_stack.set_visible_child_name("main")
+            self._headerbar_stack.props.visible_child_name = "main"
 
     def _on_songs_available(self, klass, value):
         if self._app.props.coremodel.props.songs_available:
@@ -254,7 +254,7 @@ class Window(Gtk.ApplicationWindow):
             else:
                 self._stack.add_named(i, i.name)
 
-        self._stack.set_visible_child(self.views[View.ALBUM])
+        self._stack.props.visible_child = self.views[View.ALBUM]
 
         self.views[View.SEARCH].bind_property(
             "search-state", self._search, "state",
@@ -426,7 +426,7 @@ class Window(Gtk.ApplicationWindow):
             return
 
         # Get back to the view before the search
-        self._stack.set_visible_child(self._view_before_search)
+        self._stack.props.visible_child = self._view_before_search
 
     def _switch_back_from_childview(self, klass=None):
         if self.props.selection_mode:
