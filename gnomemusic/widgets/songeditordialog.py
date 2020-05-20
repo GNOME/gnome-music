@@ -25,7 +25,7 @@
 from __future__ import annotations
 from gettext import gettext as _, ngettext
 from itertools import chain
-from typing import Callable, Dict, List, NamedTuple, Optional
+from typing import Callable, Dict, List, NamedTuple, Optional, Union
 import typing
 
 from gi.repository import Gtk, Gio, GObject, GLib, Grl
@@ -39,6 +39,7 @@ if typing.TYPE_CHECKING:
     from gnomemusic.coresong import CoreSong
     from gnomemusic.musiclogger import MusicLogger
 
+from gnomemusic.tagsimilarity import song_similarity
 import gnomemusic.utils as utils
 
 
@@ -145,7 +146,7 @@ class SongEditorDialog(Gtk.Dialog):
         self._notification_undo_id: int = 0
 
         self._previous_tags: Dict[str, str] = {}
-        self._suggestions: List[Grl.Media] = []
+        self._suggestions: List[Dict[str, Union[Grl.Media, float]]] = []
         self._suggestion_idx: int = -1
         self._chosen_suggestion_idx: int = -1
         self._search_tags()
@@ -189,12 +190,9 @@ class SongEditorDialog(Gtk.Dialog):
         self._start_spinner()
         self._coresong.query_musicbrainz_tags(self._tags_found)
 
-    def _suggestion_sort_func(self, media: Grl.Media) -> GLib.DateTime:
-        creation_date: Optional[GLib.DateTime] = media.get_creation_date()
-        if creation_date:
-            return (creation_date.get_year(), media.get_album())
-
-        return (GLib.DateTime.new_now_utc().get_year(), media.get_album())
+    def _suggestion_sort_func(
+            self, suggestion: Dict[str, Union[Grl.Media, float]]) -> float:
+        return suggestion["score"]
 
     def _tags_found(self, media: Optional[Grl.Media], count: int = 0) -> None:
         if not media:
@@ -205,17 +203,22 @@ class SongEditorDialog(Gtk.Dialog):
             self._create_notification(TagEditorNotification.Type.NONE)
             return
 
-        self._suggestions.append(media)
+        suggestion = {
+            "media": media,
+            "score": song_similarity(self._coresong.props.media, media)
+        }
+        self._suggestions.append(suggestion)
 
         if count == 0:
-            self._suggestions.sort(key=self._suggestion_sort_func)
+            self._suggestions.sort(
+                key=self._suggestion_sort_func, reverse=True)
             self._stop_spinner()
             self._suggestion_idx = 0
             self._update_suggestion()
             self._on_entries_changed()
 
     def _update_suggestion(self) -> None:
-        media: Grl.Media = self._suggestions[self._suggestion_idx]
+        media: Grl.Media = self._suggestions[self._suggestion_idx]["media"]
         for tag in self._tags:
             label: Grl.Label = getattr(self, "_" + tag.name + "_suggestion")
             value: str = tag.getter(media)
@@ -240,7 +243,8 @@ class SongEditorDialog(Gtk.Dialog):
             self, widget: Optional[Gtk.Entry] = None,
             param: Optional[GObject.GParamSpec] = None) -> None:
         if self._suggestion_idx >= 0:
-            media: Grl.Media = self._suggestions[self._suggestion_idx]
+            suggestion = self._suggestions[self._suggestion_idx]
+            media: Grl.Media = suggestion["media"]
             self._use_suggestion_button.props.sensitive = False
         self._submit_button.props.sensitive = False
 
@@ -272,7 +276,8 @@ class SongEditorDialog(Gtk.Dialog):
 
     @Gtk.Template.Callback()
     def _on_use_suggestion_clicked(self, widget: Gtk.Button) -> None:
-        suggested_media: Grl.Media = self._suggestions[self._suggestion_idx]
+        suggestion = self._suggestions[self._suggestion_idx]
+        suggested_media: Grl.Media = suggestion["media"]
         self._previous_tags.clear()
         for tag in self._tags:
             entry: Gtk.Entry = getattr(self, "_" + tag.name + "_entry")
@@ -335,7 +340,7 @@ class SongEditorDialog(Gtk.Dialog):
         # manually changed.
         chosen_idx: int = self._chosen_suggestion_idx
         if chosen_idx > -1:
-            media_chosen: Grl.Media = self._suggestions[chosen_idx]
+            media_chosen: Grl.Media = self._suggestions[chosen_idx]["media"]
             for tag in chain(self._tags, self._internal_tags):
                 existing_tag_text: str = tag.getter(self._coresong.props.media)
                 new_tag_text: str = tag.getter(media_chosen)
