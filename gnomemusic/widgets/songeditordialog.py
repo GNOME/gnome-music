@@ -29,6 +29,7 @@ from gi.repository import Gtk, Gio, GObject, GLib
 from gnomemusic.albumartcache import Art
 from gnomemusic.widgets.notificationspopup import TagEditorNotification
 
+from gnomemusic.tagsimilarity import song_similarity
 import gnomemusic.utils as utils
 
 
@@ -149,11 +150,8 @@ class SongEditorDialog(Gtk.Dialog):
         self._start_spinner()
         self._coresong.query_musicbrainz_tags(self._tags_found)
 
-    def _suggestion_sort_func(self, media):
-        creation_date = media.get_creation_date()
-        if creation_date:
-            return (creation_date.get_year(), media.get_album())
-        return (GLib.DateTime.new_now_utc().get_year(), media.get_album())
+    def _suggestion_sort_func(self, suggestion):
+        return suggestion["score"]
 
     def _tags_found(self, media, count=0):
         if not media:
@@ -163,17 +161,22 @@ class SongEditorDialog(Gtk.Dialog):
             self._create_notification(TagEditorNotification.Type.NONE)
             return
 
-        self._suggestions.append(media)
+        suggestion = {
+            "media": media,
+            "score": song_similarity(self._coresong.props.media, media)
+        }
+        self._suggestions.append(suggestion)
 
         if count == 0:
-            self._suggestions.sort(key=self._suggestion_sort_func)
+            self._suggestions.sort(
+                key=self._suggestion_sort_func, reverse=True)
             self._stop_spinner()
             self._suggestion_index = 0
             self._update_suggestion()
             self._on_entries_changed()
 
     def _update_suggestion(self):
-        media = self._suggestions[self._suggestion_index]
+        media = self._suggestions[self._suggestion_index]["media"]
         for field in self._fields_getter:
             suggestion = getattr(self, "_" + field + "_suggestion")
             value = self._fields_getter[field](media)
@@ -195,7 +198,7 @@ class SongEditorDialog(Gtk.Dialog):
 
     def _on_entries_changed(self, widget=None, param=None):
         if self._suggestion_index >= 0:
-            media = self._suggestions[self._suggestion_index]
+            media = self._suggestions[self._suggestion_index]["media"]
             self._use_suggestion_button.props.sensitive = False
         self._submit_button.props.sensitive = False
 
@@ -227,7 +230,7 @@ class SongEditorDialog(Gtk.Dialog):
 
     @Gtk.Template.Callback()
     def _on_use_suggestion_clicked(self, widget):
-        suggested_media = self._suggestions[self._suggestion_index]
+        suggested_media = self._suggestions[self._suggestion_index]["media"]
         self._previous_tags.clear()
         for field in self._fields_getter:
             entry = getattr(self, "_" + field + "_entry")
@@ -292,7 +295,8 @@ class SongEditorDialog(Gtk.Dialog):
             tags[tag_key] = entry.props.text
 
         if self._chosen_suggestion_index > -1:
-            media = self._suggestions[self._chosen_suggestion_index]
+            suggestion = self._suggestions[self._chosen_suggestion_index]
+            media = suggestion["media"]
             tags["mb-recording-id"] = media.get_mb_recording_id()
             tags["mb-track-id"] = media.get_mb_track_id()
             tags["mb-artist-id"] = media.get_mb_artist_id()
