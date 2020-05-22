@@ -42,6 +42,7 @@ class CoreSong(GObject.GObject):
     media = GObject.Property(type=Grl.Media)
     grlid = GObject.Property(type=str, default=None)
     play_count = GObject.Property(type=int)
+    source = GObject.Property(type=str)
     state = GObject.Property()  # FIXME: How to set an IntEnum type?
     title = GObject.Property(type=str)
     track_number = GObject.Property(type=int)
@@ -124,6 +125,7 @@ class CoreSong(GObject.GObject):
         self.props.duration = media.get_duration()
         self.props.favorite = media.get_favourite()
         self.props.play_count = media.get_play_count()
+        self.props.source = media.get_source()
         self.props.title = utils.get_media_title(media)
         self.props.track_number = media.get_track_number()
         self.props.url = media.get_url()
