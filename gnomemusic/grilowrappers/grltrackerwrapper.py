@@ -346,17 +346,20 @@ class GrlTrackerWrapper(GObject.GObject):
                 return
 
             if not media:
+                self._remove_media(media_ids)
                 return
 
-            if media.get_id() not in self._hash:
-                self._log.debug(
-                    "Media {} not in hash".format(media.get_id()))
-
+            media_id = media.get_id()
+            if media_id not in self._hash:
                 song = CoreSong(self._application, media)
                 self._songs_model.append(song)
-                self._hash[media.get_id()] = song
+                self._hash[media_id] = song
+                self._log.debug(
+                    "Adding: {}, {}".format(media_id, song.props.title))
             else:
-                self._hash[media.get_id()].update(media)
+                self._hash[media_id].update(media)
+
+            media_ids.remove(media_id)
 
         options = self._fast_options.copy()
 
