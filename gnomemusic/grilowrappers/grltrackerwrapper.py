@@ -346,6 +346,7 @@ class GrlTrackerWrapper(GObject.GObject):
                 return
 
             if not media:
+                self._remove_media(media_ids)
                 return
 
             if media.get_id() not in self._hash:
@@ -357,6 +358,8 @@ class GrlTrackerWrapper(GObject.GObject):
                 self._hash[media.get_id()] = song
             else:
                 self._hash[media.get_id()].update(media)
+
+            media_ids.remove(media.get_id())
 
         options = self._fast_options.copy()
 
