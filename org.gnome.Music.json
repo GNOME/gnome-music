@@ -22,6 +22,7 @@
         "--talk-name=org.gnome.SettingsDaemon.MediaKeys",
         "--talk-name=org.gtk.vfs",
         "--talk-name=org.gtk.vfs.*",
+        "--talk-name=com.intel.dleyna-server",
         "--system-talk-name=org.freedesktop.login1"
     ],
     "cleanup": [
@@ -115,7 +116,7 @@
             "buildsystem": "meson",
             "config-opts": [ "-Denable-tracker=yes",
                              "-Denable-bookmarks=no",
-                             "-Denable-dleyna=no",
+                             "-Denable-dleyna=yes",
                              "-Denable-filesystem=no",
                              "-Denable-freebox=no",
                              "-Denable-local-metadata=no",
