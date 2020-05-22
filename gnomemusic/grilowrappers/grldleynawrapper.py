@@ -38,9 +38,9 @@ class GrlDleynaWrapper(GObject.GObject):
         self._hash = {}
         self._window = application.props.window
 
-        self._full_options = Grl.OperationOptions()
-        self._full_options.set_resolution_flags(
-            Grl.ResolutionFlags.FULL | Grl.ResolutionFlags.IDLE_RELAY)
+        self._fast_options = Grl.OperationOptions()
+        self._fast_options.set_resolution_flags(
+            Grl.ResolutionFlags.FAST_ONLY | Grl.ResolutionFlags.IDLE_RELAY)
 
         self.props.source = source
 
@@ -85,11 +85,12 @@ class GrlDleynaWrapper(GObject.GObject):
                     self._songs_model.get_n_items(), 0, songs_added)
                 songs_added.clear()
 
-        query = """upnp:class derivedfrom 'object.item.audioItem.musicTrack'
+        query = """upnp:class derivedfrom 'object.item.audioItem'
         """.replace('\n', ' ').strip()
 
-        options = self._full_options.copy()
-        self._source.query(query, self.METADATA_KEYS, options, _add_to_model)
+        options = self._fast_options.copy()
+        self._source.query(
+            query, self.METADATA_KEYS, options, _add_to_model)
 
     def search(self, text):
         pass
