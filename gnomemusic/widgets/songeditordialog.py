@@ -138,11 +138,14 @@ class SongEditorDialog(Gtk.Dialog):
 
     def _stop_spinner(self):
         self._spinner.stop()
-        label = _("No suggestions found")
+
         if self._suggestions:
+            n_suggestions = len(self._suggestions)
             label = ngettext(
                 "{} suggestion found", "{} suggestions found",
-                len(self._suggestions)).format(len(self._suggestions))
+                n_suggestions).format(n_suggestions)
+        else:
+            label = _("No suggestions found")
 
         self._state_label.props.label = label
 
