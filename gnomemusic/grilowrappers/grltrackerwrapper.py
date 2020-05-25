@@ -23,7 +23,7 @@
 # delete this exception statement from your version.
 
 import gi
-gi.require_versions({"Gfm": "0.1", "Grl": "0.3", 'Tracker': "2.0"})
+gi.require_versions({"Gfm": "0.1", "Grl": "0.3", 'Tracker': "3.0"})
 from gi.repository import Gfm, Grl, GLib, GObject, Tracker
 
 from gnomemusic.corealbum import CoreAlbum
