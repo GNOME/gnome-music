@@ -86,6 +86,34 @@ def get_artist_name(item):
             or _("Unknown Artist"))
 
 
+def get_song_artist(item):
+    """Returns the artist of a song.
+
+    Unlike `get_artist_name`, it does not take into account
+    the main artist of the full album (album artist).
+
+    :param Grl.Media item: A Grilo Media object
+    :return: The song artist name
+    :rtype: string
+    """
+    return (item.get_artist()
+            or "")
+
+
+def get_album_artist(item):
+    """Returns the album artist of a song.
+
+    Unlike `get_artist_name`, it does not fallback to the artist of
+    the song if the album artist is not set.
+
+    :param Grl.Media item: A Grilo Media object
+    :return: The song artist name
+    :rtype: string
+    """
+    return (item.get_album_artist()
+            or "")
+
+
 def get_media_title(item):
     """Returns the title of the media item.
 
@@ -110,19 +138,48 @@ def get_media_title(item):
     return title
 
 
-def get_media_year(item):
+def get_media_year(item, fill_empty=False):
     """Returns the year when the media was created.
 
-    :param item: A Grilo Media object
-    :return: The creation year or '----' if not defined
+    :param Grl.Media item: A Grilo Media object
+    :param bool fill_empty: If True return '----' if date not defined
+    :return: The creation year if defined
     :rtype: string
     """
     date = item.get_creation_date()
 
     if not date:
-        return "----"
+        if fill_empty is True:
+            return "----"
+        return ""
 
     return str(date.get_year())
+
+
+def get_album_disc_nr(item):
+    """Returns the album song number associated with the media item
+
+    :param Grl.Media item: song
+    :return: The album disc number
+    :rtype: string
+    """
+    disc_nr = item.get_album_disc_number()
+    if disc_nr == 0:
+        return ""
+    return str(disc_nr)
+
+
+def get_media_track_nr(item):
+    """Returns the track number of the media item.
+
+    :param Grl.Media item: song
+    :return: The song track number
+    :rtype: string
+    """
+    track_nr = item.get_track_number()
+    if track_nr == 0:
+        return ""
+    return str(track_nr)
 
 
 def seconds_to_string(duration):

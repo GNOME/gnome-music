@@ -28,6 +28,9 @@ import gi
 gi.require_version('Grl', '0.3')
 from gi.repository import Grl, GLib, GObject
 
+from gnomemusic.grilowrappers.grlacoustidwrapper import GrlAcoustIDWrapper
+from gnomemusic.grilowrappers.grlchromaprintwrapper import (
+    GrlChromaprintWrapper)
 from gnomemusic.grilowrappers.grlsearchwrapper import GrlSearchWrapper
 from gnomemusic.grilowrappers.grltrackerwrapper import GrlTrackerWrapper
 from gnomemusic.trackerwrapper import TrackerState, TrackerWrapper
@@ -48,6 +51,7 @@ class CoreGrilo(GObject.GObject):
                          "grl-lastfm-cover:2,"
                          "grl-theaudiodb-cover:1")
 
+    _acoustid_api_key = "Nb8SVVtH1C"
     _theaudiodb_api_key = "195003"
 
     cover_sources = GObject.Property(type=bool, default=False)
@@ -68,6 +72,7 @@ class CoreGrilo(GObject.GObject):
         self._thumbnail_sources = []
         self._thumbnail_sources_timeout = None
         self._wrappers = {}
+        self._mb_wrappers = {}
 
         self._tracker_wrapper = TrackerWrapper()
         self._tracker_wrapper.bind_property(
@@ -86,12 +91,37 @@ class CoreGrilo(GObject.GObject):
         config.set_api_key(self._theaudiodb_api_key)
         self._registry.add_config(config)
 
+        config = Grl.Config.new("grl-lua-factory", "grl-acoustid")
+        config.set_api_key(self._acoustid_api_key)
+        self._registry.add_config(config)
+
         self._registry.connect('source-added', self._on_source_added)
         self._registry.connect('source-removed', self._on_source_removed)
 
+        self._plugins_loaded = False
+
+    def load_plugins(self):
+        """Load all the plugins.
+
+        This function can only be called once.
+        """
+        if self._plugins_loaded:
+            self._log.warning("Grilo plugins have already been loaded")
+
+        self._plugins_loaded = True
         self._registry.load_all_plugins(True)
 
         weakref.finalize(self, Grl.deinit)
+
+    @GObject.Property(
+        type=Grl.Registry, default=None, flags=GObject.ParamFlags.READABLE)
+    def registry(self):
+        """Get Grilo Registry.
+
+        :returns: the Grilo Registry
+        :rtype: Grl.Registry
+        """
+        return self._registry
 
     def _on_tracker_available_changed(self, klass, value):
         new_state = self._tracker_wrapper.props.tracker_available
@@ -152,6 +182,16 @@ class CoreGrilo(GObject.GObject):
             self._search_wrappers[source.props.source_id] = GrlSearchWrapper(
                 source, self._application)
             self._log.debug("Adding search source {}".format(source))
+        elif (source.props.source_id == "grl-chromaprint"
+                and source.props.source_id not in self._mb_wrappers.keys()):
+            wrapper = GrlChromaprintWrapper(source, self._application)
+            self._mb_wrappers[source.props.source_id] = wrapper
+            self._log.debug("Adding wrapper {}".format(wrapper))
+        elif (source.props.source_id == "grl-acoustid"
+                and source.props.source_id not in self._mb_wrappers.keys()):
+            wrapper = GrlAcoustIDWrapper(source, self._application)
+            self._mb_wrappers[source.props.source_id] = wrapper
+            self._log.debug("Adding wrapper {}".format(wrapper))
 
     def _on_source_removed(self, registry, source):
         # FIXME: Handle removing sources.
@@ -172,11 +212,12 @@ class CoreGrilo(GObject.GObject):
         for wrapper in self._wrappers.values():
             wrapper.populate_album_disc_songs(media, discnr, callback)
 
-    def writeback(self, media, key):
-        """Store the values associated with the key.
+    def writeback(self, media, keys, callback=None):
+        """Store the values associated with the keys.
 
         :param Grl.Media media: A Grilo media item
-        :param int key: a Grilo metadata key
+        :param list keys: A list of Grilo metadata keys
+        :param function callback: callback function
         """
         def _store_metadata_cb(source, media, failed_keys, data, error):
             if error is not None:
@@ -184,13 +225,27 @@ class CoreGrilo(GObject.GObject):
                     "Error {}: {}".format(error.domain, error.message))
             if failed_keys:
                 self._log.warning("Unable to update {}".format(failed_keys))
+            if callback:
+                callback()
 
         for wrapper in self._wrappers.values():
             if media.get_source() == wrapper.source.props.source_id:
                 wrapper.props.source.store_metadata(
-                    media, [key], Grl.WriteFlags.NORMAL, _store_metadata_cb,
+                    media, keys, Grl.WriteFlags.NORMAL, _store_metadata_cb,
                     None)
                 break
+
+    def writeback_tracker(self, media, tags):
+        """Use Tracker queries to update tags.
+
+        The tags are associated with a Tracker resource
+        (song, album, artist or external resource), so they can cannot
+        be updated with grilo writeback support.
+
+        :param Grl.Media media: A Grilo media item
+        :param deque tags: A list of tags to update
+        """
+        self._tracker_wrapper.update_tags(media, tags)
 
     def search(self, text):
         for wrapper in self._wrappers.values():
@@ -236,3 +291,28 @@ class CoreGrilo(GObject.GObject):
         if "grl-tracker-source" in self._wrappers:
             self._wrappers["grl-tracker-source"].create_playlist(
                 playlist_title, callback)
+
+    def get_chromaprint(self, coresong, callback):
+        """Retrieve the chromaprint for the given CoreSong
+
+        :param CoreSong coresong: The CoreSong to chromaprint
+        :param callback: Metadata retrieval callback
+        """
+        if "grl-chromaprint" not in self._mb_wrappers:
+            callback(None)
+            return
+
+        self._mb_wrappers["grl-chromaprint"].get_chromaprint(
+            coresong, callback)
+
+    def get_tags(self, coresong, callback):
+        """Retrieve Musicbrainz tags for the given CoreSong
+
+        :param CoreSong coresong: The CoreSong to retrieve tags for
+        :param callback: Metadata retrieval callback
+        """
+        if "grl-acoustid" not in self._mb_wrappers:
+            callback(None)
+            return
+
+        self._mb_wrappers["grl-acoustid"].get_tags(coresong, callback)
