@@ -62,21 +62,25 @@ class TrackerWrapper(GObject.GObject):
         self._tracker = None
         self._tracker_available = TrackerState.UNAVAILABLE
 
-        Tracker.SparqlConnection.get_async(None, self._connection_async_cb)
-
-    def _connection_async_cb(self, klass, result):
         try:
-            self._tracker = Tracker.SparqlConnection.get_finish(result)
+            self._tracker = Tracker.SparqlConnection.bus_new(
+                "org.freedesktop.Tracker3.Miner.Files", None, None)
         except GLib.Error as error:
             self._log.warning(
                 "Error: {}, {}".format(error.domain, error.message))
             self.notify("tracker-available")
             return
 
-        query = "SELECT ?e WHERE { ?e a tracker:ExternalReference . }"
+        query = """
+        SELECT
+            ?e
+        WHERE {
+            GRAPH <tracker:Audio> {
+                ?e a tracker:ExternalReference .
+            }
+        }""".replace("\n", "").strip()
 
-        self._tracker.query_async(
-            query, None, self._query_version_check)
+        self._tracker.query_async(query, None, self._query_version_check)
 
     def _query_version_check(self, klass, result):
         try:
