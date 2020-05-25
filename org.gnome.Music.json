@@ -15,7 +15,7 @@
         "--filesystem=xdg-music",
         "--filesystem=xdg-run/dconf", "--filesystem=~/.config/dconf:ro",
         "--talk-name=ca.desrt.dconf", "--env=DCONF_USER_CONFIG_DIR=.config/dconf",
-        "--talk-name=org.freedesktop.Tracker1",
+        "--talk-name=org.freedesktop.Tracker3",
         "--env=TRACKER_SPARQL_BACKEND=bus",
         "--talk-name=org.gnome.OnlineAccounts",
         "--talk-name=org.gnome.ControlCenter",
@@ -70,8 +70,7 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://gitlab.gnome.org/GNOME/tracker.git",
-                    "branch": "tracker-2.3"
+                    "url": "https://gitlab.gnome.org/GNOME/tracker.git"
                 }
             ]
         },
@@ -131,7 +130,8 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://gitlab.gnome.org/GNOME/grilo-plugins.git"
+                    "url": "https://gitlab.gnome.org/GNOME/grilo-plugins.git",
+                    "branch": "wip/carlosg/tracker3"
                 }
             ],
             "cleanup": [ "/include" ]
