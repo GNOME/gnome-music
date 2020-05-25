@@ -161,7 +161,7 @@ class CoreGrilo(GObject.GObject):
         new_wrapper = None
 
         new_state = self._tracker_wrapper.props.tracker_available
-        if (source.props.source_id == "grl-tracker-source"
+        if (source.props.source_id == "grl-tracker3-source"
                 and self._tracker_wrapper.location_filter() is not None
                 and new_state == TrackerState.AVAILABLE):
             if source.props.source_id not in self._wrappers.keys():
