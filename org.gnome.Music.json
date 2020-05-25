@@ -15,7 +15,8 @@
         "--filesystem=xdg-music",
         "--filesystem=xdg-run/dconf", "--filesystem=~/.config/dconf:ro",
         "--talk-name=ca.desrt.dconf", "--env=DCONF_USER_CONFIG_DIR=.config/dconf",
-        "--talk-name=org.freedesktop.Tracker1",
+        "--talk-name=org.freedesktop.Tracker3.Miner.Files",
+        "--talk-name=org.freedesktop.Tracker3.Miner.Extract",
         "--env=TRACKER_SPARQL_BACKEND=bus",
         "--talk-name=org.gnome.OnlineAccounts",
         "--talk-name=org.gnome.ControlCenter",
@@ -62,16 +63,17 @@
             "buildsystem": "meson",
             "cleanup": [ "/bin", "/etc", "/libexec" ],
             "config-opts": [ "-Ddocs=false",
+                             "-Dman=false",
                              "-Dfunctional_tests=false",
                              "-Dnetwork_manager=disabled",
                              "-Dstemmer=disabled",
                              "-Dunicode_support=icu",
-                             "-Dbash_completion=no" ],
+                             "-Dbash_completion=false" ],
             "sources": [
                 {
                     "type": "git",
                     "url": "https://gitlab.gnome.org/GNOME/tracker.git",
-                    "branch": "tracker-2.3"
+                    "branch": "wip/carlosg/grilo-fixes"
                 }
             ]
         },
@@ -113,7 +115,8 @@
         {
             "name": "grilo-plugins",
             "buildsystem": "meson",
-            "config-opts": [ "-Denable-tracker=yes",
+            "config-opts": [ "-Denable-tracker=no",
+                             "-Denable-tracker3=yes",
                              "-Denable-bookmarks=no",
                              "-Denable-dleyna=no",
                              "-Denable-filesystem=no",
