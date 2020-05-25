@@ -15,14 +15,15 @@
         "--filesystem=xdg-music",
         "--filesystem=xdg-run/dconf", "--filesystem=~/.config/dconf:ro",
         "--talk-name=ca.desrt.dconf", "--env=DCONF_USER_CONFIG_DIR=.config/dconf",
-        "--talk-name=org.freedesktop.Tracker1",
+        "--talk-name=org.freedesktop.Tracker3.Writeback",
         "--env=TRACKER_SPARQL_BACKEND=bus",
         "--talk-name=org.gnome.OnlineAccounts",
         "--talk-name=org.gnome.ControlCenter",
         "--talk-name=org.gnome.SettingsDaemon.MediaKeys",
         "--talk-name=org.gtk.vfs",
         "--talk-name=org.gtk.vfs.*",
-        "--system-talk-name=org.freedesktop.login1"
+        "--system-talk-name=org.freedesktop.login1",
+        "--add-policy=Tracker3.dbus:org.freedesktop.Tracker3.Miner.Files=tracker:Audio"
     ],
     "cleanup": [
         "/include",
@@ -62,16 +63,16 @@
             "buildsystem": "meson",
             "cleanup": [ "/bin", "/etc", "/libexec" ],
             "config-opts": [ "-Ddocs=false",
+                             "-Dman=false",
                              "-Dfunctional_tests=false",
                              "-Dnetwork_manager=disabled",
                              "-Dstemmer=disabled",
                              "-Dunicode_support=icu",
-                             "-Dbash_completion=no" ],
+                             "-Dbash_completion=false" ],
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://gitlab.gnome.org/GNOME/tracker.git",
-                    "branch": "tracker-2.3"
+                    "url": "https://gitlab.gnome.org/GNOME/tracker.git"
                 }
             ]
         },
@@ -125,8 +126,8 @@
                              "-Denable-podcasts=no",
                              "-Denable-thetvdb=no",
                              "-Denable-tmdb=no",
-                             "-Denable-tracker=yes",
-                             "-Denable-tracker3=no",
+                             "-Denable-tracker=no",
+                             "-Denable-tracker3=yes",
                              "-Denable-vimeo=no",
                              "-Denable-youtube=no" ],
             "sources": [
