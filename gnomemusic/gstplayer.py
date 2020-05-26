@@ -72,6 +72,7 @@ class GstPlayer(GObject.GObject):
         Gst.init(None)
 
         self._application = application
+        self._buffering = False
         self._duration = -1.
         self._known_duration = False
         self._log = application.props.log
@@ -94,6 +95,7 @@ class GstPlayer(GObject.GObject):
         self._settings.emit("changed", "replaygain")
 
         self._bus.connect('message::async-done', self._on_async_done)
+        self._bus.connect("message::buffering", self._on_bus_buffering)
         self._bus.connect(
             "message::duration-changed", self._on_duration_changed)
         self._bus.connect('message::error', self._on_bus_error)
@@ -203,6 +205,17 @@ class GstPlayer(GObject.GObject):
     def _on_bus_element(self, bus, message):
         if GstPbutils.is_missing_plugin_message(message):
             self._missing_plugin_messages.append(message)
+
+    def _on_bus_buffering(self, bus: Gst.Bus, message: Gst.Message) -> None:
+        percent = message.parse_buffering()
+
+        if (percent < 100
+                and not self._buffering):
+            self._buffering = True
+            self.props.state = Playback.PAUSED
+        elif percent == 100:
+            self._buffering = False
+            self.props.state = Playback.PLAYING
 
     def _on_bus_stream_start(self, bus, message):
         self._query_duration()
