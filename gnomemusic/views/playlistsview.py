@@ -32,7 +32,7 @@ from gnomemusic.widgets.playlisttile import PlaylistTile
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/PlaylistsView.ui")
-class PlaylistsView(Gtk.Stack):
+class PlaylistsView(Gtk.Box):
     """Main view for playlists"""
 
     __gtype_name__ = "PlaylistsView"
@@ -48,7 +48,7 @@ class PlaylistsView(Gtk.Stack):
 
         :param GtkApplication application: The application object
         """
-        super().__init__(transition_type=Gtk.StackTransitionType.CROSSFADE)
+        super().__init__()
 
         self.props.name = "playlists"
 
