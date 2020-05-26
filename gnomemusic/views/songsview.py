@@ -32,7 +32,7 @@ from gnomemusic.widgets.starhandlerwidget import StarHandlerWidget
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/SongsView.ui")
-class SongsView(Gtk.Stack):
+class SongsView(Gtk.ScrolledWindow):
     """Main view of all songs sorted artistwise
 
     Consists all songs along with songname, star, length, artist
@@ -53,7 +53,7 @@ class SongsView(Gtk.Stack):
 
         :param GtkApplication window: The application object
         """
-        super().__init__(transition_type=Gtk.StackTransitionType.CROSSFADE)
+        super().__init__()
 
         # FIXME: Make these properties.
         self.name = "songs"
