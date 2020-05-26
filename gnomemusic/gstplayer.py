@@ -157,7 +157,6 @@ class GstPlayer(GObject.GObject):
 
     def _on_bus_buffering(self, bus, message):
         percent = message.parse_buffering()
-        print(percent)
 
         if (percent < 100
                 and not self._buffering):
