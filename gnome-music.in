@@ -33,6 +33,7 @@ _LOCAL = @local_build@
 
 if _LOCAL:
     # In the local use case, use gnomemusic module from the sourcetree
+    sys.path.insert(0, '/usr/local/lib/python3.8/site-packages')
     sys.path.insert(1, '@pythondir@')
 
     # In the local use case the installed schemas go in <builddir>/data
