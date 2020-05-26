@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk+" version="3.18"/>
-  <template class="ArtistsView" parent="GtkStack">
+  <template class="ArtistsView" parent="GtkBox">
     <property name="visible">True</property>
     <child>
       <object class="GtkBox">
