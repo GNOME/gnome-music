@@ -30,7 +30,7 @@ from gnomemusic.widgets.artisttile import ArtistTile
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/ArtistsView.ui")
-class ArtistsView(Gtk.Stack):
+class ArtistsView(Gtk.Box):
     """Main view of all available artists
 
     Consists of a list of artists on the left side and an overview of
@@ -48,7 +48,7 @@ class ArtistsView(Gtk.Stack):
 
         :param GtkApplication application: The application object
         """
-        super().__init__(transition_type=Gtk.StackTransitionType.CROSSFADE)
+        super().__init__()
 
         # FIXME: Make these properties.
         self.name = "artists"
