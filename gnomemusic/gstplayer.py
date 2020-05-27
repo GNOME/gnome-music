@@ -86,11 +86,12 @@ class GstPlayer(GObject.GObject):
         self._bus.connect('message::element', self._on_bus_element)
         self._bus.connect('message::eos', self._on_bus_eos)
         self._bus.connect('message::new-clock', self._on_new_clock)
+        self._bus.connect("message::state-changed", self._on_state_changed)
         self._bus.connect("message::stream-start", self._on_bus_stream_start)
 
         self._player.connect("about-to-finish", self._on_about_to_finish)
 
-        self.props.state = Playback.STOPPED
+        self._state = Playback.STOPPED
 
     def _setup_replaygain(self):
         """Set up replaygain"""
@@ -126,6 +127,11 @@ class GstPlayer(GObject.GObject):
         self.emit("about-to-finish")
 
     def _on_async_done(self, bus, message):
+        if self._seek:
+            self._seek = False
+            self.emit("seek-finished")
+
+    def _query_duration(self):
         success, duration = self._player.query_duration(
             Gst.Format.TIME)
 
@@ -133,12 +139,6 @@ class GstPlayer(GObject.GObject):
             self.props.duration = duration / Gst.SECOND
         else:
             self.props.duration = duration
-
-        if self._seek is True:
-            self._seek = False
-            self.emit("seek-finished")
-
-        self.notify("state")
 
     def _on_new_clock(self, bus, message):
         clock = message.parse_new_clock()
@@ -155,13 +155,32 @@ class GstPlayer(GObject.GObject):
 
     def _on_bus_stream_start(self, bus, message):
         def delayed_query():
-            self._on_async_done(None, None)
+            self._query_duration()
             self._tick = 0
             self.emit("stream-start")
 
         # Delay the signalling slightly or the new duration will not
         # have been set yet.
         GLib.timeout_add(1, delayed_query)
+
+    def _on_state_changed(self, bus, message):
+        if message.src != self._player:
+            return
+
+        old_state, new_state, _ = message.parse_state_changed()
+        self._log.debug(
+            "Player state changed: {} -> {}".format(old_state, new_state))
+
+        if new_state == Gst.State.PAUSED:
+            self._state = Playback.PAUSED
+        elif new_state == Gst.State.PLAYING:
+            self._state = Playback.PLAYING
+        elif new_state == Gst.State.READY:
+            self._state = Playback.LOADING
+        else:
+            self._state = Playback.STOPPED
+
+        self.notify("state")
 
     def _on_bus_error(self, bus, message):
         if self._is_missing_plugin_message(message):
@@ -185,31 +204,16 @@ class GstPlayer(GObject.GObject):
     def _on_bus_eos(self, bus, message):
         self.emit('eos')
 
-    def _get_playback_status(self):
-        ok, state, pending = self._player.get_state(0)
-
-        if ok == Gst.StateChangeReturn.ASYNC:
-            state = pending
-        elif (ok != Gst.StateChangeReturn.SUCCESS):
-            return Playback.STOPPED
-
-        if state == Gst.State.PLAYING:
-            return Playback.PLAYING
-        elif state == Gst.State.PAUSED:
-            return Playback.PAUSED
-        elif state == Gst.State.READY:
-            return Playback.LOADING
-
-        return Playback.STOPPED
-
-    @GObject.Property(type=int)
+    @GObject.Property(
+        type=int, flags=GObject.ParamFlags.READWRITE
+        | GObject.ParamFlags.EXPLICIT_NOTIFY)
     def state(self):
         """Current state of the player
 
         :return: state
         :rtype: Playback (enum)
         """
-        return self._get_playback_status()
+        return self._state
 
     @state.setter
     def state(self, state):
