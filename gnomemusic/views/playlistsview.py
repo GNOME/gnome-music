@@ -40,7 +40,6 @@ class PlaylistsView(Gtk.Box):
     title = GObject.Property(
         type=str, default=_("Playlists"), flags=GObject.ParamFlags.READABLE)
 
-    _main_container = Gtk.Template.Child()
     _sidebar = Gtk.Template.Child()
 
     def __init__(self, application):
@@ -60,7 +59,7 @@ class PlaylistsView(Gtk.Box):
         self._untouched_list = True
 
         self._playlist_widget = PlaylistsWidget(application, self)
-        self._main_container.add(self._playlist_widget)
+        self.add(self._playlist_widget)
 
         self._sidebar.bind_model(self._model, self._add_playlist_to_sidebar)
 
