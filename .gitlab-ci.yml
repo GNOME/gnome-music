@@ -28,3 +28,9 @@ flake8:
   script:
     - dnf install -y python3-flake8
     - flake8 --ignore E402,W503 --show-source gnomemusic/
+
+mypy:
+  stage: check
+  script:
+    - dnf install -y python3-mypy
+    - mypy --follow-imports=skip --ignore-missing-imports gnomemusic/coresong.py
