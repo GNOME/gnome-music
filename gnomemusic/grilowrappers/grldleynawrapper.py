@@ -78,8 +78,7 @@ class GrlDleynaWrapper(GObject.GObject):
         """.replace('\n', ' ').strip()
 
         options = self._fast_options.copy()
-        self._source.query(
-            query, self.METADATA_KEYS, options, _add_to_model)
+        self._source.query(query, self.METADATA_KEYS, options, _add_to_model)
 
     def search(self, text):
         pass
