@@ -32,7 +32,7 @@ from gnomemusic.widgets.starhandlerwidget import StarHandlerWidget
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/SongsView.ui")
-class SongsView(Gtk.Box):
+class SongsView(Gtk.ScrolledWindow):
     """Main view of all songs sorted artistwise
 
     Consists all songs along with songname, star, length, artist
