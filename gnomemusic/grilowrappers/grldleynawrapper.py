@@ -11,14 +11,21 @@ class GrlDleynaWrapper(GObject.GObject):
     _SPLICE_SIZE = 100
     METADATA_KEYS = [
         Grl.METADATA_KEY_ALBUM,
+        Grl.METADATA_KEY_ALBUM_ARTIST,
+        Grl.METADATA_KEY_ALBUM_DISC_NUMBER,
         Grl.METADATA_KEY_ARTIST,
-        Grl.METADATA_KEY_AUTHOR,
+        Grl.METADATA_KEY_CREATION_DATE,
+        Grl.METADATA_KEY_COMPOSER,
+        Grl.METADATA_KEY_DURATION,
+        Grl.METADATA_KEY_FAVOURITE,
         Grl.METADATA_KEY_ID,
-        Grl.METADATA_KEY_PUBLICATION_DATE,
+        Grl.METADATA_KEY_PLAY_COUNT,
+        Grl.METADATA_KEY_THUMBNAIL,
         Grl.METADATA_KEY_TITLE,
         Grl.METADATA_KEY_TRACK_NUMBER,
         Grl.METADATA_KEY_URL
     ]
+
 
     def __init__(self, source, application):
         super().__init__()
@@ -31,9 +38,9 @@ class GrlDleynaWrapper(GObject.GObject):
         self._hash = {}
         self._window = application.props.window
 
-        self._fast_options = Grl.OperationOptions()
-        self._fast_options.set_resolution_flags(
-            Grl.ResolutionFlags.FAST_ONLY | Grl.ResolutionFlags.IDLE_RELAY)
+        self._full_options = Grl.OperationOptions()
+        self._full_options.set_resolution_flags(
+            Grl.ResolutionFlags.FULL | Grl.ResolutionFlags.IDLE_RELAY)
 
         self.props.source = source
 
@@ -78,12 +85,11 @@ class GrlDleynaWrapper(GObject.GObject):
                     self._songs_model.get_n_items(), 0, songs_added)
                 songs_added.clear()
 
-        query = """upnp:class derivedfrom 'object.item.audioItem'
+        query = """upnp:class derivedfrom 'object.item.audioItem.musicTrack'
         """.replace('\n', ' ').strip()
 
-        options = self._fast_options.copy()
-        self._source.query(
-            query, self.METADATA_KEYS, options, _add_to_model)
+        options = self._full_options.copy()
+        self._source.query(query, self.METADATA_KEYS, options, _add_to_model)
 
     def search(self, text):
         pass
