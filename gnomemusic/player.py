@@ -412,6 +412,7 @@ class Player(GObject.GObject):
 
     def _on_about_to_finish(self, klass):
         if self.props.has_next:
+            self._log.debug("Song is about to finish, loading the next one.")
             next_coresong = self._playlist.get_next()
             new_url = next_coresong.props.url
             self._gst_player.props.url = new_url
@@ -423,9 +424,11 @@ class Player(GObject.GObject):
         if self._gapless_set:
             # After 'eos' in the gapless case, the pipeline needs to be
             # hard reset.
+            self._log.debug("Song finished, loading the next one.")
             self.stop()
             self.play(self.props.current_song)
         else:
+            self._log.debug("End of the playlist, stopping the player.")
             self.stop()
 
         self._gapless_set = False
@@ -450,6 +453,7 @@ class Player(GObject.GObject):
         self.emit("song-changed")
 
     def _load(self, coresong):
+        self._log.debug("Loading song {}".format(coresong.props.title))
         self._gst_player.props.state = Playback.LOADING
         self._time_stamp = int(time.time())
         self._gst_player.props.url = coresong.props.url
