@@ -84,7 +84,7 @@ class GrlTrackerWrapper(GObject.GObject):
         self._album_search_model = self._coremodel.props.albums_search
         self._artist_search_model = self._coremodel.props.artists_search
         self._batch_changed_media_ids = {}
-        self._content_changed_timeout = None
+        self._content_changed_timeout = 0
         self._tracker_playlists = None
         self._tracker_wrapper = tracker_wrapper
         self._window = application.props.window
@@ -136,7 +136,7 @@ class GrlTrackerWrapper(GObject.GObject):
         [self._batch_changed_media_ids[change_type].append(media.get_id())
          for media in medias if media.is_audio() or media.is_container()]
 
-        if self._content_changed_timeout is None:
+        if self._content_changed_timeout == 0:
             self._content_changed_timeout = GLib.timeout_add(
                 250, self._on_content_changed)
 
@@ -163,7 +163,9 @@ class GrlTrackerWrapper(GObject.GObject):
             self._tracker_playlists.check_smart_playlist_change()
 
         self._batch_changed_media_ids = {}
-        self._content_changed_timeout = None
+        self._content_changed_timeout = 0
+
+        return GLib.SOURCE_REMOVE
 
     def _check_album_change(self):
         album_ids = {}
