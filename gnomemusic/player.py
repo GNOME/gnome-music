@@ -418,9 +418,12 @@ class Player(GObject.GObject):
             self._gapless_set = True
 
     def _on_eos(self, klass):
-        self._playlist.next()
+        has_next = self._playlist.next()
 
-        if self._gapless_set:
+        if (has_next
+                and not self._gst_player.gapless_enabled):
+            self.play(self._playlist.props.current_song)
+        elif self._gapless_set:
             # After 'eos' in the gapless case, the pipeline needs to be
             # hard reset.
             self.stop()
