@@ -23,11 +23,14 @@
 # delete this exception statement from your version.
 
 from enum import IntEnum
+import typing
 
 import gi
 gi.require_version('Grl', '0.3')
 from gi.repository import Grl, GLib, GObject
 
+if typing.TYPE_CHECKING:
+    from gnomemusic.application import Application
 import gnomemusic.utils as utils
 
 
@@ -55,7 +58,7 @@ class CoreSong(GObject.GObject):
         FAILED = 2
         SUCCEEDED = 3
 
-    def __init__(self, application, media):
+    def __init__(self, application: "Application", media: Grl.Media) -> None:
         """Initiate the CoreSong object
 
         :param Application application: The application object
@@ -73,7 +76,7 @@ class CoreSong(GObject.GObject):
         self.props.validation = CoreSong.Validation.PENDING
         self.update(media)
 
-    def __eq__(self, other):
+    def __eq__(self, other: object) -> bool:
         return (isinstance(other, CoreSong)
                 and other.props.media.get_id() == self.props.media.get_id())
 
@@ -83,11 +86,11 @@ class CoreSong(GObject.GObject):
         return self._is_tracker
 
     @GObject.Property(type=bool, default=False)
-    def favorite(self):
+    def favorite(self) -> bool:
         return self._favorite
 
     @favorite.setter  # type: ignore
-    def favorite(self, favorite):
+    def favorite(self, favorite: bool) -> None:
         if not self._is_tracker:
             return
 
@@ -102,11 +105,11 @@ class CoreSong(GObject.GObject):
         self._coregrilo.writeback(self.props.media, Grl.METADATA_KEY_FAVOURITE)
 
     @GObject.Property(type=bool, default=False)
-    def selected(self):
+    def selected(self) -> bool:
         return self._selected
 
     @selected.setter  # type: ignore
-    def selected(self, value):
+    def selected(self, value: bool) -> None:
         if not self._is_tracker:
             return
 
@@ -116,7 +119,7 @@ class CoreSong(GObject.GObject):
         self._selected = value
         self._coreselection.update_selection(self, self._selected)
 
-    def update(self, media):
+    def update(self, media: Grl.Media) -> None:
         self.props.media = media
         self.props.album = utils.get_album_title(media)
         self.props.album_disc_number = media.get_album_disc_number()
@@ -128,7 +131,7 @@ class CoreSong(GObject.GObject):
         self.props.track_number = media.get_track_number()
         self.props.url = media.get_url()
 
-    def bump_play_count(self):
+    def bump_play_count(self) -> None:
         if not self._is_tracker:
             return
 
@@ -136,7 +139,7 @@ class CoreSong(GObject.GObject):
         self._coregrilo.writeback(
             self.props.media, Grl.METADATA_KEY_PLAY_COUNT)
 
-    def set_last_played(self):
+    def set_last_played(self) -> None:
         if not self._is_tracker:
             return
 
