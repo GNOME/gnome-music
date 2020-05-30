@@ -50,6 +50,7 @@ class GrlDleynaWrapper(GObject.GObject):
         songs_added = []
 
         def _add_to_model(source, op_id, media, remaining, error):
+            #print(media.get_album_disc_number())
             if error:
                 self._log.warning("Error: {}".format(error))
                 self._window.notifications_popup.pop_loading()
