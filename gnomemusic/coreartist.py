@@ -93,7 +93,7 @@ class CoreArtist(GObject.GObject):
     def selected(self):
         return self._selected
 
-    @selected.setter
+    @selected.setter  # type: ignore
     def selected(self, value):
         if value == self._selected:
             return
@@ -120,7 +120,7 @@ class CoreArtist(GObject.GObject):
 
         return self._thumbnail
 
-    @thumbnail.setter
+    @thumbnail.setter  # type: ignore
     def thumbnail(self, value):
         """Artist art thumbnail setter
 

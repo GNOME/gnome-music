@@ -108,7 +108,7 @@ class SearchHeaderBar(Gtk.HeaderBar):
         """
         return self._selection_mode
 
-    @selection_mode.setter
+    @selection_mode.setter  # type: ignore
     def selection_mode(self, mode):
         """Set the selection mode
 
@@ -133,7 +133,7 @@ class SearchHeaderBar(Gtk.HeaderBar):
         """
         return self._state
 
-    @state.setter
+    @state.setter  # type: ignore
     def state(self, value):
         """Set state of the of widget
 
