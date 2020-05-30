@@ -35,6 +35,13 @@
       </description>
   </release>
   <releases>
+    <release version="3.36.3" date="2020-05-30">
+      <description>
+        <p>
+          This updates fixes one crasher and updates translations.
+        </p>
+      </description>
+    </release>
     <release version="3.36.2" date="2020-04-25">
       <description>
         <p>
