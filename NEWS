@@ -1,3 +1,51 @@
+Overview of changes in 3.37.2
+=============================
+
+* Use Gtk.Template for all the Views and remove BaseView
+* Prefer Albumartist field for artist search
+* Change Artist view selection from artist to song
+* Extend Gtk.Template usage for Window
+* Deinitialize Grilo on shutdown
+* Music now explicitly depends on Pango 1.44 or above
+* Flatpak cleanups and updates
+* Various widgets style and code cleanups
+
+Bugs fixed:
+ Artist view should support music selection (#26)
+ In-app notifications need to be dismissable (#259)
+ Stop using show_all (#320)
+ Crash while searching due to bugs in searchview.py (#372)
+ Crash on start: object 'AttrFontFeatures' has no attribute 'new' (#374)
+ Wrong song count in favourite playlist (#376)
+ Please stop changing the module search path (#377)
+ Use libsoup for art retrieval (#378)
+ Music crashes on 'check_smart_playlist_change' call (#382)
+
+Thanks to our contributors this release:
+ Ashwani Singh Tanwar
+ Atharva Veer
+ Chinmay Gurjar
+ Erik Inkinen
+ Evan Nehring
+ Jean Felder
+ Marinus Schraal
+ Weifang Lai
+
+Added translations:
+ Ukrainian
+
+Updated translations:
+ Catalan
+ Chinese (China)
+ Chinese (Taiwan)
+ Hebrew
+ Norwegian Bokmål
+ Romanian
+ Russian
+ Slovak
+ Slovenian
+ Ukrainian
+
 Overview of changes in 3.36.0
 =============================
 
