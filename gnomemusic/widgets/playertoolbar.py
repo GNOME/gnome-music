@@ -84,7 +84,7 @@ class PlayerToolbar(Gtk.ActionBar):
         """
         return self._player
 
-    @player.setter
+    @player.setter  # type: ignore
     def player(self, player):
         """Set the GstPlayer object used
 

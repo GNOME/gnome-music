@@ -471,7 +471,7 @@ class SearchView(Gtk.Stack):
         """
         return self._search_mode_active
 
-    @search_mode_active.setter
+    @search_mode_active.setter  # type: ignore
     def search_mode_active(self, value):
         """Set search mode status.
 

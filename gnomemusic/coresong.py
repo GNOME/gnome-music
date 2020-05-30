@@ -86,7 +86,7 @@ class CoreSong(GObject.GObject):
     def favorite(self):
         return self._favorite
 
-    @favorite.setter
+    @favorite.setter  # type: ignore
     def favorite(self, favorite):
         if not self._is_tracker:
             return
@@ -105,7 +105,7 @@ class CoreSong(GObject.GObject):
     def selected(self):
         return self._selected
 
-    @selected.setter
+    @selected.setter  # type: ignore
     def selected(self, value):
         if not self._is_tracker:
             return

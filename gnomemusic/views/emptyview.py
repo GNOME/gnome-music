@@ -89,7 +89,7 @@ class EmptyView(Gtk.Stack):
         """
         return self._state
 
-    @state.setter
+    @state.setter  # type: ignore
     def state(self, value):
         """Set the state of the empty view
 

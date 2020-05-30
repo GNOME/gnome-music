@@ -82,7 +82,7 @@ class ArtistArtStack(Gtk.Stack):
         """
         return self._size
 
-    @size.setter
+    @size.setter  # type: ignore
     def size(self, value):
         """Set the cover size
 
@@ -98,7 +98,7 @@ class ArtistArtStack(Gtk.Stack):
     def coreartist(self):
         return self._coreartist
 
-    @coreartist.setter
+    @coreartist.setter  # type: ignore
     def coreartist(self, coreartist):
         self._coreartist = coreartist
 

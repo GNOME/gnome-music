@@ -113,7 +113,7 @@ class CoreAlbum(GObject.GObject):
     def selected(self):
         return self._selected
 
-    @selected.setter
+    @selected.setter  # type: ignore
     def selected(self, value):
         if value == self._selected:
             return

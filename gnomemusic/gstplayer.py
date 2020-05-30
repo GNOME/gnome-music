@@ -215,7 +215,7 @@ class GstPlayer(GObject.GObject):
         """
         return self._state
 
-    @state.setter
+    @state.setter  # type: ignore
     def state(self, state):
         """Set state of the player
 
@@ -239,7 +239,7 @@ class GstPlayer(GObject.GObject):
         """
         return self._player.props.current_uri
 
-    @url.setter
+    @url.setter  # type: ignore
     def url(self, url_):
         """url to load next
 
@@ -274,7 +274,7 @@ class GstPlayer(GObject.GObject):
 
     # Setter provided to trigger a property signal.
     # For internal use only.
-    @duration.setter
+    @duration.setter  # type: ignore
     def duration(self, duration):
         """Set duration of current media (internal)
 
