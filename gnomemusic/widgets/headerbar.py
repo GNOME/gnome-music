@@ -55,7 +55,7 @@ class SelectionBarMenuButton(Gtk.MenuButton):
         """
         return self._selected_items_count
 
-    @selected_items_count.setter
+    @selected_items_count.setter  # type: ignore
     def selected_items_count(self, value):
         """Set the number of items selected
 
@@ -153,7 +153,7 @@ class HeaderBar(Gtk.HeaderBar):
         """
         return self._selection_mode
 
-    @selection_mode.setter
+    @selection_mode.setter  # type: ignore
     def selection_mode(self, mode):
         """Set the selection mode
 
@@ -178,7 +178,7 @@ class HeaderBar(Gtk.HeaderBar):
         """
         return self._state
 
-    @state.setter
+    @state.setter  # type: ignore
     def state(self, value):
         """Set state of the of widget
 

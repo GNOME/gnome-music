@@ -348,7 +348,7 @@ class Playlist(GObject.GObject):
 
         return self._model
 
-    @model.setter
+    @model.setter  # type: ignore
     def model(self, value):
         self._model = value
 
@@ -445,7 +445,7 @@ class Playlist(GObject.GObject):
         """
         return self._title
 
-    @title.setter
+    @title.setter  # type: ignore
     def title(self, new_name):
         """Rename a playlist
 
