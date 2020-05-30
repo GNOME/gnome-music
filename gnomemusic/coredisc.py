@@ -108,7 +108,7 @@ class CoreDisc(GObject.GObject):
     def selected(self):
         return self._selected
 
-    @selected.setter
+    @selected.setter  # type: ignore
     def selected(self, value):
         self._selected = value
 

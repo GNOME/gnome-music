@@ -108,7 +108,7 @@ class GrlTrackerWrapper(GObject.GObject):
     def source(self):
         return self._source
 
-    @source.setter
+    @source.setter  # type: ignore
     def source(self, new_source):
         """Set a new grilo tracker source
 

@@ -80,7 +80,7 @@ class CoverStack(Gtk.Stack):
         """
         return self._size
 
-    @size.setter
+    @size.setter  # type: ignore
     def size(self, value):
         """Set the cover size
 

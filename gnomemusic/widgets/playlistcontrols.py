@@ -70,7 +70,7 @@ class PlaylistControls(Gtk.Grid):
         """
         return self._application
 
-    @application.setter
+    @application.setter  # type: ignore
     def application(self, application):
         """Set the Application object used
 
@@ -157,7 +157,7 @@ class PlaylistControls(Gtk.Grid):
         """
         return self._playlist
 
-    @playlist.setter
+    @playlist.setter  # type: ignore
     def playlist(self, new_playlist):
         """Playlist property setter.
 

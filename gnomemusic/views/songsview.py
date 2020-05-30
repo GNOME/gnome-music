@@ -114,7 +114,7 @@ class SongsView(Gtk.ScrolledWindow):
         """
         return self._selection_mode
 
-    @selection_mode.setter
+    @selection_mode.setter  # type: ignore
     def selection_mode(self, value):
         """selection-mode setter
 
