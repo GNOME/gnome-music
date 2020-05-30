@@ -249,10 +249,10 @@ class Window(Gtk.ApplicationWindow):
         # empty view state is changed once album view is visible to prevent it
         # from being displayed during startup
         for i in self.views[View.ALBUM:]:
-            if i.title:
-                self._stack.add_titled(i, i.name, i.title)
+            if i.props.title:
+                self._stack.add_titled(i, i.props.name, i.props.title)
             else:
-                self._stack.add_named(i, i.name)
+                self._stack.add_named(i, i.props.name)
 
         self._stack.props.visible_child = self.views[View.ALBUM]
 

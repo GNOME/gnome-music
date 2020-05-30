@@ -58,6 +58,8 @@ class SearchView(Gtk.Stack):
     search_state = GObject.Property(type=int, default=Search.State.NONE)
     selection_mode = GObject.Property(type=bool, default=False)
     state = GObject.Property(type=int, default=State.MAIN)
+    title = GObject.Property(
+        type=str, default="", flags=GObject.ParamFlags.READABLE)
 
     _album_header = Gtk.Template.Child()
     _album_flowbox = Gtk.Template.Child()
@@ -79,9 +81,7 @@ class SearchView(Gtk.Stack):
         """
         super().__init__(transition_type=Gtk.StackTransitionType.CROSSFADE)
 
-        # FIXME: Make these properties.
-        self.name = "search"
-        self.title = None
+        self.props.name = "search"
 
         self._application = application
         self._coremodel = application.props.coremodel
