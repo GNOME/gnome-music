@@ -73,7 +73,7 @@ class ArtStack(Gtk.Stack):
         """
         return self._size
 
-    @size.setter
+    @size.setter  # type: ignore
     def size(self, value):
         """Set the cover size
 
@@ -86,7 +86,7 @@ class ArtStack(Gtk.Stack):
     def coreobject(self):
         return self._coreobject
 
-    @coreobject.setter
+    @coreobject.setter  # type: ignore
     def coreobject(self, coreobject):
         if self._thumbnail_id != 0:
             self._coreobject.disconnect(self._thumbnail_id)

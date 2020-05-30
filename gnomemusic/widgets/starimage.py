@@ -47,7 +47,7 @@ class StarImage(Gtk.Image):
         """
         return self._favorite
 
-    @favorite.setter
+    @favorite.setter  # type: ignore
     def favorite(self, value):
         """Set favorite
 
@@ -66,7 +66,7 @@ class StarImage(Gtk.Image):
     def hover(self):
         return self._hover
 
-    @hover.setter
+    @hover.setter  # type: ignore
     def hover(self, value):
         if value:
             self.set_state_flags(Gtk.StateFlags.PRELIGHT, False)

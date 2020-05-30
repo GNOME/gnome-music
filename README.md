@@ -101,6 +101,42 @@ All non-public classwide variables or methods should be prepended with an unders
 _single_leading_underscore: weak "internal use" indicator. E.g. from M import * does not import objects whose name starts with an underscore.
 >>>
 
+### Type checking
+
+Post 3.38 Music is starting to use type checking for all new code. This means that all arguments, returns values and variables have defined types and these types are checked for errors during the CI phase. Music uses [mypy](http://www.mypy-lang.org/) for the type checking pass.
+
+The specific syntax is best learned from the code already adapted ([coresong.py](gnomemusic/coresong.py), [grltrackerwrapper.py](gnomemusic/grilowrappers/grltrackerwrapper.py)) or online sources, note that Music uses the annotation style. A simple example follows.
+
+###### Old
+```python
+x = []
+
+x.append(1)
+```
+
+###### New
+```python
+from typing import List
+
+x: List[int] = []
+
+x.append(1)
+```
+
+#### Properties
+
+Mypy does not currently support PyGObject properties. This means property setters need to be forceibly ignored.
+
+```python
+@GObject.Property(type=bool, default=False)
+def selected(self) -> bool:
+    return self._selected
+
+@selected.setter  # type: ignore
+def selected(self, value: bool) -> None:
+    self._selected = value
+```
+
 ### PyGObject specifics
 
 #### Treemodel

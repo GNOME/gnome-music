@@ -24,6 +24,7 @@
 
 from enum import Enum
 from math import pi
+from typing import Dict, Tuple
 
 import cairo
 from gi.repository import Gdk, GdkPixbuf, Gio, Gtk, GLib, GObject
@@ -32,6 +33,7 @@ from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.coreartist import CoreArtist
 from gnomemusic.coresong import CoreSong
 from gnomemusic.musiclogger import MusicLogger
+from gnomemusic.utils import ArtSize
 
 
 def _make_icon_frame(
@@ -128,7 +130,9 @@ class DefaultIcon(GObject.GObject):
         LOADING = "content-loading-symbolic"
         MUSIC = "folder-music-symbolic"
 
-    _cache = {}
+    _cache: Dict[
+        Tuple["DefaultIcon.Type", ArtSize, int, bool], cairo.Surface] = {}
+
     _default_theme = Gtk.IconTheme.get_default()
 
     def __init__(self):

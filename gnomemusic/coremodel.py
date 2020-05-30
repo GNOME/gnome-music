@@ -311,7 +311,7 @@ class CoreModel(GObject.GObject):
         """
         return self._active_core_object
 
-    @active_core_object.setter
+    @active_core_object.setter  # type: ignore
     def active_core_object(self, value):
         """Set the current playing core object
         (album, artist, playlist, search result or song).

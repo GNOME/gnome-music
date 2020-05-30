@@ -274,7 +274,7 @@ class LastFmScrobbler(GObject.GObject):
         """
         return self._account_state
 
-    @account_state.setter
+    @account_state.setter  # type: ignore
     def account_state(self, value):
         """Set the Last.fm account state
 
@@ -298,7 +298,7 @@ class LastFmScrobbler(GObject.GObject):
         return (self.props.account_state == GoaLastFM.State.ENABLED
                 and self._report is True)
 
-    @can_scrobble.setter
+    @can_scrobble.setter  # type: ignore
     def can_scrobble(self, value):
         """Set the can_scrobble status
 
@@ -324,7 +324,7 @@ class LastFmScrobbler(GObject.GObject):
         """Bool indicating current scrobble status"""
         return self._scrobbled
 
-    @scrobbled.setter
+    @scrobbled.setter  # type: ignore
     def scrobbled(self, scrobbled):
         self._scrobbled = scrobbled
 
