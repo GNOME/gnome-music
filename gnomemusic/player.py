@@ -555,7 +555,7 @@ class Player(GObject.GObject):
     def repeat_mode(self):
         return self._repeat
 
-    @repeat_mode.setter
+    @repeat_mode.setter  # type: ignore
     def repeat_mode(self, mode):
         if mode == self._repeat:
             return

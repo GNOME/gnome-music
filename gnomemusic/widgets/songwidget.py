@@ -230,7 +230,7 @@ class SongWidget(Gtk.EventBox):
         """
         return self._selection_mode
 
-    @selection_mode.setter
+    @selection_mode.setter  # type: ignore
     def selection_mode(self, value):
         """Set the selection mode
 
@@ -258,7 +258,7 @@ class SongWidget(Gtk.EventBox):
         """
         return self._state
 
-    @state.setter
+    @state.setter  # type: ignore
     def state(self, value):
         """Set state of the of widget
 

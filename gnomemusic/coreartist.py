@@ -94,7 +94,7 @@ class CoreArtist(GObject.GObject):
     def selected(self):
         return self._selected
 
-    @selected.setter
+    @selected.setter  # type: ignore
     def selected(self, value):
         if value == self._selected:
             return
@@ -116,7 +116,7 @@ class CoreArtist(GObject.GObject):
 
         return self._thumbnail
 
-    @thumbnail.setter
+    @thumbnail.setter  # type: ignore
     def thumbnail(self, value):
         self._thumbnail = value
 
@@ -124,6 +124,6 @@ class CoreArtist(GObject.GObject):
     def cached_thumbnail_uri(self):
         return self._cached_thumbnail_uri
 
-    @cached_thumbnail_uri.setter
+    @cached_thumbnail_uri.setter  # type: ignore
     def cached_thumbnail_uri(self, value):
         self._cached_thumbnail_uri = value

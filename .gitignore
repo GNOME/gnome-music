@@ -12,6 +12,7 @@ builddir/
 /.dirstamp
 /.gitignore
 /.libs
+/.mypy_cache/*
 /AUTHORS
 /ABOUT-NLS
 /GPATH
