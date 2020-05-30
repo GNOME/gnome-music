@@ -22,6 +22,10 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from __future__ import annotations
+from typing import Callable, Dict, List, Optional
+import typing
+
 import gi
 gi.require_versions({"Gfm": "0.1", "Grl": "0.3", "Tracker": "3.0"})
 from gi.repository import Gfm, Gio, Grl, GLib, GObject, Tracker
@@ -30,17 +34,24 @@ from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.coreartist import CoreArtist
 from gnomemusic.coredisc import CoreDisc
 from gnomemusic.coresong import CoreSong
-from gnomemusic.grilowrappers.grltrackerplaylists import GrlTrackerPlaylists
+from gnomemusic.grilowrappers.grltrackerplaylists import (
+    GrlTrackerPlaylists, Playlist)
 from gnomemusic.storeart import StoreArt
+from gnomemusic.trackerwrapper import TrackerWrapper
+if typing.TYPE_CHECKING:
+    from gnomemusic.application import Application
+    from gnomemusic.coremodel import CoreModel
+    from gnomemusic.musiclogger import MusicLogger
+    from gnomemusic.notificationmanager import NotificationManager
 
 
 class GrlTrackerWrapper(GObject.GObject):
     """Wrapper for the Grilo Tracker source.
     """
 
-    _SPLICE_SIZE = 100
+    _SPLICE_SIZE: int = 100
 
-    _METADATA_ALBUM_CHANGED_KEYS = [
+    _METADATA_ALBUM_CHANGED_KEYS: List[int] = [
         Grl.METADATA_KEY_ARTIST,
         Grl.METADATA_KEY_ALBUM_ARTIST,
         Grl.METADATA_KEY_COMPOSER,
@@ -50,7 +61,7 @@ class GrlTrackerWrapper(GObject.GObject):
         Grl.METADATA_KEY_URL
     ]
 
-    _METADATA_SONG_FILL_KEYS = [
+    _METADATA_SONG_FILL_KEYS: List[int] = [
         Grl.METADATA_KEY_ALBUM,
         Grl.METADATA_KEY_ALBUM_DISC_NUMBER,
         Grl.METADATA_KEY_ARTIST,
@@ -63,7 +74,7 @@ class GrlTrackerWrapper(GObject.GObject):
         Grl.METADATA_KEY_URL
     ]
 
-    _METADATA_SONG_MEDIA_QUERY_KEYS = [
+    _METADATA_SONG_MEDIA_QUERY_KEYS: List[int] = [
         Grl.METADATA_KEY_ALBUM,
         Grl.METADATA_KEY_ALBUM_DISC_NUMBER,
         Grl.METADATA_KEY_ARTIST,
@@ -76,12 +87,14 @@ class GrlTrackerWrapper(GObject.GObject):
         Grl.METADATA_KEY_URL
     ]
 
-    _METADATA_THUMBNAIL_KEYS = [
+    _METADATA_THUMBNAIL_KEYS: List[int] = [
         Grl.METADATA_KEY_ID,
         Grl.METADATA_KEY_THUMBNAIL
     ]
 
-    def __init__(self, source, application, tracker_wrapper):
+    def __init__(
+            self, source: Grl.Source, application: Application,
+            tracker_wrapper: TrackerWrapper) -> None:
         """Initialize the Tracker wrapper
 
         :param Grl.TrackerSource source: The Tracker source to wrap
@@ -90,40 +103,43 @@ class GrlTrackerWrapper(GObject.GObject):
         """
         super().__init__()
 
-        self._application = application
-        coremodel = application.props.coremodel
-        self._log = application.props.log
+        self._application: Application = application
+        cm: CoreModel = application.props.coremodel
+        self._log: MusicLogger = application.props.log
         self._songs_model = Gio.ListStore.new(CoreSong)
-        coremodel.props.songs_proxy.append(self._songs_model)
-        self._source = None
+        cm.props.songs_proxy.append(self._songs_model)
+        self._source: Optional[Grl.Source] = None
         self._albums_model = Gio.ListStore.new(CoreAlbum)
-        coremodel.props.albums_proxy.append(self._albums_model)
-        self._album_ids = {}
+        cm.props.albums_proxy.append(self._albums_model)
+        self._album_ids: Dict[str, CoreAlbum] = {}
         self._artists_model = Gio.ListStore.new(CoreArtist)
-        coremodel.props.artists_proxy.append(self._artists_model)
-        self._artist_ids = {}
-        self._hash = {}
-        self._song_search_proxy = coremodel.props.songs_search_proxy
-        self._album_search_model = coremodel.props.albums_search
-        self._artist_search_model = coremodel.props.artists_search
-        self._batch_changed_media_ids = {}
-        self._content_changed_timeout = 0
-        self._tracker_playlists = None
-        self._tracker_wrapper = tracker_wrapper
-        self._notificationmanager = application.props.notificationmanager
+        cm.props.artists_proxy.append(self._artists_model)
+        self._artist_ids: Dict[str, CoreArtist] = {}
+        self._hash: Dict[str, CoreSong] = {}
+        self._song_search_proxy: Gio.ListStore = cm.props.songs_search_proxy
+        self._album_search_model: Gfm.FilterListModel = cm.props.albums_search
+        self._artist_search_model: Gfm.FilterListModel = (
+            cm.props.artists_search)
+        self._batch_changed_media_ids: Dict[
+            Grl.SourceChangeType, List[str]] = {}
+        self._content_changed_timeout: int = 0
+        self._tracker_playlists: Optional[GrlTrackerPlaylists] = None
+        self._tracker_wrapper: TrackerWrapper = tracker_wrapper
+        self._notificationmanager: NotificationManager = (
+            application.props.notificationmanager)
 
         self._song_search_tracker = Gfm.FilterListModel.new(self._songs_model)
         self._song_search_tracker.set_filter_func(lambda a: False)
         self._song_search_proxy.append(self._song_search_tracker)
 
-        self._fast_options = Grl.OperationOptions()
+        self._fast_options: Grl.OperationOptions = Grl.OperationOptions()
         self._fast_options.set_resolution_flags(
             Grl.ResolutionFlags.FAST_ONLY | Grl.ResolutionFlags.IDLE_RELAY)
-        self._full_options = Grl.OperationOptions()
+        self._full_options: Grl.OperationOptions = Grl.OperationOptions()
         self._full_options.set_resolution_flags(
             Grl.ResolutionFlags.FULL | Grl.ResolutionFlags.IDLE_RELAY)
 
-        self._content_changed_id = 0
+        self._content_changed_id: int = 0
         self.props.source = source
 
         self._initial_songs_fill()
@@ -131,11 +147,11 @@ class GrlTrackerWrapper(GObject.GObject):
         self._initial_artists_fill()
 
     @GObject.Property(type=Grl.Source, default=None)
-    def source(self):
+    def source(self) -> Grl.Source:
         return self._source
 
     @source.setter  # type: ignore
-    def source(self, new_source):
+    def source(self, new_source: Grl.Source):
         """Set a new grilo tracker source
 
         Everytime, the tracker plugin is loaded, a new source is
@@ -152,7 +168,9 @@ class GrlTrackerWrapper(GObject.GObject):
         self._content_changed_id = self._source.connect(
             "content-changed", self._batch_content_changed)
 
-    def _batch_content_changed(self, source, medias, change_type, loc_unknown):
+    def _batch_content_changed(
+            self, source: Grl.Source, medias: List[Grl.Media],
+            change_type: Grl.SourceChangeType, loc_unknown: bool) -> None:
         if medias == []:
             return
 
@@ -168,9 +186,9 @@ class GrlTrackerWrapper(GObject.GObject):
             self._content_changed_timeout = GLib.timeout_add(
                 250, self._on_content_changed)
 
-    def _on_content_changed(self):
+    def _on_content_changed(self) -> bool:
         for change_type in self._batch_changed_media_ids.keys():
-            media_ids = self._batch_changed_media_ids[change_type]
+            media_ids: List[str] = self._batch_changed_media_ids[change_type]
 
             # The Tracker indexed paths may differ from Music's paths.
             # In that case Tracker will report it as 'changed', while
@@ -195,8 +213,8 @@ class GrlTrackerWrapper(GObject.GObject):
 
         return GLib.SOURCE_REMOVE
 
-    def _check_album_change(self):
-        album_ids = {}
+    def _check_album_change(self) -> None:
+        album_ids: Dict[str, CoreAlbum] = {}
 
         query = """
         SELECT
@@ -234,7 +252,9 @@ class GrlTrackerWrapper(GObject.GObject):
             'location_filter': self._tracker_wrapper.location_filter()
         }
 
-        def check_album_cb(source, op_id, media, remaining, error):
+        def check_album_cb(
+                source: Grl.Source, op_id: int, media: Optional[Grl.Media],
+                remaining: int, error: str) -> None:
             if error:
                 self._log.warning("Error: {}".format(error))
                 return
@@ -269,8 +289,8 @@ class GrlTrackerWrapper(GObject.GObject):
             query, self._METADATA_ALBUM_CHANGED_KEYS, self._fast_options,
             check_album_cb)
 
-    def _check_artist_change(self):
-        artist_ids = {}
+    def _check_artist_change(self) -> None:
+        artist_ids: Dict[str, CoreArtist] = {}
 
         query = """
         SELECT ?type ?id ?artist
@@ -309,7 +329,9 @@ class GrlTrackerWrapper(GObject.GObject):
             Grl.METADATA_KEY_ID
         ]
 
-        def check_artist_cb(source, op_id, media, remaining, error):
+        def check_artist_cb(
+                source: Grl.Source, op_id: int, media: Optional[Grl.Media],
+                remaining: int, error: Optional[GLib.Error]) -> None:
             if error:
                 self._log.warning("Error: {}".format(error))
                 return
@@ -342,7 +364,7 @@ class GrlTrackerWrapper(GObject.GObject):
         self.props.source.query(
             query, metadata_keys, self._fast_options, check_artist_cb)
 
-    def _remove_media(self, media_ids):
+    def _remove_media(self, media_ids: List[str]) -> None:
         for media_id in media_ids:
             try:
                 coresong = self._hash.pop(media_id)
@@ -358,8 +380,8 @@ class GrlTrackerWrapper(GObject.GObject):
                     self._songs_model.remove(idx)
                     break
 
-    def _song_media_query(self, media_ids):
-        media_ids = str(media_ids)[1:-1]
+    def _song_media_query(self, ids: List[str]) -> str:
+        media_ids: str = str(ids)[1:-1]
 
         query = """
         SELECT
@@ -405,9 +427,11 @@ class GrlTrackerWrapper(GObject.GObject):
 
         return query
 
-    def _changed_media(self, media_ids):
+    def _changed_media(self, media_ids: List[str]) -> None:
 
-        def _update_changed_media(source, op_id, media, remaining, error):
+        def _update_changed_media(
+                source: Grl.Source, op_id: int, media: Optional[Grl.Media],
+                remaining: int, error: Optional[GLib.Error]) -> None:
             if error:
                 self._log.warning("Error: {}".format(error))
                 return
@@ -416,7 +440,7 @@ class GrlTrackerWrapper(GObject.GObject):
                 self._remove_media(media_ids)
                 return
 
-            media_id = media.get_id()
+            media_id: str = media.get_id()
             if media_id not in self._hash:
                 song = CoreSong(self._application, media)
                 self._songs_model.append(song)
@@ -433,11 +457,13 @@ class GrlTrackerWrapper(GObject.GObject):
             self._METADATA_SONG_MEDIA_QUERY_KEYS, self._fast_options,
             _update_changed_media)
 
-    def _initial_songs_fill(self):
+    def _initial_songs_fill(self) -> None:
         self._notificationmanager.push_loading()
-        songs_added = []
+        songs_added: List[int] = []
 
-        def _add_to_model(source, op_id, media, remaining, error):
+        def _add_to_model(
+                source: Grl.Source, op_id: int, media: Optional[Grl.Media],
+                remaining: int, error: Optional[GLib.Error]) -> None:
             if error:
                 self._log.warning("Error: {}".format(error))
                 self._notificationmanager.pop_loading()
@@ -510,11 +536,13 @@ class GrlTrackerWrapper(GObject.GObject):
             query, self._METADATA_SONG_FILL_KEYS, self._fast_options,
             _add_to_model)
 
-    def _initial_albums_fill(self):
+    def _initial_albums_fill(self) -> None:
         self._notificationmanager.push_loading()
-        albums_added = []
+        albums_added: List[int] = []
 
-        def _add_to_albums_model(source, op_id, media, remaining, error):
+        def _add_to_albums_model(
+                source: Grl.Source, op_id: int, media: Optional[Grl.Media],
+                remaining: int, error: Optional[GLib.Error]) -> None:
             if error:
                 self._log.warning("Error: {}".format(error))
                 self._notificationmanager.pop_loading()
@@ -578,11 +606,13 @@ class GrlTrackerWrapper(GObject.GObject):
             query, self._METADATA_ALBUM_CHANGED_KEYS, self._fast_options,
             _add_to_albums_model)
 
-    def _initial_artists_fill(self):
+    def _initial_artists_fill(self) -> None:
         self._notificationmanager.push_loading()
-        artists_added = []
+        artists_added: List[int] = []
 
-        def _add_to_artists_model(source, op_id, media, remaining, error):
+        def _add_to_artists_model(
+                source: Grl.Source, op_id: int, media: Optional[Grl.Media],
+                remaining: int, error: Optional[GLib.Error]) -> None:
             if error:
                 self._log.warning("Error: {}".format(error))
                 self._notificationmanager.pop_loading()
@@ -634,7 +664,7 @@ class GrlTrackerWrapper(GObject.GObject):
             'location_filter': self._tracker_wrapper.location_filter()
         }
 
-        metadata_keys = [
+        metadata_keys: List[int] = [
             Grl.METADATA_KEY_ARTIST,
             Grl.METADATA_KEY_ID
         ]
@@ -642,7 +672,8 @@ class GrlTrackerWrapper(GObject.GObject):
         self.props.source.query(
             query, metadata_keys, self._fast_options, _add_to_artists_model)
 
-    def get_artist_albums(self, media, model):
+    def get_artist_albums(
+            self, media: Grl.Source, model: Gfm.FilterListModel) -> None:
         """Get all albums by an artist
 
         :param Grl.Media media: The media with the artist id
@@ -684,9 +715,11 @@ class GrlTrackerWrapper(GObject.GObject):
             'location_filter': self._tracker_wrapper.location_filter()
         }
 
-        albums = []
+        albums: List[Grl.Media] = []
 
-        def query_cb(source, op_id, media, remaining, error):
+        def query_cb(
+                source: Grl.Source, op_id: int, media: Optional[Grl.Media],
+                remaining: int, error: Optional[GLib.Error]) -> None:
             if error:
                 self._log.warning("Error: {}".format(error))
                 self._notificationmanager.pop_loading()
@@ -699,7 +732,8 @@ class GrlTrackerWrapper(GObject.GObject):
 
             albums.append(media)
 
-        def albums_filter(corealbum, albums):
+        def albums_filter(
+                corealbum: CoreAlbum, albums: List[Grl.Media]) -> bool:
             for media in albums:
                 if media.get_id() == corealbum.props.media.get_id():
                     return True
@@ -709,7 +743,8 @@ class GrlTrackerWrapper(GObject.GObject):
         self.props.source.query(
             query, [Grl.METADATA_KEY_TITLE], self._fast_options, query_cb)
 
-    def get_album_discs(self, media, disc_model):
+    def get_album_discs(
+            self, media: Grl.Media, disc_model: Gfm.SortListModel) -> None:
         """Get all discs of an album
 
         :param Grl.Media media: The media with the album id
@@ -746,7 +781,9 @@ class GrlTrackerWrapper(GObject.GObject):
             'location_filter': self._tracker_wrapper.location_filter()
         }
 
-        def _disc_nr_cb(source, op_id, media, remaining, error):
+        def _disc_nr_cb(
+                source: Grl.Source, op_id: int, media: Optional[Grl.Media],
+                remaining: int, error: Optional[GLib.Error]) -> None:
             if error:
                 self._log.warning("Error: {}".format(error))
                 self._notificationmanager.pop_loading()
@@ -764,7 +801,11 @@ class GrlTrackerWrapper(GObject.GObject):
             query, [Grl.METADATA_KEY_ALBUM_DISC_NUMBER], self._fast_options,
             _disc_nr_cb)
 
-    def populate_album_disc_songs(self, media, disc_nr, callback):
+    def populate_album_disc_songs(
+            self, media: Grl.Media, disc_nr: int,
+            callback: Callable[
+                [Grl.Source, int, Optional[Grl.Media], int,
+                 Optional[GLib.Error]], None]) -> None:
         # FIXME: Pass a model and fill it.
         # FIXME: The query is similar to the other song queries, reuse
         # if possible.
@@ -774,7 +815,7 @@ class GrlTrackerWrapper(GObject.GObject):
         :param int disc_nr: The disc number
         :param callback: The callback to call for every song added
         """
-        album_id = media.get_id()
+        album_id: str = media.get_id()
 
         query = """
         SELECT
@@ -826,7 +867,7 @@ class GrlTrackerWrapper(GObject.GObject):
             'miner_fs_busname': self._tracker_wrapper.props.miner_fs_busname
         }
 
-        metadata_keys = [
+        metadata_keys: List[int] = [
             Grl.METADATA_KEY_ALBUM,
             Grl.METADATA_KEY_ALBUM_DISC_NUMBER,
             Grl.METADATA_KEY_ARTIST,
@@ -841,13 +882,13 @@ class GrlTrackerWrapper(GObject.GObject):
         self.props.source.query(
             query, metadata_keys, self._fast_options, callback)
 
-    def search(self, text):
+    def search(self, text: str) -> None:
         # FIXME: Searches are limited to not bog down the UI with
         # widget creation ({List,Flow}Box limitations). The limit is
         # arbitrarily set to 50 and set in the Tracker query. It should
         # be possible to set it through Grilo options instead. This
         # does not work as expected and needs further investigation.
-        term = Tracker.sparql_escape_string(
+        term: str = Tracker.sparql_escape_string(
             GLib.utf8_normalize(
                 GLib.utf8_casefold(text, -1), -1, GLib.NormalizeMode.NFKD))
 
@@ -905,12 +946,14 @@ class GrlTrackerWrapper(GObject.GObject):
             'name': term
         }
 
-        artist_filter_ids = []
+        artist_filter_ids: List[str] = []
 
-        def artist_filter(coreartist):
+        def artist_filter(coreartist: CoreArtist) -> bool:
             return coreartist.media.get_id() in artist_filter_ids
 
-        def artist_search_cb(source, op_id, media, remaining, error):
+        def artist_search_cb(
+                source: Grl.Source, op_id: int, media: Optional[Grl.Media],
+                remaining: int, error: Optional[GLib.Error]) -> None:
             if error:
                 self._log.warning("Error: {}".format(error))
                 self._notificationmanager.pop_loading()
@@ -972,12 +1015,14 @@ class GrlTrackerWrapper(GObject.GObject):
             'name': term
         }
 
-        album_filter_ids = []
+        album_filter_ids: List[str] = []
 
-        def album_filter(corealbum):
+        def album_filter(corealbum: CoreAlbum) -> bool:
             return corealbum.media.get_id() in album_filter_ids
 
-        def albums_search_cb(source, op_id, media, remaining, error):
+        def albums_search_cb(
+                source: Grl.Source, op_id: int, media: Optional[Grl.Media],
+                remaining: int, error: Optional[GLib.Error]) -> None:
             if error:
                 self._log.warning("Error: {}".format(error))
                 self._notificationmanager.pop_loading()
@@ -1044,12 +1089,14 @@ class GrlTrackerWrapper(GObject.GObject):
             'name': term
         }
 
-        filter_ids = []
+        filter_ids: List[str] = []
 
-        def songs_filter(coresong):
+        def songs_filter(coresong: CoreSong) -> bool:
             return coresong.media.get_id() in filter_ids
 
-        def songs_search_cb(source, op_id, media, remaining, error):
+        def songs_search_cb(
+                source: Grl.Source, op_id: int, media: Optional[Grl.Media],
+                remaining: int, error: Optional[GLib.Error]) -> None:
             if error:
                 self._log.warning("Error: {}".format(error))
                 self._notificationmanager.pop_loading()
@@ -1065,7 +1112,8 @@ class GrlTrackerWrapper(GObject.GObject):
         self.props.source.query(
             query, [Grl.METADATA_KEY_ID], self._fast_options, songs_search_cb)
 
-    def _get_album_for_media_id_query(self, media_id, song=True):
+    def _get_album_for_media_id_query(
+            self, media_id: str, song: bool = True) -> str:
         # Even though we check for the album_artist, we fill
         # the artist key, since Grilo coverart plugins use
         # only that key for retrieval.
@@ -1125,7 +1173,7 @@ class GrlTrackerWrapper(GObject.GObject):
 
         return query
 
-    def get_song_art(self, coresong):
+    def get_song_art(self, coresong: CoreSong) -> None:
         """Retrieve song art for the given CoreSong
 
         Since MediaArt does not really support per-song art this
@@ -1134,7 +1182,7 @@ class GrlTrackerWrapper(GObject.GObject):
 
         :param CoreSong coresong: CoreSong to get art for
         """
-        media = coresong.props.media
+        media: Grl.Media = coresong.props.media
 
         # If there is no album and artist do not go through with the
         # query, it will not give any results.
@@ -1144,7 +1192,10 @@ class GrlTrackerWrapper(GObject.GObject):
             coresong.props.thumbnail = "generic"
             return
 
-        def art_retrieved_cb(source, op_id, queried_media, remaining, error):
+        def art_retrieved_cb(
+                source: Grl.Source, op_id: int,
+                queried_media: Optional[Grl.Media], remaining: int,
+                error: Optional[GLib.Error]) -> None:
             if error:
                 self._log.warning("Error: {}".format(error))
                 coresong.props.thumbnail = "generic"
@@ -1156,21 +1207,24 @@ class GrlTrackerWrapper(GObject.GObject):
 
             StoreArt(coresong, queried_media.get_thumbnail())
 
-        song_id = media.get_id()
-        query = self._get_album_for_media_id_query(song_id)
+        song_id: str = media.get_id()
+        query: str = self._get_album_for_media_id_query(song_id)
 
         self.props.source.query(
             query, self._METADATA_THUMBNAIL_KEYS, self._full_options,
             art_retrieved_cb)
 
-    def get_album_art(self, corealbum):
+    def get_album_art(self, corealbum: CoreAlbum) -> None:
         """Retrieve album art for the given CoreAlbum
 
         :param CoreAlbum corealbum: CoreAlbum to get art for
         """
-        media = corealbum.props.media
+        media: Grl.Media = corealbum.props.media
 
-        def art_retrieved_cb(source, op_id, queried_media, remaining, error):
+        def art_retrieved_cb(
+                source: Grl.Source, op_id: int,
+                queried_media: Optional[Grl.Media], remaining: int,
+                error: Optional[GLib.Error]) -> None:
             if error:
                 self._log.warning("Error: {}".format(error))
                 corealbum.props.thumbnail = "generic"
@@ -1182,23 +1236,26 @@ class GrlTrackerWrapper(GObject.GObject):
 
             StoreArt(corealbum, queried_media.get_thumbnail())
 
-        album_id = media.get_id()
-        query = self._get_album_for_media_id_query(album_id, False)
+        album_id: str = media.get_id()
+        query: str = self._get_album_for_media_id_query(album_id, False)
 
-        self._source.query(
+        self.props.source.query(
             query, self._METADATA_THUMBNAIL_KEYS, self._full_options,
             art_retrieved_cb)
 
-    def get_artist_art(self, coreartist):
+    def get_artist_art(self, coreartist: CoreArtist) -> None:
         """Retrieve artist art for the given CoreArtist
 
         This retrieves art through Grilo online services only.
 
         :param CoreArtist coreartist: CoreArtist to get art for
         """
-        media = coreartist.props.media
+        media: Grl.Media = coreartist.props.media
 
-        def art_resolved_cb(source, op_id, resolved_media, error):
+        def art_resolved_cb(
+                source: Grl.Source, op_id: int,
+                resolved_media: Optional[Grl.Media],
+                error: Optional[GLib.Error]) -> None:
             if error:
                 self._log.warning("Error: {}".format(error))
                 coreartist.props.thumbnail = "generic"
@@ -1214,7 +1271,7 @@ class GrlTrackerWrapper(GObject.GObject):
             media, [Grl.METADATA_KEY_THUMBNAIL], self._full_options,
             art_resolved_cb)
 
-    def stage_playlist_deletion(self, playlist):
+    def stage_playlist_deletion(self, playlist: Optional[Playlist]) -> None:
         """Prepares playlist deletion.
 
         :param Playlist playlist: playlist
@@ -1224,7 +1281,8 @@ class GrlTrackerWrapper(GObject.GObject):
 
         self._tracker_playlists.stage_playlist_deletion(playlist)
 
-    def finish_playlist_deletion(self, playlist, deleted):
+    def finish_playlist_deletion(
+            self, playlist: Optional[Playlist], deleted: bool) -> None:
         """Finishes playlist deletion.
 
         :param Playlist playlist: playlist
@@ -1235,7 +1293,9 @@ class GrlTrackerWrapper(GObject.GObject):
 
         self._tracker_playlists.finish_playlist_deletion(playlist, deleted)
 
-    def create_playlist(self, playlist_title, callback):
+    def create_playlist(
+            self, playlist_title: str,
+            callback: Callable[[Playlist], None]) -> None:
         """Creates a new user playlist.
 
         :param str playlist_title: playlist title
