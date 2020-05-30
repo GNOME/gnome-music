@@ -1,3 +1,17 @@
+Overview of changes in 3.34.6
+=============================
+
+* Fix a crash in SearchView
+* Handle missing change notification case
+
+Bugs fixed:
+ searchview: Fix incorrect object use (!707)
+ grltrackerwrapper: Handle missing change notification case (!715)
+
+Thanks to our contributors this release:
+ Atharva Veer
+ Marinus Schraal
+
 Overview of changes in 3.34.5
 =============================
 

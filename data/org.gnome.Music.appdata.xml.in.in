@@ -28,6 +28,13 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="3.34.6" date="2020-05-30">
+      <description>
+        <p>
+          Various crash and bugfixes.
+        </p>
+      </description>
+    </release>
     <release version="3.34.5" date="2020-03-28">
       <description>
         <p>
