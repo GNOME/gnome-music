@@ -24,6 +24,7 @@
 
 from enum import Enum
 from math import pi
+from typing import Dict, List, Tuple
 import os
 
 import cairo
@@ -122,7 +123,8 @@ class DefaultIcon(GObject.GObject):
         LOADING = 'content-loading-symbolic'
         MUSIC = 'folder-music-symbolic'
 
-    _cache = {}
+    _cache: Dict[
+        Tuple["DefaultIcon.Type", "Art.Size", int], cairo.Surface] = {}
     _default_theme = Gtk.IconTheme.get_default()
 
     def __init__(self):
@@ -170,7 +172,7 @@ class Art(GObject.GObject):
         'finished': (GObject.SignalFlags.RUN_FIRST, None, ())
     }
 
-    _blacklist = {}
+    _blacklist: Dict[str, List[str]] = {}
 
     class Size(Enum):
         """Enum for icon sizes"""

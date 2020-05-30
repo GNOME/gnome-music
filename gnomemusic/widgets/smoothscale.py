@@ -64,7 +64,7 @@ class SmoothScale(Gtk.Scale):
         """
         return self._player
 
-    @player.setter
+    @player.setter  # type: ignore
     def player(self, player):
         """Set the Player object used
 

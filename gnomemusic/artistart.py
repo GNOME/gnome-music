@@ -24,6 +24,7 @@
 
 from enum import Enum
 from math import pi
+from typing import Dict, Tuple
 
 import cairo
 import gi
@@ -32,6 +33,7 @@ gi.require_version("Soup", "2.4")
 from gi.repository import (Gdk, GdkPixbuf, Gio, GLib, GObject, Gtk, MediaArt,
                            Soup)
 
+from gnomemusic.albumartcache import Art
 from gnomemusic.musiclogger import MusicLogger
 
 
@@ -88,7 +90,7 @@ class DefaultIcon(GObject.GObject):
         LOADING = "content-loading-symbolic"
         ARTIST = "avatar-default-symbolic"
 
-    _cache = {}
+    _cache: Dict[Tuple["DefaultIcon.Type", Art.Size, int], cairo.Surface] = {}
     _default_theme = Gtk.IconTheme.get_default()
 
     def __init__(self):
