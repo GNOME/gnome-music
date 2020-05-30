@@ -22,13 +22,20 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from __future__ import annotations
 from enum import IntEnum
+from typing import Optional
+import typing
 
 import gi
 gi.require_version('Grl', '0.3')
 from gi.repository import Grl, GLib, GObject
 
 from gnomemusic.songart import SongArt
+if typing.TYPE_CHECKING:
+    from gnomemusic.application import Application
+    from gnomemusic.coregrilo import CoreGrilo
+    from gnomemusic.coreselection import CoreSelection
 import gnomemusic.utils as utils
 
 
@@ -51,12 +58,12 @@ class CoreSong(GObject.GObject):
 
     class Validation(IntEnum):
         """Enum for song validation"""
-        PENDING = 0
-        IN_PROGRESS = 1
-        FAILED = 2
-        SUCCEEDED = 3
+        PENDING: int = 0
+        IN_PROGRESS: int = 1
+        FAILED: int = 2
+        SUCCEEDED: int = 3
 
-    def __init__(self, application, media):
+    def __init__(self, application: Application, media: Grl.Media) -> None:
         """Initiate the CoreSong object
 
         :param Application application: The application object
@@ -64,40 +71,40 @@ class CoreSong(GObject.GObject):
         """
         super().__init__()
 
-        self._application = application
-        self._coregrilo = application.props.coregrilo
-        self._coreselection = application.props.coreselection
-        self._favorite = False
-        self._selected = False
-        self._thumbnail = None
+        self._application: Application = application
+        self._coregrilo: CoreGrilo = application.props.coregrilo
+        self._coreselection: CoreSelection = application.props.coreselection
+        self._favorite: bool = False
+        self._selected: bool = False
+        self._thumbnail: Optional[str] = None
 
         self.props.grlid = media.get_source() + media.get_id()
-        self._is_tracker = media.get_source() == "grl-tracker3-source"
+        self._is_tracker: bool = media.get_source() == "grl-tracker3-source"
         self.props.validation = CoreSong.Validation.PENDING
         self.update(media)
 
-    def __eq__(self, other):
+    def __eq__(self, other: object) -> bool:
         return (isinstance(other, CoreSong)
                 and other.props.media.get_id() == self.props.media.get_id())
 
     @GObject.Property(
         type=bool, default=False, flags=GObject.ParamFlags.READABLE)
-    def is_tracker(self):
+    def is_tracker(self) -> bool:
         return self._is_tracker
 
     @GObject.Property(type=bool, default=False)
-    def favorite(self):
+    def favorite(self) -> bool:
         return self._favorite
 
     @favorite.setter  # type: ignore
-    def favorite(self, favorite):
+    def favorite(self, favorite: bool) -> None:
         if not self._is_tracker:
             return
 
         self._favorite = favorite
 
         # FIXME: Circular trigger, can probably be solved more neatly.
-        old_fav = self.props.media.get_favourite()
+        old_fav: bool = self.props.media.get_favourite()
         if old_fav == self._favorite:
             return
 
@@ -106,11 +113,11 @@ class CoreSong(GObject.GObject):
             self.props.media, "favorite")
 
     @GObject.Property(type=bool, default=False)
-    def selected(self):
+    def selected(self) -> bool:
         return self._selected
 
     @selected.setter  # type: ignore
-    def selected(self, value):
+    def selected(self, value: bool) -> None:
         if not self._is_tracker:
             return
 
@@ -121,7 +128,7 @@ class CoreSong(GObject.GObject):
         self._coreselection.update_selection(self, self._selected)
 
     @GObject.Property(type=str, default=None)
-    def thumbnail(self):
+    def thumbnail(self) -> str:
         """Song art thumbnail retrieval
 
         :return: The song art uri or "generic" or "loading"
@@ -134,14 +141,14 @@ class CoreSong(GObject.GObject):
         return self._thumbnail
 
     @thumbnail.setter  # type: ignore
-    def thumbnail(self, value):
+    def thumbnail(self, value: str) -> None:
         """Song art thumbnail setter
 
         :param string value: uri, "generic" or "loading"
         """
         self._thumbnail = value
 
-    def update(self, media):
+    def update(self, media: Grl.Media) -> None:
         self.props.media = media
         self.props.album = utils.get_album_title(media)
         self.props.album_disc_number = media.get_album_disc_number()
@@ -153,7 +160,7 @@ class CoreSong(GObject.GObject):
         self.props.track_number = media.get_track_number()
         self.props.url = media.get_url()
 
-    def bump_play_count(self):
+    def bump_play_count(self) -> None:
         if not self._is_tracker:
             return
 
@@ -161,7 +168,7 @@ class CoreSong(GObject.GObject):
         self._coregrilo.writeback_tracker(
             self.props.media, "play-count")
 
-    def set_last_played(self):
+    def set_last_played(self) -> None:
         if not self._is_tracker:
             return
 
