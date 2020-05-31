@@ -50,7 +50,7 @@ class TrackerWrapper(GObject.GObject):
         try:
             self._tracker = Tracker.SparqlConnection.new(
                 Tracker.SparqlConnectionFlags.NONE,
-                Gio.File.new_for_path(self._cache_directory()),
+                Gio.File.new_for_path(self.cache_directory()),
                 Tracker.sparql_get_ontology_nepomuk(),
                 None)
         except GLib.Error as error:
@@ -81,7 +81,7 @@ class TrackerWrapper(GObject.GObject):
 
         self.notify("tracker-available")
 
-    def _cache_directory(self):
+    def cache_directory(self):
         """Get directory which contains Music private data.
 
         :returns: private store path
