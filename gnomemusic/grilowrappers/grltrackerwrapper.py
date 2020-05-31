@@ -1166,39 +1166,50 @@ class GrlTrackerWrapper(GObject.GObject):
         # the artist key, since Grilo coverart plugins use
         # only that key for retrieval.
         query = """
-        SELECT DISTINCT
-            rdf:type(?album)
-            tracker:id(?album) AS ?id
-            tracker:referenceIdentifier(?release_group_id)
-                AS ?mb_release_group_id
-            tracker:referenceIdentifier(?release_id) AS ?mb_release_id
-            tracker:coalesce(nmm:artistName(?album_artist),
-                             nmm:artistName(?song_artist)) AS ?artist
-            nie:title(?album) AS ?album
+        SELECT
+            ?type ?id ?mbReleaseGroup ?mbRelease ?artist ?album
         WHERE {
-            ?album a nmm:MusicAlbum .
-            ?song a nmm:MusicPiece ;
-                    nmm:musicAlbum ?album ;
-                    nmm:performer ?song_artist .
-            OPTIONAL {
-                ?album tracker:hasExternalReference ?release_group_id .
-                ?release_group_id tracker:referenceSource
-                    "https://musicbrainz.org/doc/Release_Group" .
+            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+                GRAPH tracker:Audio {
+                    SELECT DISTINCT
+                        %(media_type)s AS ?type
+                        ?album AS ?id
+                        tracker:referenceIdentifier(?release_group_id)
+                            AS ?mbReleaseGroup
+                        tracker:referenceIdentifier(?release_id) AS ?mbRelease
+                        tracker:coalesce(nmm:artistName(?album_artist),
+                                         nmm:artistName(?song_artist))
+                            AS ?artist
+                        nie:title(?album) AS ?album
+                    WHERE {
+                        ?album a nmm:MusicAlbum .
+                        ?song a nmm:MusicPiece ;
+                                nmm:musicAlbum ?album ;
+                                nmm:performer ?song_artist .
+                        OPTIONAL {
+                            ?album tracker:hasExternalReference
+                                ?release_group_id .
+                            ?release_group_id tracker:referenceSource
+                                "https://musicbrainz.org/doc/Release_Group" .
+                        }
+                        OPTIONAL {
+                            ?album tracker:hasExternalReference ?release_id .
+                            ?release_id tracker:referenceSource
+                                "https://musicbrainz.org/doc/Release" .
+                        }
+                        OPTIONAL { ?album nmm:albumArtist ?album_artist . }
+                        FILTER (
+                            ?album = <%(album_id)s>
+                        )
+                        %(location_filter)s
+                    }
+                }
             }
-            OPTIONAL {
-                ?album tracker:hasExternalReference ?release_id .
-                ?release_id tracker:referenceSource
-                    "https://musicbrainz.org/doc/Release" .
-            }
-            OPTIONAL { ?album nmm:albumArtist ?album_artist . }
-            FILTER (
-                tracker:id(?album) = %(album_id)s
-            )
-            %(location_filter)s
         }
         """.replace("\n", " ").strip() % {
-                'album_id': album_id,
-                'location_filter': self._tracker_wrapper.location_filter()
+            'media_type': int(Grl.MediaType.CONTAINER),
+            'album_id': album_id,
+            'location_filter': self._tracker_wrapper.location_filter()
         }
 
         return query
@@ -1206,40 +1217,51 @@ class GrlTrackerWrapper(GObject.GObject):
     def _get_album_for_song_id(self, song_id):
         # See get_album_for_album_id comment.
         query = """
-        SELECT DISTINCT
-            rdf:type(?album)
-            tracker:id(?album) AS ?id
-            tracker:referenceIdentifier(?release_group_id)
-                AS ?mb_release_group_id
-            tracker:referenceIdentifier(?release_id) AS ?mb_release_id
-            tracker:coalesce(nmm:artistName(?album_artist),
-                             nmm:artistName(?song_artist)) AS ?artist
-            nie:title(?album) AS ?album
+        SELECT
+            ?type ?id ?mbReleaseGroup ?mbRelease ?artist ?album
         WHERE {
-            ?song a nmm:MusicPiece ;
-                    nmm:musicAlbum ?album ;
-                    nmm:performer ?song_artist .
-            OPTIONAL {
-                ?album tracker:hasExternalReference ?release_group_id .
-                ?release_group_id tracker:referenceSource
-                    "https://musicbrainz.org/doc/Release_Group" .
+            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+                GRAPH tracker:Audio {
+                    SELECT DISTINCT
+                        %(media_type)s AS ?type
+                        ?album AS ?id
+                        tracker:referenceIdentifier(?release_group_id)
+                            AS ?mbReleaseGroup
+                        tracker:referenceIdentifier(?release_id) AS ?mbRelease
+                        tracker:coalesce(nmm:artistName(?album_artist),
+                                         nmm:artistName(?song_artist))
+                            AS ?artist
+                        nie:title(?album) AS ?album
+                    WHERE {
+                        ?song a nmm:MusicPiece ;
+                                nmm:musicAlbum ?album ;
+                                nmm:performer ?song_artist .
+                        OPTIONAL {
+                            ?album tracker:hasExternalReference
+                                ?release_group_id .
+                            ?release_group_id tracker:referenceSource
+                                "https://musicbrainz.org/doc/Release_Group" .
+                        }
+                        OPTIONAL {
+                            ?album tracker:hasExternalReference ?release_id .
+                            ?release_id tracker:referenceSource
+                                "https://musicbrainz.org/doc/Release" .
+                        }
+                        OPTIONAL { ?album nmm:albumArtist ?album_artist . }
+                        FILTER (
+                            ?song = <%(song_id)s>
+                        )
+                        FILTER (
+                            NOT EXISTS { ?song a nmm:Video }
+                            && NOT EXISTS { ?song a nmm:Playlist }
+                        )
+                        %(location_filter)s
+                    }
+                }
             }
-            OPTIONAL {
-                ?album tracker:hasExternalReference ?release_id .
-                ?release_id tracker:referenceSource
-                    "https://musicbrainz.org/doc/Release" .
-            }
-            OPTIONAL { ?album nmm:albumArtist ?album_artist . }
-            FILTER (
-                tracker:id(?song) = %(song_id)s
-            )
-            FILTER (
-                NOT EXISTS { ?song a nmm:Video }
-                && NOT EXISTS { ?song a nmm:Playlist }
-            )
-            %(location_filter)s
         }
         """.replace("\n", " ").strip() % {
+            'media_type': int(Grl.MediaType.CONTAINER),
             'location_filter': self._tracker_wrapper.location_filter(),
             'song_id': song_id
         }
