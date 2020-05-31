@@ -688,25 +688,34 @@ class GrlTrackerWrapper(GObject.GObject):
         artist_id = media.get_id()
 
         query = """
-        SELECT DISTINCT
-            rdf:type(?album)
-            tracker:id(?album) AS ?id
-            nie:title(?album) AS ?title
-            nie:contentCreated(?song) AS ?date
+        SELECT
+            ?type ?id ?title ?creationDate
         WHERE {
-            ?album a nmm:MusicAlbum .
-            OPTIONAL { ?album  nmm:albumArtist ?album_artist . }
-            ?song a nmm:MusicPiece;
-                    nmm:musicAlbum ?album;
-                    nmm:performer ?artist .
-            FILTER ( tracker:id(?album_artist) = %(artist_id)s
-                     || tracker:id(?artist) = %(artist_id)s )
-            %(location_filter)s
+            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+                GRAPH tracker:Audio {
+                    SELECT DISTINCT
+                        %(media_type)s AS ?type
+                        ?album AS ?id
+                        nie:title(?album) AS ?title
+                        nie:contentCreated(?song) AS ?creationDate
+                    WHERE {
+                        ?album a nmm:MusicAlbum .
+                        OPTIONAL { ?album  nmm:albumArtist ?album_artist . }
+                        ?song a nmm:MusicPiece;
+                              nmm:musicAlbum ?album;
+                              nmm:performer ?artist .
+                        FILTER ( ?album_artist = <%(artist_id)s>
+                                 || ?artist = <%(artist_id)s> )
+                        %(location_filter)s
+                    }
+                   GROUP BY ?album
+                   ORDER BY ?creationDate ?album
+                }
+            }
         }
-        GROUP BY ?album
-        ORDER BY ?date ?album
         """.replace('\n', ' ').strip() % {
-            'artist_id': int(artist_id),
+            'media_type': int(Grl.MediaType.CONTAINER),
+            'artist_id': artist_id,
             'location_filter': self._tracker_wrapper.location_filter()
         }
 
