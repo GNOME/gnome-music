@@ -778,67 +778,86 @@ class GrlTrackerWrapper(GObject.GObject):
         album_id = media.get_id()
 
         query = """
-        SELECT DISTINCT
-            rdf:type(?song)
-            ?song AS ?tracker_urn
-            tracker:id(?song) AS ?id
-            tracker:referenceIdentifier(?recording_id) AS ?mb_recording_id
-            tracker:referenceIdentifier(?track_id) AS ?mb_track_id
-            nie:url(?song) AS ?url
-            nie:title(?song) AS ?title
-            nmm:artistName(nmm:performer(?song)) AS ?artist
-            tracker:referenceIdentifier(?artist_id) AS ?mb_artist_id
-            nie:title(nmm:musicAlbum(?song)) AS ?album
-            tracker:referenceIdentifier(?release_id) AS ?mb_release_id
-            tracker:referenceIdentifier(?release_group_id)
-                AS ?mb_release_group_id
-            ?album_artist AS ?album_artist
-            nfo:duration(?song) AS ?duration
-            nmm:trackNumber(?song) AS ?track_number
-            nmm:setNumber(nmm:musicAlbumDisc(?song)) AS ?album_disc_number
-            ?tag AS ?favourite
-            nie:usageCounter(?song) AS ?play_count
-            YEAR(?date) AS ?creation_date
+        SELECT
+            ?type ?id ?mbRecording ?mbTrack ?url ?title
+            ?artist ?mbArtist ?album ?mbRelease ?mbReleaseGroup
+            ?albumArtist ?duration ?trackNumber ?albumDiscNumber
+            ?favorite ?playCount ?creationDate
         WHERE {
-            ?song a nmm:MusicPiece ;
-                    nmm:musicAlbum ?album .
-            OPTIONAL { ?song nie:contentCreated ?date . }
-            OPTIONAL {
-                ?song tracker:hasExternalReference ?recording_id .
-                ?recording_id tracker:referenceSource
-                    "https://musicbrainz.org/doc/Recording" .
+            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+                GRAPH tracker:Audio {
+                    SELECT DISTINCT
+                        %(media_type)s AS ?type
+                        ?song AS ?id
+                        tracker:referenceIdentifier(?recording_id)
+                            AS ?mbRecording
+                        tracker:referenceIdentifier(?track_id) AS ?mbTrack
+                        nie:isStoredAs(?song) AS ?url
+                        nie:title(?song) AS ?title
+                        nmm:artistName(nmm:performer(?song)) AS ?artist
+                        tracker:referenceIdentifier(?artist_id) AS ?mbArtist
+                        nie:title(nmm:musicAlbum(?song)) AS ?album
+                        tracker:referenceIdentifier(?release_id) AS ?mbRelease
+                        tracker:referenceIdentifier(?release_group_id)
+                            AS ?mbReleaseGroup
+                        ?album_artist AS ?albumArtist
+                        nfo:duration(?song) AS ?duration
+                        nmm:trackNumber(?song) AS ?trackNumber
+                        nmm:setNumber(nmm:musicAlbumDisc(?song))
+                            AS ?albumDiscNumber
+                        ?tag AS ?favorite
+                        nie:usageCounter(?song) AS ?playCount
+                        YEAR(?date) AS ?creationDate
+                    WHERE {
+                        ?song a nmm:MusicPiece ;
+                                nmm:musicAlbum ?album .
+                        OPTIONAL { ?song nie:contentCreated ?date . }
+                        OPTIONAL {
+                            ?song tracker:hasExternalReference ?recording_id .
+                            ?recording_id tracker:referenceSource
+                                "https://musicbrainz.org/doc/Recording" .
+                        }
+                        OPTIONAL {
+                            ?song tracker:hasExternalReference ?track_id .
+                            ?track_id tracker:referenceSource
+                                "https://musicbrainz.org/doc/Track" .
+                        }
+                        OPTIONAL { ?album nmm:albumArtist/
+                                          nmm:artistName ?album_artist . }
+                        OPTIONAL {
+                            ?album tracker:hasExternalReference ?release_id .
+                            ?release_id tracker:referenceSource
+                                "https://musicbrainz.org/doc/Release" .
+                        }
+                        OPTIONAL {
+                            ?album tracker:hasExternalReference
+                                ?release_group_id .
+                            ?release_group_id tracker:referenceSource
+                                "https://musicbrainz.org/doc/Release_Group" .
+                        }
+                        OPTIONAL {
+                            ?song nmm:performer ?artist .
+                            ?artist tracker:hasExternalReference ?artist_id .
+                            ?artist_id tracker:referenceSource
+                                "https://musicbrainz.org/doc/Artist" .
+                        }
+                        OPTIONAL {
+                            ?song nao:hasTag ?tag .
+                            FILTER (?tag = nao:predefined-tag-favorite)
+                        }
+                        FILTER (
+                            ?album = <%(album_id)s> &&
+                            nmm:setNumber(nmm:musicAlbumDisc(?song)) =
+                                %(disc_nr)s
+                        )
+                        %(location_filter)s
+                    }
+                    ORDER BY ?trackNumber
+                }
             }
-            OPTIONAL {
-                ?song tracker:hasExternalReference ?track_id .
-                ?track_id tracker:referenceSource
-                    "https://musicbrainz.org/doc/Track" .
-            }
-            OPTIONAL { ?album nmm:albumArtist/nmm:artistName ?album_artist . }
-            OPTIONAL {
-                ?album tracker:hasExternalReference ?release_id .
-                ?release_id tracker:referenceSource
-                    "https://musicbrainz.org/doc/Release" .
-            }
-            OPTIONAL {
-                ?album tracker:hasExternalReference ?release_group_id .
-                ?release_group_id tracker:referenceSource
-                    "https://musicbrainz.org/doc/Release_Group" .
-            }
-            OPTIONAL {
-                ?song nmm:performer ?artist .
-                ?artist tracker:hasExternalReference ?artist_id .
-                ?artist_id tracker:referenceSource
-                    "https://musicbrainz.org/doc/Artist" .
-            }
-            OPTIONAL { ?song nao:hasTag ?tag .
-                       FILTER (?tag = nao:predefined-tag-favorite) } .
-            FILTER ( tracker:id(?album) = %(album_id)s
-                     && nmm:setNumber(nmm:musicAlbumDisc(?song)) = %(disc_nr)s
-            )
-            %(location_filter)s
         }
-        ORDER BY ?track_number
         """.replace('\n', ' ').strip() % {
+            'media_type': int(Grl.MediaType.AUDIO),
             'album_id': album_id,
             'disc_nr': disc_nr,
             'location_filter': self._tracker_wrapper.location_filter()
