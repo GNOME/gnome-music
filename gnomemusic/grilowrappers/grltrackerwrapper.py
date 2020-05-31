@@ -690,31 +690,49 @@ class GrlTrackerWrapper(GObject.GObject):
         album_id = media.get_id()
 
         query = """
-        SELECT DISTINCT
-            rdf:type(?song)
-            ?song AS ?tracker_urn
-            tracker:id(?song) AS ?id
-            nie:url(?song) AS ?url
-            nie:title(?song) AS ?title
-            nmm:artistName(nmm:performer(?song)) AS ?artist
-            nie:title(nmm:musicAlbum(?song)) AS ?album
-            nfo:duration(?song) AS ?duration
-            nmm:trackNumber(?song) AS ?track_number
-            nmm:setNumber(nmm:musicAlbumDisc(?song)) AS ?album_disc_number
-            ?tag AS ?favourite
-            nie:usageCounter(?song) AS ?play_count
+        SELECT
+            ?type ?id ?url ?title
+            ?artist ?album
+            ?duration ?trackNumber ?albumDiscNumber
+            ?creationDate
+            nie:usageCounter(?id) AS ?playCount
+            ?tag AS ?favorite
         WHERE {
-            ?song a nmm:MusicPiece ;
-                    nmm:musicAlbum ?album .
-            OPTIONAL { ?song nao:hasTag ?tag .
-                       FILTER (?tag = nao:predefined-tag-favorite) } .
-            FILTER ( tracker:id(?album) = %(album_id)s
-                     && nmm:setNumber(nmm:musicAlbumDisc(?song)) = %(disc_nr)s
-            )
-            %(location_filter)s
+            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+                GRAPH tracker:Audio {
+                    SELECT DISTINCT
+                        %(media_type)s AS ?type
+                        ?song AS ?id
+                        nie:isStoredAs(?song) AS ?url
+                        nie:title(?song) AS ?title
+                        nmm:artistName(nmm:artist(?song)) AS ?artist
+                        nie:title(nmm:musicAlbum(?song)) AS ?album
+                        nfo:duration(?song) AS ?duration
+                        nmm:trackNumber(?song) AS ?trackNumber
+                        nmm:setNumber(nmm:musicAlbumDisc(?song))
+                            AS ?albumDiscNumber
+                        YEAR(?date) AS ?creationDate
+                    WHERE {
+                        ?song a nmm:MusicPiece ;
+                                nmm:musicAlbum ?album .
+                        OPTIONAL { ?song nie:contentCreated ?date . }
+                        FILTER (
+                            ?album = <%(album_id)s> &&
+                            nmm:setNumber(nmm:musicAlbumDisc(?song)) =
+                                %(disc_nr)s
+                        )
+                        %(location_filter)s
+                    }
+                    ORDER BY ?trackNumber
+                }
+            }
+            OPTIONAL {
+                ?id nao:hasTag ?tag .
+                FILTER (?tag = nao:predefined-tag-favorite)
+            }
         }
-        ORDER BY ?track_number
         """.replace('\n', ' ').strip() % {
+            "media_type": int(Grl.MediaType.AUDIO),
             'album_id': album_id,
             'disc_nr': disc_nr,
             'location_filter': self._tracker_wrapper.location_filter()
