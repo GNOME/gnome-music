@@ -95,6 +95,10 @@ class CoreGrilo(GObject.GObject):
         config.set_api_key(self._acoustid_api_key)
         self._registry.add_config(config)
 
+        config = Grl.Config.new("grl-tracker", "grl-tracker3-source")
+        config.set_string("store-path", self._tracker_wrapper.cache_directory())
+        self._registry.add_config(config)
+
         self._registry.connect('source-added', self._on_source_added)
         self._registry.connect('source-removed', self._on_source_removed)
 
