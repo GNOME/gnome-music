@@ -721,19 +721,29 @@ class GrlTrackerWrapper(GObject.GObject):
         album_id = media.get_id()
 
         query = """
-        SELECT DISTINCT
-            rdf:type(?song)
-            tracker:id(?album) AS ?id
-            nmm:setNumber(nmm:musicAlbumDisc(?song)) as ?album_disc_number
+        SELECT
+            ?type ?id ?albumDiscNumber
         WHERE {
-            ?song a nmm:MusicPiece;
-                    nmm:musicAlbum ?album .
-            FILTER ( tracker:id(?album) = %(album_id)s )
-            %(location_filter)s
+            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+                GRAPH tracker:Audio {
+                    SELECT DISTINCT
+                        %(media_type)s AS ?type
+                        ?album AS ?id
+                        nmm:setNumber(nmm:musicAlbumDisc(?song))
+                            AS ?albumDiscNumber
+                    WHERE {
+                        ?song a nmm:MusicPiece;
+                                nmm:musicAlbum ?album .
+                        FILTER ( ?album = <%(album_id)s> )
+                        %(location_filter)s
+                    }
+                    ORDER BY ?albumDiscNumber
+                }
+            }
         }
-        ORDER BY ?album_disc_number
         """.replace('\n', ' ').strip() % {
-            'album_id': int(album_id),
+            'media_type': int(Grl.MediaType.CONTAINER),
+            'album_id': album_id,
             'location_filter': self._tracker_wrapper.location_filter()
         }
 
