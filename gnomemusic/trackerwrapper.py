@@ -23,7 +23,7 @@
 
 from enum import IntEnum
 
-from gi.repository import GLib, GObject, Tracker
+from gi.repository import Gio, GLib, GObject, Tracker
 
 from gnomemusic.musiclogger import MusicLogger
 
@@ -48,8 +48,11 @@ class TrackerWrapper(GObject.GObject):
         self._tracker_available = TrackerState.UNAVAILABLE
 
         try:
-            self._tracker = Tracker.SparqlConnection.bus_new(
-                "org.freedesktop.Tracker3.Miner.Files", None, None)
+            self._tracker = Tracker.SparqlConnection.new(
+                Tracker.SparqlConnectionFlags.NONE,
+                Gio.File.new_for_path(self._cache_directory()),
+                Tracker.sparql_get_ontology_nepomuk(),
+                None)
         except GLib.Error as error:
             self._log.warning(
                 "Error: {}, {}".format(error.domain, error.message))
@@ -77,6 +80,16 @@ class TrackerWrapper(GObject.GObject):
             self._tracker_available = TrackerState.OUTDATED
 
         self.notify("tracker-available")
+
+    def _cache_directory(self):
+        """Get directory which contains Music private data.
+
+        :returns: private store path
+        :rtype: str
+        """
+        return GLib.build_pathv(
+            GLib.DIR_SEPARATOR_S,
+            [GLib.get_user_cache_dir(), "gnome-music", "db"])
 
     @GObject.Property(type=object, flags=GObject.ParamFlags.READABLE)
     def tracker(self):
