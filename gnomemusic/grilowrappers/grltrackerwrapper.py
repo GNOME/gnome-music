@@ -175,24 +175,36 @@ class GrlTrackerWrapper(GObject.GObject):
 
         query = """
         SELECT
-            rdf:type(?album)
-            tracker:id(?album) AS ?id
-            nie:title(?album) AS ?title
-            ?composer AS ?composer
-            ?album_artist AS ?album_artist
-            nmm:artistName(?performer) AS ?artist
-            nie:url(?song) AS ?url
-            YEAR(MAX(nie:contentCreated(?song))) AS ?creation_date
+            ?type ?id ?title ?composer ?albumArtist
+            ?artist ?url ?creationDate
         WHERE {
-            ?album a nmm:MusicAlbum .
-            ?song a nmm:MusicPiece ;
-                    nmm:musicAlbum ?album ;
-                    nmm:performer ?performer .
-            OPTIONAL { ?song nmm:composer/nmm:artistName ?composer . }
-            OPTIONAL { ?album nmm:albumArtist/nmm:artistName ?album_artist . }
-            %(location_filter)s
-        } GROUP BY ?album
+            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+                GRAPH tracker:Audio {
+                    SELECT
+                        %(media_type)s AS ?type
+                        ?album AS ?id
+                        nie:title(?album) AS ?title
+                        ?composer
+                        ?albumArtist
+                        nmm:artistName(?performer) AS ?artist
+                        nie:isStoredAs(?song) AS ?url
+                        YEAR(MAX(nie:contentCreated(?song))) AS ?creationDate
+                    WHERE {
+                        ?album a nmm:MusicAlbum .
+                        ?song a nmm:MusicPiece ;
+                                nmm:musicAlbum ?album ;
+                                nmm:performer ?performer .
+                        OPTIONAL { ?song nmm:composer/
+                                         nmm:artistName ?composer . }
+                        OPTIONAL { ?album nmm:albumArtist/
+                                          nmm:artistName ?albumArtist . }
+                        %(location_filter)s
+                    } GROUP BY ?album
+                }
+            }
+        }
         """.replace('\n', ' ').strip() % {
+            'media_type': int(Grl.MediaType.CONTAINER),
             'location_filter': self._tracker_wrapper.location_filter()
         }
 
@@ -573,27 +585,40 @@ class GrlTrackerWrapper(GObject.GObject):
 
         query = """
         SELECT
-            rdf:type(?album)
-            tracker:id(?album) AS ?id
-            nie:title(?album) AS ?title
-            ?composer AS ?composer
-            ?album_artist AS ?album_artist
-            nmm:artistName(?performer) AS ?artist
-            nie:url(?song) AS ?url
-            YEAR(MAX(nie:contentCreated(?song))) AS ?creation_date
+            ?type ?id ?title ?composer ?albumArtist
+            ?artist ?url ?creationDate
         WHERE
         {
-            ?album a nmm:MusicAlbum .
-            ?song a nmm:MusicPiece ;
-                    nmm:musicAlbum ?album ;
-                    nmm:performer ?performer .
-            OPTIONAL { ?song nmm:composer/nmm:artistName ?composer . }
-            OPTIONAL { ?album nmm:albumArtist/nmm:artistName ?album_artist . }
-            %(location_filter)s
+            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+                GRAPH tracker:Audio {
+                    SELECT
+                        %(media_type)s AS ?type
+                        ?album AS ?id
+                        nie:title(?album) AS ?title
+                        ?composer
+                        ?albumArtist
+                        nmm:artistName(?performer) AS ?artist
+                        nie:isStoredAs(?song) AS ?url
+                        YEAR(MAX(nie:contentCreated(?song))) AS ?creationDate
+                    WHERE
+                    {
+                        ?album a nmm:MusicAlbum .
+                        ?song a nmm:MusicPiece ;
+                                nmm:musicAlbum ?album ;
+                                nmm:performer ?performer .
+                        OPTIONAL { ?song nmm:composer/
+                                         nmm:artistName ?composer . }
+                        OPTIONAL { ?album nmm:albumArtist/
+                                          nmm:artistName ?albumArtist . }
+                        %(location_filter)s
+                    }
+                    GROUP BY ?album
+                    ORDER BY ?title ?albumArtist ?artist ?creationDate
+                }
+            }
         }
-        GROUP BY ?album
-        ORDER BY ?title ?album_artist ?artist ?creation_date
         """.replace('\n', ' ').strip() % {
+            'media_type': int(Grl.MediaType.CONTAINER),
             'location_filter': self._tracker_wrapper.location_filter()
         }
 
