@@ -931,39 +931,51 @@ class GrlTrackerWrapper(GObject.GObject):
         self._window.notifications_popup.push_loading()
 
         query = """
-        SELECT DISTINCT
-            rdf:type(?artist)
-            COALESCE(tracker:id(?album_artist), tracker:id(?artist)) AS ?id
+        SELECT
+            ?type ?id
         WHERE {
-            ?song a nmm:MusicPiece ;
-                    nmm:musicAlbum ?album ;
-                    nmm:performer ?artist .
-            OPTIONAL {
-                ?album a nmm:MusicAlbum ;
-                         nmm:albumArtist ?album_artist .
+            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+                GRAPH tracker:Audio {
+                    SELECT DISTINCT
+                        %(media_type)s AS ?type
+                        COALESCE(?album_artist, ?artist) AS ?id
+                    WHERE {
+                        ?song a nmm:MusicPiece ;
+                                nmm:musicAlbum ?album ;
+                                nmm:performer ?artist .
+                        OPTIONAL {
+                            ?album a nmm:MusicAlbum ;
+                                     nmm:albumArtist ?album_artist .
+                        }
+                        BIND(COALESCE(nmm:artistName(?album_artist),
+                                      nmm:artistName(?artist)) AS ?artist_bind)
+                        BIND(tracker:normalize(nmm:artistName(
+                                 nmm:albumArtist(?artist_bind)), 'nfkd')
+                             AS ?match1) .
+                        BIND(tracker:normalize(
+                                 nmm:artistName(nmm:performer(?song)), 'nfkd')
+                             AS ?match2) .
+                        BIND(tracker:normalize(nmm:composer(?song), 'nfkd')
+                             AS ?match4) .
+                        FILTER (
+                            CONTAINS(tracker:case-fold(
+                                tracker:unaccent(?match1)), "%(name)s")
+                            || CONTAINS(tracker:case-fold(?match1), "%(name)s")
+                            || CONTAINS(tracker:case-fold(
+                                tracker:unaccent(?match2)), "%(name)s")
+                            || CONTAINS(tracker:case-fold(?match2), "%(name)s")
+                            || CONTAINS(tracker:case-fold(
+                                tracker:unaccent(?match4)), "%(name)s")
+                            || CONTAINS(tracker:case-fold(?match4), "%(name)s")
+                        )
+                        %(location_filter)s
+                    }
+                    LIMIT 50
+                }
             }
-            BIND(COALESCE(nmm:artistName(?album_artist),
-                          nmm:artistName(?artist)) AS ?artist_bind)
-            BIND(tracker:normalize(nmm:artistName(
-                nmm:albumArtist(?artist_bind)), 'nfkd') AS ?match1) .
-            BIND(tracker:normalize(
-                nmm:artistName(nmm:performer(?song)), 'nfkd') AS ?match2) .
-            BIND(tracker:normalize(nmm:composer(?song), 'nfkd') AS ?match4) .
-            FILTER (
-                CONTAINS(tracker:case-fold(
-                    tracker:unaccent(?match1)), "%(name)s")
-                || CONTAINS(tracker:case-fold(?match1), "%(name)s")
-                || CONTAINS(tracker:case-fold(
-                    tracker:unaccent(?match2)), "%(name)s")
-                || CONTAINS(tracker:case-fold(?match2), "%(name)s")
-                || CONTAINS(tracker:case-fold(
-                    tracker:unaccent(?match4)), "%(name)s")
-                || CONTAINS(tracker:case-fold(?match4), "%(name)s")
-            )
-            %(location_filter)s
         }
-        LIMIT 50
         """.replace('\n', ' ').strip() % {
+            'media_type': int(Grl.MediaType.AUDIO),
             'location_filter': self._tracker_wrapper.location_filter(),
             'name': term
         }
@@ -994,31 +1006,43 @@ class GrlTrackerWrapper(GObject.GObject):
         self._window.notifications_popup.push_loading()
 
         query = """
-        SELECT DISTINCT
-            rdf:type(nmm:musicAlbum(?song))
-            tracker:id(nmm:musicAlbum(?song)) AS ?id
+        SELECT
+            ?type ?id
         WHERE {
-            ?song a nmm:MusicPiece .
-            BIND(tracker:normalize(
-                nie:title(nmm:musicAlbum(?song)), 'nfkd') AS ?match1) .
-            BIND(tracker:normalize(
-                nmm:artistName(nmm:performer(?song)), 'nfkd') AS ?match2) .
-            BIND(tracker:normalize(nmm:composer(?song), 'nfkd') AS ?match4) .
-            FILTER (
-                CONTAINS(tracker:case-fold(
-                    tracker:unaccent(?match1)), "%(name)s")
-                || CONTAINS(tracker:case-fold(?match1), "%(name)s")
-                || CONTAINS(tracker:case-fold(
-                    tracker:unaccent(?match2)), "%(name)s")
-                || CONTAINS(tracker:case-fold(?match2), "%(name)s")
-                || CONTAINS(tracker:case-fold(
-                    tracker:unaccent(?match4)), "%(name)s")
-                || CONTAINS(tracker:case-fold(?match4), "%(name)s")
-            )
-            %(location_filter)s
+            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+                GRAPH tracker:Audio {
+                    SELECT DISTINCT
+                        %(media_type)s AS ?type
+                        nmm:musicAlbum(?song) AS ?id
+                    WHERE {
+                        ?song a nmm:MusicPiece .
+                        BIND(tracker:normalize(
+                                 nie:title(nmm:musicAlbum(?song)), 'nfkd')
+                             AS ?match1) .
+                        BIND(tracker:normalize(
+                                 nmm:artistName(nmm:performer(?song)), 'nfkd')
+                             AS ?match2) .
+                        BIND(tracker:normalize(nmm:composer(?song), 'nfkd')
+                             AS ?match4) .
+                        FILTER (
+                            CONTAINS(tracker:case-fold(
+                                tracker:unaccent(?match1)), "%(name)s")
+                            || CONTAINS(tracker:case-fold(?match1), "%(name)s")
+                            || CONTAINS(tracker:case-fold(
+                                tracker:unaccent(?match2)), "%(name)s")
+                            || CONTAINS(tracker:case-fold(?match2), "%(name)s")
+                            || CONTAINS(tracker:case-fold(
+                                tracker:unaccent(?match4)), "%(name)s")
+                            || CONTAINS(tracker:case-fold(?match4), "%(name)s")
+                        )
+                        %(location_filter)s
+                    }
+                    LIMIT 50
+                }
+            }
         }
-        LIMIT 50
         """.replace('\n', ' ').strip() % {
+            'media_type': int(Grl.MediaType.CONTAINER),
             'location_filter': self._tracker_wrapper.location_filter(),
             'name': term
         }
@@ -1049,37 +1073,48 @@ class GrlTrackerWrapper(GObject.GObject):
         self._window.notifications_popup.push_loading()
 
         query = """
-        SELECT DISTINCT
-            rdf:type(?song)
-            tracker:id(?song) AS ?id
+        SELECT
+            ?type ?id
         WHERE {
-            ?song a nmm:MusicPiece .
-            BIND(tracker:normalize(
-                nie:title(nmm:musicAlbum(?song)), 'nfkd') AS ?match1) .
-            BIND(tracker:normalize(
-                nmm:artistName(nmm:performer(?song)), 'nfkd') AS ?match2) .
-            BIND(tracker:normalize(
-                nie:title(?song), 'nfkd') AS ?match3) .
-            BIND(
-                tracker:normalize(nmm:composer(?song), 'nfkd') AS ?match4) .
-            FILTER (
-                CONTAINS(tracker:case-fold(
-                    tracker:unaccent(?match1)), "%(name)s")
-                || CONTAINS(tracker:case-fold(?match1), "%(name)s")
-                || CONTAINS(tracker:case-fold(
-                    tracker:unaccent(?match2)), "%(name)s")
-                || CONTAINS(tracker:case-fold(?match2), "%(name)s")
-                || CONTAINS(tracker:case-fold(
-                    tracker:unaccent(?match3)), "%(name)s")
-                || CONTAINS(tracker:case-fold(?match3), "%(name)s")
-                || CONTAINS(tracker:case-fold(
-                    tracker:unaccent(?match4)), "%(name)s")
-                || CONTAINS(tracker:case-fold(?match4), "%(name)s")
-            )
-            %(location_filter)s
+            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+                GRAPH tracker:Audio {
+                    SELECT DISTINCT
+                        %(media_type)s AS ?type
+                        ?song AS ?id
+                    WHERE {
+                        ?song a nmm:MusicPiece .
+                        BIND(tracker:normalize(
+                                 nie:title(nmm:musicAlbum(?song)), 'nfkd')
+                             AS ?match1) .
+                        BIND(tracker:normalize(
+                                 nmm:artistName(nmm:performer(?song)), 'nfkd')
+                             AS ?match2) .
+                        BIND(tracker:normalize(
+                            nie:title(?song), 'nfkd') AS ?match3) .
+                        BIND(tracker:normalize(nmm:composer(?song), 'nfkd')
+                             AS ?match4) .
+                        FILTER (
+                            CONTAINS(tracker:case-fold(
+                                tracker:unaccent(?match1)), "%(name)s")
+                            || CONTAINS(tracker:case-fold(?match1), "%(name)s")
+                            || CONTAINS(tracker:case-fold(
+                                tracker:unaccent(?match2)), "%(name)s")
+                            || CONTAINS(tracker:case-fold(?match2), "%(name)s")
+                            || CONTAINS(tracker:case-fold(
+                                tracker:unaccent(?match3)), "%(name)s")
+                            || CONTAINS(tracker:case-fold(?match3), "%(name)s")
+                            || CONTAINS(tracker:case-fold(
+                                tracker:unaccent(?match4)), "%(name)s")
+                            || CONTAINS(tracker:case-fold(?match4), "%(name)s")
+                        )
+                        %(location_filter)s
+                    }
+                    LIMIT 50
+                }
+            }
         }
-        LIMIT 50
         """.replace('\n', ' ').strip() % {
+            'media_type': int(Grl.MediaType.AUDIO),
             'location_filter': self._tracker_wrapper.location_filter(),
             'name': term
         }
