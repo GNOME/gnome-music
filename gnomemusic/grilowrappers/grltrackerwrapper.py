@@ -248,24 +248,32 @@ class GrlTrackerWrapper(GObject.GObject):
         artist_ids = {}
 
         query = """
-        SELECT
-            rdf:type(?artist)
-            COALESCE(tracker:id(?album_artist), tracker:id(?artist)) AS ?id
-            ?artist_bind AS ?artist
+        SELECT ?type ?id ?artist
         WHERE {
-            ?song a nmm:MusicPiece;
-                    nmm:musicAlbum ?album;
-                    nmm:performer ?artist .
-            OPTIONAL {
-                ?album a nmm:MusicAlbum;
-                         nmm:albumArtist ?album_artist .
+            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+                GRAPH tracker:Audio {
+                    SELECT
+                        %(media_type)s AS ?type
+                        (COALESCE(?album_artist, ?artist) AS ?id)
+                        ?artist_bind AS ?albumArtist
+                    WHERE {
+                        ?song a nmm:MusicPiece;
+                                nmm:musicAlbum ?album;
+                                nmm:performer ?artist .
+                        OPTIONAL {
+                            ?album a nmm:MusicAlbum;
+                                     nmm:albumArtist ?album_artist .
+                        }
+                        BIND(COALESCE(nmm:artistName(?album_artist),
+                                      nmm:artistName(?artist)) AS ?artist_bind)
+                        %(location_filter)s
+                    }
+                    GROUP BY ?artist_bind
+                }
             }
-            BIND(COALESCE(nmm:artistName(?album_artist),
-                          nmm:artistName(?artist)) AS ?artist_bind)
-            %(location_filter)s
         }
-        GROUP BY ?artist_bind
         """.replace('\n', ' ').strip() % {
+            'media_type': int(Grl.MediaType.CONTAINER),
             'location_filter': self._tracker_wrapper.location_filter()
         }
 
@@ -651,25 +659,33 @@ class GrlTrackerWrapper(GObject.GObject):
                 artists_added.clear()
 
         query = """
-        SELECT
-            rdf:type(?artist)
-            COALESCE(tracker:id(?album_artist), tracker:id(?artist)) AS ?id
-            ?artist_bind AS ?artist
+        SELECT ?type ?id ?albumArtist
         WHERE {
-            ?song a nmm:MusicPiece;
-                    nmm:musicAlbum ?album;
-                    nmm:performer ?artist .
-            OPTIONAL {
-                ?album a nmm:MusicAlbum;
-                         nmm:albumArtist ?album_artist .
+            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+                GRAPH tracker:Audio {
+                    SELECT
+                       %(media_type)s AS ?type
+                       (COALESCE(?album_artist, ?artist) AS ?id)
+                       ?artist_bind AS ?albumArtist
+                    WHERE {
+                        ?song a nmm:MusicPiece;
+                                nmm:musicAlbum ?album;
+                                nmm:performer ?artist .
+                        OPTIONAL {
+                            ?album a nmm:MusicAlbum;
+                                     nmm:albumArtist ?album_artist .
+                        }
+                        BIND(COALESCE(nmm:artistName(?album_artist),
+                                      nmm:artistName(?artist)) AS ?artist_bind)
+                        %(location_filter)s
+                    }
+                    GROUP BY ?artist_bind
+                    ORDER BY ?artist_bind
+                }
             }
-            BIND(COALESCE(nmm:artistName(?album_artist),
-                          nmm:artistName(?artist)) AS ?artist_bind)
-            %(location_filter)s
         }
-        GROUP BY ?artist_bind
-        ORDER BY ?artist_bind
         """.replace('\n', ' ').strip() % {
+            'media_type': int(Grl.MediaType.CONTAINER),
             'location_filter': self._tracker_wrapper.location_filter()
         }
 
