@@ -1022,42 +1022,53 @@ class GrlTrackerWrapper(GObject.GObject):
         # only that key for retrieval.
 
         if song:
-            filter_clause = "tracker:id(?song) = {}".format(str(media_id))
+            filter_clause = "?song = <{}>".format(str(media_id))
         else:
-            filter_clause = "tracker:id(?album) = {}".format(str(media_id))
+            filter_clause = "?album = <{}>".format(str(media_id))
 
         query = """
-        SELECT DISTINCT
-            rdf:type(?album)
-            tracker:id(?album) AS ?id
-            tracker:referenceIdentifier(?release_group_id)
-                AS ?mb_release_group_id
-            tracker:referenceIdentifier(?release_id) AS ?mb_release_id
-            tracker:coalesce(nmm:artistName(?album_artist),
-                             nmm:artistName(?song_artist)) AS ?artist
-            nie:title(?album) AS ?album
+        SELECT
+            ?type ?id ?mbReleaseGroup ?mbRelease ?artist ?album
         WHERE {
-            ?album a nmm:MusicAlbum .
-            ?song a nmm:MusicPiece ;
-                    nmm:musicAlbum ?album ;
-                    nmm:performer ?song_artist .
-            OPTIONAL {
-                ?album tracker:hasExternalReference ?release_group_id .
-                ?release_group_id tracker:referenceSource
-                    "https://musicbrainz.org/doc/Release_Group" .
+            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+                GRAPH tracker:Audio {
+                    SELECT DISTINCT
+                        %(media_type)s AS ?type
+                        ?album AS ?id
+                        tracker:referenceIdentifier(?release_group_id)
+                            AS ?mbReleaseGroup
+                        tracker:referenceIdentifier(?release_id) AS ?mbRelease
+                        tracker:coalesce(nmm:artistName(?album_artist),
+                                         nmm:artistName(?song_artist))
+                            AS ?artist
+                        nie:title(?album) AS ?album
+                    WHERE {
+                        ?album a nmm:MusicAlbum .
+                        ?song a nmm:MusicPiece ;
+                                nmm:musicAlbum ?album ;
+                                nmm:artist ?song_artist .
+                        OPTIONAL {
+                            ?album tracker:hasExternalReference
+                                ?release_group_id .
+                            ?release_group_id tracker:referenceSource
+                                "https://musicbrainz.org/doc/Release_Group" .
+                        }
+                        OPTIONAL {
+                            ?album tracker:hasExternalReference ?release_id .
+                            ?release_id tracker:referenceSource
+                                "https://musicbrainz.org/doc/Release" .
+                        }
+                        OPTIONAL { ?album nmm:albumArtist ?album_artist . }
+                        FILTER (
+                            %(filter_clause)s
+                        )
+                        %(location_filter)s
+                    }
+                }
             }
-            OPTIONAL {
-                ?album tracker:hasExternalReference ?release_id .
-                ?release_id tracker:referenceSource
-                    "https://musicbrainz.org/doc/Release" .
-            }
-            OPTIONAL { ?album nmm:albumArtist ?album_artist . }
-            FILTER (
-                %(filter_clause)s
-            )
-            %(location_filter)s
         }
         """.replace("\n", " ").strip() % {
+            "media_type": int(Grl.MediaType.CONTAINER),
             "filter_clause": filter_clause,
             "location_filter": self._tracker_wrapper.location_filter()
         }
