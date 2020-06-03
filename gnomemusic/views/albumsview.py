@@ -43,6 +43,8 @@ class AlbumsView(Gtk.Stack):
 
     search_mode_active = GObject.Property(type=bool, default=False)
     selection_mode = GObject.Property(type=bool, default=False)
+    title = GObject.Property(
+        type=str, default=_("Albums"), flags=GObject.ParamFlags.READABLE)
 
     _scrolled_window = Gtk.Template.Child()
     _flowbox = Gtk.Template.Child()
@@ -55,9 +57,7 @@ class AlbumsView(Gtk.Stack):
         """
         super().__init__(transition_type=Gtk.StackTransitionType.CROSSFADE)
 
-        # FIXME: Make these properties.
-        self.name = "albums"
-        self.title = _("Albums")
+        self.props.name = "albums"
 
         self._application = application
         self._window = application.props.window

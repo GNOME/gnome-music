@@ -1,5 +1,5 @@
 project('gnome-music',
-    version: '3.36.0',
+    version: '3.37.2',
     meson_version: '>= 0.46.0'
 )
 
@@ -44,7 +44,7 @@ dependency('libmediaart-2.0', version: '>= 1.9.1')
 dependency('libsoup-2.4')
 dependency('tracker-sparql-2.0', version: '>= 2.3.0')
 dependency('pango', version: '>= 1.44.0')
-dependency('pygobject-3.0', version: '>= 3.29.1')
+dependency('pygobject-3.0', version: '>= 3.36.1')
 dependency('py3cairo', version: '>= 1.14.0')
 dependency('grilo-0.3', version: '>= 0.3.12', fallback: ['grilo', 'libgrl_dep'])
 dependency('grilo-plugins-0.3', version: '>= 0.3.10', fallback: ['grilo-plugins', 'grilo_plugins_dep'])
