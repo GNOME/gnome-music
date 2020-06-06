@@ -238,11 +238,16 @@ class Window(Gtk.ApplicationWindow):
 
         self._headerbar.props.state = HeaderBar.State.MAIN
 
-        self.views[View.ALBUM] = AlbumsView(self._app)
-        self.views[View.ARTIST] = ArtistsView(self._app)
-        self.views[View.SONG] = SongsView(self._app)
-        self.views[View.PLAYLIST] = PlaylistsView(self._app)
-        self.views[View.SEARCH] = SearchView(self._app)
+        if self.views[View.ALBUM] is None:
+            self.views[View.ALBUM] = AlbumsView(self._app)
+        if self.views[View.ARTIST] is None:
+            self.views[View.ARTIST] = ArtistsView(self._app)
+        if self.views[View.SONG] is None:
+            self.views[View.SONG] = SongsView(self._app)
+        if self.views[View.PLAYLIST] is None:
+            self.views[View.PLAYLIST] = PlaylistsView(self._app)
+        if self.views[View.SEARCH] is None:
+            self.views[View.SEARCH] = SearchView(self._app)
 
         # empty view has already been created in self._setup_view starting at
         # View.ALBUM
