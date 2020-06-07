@@ -85,7 +85,7 @@ class AlbumsView(Gtk.Stack):
             "selection-mode", self, "selection-mode",
             GObject.BindingFlags.BIDIRECTIONAL)
 
-        self.add(self._album_widget)
+        self.add_named(self._album_widget, "album widget")
 
         self.connect(
             "notify::search-mode-active", self._on_search_mode_changed)
