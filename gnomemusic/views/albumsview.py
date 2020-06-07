@@ -67,8 +67,8 @@ class AlbumsView(Gtk.Stack):
         self._widget_counter = 1
         self._ctrl_hold = False
 
-        model = self._application.props.coremodel.props.albums_sort
-        self._flowbox.bind_model(model, self._create_widget)
+        self._model = self._application.props.coremodel.props.albums_sort
+        self._flowbox.bind_model(self._model, self._create_widget)
         self._flowbox.set_hadjustment(self._scrolled_window.get_hadjustment())
         self._flowbox.set_vadjustment(self._scrolled_window.get_vadjustment())
         self._flowbox.connect("child-activated", self._on_child_activated)
@@ -250,8 +250,8 @@ class AlbumsView(Gtk.Stack):
                 else:
                     self._album_widget.deselect_all()
             else:
-                for child in self._flowbox.get_children():
-                    child.props.selected = selected
+                for corealbum in self._model:
+                    corealbum.props.selected = selected
 
     def select_all(self):
         self._toggle_all_selection(True)
