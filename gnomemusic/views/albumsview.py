@@ -131,7 +131,8 @@ class AlbumsView(Gtk.Stack):
         covers_col = math.ceil(viewport_size.width / cover_size.width)
         covers_row = math.ceil(viewport_size.height / cover_size.height)
 
-        children = self._flowbox.get_children()
+        # children = self._flowbox.get_children()
+        children = []
         retrieve_list = []
         for i, albumcover in enumerate(children):
             if top_left_cover == albumcover:
