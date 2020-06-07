@@ -3,7 +3,7 @@
   <!-- interface-requires gtk+ 3.10 -->
   <template class="HeaderBar" parent="AdwBin">
     <child>
-      <object class="AdwHeaderBar">
+      <object class="AdwHeaderBar" id="_headerbar">
         <property name="visible">True</property>
         <property name="vexpand">False</property>
         <style>
