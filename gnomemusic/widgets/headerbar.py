@@ -92,6 +92,7 @@ class HeaderBar(Adw.Bin):
     _select_button = Gtk.Template.Child()
     _cancel_button = Gtk.Template.Child()
     _back_button = Gtk.Template.Child()
+    _headerbar = Gtk.Template.Child()
     _menu_button = Gtk.Template.Child()
 
     search_mode_active = GObject.Property(type=bool, default=False)
@@ -214,11 +215,11 @@ class HeaderBar(Adw.Bin):
 
     def _update(self):
         if self.props.selection_mode:
-            self.props.custom_title = self._selection_menu
+            self._headerbar.props.title_widget = self._selection_menu
         elif self.props.state != HeaderBar.State.MAIN:
-            self.props.custom_title = None
+            self._headerbar.props.title_widget = None
         else:
-            self.props.custom_title = self._stack_switcher
+            self._headerbar.props.title_widget = self._stack_switcher
 
         self._back_button.props.visible = (
             not self.props.selection_mode
