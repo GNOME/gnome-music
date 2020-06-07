@@ -163,9 +163,9 @@ class SearchHeaderBar(Gtk.HeaderBar):
 
     def _update(self):
         if self.props.selection_mode:
-            self.props.custom_title = self._selection_menu
+            self.props.title_widget = self._selection_menu
         else:
-            self.props.custom_title = self._entry
+            self.props.title_widget = self._entry
 
     def _on_selection_mode_allowed_changed(self, widget, data):
         if self.props.selection_mode_allowed:
