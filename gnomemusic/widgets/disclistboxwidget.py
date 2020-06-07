@@ -96,7 +96,7 @@ class DiscBox(Gtk.ListBoxRow):
         row = Gtk.ListBoxRow()
         row.props.activatable = False
         row.props.selectable = False
-        row.add(song_widget)
+        row.props.child = song_widget
 
         return row
 
