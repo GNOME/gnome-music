@@ -43,6 +43,7 @@ class SearchHeaderBar(Adw.Bin):
 
     __gtype_name__ = "SearchHeaderBar"
 
+    _headerbar = Gtk.Template.Child()
     _search_button = Gtk.Template.Child()
     _select_button = Gtk.Template.Child()
     _cancel_button = Gtk.Template.Child()
@@ -164,9 +165,9 @@ class SearchHeaderBar(Adw.Bin):
 
     def _update(self):
         if self.props.selection_mode:
-            self.props.custom_title = self._selection_menu
+            self._headerbar.props.title_widget = self._selection_menu
         else:
-            self.props.custom_title = self._entry
+            self._headerbar.props.title_widget = self._entry
 
     def _on_selection_mode_allowed_changed(self, widget, data):
         if self.props.selection_mode_allowed:
