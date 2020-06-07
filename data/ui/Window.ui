@@ -20,7 +20,6 @@
             <child>
               <object class="GtkStack" id="_stack">
                 <property name="can-focus">False</property>
-                <property name="homogeneous">False</property>
                 <property name="transition-duration">100</property>
                 <property name="transition-type">crossfade</property>
                 <property name="visible">True</property>
