@@ -104,16 +104,16 @@ class SearchView(Gtk.Stack):
             "items-changed", self._on_album_model_items_changed)
         self._album_flowbox.bind_model(
             self._album_filter, self._create_album_widget)
-        self._album_flowbox.connect(
-            "size-allocate", self._on_album_flowbox_size_allocate)
+        # self._album_flowbox.connect(
+        #     "size-allocate", self._on_album_flowbox_size_allocate)
         self._on_album_model_items_changed(self._album_filter, 0, 0, 0)
 
         self._artist_filter.connect_after(
             "items-changed", self._on_artist_model_items_changed)
         self._artist_flowbox.bind_model(
             self._artist_filter, self._create_artist_widget)
-        self._artist_flowbox.connect(
-            "size-allocate", self._on_artist_flowbox_size_allocate)
+        # self._artist_flowbox.connect(
+        #     "size-allocate", self._on_artist_flowbox_size_allocate)
         self._on_artist_model_items_changed(self._artist_filter, 0, 0, 0)
 
         self._player = self._application.props.player
@@ -201,7 +201,7 @@ class SearchView(Gtk.Stack):
         def set_child_visible(child):
             child.props.visible = True
 
-        self._album_flowbox.foreach(set_child_visible)
+        # self._album_flowbox.foreach(set_child_visible)
 
     def _on_artist_model_items_changed(self, model, position, removed, added):
         items_found = model.get_n_items() > 0
@@ -216,7 +216,7 @@ class SearchView(Gtk.Stack):
         def set_child_visible(child):
             child.props.visible = True
 
-        self._artist_flowbox.foreach(set_child_visible)
+        # self._artist_flowbox.foreach(set_child_visible)
 
     def _on_model_items_changed(self, model, position, removed, added):
         items_found = model.get_n_items() > 0
