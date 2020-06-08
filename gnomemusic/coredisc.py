@@ -22,6 +22,8 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+import gi
+gi.require_version('Gfm', '0.1')
 from gi.repository import GObject, Gio, Gfm, Grl
 
 import gnomemusic.utils as utils
@@ -91,7 +93,14 @@ class CoreDisc(GObject.GObject):
         def _filter_func(core_song):
             return core_song.props.grlid in album_ids
 
-        def _callback(source, dunno, media, something, something2):
+        def _callback(source, dunno, media, remaining, something2):
+            if remaining == 0:
+                if sorted(album_ids) == sorted(self._old_album_ids):
+                    return
+                model_filter.set_filter_func(_filter_func)
+                self._old_album_ids = album_ids
+                return
+
             if media is None:
                 if sorted(album_ids) == sorted(self._old_album_ids):
                     return
