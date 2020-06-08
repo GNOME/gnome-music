@@ -95,7 +95,7 @@ class PauseOnSuspend(GObject.GObject):
                 "g-signal", self._pause_playing)
         except GLib.Error as e:
             self._log.warning(
-                "Error: Failed to finish proxy call:", e.message)
+                "Error: Failed to finish proxy call: {}".format(e.message))
 
     def _release_lock(self):
         if self._file_descriptor >= 0:
@@ -117,7 +117,7 @@ class PauseOnSuspend(GObject.GObject):
             self._suspend_proxy = proxy.new_finish(result)
         except GLib.Error as e:
             self._log.warning(
-                "Error: Failed to contact logind daemon:", e.message)
+                "Error: Failed to contact logind daemon: {}".format(e.message))
             return
 
     def _pause_playing(self, proxy, sender, signal, parameters):
