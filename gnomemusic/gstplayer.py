@@ -421,4 +421,3 @@ class MissingCodecsDialog(Gtk.MessageDialog):
             "{} is required to play the file, but is not installed.",
             "{} are required to play the file, but are not installed.",
             n_codecs).format(text))
-
