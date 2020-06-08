@@ -59,7 +59,7 @@ class PlaylistsView(Gtk.Box):
         self._untouched_list = True
 
         self._playlist_widget = PlaylistsWidget(application, self)
-        self.add(self._playlist_widget)
+        self.append(self._playlist_widget)
 
         self._sidebar.bind_model(self._model, self._add_playlist_to_sidebar)
 
