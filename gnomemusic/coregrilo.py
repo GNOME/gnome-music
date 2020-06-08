@@ -158,10 +158,11 @@ class CoreGrilo(GObject.GObject):
 
     def _on_source_removed(self, registry, source):
         # FIXME: Handle removing sources.
+        if source.props.source_id in self._wrappers:
+            self._wrappers.pop(source.props.source_id)
         self._log.debug("Removed source {}".format(source.props.source_id))
 
         # FIXME: Only removes search sources atm.
-        self._search_wrappers.pop(source.props.source_id, None)
 
     def get_artist_albums(self, artist, filter_model):
         for wrapper in self._wrappers.values():
@@ -174,6 +175,7 @@ class CoreGrilo(GObject.GObject):
     def populate_album_disc_songs(self, media, discnr, callback):
         for wrapper in self._wrappers.values():
             wrapper.populate_album_disc_songs(media, discnr, callback)
+
 
     def writeback(self, media, key):
         """Store the values associated with the key.
