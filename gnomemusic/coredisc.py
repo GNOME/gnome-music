@@ -22,6 +22,8 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+import gi
+gi.require_version('Gfm', '0.1')
 from gi.repository import GObject, Gio, Gfm, Grl
 
 import gnomemusic.utils as utils
@@ -105,6 +107,9 @@ class CoreDisc(GObject.GObject):
                 return
 
             album_ids.append(media.get_source() + media.get_id())
+            if remaining == 0:
+                model_filter.set_filter_func(_filter_func)
+                return
 
         self._coregrilo.populate_album_disc_songs(media, discnr, _callback)
 
