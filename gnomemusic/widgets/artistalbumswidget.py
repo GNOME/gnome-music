@@ -88,7 +88,7 @@ class ArtistAlbumsWidget(Gtk.ListBox):
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
 
-        row.add(widget)
+        row.props.child = widget
         widget.connect("song-activated", self._song_activated)
 
         return row
