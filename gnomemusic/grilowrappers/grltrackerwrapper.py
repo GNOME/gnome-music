@@ -447,7 +447,7 @@ class GrlTrackerWrapper(GObject.GObject):
                     self._albums_model.get_n_items(), 0, albums_added)
                 self._window.notifications_popup.pop_loading()
                 return
-
+            # print(media.get_url())
             album = CoreAlbum(self._application, media)
             self._album_ids[media.get_id()] = album
             albums_added.append(album)
@@ -880,6 +880,8 @@ class GrlTrackerWrapper(GObject.GObject):
         """Placeholder until we got a better solution
         """
         item_id = coresong.props.media.get_id()
+        if coresong.props.source != "grl-tracker-source":
+            return
 
         if coresong.props.media.is_audio():
             query = self._get_album_for_song_id(item_id)

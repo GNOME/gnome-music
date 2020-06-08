@@ -22,6 +22,8 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+import gi
+gi.require_version('Gfm', '0.1')
 from gi.repository import GObject, Gio, Gfm, Grl
 
 import gnomemusic.utils as utils
