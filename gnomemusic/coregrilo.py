@@ -140,6 +140,10 @@ class CoreGrilo(GObject.GObject):
                     source, self._application, self._tracker_wrapper)
                 self._wrappers[source.props.source_id] = new_wrapper
                 self._log.debug("Adding wrapper {}".format(new_wrapper))
+            else:
+                grl_tracker_wrapper = self._wrappers[source.props.source_id]
+                registry.unregister_source(grl_tracker_wrapper.props.source)
+                grl_tracker_wrapper.props.source = source
         elif (source.props.source_id.startswith("grl-dleyna")):
             if source.props.source_id not in self._wrappers.keys():
                 new_wrapper = GrlDleynaWrapper(
@@ -157,11 +161,17 @@ class CoreGrilo(GObject.GObject):
             self._log.debug("Adding search source {}".format(source))
 
     def _on_source_removed(self, registry, source):
-        # FIXME: Handle removing sources.
-        self._log.debug("Removed source {}".format(source.props.source_id))
+        if (source.props.source_id in self._wrappers
+                and source.props.source_id != "grl-tracker-source"):
+            self._wrappers[source.props.source_id].cleanup()
 
-        # FIXME: Only removes search sources atm.
-        self._search_wrappers.pop(source.props.source_id, None)
+        if source.props.source_id in self._wrappers:
+            self._wrappers.pop(source.props.source_id)
+
+        if source.props.source_id in self._search_wrappers:
+            self._search_wrappers.pop(source.props.source_id)
+
+        self._log.debug("Removed source {}".format(source.props.source_id))
 
     def get_artist_albums(self, artist, filter_model):
         source = artist.get_source()
