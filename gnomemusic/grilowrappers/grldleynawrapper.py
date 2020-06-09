@@ -37,6 +37,7 @@ class GrlDleynaWrapper(GObject.GObject):
         self._albums_model = self._coremodel.props.albums
         self._album_ids = {}
         self._album_names = []
+        self._artists_model = self._coremodel.props.artists
         self._hash = {}
         self._window = application.props.window
 
@@ -152,3 +153,28 @@ class GrlDleynaWrapper(GObject.GObject):
 
     def search(self, text):
         pass
+
+    def remove_media(self):
+        # This Removes Songs
+        id = -1
+        for idx, song in enumerate(self._songs_model):
+            if id < 0 and song.props.source.startswith("grl-dleyna"):
+                id = idx
+            if id > 0:
+                self._songs_model.remove(id)
+
+        # This Removes Albums
+        id = -1
+        for idx, album in enumerate(self._albums_model):
+            if id < 0 and album.props.source.startswith("grl-dleyna"):
+                id = idx
+            if id > 0:
+                self._albums_model.remove(id)
+
+        # This Removes Artists
+        id = -1
+        for idx, artist in enumerate(self._artists_model):
+            if id < 0 and artist.props.source.startswith("grl-dleyna"):
+                id = idx
+            if id > 0:
+                self._artists_model.remove(id)
