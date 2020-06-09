@@ -173,7 +173,8 @@ class CoreGrilo(GObject.GObject):
 
     def populate_album_disc_songs(self, media, discnr, callback):
         source = media.get_source()
-        self._wrappers[source].populate_album_disc_songs(media, discnr, callback)
+        self._wrappers[source].populate_album_disc_songs(
+            media, discnr, callback)
 
     def writeback(self, media, key):
         """Store the values associated with the key.

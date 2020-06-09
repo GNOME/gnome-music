@@ -128,7 +128,7 @@ class GrlDleynaWrapper(GObject.GObject):
             and (upnp:album contains '%(album_name)s')
             """.replace('\n', ' ').strip() % {
                 'album_name': album_name
-    	    }
+            }
 
             source.query(
                 url_query, self.METADATA_KEYS, options, _get_album_url)
