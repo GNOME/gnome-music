@@ -121,8 +121,9 @@ class ArtistsView(Gtk.Box):
                 self._sidebar.select_row(row_next)
                 self._on_artist_activated(self._sidebar, row_next, True)
 
-        removed_frame = self._artist_view.get_child_by_name(removed_artist)
-        self._artist_view.remove(removed_frame)
+        removed_artist_page = self._artist_view.get_child_by_name(
+            removed_artist)
+        self._artist_view.remove(removed_artist_page)
 
     @Gtk.Template.Callback()
     def _on_artist_activated(self, sidebar, row, data=None, untouched=False):
@@ -151,23 +152,17 @@ class ArtistsView(Gtk.Box):
             self._artist_view.set_visible_child_name(coreartist.props.artist)
             return
 
-        self._artist_albums = ArtistAlbumsWidget(coreartist, self._application)
+        artist_albums = ArtistAlbumsWidget(coreartist, self._application)
 
         self.bind_property(
-            "selection-mode", self._artist_albums, "selection-mode",
+            "selection-mode", artist_albums, "selection-mode",
             GObject.BindingFlags.SYNC_CREATE
             | GObject.BindingFlags.BIDIRECTIONAL)
 
-        artist_albums_frame = Gtk.Frame(
-            shadow_type=Gtk.ShadowType.NONE, hexpand=True)
-        artist_albums_frame.add(self._artist_albums)
-        artist_albums_frame.show()
-
-        self._artist_view.add_named(
-            artist_albums_frame, coreartist.props.artist)
+        self._artist_view.add_named(artist_albums, coreartist.props.artist)
         scroll_vadjustment = self._artist_container.props.vadjustment
         scroll_vadjustment.props.value = 0.
-        self._artist_view.set_visible_child(artist_albums_frame)
+        self._artist_view.set_visible_child(artist_albums)
 
         self._loaded_artists.append(coreartist.props.artist)
 
@@ -211,11 +206,11 @@ class ArtistsView(Gtk.Box):
             self._selected_artist = None
 
     def select_all(self):
-        current_frame = self._artist_view.get_visible_child()
-        for row in current_frame.get_child():
+        artist_albums = self._artist_view.get_visible_child()
+        for row in artist_albums:
             row.get_child().select_all()
 
     def deselect_all(self):
-        current_frame = self._artist_view.get_visible_child()
-        for row in current_frame.get_child():
+        artist_albums = self._artist_view.get_visible_child()
+        for row in artist_albums:
             row.get_child().deselect_all()
