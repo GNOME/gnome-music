@@ -254,3 +254,13 @@ class GrlDleynaWrapper(GObject.GObject):
         :param str text: string to be searched
         """
         self._log.warning("Dleyna does not implement search yet.")
+
+    def cleanup(self):
+        """Removes media from the songs, album and artist model when the
+        source disconnects.
+        """
+        self._songs_model.remove_all()
+
+        self._albums_model.remove_all()
+
+        self._artists_model.remove_all()
