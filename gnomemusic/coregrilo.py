@@ -157,8 +157,13 @@ class CoreGrilo(GObject.GObject):
 
     def _on_source_removed(self, registry, source):
         # FIXME: Handle removing sources.
+
+        if source.props.source_id in self._wrappers:
+            self._wrappers[source.props.source_id].remove_media()
+
         if source.props.source_id in self._wrappers:
             self._wrappers.pop(source.props.source_id)
+
         self._log.debug("Removed source {}".format(source.props.source_id))
 
         # FIXME: Only removes search sources atm.
