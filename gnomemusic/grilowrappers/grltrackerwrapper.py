@@ -159,7 +159,8 @@ class GrlTrackerWrapper(GObject.GObject):
 
         self._check_album_change()
         self._check_artist_change()
-        self._tracker_playlists.check_smart_playlist_change()
+        if self._tracker_playlists is not None:
+            self._tracker_playlists.check_smart_playlist_change()
 
         self._batch_changed_media_ids = {}
         self._content_changed_timeout = None
@@ -345,17 +346,20 @@ class GrlTrackerWrapper(GObject.GObject):
                 return
 
             if not media:
+                self._remove_media(media_ids)
                 return
 
-            if media.get_id() not in self._hash:
-                self._log.debug(
-                    "Media {} not in hash".format(media.get_id()))
-
+            media_id = media.get_id()
+            if media_id not in self._hash:
                 song = CoreSong(self._application, media)
                 self._songs_model.append(song)
-                self._hash[media.get_id()] = song
+                self._hash[media_id] = song
+                self._log.debug(
+                    "Adding: {}, {}".format(media_id, song.props.title))
             else:
-                self._hash[media.get_id()].update(media)
+                self._hash[media_id].update(media)
+
+            media_ids.remove(media_id)
 
         options = self._fast_options.copy()
 
@@ -876,6 +880,8 @@ class GrlTrackerWrapper(GObject.GObject):
         """Placeholder until we got a better solution
         """
         item_id = coresong.props.media.get_id()
+        if coresong.props.source != "grl-tracker-source":
+            return
 
         if coresong.props.media.is_audio():
             query = self._get_album_for_song_id(item_id)

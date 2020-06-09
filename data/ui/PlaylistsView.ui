@@ -1,28 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk+" version="3.18"/>
-  <template class="PlaylistsView" parent="GtkStack">
+  <template class="PlaylistsView" parent="GtkBox">
     <property name="visible">True</property>
     <child>
-      <object class="GtkBox" id="_main_container">
+      <object class="GtkScrolledWindow">
         <property name="visible">True</property>
+        <property name="width-request">220</property>
+        <style>
+          <class name="sidebar"/>
+        </style>
         <child>
-          <object class="GtkScrolledWindow" id="all_playlists">
+          <object class="GtkListBox" id="_sidebar">
+            <property name="selection-mode">single</property>
             <property name="visible">True</property>
-            <property name="width-request">220</property>
-            <style>
-              <class name="sidebar"/>
-            </style>
-            <child>
-              <object class="GtkListBox" id="_sidebar">
-                <property name="selection-mode">single</property>
-                <property name="visible">True</property>
-                <signal name="row-activated" handler="_on_playlist_activated" swapped="no"/>
-              </object>
-            </child>
+            <signal name="row-activated" handler="_on_playlist_activated" swapped="no"/>
           </object>
-        </child>
-        <child>
         </child>
       </object>
     </child>

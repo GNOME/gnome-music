@@ -11,7 +11,7 @@ You can join the developers on IRC: [#gnome-music](irc://irc.gnome.org/gnome-mus
 
 Follow the [GNOME Newcomers guide](https://wiki.gnome.org/Newcomers/) and choose Music as your project. There are bugs labeled for newcomers, which should provide an easy entry point. Of course, feel free to pick something more challenging. Pick bugs if you can, not feature requests. The goal is to make the current Music experience sound & stable and only then extend it's functionality.
 
-### Build Music
+## Build Music
 
 Music uses the [meson](http://mesonbuild.com/) build system. Use the following commands to build Music from the source directory:
 
@@ -31,6 +31,14 @@ You can also install Music system-wide by running:
 
 ```sh
 $ ninja install
+```
+
+## Debugging
+
+GNOME Music uses [GLib logging facilities](https://developer.gnome.org/glib/stable/glib-running.html) to print debug messages. It can be activated by setting the `G_MESSAGES_DEBUG` environment variable:
+
+```sh
+G_MESSAGES_DEBUG=org.gnome.Music gnome-music
 ```
 
 ## Coding style
@@ -145,10 +153,10 @@ Recent PyGObject (3.29.1 and up) allows template usage and Music is [starting to
 The basic usage in Python is as follows, with the `widget.ui` file being a regular GTK template:
 
 ```python
-@Gtk.Template(resource_path='/org/gnome/Music/widget.ui')
+@Gtk.Template(resource_path="/org/gnome/Music/widget.ui")
 class Widget(Gtk.Widget):
 
-    __gtype_name__ = 'Widget'
+    __gtype_name__ = "Widget"
 
     _button = Gtk.Template.Child()
 

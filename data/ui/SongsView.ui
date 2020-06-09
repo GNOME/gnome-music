@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk+" version="3.18"/>
+  <template class="SongsView" parent="GtkScrolledWindow">
+    <property name="hexpand">True</property>
+    <property name="vexpand">True</property>
+    <property name="visible">True</property>
+    <child>
+      <object class="GtkTreeView" id="_songs_view">
+        <property name="activate-on-single-click">True</property>
+        <property name="headers_visible">False</property>
+        <property name="valign">start</property>
+        <property name="visible">True</property>
+        <signal name="row-activated" handler="_on_item_activated" swapped="no"/>
+        <style>
+          <class name="songs-list-old"/>
+        </style>
+        <child internal-child="selection">
+          <object class="GtkTreeSelection">
+            <property name="mode">single</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkTreeViewColumn" id="_now_playing_column">
+            <property name="fixed_width">48</property>
+            <property name="visible">True</property>
+            <child>
+              <object class="GtkCellRendererPixbuf" id="_now_playing_cell">
+                <property name="xalign">0.5</property>
+                <property name="xpad">0</property>
+                <property name="yalign">0.5</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkTreeViewColumn" id="_selection_column">
+            <property name="fixed_width">48</property>
+            <property name="visible">False</property>
+            <child>
+              <object class="GtkCellRendererToggle">
+              </object>
+              <attributes>
+                <attribute name="active">1</attribute>
+              </attributes>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkTreeViewColumn" id="_title_column">
+            <property name="expand">True</property>
+            <property name="visible">True</property>
+            <child>
+              <object class="GtkCellRendererText">
+                <property name="ellipsize">end</property>
+                <property name="height">48</property>
+                <property name="xalign">0</property>
+                <property name="xpad">0</property>
+                <property name="yalign">0.5</property>
+              </object>
+              <attributes>
+                <attribute name="text">2</attribute>
+              </attributes>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkTreeViewColumn" id="_artist_column">
+            <property name="expand">True</property>
+            <property name="visible">True</property>
+            <child>
+              <object class="GtkCellRendererText">
+                <property name="ellipsize">end</property>
+                <property name="xpad">32</property>
+              </object>
+              <attributes>
+                <attribute name="text">3</attribute>
+              </attributes>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkTreeViewColumn" id="_album_column">
+            <property name="expand">True</property>
+            <property name="visible">True</property>
+            <child>
+              <object class="GtkCellRendererText">
+                <property name="ellipsize">end</property>
+                <property name="xpad">32</property>
+              </object>
+              <attributes>
+                <attribute name="text">4</attribute>
+              </attributes>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkTreeViewColumn" id="_duration_column">
+            <property name="visible">True</property>
+            <child>
+              <object class="GtkCellRendererText" id="_duration_renderer">
+                <property name="xalign">1</property>
+              </object>
+              <attributes>
+                <attribute name="text">5</attribute>
+              </attributes>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkTreeViewColumn" id="_star_column">
+            <property name="visible">True</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+  <object class="GtkGestureMultiPress" id="_songs_ctrlr">
+    <property name="widget">_songs_view</property>
+    <property name="propagation-phase">capture</property>
+    <signal name="released" handler="_on_view_clicked" swapped="no"/>
+  </object>
+</interface>

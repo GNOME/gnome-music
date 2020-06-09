@@ -22,6 +22,8 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+import weakref
+
 import gi
 gi.require_version('Grl', '0.3')
 from gi.repository import Grl, GLib, GObject
@@ -90,6 +92,8 @@ class CoreGrilo(GObject.GObject):
 
         self._registry.load_all_plugins(True)
 
+        weakref.finalize(self, Grl.deinit)
+
     def _on_tracker_available_changed(self, klass, value):
         new_state = self._tracker_wrapper.props.tracker_available
         # FIXME:No removal support yet.
@@ -136,20 +140,12 @@ class CoreGrilo(GObject.GObject):
                     source, self._application, self._tracker_wrapper)
                 self._wrappers[source.props.source_id] = new_wrapper
                 self._log.debug("Adding wrapper {}".format(new_wrapper))
-            else:
-                grl_tracker_wrapper = self._wrappers[source.props.source_id]
-                registry.unregister_source(grl_tracker_wrapper.props.source)
-                grl_tracker_wrapper.props.source = source
         elif (source.props.source_id.startswith("grl-dleyna")):
             if source.props.source_id not in self._wrappers.keys():
                 new_wrapper = GrlDleynaWrapper(
                     source, self._application)
                 self._wrappers[source.props.source_id] = new_wrapper
                 self._log.debug("Adding wrapper {}".format(new_wrapper))
-            else:
-                grl_dleyna_wrapper = self._wrappers[source.props.source_id]
-                registry.unregister_source(grl_dleyna_wrapper.props.source)
-                grl_dleyna_wrapper.props.source = source
         elif (source.props.source_id not in self._search_wrappers.keys()
                 and source.props.source_id not in self._wrappers.keys()
                 and source.props.source_id != "grl-tracker-source"
@@ -161,22 +157,23 @@ class CoreGrilo(GObject.GObject):
 
     def _on_source_removed(self, registry, source):
         # FIXME: Handle removing sources.
+        if source.props.source_id in self._wrappers:
+            self._wrappers.pop(source.props.source_id)
         self._log.debug("Removed source {}".format(source.props.source_id))
 
         # FIXME: Only removes search sources atm.
-        self._search_wrappers.pop(source.props.source_id, None)
 
     def get_artist_albums(self, artist, filter_model):
-        for wrapper in self._wrappers.values():
-            wrapper.get_artist_albums(artist, filter_model)
+        source = artist.get_source()
+        self._wrappers[source].get_artist_albums(artist, filter_model)
 
     def get_album_discs(self, media, disc_model):
-        for wrapper in self._wrappers.values():
-            wrapper.get_album_discs(media, disc_model)
+        source = media.get_source()
+        self._wrappers[source].get_album_discs(media, disc_model)
 
     def populate_album_disc_songs(self, media, discnr, callback):
-        for wrapper in self._wrappers.values():
-            wrapper.populate_album_disc_songs(media, discnr, callback)
+        source = media.get_source()
+        self._wrappers[source].populate_album_disc_songs(media, discnr, callback)
 
     def writeback(self, media, key):
         """Store the values associated with the key.

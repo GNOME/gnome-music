@@ -68,7 +68,6 @@
             <child>
               <object class="GtkButton" id="_rename_done_button">
                 <property name="visible">True</property>
-                <property name="no_show_all">True</property>
                 <property name="can_focus">True</property>
                 <property name="has_focus">True</property>
                 <property name="receives_default">True</property>

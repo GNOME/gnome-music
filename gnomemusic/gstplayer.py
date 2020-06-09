@@ -93,6 +93,7 @@ class GstPlayer(GObject.GObject):
         self._player.connect("about-to-finish", self._on_about_to_finish)
 
         self.props.state = Playback.STOPPED
+        self._gapless_enabled = False
 
     def _setup_replaygain(self):
         """Set up replaygain"""
@@ -125,7 +126,8 @@ class GstPlayer(GObject.GObject):
             self._player.set_property("audio-filter", None)
 
     def _on_about_to_finish(self, klass):
-        self.emit("about-to-finish")
+        if self._gapless_enabled:
+            self.emit("about-to-finish")
 
     def _on_async_done(self, bus, message):
         success, duration = self._player.query_duration(
@@ -157,8 +159,6 @@ class GstPlayer(GObject.GObject):
 
     def _on_bus_buffering(self, bus, message):
         percent = message.parse_buffering()
-        print(percent)
-
         if (percent < 100
                 and not self._buffering):
             self._buffering = True
@@ -255,6 +255,7 @@ class GstPlayer(GObject.GObject):
 
         :param string url: url to load
         """
+        self._gapless_enabled = (url_.startswith("file"))
         self._player.set_property('uri', url_)
 
     @GObject.Property
@@ -291,6 +292,16 @@ class GstPlayer(GObject.GObject):
         For internal use only.
         """
         self._duration = duration
+
+    @GObject.Property(
+        type=bool, default=False, flags=GObject.ParamFlags.READABLE)
+    def gapless_enabled(self):
+        """Gapless state
+
+        :return: True if gapless is enabled.
+        :rtype: bool
+        """
+        return self._gapless_enabled
 
     def seek(self, seconds):
         """Seek to position
