@@ -157,12 +157,18 @@ class CoreGrilo(GObject.GObject):
             self._log.debug("Adding search source {}".format(source))
 
     def _on_source_removed(self, registry, source):
-        # FIXME: Handle removing sources.
+        if source.props.source_id in self._wrappers:
+            self._wrappers[source.props.source_id].remove_media(
+                source.props.source_id
+            )
+
         if source.props.source_id in self._wrappers:
             self._wrappers.pop(source.props.source_id)
-        self._log.debug("Removed source {}".format(source.props.source_id))
 
-        # FIXME: Only removes search sources atm.
+        if source.props.source_id in self._search_wrappers:
+            self._search_wrappers.pop(source.props.source_id)
+
+        self._log.debug("Removed source {}".format(source.props.source_id))
 
     def get_artist_albums(self, artist, filter_model):
         for wrapper in self._wrappers.values():
