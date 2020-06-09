@@ -163,7 +163,6 @@ class CoreGrilo(GObject.GObject):
         self._log.debug("Removed source {}".format(source.props.source_id))
 
         # FIXME: Only removes search sources atm.
-        self._search_wrappers.pop(source.props.source_id, None)
 
     def get_artist_albums(self, artist, filter_model):
         source = artist.get_source()

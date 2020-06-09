@@ -98,8 +98,9 @@ class GrlDleynaWrapper(GObject.GObject):
         self._window.notifications_popup.push_loading()
         albums_added = []
 
+        options = self._fast_options.copy()
+
         def _add_to_albums_model(source, op_id, media, remaining, error):
-            # print(media)
             if error:
                 self._log.warning("Error: {}".format(error))
                 self._window.notifications_popup.pop_loading()
@@ -112,14 +113,23 @@ class GrlDleynaWrapper(GObject.GObject):
                 return
             
             if remaining == 0:
-                print(media.get_title())
                 self._albums_model.splice(
                     self._albums_model.get_n_items(), 0, albums_added)
                 self._window.notifications_popup.pop_loading()
 
             album = CoreAlbum(self._application, media)
-            # print(album.props.title)
-            # print(media.get_id())
+            def _get_album_url(source, op_id, media, remaining, error):
+                if media:
+                    album.props.url = media.get_url()
+    
+            album_name = media.get_title()
+            url_query = """upnp:class derivedfrom 'object.item.audioItem.musicTrack' and (upnp:album contains '%(album_name)s')
+            """.replace('\n', ' ').strip() % {
+        	    'album_name' : album_name
+    	    }
+
+            source.query(url_query, self.METADATA_KEYS, options, _get_album_url)
+
             self._album_ids[media.get_id()] = album
             albums_added.append(album)
             if len(albums_added) == self._SPLICE_SIZE:
@@ -131,15 +141,9 @@ class GrlDleynaWrapper(GObject.GObject):
         query = """upnp:class = 'object.container.album.musicAlbum'
         """.replace('\n', ' ').strip()
 
-        options = self._fast_options.copy()
-
         source.query(query, self.METADATA_KEYS, options, _add_to_albums_model)
     
     def get_album_discs(self, media, disc_model):
-        
-        if self._source.props.source_id is not media.get_source():
-            return
-        
         album_id = media.get_id()
         disc_nr = 1
         coredisc = CoreDisc(self._application, media, disc_nr)
@@ -147,11 +151,15 @@ class GrlDleynaWrapper(GObject.GObject):
         
 
     def populate_album_disc_songs(self, media, disc_nr, callback):
-        album_id = media.get_id()
+        album_name = media.get_title()
 
-        # query = """upnp:class derivedfrom 'object.item.audioItem'
-        # """
-        pass
+        query = """upnp:class derivedfrom 'object.item.audioItem.musicTrack' and (upnp:album contains '%(album_name)s')
+            """.replace('\n', ' ').strip() % {
+        	    'album_name' : album_name
+    	    }
+        options = self._fast_options.copy()
+
+        self.props.source.query(query, self.METADATA_KEYS, options, callback)
 
     def search(self, text):
         pass
