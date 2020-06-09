@@ -36,6 +36,7 @@ class CoreArtist(GObject.GObject):
 
     artist = GObject.Property(type=str)
     media = GObject.Property(type=Grl.Media)
+    source = GObject.Property(type=str)
 
     def __init__(self, application, media):
         """Initiate the CoreArtist object
@@ -58,6 +59,7 @@ class CoreArtist(GObject.GObject):
     def update(self, media):
         self.props.media = media
         self.props.artist = utils.get_artist_name(media)
+        self.props.source = media.get_source()
 
     def _get_artist_album_model(self):
         albums_model_filter = Gfm.FilterListModel.new(
