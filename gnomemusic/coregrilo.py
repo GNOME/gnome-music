@@ -159,8 +159,7 @@ class CoreGrilo(GObject.GObject):
     def _on_source_removed(self, registry, source):
         if source.props.source_id in self._wrappers:
             self._wrappers[source.props.source_id].remove_media(
-                source.props.source_id
-            )
+                source.props.source_id)
 
         if source.props.source_id in self._wrappers:
             self._wrappers.pop(source.props.source_id)
@@ -215,8 +214,8 @@ class CoreGrilo(GObject.GObject):
                 coresong, callback)
 
     def get_artist_art(self, coreartist):
-        if "grl-tracker-source" in self._wrappers:
-            self._wrappers["grl-tracker-source"].get_artist_art(coreartist)
+        source = coreartist.get_source()
+        self._wrappers[source].get_artist_art(coreartist)
 
     def stage_playlist_deletion(self, playlist):
         """Prepares playlist deletion.
