@@ -83,6 +83,7 @@ def get_artist_name(item):
 
     return (item.get_album_artist()
             or item.get_artist()
+            or item.get_title()
             or _("Unknown Artist"))
 
 
