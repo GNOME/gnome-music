@@ -243,7 +243,7 @@ class GrlDleynaWrapper(GObject.GObject):
         def albums_filter(corealbum, albums):
             for media in albums:
                 if (media == corealbum.props.title
-                    and corealbum.props.source == self._source_id):
+                        and corealbum.props.source == self._source_id):
                     return True
 
             return False
