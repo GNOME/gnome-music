@@ -94,12 +94,6 @@ class CoreDisc(GObject.GObject):
             return core_song.props.grlid in album_ids
 
         def _callback(source, dunno, media, remaining, something2):
-            if remaining == 0:
-                if sorted(album_ids) == sorted(self._old_album_ids):
-                    return
-                model_filter.set_filter_func(_filter_func)
-                self._old_album_ids = album_ids
-                return
 
             if media is None:
                 if sorted(album_ids) == sorted(self._old_album_ids):
@@ -109,6 +103,12 @@ class CoreDisc(GObject.GObject):
                 return
 
             album_ids.append(media.get_source() + media.get_id())
+            if remaining == 0:
+                if sorted(album_ids) == sorted(self._old_album_ids):
+                    return
+                model_filter.set_filter_func(_filter_func)
+                self._old_album_ids = album_ids
+                return
 
         self._coregrilo.populate_album_disc_songs(media, discnr, _callback)
 
