@@ -208,8 +208,8 @@ class CoreGrilo(GObject.GObject):
                 coresong, callback)
 
     def get_artist_art(self, coreartist):
-        if "grl-tracker-source" in self._wrappers:
-            self._wrappers["grl-tracker-source"].get_artist_art(coreartist)
+        source = coreartist.get_source()
+        self._wrappers[source].get_artist_art(coreartist)
 
     def stage_playlist_deletion(self, playlist):
         """Prepares playlist deletion.
