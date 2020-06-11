@@ -108,10 +108,7 @@ class CoreDisc(GObject.GObject):
 
             album_ids.append(media.get_source() + media.get_id())
             if remaining == 0:
-                if sorted(album_ids) == sorted(self._old_album_ids):
-                    return
                 model_filter.set_filter_func(_filter_func)
-                self._old_album_ids = album_ids
                 return
 
         self._coregrilo.populate_album_disc_songs(media, discnr, _callback)
