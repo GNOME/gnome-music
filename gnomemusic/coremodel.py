@@ -28,6 +28,7 @@ import gi
 gi.require_version("Gfm", "0.1")
 from gi.repository import GObject, Gio, Gfm, Gtk
 
+from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.coreartist import CoreArtist
 from gnomemusic.coresong import CoreSong
 from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
@@ -83,17 +84,23 @@ class CoreModel(GObject.GObject):
         self._current_playlist_model = None
         self._previous_playlist_model = None
 
-        self._songs_model = Gio.ListStore.new(CoreSong)
+        self._songs_model_proxy = Gio.ListStore.new(Gio.ListModel)
+        self._songs_model = Gfm.FlattenListModel.new(
+            CoreSong, self._songs_model_proxy)
         self._songliststore = SongListStore(self._songs_model)
 
         self._application = application
 
-        self._albums_model = Gio.ListStore()
+        self._albums_model_proxy = Gio.ListStore.new(Gio.ListModel)
+        self._albums_model = Gfm.FlattenListModel.new(
+            CoreAlbum, self._albums_model_proxy)
         self._albums_model_sort = Gfm.SortListModel.new(self._albums_model)
         self._albums_model_sort.set_sort_func(
             utils.wrap_list_store_sort_func(self._albums_sort))
 
-        self._artists_model = Gio.ListStore.new(CoreArtist)
+        self._artists_model_proxy = Gio.ListStore.new(Gio.ListModel)
+        self._artists_model = Gfm.FlattenListModel.new(
+            CoreArtist, self._artists_model_proxy)
         self._artists_model_sort = Gfm.SortListModel.new(self._artists_model)
         self._artists_model_sort.set_sort_func(
             utils.wrap_list_store_sort_func(self._artist_sort))
@@ -298,14 +305,32 @@ class CoreModel(GObject.GObject):
         return self._songs_model
 
     @GObject.Property(
+        type=Gfm.FlattenListModel, default=None,
+        flags=GObject.ParamFlags.READABLE)
+    def songs_proxy(self):
+        return self._songs_model_proxy
+
+    @GObject.Property(
         type=Gio.ListStore, default=None, flags=GObject.ParamFlags.READABLE)
     def albums(self):
         return self._albums_model
 
     @GObject.Property(
+        type=Gfm.FlattenListModel, default=None,
+        flags=GObject.ParamFlags.READABLE)
+    def albums_proxy(self):
+        return self._albums_model_proxy
+
+    @GObject.Property(
         type=Gio.ListStore, default=None, flags=GObject.ParamFlags.READABLE)
     def artists(self):
         return self._artists_model
+
+    @GObject.Property(
+        type=Gfm.FlattenListModel, default=None,
+        flags=GObject.ParamFlags.READABLE)
+    def artists_proxy(self):
+        return self._artists_model_proxy
 
     @GObject.Property(
         type=Gio.ListStore, default=None, flags=GObject.ParamFlags.READABLE)
