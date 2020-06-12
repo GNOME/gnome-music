@@ -100,9 +100,9 @@ class GrlTrackerWrapper(GObject.GObject):
         self._content_changed_id = None
         self.props.source = source
 
-        self._initial_songs_fill(self.props.source)
-        self._initial_albums_fill(self.props.source)
-        self._initial_artists_fill(self.props.source)
+        self._initial_songs_fill()
+        self._initial_albums_fill()
+        self._initial_artists_fill()
 
     @GObject.Property(type=Grl.Source, default=None)
     def source(self):
@@ -367,7 +367,7 @@ class GrlTrackerWrapper(GObject.GObject):
             self._song_media_query(media_ids), self.METADATA_KEYS,
             options, _update_changed_media)
 
-    def _initial_songs_fill(self, source):
+    def _initial_songs_fill(self):
         self._window.notifications_popup.push_loading()
         songs_added = []
 
@@ -432,7 +432,7 @@ class GrlTrackerWrapper(GObject.GObject):
         self.props.source.query(
             query, self.METADATA_KEYS, options, _add_to_model)
 
-    def _initial_albums_fill(self, source):
+    def _initial_albums_fill(self):
         self._window.notifications_popup.push_loading()
         albums_added = []
 
@@ -484,9 +484,10 @@ class GrlTrackerWrapper(GObject.GObject):
 
         options = self._fast_options.copy()
 
-        source.query(query, self.METADATA_KEYS, options, _add_to_albums_model)
+        self.props.source.query(
+            query, self.METADATA_KEYS, options, _add_to_albums_model)
 
-    def _initial_artists_fill(self, source):
+    def _initial_artists_fill(self):
         self._window.notifications_popup.push_loading()
         artists_added = []
 
@@ -535,7 +536,7 @@ class GrlTrackerWrapper(GObject.GObject):
 
         options = self._fast_options.copy()
 
-        source.query(
+        self.props.source.query(
             query, [Grl.METADATA_KEY_ARTIST], options, _add_to_artists_model)
 
     def get_artist_albums(self, media, model):

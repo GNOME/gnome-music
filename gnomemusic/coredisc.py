@@ -45,6 +45,7 @@ class CoreDisc(GObject.GObject):
         self._coregrilo = application.props.coregrilo
         self._coremodel = application.props.coremodel
         self._filter_model = None
+        self._log = application.props.log
         self._model = None
         self._old_album_ids = []
         self._selected = False
@@ -91,7 +92,11 @@ class CoreDisc(GObject.GObject):
         def _filter_func(core_song):
             return core_song.props.grlid in album_ids
 
-        def _callback(source, dunno, media, something, something2):
+        def _callback(source, op_id, media, remaining, error):
+            if error:
+                self._log.warning("Error: {}".format(error))
+                return
+
             if media is None:
                 if sorted(album_ids) == sorted(self._old_album_ids):
                     return
