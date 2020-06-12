@@ -71,21 +71,21 @@ class GrlTrackerWrapper(GObject.GObject):
         super().__init__()
 
         self._application = application
-        self._coremodel = application.props.coremodel
+        coremodel = application.props.coremodel
         self._log = application.props.log
         self._songs_model = Gio.ListStore.new(CoreSong)
-        self._coremodel.props.songs_proxy.append(self._songs_model)
+        coremodel.props.songs_proxy.append(self._songs_model)
         self._source = None
         self._albums_model = Gio.ListStore.new(CoreAlbum)
-        self._coremodel.props.albums_proxy.append(self._albums_model)
+        coremodel.props.albums_proxy.append(self._albums_model)
         self._album_ids = {}
         self._artists_model = Gio.ListStore.new(CoreArtist)
-        self._coremodel.props.artists_proxy.append(self._artists_model)
+        coremodel.props.artists_proxy.append(self._artists_model)
         self._artist_ids = {}
         self._hash = {}
-        self._song_search_proxy = self._coremodel.props.songs_search_proxy
-        self._album_search_model = self._coremodel.props.albums_search
-        self._artist_search_model = self._coremodel.props.artists_search
+        self._song_search_proxy = coremodel.props.songs_search_proxy
+        self._album_search_model = coremodel.props.albums_search
+        self._artist_search_model = coremodel.props.artists_search
         self._batch_changed_media_ids = {}
         self._content_changed_timeout = None
         self._tracker_playlists = None
