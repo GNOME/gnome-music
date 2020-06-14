@@ -204,6 +204,14 @@ class CoreGrilo(GObject.GObject):
             self._wrappers["grl-tracker-source"].get_album_art_for_item(
                 coresong, callback)
 
+    def get_song_art(self, coresong):
+        """Retrieve song art for the given CoreSong
+
+        :param CoreSong coresong: CoreSong to retrieve art for
+        """
+        if "grl-tracker-source" in self._wrappers:
+            self._wrappers["grl-tracker-source"].get_song_art(coresong)
+
     def get_album_art(self, corealbum):
         """Retrieve album art for the given CoreAlbum
 
