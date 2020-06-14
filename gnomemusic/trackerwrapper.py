@@ -125,3 +125,47 @@ class TrackerWrapper(GObject.GObject):
             music_dir)
 
         return query
+
+    def _update_favorite(self, media):
+        """Update favorite state of a song
+
+        :param Grl.Media media: media which contains updated favorite state
+        """
+        if (media.get_favourite()):
+            update = """
+            INSERT DATA {
+                <%(urn)s> a nmm:MusicPiece ;
+                          nao:hasTag nao:predefined-tag-favorite .
+            }
+            """.replace("\n", "").strip() % {
+                "urn": media.get_id(),
+            }
+        else:
+            update = """
+            DELETE DATA {
+                <%(urn)s> nao:hasTag nao:predefined-tag-favorite .
+            }
+            """.replace("\n", "").strip() % {
+                "urn": media.get_id(),
+            }
+
+        def _update_favorite_cb(conn, res):
+            try:
+                conn.update_finish(res)
+            except GLib.Error as e:
+                self._log.warning("Unable to update favorite: {}".format(
+                    e.message))
+
+        self._tracker.update_async(
+            update, GLib.PRIORITY_LOW, None, _update_favorite_cb)
+
+    def update_tag(self, media, tag):
+        """Update property of a resource.
+
+        :param Grl.Media media: media which contains updated tag
+        :param str tag: tag to update
+        """
+        if tag == "favorite":
+            self._update_favorite(media)
+        else:
+            self._log.warning("Unknown tag: '{}'".format(tag))

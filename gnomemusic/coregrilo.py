@@ -214,6 +214,18 @@ class CoreGrilo(GObject.GObject):
                     None)
                 break
 
+    def writeback_tracker(self, media, tag):
+        """Use Tracker queries to update tags.
+
+        The tags are associated with a Tracker resource
+        (song, album, artist or external resource), so they can cannot
+        be updated with grilo writeback support.
+
+        :param Grl.Media media: A Grilo media item
+        :param str tag: tag to update
+        """
+        self._tracker_wrapper.update_tag(media, tag)
+
     def search(self, text):
         for wrapper in self._wrappers.values():
             wrapper.search(text)
