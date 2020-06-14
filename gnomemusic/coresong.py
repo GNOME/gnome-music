@@ -161,95 +161,16 @@ class CoreSong(GObject.GObject):
 
         self._coregrilo.get_chromaprint(self, chromaprint_retrieved)
 
-    def _update_from_tracker(self, tags):
-        """Update tags with Tracker requests.
-
-        The tags need to be inserted in a certain order: For example, a
-        musicbrainz release group identifier is associated with an album
-        resource. So, it needs to be updated after the album.
-        The following order is respected:
-        1. resources of a song (mb-recording-id and mb-track-id)
-        2. artist resource
-        3. resources of an artist (mb-artist-id)
-        4. album and albumdisc (with the disc number tag) resources
-        5. resources of an album (album artist, mb-release-id and
-           mb-release-group-id)
-
-        :param List tags: list of updated
-        """
-        changed_tags = deque()
-
-        mb_recording_id = tags["mb-recording-id"]
-        if (mb_recording_id
-                and mb_recording_id != self.props.media.get_mb_recording_id()):
-            self.props.media.set_mb_recording_id(tags["mb-recording-id"])
-            changed_tags.append("mb-recording-id")
-
-        if (tags["mb-track-id"]
-                and tags["mb-track-id"] != self.props.media.get_mb_track_id()):
-            self.props.media.set_mb_track_id(tags["mb-track-id"])
-            changed_tags.append("mb-track-id")
-
-        if tags["artist"] != self.props.media.get_artist():
-            self.props.media.set_artist(tags["artist"])
-            changed_tags.append("artist")
-
-        if (tags["mb-artist-id"]
-            and (tags["mb-artist-id"] != self.props.media.get_mb_artist_id()
-                 or "artist" in changed_tags)):
-            if tags["mb-artist-id"] != self.props.media.get_mb_artist_id():
-                self.props.media.set_mb_artist_id(tags["mb-artist-id"])
-            changed_tags.append("mb-artist-id")
-
-        if tags["album"] != self.props.media.get_album():
-            self.props.media.set_album(tags["album"])
-            changed_tags.append("album")
-
-        if int(tags["disc"]) != self.props.media.get_album_disc_number():
-            self.props.media.set_album_disc_number(int(tags["disc"]))
-            if "album" not in changed_tags:
-                changed_tags.append("album")
-
-        if (tags["album-artist"]
-            and (tags["album-artist"] != self.props.media.get_album_artist()
-                 or "album" in changed_tags)):
-            if tags["album-artist"] != self.props.media.get_album_artist():
-                self.props.media.set_album_artist(tags["album-artist"])
-            changed_tags.append("album-artist")
-            if "album" not in changed_tags:
-                changed_tags.appendleft("album")
-
-        if (tags["mb-release-id"]
-            and (tags["mb-release-id"] != self.props.media.get_mb_release_id()
-                 or "album" in changed_tags)):
-            if tags["mb-release-id"] != self.props.media.get_mb_release_id():
-                self.props.media.set_mb_release_id(tags["mb-release-id"])
-            changed_tags.append("mb-release-id")
-
-        release_group_id = tags["mb-release-group-id"]
-        if (release_group_id
-            and (release_group_id != self.props.media.get_mb_release_group_id()
-                 or "album" in changed_tags)):
-            if release_group_id != self.props.media.get_mb_release_group_id():
-                self.props.media.set_mb_release_group_id(release_group_id)
-            changed_tags.append("mb-release-group-id")
-
-        if changed_tags:
-            self._log.debug(
-                "Updating tags from tracker: {}".format(changed_tags))
-            self._coregrilo.writeback_tracker(self.props.media, changed_tags)
-
     def update_tags(self, tags):
         """Update tags of a song.
 
         The properties of a song can be updated with Grilo writeback
-        support. The other ones need to be updated with Tracker
-        requests.
+        support.
 
         :param dict tags: New tag values
         """
         def _writeback_cb():
-            self._update_from_tracker(tags)
+            return
 
         writeback_keys = []
         if tags["title"] != self.props.title:
@@ -265,10 +186,56 @@ class CoreSong(GObject.GObject):
             self.props.media.set_creation_date(date)
             writeback_keys.append(Grl.METADATA_KEY_CREATION_DATE)
 
+        mb_recording_id = tags["mb-recording-id"]
+        if (mb_recording_id
+                and mb_recording_id != self.props.media.get_mb_recording_id()):
+            self.props.media.set_mb_recording_id(tags["mb-recording-id"])
+            writeback_keys.append(Grl.METADATA_KEY_MB_RECORDING_ID)
+
+        if (tags["mb-track-id"]
+                and tags["mb-track-id"] != self.props.media.get_mb_track_id()):
+            self.props.media.set_mb_track_id(tags["mb-track-id"])
+            writeback_keys.append(Grl.METADATA_KEY_MB_TRACK_ID)
+
+        if tags["artist"] != self.props.media.get_artist():
+            self.props.media.set_artist(tags["artist"])
+            writeback_keys.append(Grl.METADATA_KEY_ARTIST)
+
+        if (tags["mb-artist-id"]
+                and tags["mb-artist-id"]
+                    != self.props.media.get_mb_artist_id()):
+            self.props.media.set_mb_artist_id(tags["mb-artist-id"])
+            writeback_keys.append(Grl.METADATA_KEY_MB_ARTIST_ID)
+
+        if tags["album"] != self.props.media.get_album():
+            self.props.media.set_album(tags["album"])
+            writeback_keys.append(Grl.METADATA_KEY_ALBUM)
+
+        if int(tags["disc"]) != self.props.media.get_album_disc_number():
+            self.props.media.set_album_disc_number(int(tags["disc"]))
+            writeback_keys.append(Grl.METADATA_KEY_ALBUM_DISC_NUMBER)
+
+        if (tags["album-artist"]
+                and tags["album-artist"]
+                    != self.props.media.get_album_artist()):
+            self.props.media.set_album_artist(tags["album-artist"])
+            writeback_keys.append(Grl.METADATA_KEY_ALBUM_ARTIST)
+
+        if (tags["mb-release-id"]
+                and tags["mb-release-id"]
+                    != self.props.media.get_mb_release_id()):
+            self.props.media.set_mb_release_id(tags["mb-release-id"])
+            writeback_keys.append(Grl.METADATA_KEY_MB_RELEASE_ID)
+
+        release_group_id = tags["mb-release-group-id"]
+        if (release_group_id
+                and release_group_id
+                    != self.props.media.get_mb_release_group_id()):
+            self.props.media.set_mb_release_group_id(release_group_id)
+            writeback_keys.append(Grl.METADATA_KEY_MB_RELEASE_GROUP_ID)
+
         if writeback_keys:
             self._log.debug(
                 "Updating tags of a song: {}".format(writeback_keys))
             self._coregrilo.writeback(
                 self.props.media, writeback_keys, _writeback_cb)
-        else:
-            self._update_from_tracker(tags)
