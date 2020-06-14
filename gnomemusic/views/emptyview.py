@@ -27,7 +27,7 @@ from enum import IntEnum
 from gettext import gettext as _
 from gi.repository import GLib, GObject, Gtk, Tracker
 
-from gnomemusic.albumartcache import Art
+from gnomemusic.utils import ArtSize
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/EmptyView.ui")
@@ -114,8 +114,8 @@ class EmptyView(Gtk.Stack):
 
         self._icon.props.resource = "/org/gnome/Music/icons/initial-state.png"
         self._icon.props.margin_bottom = 32
-        self._icon.props.height_request = Art.Size.LARGE.height
-        self._icon.props.width_request = Art.Size.LARGE.width
+        self._icon.props.height_request = ArtSize.LARGE.height
+        self._icon.props.width_request = ArtSize.LARGE.width
 
     def _set_empty_state(self):
         self._main_label.props.label = _("No music found")
