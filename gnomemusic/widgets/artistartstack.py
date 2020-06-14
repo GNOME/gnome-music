@@ -42,7 +42,7 @@ class ArtistArtStack(Gtk.Stack):
     _default_icon = DefaultIcon()
 
     def __init__(self, size=Art.Size.MEDIUM):
-        """Initialize the CoverStack
+        """Initialize the ArtStack
 
         :param Art.Size size: The size of the art used for the cover
         """
