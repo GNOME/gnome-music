@@ -29,6 +29,7 @@ from gi.repository import Gio, GLib, GObject, MediaArt, Soup
 from gnomemusic.musiclogger import MusicLogger
 from gnomemusic.coreartist import CoreArtist
 from gnomemusic.corealbum import CoreAlbum
+from gnomemusic.coresong import CoreSong
 
 
 class StoreArt(GObject.Object):
@@ -129,6 +130,10 @@ class StoreArt(GObject.Object):
         elif isinstance(self._coreobject, CoreAlbum):
             success, cache_path = MediaArt.get_path(
                 self._coreobject.props.artist, self._coreobject.props.title,
+                "album")
+        elif isinstance(self._coreobject, CoreSong):
+            success, cache_path = MediaArt.get_path(
+                self._coreobject.props.artist, self._coreobject.props.album,
                 "album")
         else:
             success = False

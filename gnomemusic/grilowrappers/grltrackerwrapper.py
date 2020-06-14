@@ -983,6 +983,42 @@ class GrlTrackerWrapper(GObject.GObject):
 
         return query
 
+    def get_song_art(self, coresong):
+        """Retrieve song art for the given CoreSong
+
+        Since MediaArt does not really support per-song art this
+        uses the songs album information as base to retrieve relevant
+        art.
+
+        :param CoreSong coresong: CoreSong to get art for
+        """
+        media = coresong.props.media
+
+        def art_retrieved_cb(source, op_id, resolved_media, remaining, error):
+            if error:
+                self._log.warning("Error: {}".format(error))
+                coresong.props.thumbnail = "generic"
+                return
+
+            thumbnail_uri = resolved_media.get_thumbnail()
+            if thumbnail_uri is None:
+                EmbeddedArt().query(coresong)
+            else:
+                media.set_thumbnail(thumbnail_uri)
+                StoreArt(coresong)
+
+        song_id = media.get_id()
+        query = self._get_album_for_song_id(song_id)
+
+        full_options = Grl.OperationOptions()
+        full_options.set_resolution_flags(
+            Grl.ResolutionFlags.FULL | Grl.ResolutionFlags.IDLE_RELAY)
+        full_options.set_count(1)
+
+        self.props.source.query(
+            query, self.METADATA_THUMBNAIL_KEYS, full_options,
+            art_retrieved_cb)
+
     def get_album_art(self, corealbum):
         """Retrieve album art for the given CoreAlbum
 

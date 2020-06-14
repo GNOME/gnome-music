@@ -27,6 +27,7 @@ gi.require_versions({"GstPbutils": "1.0", "GstTag": "1.0", "MediaArt": "2.0"})
 from gi.repository import GLib, GObject, MediaArt, Gst, GstTag, GstPbutils
 
 from gnomemusic.albumart import AlbumArt
+from gnomemusic.songart import SongArt
 from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.coresong import CoreSong
 from gnomemusic.musiclogger import MusicLogger
@@ -147,8 +148,12 @@ class EmbeddedArt(GObject.GObject):
             try:
                 mime = sample.get_caps().get_structure(0).get_name()
                 MediaArt.buffer_to_jpeg(map_info.data, mime, self._path)
-                AlbumArt(None, self._coreobject)
                 discoverer.stop()
+
+                if isinstance(self._coreobject, CoreSong):
+                    SongArt(None, self._coreobject)
+                elif isinstance(self._coreobject, CoreAlbum):
+                    AlbumArt(None, self._coreobject)
 
                 return
             except GLib.Error as error:
@@ -170,14 +175,20 @@ class EmbeddedArt(GObject.GObject):
         try:
             success = self._media_art.uri_finish(result)
             if success:
-                AlbumArt(None, self._coreobject)
+                if isinstance(self._coreobject, CoreSong):
+                    SongArt(None, self._coreobject)
+                elif isinstance(self._coreobject, CoreAlbum):
+                    AlbumArt(None, self._coreobject)
 
                 return
         except GLib.Error as error:
             if MediaArt.Error(error.code) == MediaArt.Error.SYMLINK_FAILED:
                 # This error indicates that the coverart has already
                 # been linked by another concurrent lookup.
-                AlbumArt(None, self._coreobject)
+                if isinstance(self._coreobject, CoreSong):
+                    SongArt(None, self._coreobject)
+                elif isinstance(self._coreobject, CoreAlbum):
+                    AlbumArt(None, self._coreobject)
 
                 return
             else:

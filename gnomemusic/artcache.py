@@ -29,6 +29,7 @@ from gi.repository import Gdk, GdkPixbuf, Gio, Gtk, GLib, GObject
 
 from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.coreartist import CoreArtist
+from gnomemusic.coresong import CoreSong
 from gnomemusic.musiclogger import MusicLogger
 
 
@@ -202,7 +203,8 @@ class ArtCache(GObject.GObject):
             self._default_icon = DefaultIcon().get(
                 DefaultIcon.Type.ARTIST, self._size, self._scale,
                 round_shape=True)
-        elif isinstance(coreobject, CoreAlbum):
+        elif (isinstance(coreobject, CoreAlbum)
+                or isinstance(coreobject, CoreSong)):
             self._loading_icon = DefaultIcon().get(
                 DefaultIcon.Type.LOADING, self._size, self._scale)
             self._default_icon = DefaultIcon().get(
@@ -252,7 +254,8 @@ class ArtCache(GObject.GObject):
         if isinstance(self._coreobject, CoreArtist):
             surface = _make_icon_frame(
                 surface, self._size, self._scale, round_shape=True)
-        elif isinstance(self._coreobject, CoreAlbum):
+        elif (isinstance(self._coreobject, CoreAlbum)
+                or isinstance(self._coreobject, CoreSong)):
             surface = _make_icon_frame(surface, self._size, self._scale)
 
         self.emit("result", surface)
