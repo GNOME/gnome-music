@@ -21,16 +21,17 @@
 # modify this code, you may extend this exception to your version of the
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
+
 import gi
 gi.require_version("MediaArt", "2.0")
 from gi.repository import GObject, MediaArt
 
-from gnomemusic.musiclogger import MusicLogger
+from gnomemusic.embeddedart import EmbeddedArt
 
 
 class AlbumArt(GObject.GObject):
-
-    _log = MusicLogger()
+    """AlbumArt retrieval object
+    """
 
     def __init__(self, application, corealbum):
         """Initialize AlbumArt
@@ -40,6 +41,7 @@ class AlbumArt(GObject.GObject):
         """
         super().__init__()
 
+        self._application = application
         self._corealbum = corealbum
         self._album = self._corealbum.props.title
         self._artist = self._corealbum.props.artist
@@ -47,7 +49,15 @@ class AlbumArt(GObject.GObject):
         if self._in_cache():
             return
 
-        application.props.coregrilo.get_album_art(self._corealbum)
+        embedded = EmbeddedArt()
+        embedded.connect("art-found", self._on_embedded_art_found)
+        embedded.query(corealbum)
+
+    def _on_embedded_art_found(self, embeddedart, found):
+        if found:
+            self._in_cache()
+        else:
+            self._application.props.coregrilo.get_album_art(self._corealbum)
 
     def _in_cache(self):
         success, thumb_file = MediaArt.get_file(
