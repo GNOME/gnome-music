@@ -149,7 +149,7 @@ class DefaultIcon(GObject.GObject):
         given size and shape.
 
         :param enum icon_type: The DefaultIcon.Type of the icon
-        :param enum art_size: The Art.Size requested
+        :param enum art_size: The ArtSize requested
         :param int scale: The scale
         :param bool round_shape: Indicates square or round icon shape
 
