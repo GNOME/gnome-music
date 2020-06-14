@@ -27,7 +27,6 @@ import re
 
 from gi.repository import Gio, GLib
 
-from gnomemusic.albumartcache import lookup_art_file_from_cache
 from gnomemusic.gstplayer import Playback
 from gnomemusic.player import PlayerPlaylist, RepeatMode
 from gnomemusic.widgets.songwidget import SongWidget
@@ -372,21 +371,8 @@ class MPRIS(DBusInterface):
         if track_nr > 0:
             metadata['xesam:trackNumber'] = GLib.Variant('i', track_nr)
 
-        # If the media has already been part of an MPRIS playlist, its
-        # thumbnail is already set. Otherwise, try to look for it in the
-        # cache directory and set the media thumbnail for a future use.
-        # The search is only through the cache to prevent any delayed
-        # loading.
-        # FIXME: The thumbnail retrieval should take place in the
-        # player.
-        art_url = coresong.props.media.get_thumbnail()
-        if not art_url:
-            thumb_file = lookup_art_file_from_cache(coresong)
-            if thumb_file:
-                art_url = GLib.filename_to_uri(thumb_file.get_path())
-                coresong.props.media.set_thumbnail(art_url)
-
-        if art_url:
+        art_url = coresong.props.thumbnail
+        if art_url not in ["generic", "loading"]:
             metadata['mpris:artUrl'] = GLib.Variant('s', art_url)
 
         return metadata
