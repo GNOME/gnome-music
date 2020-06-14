@@ -565,6 +565,35 @@ class TrackerWrapper(GObject.GObject):
         self._tracker.query_async(
             query_album_exists, None, _album_exists_cb, None)
 
+    def _update_favorite(self, media):
+        if (media.get_favourite()):
+            update = """
+            INSERT DATA {
+                <%(urn)s> a nmm:MusicPiece ;
+                          nao:hasTag nao:predefined-tag-favorite .
+            }
+            """.replace("\n", "").strip() % {
+                "urn": media.get_id(),
+            }
+        else:
+            update = """
+            DELETE DATA {
+                <%(urn)s> nao:hasTag nao:predefined-tag-favorite .
+            }
+            """.replace("\n", "").strip() % {
+                "urn": media.get_id(),
+            }
+
+        def _update_favorite_cb(conn, res):
+            try:
+                conn.update_finish(res)
+            except GLib.Error as e:
+                self._log.warning("Unable to update favorite: {}".format(
+                    e.message))
+
+        self._tracker.update_async(
+            update, GLib.PRIORITY_LOW, None, _update_favorite_cb)
+
     def _update_album(self, media, tags):
         query_delete = """
         DELETE {
@@ -652,6 +681,8 @@ class TrackerWrapper(GObject.GObject):
             self._update_reference(media, MbReference.RELEASE, tags)
         elif tag == "mb-release-group-id":
             self._update_reference(media, MbReference.RELEASE_GROUP, tags)
+        elif tag == "favorite":
+            self._update_favorite(media)
         else:
             self._log.warning("Unknown tag: '{}'".format(tag))
             self.update_tags(media, tags)
