@@ -136,8 +136,8 @@ class CoreSong(GObject.GObject):
             return
 
         self.props.media.set_play_count(self.props.play_count + 1)
-        self._coregrilo.writeback(
-            self.props.media, [Grl.METADATA_KEY_PLAY_COUNT])
+        self._coregrilo.writeback_tracker(
+            self.props.media, deque(["play-count"]))
 
     def set_last_played(self):
         if not self._is_tracker:
