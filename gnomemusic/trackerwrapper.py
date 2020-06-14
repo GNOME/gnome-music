@@ -183,6 +183,31 @@ class TrackerWrapper(GObject.GObject):
         self._tracker.update_async(
             update, GLib.PRIORITY_LOW, None, _update_play_count_cb)
 
+    def _update_last_played(self, media):
+        last_played = media.get_last_played().format_iso8601()
+        update = """
+        DELETE WHERE {
+            <%(urn)s> nie:contentAccessed ?accessed
+        };
+        INSERT DATA {
+            <%(urn)s> a nmm:MusicPiece ;
+                      nie:contentAccessed "%(last_played)s"
+        }
+        """.replace("\n", "").strip() % {
+            "urn": media.get_id(),
+            "last_played": last_played,
+        }
+
+        def _update_last_played_cb(conn, res):
+            try:
+                conn.update_finish(res)
+            except GLib.Error as e:
+                self._log.warning("Unable to update play count: {}".format(
+                    e.message))
+
+        self._tracker.update_async(
+            update, GLib.PRIORITY_LOW, None, _update_last_played_cb)
+
     def update_tag(self, media, tag):
         """Update property of a resource.
 
@@ -191,6 +216,8 @@ class TrackerWrapper(GObject.GObject):
         """
         if tag == "favorite":
             self._update_favorite(media)
+        elif tag == "last-played":
+            self._update_last_played(media)
         elif tag == "play-count":
             self._update_play_count(media)
         else:

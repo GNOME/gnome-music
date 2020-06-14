@@ -166,5 +166,5 @@ class CoreSong(GObject.GObject):
             return
 
         self.props.media.set_last_played(GLib.DateTime.new_now_utc())
-        self._coregrilo.writeback(
-            self.props.media, Grl.METADATA_KEY_LAST_PLAYED)
+        self._coregrilo.writeback_tracker(
+            self.props.media, "last-played")
