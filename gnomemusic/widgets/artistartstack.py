@@ -25,7 +25,7 @@
 from gi.repository import GObject, Gtk
 
 from gnomemusic.albumartcache import Art
-from gnomemusic.artistart import ArtistCache, DefaultIcon
+from gnomemusic.artcache import ArtCache, DefaultIcon
 from gnomemusic.coreartist import CoreArtist
 
 
@@ -105,7 +105,7 @@ class ArtistArtStack(Gtk.Stack):
             self._on_thumbnail_changed(self._coreartist, None)
 
     def _on_thumbnail_changed(self, coreartist, uri):
-        self._cache = ArtistCache(self.props.size, self.props.scale_factor)
+        self._cache = ArtCache(self.props.size, self.props.scale_factor)
         self._handler_id = self._cache.connect("result", self._on_cache_result)
 
         self._cache.query(coreartist)
