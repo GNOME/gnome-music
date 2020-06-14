@@ -26,8 +26,8 @@ from gettext import ngettext
 
 from gi.repository import GObject, Grl, Gtk
 
-from gnomemusic.albumartcache import Art
 from gnomemusic.player import PlayerPlaylist
+from gnomemusic.utils import ArtSize
 from gnomemusic.widgets.disclistboxwidget import DiscBox
 from gnomemusic.widgets.disclistboxwidget import DiscListBox  # noqa: F401
 
@@ -68,7 +68,7 @@ class AlbumWidget(Gtk.EventBox):
         self._duration_signal_id = None
         self._model_signal_id = None
 
-        self._art_stack.props.size = Art.Size.LARGE
+        self._art_stack.props.size = ArtSize.LARGE
         self._player = self._application.props.player
 
         self.bind_property(
