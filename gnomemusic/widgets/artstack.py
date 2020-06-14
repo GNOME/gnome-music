@@ -24,9 +24,8 @@
 
 from gi.repository import GObject, Gtk
 
-from gnomemusic.albumartcache import Art
 from gnomemusic.artcache import ArtCache
-from gnomemusic.coreartist import CoreArtist
+from gnomemusic.utils import ArtSize
 
 
 class ArtStack(Gtk.Stack):
@@ -39,10 +38,10 @@ class ArtStack(Gtk.Stack):
 
     __gtype_name__ = "ArtStack"
 
-    def __init__(self, size=Art.Size.MEDIUM):
+    def __init__(self, size=ArtSize.MEDIUM):
         """Initialize the ArtStack
 
-        :param Art.Size size: The size of the art used for the cover
+        :param ArtSize size: The size of the art used for the cover
         """
         super().__init__()
 
@@ -68,7 +67,7 @@ class ArtStack(Gtk.Stack):
         """Size of the cover
 
         :returns: The size used
-        :rtype: Art.Size
+        :rtype: ArtSize
         """
         return self._size
 
@@ -76,7 +75,7 @@ class ArtStack(Gtk.Stack):
     def size(self, value):
         """Set the cover size
 
-        :param Art.Size value: The size to use for the cover
+        :param ArtSize value: The size to use for the cover
         """
         self._cover_a.set_size_request(value.width, value.height)
         self._size = value
