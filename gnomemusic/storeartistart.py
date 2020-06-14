@@ -46,7 +46,6 @@ class StoreArtistArt(GObject.Object):
         if (uri is None
                 or uri == ""):
             self._coreartist.props.thumbnail = "generic"
-
             return
 
         cache_dir = GLib.build_filenamev(
@@ -67,7 +66,6 @@ class StoreArtistArt(GObject.Object):
                 self._log.warning(
                     "Error: {}, {}".format(error.domain, error.message))
                 self._coreartist.props.thumbnail = "generic"
-
                 return
 
         msg = Soup.Message.new("GET", uri)
@@ -78,7 +76,6 @@ class StoreArtistArt(GObject.Object):
             self._log.debug(
                 "Failed to get remote art: {}".format(
                     result.props.reason_phrase))
-
             return
 
         try:
