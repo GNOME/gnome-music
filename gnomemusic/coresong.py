@@ -71,7 +71,7 @@ class CoreSong(GObject.GObject):
         self._selected = False
 
         self.props.grlid = media.get_source() + media.get_id()
-        self._is_tracker = media.get_source() == "grl-tracker-source"
+        self._is_tracker = media.get_source() == "grl-tracker3-source"
         self.props.validation = CoreSong.Validation.PENDING
         self.update(media)
 
