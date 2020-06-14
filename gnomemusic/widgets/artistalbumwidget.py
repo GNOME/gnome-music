@@ -24,7 +24,7 @@
 
 from gi.repository import GObject, Gtk
 
-from gnomemusic.albumartcache import Art
+from gnomemusic.utils import ArtSize
 from gnomemusic.widgets.disclistboxwidget import DiscBox
 from gnomemusic.widgets.songwidget import SongWidget
 
@@ -66,7 +66,7 @@ class ArtistAlbumWidget(Gtk.Box):
 
         self._selection_mode = False
 
-        self._art_stack.props.size = Art.Size.MEDIUM
+        self._art_stack.props.size = ArtSize.MEDIUM
         self._art_stack.props.coreobject = corealbum
 
         self.bind_property(
