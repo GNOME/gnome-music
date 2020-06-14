@@ -49,6 +49,7 @@ class ArtStack(Gtk.Stack):
         self._cache = None
         self._handler_id = None
         self._size = None
+        self._thumbnail_id = 0
 
         self._cover_a = Gtk.Image()
         self._cover_b = Gtk.Image()
@@ -88,9 +89,13 @@ class ArtStack(Gtk.Stack):
 
     @coreobject.setter
     def coreobject(self, coreobject):
+        if self._thumbnail_id != 0:
+            self._coreobject.disconnect(self._thumbnail_id)
+            self._thumbnail_id = 0
+
         self._coreobject = coreobject
 
-        self._coreobject.connect(
+        self._thumbnail_id = self._coreobject.connect(
             "notify::thumbnail", self._on_thumbnail_changed)
 
         if self._coreobject.props.thumbnail is not None:
