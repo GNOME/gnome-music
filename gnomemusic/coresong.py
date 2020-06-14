@@ -101,8 +101,8 @@ class CoreSong(GObject.GObject):
             return
 
         self.props.media.set_favourite(self._favorite)
-        self._coregrilo.writeback(
-            self.props.media, [Grl.METADATA_KEY_FAVOURITE])
+        self._coregrilo.writeback_tracker(
+            self.props.media, deque(["favorite"]))
 
     @GObject.Property(type=bool, default=False)
     def selected(self):
