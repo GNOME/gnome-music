@@ -117,7 +117,7 @@ class StoreArtistArt(GObject.Object):
             self._coreartist.props.thumbnail = "generic"
             return
 
-        success, cache_path = MediaArt.get_path(
+        success, cache_file = MediaArt.get_file(
             self._coreartist.props.artist, None, "artist")
 
         if not success:
@@ -126,15 +126,15 @@ class StoreArtistArt(GObject.Object):
 
         try:
             # FIXME: I/O blocking
-            MediaArt.file_to_jpeg(tmp_file.get_path(), cache_path)
+            MediaArt.file_to_jpeg(tmp_file.get_path(), cache_file.get_path())
         except GLib.Error as error:
             self._log.warning(
                 "Error: {}, {}".format(error.domain, error.message))
             self._coreartist.props.thumbnail = "generic"
             return
 
-        self._coreartist.props.media.set_thumbnail(cache_path)
-        self._coreartist.props.thumbnail = cache_path
+        self._coreartist.props.media.set_thumbnail(cache_file.get_uri())
+        self._coreartist.props.thumbnail = cache_file.get_uri()
 
         tmp_file.delete_async(
             GLib.PRIORITY_LOW, None, self._delete_callback, None)
