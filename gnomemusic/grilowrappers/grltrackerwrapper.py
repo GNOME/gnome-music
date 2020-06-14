@@ -1004,8 +1004,7 @@ class GrlTrackerWrapper(GObject.GObject):
                 coreartist.props.thumbnail = "generic"
                 return
 
-            media.set_thumbnail(resolved_media.get_thumbnail())
-            StoreArtistArt(coreartist)
+            StoreArtistArt(coreartist, resolved_media.get_thumbnail())
 
         full_options = Grl.OperationOptions()
         full_options.set_resolution_flags(
