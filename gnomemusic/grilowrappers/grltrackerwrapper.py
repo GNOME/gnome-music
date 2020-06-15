@@ -878,7 +878,7 @@ class GrlTrackerWrapper(GObject.GObject):
         self.props.source.query(
             query, self.METADATA_KEYS, options, songs_search_cb)
 
-    def _get_album_for_album_id(self, album_id):
+    def _get_album_for_album_id_query(self, album_id):
         # Even though we check for the album_artist, we fill
         # the artist key, since Grilo coverart plugins use
         # only that key for retrieval.
@@ -920,7 +920,7 @@ class GrlTrackerWrapper(GObject.GObject):
 
         return query
 
-    def _get_album_for_song_id(self, song_id):
+    def _get_album_for_song_id_query(self, song_id):
         # See get_album_for_album_id comment.
         query = """
         SELECT DISTINCT
@@ -993,7 +993,7 @@ class GrlTrackerWrapper(GObject.GObject):
                 StoreArt(coresong)
 
         song_id = media.get_id()
-        query = self._get_album_for_song_id(song_id)
+        query = self._get_album_for_song_id_query(song_id)
 
         full_options = Grl.OperationOptions()
         full_options.set_resolution_flags(
@@ -1029,7 +1029,7 @@ class GrlTrackerWrapper(GObject.GObject):
                 StoreArt(corealbum)
 
         album_id = media.get_id()
-        query = self._get_album_for_album_id(album_id)
+        query = self._get_album_for_album_id_query(album_id)
 
         full_options = Grl.OperationOptions()
         full_options.set_resolution_flags(
