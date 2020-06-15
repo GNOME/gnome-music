@@ -881,10 +881,16 @@ class GrlTrackerWrapper(GObject.GObject):
         self.props.source.query(
             query, self.METADATA_KEYS, options, songs_search_cb)
 
-    def _get_album_for_album_id_query(self, album_id):
+    def _get_album_for_media_id_query(self, media_id, song=True):
         # Even though we check for the album_artist, we fill
         # the artist key, since Grilo coverart plugins use
         # only that key for retrieval.
+
+        if song:
+            filter_clause = "tracker:id(?song) = {}".format(str(media_id))
+        else:
+            filter_clause = "tracker:id(?album) = {}".format(str(media_id))
+
         query = """
         SELECT DISTINCT
             rdf:type(?album)
@@ -912,56 +918,13 @@ class GrlTrackerWrapper(GObject.GObject):
             }
             OPTIONAL { ?album nmm:albumArtist ?album_artist . }
             FILTER (
-                tracker:id(?album) = %(album_id)s
+                %(filter_clause)s
             )
             %(location_filter)s
         }
         """.replace("\n", " ").strip() % {
-                'album_id': album_id,
-                'location_filter': self._tracker_wrapper.location_filter()
-        }
-
-        return query
-
-    def _get_album_for_song_id_query(self, song_id):
-        # See get_album_for_album_id comment.
-        query = """
-        SELECT DISTINCT
-            rdf:type(?album)
-            tracker:id(?album) AS ?id
-            tracker:referenceIdentifier(?release_group_id)
-                AS ?mb_release_group_id
-            tracker:referenceIdentifier(?release_id) AS ?mb_release_id
-            tracker:coalesce(nmm:artistName(?album_artist),
-                             nmm:artistName(?song_artist)) AS ?artist
-            nie:title(?album) AS ?album
-        WHERE {
-            ?song a nmm:MusicPiece ;
-                    nmm:musicAlbum ?album ;
-                    nmm:performer ?song_artist .
-            OPTIONAL {
-                ?album tracker:hasExternalReference ?release_group_id .
-                ?release_group_id tracker:referenceSource
-                    "https://musicbrainz.org/doc/Release_Group" .
-            }
-            OPTIONAL {
-                ?album tracker:hasExternalReference ?release_id .
-                ?release_id tracker:referenceSource
-                    "https://musicbrainz.org/doc/Release" .
-            }
-            OPTIONAL { ?album nmm:albumArtist ?album_artist . }
-            FILTER (
-                tracker:id(?song) = %(song_id)s
-            )
-            FILTER (
-                NOT EXISTS { ?song a nmm:Video }
-                && NOT EXISTS { ?song a nmm:Playlist }
-            )
-            %(location_filter)s
-        }
-        """.replace("\n", " ").strip() % {
-            'location_filter': self._tracker_wrapper.location_filter(),
-            'song_id': song_id
+            "filter_clause": filter_clause,
+            "location_filter": self._tracker_wrapper.location_filter()
         }
 
         return query
@@ -995,7 +958,7 @@ class GrlTrackerWrapper(GObject.GObject):
                 StoreArt(coresong, thumbnail_uri)
 
         song_id = media.get_id()
-        query = self._get_album_for_song_id_query(song_id)
+        query = self._get_album_for_media_id_query(song_id)
 
         full_options = Grl.OperationOptions()
         full_options.set_resolution_flags(
@@ -1030,7 +993,7 @@ class GrlTrackerWrapper(GObject.GObject):
                 StoreArt(corealbum, thumbnail_uri)
 
         album_id = media.get_id()
-        query = self._get_album_for_album_id_query(album_id)
+        query = self._get_album_for_media_id_query(album_id, False)
 
         full_options = Grl.OperationOptions()
         full_options.set_resolution_flags(
