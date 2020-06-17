@@ -178,6 +178,12 @@ class GrlDleynaWrapper(GObject.GObject):
         disc_model.append(coredisc)
 
     def populate_album_disc_songs(self, media, disc_nr, callback):
+        """Get all songs from an album disc
+
+        :param Grl.Media media: The media with the album name
+        :param int disc_nr: The disc number
+        :param callback: The callback to call for every song added
+        """
         album_name = media.get_title()
 
         query = """
