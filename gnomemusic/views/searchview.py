@@ -23,7 +23,6 @@
 # delete this exception statement from your version.
 
 from enum import IntEnum
-from gettext import gettext as _
 
 from gi.repository import Gdk, GObject, Gtk
 
@@ -88,13 +87,13 @@ class SearchView(Gtk.Stack):
         self._model = self._coremodel.props.songs_search
         self._album_model = self._coremodel.props.albums_search
         self._album_filter = self._coremodel.props.albums_search_filter
-        self._album_filter.set_filter_func(
-            self._core_filter, self._album_model, 12)
+        # self._album_filter.set_filter_func(
+        #     self._core_filter, self._album_model, 12)
 
         self._artist_model = self._coremodel.props.artists_search
         self._artist_filter = self._coremodel.props.artists_search_filter
-        self._artist_filter.set_filter_func(
-            self._core_filter, self._artist_model, 6)
+        # self._artist_filter.set_filter_func(
+        #     self._core_filter, self._artist_model, 6)
 
         self._model.connect_after(
             "items-changed", self._on_model_items_changed)
@@ -105,16 +104,16 @@ class SearchView(Gtk.Stack):
             "items-changed", self._on_album_model_items_changed)
         self._album_flowbox.bind_model(
             self._album_filter, self._create_album_widget)
-        self._album_flowbox.connect(
-            "size-allocate", self._on_album_flowbox_size_allocate)
+        # self._album_flowbox.connect(
+        #     "size-allocate", self._on_album_flowbox_size_allocate)
         self._on_album_model_items_changed(self._album_filter, 0, 0, 0)
 
         self._artist_filter.connect_after(
             "items-changed", self._on_artist_model_items_changed)
         self._artist_flowbox.bind_model(
             self._artist_filter, self._create_artist_widget)
-        self._artist_flowbox.connect(
-            "size-allocate", self._on_artist_flowbox_size_allocate)
+        # self._artist_flowbox.connect(
+        #     "size-allocate", self._on_artist_flowbox_size_allocate)
         self._on_artist_model_items_changed(self._artist_filter, 0, 0, 0)
 
         self._player = self._application.props.player
@@ -133,7 +132,7 @@ class SearchView(Gtk.Stack):
             "selection-mode", self, "selection-mode",
             GObject.BindingFlags.BIDIRECTIONAL)
 
-        self.add(self._album_widget)
+        self.add_named(self._album_widget, "album widget")
 
         self._scrolled_artist_window = None
 
@@ -158,7 +157,7 @@ class SearchView(Gtk.Stack):
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
 
-        song_widget.connect('button-release-event', self._song_activated)
+        # song_widget.connect('button-release-event', self._song_activated)
 
         return song_widget
 
@@ -202,7 +201,7 @@ class SearchView(Gtk.Stack):
         def set_child_visible(child):
             child.props.visible = True
 
-        self._album_flowbox.foreach(set_child_visible)
+        # self._album_flowbox.foreach(set_child_visible)
 
     def _on_artist_model_items_changed(self, model, position, removed, added):
         items_found = model.get_n_items() > 0
@@ -217,7 +216,7 @@ class SearchView(Gtk.Stack):
         def set_child_visible(child):
             child.props.visible = True
 
-        self._artist_flowbox.foreach(set_child_visible)
+        # self._artist_flowbox.foreach(set_child_visible)
 
     def _on_model_items_changed(self, model, position, removed, added):
         items_found = model.get_n_items() > 0
@@ -376,35 +375,35 @@ class SearchView(Gtk.Stack):
         self.set_visible_child(self._scrolled_artist_window)
         self.props.search_mode_active = False
 
-    @Gtk.Template.Callback()
-    def _on_all_artists_clicked(self, widget, event, user_data=None):
-        self.props.state = SearchView.State.ALL_ARTISTS
-        self._headerbar.props.state = HeaderBar.State.SEARCH
-        self._headerbar.props.title = _("Artists Results")
-        self._headerbar.props.subtitle = None
+    # @Gtk.Template.Callback()
+    # def _on_all_artists_clicked(self, widget, event, user_data=None):
+    #     self.props.state = SearchView.State.ALL_ARTISTS
+    #     self._headerbar.props.state = HeaderBar.State.SEARCH
+    #     self._headerbar.props.title = _("Artists Results")
+    #     self._headerbar.props.subtitle = None
 
-        self._artist_all_flowbox.props.visible = True
-        self._album_all_flowbox.props.visible = False
-        self._artist_all_flowbox.bind_model(
-            self._artist_model, self._create_artist_widget)
+    #     self._artist_all_flowbox.props.visible = True
+    #     self._album_all_flowbox.props.visible = False
+    #     self._artist_all_flowbox.bind_model(
+    #         self._artist_model, self._create_artist_widget)
 
-        self.props.visible_child = self._all_search_results
-        self.props.search_mode_active = False
+    #     self.props.visible_child = self._all_search_results
+    #     self.props.search_mode_active = False
 
-    @Gtk.Template.Callback()
-    def _on_all_albums_clicked(self, widget, event, user_data=None):
-        self.props.state = SearchView.State.ALL_ALBUMS
-        self._headerbar.props.state = HeaderBar.State.SEARCH
-        self._headerbar.props.title = _("Albums Results")
-        self._headerbar.props.subtitle = None
+    # @Gtk.Template.Callback()
+    # def _on_all_albums_clicked(self, widget, event, user_data=None):
+    #     self.props.state = SearchView.State.ALL_ALBUMS
+    #     self._headerbar.props.state = HeaderBar.State.SEARCH
+    #     self._headerbar.props.title = _("Albums Results")
+    #     self._headerbar.props.subtitle = None
 
-        self._artist_all_flowbox.props.visible = False
-        self._album_all_flowbox.props.visible = True
-        self._album_all_flowbox.bind_model(
-            self._album_model, self._create_album_widget)
+    #     self._artist_all_flowbox.props.visible = False
+    #     self._album_all_flowbox.props.visible = True
+    #     self._album_all_flowbox.bind_model(
+    #         self._album_model, self._create_album_widget)
 
-        self.props.visible_child = self._all_search_results
-        self.props.search_mode_active = False
+    #     self.props.visible_child = self._all_search_results
+    #     self.props.search_mode_active = False
 
     def _select_all(self, value):
         def child_select(child):

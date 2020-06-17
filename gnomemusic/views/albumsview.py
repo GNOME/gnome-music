@@ -67,8 +67,8 @@ class AlbumsView(Gtk.Stack):
         self._widget_counter = 1
         self._ctrl_hold = False
 
-        model = self._application.props.coremodel.props.albums_sort
-        self._flowbox.bind_model(model, self._create_widget)
+        self._model = self._application.props.coremodel.props.albums_sort
+        self._flowbox.bind_model(self._model, self._create_widget)
         self._flowbox.set_hadjustment(self._scrolled_window.get_hadjustment())
         self._flowbox.set_vadjustment(self._scrolled_window.get_vadjustment())
         self._flowbox.connect("child-activated", self._on_child_activated)
@@ -85,7 +85,7 @@ class AlbumsView(Gtk.Stack):
             "selection-mode", self, "selection-mode",
             GObject.BindingFlags.BIDIRECTIONAL)
 
-        self.add(self._album_widget)
+        self.add_named(self._album_widget, "album widget")
 
         self.connect(
             "notify::search-mode-active", self._on_search_mode_changed)
@@ -114,11 +114,11 @@ class AlbumsView(Gtk.Stack):
         if first_cover is None:
             return GLib.SOURCE_REMOVE
 
-        cover_size, _ = first_cover.get_allocated_size()
+        cover_size = first_cover.get_allocation()
         if cover_size.width == 0 or cover_size.height == 0:
             return GLib.SOURCE_REMOVE
 
-        viewport_size, _ = self._viewport.get_allocated_size()
+        viewport_size = self._viewport.get_allocation()
 
         h_space = self._flowbox.get_column_spacing()
         v_space = self._flowbox.get_row_spacing()
@@ -131,7 +131,8 @@ class AlbumsView(Gtk.Stack):
         covers_col = math.ceil(viewport_size.width / cover_size.width)
         covers_row = math.ceil(viewport_size.height / cover_size.height)
 
-        children = self._flowbox.get_children()
+        # children = self._flowbox.get_children()
+        children = []
         retrieve_list = []
         for i, albumcover in enumerate(children):
             if top_left_cover == albumcover:
@@ -249,8 +250,8 @@ class AlbumsView(Gtk.Stack):
                 else:
                     self._album_widget.deselect_all()
             else:
-                for child in self._flowbox.get_children():
-                    child.props.selected = selected
+                for corealbum in self._model:
+                    corealbum.props.selected = selected
 
     def select_all(self):
         self._toggle_all_selection(True)

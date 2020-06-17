@@ -2,15 +2,16 @@
 <interface>
   <template class="ArtistTile" parent="GtkListBoxRow">
     <property name="can_focus">False</property>
-    <property name="visible">True</property>
     <child>
       <object class="GtkLabel" id="_label">
         <property name="can_focus">False</property>
         <property name="ellipsize">end</property>
         <property name="halign">start</property>
         <property name="hexpand">False</property>
-        <property name="margin">16</property>
-        <property name="visible">True</property>
+        <property name="margin-bottom">16</property>
+        <property name="margin-end">16</property>
+        <property name="margin-start">16</property>
+        <property name="margin-top">16</property>
       </object>
     </child>
   </template>

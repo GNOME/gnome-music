@@ -117,7 +117,7 @@ class HeaderBar(Gtk.HeaderBar):
         self._menu_button.set_popover(AppMenu(application))
 
         self.bind_property(
-            "selection-mode", self, "show-close-button",
+            "selection-mode", self, "show-title-buttons",
             GObject.BindingFlags.INVERT_BOOLEAN
             | GObject.BindingFlags.SYNC_CREATE)
         self.bind_property(
@@ -211,11 +211,11 @@ class HeaderBar(Gtk.HeaderBar):
 
     def _update(self):
         if self.props.selection_mode:
-            self.props.custom_title = self._selection_menu
+            self.props.title_widget = self._selection_menu
         elif self.props.state != HeaderBar.State.MAIN:
-            self.props.custom_title = None
+            self.props.title_widget = None
         else:
-            self.props.custom_title = self._stack_switcher
+            self.props.title_widget = self._stack_switcher
 
         self._back_button.props.visible = (
             not self.props.selection_mode

@@ -61,7 +61,6 @@ class ArtistAlbumsWidget(Gtk.ListBox):
         self.bind_model(self._model, self._add_album)
 
         self.get_style_context().add_class("artist-albums-widget")
-        self.props.visible = True
 
     def _song_activated(self, widget, song_widget):
         if self.props.selection_mode:
@@ -89,7 +88,7 @@ class ArtistAlbumsWidget(Gtk.ListBox):
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
 
-        row.add(widget)
+        row.props.child = widget
         widget.connect("song-activated", self._song_activated)
 
         return row

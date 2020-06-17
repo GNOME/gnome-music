@@ -22,7 +22,7 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from gi.repository import Gfm, Gio, GObject, Gtk
+from gi.repository import Gio, GObject, Gtk
 
 import gnomemusic.utils as utils
 
@@ -36,9 +36,11 @@ class SongListStore(Gtk.ListStore):
         """
         super().__init__()
 
-        self._model = Gfm.SortListModel.new(model)
-        self._model.set_sort_func(
+        self._model = Gtk.SortListModel.new(model)
+        sorter = Gtk.CustomSorter()
+        sorter.set_sort_func(
             utils.wrap_list_store_sort_func(self._songs_sort))
+        self._model.set_sorter(sorter)
 
         self.set_column_types([
             GObject.TYPE_STRING,    # play or invalid icon
@@ -111,6 +113,6 @@ class SongListStore(Gtk.ListStore):
         """Gets the model of songs sorted.
 
         :returns: a list model of sorted songs
-        :rtype: Gfm.SortListModel
+        :rtype: Gtk.SortListModel
         """
         return self._model

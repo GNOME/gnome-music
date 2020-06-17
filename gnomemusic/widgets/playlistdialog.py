@@ -72,12 +72,10 @@ class PlaylistDialog(Gtk.Dialog):
 
     def _set_view(self):
         if self._user_playlists_available:
-            self._normal_box.show()
             self._add_playlist_stack.props.visible_child = self._normal_box
             self._add_playlist_button = self._new_playlist_button
             self._add_playlist_entry = self._new_playlist_entry
         else:
-            self._empty_box.show()
             self._add_playlist_stack.props.visible_child = self._empty_box
             self._add_playlist_button = self._first_playlist_button
             self._add_playlist_entry = self._first_playlist_entry

@@ -47,9 +47,7 @@ class PlayerToolbar(Gtk.ActionBar):
     _cover_stack = Gtk.Template.Child()
     _duration_label = Gtk.Template.Child()
     _next_button = Gtk.Template.Child()
-    _pause_image = Gtk.Template.Child()
     _play_button = Gtk.Template.Child()
-    _play_image = Gtk.Template.Child()
     _prev_button = Gtk.Template.Child()
     _progress_scale = Gtk.Template.Child()
     _progress_time_label = Gtk.Template.Child()
@@ -128,26 +126,26 @@ class PlayerToolbar(Gtk.ActionBar):
 
     def _sync_repeat_image(self):
         icon = self._repeat_dict[self._player.props.repeat_mode]
-        self._repeat_image.set_from_icon_name(icon, Gtk.IconSize.MENU)
+        self._repeat_image.set_from_icon_name(icon)
 
     def _sync_playing(self, player, state):
         if (self._player.props.state == Playback.STOPPED
                 and not self._player.props.has_next
                 and not self._player.props.has_previous):
-            self.hide()
+            self.props.revealed = False
             return
 
-        self.show()
+        self.props.revealed = True
 
         if self._player.props.state == Playback.PLAYING:
-            image = self._pause_image
+            icon_name = "media-playback-pause-symbolic"
             tooltip = _("Pause")
         else:
-            image = self._play_image
+            icon_name = "media-playback-start-symbolic"
             tooltip = _("Play")
 
-        if self._play_button.get_image() != image:
-            self._play_button.set_image(image)
+        if self._play_button.props.icon_name != icon_name:
+            self._play_button.props.icon_name = icon_name
 
         self._play_button.set_tooltip_text(tooltip)
 

@@ -26,7 +26,7 @@ from gi.repository import Gtk, Gdk, Gio, GLib, GObject
 from gettext import gettext as _
 
 from gnomemusic.gstplayer import Playback
-from gnomemusic.mediakeys import MediaKeys
+# from gnomemusic.mediakeys import MediaKeys
 from gnomemusic.player import RepeatMode
 from gnomemusic.search import Search
 from gnomemusic.trackerwrapper import TrackerState
@@ -43,7 +43,7 @@ from gnomemusic.widgets.playertoolbar import PlayerToolbar  # noqa: F401
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
 from gnomemusic.widgets.searchheaderbar import SearchHeaderBar
 from gnomemusic.widgets.selectiontoolbar import SelectionToolbar  # noqa: F401
-from gnomemusic.windowplacement import WindowPlacement
+# from gnomemusic.windowplacement import WindowPlacement
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/Window.ui")
@@ -85,7 +85,8 @@ class Window(Gtk.ApplicationWindow):
         self.add_action(deselect_all)
 
         self.set_size_request(200, 100)
-        WindowPlacement(self)
+        # FIXME: Rework placement.
+        # WindowPlacement(self)
 
         self._current_view = None
         self._view_before_search = None
@@ -94,7 +95,7 @@ class Window(Gtk.ApplicationWindow):
 
         self._setup_view()
 
-        MediaKeys(self._player, self)
+        # MediaKeys(self._player, self)
 
     def _setup_view(self):
         self._search = Search()
@@ -225,14 +226,16 @@ class Window(Gtk.ApplicationWindow):
         self._on_notify_model_id = self._stack.connect(
             'notify::visible-child', self._on_notify_mode)
         self.connect('destroy', self._notify_mode_disconnect)
-        self._key_press_event_id = self.connect(
-            'key_press_event', self._on_key_press)
 
-        self._btn_ctrl = Gtk.GestureMultiPress().new(self)
-        self._btn_ctrl.props.propagation_phase = Gtk.PropagationPhase.CAPTURE
+        ctrl = Gtk.EventControllerKey()
+        ctrl.connect("key-pressed", self._on_key_pressed)
+        self.add_controller(ctrl)
+
+        ctrl = Gtk.GestureClick().new()
         # Mouse button 8 is the back button.
-        self._btn_ctrl.props.button = 8
-        self._btn_ctrl.connect("pressed", self._on_back_button_pressed)
+        ctrl.props.button = 8
+        ctrl.connect("pressed", self._on_back_button_pressed)
+        self.add_controller(ctrl)
 
         self.views[View.EMPTY].props.state = EmptyView.State.SEARCH
 
@@ -283,9 +286,8 @@ class Window(Gtk.ApplicationWindow):
 
         self.props.active_view.deselect_all()
 
-    def _on_key_press(self, widget, event):
-        modifiers = event.get_state() & Gtk.accelerator_get_default_mod_mask()
-        (_, keyval) = event.get_keyval()
+    def _on_key_pressed(self, controller, keyval, keycode, state):
+        modifiers = state & Gtk.accelerator_get_default_mod_mask()
 
         control_mask = Gdk.ModifierType.CONTROL_MASK
         shift_mask = Gdk.ModifierType.SHIFT_MASK
@@ -447,7 +449,7 @@ class Window(Gtk.ApplicationWindow):
     def _on_selection_mode_changed(self, widget, data=None):
         if (not self.props.selection_mode
                 and self._player.state == Playback.STOPPED):
-            self._player_toolbar.hide()
+            self._player_toolbar.props.revealed = False
 
     def _on_add_to_playlist(self, widget):
         if self.props.active_view == self.views[View.PLAYLIST]:
@@ -472,4 +474,4 @@ class Window(Gtk.ApplicationWindow):
 
         :param bool visible: actionbar visibility
         """
-        self._player_toolbar.set_visible(visible)
+        self._player_toolbar.props.revealed = visible

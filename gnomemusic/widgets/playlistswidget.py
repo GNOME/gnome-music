@@ -22,7 +22,8 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from gi.repository import Gdk, GObject, Gtk
+# from gi.repository import Gdk, GObject, Gtk
+from gi.repository import GObject, Gtk
 
 from gnomemusic.player import PlayerPlaylist
 from gnomemusic.widgets.notificationspopup import PlaylistNotification
@@ -40,7 +41,7 @@ class PlaylistsWidget(Gtk.Box):
 
     _pl_ctrls = Gtk.Template.Child()
     _songs_list = Gtk.Template.Child()
-    _songs_list_ctrlr = Gtk.Template.Child()
+    # _songs_list_ctrlr = Gtk.Template.Child()
 
     def __init__(self, application, playlists_view):
         """Initialize the PlaylistsWidget.
@@ -97,9 +98,9 @@ class PlaylistsWidget(Gtk.Box):
         song_widget = SongWidget(coresong, can_dnd, True)
         song_widget.props.show_song_number = False
 
-        song_widget.connect("button-release-event", self._on_song_activated)
-        if can_dnd is True:
-            song_widget.connect("widget_moved", self._on_song_widget_moved)
+        # song_widget.connect("button-release-event", self._on_song_activated)
+        # if can_dnd is True:
+        #     song_widget.connect("widget_moved", self._on_song_widget_moved)
 
         return song_widget
 
@@ -133,20 +134,20 @@ class PlaylistsWidget(Gtk.Box):
                 and current_playlist.props.is_smart):
             current_playlist.update()
 
-    @Gtk.Template.Callback()
-    def _songs_list_right_click(self, gesture, n_press, x, y):
-        requested_row = self._songs_list.get_row_at_y(y)
-        self._songs_list.select_row(requested_row)
+    # @Gtk.Template.Callback()
+    # def _songs_list_right_click(self, gesture, n_press, x, y):
+    #     requested_row = self._songs_list.get_row_at_y(y)
+    #     self._songs_list.select_row(requested_row)
 
-        _, y0 = requested_row.translate_coordinates(self._songs_list, 0, 0)
-        row_height = requested_row.get_allocated_height()
-        rect = Gdk.Rectangle()
-        rect.x = x
-        rect.y = y0 + 0.5 * row_height
+    #     _, y0 = requested_row.translate_coordinates(self._songs_list, 0, 0)
+    #     row_height = requested_row.get_allocated_height()
+    #     rect = Gdk.Rectangle()
+    #     rect.x = x
+    #     rect.y = y0 + 0.5 * row_height
 
-        self._song_popover.props.relative_to = self._songs_list
-        self._song_popover.props.pointing_to = rect
-        self._song_popover.popup()
+    #     self._song_popover.props.relative_to = self._songs_list
+    #     self._song_popover.props.pointing_to = rect
+    #     self._song_popover.popup()
 
     def _play_song(self, menuitem, data=None):
         selected_row = self._songs_list.get_selected_row()

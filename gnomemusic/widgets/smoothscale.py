@@ -46,10 +46,10 @@ class SmoothScale(Gtk.Scale):
 
         self._timeout = None
 
-        self._controller = Gtk.GestureMultiPress().new(self)
-        self._controller.props.propagation_phase = Gtk.PropagationPhase.CAPTURE
-        self._controller.connect("pressed", self._on_button_pressed)
-        self._controller.connect("released", self._on_button_released)
+        ctrl = Gtk.GestureClick()
+        ctrl.connect("pressed", self._on_button_pressed)
+        ctrl.connect("released", self._on_button_released)
+        self.add_controller(ctrl)
 
         self.connect('change-value', self._on_smooth_scale_seek)
 
@@ -162,10 +162,10 @@ class SmoothScale(Gtk.Scale):
         duration = abs(self._player.props.duration)
 
         style_context = self.get_style_context()
-        state = style_context.get_state()
+        # state = style_context.get_state()
 
         width = self.get_allocated_width()
-        padding = style_context.get_padding(state)
+        padding = style_context.get_padding()
         width = max(width - (padding.left + padding.right), 1)
 
         timeout_period = min(1000 * duration // width, 200)
