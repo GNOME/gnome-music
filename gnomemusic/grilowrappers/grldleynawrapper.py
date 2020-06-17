@@ -184,9 +184,9 @@ class GrlDleynaWrapper(GObject.GObject):
 
         self.props.source.query(query, self.METADATA_KEYS, options, callback)
 
-    def get_artist_albums(self, artist, model):
+    def get_artist_albums(self, coreartist, model):
         self._window.notifications_popup.push_loading()
-        artist_name = artist.get_title()
+        artist_name = coreartist.get_title()
 
         query = """
             upnp:artist = '%(artist_name)s'

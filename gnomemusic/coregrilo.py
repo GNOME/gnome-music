@@ -164,8 +164,8 @@ class CoreGrilo(GObject.GObject):
         self._search_wrappers.pop(source.props.source_id, None)
 
     def get_artist_albums(self, artist, filter_model):
-        for wrapper in self._wrappers.values():
-            wrapper.get_artist_albums(artist, filter_model)
+        source = artist.get_source()
+        self._wrappers[source].get_artist_albums(artist, filter_model)
 
     def get_album_discs(self, media, disc_model):
         for wrapper in self._wrappers.values():
