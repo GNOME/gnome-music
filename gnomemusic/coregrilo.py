@@ -178,9 +178,9 @@ class CoreGrilo(GObject.GObject):
         self._wrappers[source].get_album_discs(media, disc_model)
 
     def populate_album_disc_songs(self, media, discnr, callback):
-        for wrapper in self._wrappers.values():
-            wrapper.populate_album_disc_songs(media, discnr, callback)
-
+        source = media.get_source()
+        self._wrappers[source].populate_album_disc_songs(
+            media, discnr, callback)
 
     def writeback(self, media, key):
         """Store the values associated with the key.
