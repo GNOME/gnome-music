@@ -167,6 +167,12 @@ class GrlDleynaWrapper(GObject.GObject):
             query, self.METADATA_KEYS, options, _add_to_artists_model)
 
     def get_album_discs(self, media, disc_model):
+        # upnp doesn't support album disc, so we manually set it to 1.
+        """Get all discs of an album
+
+        :param Grl.Media media: The media with the album name
+        :param Gfm.SortListModel disc_model: The model to fill
+        """
         disc_nr = 1
         coredisc = CoreDisc(self._application, media, disc_nr)
         disc_model.append(coredisc)

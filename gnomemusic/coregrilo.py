@@ -168,8 +168,8 @@ class CoreGrilo(GObject.GObject):
         self._wrappers[source].get_artist_albums(artist, filter_model)
 
     def get_album_discs(self, media, disc_model):
-        for wrapper in self._wrappers.values():
-            wrapper.get_album_discs(media, disc_model)
+        source = media.get_source()
+        self._wrappers[source].get_album_discs(media, disc_model)
 
     def populate_album_disc_songs(self, media, discnr, callback):
         for wrapper in self._wrappers.values():
