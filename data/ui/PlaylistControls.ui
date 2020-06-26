@@ -49,7 +49,6 @@
                 <child>
                   <object class="GtkEntry" id="_rename_entry">
                     <property name="can_focus">1</property>
-                    <property name="has_focus">1</property>
                     <property name="receives_default">1</property>
                     <signal name="activate" handler="_on_playlist_renamed" swapped="no"/>
                     <signal name="changed" handler="_on_rename_entry_changed" swapped="no"/>
@@ -59,7 +58,6 @@
                 <child>
                   <object class="GtkButton" id="_rename_done_button">
                     <property name="can_focus">1</property>
-                    <property name="has_focus">1</property>
                     <property name="receives_default">1</property>
                     <property name="label" translatable="yes">_Done</property>
                     <property name="use_underline">1</property>
