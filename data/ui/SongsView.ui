@@ -15,6 +15,12 @@
         <style>
           <class name="songs-list-old"/>
         </style>
+        <child>
+          <object class="GtkGestureClick" id="_songs_ctrlr">
+            <property name="propagation-phase">capture</property>
+            <signal name="released" handler="_on_view_clicked" swapped="no"/>
+          </object>
+        </child>
         <child internal-child="selection">
           <object class="GtkTreeSelection">
             <property name="mode">single</property>
@@ -115,9 +121,4 @@
       </object>
     </child>
   </template>
-  <object class="GtkGestureClick" id="_songs_ctrlr">
-    <property name="widget">_songs_view</property>
-    <property name="propagation-phase">capture</property>
-    <signal name="released" handler="_on_view_clicked" swapped="no"/>
-  </object>
 </interface>
