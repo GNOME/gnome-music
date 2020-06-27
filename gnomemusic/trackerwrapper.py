@@ -162,8 +162,7 @@ class TrackerWrapper(GObject.GObject):
                 self._log.warning("Unable to update favorite: {}".format(
                     e.message))
 
-        self._tracker.update_async(
-            update, GLib.PRIORITY_LOW, None, _update_favorite_cb)
+        self._tracker.update_async(update, None, _update_favorite_cb)
 
     def _update_play_count(self, media):
         update = """
@@ -186,8 +185,7 @@ class TrackerWrapper(GObject.GObject):
                 self._log.warning("Unable to update play count: {}".format(
                     e.message))
 
-        self._tracker.update_async(
-            update, GLib.PRIORITY_LOW, None, _update_play_count_cb)
+        self._tracker.update_async(update, None, _update_play_count_cb)
 
     def _update_last_played(self, media):
         last_played = media.get_last_played().format_iso8601()
@@ -211,8 +209,7 @@ class TrackerWrapper(GObject.GObject):
                 self._log.warning("Unable to update play count: {}".format(
                     e.message))
 
-        self._tracker.update_async(
-            update, GLib.PRIORITY_LOW, None, _update_last_played_cb)
+        self._tracker.update_async(update, None, _update_last_played_cb)
 
     def update_tags(self, media, tags):
         """Recursively update all tags.

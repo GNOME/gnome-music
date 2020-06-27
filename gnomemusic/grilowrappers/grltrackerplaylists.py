@@ -202,8 +202,7 @@ class GrlTrackerPlaylists(GObject.GObject):
         """.replace("\n", " ").strip() % {
             "playlist_id": playlist.props.pl_id
         }
-        self._tracker.update_async(
-            query, GLib.PRIORITY_LOW, None, _delete_cb, None)
+        self._tracker.update_async(query, None, _delete_cb, None)
 
     def create_playlist(self, playlist_title, callback):
         """Creates a new user playlist.
@@ -244,8 +243,7 @@ class GrlTrackerPlaylists(GObject.GObject):
                              nfo:entryCounter 0 .
             }
             """.replace("\n", " ").strip() % {"title": playlist_title}
-        self._tracker.update_blank_async(
-            query, GLib.PRIORITY_LOW, None, _create_cb, None)
+        self._tracker.update_blank_async(query, None, _create_cb, None)
 
     def check_smart_playlist_change(self):
         """Check if smart playlists need to be updated.
@@ -489,8 +487,7 @@ class Playlist(GObject.GObject):
         }
 
         self.freeze_notify()
-        self._tracker.update_async(
-            query, GLib.PRIORITY_LOW, None, update_cb, None)
+        self._tracker.update_async(query, None, update_cb, None)
 
     def stage_song_deletion(self, coresong, index):
         """Adds a song to the list of songs to delete
@@ -586,8 +583,7 @@ class Playlist(GObject.GObject):
             "song_id": coresong.props.media.get_id()
         }
 
-        self._tracker.update_async(
-            query, GLib.PRIORITY_LOW, None, update_cb, None)
+        self._tracker.update_async(query, None, update_cb, None)
 
     def add_songs(self, coresongs):
         """Adds songs to the playlist
@@ -687,7 +683,7 @@ class Playlist(GObject.GObject):
                 "song_uri": coresong.props.media.get_url()}
 
             self._tracker.update_blank_async(
-                query, GLib.PRIORITY_LOW, None, _requery_media, coresong)
+                query, None, _requery_media, coresong)
 
     def reorder(self, previous_position, new_position):
         """Changes the order of a songs in the playlist.
@@ -730,8 +726,7 @@ class Playlist(GObject.GObject):
                 "position": position
             }
             self._tracker.update_async(
-                query, GLib.PRIORITY_LOW, None, _position_changed_cb,
-                position)
+                query, None, _position_changed_cb, position)
 
 
 class SmartPlaylist(Playlist):
