@@ -111,7 +111,7 @@ class GrlTrackerPlaylists(GObject.GObject):
             %(media_type)s AS ?type
             ?playlist AS ?id
             nie:title(?playlist) AS ?title
-            tracker:added(?playlist) AS ?creationDate
+            nrl:added(?playlist) AS ?creationDate
             nfo:entryCounter(?playlist) AS ?childCount
         WHERE
         {
@@ -218,7 +218,7 @@ class GrlTrackerPlaylists(GObject.GObject):
                 %(media_type)s AS ?type
                 ?playlist AS ?id
                 nie:title(?playlist) AS ?title
-                tracker:added(?playlist) AS ?creationDate
+                nrl:added(?playlist) AS ?creationDate
                 nfo:entryCounter(?playlist) AS ?childCount
                 WHERE
                 {
@@ -1025,7 +1025,7 @@ class RecentlyAdded(SmartPlaylist):
                         ?added
                     WHERE {
                         ?song a nmm:MusicPiece ;
-                              tracker:added ?added .
+                              nrl:added ?added .
                         %(location_filter)s
                         FILTER ( ?added > '%(compare_date)s'^^xsd:dateTime )
                     }
@@ -1033,7 +1033,7 @@ class RecentlyAdded(SmartPlaylist):
             }
             OPTIONAL { ?song nao:hasTag ?tag .
                        FILTER (?tag = nao:predefined-tag-favorite) }
-        } ORDER BY DESC(tracker:added(?song)) LIMIT 50
+        } ORDER BY DESC(nrl:added(?song)) LIMIT 50
         """.replace('\n', ' ').strip() % {
             'media_type': int(Grl.MediaType.AUDIO),
             'compare_date': compare_date,
@@ -1076,7 +1076,7 @@ class Favorites(SmartPlaylist):
                             nmm:trackNumber(?song) AS ?trackNumber
                             nmm:setNumber(nmm:musicAlbumDisc(?song))
                                 AS ?albumDiscNumber
-                            tracker:added(?song) AS ?added
+                            nrl:added(?song) AS ?added
                         WHERE {
                             ?song a nmm:MusicPiece .
                             %(location_filter)s
