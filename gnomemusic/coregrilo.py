@@ -95,7 +95,7 @@ class CoreGrilo(GObject.GObject):
         config.set_api_key(self._acoustid_api_key)
         self._registry.add_config(config)
 
-        config = Grl.Config.new("grl-tracker", "grl-tracker3-source")
+        config = Grl.Config.new("grl-tracker3", "grl-tracker3-source")
         config.set_string(
             "store-path", self._tracker_wrapper.cache_directory())
         self._registry.add_config(config)
@@ -132,10 +132,10 @@ class CoreGrilo(GObject.GObject):
         new_state = self._tracker_wrapper.props.tracker_available
         # FIXME:No removal support yet.
         if new_state == TrackerState.AVAILABLE:
-            tracker_plugin = self._registry.lookup_plugin("grl-tracker")
+            tracker_plugin = self._registry.lookup_plugin("grl-tracker3")
             if tracker_plugin:
-                self._registry.unload_plugin("grl-tracker")
-            self._registry.activate_plugin_by_id("grl-tracker")
+                self._registry.unload_plugin("grl-tracker3")
+            self._registry.activate_plugin_by_id("grl-tracker3")
 
     def _on_source_added(self, registry, source):
 
