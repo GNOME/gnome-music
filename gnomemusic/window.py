@@ -230,6 +230,11 @@ class Window(Handy.ApplicationWindow):
             'notify::visible-child', self._on_notify_mode)
         self.connect('destroy', self._notify_mode_disconnect)
 
+        # All views are created together, so if the album view is
+        # already initialized, assume the rest are as well.
+        if self.views[View.ALBUM] is not None:
+            return
+
         self._btn_ctrl = Gtk.GestureMultiPress().new(self)
         self._btn_ctrl.props.propagation_phase = Gtk.PropagationPhase.CAPTURE
         # Mouse button 8 is the back button.
@@ -239,12 +244,6 @@ class Window(Handy.ApplicationWindow):
         self.views[View.EMPTY].props.state = EmptyView.State.SEARCH
 
         self._headerbar.props.state = HeaderBar.State.MAIN
-
-        # All views are created together, so if the album view is
-        # already initialized, assume the rest are as well.
-        if self.views[View.ALBUM] is not None:
-            return
-
         self.views[View.ALBUM] = AlbumsView(self._app)
         self.views[View.ARTIST] = ArtistsView(self._app)
         self.views[View.SONG] = SongsView(self._app)
