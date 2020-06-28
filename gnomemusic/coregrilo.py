@@ -180,7 +180,7 @@ class CoreGrilo(GObject.GObject):
                 grl_tracker_wrapper.props.source = source
         elif (source.props.source_id not in self._search_wrappers.keys()
                 and source.props.source_id not in self._wrappers.keys()
-                and source.props.source_id != "grl-tracker-source"
+                and source.props.source_id != "grl-tracker3-source"
                 and source.get_supported_media() & Grl.MediaType.AUDIO
                 and source.supported_operations() & Grl.SupportedOps.SEARCH
                 and "net:internet" not in source.props.source_tags):
@@ -260,21 +260,21 @@ class CoreGrilo(GObject.GObject):
 
     def get_album_art_for_item(self, coresong, callback):
         # Tracker not (yet) loaded.
-        if "grl-tracker-source" in self._wrappers:
-            self._wrappers["grl-tracker-source"].get_album_art_for_item(
+        if "grl-tracker3-source" in self._wrappers:
+            self._wrappers["grl-tracker3-source"].get_album_art_for_item(
                 coresong, callback)
 
     def get_artist_art(self, coreartist):
-        if "grl-tracker-source" in self._wrappers:
-            self._wrappers["grl-tracker-source"].get_artist_art(coreartist)
+        if "grl-tracker3-source" in self._wrappers:
+            self._wrappers["grl-tracker3-source"].get_artist_art(coreartist)
 
     def stage_playlist_deletion(self, playlist):
         """Prepares playlist deletion.
 
         :param Playlist playlist: playlist
         """
-        if "grl-tracker-source" in self._wrappers:
-            self._wrappers["grl-tracker-source"].stage_playlist_deletion(
+        if "grl-tracker3-source" in self._wrappers:
+            self._wrappers["grl-tracker3-source"].stage_playlist_deletion(
                 playlist)
 
     def finish_playlist_deletion(self, playlist, deleted):
@@ -283,8 +283,8 @@ class CoreGrilo(GObject.GObject):
         :param Playlist playlist: playlist
         :param bool deleted: indicates if the playlist has been deleted
         """
-        if "grl-tracker-source" in self._wrappers:
-            self._wrappers["grl-tracker-source"].finish_playlist_deletion(
+        if "grl-tracker3-source" in self._wrappers:
+            self._wrappers["grl-tracker3-source"].finish_playlist_deletion(
                 playlist, deleted)
 
     def create_playlist(self, playlist_title, callback):
@@ -293,8 +293,8 @@ class CoreGrilo(GObject.GObject):
         :param str playlist_title: playlist title
         :param callback: function to perform once, the playlist is created
         """
-        if "grl-tracker-source" in self._wrappers:
-            self._wrappers["grl-tracker-source"].create_playlist(
+        if "grl-tracker3-source" in self._wrappers:
+            self._wrappers["grl-tracker3-source"].create_playlist(
                 playlist_title, callback)
 
     def get_chromaprint(self, coresong, callback):
