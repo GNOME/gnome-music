@@ -1,0 +1,20 @@
+# This defines a private Tracker domain for GNOME Music.
+#
+# It's used to run the Tracker indexer inside a Flatpak sandbox, when Music is
+# running on a host that doesn't have a suitable version of Tracker installed.
+
+[DomainOntology]
+# Location for the Tracker database
+CacheLocation=$XDG_CACHE_HOME/gnome-music/miner/files
+
+# Name of the ontology to use, must be one located in
+# $(sharedir)/tracker/ontologies
+OntologyName=nepomuk
+
+# DBus name for the owner (not optional). Tracker will use
+# the domain as the prefix of the DBus name for all the
+# services related to this domain ontology.
+Domain=@application_id@
+
+# List of miners we expect to run in this domain.
+Miners=Miner.Files;Miner.Extract

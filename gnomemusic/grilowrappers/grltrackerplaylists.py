@@ -74,7 +74,7 @@ class GrlTrackerPlaylists(GObject.GObject):
         self._user_model_filter = self._coremodel.props.user_playlists_filter
         self._pls_todelete = []
         self._songs_hash = songs_hash
-        self._tracker = tracker_wrapper.props.tracker
+        self._tracker = tracker_wrapper.props.local_db
         self._tracker_wrapper = tracker_wrapper
         self._window = application.props.window
 
@@ -323,7 +323,7 @@ class Playlist(GObject.GObject):
         self._coreselection = application.props.coreselection
         self._log = application.props.log
         self._songs_hash = songs_hash
-        self._tracker = tracker_wrapper.props.tracker
+        self._tracker = tracker_wrapper.props.local_db
         self._tracker_wrapper = tracker_wrapper
         self._window = application.props.window
 
@@ -367,7 +367,7 @@ class Playlist(GObject.GObject):
                         nfo:hasMediaFileListEntry ?entry .
             ?entry a nfo:MediaFileListEntry ;
                      nfo:entryUrl ?url .
-            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+            SERVICE <dbus:%(miner_fs_busname)s> {
                 GRAPH tracker:Audio {
                     SELECT
                         ?song
@@ -394,7 +394,8 @@ class Playlist(GObject.GObject):
         """.replace('\n', ' ').strip() % {
             'media_type': int(Grl.MediaType.AUDIO),
             "filter_clause": 'tracker:id(?playlist) = ' + self.props.pl_id,
-            "location_filter": self._tracker_wrapper.location_filter()
+            "location_filter": self._tracker_wrapper.location_filter(),
+            "miner_fs_busname": self._tracker_wrapper.miner_fs_busname(),
         }
 
         def _add_to_playlist_cb(
@@ -624,7 +625,7 @@ class Playlist(GObject.GObject):
                             nfo:hasMediaFileListEntry ?entry .
                 ?entry a nfo:MediaFileListEntry ;
                          nfo:entryUrl ?url .
-                SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+                SERVICE <dbus:%(miner_fs_busname)s> {
                     GRAPH tracker:Audio {
                         SELECT
                             ?song
@@ -650,7 +651,8 @@ class Playlist(GObject.GObject):
             """.replace("\n", " ").strip() % {
                 'media_type': int(Grl.MediaType.AUDIO),
                 "filter_clause": "tracker:id(?song) = " + media_id,
-                "location_filter": self._tracker_wrapper.location_filter()
+                "location_filter": self._tracker_wrapper.location_filter(),
+                "miner_fs_busname": self._tracker_wrapper.miner_fs_busname(),
             }
 
             options = self._fast_options.copy()
@@ -839,7 +841,7 @@ class MostPlayed(SmartPlaylist):
             ?playCount
             ?tag AS ?favorite
         WHERE {
-            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+            SERVICE <dbus:%(miner_fs_busname)s> {
                 GRAPH tracker:Audio {
                     SELECT
                         ?song
@@ -864,7 +866,8 @@ class MostPlayed(SmartPlaylist):
         ORDER BY DESC(?playCount) LIMIT 50
         """.replace('\n', ' ').strip() % {
             'media_type': int(Grl.MediaType.AUDIO),
-            "location_filter": self._tracker_wrapper.location_filter()
+            "location_filter": self._tracker_wrapper.location_filter(),
+            "miner_fs_busname": self._tracker_wrapper.miner_fs_busname(),
         }
 
 
@@ -891,7 +894,7 @@ class NeverPlayed(SmartPlaylist):
             nie:usageCounter(?song) AS ?playCount
             ?tag AS ?favorite
         WHERE {
-            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+            SERVICE <dbus:%(miner_fs_busname)s> {
                 GRAPH tracker:Audio {
                     SELECT
                         ?song
@@ -915,7 +918,8 @@ class NeverPlayed(SmartPlaylist):
         } ORDER BY nfo:fileLastAccessed(?song) LIMIT 50
         """.replace('\n', ' ').strip() % {
             'media_type': int(Grl.MediaType.AUDIO),
-            "location_filter": self._tracker_wrapper.location_filter()
+            "location_filter": self._tracker_wrapper.location_filter(),
+            "miner_fs_busname": self._tracker_wrapper.miner_fs_busname(),
         }
 
 
@@ -949,7 +953,7 @@ class RecentlyPlayed(SmartPlaylist):
             nie:usageCounter(?song) AS ?playCount
             ?tag AS ?favorite
         WHERE {
-            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+            SERVICE <dbus:%(miner_fs_busname)s> {
                 GRAPH tracker:Audio {
                     SELECT
                         ?song
@@ -976,7 +980,8 @@ class RecentlyPlayed(SmartPlaylist):
         """.replace('\n', ' ').strip() % {
             'media_type': int(Grl.MediaType.AUDIO),
             'compare_date': compare_date,
-            "location_filter": self._tracker_wrapper.location_filter()
+            "location_filter": self._tracker_wrapper.location_filter(),
+            "miner_fs_busname": self._tracker_wrapper.miner_fs_busname(),
         }
 
 
@@ -1010,7 +1015,7 @@ class RecentlyAdded(SmartPlaylist):
             nie:usageCounter(?song) AS ?playCount
             ?tag AS ?favorite
         WHERE {
-            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+            SERVICE <dbus:%(miner_fs_busname)s> {
                 GRAPH tracker:Audio {
                     SELECT
                         ?song
@@ -1037,7 +1042,8 @@ class RecentlyAdded(SmartPlaylist):
         """.replace('\n', ' ').strip() % {
             'media_type': int(Grl.MediaType.AUDIO),
             'compare_date': compare_date,
-            "location_filter": self._tracker_wrapper.location_filter()
+            "location_filter": self._tracker_wrapper.location_filter(),
+            "miner_fs_busname": self._tracker_wrapper.miner_fs_busname(),
         }
 
 
@@ -1064,7 +1070,7 @@ class Favorites(SmartPlaylist):
                 nie:usageCounter(?song) AS ?playCount
                 nao:predefined-tag-favorite AS ?favorite
             WHERE {
-                SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+                SERVICE <dbus:%(miner_fs_busname)s> {
                     GRAPH tracker:Audio {
                         SELECT
                             ?song
@@ -1087,5 +1093,6 @@ class Favorites(SmartPlaylist):
             } ORDER BY DESC(?added)
         """.replace('\n', ' ').strip() % {
             "media_type": int(Grl.MediaType.AUDIO),
-            "location_filter": self._tracker_wrapper.location_filter()
+            "location_filter": self._tracker_wrapper.location_filter(),
+            "miner_fs_busname": self._tracker_wrapper.miner_fs_busname(),
         }

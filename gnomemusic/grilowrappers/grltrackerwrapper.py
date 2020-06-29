@@ -178,7 +178,7 @@ class GrlTrackerWrapper(GObject.GObject):
             ?type ?id ?title ?composer ?albumArtist
             ?artist ?url ?creationDate
         WHERE {
-            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+            SERVICE <dbus:%(miner_fs_busname)s> {
                 GRAPH tracker:Audio {
                     SELECT
                         %(media_type)s AS ?type
@@ -204,8 +204,9 @@ class GrlTrackerWrapper(GObject.GObject):
             }
         }
         """.replace('\n', ' ').strip() % {
+            'miner_fs_busname': self._tracker_wrapper.miner_fs_busname(),
             'media_type': int(Grl.MediaType.CONTAINER),
-            'location_filter': self._tracker_wrapper.location_filter()
+            'location_filter': self._tracker_wrapper.location_filter(),
         }
 
         def check_album_cb(source, op_id, media, remaining, error):
@@ -250,7 +251,7 @@ class GrlTrackerWrapper(GObject.GObject):
         query = """
         SELECT ?type ?id ?artist
         WHERE {
-            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+            SERVICE <dbus:%(miner_fs_busname)s> {
                 GRAPH tracker:Audio {
                     SELECT
                         %(media_type)s AS ?type
@@ -273,8 +274,9 @@ class GrlTrackerWrapper(GObject.GObject):
             }
         }
         """.replace('\n', ' ').strip() % {
+            'miner_fs_busname': self._tracker_wrapper.miner_fs_busname(),
             'media_type': int(Grl.MediaType.CONTAINER),
-            'location_filter': self._tracker_wrapper.location_filter()
+            'location_filter': self._tracker_wrapper.location_filter(),
         }
 
         def check_artist_cb(source, op_id, media, remaining, error):
@@ -340,7 +342,7 @@ class GrlTrackerWrapper(GObject.GObject):
             nie:usageCounter(?urn) AS ?playCount
             ?tag AS ?favorite
         WHERE {
-            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+            SERVICE <dbus:%(miner_fs_busname)s> {
                 GRAPH tracker:Audio {
                     SELECT DISTINCT
                         %(media_type)s AS ?type
@@ -411,9 +413,10 @@ class GrlTrackerWrapper(GObject.GObject):
             }
         }
         """.replace('\n', ' ').strip() % {
+            'miner_fs_busname': self._tracker_wrapper.miner_fs_busname(),
             'media_type': int(Grl.MediaType.AUDIO),
             'location_filter': self._tracker_wrapper.location_filter(),
-            'media_ids': media_ids
+            'media_ids': media_ids,
         }
 
         return query
@@ -488,7 +491,7 @@ class GrlTrackerWrapper(GObject.GObject):
             nie:usageCounter(?urn) AS ?playCount
             ?tag AS ?favorite
         WHERE {
-            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+            SERVICE <dbus:%(miner_fs_busname)s> {
                 GRAPH tracker:Audio {
                     SELECT
                         %(media_type)s AS ?type
@@ -559,8 +562,9 @@ class GrlTrackerWrapper(GObject.GObject):
             }
         }
         """.replace('\n', ' ').strip() % {
+            'miner_fs_busname': self._tracker_wrapper.miner_fs_busname(),
             'media_type': int(Grl.MediaType.AUDIO),
-            'location_filter': self._tracker_wrapper.location_filter()
+            'location_filter': self._tracker_wrapper.location_filter(),
         }
 
         options = self._fast_options.copy()
@@ -597,7 +601,7 @@ class GrlTrackerWrapper(GObject.GObject):
             ?artist ?url ?creationDate
         WHERE
         {
-            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+            SERVICE <dbus:%(miner_fs_busname)s> {
                 GRAPH tracker:Audio {
                     SELECT
                         %(media_type)s AS ?type
@@ -626,8 +630,9 @@ class GrlTrackerWrapper(GObject.GObject):
             }
         }
         """.replace('\n', ' ').strip() % {
+            'miner_fs_busname': self._tracker_wrapper.miner_fs_busname(),
             'media_type': int(Grl.MediaType.CONTAINER),
-            'location_filter': self._tracker_wrapper.location_filter()
+            'location_filter': self._tracker_wrapper.location_filter(),
         }
 
         options = self._fast_options.copy()
@@ -662,7 +667,7 @@ class GrlTrackerWrapper(GObject.GObject):
         query = """
         SELECT ?type ?id ?albumArtist
         WHERE {
-            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+            SERVICE <dbus:%(miner_fs_busname)s> {
                 GRAPH tracker:Audio {
                     SELECT
                        %(media_type)s AS ?type
@@ -686,8 +691,9 @@ class GrlTrackerWrapper(GObject.GObject):
             }
         }
         """.replace('\n', ' ').strip() % {
+            'miner_fs_busname': self._tracker_wrapper.miner_fs_busname(),
             'media_type': int(Grl.MediaType.CONTAINER),
-            'location_filter': self._tracker_wrapper.location_filter()
+            'location_filter': self._tracker_wrapper.location_filter(),
         }
 
         options = self._fast_options.copy()
@@ -708,7 +714,7 @@ class GrlTrackerWrapper(GObject.GObject):
         SELECT
             ?type ?id ?title ?creationDate
         WHERE {
-            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+            SERVICE <dbus:%(miner_fs_busname)s> {
                 GRAPH tracker:Audio {
                     SELECT DISTINCT
                         %(media_type)s AS ?type
@@ -731,9 +737,10 @@ class GrlTrackerWrapper(GObject.GObject):
             }
         }
         """.replace('\n', ' ').strip() % {
+            'miner_fs_busname': self._tracker_wrapper.miner_fs_busname(),
             'media_type': int(Grl.MediaType.CONTAINER),
             'artist_id': artist_id,
-            'location_filter': self._tracker_wrapper.location_filter()
+            'location_filter': self._tracker_wrapper.location_filter(),
         }
 
         albums = []
@@ -775,7 +782,7 @@ class GrlTrackerWrapper(GObject.GObject):
         SELECT
             ?type ?id ?albumDiscNumber
         WHERE {
-            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+            SERVICE <dbus:%(miner_fs_busname)s> {
                 GRAPH tracker:Audio {
                     SELECT DISTINCT
                         %(media_type)s AS ?type
@@ -793,9 +800,10 @@ class GrlTrackerWrapper(GObject.GObject):
             }
         }
         """.replace('\n', ' ').strip() % {
+            'miner_fs_busname': self._tracker_wrapper.miner_fs_busname(),
             'media_type': int(Grl.MediaType.CONTAINER),
             'album_id': album_id,
-            'location_filter': self._tracker_wrapper.location_filter()
+            'location_filter': self._tracker_wrapper.location_filter(),
         }
 
         def _disc_nr_cb(source, op_id, media, remaining, error):
@@ -837,7 +845,7 @@ class GrlTrackerWrapper(GObject.GObject):
             nie:usageCounter(?id) AS ?playCount
             ?tag AS ?favorite
         WHERE {
-            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+            SERVICE <dbus:%(miner_fs_busname)s> {
                 GRAPH tracker:Audio {
                     SELECT DISTINCT
                         %(media_type)s AS ?type
@@ -911,7 +919,8 @@ class GrlTrackerWrapper(GObject.GObject):
             'media_type': int(Grl.MediaType.AUDIO),
             'album_id': album_id,
             'disc_nr': disc_nr,
-            'location_filter': self._tracker_wrapper.location_filter()
+            'location_filter': self._tracker_wrapper.location_filter(),
+            'miner_fs_busname': self._tracker_wrapper.miner_fs_busname(),
         }
 
         options = self._fast_options.copy()
@@ -934,7 +943,7 @@ class GrlTrackerWrapper(GObject.GObject):
         SELECT
             ?type ?id
         WHERE {
-            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+            SERVICE <dbus:%(miner_fs_busname)s> {
                 GRAPH tracker:Audio {
                     SELECT DISTINCT
                         %(media_type)s AS ?type
@@ -975,9 +984,10 @@ class GrlTrackerWrapper(GObject.GObject):
             }
         }
         """.replace('\n', ' ').strip() % {
+            'miner_fs_busname': self._tracker_wrapper.miner_fs_busname(),
             'media_type': int(Grl.MediaType.AUDIO),
             'location_filter': self._tracker_wrapper.location_filter(),
-            'name': term
+            'name': term,
         }
 
         artist_filter_ids = []
@@ -1009,7 +1019,7 @@ class GrlTrackerWrapper(GObject.GObject):
         SELECT
             ?type ?id
         WHERE {
-            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+            SERVICE <dbus:%(miner_fs_busname)s> {
                 GRAPH tracker:Audio {
                     SELECT DISTINCT
                         %(media_type)s AS ?type
@@ -1042,6 +1052,7 @@ class GrlTrackerWrapper(GObject.GObject):
             }
         }
         """.replace('\n', ' ').strip() % {
+            'miner_fs_busname': self._tracker_wrapper.miner_fs_busname(),
             'media_type': int(Grl.MediaType.CONTAINER),
             'location_filter': self._tracker_wrapper.location_filter(),
             'name': term
@@ -1076,7 +1087,7 @@ class GrlTrackerWrapper(GObject.GObject):
         SELECT
             ?type ?id
         WHERE {
-            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+            SERVICE <dbus:%(miner_fs_busname)s> {
                 GRAPH tracker:Audio {
                     SELECT DISTINCT
                         %(media_type)s AS ?type
@@ -1114,6 +1125,7 @@ class GrlTrackerWrapper(GObject.GObject):
             }
         }
         """.replace('\n', ' ').strip() % {
+            'miner_fs_busname': self._tracker_wrapper.miner_fs_busname(),
             'media_type': int(Grl.MediaType.AUDIO),
             'location_filter': self._tracker_wrapper.location_filter(),
             'name': term
@@ -1169,7 +1181,7 @@ class GrlTrackerWrapper(GObject.GObject):
         SELECT
             ?type ?id ?mbReleaseGroup ?mbRelease ?artist ?album
         WHERE {
-            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+            SERVICE <dbus:%(miner_fs_busname)s> {
                 GRAPH tracker:Audio {
                     SELECT DISTINCT
                         %(media_type)s AS ?type
@@ -1207,6 +1219,7 @@ class GrlTrackerWrapper(GObject.GObject):
             }
         }
         """.replace("\n", " ").strip() % {
+            'miner_fs_busname': self._tracker_wrapper.miner_fs_busname(),
             'media_type': int(Grl.MediaType.CONTAINER),
             'album_id': album_id,
             'location_filter': self._tracker_wrapper.location_filter()
@@ -1220,7 +1233,7 @@ class GrlTrackerWrapper(GObject.GObject):
         SELECT
             ?type ?id ?mbReleaseGroup ?mbRelease ?artist ?album
         WHERE {
-            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+            SERVICE <dbus:%(miner_fs_busname)s> {
                 GRAPH tracker:Audio {
                     SELECT DISTINCT
                         %(media_type)s AS ?type
@@ -1261,6 +1274,7 @@ class GrlTrackerWrapper(GObject.GObject):
             }
         }
         """.replace("\n", " ").strip() % {
+            'miner_fs_busname': self._tracker_wrapper.miner_fs_busname(),
             'media_type': int(Grl.MediaType.CONTAINER),
             'location_filter': self._tracker_wrapper.location_filter(),
             'song_id': song_id
