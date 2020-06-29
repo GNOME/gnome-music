@@ -108,24 +108,18 @@ class GrlTrackerPlaylists(GObject.GObject):
         self._window.notifications_popup.push_loading()
         query = """
         SELECT DISTINCT
-            rdf:type(?playlist)
-            tracker:id(?playlist) AS ?id
+            %(media_type)s AS ?type
+            ?playlist AS ?id
             nie:title(?playlist) AS ?title
-            tracker:added(?playlist) AS ?creation_date
-            nfo:entryCounter(?playlist) AS ?childcount
+            nrl:added(?playlist) AS ?creationDate
+            nfo:entryCounter(?playlist) AS ?childCount
         WHERE
         {
             ?playlist a nmm:Playlist .
-            OPTIONAL { ?playlist nie:url ?url;
-                       tracker:available ?available . }
-            FILTER ( !STRENDS(LCASE(?url), '.m3u')
-                     && !STRENDS(LCASE(?url), '.m3u8')
-                     && !STRENDS(LCASE(?url), '.pls')
-                     || !BOUND(nfo:belongsToContainer(?playlist)) )
-            FILTER ( !BOUND(?tag) )
-            OPTIONAL { ?playlist nao:hasTag ?tag }
         }
-        """.replace('\n', ' ').strip()
+        """.replace('\n', ' ').strip() % {
+            'media_type': int(Grl.MediaType.CONTAINER),
+        }
 
         options = self._fast_options.copy()
 
@@ -208,8 +202,7 @@ class GrlTrackerPlaylists(GObject.GObject):
         """.replace("\n", " ").strip() % {
             "playlist_id": playlist.props.pl_id
         }
-        self._tracker.update_async(
-            query, GLib.PRIORITY_LOW, None, _delete_cb, None)
+        self._tracker.update_async(query, None, _delete_cb, None)
 
     def create_playlist(self, playlist_title, callback):
         """Creates a new user playlist.
@@ -222,17 +215,19 @@ class GrlTrackerPlaylists(GObject.GObject):
             playlist_urn = result[0][0]['playlist']
             query = """
             SELECT
-                rdf:type(?playlist)
-                tracker:id(?playlist) AS ?id
+                %(media_type)s AS ?type
+                ?playlist AS ?id
                 nie:title(?playlist) AS ?title
-                tracker:added(?playlist) AS ?creation_date
-                nfo:entryCounter(?playlist) AS ?childcount
+                nrl:added(?playlist) AS ?creationDate
+                nfo:entryCounter(?playlist) AS ?childCount
                 WHERE
                 {
-                    ?playlist a nmm:Playlist .
-                    FILTER ( <%(playlist_urn)s> = ?playlist )
+                    BIND ( <%(playlist_urn)s> AS ?playlist )
                 }
-            """.replace("\n", " ").strip() % {"playlist_urn": playlist_urn}
+            """.replace("\n", " ").strip() % {
+                "media_type": int(Grl.MediaType.AUDIO),
+                "playlist_urn": playlist_urn
+            }
 
             options = self._fast_options.copy()
             self._source.query(
@@ -248,8 +243,7 @@ class GrlTrackerPlaylists(GObject.GObject):
                              nfo:entryCounter 0 .
             }
             """.replace("\n", " ").strip() % {"title": playlist_title}
-        self._tracker.update_blank_async(
-            query, GLib.PRIORITY_LOW, None, _create_cb, None)
+        self._tracker.update_blank_async(query, None, _create_cb, None)
 
     def check_smart_playlist_change(self):
         """Check if smart playlists need to be updated.
@@ -357,26 +351,37 @@ class Playlist(GObject.GObject):
 
         query = """
         SELECT
-            rdf:type(?song)
-            ?song AS ?tracker_urn
-            tracker:id(?song) AS ?id
-            nie:url(?song) AS ?url
-            nie:title(?song) AS ?title
-            nmm:artistName(nmm:performer(?song)) AS ?artist
-            nie:title(nmm:musicAlbum(?song)) AS ?album
-            nfo:duration(?song) AS ?duration
-            ?tag AS ?favourite
-            nie:contentAccessed(?song) AS ?last_played_time
-            nie:usageCounter(?song) AS ?play_count
+            %(media_type)s AS ?type
+            ?song AS ?id
+            ?url
+            ?title
+            ?artist
+            ?album
+            ?duration
+            ?tag AS ?favorite
+            nie:contentAccessed(?song) AS ?lastPlayed
+            nie:usageCounter(?song) AS ?playCount
         WHERE {
             ?playlist a nmm:Playlist ;
                       a nfo:MediaList ;
                         nfo:hasMediaFileListEntry ?entry .
             ?entry a nfo:MediaFileListEntry ;
                      nfo:entryUrl ?url .
-            ?song a nmm:MusicPiece ;
-                  a nfo:FileDataObject ;
-                    nie:url ?url .
+            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+                GRAPH tracker:Audio {
+                    SELECT
+                        ?song
+                        nie:title(?song) AS ?title
+                        nmm:artistName(nmm:performer(?song)) AS ?artist
+                        nie:title(nmm:musicAlbum(?song)) AS ?album
+                        nfo:duration(?song) AS ?duration
+                    WHERE {
+                        ?song a nmm:MusicPiece ;
+                              nie:isStoredAs ?url .
+                        %(location_filter)s
+                    }
+                }
+            }
             OPTIONAL {
                 ?song nao:hasTag ?tag .
                 FILTER( ?tag = nao:predefined-tag-favorite )
@@ -384,14 +389,10 @@ class Playlist(GObject.GObject):
             FILTER (
                 %(filter_clause)s
             )
-            FILTER (
-                NOT EXISTS { ?song a nmm:Video }
-                && NOT EXISTS { ?song a nmm:Playlist }
-            )
-            %(location_filter)s
         }
         ORDER BY nfo:listPosition(?entry)
         """.replace('\n', ' ').strip() % {
+            'media_type': int(Grl.MediaType.AUDIO),
             "filter_clause": 'tracker:id(?playlist) = ' + self.props.pl_id,
             "location_filter": self._tracker_wrapper.location_filter()
         }
@@ -486,8 +487,7 @@ class Playlist(GObject.GObject):
         }
 
         self.freeze_notify()
-        self._tracker.update_async(
-            query, GLib.PRIORITY_LOW, None, update_cb, None)
+        self._tracker.update_async(query, None, update_cb, None)
 
     def stage_song_deletion(self, coresong, index):
         """Adds a song to the list of songs to delete
@@ -549,7 +549,7 @@ class Playlist(GObject.GObject):
                     }
                 }
             }
-        }
+        };
         INSERT OR REPLACE {
             ?playlist nfo:entryCounter ?new_counter .
         }
@@ -564,7 +564,7 @@ class Playlist(GObject.GObject):
                     tracker:id(?playlist) = %(playlist_id)s
                 )
             }
-        }
+        };
         DELETE {
             ?playlist nfo:hasMediaFileListEntry ?entry .
             ?entry a rdfs:Resource .
@@ -583,8 +583,7 @@ class Playlist(GObject.GObject):
             "song_id": coresong.props.media.get_id()
         }
 
-        self._tracker.update_async(
-            query, GLib.PRIORITY_LOW, None, update_cb, None)
+        self._tracker.update_async(query, None, update_cb, None)
 
     def add_songs(self, coresongs):
         """Adds songs to the playlist
@@ -609,26 +608,37 @@ class Playlist(GObject.GObject):
             media_id = coresong.props.media.get_id()
             query = """
             SELECT
-                rdf:type(?song)
-                ?song AS ?tracker_urn
-                tracker:id(?song) AS ?id
-                nie:url(?song) AS ?url
-                nie:title(?song) AS ?title
-                nmm:artistName(nmm:performer(?song)) AS ?artist
-                nie:title(nmm:musicAlbum(?song)) AS ?album
-                nfo:duration(?song) AS ?duration
-                ?tag AS ?favourite
-                nie:contentAccessed(?song) AS ?last_played_time
-                nie:usageCounter(?song) AS ?play_count
+                %(media_type)s AS ?type
+                ?song AS ?id
+                ?url
+                ?title
+                ?artist
+                ?album
+                ?duration
+                ?tag AS ?favorite
+                nie:contentAccessed(?song) AS ?lastPlayed
+                nie:usageCounter(?song) AS ?playCount
             WHERE {
                 ?playlist a nmm:Playlist ;
                           a nfo:MediaList ;
                             nfo:hasMediaFileListEntry ?entry .
                 ?entry a nfo:MediaFileListEntry ;
                          nfo:entryUrl ?url .
-                ?song a nmm:MusicPiece ;
-                      a nfo:FileDataObject ;
-                        nie:url ?url .
+                SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+                    GRAPH tracker:Audio {
+                        SELECT
+                            ?song
+                            nie:title(?song) AS ?title
+                            nmm:artistName(nmm:performer(?song)) AS ?artist
+                            nie:title(nmm:musicAlbum(?song)) AS ?album
+                            nfo:duration(?song) AS ?duration
+                        WHERE {
+                            ?song a nmm:MusicPiece ;
+                                  nie:isStoredAs ?url .
+                            %(location_filter)s
+                        }
+                    }
+                }
                 OPTIONAL {
                     ?song nao:hasTag ?tag .
                     FILTER( ?tag = nao:predefined-tag-favorite )
@@ -636,13 +646,9 @@ class Playlist(GObject.GObject):
                 FILTER (
                    %(filter_clause)s
                 )
-                FILTER (
-                    NOT EXISTS { ?song a nmm:Video }
-                    && NOT EXISTS { ?song a nmm:Playlist }
-                )
-                %(location_filter)s
             }
             """.replace("\n", " ").strip() % {
+                'media_type': int(Grl.MediaType.AUDIO),
                 "filter_clause": "tracker:id(?song) = " + media_id,
                 "location_filter": self._tracker_wrapper.location_filter()
             }
@@ -677,7 +683,7 @@ class Playlist(GObject.GObject):
                 "song_uri": coresong.props.media.get_url()}
 
             self._tracker.update_blank_async(
-                query, GLib.PRIORITY_LOW, None, _requery_media, coresong)
+                query, None, _requery_media, coresong)
 
     def reorder(self, previous_position, new_position):
         """Changes the order of a songs in the playlist.
@@ -720,8 +726,7 @@ class Playlist(GObject.GObject):
                 "position": position
             }
             self._tracker.update_async(
-                query, GLib.PRIORITY_LOW, None, _position_changed_cb,
-                position)
+                query, None, _position_changed_cb, position)
 
 
 class SmartPlaylist(Playlist):
@@ -822,27 +827,43 @@ class MostPlayed(SmartPlaylist):
         self._title = _("Most Played")
         self.props.query = """
         SELECT
-            rdf:type(?song)
-            tracker:id(?song) AS ?id
-            ?song AS ?tracker_urn
-            nie:title(?song) AS ?title
-            nie:url(?song) AS ?url
-            nmm:artistName(nmm:performer(?song)) AS ?artist
-            nie:title(nmm:musicAlbum(?song)) AS ?album
-            nfo:duration(?song) AS ?duration
-            nie:usageCounter(?song) AS ?play_count
-            nmm:trackNumber(?song) AS ?track_number
-            nmm:setNumber(nmm:musicAlbumDisc(?song)) AS ?album_disc_number
-            ?tag AS ?favourite
+            %(media_type)s AS ?type
+            ?song AS ?id
+            ?title
+            ?url
+            ?artist
+            ?album
+            ?duration
+            ?trackNumber
+            ?albumDiscNumber
+            ?playCount
+            ?tag AS ?favorite
         WHERE {
-            ?song a nmm:MusicPiece ;
-                    nie:usageCounter ?count .
+            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+                GRAPH tracker:Audio {
+                    SELECT
+                        ?song
+                        nie:title(?song) AS ?title
+                        nie:isStoredAs(?song) AS ?url
+                        nmm:artistName(nmm:performer(?song)) AS ?artist
+                        nie:title(nmm:musicAlbum(?song)) AS ?album
+                        nfo:duration(?song) AS ?duration
+                        nmm:trackNumber(?song) AS ?trackNumber
+                        nmm:setNumber(nmm:musicAlbumDisc(?song))
+                            AS ?albumDiscNumber
+                    WHERE {
+                        ?song a nmm:MusicPiece .
+                        %(location_filter)s
+                    }
+                }
+            }
+            ?song nie:usageCounter ?playCount
             OPTIONAL { ?song nao:hasTag ?tag .
                        FILTER (?tag = nao:predefined-tag-favorite) }
-            %(location_filter)s
         }
-        ORDER BY DESC(?count) LIMIT 50
+        ORDER BY DESC(?playCount) LIMIT 50
         """.replace('\n', ' ').strip() % {
+            'media_type': int(Grl.MediaType.AUDIO),
             "location_filter": self._tracker_wrapper.location_filter()
         }
 
@@ -858,26 +879,42 @@ class NeverPlayed(SmartPlaylist):
         self._title = _("Never Played")
         self.props.query = """
         SELECT
-            rdf:type(?song)
-            tracker:id(?song) AS ?id
-            ?song AS ?tracker_urn
-            nie:title(?song) AS ?title
-            nie:url(?song) AS ?url
-            nmm:artistName(nmm:performer(?song)) AS ?artist
-            nie:title(nmm:musicAlbum(?song)) AS ?album
-            nfo:duration(?song) AS ?duration
-            nie:usageCounter(?song) AS ?play_count
-            nmm:trackNumber(?song) AS ?track_number
-            nmm:setNumber(nmm:musicAlbumDisc(?song)) AS ?album_disc_number
-            ?tag AS ?favourite
+            %(media_type)s AS ?type
+            ?song AS ?id
+            ?title
+            ?url
+            ?artist
+            ?album
+            ?duration
+            ?trackNumber
+            ?albumDiscNumber
+            nie:usageCounter(?song) AS ?playCount
+            ?tag AS ?favorite
         WHERE {
-            ?song a nmm:MusicPiece ;
+            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+                GRAPH tracker:Audio {
+                    SELECT
+                        ?song
+                        nie:title(?song) AS ?title
+                        nie:isStoredAs(?song) AS ?url
+                        nmm:artistName(nmm:performer(?song)) AS ?artist
+                        nie:title(nmm:musicAlbum(?song)) AS ?album
+                        nfo:duration(?song) AS ?duration
+                        nmm:trackNumber(?song) AS ?trackNumber
+                        nmm:setNumber(nmm:musicAlbumDisc(?song))
+                            AS ?albumDiscNumber
+                    WHERE {
+                        ?song a nmm:MusicPiece .
+                        %(location_filter)s
+                    }
+                }
+            }
             FILTER ( NOT EXISTS { ?song nie:usageCounter ?count .} )
             OPTIONAL { ?song nao:hasTag ?tag .
                        FILTER (?tag = nao:predefined-tag-favorite) }
-            %(location_filter)s
         } ORDER BY nfo:fileLastAccessed(?song) LIMIT 50
         """.replace('\n', ' ').strip() % {
+            'media_type': int(Grl.MediaType.AUDIO),
             "location_filter": self._tracker_wrapper.location_filter()
         }
 
@@ -900,28 +937,44 @@ class RecentlyPlayed(SmartPlaylist):
             time.gmtime(time.time() - seconds_difference))
         self.props.query = """
         SELECT
-            rdf:type(?song)
-            tracker:id(?song) AS ?id
-            ?song AS ?tracker_urn
-            nie:title(?song) AS ?title
-            nie:url(?song) AS ?url
-            nmm:artistName(nmm:performer(?song)) AS ?artist
-            nie:title(nmm:musicAlbum(?song)) AS ?album
-            nfo:duration(?song) AS ?duration
-            nie:usageCounter(?song) AS ?play_count
-            nmm:trackNumber(?song) AS ?track_number
-            nmm:setNumber(nmm:musicAlbumDisc(?song)) AS ?album_disc_number
-            ?tag AS ?favourite
+            %(media_type)s AS ?type
+            ?song AS ?id
+            ?title
+            ?url
+            ?artist
+            ?album
+            ?duration
+            ?trackNumber
+            ?albumDiscNumber
+            nie:usageCounter(?song) AS ?playCount
+            ?tag AS ?favorite
         WHERE {
-            ?song a nmm:MusicPiece ;
-                    nie:contentAccessed ?last_played .
-            FILTER ( ?last_played > '%(compare_date)s'^^xsd:dateTime
+            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+                GRAPH tracker:Audio {
+                    SELECT
+                        ?song
+                        nie:title(?song) AS ?title
+                        nie:isStoredAs(?song) AS ?url
+                        nmm:artistName(nmm:performer(?song)) AS ?artist
+                        nie:title(nmm:musicAlbum(?song)) AS ?album
+                        nfo:duration(?song) AS ?duration
+                        nmm:trackNumber(?song) AS ?trackNumber
+                        nmm:setNumber(nmm:musicAlbumDisc(?song))
+                            AS ?albumDiscNumber
+                    WHERE {
+                        ?song a nmm:MusicPiece .
+                        %(location_filter)s
+                    }
+                }
+            }
+            ?song nie:contentAccessed ?lastPlayed .
+            FILTER ( ?lastPlayed > '%(compare_date)s'^^xsd:dateTime
                      && EXISTS { ?song nie:usageCounter ?count .} )
             OPTIONAL { ?song nao:hasTag ?tag .
                        FILTER (?tag = nao:predefined-tag-favorite) }
-            %(location_filter)s
-        } ORDER BY DESC(?last_played) LIMIT 50
+        } ORDER BY DESC(?lastPlayed) LIMIT 50
         """.replace('\n', ' ').strip() % {
+            'media_type': int(Grl.MediaType.AUDIO),
             'compare_date': compare_date,
             "location_filter": self._tracker_wrapper.location_filter()
         }
@@ -945,27 +998,44 @@ class RecentlyAdded(SmartPlaylist):
             time.gmtime(time.time() - seconds_difference))
         self.props.query = """
         SELECT
-            rdf:type(?song)
-            tracker:id(?song) AS ?id
-            ?song AS ?tracker_urn
-            nie:title(?song) AS ?title
-            nie:url(?song) AS ?url
-            nmm:artistName(nmm:performer(?song)) AS ?artist
-            nie:title(nmm:musicAlbum(?song)) AS ?album
-            nfo:duration(?song) AS ?duration
-            nie:usageCounter(?song) AS ?play_count
-            nmm:trackNumber(?song) AS ?track_number
-            nmm:setNumber(nmm:musicAlbumDisc(?song)) AS ?album_disc_number
-            ?tag AS ?favourite
+            %(media_type)s AS ?type
+            ?song AS ?id
+            ?title
+            ?url
+            ?artist
+            ?album
+            ?duration
+            ?trackNumber
+            ?albumDiscNumber
+            nie:usageCounter(?song) AS ?playCount
+            ?tag AS ?favorite
         WHERE {
-            ?song a nmm:MusicPiece ;
-                    tracker:added ?added .
-            FILTER ( tracker:added(?song) > '%(compare_date)s'^^xsd:dateTime )
+            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+                GRAPH tracker:Audio {
+                    SELECT
+                        ?song
+                        nie:title(?song) AS ?title
+                        nie:isStoredAs(?song) AS ?url
+                        nmm:artistName(nmm:performer(?song)) AS ?artist
+                        nie:title(nmm:musicAlbum(?song)) AS ?album
+                        nfo:duration(?song) AS ?duration
+                        nmm:trackNumber(?song) AS ?trackNumber
+                        nmm:setNumber(nmm:musicAlbumDisc(?song))
+                            AS ?albumDiscNumber
+                        ?added
+                    WHERE {
+                        ?song a nmm:MusicPiece ;
+                              nrl:added ?added .
+                        %(location_filter)s
+                        FILTER ( ?added > '%(compare_date)s'^^xsd:dateTime )
+                    }
+                }
+            }
             OPTIONAL { ?song nao:hasTag ?tag .
                        FILTER (?tag = nao:predefined-tag-favorite) }
-            %(location_filter)s
-        } ORDER BY DESC(tracker:added(?song)) LIMIT 50
+        } ORDER BY DESC(nrl:added(?song)) LIMIT 50
         """.replace('\n', ' ').strip() % {
+            'media_type': int(Grl.MediaType.AUDIO),
             'compare_date': compare_date,
             "location_filter": self._tracker_wrapper.location_filter()
         }
@@ -982,27 +1052,40 @@ class Favorites(SmartPlaylist):
         self._title = _("Favorite Songs")
         self.props.query = """
             SELECT
-                rdf:type(?song)
-                tracker:id(?song) AS ?id
-                ?song AS ?tracker_urn
-                nie:title(?song) AS ?title
-                nie:url(?song) AS ?url
-                nmm:artistName(nmm:performer(?song)) AS ?artist
-                nie:title(nmm:musicAlbum(?song)) AS ?album
-                nfo:duration(?song) AS ?duration
-                nie:usageCounter(?song) AS ?play_count
-                nmm:trackNumber(?song) AS ?track_number
-                nmm:setNumber(nmm:musicAlbumDisc(?song)) AS ?album_disc_number
-                nao:predefined-tag-favorite AS ?favourite
+                %(media_type)s AS ?type
+                ?song AS ?id
+                ?title
+                ?url
+                ?artist
+                ?album
+                ?duration
+                ?trackNumber
+                ?albumDiscNumber
+                nie:usageCounter(?song) AS ?playCount
+                nao:predefined-tag-favorite AS ?favorite
             WHERE {
-                ?song a nmm:MusicPiece ;
-                        nie:isStoredAs ?as ;
-                        nao:hasTag nao:predefined-tag-favorite .
-                ?as nie:url ?url .
-                OPTIONAL { ?song nao:hasTag ?tag .
-                           FILTER (?tag = nao:predefined-tag-favorite) }
-                %(location_filter)s
-            } ORDER BY DESC(tracker:added(?song))
+                SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+                    GRAPH tracker:Audio {
+                        SELECT
+                            ?song
+                            nie:title(?song) AS ?title
+                            nie:isStoredAs(?song) AS ?url
+                            nmm:artistName(nmm:performer(?song)) AS ?artist
+                            nie:title(nmm:musicAlbum(?song)) AS ?album
+                            nfo:duration(?song) AS ?duration
+                            nmm:trackNumber(?song) AS ?trackNumber
+                            nmm:setNumber(nmm:musicAlbumDisc(?song))
+                                AS ?albumDiscNumber
+                            nrl:added(?song) AS ?added
+                        WHERE {
+                            ?song a nmm:MusicPiece .
+                            %(location_filter)s
+                        }
+                    }
+                }
+                ?song nao:hasTag nao:predefined-tag-favorite .
+            } ORDER BY DESC(?added)
         """.replace('\n', ' ').strip() % {
+            "media_type": int(Grl.MediaType.AUDIO),
             "location_filter": self._tracker_wrapper.location_filter()
         }

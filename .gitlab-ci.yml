@@ -27,4 +27,4 @@ flake8:
   stage: check
   script:
     - dnf install -y python3-flake8
-    - flake8 --ignore E402,W503 --show-source gnomemusic/
+    - flake8 --ignore E226,E402,W503 --show-source gnomemusic/

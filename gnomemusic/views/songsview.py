@@ -30,6 +30,8 @@ from gnomemusic.player import PlayerPlaylist
 from gnomemusic.utils import SongStateIcon
 from gnomemusic.widgets.starhandlerwidget import StarHandlerWidget
 
+import gnomemusic.utils as utils
+
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/SongsView.ui")
 class SongsView(Gtk.ScrolledWindow):
@@ -89,6 +91,30 @@ class SongsView(Gtk.ScrolledWindow):
         attrs = Pango.AttrList()
         attrs.insert(Pango.AttrFontFeatures.new("tnum=1"))
         self._duration_renderer.props.attributes = attrs
+
+    def _on_list_widget_album_render(self, coll, cell, model, itr, data):
+        if not model.iter_is_valid(itr):
+            return
+
+        item = model[itr][7]
+        if item:
+            cell.props.text = utils.get_album_title(item.props.media)
+
+    def _on_list_widget_artist_render(self, coll, cell, model, itr, data):
+        if not model.iter_is_valid(itr):
+            return
+
+        item = model[itr][7]
+        if item:
+            cell.props.text = utils.get_artist_name(item.props.media)
+
+    def _on_list_widget_title_render(self, coll, cell, model, itr, data):
+        if not model.iter_is_valid(itr):
+            return
+
+        item = model[itr][7]
+        if item:
+            cell.props.text = utils.get_media_title(item.props.media)
 
     def _on_list_widget_icon_render(self, col, cell, model, itr, data):
         current_song = self._player.props.current_song

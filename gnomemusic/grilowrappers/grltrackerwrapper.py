@@ -23,7 +23,7 @@
 # delete this exception statement from your version.
 
 import gi
-gi.require_versions({"Gfm": "0.1", "Grl": "0.3", 'Tracker': "2.0"})
+gi.require_versions({"Gfm": "0.1", "Grl": "0.3", 'Tracker': "3.0"})
 from gi.repository import Gfm, Grl, GLib, GObject, Tracker
 
 from gnomemusic.corealbum import CoreAlbum
@@ -49,6 +49,11 @@ class GrlTrackerWrapper(GObject.GObject):
         Grl.METADATA_KEY_DURATION,
         Grl.METADATA_KEY_FAVOURITE,
         Grl.METADATA_KEY_ID,
+        Grl.METADATA_KEY_MB_ARTIST_ID,
+        Grl.METADATA_KEY_MB_RECORDING_ID,
+        Grl.METADATA_KEY_MB_RELEASE_ID,
+        Grl.METADATA_KEY_MB_RELEASE_GROUP_ID,
+        Grl.METADATA_KEY_MB_TRACK_ID,
         Grl.METADATA_KEY_PLAY_COUNT,
         Grl.METADATA_KEY_THUMBNAIL,
         Grl.METADATA_KEY_TITLE,
@@ -170,24 +175,36 @@ class GrlTrackerWrapper(GObject.GObject):
 
         query = """
         SELECT
-            rdf:type(?album)
-            tracker:id(?album) AS ?id
-            nie:title(?album) AS ?title
-            ?composer AS ?composer
-            ?album_artist AS ?album_artist
-            nmm:artistName(?performer) AS ?artist
-            nie:url(?song) AS ?url
-            YEAR(MAX(nie:contentCreated(?song))) AS ?creation_date
+            ?type ?id ?title ?composer ?albumArtist
+            ?artist ?url ?creationDate
         WHERE {
-            ?album a nmm:MusicAlbum .
-            ?song a nmm:MusicPiece ;
-                    nmm:musicAlbum ?album ;
-                    nmm:performer ?performer .
-            OPTIONAL { ?song nmm:composer/nmm:artistName ?composer . }
-            OPTIONAL { ?album nmm:albumArtist/nmm:artistName ?album_artist . }
-            %(location_filter)s
-        } GROUP BY ?album
+            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+                GRAPH tracker:Audio {
+                    SELECT
+                        %(media_type)s AS ?type
+                        ?album AS ?id
+                        nie:title(?album) AS ?title
+                        ?composer
+                        ?albumArtist
+                        nmm:artistName(?performer) AS ?artist
+                        nie:isStoredAs(?song) AS ?url
+                        YEAR(MAX(nie:contentCreated(?song))) AS ?creationDate
+                    WHERE {
+                        ?album a nmm:MusicAlbum .
+                        ?song a nmm:MusicPiece ;
+                                nmm:musicAlbum ?album ;
+                                nmm:performer ?performer .
+                        OPTIONAL { ?song nmm:composer/
+                                         nmm:artistName ?composer . }
+                        OPTIONAL { ?album nmm:albumArtist/
+                                          nmm:artistName ?albumArtist . }
+                        %(location_filter)s
+                    } GROUP BY ?album
+                }
+            }
+        }
         """.replace('\n', ' ').strip() % {
+            'media_type': int(Grl.MediaType.CONTAINER),
             'location_filter': self._tracker_wrapper.location_filter()
         }
 
@@ -231,24 +248,32 @@ class GrlTrackerWrapper(GObject.GObject):
         artist_ids = {}
 
         query = """
-        SELECT
-            rdf:type(?artist)
-            COALESCE(tracker:id(?album_artist), tracker:id(?artist)) AS ?id
-            ?artist_bind AS ?artist
+        SELECT ?type ?id ?artist
         WHERE {
-            ?song a nmm:MusicPiece;
-                    nmm:musicAlbum ?album;
-                    nmm:performer ?artist .
-            OPTIONAL {
-                ?album a nmm:MusicAlbum;
-                         nmm:albumArtist ?album_artist .
+            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+                GRAPH tracker:Audio {
+                    SELECT
+                        %(media_type)s AS ?type
+                        (COALESCE(?album_artist, ?artist) AS ?id)
+                        ?artist_bind AS ?albumArtist
+                    WHERE {
+                        ?song a nmm:MusicPiece;
+                                nmm:musicAlbum ?album;
+                                nmm:performer ?artist .
+                        OPTIONAL {
+                            ?album a nmm:MusicAlbum;
+                                     nmm:albumArtist ?album_artist .
+                        }
+                        BIND(COALESCE(nmm:artistName(?album_artist),
+                                      nmm:artistName(?artist)) AS ?artist_bind)
+                        %(location_filter)s
+                    }
+                    GROUP BY ?artist_bind
+                }
             }
-            BIND(COALESCE(nmm:artistName(?album_artist),
-                          nmm:artistName(?artist)) AS ?artist_bind)
-            %(location_filter)s
         }
-        GROUP BY ?artist_bind
         """.replace('\n', ' ').strip() % {
+            'media_type': int(Grl.MediaType.CONTAINER),
             'location_filter': self._tracker_wrapper.location_filter()
         }
 
@@ -307,31 +332,86 @@ class GrlTrackerWrapper(GObject.GObject):
         media_ids = str(media_ids)[1:-1]
 
         query = """
-        SELECT DISTINCT
-            rdf:type(?song)
-            ?song AS ?tracker_urn
-            nie:title(?song) AS ?title
-            tracker:id(?song) AS ?id
-            ?song
-            nie:url(?song) AS ?url
-            nie:title(?song) AS ?title
-            nmm:artistName(nmm:performer(?song)) AS ?artist
-            nie:title(nmm:musicAlbum(?song)) AS ?album
-            nfo:duration(?song) AS ?duration
-            nie:usageCounter(?song) AS ?play_count
-            nmm:trackNumber(?song) AS ?track_number
-            nmm:setNumber(nmm:musicAlbumDisc(?song)) AS ?album_disc_number
-            ?tag AS ?favourite
+        SELECT
+            ?type ?urn ?title ?id ?mbRecording ?mbTrack ?url
+            ?artist ?mbArtist ?album ?mbRelease ?mbReleaseGroup
+            ?albumArtist ?duration ?trackNumber
+            ?albumDiscNumber ?creationDate
+            nie:usageCounter(?urn) AS ?playCount
+            ?tag AS ?favorite
         WHERE {
-            ?song a nmm:MusicPiece .
+            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+                GRAPH tracker:Audio {
+                    SELECT DISTINCT
+                        %(media_type)s AS ?type
+                        ?song AS ?urn
+                        nie:title(?song) AS ?title
+                        ?song AS ?id
+                        tracker:referenceIdentifier(?recording_id)
+                            AS ?mbRecording
+                        tracker:referenceIdentifier(?track_id) AS ?mbTrack
+                        nie:isStoredAs(?song) AS ?url
+                        nmm:artistName(nmm:performer(?song)) AS ?artist
+                        tracker:referenceIdentifier(?artist_id) AS ?mbArtist
+                        nie:title(nmm:musicAlbum(?song)) AS ?album
+                        tracker:referenceIdentifier(?release_id) AS ?mbRelease
+                        tracker:referenceIdentifier(?release_group_id)
+                            AS ?mbReleaseGroup
+                        ?album_artist AS ?albumArtist
+                        nfo:duration(?song) AS ?duration
+                        nmm:trackNumber(?song) AS ?trackNumber
+                        nmm:setNumber(nmm:musicAlbumDisc(?song))
+                            AS ?albumDiscNumber
+                        YEAR(?date) AS ?creationDate
+                    WHERE {
+                        ?song a nmm:MusicPiece .
+                        OPTIONAL { ?song nie:contentCreated ?date . }
+                        OPTIONAL {
+                            ?song tracker:hasExternalReference ?recording_id .
+                            ?recording_id tracker:referenceSource
+                                "https://musicbrainz.org/doc/Recording" .
+                        }
+                        OPTIONAL {
+                            ?song tracker:hasExternalReference ?track_id .
+                            ?track_id tracker:referenceSource
+                                "https://musicbrainz.org/doc/Track" .
+                        }
+                        OPTIONAL {
+                            ?song nmm:musicAlbum ?album .
+                            ?album nmm:albumArtist/
+                                   nmm:artistName ?album_artist .
+                        }
+                        OPTIONAL {
+                            ?song nmm:musicAlbum ?album .
+                            ?album tracker:hasExternalReference ?release_id .
+                            ?release_id tracker:referenceSource
+                                "https://musicbrainz.org/doc/Release" .
+                        }
+                        OPTIONAL {
+                            ?song nmm:musicAlbum ?album .
+                            ?album tracker:hasExternalReference
+                                ?release_group_id .
+                            ?release_group_id tracker:referenceSource
+                                "https://musicbrainz.org/doc/Release_Group" .
+                        }
+                        OPTIONAL {
+                            ?song nmm:performer ?artist .
+                            ?artist tracker:hasExternalReference ?artist_id .
+                            ?artist_id tracker:referenceSource
+                                "https://musicbrainz.org/doc/Artist" .
+                        }
+                        FILTER ( ?song in ( %(media_ids)s ) )
+                        %(location_filter)s
+                    }
+                }
+            }
             OPTIONAL {
-                ?song nao:hasTag ?tag .
+                ?urn nao:hasTag ?tag .
                 FILTER (?tag = nao:predefined-tag-favorite)
             }
-            FILTER ( tracker:id(?song) in ( %(media_ids)s ) )
-            %(location_filter)s
         }
         """.replace('\n', ' ').strip() % {
+            'media_type': int(Grl.MediaType.AUDIO),
             'location_filter': self._tracker_wrapper.location_filter(),
             'media_ids': media_ids
         }
@@ -401,30 +481,85 @@ class GrlTrackerWrapper(GObject.GObject):
 
         query = """
         SELECT
-            rdf:type(?song)
-            ?song AS ?tracker_urn
-            nie:title(?song) AS ?title
-            tracker:id(?song) AS ?id
-            ?song
-            nie:url(?song) AS ?url
-            nie:title(?song) AS ?title
-            nmm:artistName(nmm:performer(?song)) AS ?artist
-            nie:title(nmm:musicAlbum(?song)) AS ?album
-            nfo:duration(?song) AS ?duration
-            nie:usageCounter(?song) AS ?play_count
-            nmm:trackNumber(?song) AS ?track_number
-            nmm:setNumber(nmm:musicAlbumDisc(?song)) AS ?album_disc_number
-            ?tag AS ?favourite
+            ?type ?urn ?title ?id ?mbRecording ?mbTrack ?url
+            ?artist ?mbArtist ?album ?mbRelease ?mbReleaseGroup
+            ?albumArtist ?duration ?trackNumber
+            ?albumDiscNumber ?creationDate
+            nie:usageCounter(?urn) AS ?playCount
+            ?tag AS ?favorite
         WHERE {
-            ?song a nmm:MusicPiece .
+            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+                GRAPH tracker:Audio {
+                    SELECT
+                        %(media_type)s AS ?type
+                        ?song AS ?urn
+                        nie:title(?song) AS ?title
+                        ?song AS ?id
+                        tracker:referenceIdentifier(?recording_id)
+                            AS ?mbRecording
+                        tracker:referenceIdentifier(?track_id) AS ?mbTrack
+                        nie:isStoredAs(?song) AS ?url
+                        nmm:artistName(nmm:performer(?song)) AS ?artist
+                        tracker:referenceIdentifier(?artist_id) AS ?mbArtist
+                        nie:title(nmm:musicAlbum(?song)) AS ?album
+                        tracker:referenceIdentifier(?release_id) AS ?mbRelease
+                        tracker:referenceIdentifier(?release_group_id)
+                            AS ?mbReleaseGroup
+                        ?album_artist AS ?albumArtist
+                        nfo:duration(?song) AS ?duration
+                        nmm:trackNumber(?song) AS ?trackNumber
+                        nmm:setNumber(nmm:musicAlbumDisc(?song))
+                            AS ?albumDiscNumber
+                        YEAR(?date) AS ?creationDate
+                    WHERE {
+                        ?song a nmm:MusicPiece .
+                        OPTIONAL { ?song nie:contentCreated ?date . }
+                        OPTIONAL {
+                            ?song tracker:hasExternalReference ?recording_id .
+                            ?recording_id tracker:referenceSource
+                                "https://musicbrainz.org/doc/Recording" .
+                        }
+                        OPTIONAL {
+                            ?song tracker:hasExternalReference ?track_id .
+                            ?track_id tracker:referenceSource
+                                "https://musicbrainz.org/doc/Track" .
+                        }
+                        OPTIONAL {
+                            ?song nmm:musicAlbum ?album .
+                            ?album nmm:albumArtist/
+                                   nmm:artistName ?album_artist .
+                        }
+                        OPTIONAL {
+                            ?song nmm:musicAlbum ?album .
+                            ?album tracker:hasExternalReference ?release_id .
+                            ?release_id tracker:referenceSource
+                                "https://musicbrainz.org/doc/Release" .
+                        }
+                        OPTIONAL {
+                            ?song nmm:musicAlbum ?album .
+                            ?album tracker:hasExternalReference
+                                ?release_group_id .
+                            ?release_group_id tracker:referenceSource
+                                "https://musicbrainz.org/doc/Release_Group" .
+                        }
+                        OPTIONAL {
+                            ?song nmm:performer ?artist .
+                            ?artist tracker:hasExternalReference ?artist_id .
+                            ?artist_id tracker:referenceSource
+                                "https://musicbrainz.org/doc/Artist" .
+                        }
+                        %(location_filter)s
+                    }
+                    ORDER BY ?title
+                }
+            }
             OPTIONAL {
-                ?song nao:hasTag ?tag .
+                ?urn nao:hasTag ?tag .
                 FILTER (?tag = nao:predefined-tag-favorite)
             }
-            %(location_filter)s
         }
-        ORDER BY ?title
         """.replace('\n', ' ').strip() % {
+            'media_type': int(Grl.MediaType.AUDIO),
             'location_filter': self._tracker_wrapper.location_filter()
         }
 
@@ -458,27 +593,40 @@ class GrlTrackerWrapper(GObject.GObject):
 
         query = """
         SELECT
-            rdf:type(?album)
-            tracker:id(?album) AS ?id
-            nie:title(?album) AS ?title
-            ?composer AS ?composer
-            ?album_artist AS ?album_artist
-            nmm:artistName(?performer) AS ?artist
-            nie:url(?song) AS ?url
-            YEAR(MAX(nie:contentCreated(?song))) AS ?creation_date
+            ?type ?id ?title ?composer ?albumArtist
+            ?artist ?url ?creationDate
         WHERE
         {
-            ?album a nmm:MusicAlbum .
-            ?song a nmm:MusicPiece ;
-                    nmm:musicAlbum ?album ;
-                    nmm:performer ?performer .
-            OPTIONAL { ?song nmm:composer/nmm:artistName ?composer . }
-            OPTIONAL { ?album nmm:albumArtist/nmm:artistName ?album_artist . }
-            %(location_filter)s
+            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+                GRAPH tracker:Audio {
+                    SELECT
+                        %(media_type)s AS ?type
+                        ?album AS ?id
+                        nie:title(?album) AS ?title
+                        ?composer
+                        ?albumArtist
+                        nmm:artistName(?performer) AS ?artist
+                        nie:isStoredAs(?song) AS ?url
+                        YEAR(MAX(nie:contentCreated(?song))) AS ?creationDate
+                    WHERE
+                    {
+                        ?album a nmm:MusicAlbum .
+                        ?song a nmm:MusicPiece ;
+                                nmm:musicAlbum ?album ;
+                                nmm:performer ?performer .
+                        OPTIONAL { ?song nmm:composer/
+                                         nmm:artistName ?composer . }
+                        OPTIONAL { ?album nmm:albumArtist/
+                                          nmm:artistName ?albumArtist . }
+                        %(location_filter)s
+                    }
+                    GROUP BY ?album
+                    ORDER BY ?title ?albumArtist ?artist ?creationDate
+                }
+            }
         }
-        GROUP BY ?album
-        ORDER BY ?title ?album_artist ?artist ?creation_date
         """.replace('\n', ' ').strip() % {
+            'media_type': int(Grl.MediaType.CONTAINER),
             'location_filter': self._tracker_wrapper.location_filter()
         }
 
@@ -512,25 +660,33 @@ class GrlTrackerWrapper(GObject.GObject):
                 artists_added.clear()
 
         query = """
-        SELECT
-            rdf:type(?artist)
-            COALESCE(tracker:id(?album_artist), tracker:id(?artist)) AS ?id
-            ?artist_bind AS ?artist
+        SELECT ?type ?id ?albumArtist
         WHERE {
-            ?song a nmm:MusicPiece;
-                    nmm:musicAlbum ?album;
-                    nmm:performer ?artist .
-            OPTIONAL {
-                ?album a nmm:MusicAlbum;
-                         nmm:albumArtist ?album_artist .
+            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+                GRAPH tracker:Audio {
+                    SELECT
+                       %(media_type)s AS ?type
+                       (COALESCE(?album_artist, ?artist) AS ?id)
+                       ?artist_bind AS ?albumArtist
+                    WHERE {
+                        ?song a nmm:MusicPiece;
+                                nmm:musicAlbum ?album;
+                                nmm:performer ?artist .
+                        OPTIONAL {
+                            ?album a nmm:MusicAlbum;
+                                     nmm:albumArtist ?album_artist .
+                        }
+                        BIND(COALESCE(nmm:artistName(?album_artist),
+                                      nmm:artistName(?artist)) AS ?artist_bind)
+                        %(location_filter)s
+                    }
+                    GROUP BY ?artist_bind
+                    ORDER BY ?artist_bind
+                }
             }
-            BIND(COALESCE(nmm:artistName(?album_artist),
-                          nmm:artistName(?artist)) AS ?artist_bind)
-            %(location_filter)s
         }
-        GROUP BY ?artist_bind
-        ORDER BY ?artist_bind
         """.replace('\n', ' ').strip() % {
+            'media_type': int(Grl.MediaType.CONTAINER),
             'location_filter': self._tracker_wrapper.location_filter()
         }
 
@@ -549,25 +705,34 @@ class GrlTrackerWrapper(GObject.GObject):
         artist_id = media.get_id()
 
         query = """
-        SELECT DISTINCT
-            rdf:type(?album)
-            tracker:id(?album) AS ?id
-            nie:title(?album) AS ?title
-            nie:contentCreated(?song) AS ?date
+        SELECT
+            ?type ?id ?title ?creationDate
         WHERE {
-            ?album a nmm:MusicAlbum .
-            OPTIONAL { ?album  nmm:albumArtist ?album_artist . }
-            ?song a nmm:MusicPiece;
-                    nmm:musicAlbum ?album;
-                    nmm:performer ?artist .
-            FILTER ( tracker:id(?album_artist) = %(artist_id)s
-                     || tracker:id(?artist) = %(artist_id)s )
-            %(location_filter)s
+            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+                GRAPH tracker:Audio {
+                    SELECT DISTINCT
+                        %(media_type)s AS ?type
+                        ?album AS ?id
+                        nie:title(?album) AS ?title
+                        nie:contentCreated(?song) AS ?creationDate
+                    WHERE {
+                        ?album a nmm:MusicAlbum .
+                        OPTIONAL { ?album  nmm:albumArtist ?album_artist . }
+                        ?song a nmm:MusicPiece;
+                              nmm:musicAlbum ?album;
+                              nmm:performer ?artist .
+                        FILTER ( ?album_artist = <%(artist_id)s>
+                                 || ?artist = <%(artist_id)s> )
+                        %(location_filter)s
+                    }
+                   GROUP BY ?album
+                   ORDER BY ?creationDate ?album
+                }
+            }
         }
-        GROUP BY ?album
-        ORDER BY ?date ?album
         """.replace('\n', ' ').strip() % {
-            'artist_id': int(artist_id),
+            'media_type': int(Grl.MediaType.CONTAINER),
+            'artist_id': artist_id,
             'location_filter': self._tracker_wrapper.location_filter()
         }
 
@@ -607,19 +772,29 @@ class GrlTrackerWrapper(GObject.GObject):
         album_id = media.get_id()
 
         query = """
-        SELECT DISTINCT
-            rdf:type(?song)
-            tracker:id(?album) AS ?id
-            nmm:setNumber(nmm:musicAlbumDisc(?song)) as ?album_disc_number
+        SELECT
+            ?type ?id ?albumDiscNumber
         WHERE {
-            ?song a nmm:MusicPiece;
-                    nmm:musicAlbum ?album .
-            FILTER ( tracker:id(?album) = %(album_id)s )
-            %(location_filter)s
+            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+                GRAPH tracker:Audio {
+                    SELECT DISTINCT
+                        %(media_type)s AS ?type
+                        ?album AS ?id
+                        nmm:setNumber(nmm:musicAlbumDisc(?song))
+                            AS ?albumDiscNumber
+                    WHERE {
+                        ?song a nmm:MusicPiece;
+                                nmm:musicAlbum ?album .
+                        FILTER ( ?album = <%(album_id)s> )
+                        %(location_filter)s
+                    }
+                    ORDER BY ?albumDiscNumber
+                }
+            }
         }
-        ORDER BY ?album_disc_number
         """.replace('\n', ' ').strip() % {
-            'album_id': int(album_id),
+            'media_type': int(Grl.MediaType.CONTAINER),
+            'album_id': album_id,
             'location_filter': self._tracker_wrapper.location_filter()
         }
 
@@ -654,31 +829,86 @@ class GrlTrackerWrapper(GObject.GObject):
         album_id = media.get_id()
 
         query = """
-        SELECT DISTINCT
-            rdf:type(?song)
-            ?song AS ?tracker_urn
-            tracker:id(?song) AS ?id
-            nie:url(?song) AS ?url
-            nie:title(?song) AS ?title
-            nmm:artistName(nmm:performer(?song)) AS ?artist
-            nie:title(nmm:musicAlbum(?song)) AS ?album
-            nfo:duration(?song) AS ?duration
-            nmm:trackNumber(?song) AS ?track_number
-            nmm:setNumber(nmm:musicAlbumDisc(?song)) AS ?album_disc_number
-            ?tag AS ?favourite
-            nie:usageCounter(?song) AS ?play_count
+        SELECT
+            ?type ?id ?mbRecording ?mbTrack ?url ?title
+            ?artist ?mbArtist ?album ?mbRelease ?mbReleaseGroup
+            ?albumArtist ?duration ?trackNumber ?albumDiscNumber
+            ?creationDate
+            nie:usageCounter(?id) AS ?playCount
+            ?tag AS ?favorite
         WHERE {
-            ?song a nmm:MusicPiece ;
-                    nmm:musicAlbum ?album .
-            OPTIONAL { ?song nao:hasTag ?tag .
-                       FILTER (?tag = nao:predefined-tag-favorite) } .
-            FILTER ( tracker:id(?album) = %(album_id)s
-                     && nmm:setNumber(nmm:musicAlbumDisc(?song)) = %(disc_nr)s
-            )
-            %(location_filter)s
+            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+                GRAPH tracker:Audio {
+                    SELECT DISTINCT
+                        %(media_type)s AS ?type
+                        ?song AS ?id
+                        tracker:referenceIdentifier(?recording_id)
+                            AS ?mbRecording
+                        tracker:referenceIdentifier(?track_id) AS ?mbTrack
+                        nie:isStoredAs(?song) AS ?url
+                        nie:title(?song) AS ?title
+                        nmm:artistName(nmm:performer(?song)) AS ?artist
+                        tracker:referenceIdentifier(?artist_id) AS ?mbArtist
+                        nie:title(nmm:musicAlbum(?song)) AS ?album
+                        tracker:referenceIdentifier(?release_id) AS ?mbRelease
+                        tracker:referenceIdentifier(?release_group_id)
+                            AS ?mbReleaseGroup
+                        ?album_artist AS ?albumArtist
+                        nfo:duration(?song) AS ?duration
+                        nmm:trackNumber(?song) AS ?trackNumber
+                        nmm:setNumber(nmm:musicAlbumDisc(?song))
+                            AS ?albumDiscNumber
+                        YEAR(?date) AS ?creationDate
+                    WHERE {
+                        ?song a nmm:MusicPiece ;
+                                nmm:musicAlbum ?album .
+                        OPTIONAL { ?song nie:contentCreated ?date . }
+                        OPTIONAL {
+                            ?song tracker:hasExternalReference ?recording_id .
+                            ?recording_id tracker:referenceSource
+                                "https://musicbrainz.org/doc/Recording" .
+                        }
+                        OPTIONAL {
+                            ?song tracker:hasExternalReference ?track_id .
+                            ?track_id tracker:referenceSource
+                                "https://musicbrainz.org/doc/Track" .
+                        }
+                        OPTIONAL { ?album nmm:albumArtist/
+                                          nmm:artistName ?album_artist . }
+                        OPTIONAL {
+                            ?album tracker:hasExternalReference ?release_id .
+                            ?release_id tracker:referenceSource
+                                "https://musicbrainz.org/doc/Release" .
+                        }
+                        OPTIONAL {
+                            ?album tracker:hasExternalReference
+                                ?release_group_id .
+                            ?release_group_id tracker:referenceSource
+                                "https://musicbrainz.org/doc/Release_Group" .
+                        }
+                        OPTIONAL {
+                            ?song nmm:performer ?artist .
+                            ?artist tracker:hasExternalReference ?artist_id .
+                            ?artist_id tracker:referenceSource
+                                "https://musicbrainz.org/doc/Artist" .
+                        }
+                        FILTER (
+                            ?album = <%(album_id)s> &&
+                            nmm:setNumber(nmm:musicAlbumDisc(?song)) =
+                                %(disc_nr)s
+                        )
+                        %(location_filter)s
+                    }
+                    ORDER BY ?trackNumber
+                }
+            }
+            OPTIONAL {
+                ?id nao:hasTag ?tag .
+                FILTER (?tag = nao:predefined-tag-favorite)
+            }
         }
-        ORDER BY ?track_number
         """.replace('\n', ' ').strip() % {
+            'media_type': int(Grl.MediaType.AUDIO),
             'album_id': album_id,
             'disc_nr': disc_nr,
             'location_filter': self._tracker_wrapper.location_filter()
@@ -701,39 +931,51 @@ class GrlTrackerWrapper(GObject.GObject):
         self._window.notifications_popup.push_loading()
 
         query = """
-        SELECT DISTINCT
-            rdf:type(?artist)
-            COALESCE(tracker:id(?album_artist), tracker:id(?artist)) AS ?id
+        SELECT
+            ?type ?id
         WHERE {
-            ?song a nmm:MusicPiece ;
-                    nmm:musicAlbum ?album ;
-                    nmm:performer ?artist .
-            OPTIONAL {
-                ?album a nmm:MusicAlbum ;
-                         nmm:albumArtist ?album_artist .
+            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+                GRAPH tracker:Audio {
+                    SELECT DISTINCT
+                        %(media_type)s AS ?type
+                        COALESCE(?album_artist, ?artist) AS ?id
+                    WHERE {
+                        ?song a nmm:MusicPiece ;
+                                nmm:musicAlbum ?album ;
+                                nmm:performer ?artist .
+                        OPTIONAL {
+                            ?album a nmm:MusicAlbum ;
+                                     nmm:albumArtist ?album_artist .
+                        }
+                        BIND(COALESCE(nmm:artistName(?album_artist),
+                                      nmm:artistName(?artist)) AS ?artist_bind)
+                        BIND(tracker:normalize(nmm:artistName(
+                                 nmm:albumArtist(?artist_bind)), 'nfkd')
+                             AS ?match1) .
+                        BIND(tracker:normalize(
+                                 nmm:artistName(nmm:performer(?song)), 'nfkd')
+                             AS ?match2) .
+                        BIND(tracker:normalize(nmm:composer(?song), 'nfkd')
+                             AS ?match4) .
+                        FILTER (
+                            CONTAINS(tracker:case-fold(
+                                tracker:unaccent(?match1)), "%(name)s")
+                            || CONTAINS(tracker:case-fold(?match1), "%(name)s")
+                            || CONTAINS(tracker:case-fold(
+                                tracker:unaccent(?match2)), "%(name)s")
+                            || CONTAINS(tracker:case-fold(?match2), "%(name)s")
+                            || CONTAINS(tracker:case-fold(
+                                tracker:unaccent(?match4)), "%(name)s")
+                            || CONTAINS(tracker:case-fold(?match4), "%(name)s")
+                        )
+                        %(location_filter)s
+                    }
+                    LIMIT 50
+                }
             }
-            BIND(COALESCE(nmm:artistName(?album_artist),
-                          nmm:artistName(?artist)) AS ?artist_bind)
-            BIND(tracker:normalize(nmm:artistName(
-                nmm:albumArtist(?artist_bind)), 'nfkd') AS ?match1) .
-            BIND(tracker:normalize(
-                nmm:artistName(nmm:performer(?song)), 'nfkd') AS ?match2) .
-            BIND(tracker:normalize(nmm:composer(?song), 'nfkd') AS ?match4) .
-            FILTER (
-                CONTAINS(tracker:case-fold(
-                    tracker:unaccent(?match1)), "%(name)s")
-                || CONTAINS(tracker:case-fold(?match1), "%(name)s")
-                || CONTAINS(tracker:case-fold(
-                    tracker:unaccent(?match2)), "%(name)s")
-                || CONTAINS(tracker:case-fold(?match2), "%(name)s")
-                || CONTAINS(tracker:case-fold(
-                    tracker:unaccent(?match4)), "%(name)s")
-                || CONTAINS(tracker:case-fold(?match4), "%(name)s")
-            )
-            %(location_filter)s
         }
-        LIMIT 50
         """.replace('\n', ' ').strip() % {
+            'media_type': int(Grl.MediaType.AUDIO),
             'location_filter': self._tracker_wrapper.location_filter(),
             'name': term
         }
@@ -764,31 +1006,43 @@ class GrlTrackerWrapper(GObject.GObject):
         self._window.notifications_popup.push_loading()
 
         query = """
-        SELECT DISTINCT
-            rdf:type(nmm:musicAlbum(?song))
-            tracker:id(nmm:musicAlbum(?song)) AS ?id
+        SELECT
+            ?type ?id
         WHERE {
-            ?song a nmm:MusicPiece .
-            BIND(tracker:normalize(
-                nie:title(nmm:musicAlbum(?song)), 'nfkd') AS ?match1) .
-            BIND(tracker:normalize(
-                nmm:artistName(nmm:performer(?song)), 'nfkd') AS ?match2) .
-            BIND(tracker:normalize(nmm:composer(?song), 'nfkd') AS ?match4) .
-            FILTER (
-                CONTAINS(tracker:case-fold(
-                    tracker:unaccent(?match1)), "%(name)s")
-                || CONTAINS(tracker:case-fold(?match1), "%(name)s")
-                || CONTAINS(tracker:case-fold(
-                    tracker:unaccent(?match2)), "%(name)s")
-                || CONTAINS(tracker:case-fold(?match2), "%(name)s")
-                || CONTAINS(tracker:case-fold(
-                    tracker:unaccent(?match4)), "%(name)s")
-                || CONTAINS(tracker:case-fold(?match4), "%(name)s")
-            )
-            %(location_filter)s
+            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+                GRAPH tracker:Audio {
+                    SELECT DISTINCT
+                        %(media_type)s AS ?type
+                        nmm:musicAlbum(?song) AS ?id
+                    WHERE {
+                        ?song a nmm:MusicPiece .
+                        BIND(tracker:normalize(
+                                 nie:title(nmm:musicAlbum(?song)), 'nfkd')
+                             AS ?match1) .
+                        BIND(tracker:normalize(
+                                 nmm:artistName(nmm:performer(?song)), 'nfkd')
+                             AS ?match2) .
+                        BIND(tracker:normalize(nmm:composer(?song), 'nfkd')
+                             AS ?match4) .
+                        FILTER (
+                            CONTAINS(tracker:case-fold(
+                                tracker:unaccent(?match1)), "%(name)s")
+                            || CONTAINS(tracker:case-fold(?match1), "%(name)s")
+                            || CONTAINS(tracker:case-fold(
+                                tracker:unaccent(?match2)), "%(name)s")
+                            || CONTAINS(tracker:case-fold(?match2), "%(name)s")
+                            || CONTAINS(tracker:case-fold(
+                                tracker:unaccent(?match4)), "%(name)s")
+                            || CONTAINS(tracker:case-fold(?match4), "%(name)s")
+                        )
+                        %(location_filter)s
+                    }
+                    LIMIT 50
+                }
+            }
         }
-        LIMIT 50
         """.replace('\n', ' ').strip() % {
+            'media_type': int(Grl.MediaType.CONTAINER),
             'location_filter': self._tracker_wrapper.location_filter(),
             'name': term
         }
@@ -819,37 +1073,48 @@ class GrlTrackerWrapper(GObject.GObject):
         self._window.notifications_popup.push_loading()
 
         query = """
-        SELECT DISTINCT
-            rdf:type(?song)
-            tracker:id(?song) AS ?id
+        SELECT
+            ?type ?id
         WHERE {
-            ?song a nmm:MusicPiece .
-            BIND(tracker:normalize(
-                nie:title(nmm:musicAlbum(?song)), 'nfkd') AS ?match1) .
-            BIND(tracker:normalize(
-                nmm:artistName(nmm:performer(?song)), 'nfkd') AS ?match2) .
-            BIND(tracker:normalize(
-                nie:title(?song), 'nfkd') AS ?match3) .
-            BIND(
-                tracker:normalize(nmm:composer(?song), 'nfkd') AS ?match4) .
-            FILTER (
-                CONTAINS(tracker:case-fold(
-                    tracker:unaccent(?match1)), "%(name)s")
-                || CONTAINS(tracker:case-fold(?match1), "%(name)s")
-                || CONTAINS(tracker:case-fold(
-                    tracker:unaccent(?match2)), "%(name)s")
-                || CONTAINS(tracker:case-fold(?match2), "%(name)s")
-                || CONTAINS(tracker:case-fold(
-                    tracker:unaccent(?match3)), "%(name)s")
-                || CONTAINS(tracker:case-fold(?match3), "%(name)s")
-                || CONTAINS(tracker:case-fold(
-                    tracker:unaccent(?match4)), "%(name)s")
-                || CONTAINS(tracker:case-fold(?match4), "%(name)s")
-            )
-            %(location_filter)s
+            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+                GRAPH tracker:Audio {
+                    SELECT DISTINCT
+                        %(media_type)s AS ?type
+                        ?song AS ?id
+                    WHERE {
+                        ?song a nmm:MusicPiece .
+                        BIND(tracker:normalize(
+                                 nie:title(nmm:musicAlbum(?song)), 'nfkd')
+                             AS ?match1) .
+                        BIND(tracker:normalize(
+                                 nmm:artistName(nmm:performer(?song)), 'nfkd')
+                             AS ?match2) .
+                        BIND(tracker:normalize(
+                            nie:title(?song), 'nfkd') AS ?match3) .
+                        BIND(tracker:normalize(nmm:composer(?song), 'nfkd')
+                             AS ?match4) .
+                        FILTER (
+                            CONTAINS(tracker:case-fold(
+                                tracker:unaccent(?match1)), "%(name)s")
+                            || CONTAINS(tracker:case-fold(?match1), "%(name)s")
+                            || CONTAINS(tracker:case-fold(
+                                tracker:unaccent(?match2)), "%(name)s")
+                            || CONTAINS(tracker:case-fold(?match2), "%(name)s")
+                            || CONTAINS(tracker:case-fold(
+                                tracker:unaccent(?match3)), "%(name)s")
+                            || CONTAINS(tracker:case-fold(?match3), "%(name)s")
+                            || CONTAINS(tracker:case-fold(
+                                tracker:unaccent(?match4)), "%(name)s")
+                            || CONTAINS(tracker:case-fold(?match4), "%(name)s")
+                        )
+                        %(location_filter)s
+                    }
+                    LIMIT 50
+                }
+            }
         }
-        LIMIT 50
         """.replace('\n', ' ').strip() % {
+            'media_type': int(Grl.MediaType.AUDIO),
             'location_filter': self._tracker_wrapper.location_filter(),
             'name': term
         }
@@ -901,39 +1166,50 @@ class GrlTrackerWrapper(GObject.GObject):
         # the artist key, since Grilo coverart plugins use
         # only that key for retrieval.
         query = """
-        SELECT DISTINCT
-            rdf:type(?album)
-            tracker:id(?album) AS ?id
-            tracker:referenceIdentifier(?release_group_id)
-                AS ?mb_release_group_id
-            tracker:referenceIdentifier(?release_id) AS ?mb_release_id
-            tracker:coalesce(nmm:artistName(?album_artist),
-                             nmm:artistName(?song_artist)) AS ?artist
-            nie:title(?album) AS ?album
+        SELECT
+            ?type ?id ?mbReleaseGroup ?mbRelease ?artist ?album
         WHERE {
-            ?album a nmm:MusicAlbum .
-            ?song a nmm:MusicPiece ;
-                    nmm:musicAlbum ?album ;
-                    nmm:performer ?song_artist .
-            OPTIONAL {
-                ?album tracker:hasExternalReference ?release_group_id .
-                ?release_group_id tracker:referenceSource
-                    "https://musicbrainz.org/doc/Release_Group" .
+            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+                GRAPH tracker:Audio {
+                    SELECT DISTINCT
+                        %(media_type)s AS ?type
+                        ?album AS ?id
+                        tracker:referenceIdentifier(?release_group_id)
+                            AS ?mbReleaseGroup
+                        tracker:referenceIdentifier(?release_id) AS ?mbRelease
+                        tracker:coalesce(nmm:artistName(?album_artist),
+                                         nmm:artistName(?song_artist))
+                            AS ?artist
+                        nie:title(?album) AS ?album
+                    WHERE {
+                        ?album a nmm:MusicAlbum .
+                        ?song a nmm:MusicPiece ;
+                                nmm:musicAlbum ?album ;
+                                nmm:performer ?song_artist .
+                        OPTIONAL {
+                            ?album tracker:hasExternalReference
+                                ?release_group_id .
+                            ?release_group_id tracker:referenceSource
+                                "https://musicbrainz.org/doc/Release_Group" .
+                        }
+                        OPTIONAL {
+                            ?album tracker:hasExternalReference ?release_id .
+                            ?release_id tracker:referenceSource
+                                "https://musicbrainz.org/doc/Release" .
+                        }
+                        OPTIONAL { ?album nmm:albumArtist ?album_artist . }
+                        FILTER (
+                            ?album = <%(album_id)s>
+                        )
+                        %(location_filter)s
+                    }
+                }
             }
-            OPTIONAL {
-                ?album tracker:hasExternalReference ?release_id .
-                ?release_id tracker:referenceSource
-                    "https://musicbrainz.org/doc/Release" .
-            }
-            OPTIONAL { ?album nmm:albumArtist ?album_artist . }
-            FILTER (
-                tracker:id(?album) = %(album_id)s
-            )
-            %(location_filter)s
         }
         """.replace("\n", " ").strip() % {
-                'album_id': album_id,
-                'location_filter': self._tracker_wrapper.location_filter()
+            'media_type': int(Grl.MediaType.CONTAINER),
+            'album_id': album_id,
+            'location_filter': self._tracker_wrapper.location_filter()
         }
 
         return query
@@ -941,40 +1217,51 @@ class GrlTrackerWrapper(GObject.GObject):
     def _get_album_for_song_id(self, song_id):
         # See get_album_for_album_id comment.
         query = """
-        SELECT DISTINCT
-            rdf:type(?album)
-            tracker:id(?album) AS ?id
-            tracker:referenceIdentifier(?release_group_id)
-                AS ?mb_release_group_id
-            tracker:referenceIdentifier(?release_id) AS ?mb_release_id
-            tracker:coalesce(nmm:artistName(?album_artist),
-                             nmm:artistName(?song_artist)) AS ?artist
-            nie:title(?album) AS ?album
+        SELECT
+            ?type ?id ?mbReleaseGroup ?mbRelease ?artist ?album
         WHERE {
-            ?song a nmm:MusicPiece ;
-                    nmm:musicAlbum ?album ;
-                    nmm:performer ?song_artist .
-            OPTIONAL {
-                ?album tracker:hasExternalReference ?release_group_id .
-                ?release_group_id tracker:referenceSource
-                    "https://musicbrainz.org/doc/Release_Group" .
+            SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files> {
+                GRAPH tracker:Audio {
+                    SELECT DISTINCT
+                        %(media_type)s AS ?type
+                        ?album AS ?id
+                        tracker:referenceIdentifier(?release_group_id)
+                            AS ?mbReleaseGroup
+                        tracker:referenceIdentifier(?release_id) AS ?mbRelease
+                        tracker:coalesce(nmm:artistName(?album_artist),
+                                         nmm:artistName(?song_artist))
+                            AS ?artist
+                        nie:title(?album) AS ?album
+                    WHERE {
+                        ?song a nmm:MusicPiece ;
+                                nmm:musicAlbum ?album ;
+                                nmm:performer ?song_artist .
+                        OPTIONAL {
+                            ?album tracker:hasExternalReference
+                                ?release_group_id .
+                            ?release_group_id tracker:referenceSource
+                                "https://musicbrainz.org/doc/Release_Group" .
+                        }
+                        OPTIONAL {
+                            ?album tracker:hasExternalReference ?release_id .
+                            ?release_id tracker:referenceSource
+                                "https://musicbrainz.org/doc/Release" .
+                        }
+                        OPTIONAL { ?album nmm:albumArtist ?album_artist . }
+                        FILTER (
+                            ?song = <%(song_id)s>
+                        )
+                        FILTER (
+                            NOT EXISTS { ?song a nmm:Video }
+                            && NOT EXISTS { ?song a nmm:Playlist }
+                        )
+                        %(location_filter)s
+                    }
+                }
             }
-            OPTIONAL {
-                ?album tracker:hasExternalReference ?release_id .
-                ?release_id tracker:referenceSource
-                    "https://musicbrainz.org/doc/Release" .
-            }
-            OPTIONAL { ?album nmm:albumArtist ?album_artist . }
-            FILTER (
-                tracker:id(?song) = %(song_id)s
-            )
-            FILTER (
-                NOT EXISTS { ?song a nmm:Video }
-                && NOT EXISTS { ?song a nmm:Playlist }
-            )
-            %(location_filter)s
         }
         """.replace("\n", " ").strip() % {
+            'media_type': int(Grl.MediaType.CONTAINER),
             'location_filter': self._tracker_wrapper.location_filter(),
             'song_id': song_id
         }

@@ -42,12 +42,12 @@ dependency('gtk+-3.0', version: '>= 3.24.7')
 dependency('libdazzle-1.0', version: '>= 3.28.0')
 dependency('libmediaart-2.0', version: '>= 1.9.1')
 dependency('libsoup-2.4')
-dependency('tracker-sparql-2.0', version: '>= 2.3.0')
+dependency('tracker-sparql-3.0', version: '>= 2.99.1')
 dependency('pango', version: '>= 1.44.0')
 dependency('pygobject-3.0', version: '>= 3.36.1')
 dependency('py3cairo', version: '>= 1.14.0')
 dependency('grilo-0.3', version: '>= 0.3.12', fallback: ['grilo', 'libgrl_dep'])
-dependency('grilo-plugins-0.3', version: '>= 0.3.10', fallback: ['grilo-plugins', 'grilo_plugins_dep'])
+dependency('grilo-plugins-0.3', version: '>= 0.3.11', fallback: ['grilo-plugins', 'grilo_plugins_dep'])
 
 subproject('libgd',
     default_options: [

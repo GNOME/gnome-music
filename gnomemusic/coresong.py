@@ -22,6 +22,7 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from collections import deque
 from enum import IntEnum
 
 import gi
@@ -63,13 +64,14 @@ class CoreSong(GObject.GObject):
         """
         super().__init__()
 
+        self._log = application.props.log
         self._coregrilo = application.props.coregrilo
         self._coreselection = application.props.coreselection
         self._favorite = False
         self._selected = False
 
         self.props.grlid = media.get_source() + media.get_id()
-        self._is_tracker = media.get_source() == "grl-tracker-source"
+        self._is_tracker = media.get_source() == "grl-tracker3-source"
         self.props.validation = CoreSong.Validation.PENDING
         self.update(media)
 
@@ -99,7 +101,8 @@ class CoreSong(GObject.GObject):
             return
 
         self.props.media.set_favourite(self._favorite)
-        self._coregrilo.writeback(self.props.media, Grl.METADATA_KEY_FAVOURITE)
+        self._coregrilo.writeback_tracker(
+            self.props.media, deque(["favorite"]))
 
     @GObject.Property(type=bool, default=False)
     def selected(self):
@@ -133,13 +136,106 @@ class CoreSong(GObject.GObject):
             return
 
         self.props.media.set_play_count(self.props.play_count + 1)
-        self._coregrilo.writeback(
-            self.props.media, Grl.METADATA_KEY_PLAY_COUNT)
+        self._coregrilo.writeback_tracker(
+            self.props.media, deque(["play-count"]))
 
     def set_last_played(self):
         if not self._is_tracker:
             return
 
         self.props.media.set_last_played(GLib.DateTime.new_now_utc())
-        self._coregrilo.writeback(
-            self.props.media, Grl.METADATA_KEY_LAST_PLAYED)
+        self._coregrilo.writeback_tracker(
+            self.props.media, deque(["last-played"]))
+
+    def query_musicbrainz_tags(self, callback):
+        """Retrieves metadata keys for this CoreSong
+
+        :param callback: Metadata retrieval callback
+        """
+        def chromaprint_retrieved(media):
+            if not media:
+                callback(None)
+                return
+
+            self._coregrilo.get_tags(self, callback)
+
+        self._coregrilo.get_chromaprint(self, chromaprint_retrieved)
+
+    def update_tags(self, tags):
+        """Update tags of a song.
+
+        The properties of a song can be updated with Grilo writeback
+        support.
+
+        :param dict tags: New tag values
+        """
+        def _writeback_cb():
+            return
+
+        writeback_keys = []
+        if tags["title"] != self.props.title:
+            self.props.media.set_title(tags["title"])
+            writeback_keys.append(Grl.METADATA_KEY_TITLE)
+
+        if int(tags["track"]) != self.props.track_number:
+            self.props.media.set_track_number(int(tags["track"]))
+            writeback_keys.append(Grl.METADATA_KEY_TRACK_NUMBER)
+
+        if tags["year"] != utils.get_media_year(self.props.media):
+            date = GLib.DateTime.new_utc(int(tags["year"]), 1, 1, 0, 0, 0)
+            self.props.media.set_creation_date(date)
+            writeback_keys.append(Grl.METADATA_KEY_CREATION_DATE)
+
+        mb_recording_id = tags["mb-recording-id"]
+        if (mb_recording_id
+                and mb_recording_id != self.props.media.get_mb_recording_id()):
+            self.props.media.set_mb_recording_id(tags["mb-recording-id"])
+            writeback_keys.append(Grl.METADATA_KEY_MB_RECORDING_ID)
+
+        if (tags["mb-track-id"]
+                and tags["mb-track-id"] != self.props.media.get_mb_track_id()):
+            self.props.media.set_mb_track_id(tags["mb-track-id"])
+            writeback_keys.append(Grl.METADATA_KEY_MB_TRACK_ID)
+
+        if tags["artist"] != self.props.media.get_artist():
+            self.props.media.set_artist(tags["artist"])
+            writeback_keys.append(Grl.METADATA_KEY_ARTIST)
+
+        if (tags["mb-artist-id"]
+                and (tags["mb-artist-id"]
+                     != self.props.media.get_mb_artist_id())):
+            self.props.media.set_mb_artist_id(tags["mb-artist-id"])
+            writeback_keys.append(Grl.METADATA_KEY_MB_ARTIST_ID)
+
+        if tags["album"] != self.props.media.get_album():
+            self.props.media.set_album(tags["album"])
+            writeback_keys.append(Grl.METADATA_KEY_ALBUM)
+
+        if int(tags["disc"]) != self.props.media.get_album_disc_number():
+            self.props.media.set_album_disc_number(int(tags["disc"]))
+            writeback_keys.append(Grl.METADATA_KEY_ALBUM_DISC_NUMBER)
+
+        if (tags["album-artist"]
+                and (tags["album-artist"]
+                     != self.props.media.get_album_artist())):
+            self.props.media.set_album_artist(tags["album-artist"])
+            writeback_keys.append(Grl.METADATA_KEY_ALBUM_ARTIST)
+
+        if (tags["mb-release-id"]
+                and (tags["mb-release-id"]
+                     != self.props.media.get_mb_release_id())):
+            self.props.media.set_mb_release_id(tags["mb-release-id"])
+            writeback_keys.append(Grl.METADATA_KEY_MB_RELEASE_ID)
+
+        release_group_id = tags["mb-release-group-id"]
+        if (release_group_id
+                and (release_group_id
+                     != self.props.media.get_mb_release_group_id())):
+            self.props.media.set_mb_release_group_id(release_group_id)
+            writeback_keys.append(Grl.METADATA_KEY_MB_RELEASE_GROUP_ID)
+
+        if writeback_keys:
+            self._log.debug(
+                "Updating tags of a song: {}".format(writeback_keys))
+            self._coregrilo.writeback(
+                self.props.media, writeback_keys, _writeback_cb)
