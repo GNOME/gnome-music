@@ -24,7 +24,9 @@
         "--talk-name=org.gnome.SettingsDaemon.MediaKeys",
         "--talk-name=org.gtk.vfs",
         "--talk-name=org.gtk.vfs.*",
-        "--system-talk-name=org.freedesktop.login1"
+        "--system-talk-name=org.freedesktop.login1",
+        "--own-name=org.gnome.Music.Devel.Tracker3.Miner.Files",
+        "--own-name=org.gnome.Music.Devel.Tracker3.Miner.Extract"
     ],
     "cleanup": [
         "/include",
@@ -60,20 +62,20 @@
             ]
         },
         {
-            "name": "tracker",
+            "name": "tracker-miners",
             "buildsystem": "meson",
-            "cleanup": [ "/bin", "/etc", "/libexec" ],
-            "config-opts": [ "-Ddocs=false",
-                             "-Dman=false",
-                             "-Dfunctional_tests=false",
-                             "-Dnetwork_manager=disabled",
-                             "-Dstemmer=disabled",
-                             "-Dunicode_support=icu",
-                             "-Dbash_completion=false" ],
+            "cleanup": [ "/share/dbus-1/services/org.freedesktop.Tracker3.Miner.Extract.service",
+                         "/share/dbus-1/services/org.freedesktop.Tracker3.Miner.Files.service",
+                         "/share/dbus-1/services/org.freedesktop.Tracker3.Writeback.service" ],
+            "config-opts": [ "-Dman=false",
+                             "-Dminer_fs=true",
+                             "-Dminer_rss=false",
+                             "-Dsystemd_user_services=false"],
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://gitlab.gnome.org/GNOME/tracker.git"
+                    "url": "https://gitlab.gnome.org/GNOME/tracker-miners.git",
+                    "branch": "master"
                 }
             ]
         },

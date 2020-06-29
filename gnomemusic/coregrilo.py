@@ -74,7 +74,8 @@ class CoreGrilo(GObject.GObject):
         self._wrappers = {}
         self._mb_wrappers = {}
 
-        self._tracker_wrapper = TrackerWrapper()
+        application_id = application.get_application_id()
+        self._tracker_wrapper = TrackerWrapper(application_id)
         self._tracker_wrapper.bind_property(
             "tracker-available", self, "tracker-available",
             GObject.BindingFlags.SYNC_CREATE)
@@ -96,6 +97,8 @@ class CoreGrilo(GObject.GObject):
         self._registry.add_config(config)
 
         config = Grl.Config.new("grl-tracker3", "grl-tracker3-source")
+        config.set_string(
+            "miner-service", self._tracker_wrapper.miner_fs_busname())
         config.set_string(
             "store-path", self._tracker_wrapper.cache_directory())
         self._registry.add_config(config)
