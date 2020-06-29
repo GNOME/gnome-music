@@ -88,6 +88,8 @@ class CoreGrilo(GObject.GObject):
 
         config = Grl.Config.new("grl-tracker3", "grl-tracker3-source")
         config.set_string(
+            "miner-service", self._tracker_wrapper.props.miner_fs_busname)
+        config.set_string(
             "store-path", self._tracker_wrapper.cache_directory())
         self._registry.add_config(config)
 
