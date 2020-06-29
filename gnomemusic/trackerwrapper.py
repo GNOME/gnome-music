@@ -53,19 +53,96 @@ class MbReference(Enum):
         self.method = method
 
 
+def in_flatpak():
+    if os.path.exists('/.flatpak-info'):
+        return True
+    return False
+
+
 class TrackerWrapper(GObject.GObject):
     """Create a connection to an instance of Tracker"""
 
-    def __init__(self):
+    def __init__(self, application_id):
         super().__init__()
 
         self._log = MusicLogger()
+        self._application_id = application_id
 
-        self._tracker = None
-        self._tracker_available = TrackerState.UNAVAILABLE
+        self._local_db = None
+        self._local_db_available = TrackerState.UNAVAILABLE
 
+        self._miner_fs = None
+        self._miner_fs_busname = None
+        self._miner_fs_available = TrackerState.UNAVAILABLE
+
+        self._setup_local_db()
+        self._setup_host_miner_fs()
+
+    def _setup_host_miner_fs(self):
+        self._miner_fs_busname = 'org.freedesktop.Tracker3.Miner.Files'
+
+        self._log.debug("Connecting to session-wide Tracker indexer at {}"
+                        .format(self._miner_fs_busname))
+
+        self._miner_fs = Tracker.SparqlConnection.bus_new(
+            self._miner_fs_busname, None, None)
+        self._miner_fs.query_async('ASK { ?r a rdfs:Resource }', None,
+                                   self._query_host_miner_fs)
+
+    def _query_host_miner_fs(self, klass, result):
+        # Query callback for _setup_host_miner_fs()
         try:
-            self._tracker = Tracker.SparqlConnection.new(
+            klass.query_finish(result)
+            self._log.info("Using session-wide tracker-miner-fs-3")
+            self._miner_fs_available = TrackerState.AVAILABLE
+            self.notify('tracker-available')
+        except GLib.Error as error:
+            self._log.warning(
+                "Could not connect to host Tracker miner-fs at {}: {}"
+                .format(self._miner_fs_busname, error))
+            if in_flatpak():
+                self._setup_local_miner_fs()
+            else:
+                self._miner_fs_busname = None
+                self.notify('tracker-available')
+
+    def _setup_local_miner_fs(self):
+        self._miner_fs_busname = self._application_id + '.Tracker3.Miner.Files'
+        self._log.debug("Connecting to bundled Tracker indexer at {}"
+                        .format(self._miner_fs_busname))
+
+        Gio.bus_get(Gio.BusType.SESSION, None, self._setup_local_bus_connection_cb)
+
+    def _setup_local_bus_connection_cb(self, klass, result):
+        # Query callback for _setup_local_miner_fs() to connect to session bus
+        bus = Gio.bus_get_finish(result)
+
+        miner_fs_startup_timeout_msec = 30 * 1000
+        miner_fs_object_path = '/org/freedesktop/Tracker3/Miner/Files'
+
+        bus.call (self._miner_fs_busname, miner_fs_object_path,
+                  'org.freedesktop.DBus.Peer', 'Ping', None, None, Gio.DBusCallFlags.NONE,
+                  miner_fs_startup_timeout_msec, None, self._setup_local_miner_fs_ping_cb)
+
+    def _setup_local_miner_fs_ping_cb(self, klass, result):
+        try:
+            klass.call_finish(result)
+            self._log.info("Using bundled tracker-miner-fs-3")
+            self._miner_fs = Tracker.SparqlConnection.bus_new(
+                self._miner_fs_busname, None, None)
+            self._miner_fs_available = TrackerState.AVAILABLE
+            self.notify('tracker-available')
+        except GLib.Error as error:
+            self._log.warning(
+                "Could not start local Tracker miner-fs at {}: {}"
+                .format(self._miner_fs_busname, error))
+            self._miner_fs_busname = None
+            self.notify('tracker-available')
+
+    def _setup_local_db(self):
+        # Open a local Tracker database.
+        try:
+            self._local_db = Tracker.SparqlConnection.new(
                 Tracker.SparqlConnectionFlags.NONE,
                 Gio.File.new_for_path(self.cache_directory()),
                 Tracker.sparql_get_ontology_nepomuk(),
@@ -76,34 +153,21 @@ class TrackerWrapper(GObject.GObject):
             self.notify("tracker-available")
             return
 
-        query = """
-        SELECT
-            ?e
-        {
-            GRAPH tracker:Audio {
-                ?e a tracker:ExternalReference .
-            }
-        }""".replace("\n", "").strip()
-
-        self._tracker.query_async(query, None, self._query_version_check)
-
-    def _query_version_check(self, klass, result):
-        try:
-            klass.query_finish(result)
-            self._tracker_available = TrackerState.AVAILABLE
-        except GLib.Error as error:
-            self._log.warning(
-                "Error: {}, {}".format(error.domain, error.message))
-            self._tracker_available = TrackerState.OUTDATED
-
+        # Version checks against the local version of Tracker can be done
+        # here, set `self._tracker_available = TrackerState.OUTDATED` if the
+        # checks fail.
+        self._local_db_available = TrackerState.AVAILABLE
         self.notify("tracker-available")
 
     def cache_directory(self):
         return os.path.join(GLib.get_user_cache_dir(), 'gnome-music', 'db')
 
+    def miner_fs_busname(self):
+        return self._miner_fs_busname
+
     @GObject.Property(type=object, flags=GObject.ParamFlags.READABLE)
-    def tracker(self):
-        return self._tracker
+    def local_db(self):
+        return self._local_db
 
     @GObject.Property(
         type=int, default=TrackerState.UNAVAILABLE,
@@ -111,13 +175,17 @@ class TrackerWrapper(GObject.GObject):
     def tracker_available(self):
         """Get Tracker availability.
 
-        Tracker is available if a SparqlConnection has been opened and
-        if a query can be performed.
-
         :returns: tracker availability
         :rtype: TrackerState
         """
-        return self._tracker_available
+        if (self._local_db_available == TrackerState.AVAILABLE and
+            self._miner_fs_available == TrackerState.AVAILABLE):
+            return TrackerState.AVAILABLE
+        elif (self._local_db_available == TrackerState.OUTDATED or
+              self._miner_fs_available == TrackerState.OUTDATED):
+            return TrackerState.OUTDATED
+        else:
+            return TrackerState.UNAVAILABLE
 
     def location_filter(self):
         try:
