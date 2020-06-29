@@ -1,0 +1,8 @@
+[D-BUS Service]
+Name=org.gnome.Photos.Miner.Extract
+Exec=/app/libexec/tracker-extract-3
+SystemdService=tracker-extract-3.service
+
+# Miner details needed for tracker-control
+Path=/org/gnome/Photos/Miner/Extract
+NameSuffix=Miner.Files
