@@ -62,6 +62,9 @@
         {
             "name": "tracker-miners",
             "buildsystem": "meson",
+            "cleanup": [ "/share/dbus-1/services/org.freedesktop.Tracker3.Miner.Extract.service",
+                         "/share/dbus-1/services/org.freedesktop.Tracker3.Miner.Files.service",
+                         "/share/dbus-1/services/org.freedesktop.Tracker3.Writeback.service" ],
             "config-opts": [ "-Dman=false",
                              "-Dminer_fs=true",
                              "-Dminer_rss=false",

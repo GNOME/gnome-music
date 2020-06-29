@@ -14,7 +14,7 @@ OntologyName=nepomuk
 # DBus name for the owner (not optional). Tracker will use
 # the domain as the prefix of the DBus name for all the
 # services related to this domain ontology.
-Domain=org.gnome.Music
+Domain=@application_id@
 
 # List of miners we expect to run in this domain.
 Miners=Miner.Files;Miner.Extract
