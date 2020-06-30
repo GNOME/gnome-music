@@ -1,6 +1,6 @@
 import gi
 gi.require_versions({"Grl": "0.3"})
-from gi.repository import Grl, GObject
+from gi.repository import Grl, GObject, GLib
 
 from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.coreartist import CoreArtist
@@ -12,6 +12,7 @@ class GrlDleynaWrapper(GObject.GObject):
     """Wrapper for the Grilo Dleyna source.
     """
     _SPLICE_SIZE = 100
+    _BATCH_SIZE = 100
     METADATA_KEYS = [
         Grl.METADATA_KEY_ALBUM,
         Grl.METADATA_KEY_ALBUM_ARTIST,
@@ -47,20 +48,48 @@ class GrlDleynaWrapper(GObject.GObject):
             Grl.ResolutionFlags.FAST_ONLY | Grl.ResolutionFlags.IDLE_RELAY)
 
         self.props.source = source
+        self._fast_options.set_count(self._BATCH_SIZE)
+        self._songs_offset = 0
+        self._albums_offset = 0
+        self._artist_offset = 0
+        self._songs_done = False
+        self._albums_done = False
+        self._artists_done = False
 
-        self._initial_songs_fill(self.props.source)
-        self._initial_albums_fill(self.props.source)
-        self._initial_artists_fill(self.props.source)
+        GLib.timeout_add(500, self._initial_media_fill)
 
     @GObject.Property(type=Grl.Source, default=None)
     def source(self):
         return self._source
 
-    def _initial_songs_fill(self, source):
+    def _initial_media_fill(self):
+        if self._artists_done:
+            return False
+
+        elif self._albums_done:
+            self._initial_artists_fill(self.props.source, self._artist_offset)
+            self._artist_offset = self._artist_offset + self._BATCH_SIZE
+
+        elif self._songs_done:
+            self._initial_albums_fill(self.props.source, self._albums_offset)
+            self._albums_offset = self._albums_offset + self._BATCH_SIZE
+
+        else:
+            self._initial_songs_fill(self.props.source, self._songs_offset)
+            self._songs_offset = self._songs_offset + self._BATCH_SIZE
+
+        return True
+
+    def _initial_songs_fill(self, source, offset):
         self._window.notifications_popup.push_loading()
         songs_added = []
 
         def _add_to_model(source, op_id, media, remaining, error):
+            if media is None:
+                self._songs_done = True
+                self._window.notifications_popup.pop_loading()
+                return
+
             if error:
                 self._log.warning("Error: {}".format(error))
                 self._window.notifications_popup.pop_loading()
@@ -87,15 +116,22 @@ class GrlDleynaWrapper(GObject.GObject):
         """.replace("\n", " ").strip()
 
         options = self._fast_options.copy()
+        options.set_skip(offset)
         self._source.query(query, self.METADATA_KEYS, options, _add_to_model)
 
-    def _initial_albums_fill(self, source):
+    def _initial_albums_fill(self, source, offset):
         self._window.notifications_popup.push_loading()
         albums_added = []
 
         options = self._fast_options.copy()
+        options.set_skip(offset)
 
         def _add_to_albums_model(source, op_id, media, remaining, error):
+            if media is None:
+                self._albums_done = True
+                self._window.notifications_popup.pop_loading()
+                return
+
             if error:
                 self._log.warning("Error: {}".format(error))
                 self._window.notifications_popup.pop_loading()
@@ -135,11 +171,16 @@ class GrlDleynaWrapper(GObject.GObject):
 
         source.query(query, self.METADATA_KEYS, options, _add_to_albums_model)
 
-    def _initial_artists_fill(self, source):
+    def _initial_artists_fill(self, source, offset):
         self._window.notifications_popup.push_loading()
         artists_added = []
 
         def _add_to_artists_model(source, op_id, media, remaining, error):
+            if media is None:
+                self._artists_done = True
+                self._window.notifications_popup.pop_loading()
+                return
+
             if error:
                 self._log.warning("Error: {}".format(error))
                 self._window.notifications_popup.pop_loading()
@@ -162,6 +203,7 @@ class GrlDleynaWrapper(GObject.GObject):
         """.replace("\n", " ").strip()
 
         options = self._fast_options.copy()
+        options.set_skip(offset)
 
         source.query(
             query, self.METADATA_KEYS, options, _add_to_artists_model)
