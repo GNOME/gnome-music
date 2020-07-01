@@ -49,8 +49,6 @@ class GrlDleynaWrapper(GObject.GObject):
         self.props.source = source
 
         self._initial_songs_fill()
-        self._initial_albums_fill()
-        self._initial_artists_fill()
 
     @GObject.Property(type=Grl.Source, default=None)
     def source(self):
@@ -80,6 +78,7 @@ class GrlDleynaWrapper(GObject.GObject):
                 self._songs_model.splice(
                     self._songs_model.get_n_items(), 0, songs_added)
                 self._window.notifications_popup.pop_loading()
+                self._initial_albums_fill()
 
                 return
 
@@ -129,6 +128,9 @@ class GrlDleynaWrapper(GObject.GObject):
                 self._albums_model.splice(
                     self._albums_model.get_n_items(), 0, albums_added)
                 self._window.notifications_popup.pop_loading()
+                self._initial_artists_fill()
+
+                return
 
         query = """upnp:class = 'object.container.album.musicAlbum'
         """.replace("\n", " ").strip()
