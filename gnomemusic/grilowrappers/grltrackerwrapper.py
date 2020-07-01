@@ -24,7 +24,7 @@
 
 import gi
 gi.require_versions({"Gfm": "0.1", "Grl": "0.3", 'Tracker': "2.0"})
-from gi.repository import Gfm, Grl, GLib, GObject, Tracker
+from gi.repository import Gfm, Gio, Grl, GLib, GObject, Tracker
 
 from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.coreartist import CoreArtist
@@ -71,18 +71,21 @@ class GrlTrackerWrapper(GObject.GObject):
         super().__init__()
 
         self._application = application
-        self._coremodel = application.props.coremodel
+        coremodel = application.props.coremodel
         self._log = application.props.log
-        self._songs_model = self._coremodel.props.songs
+        self._songs_model = Gio.ListStore.new(CoreSong)
+        coremodel.props.songs_proxy.append(self._songs_model)
         self._source = None
-        self._albums_model = self._coremodel.props.albums
+        self._albums_model = Gio.ListStore.new(CoreAlbum)
+        coremodel.props.albums_proxy.append(self._albums_model)
         self._album_ids = {}
-        self._artists_model = self._coremodel.props.artists
+        self._artists_model = Gio.ListStore.new(CoreArtist)
+        coremodel.props.artists_proxy.append(self._artists_model)
         self._artist_ids = {}
         self._hash = {}
-        self._song_search_proxy = self._coremodel.props.songs_search_proxy
-        self._album_search_model = self._coremodel.props.albums_search
-        self._artist_search_model = self._coremodel.props.artists_search
+        self._song_search_proxy = coremodel.props.songs_search_proxy
+        self._album_search_model = coremodel.props.albums_search
+        self._artist_search_model = coremodel.props.artists_search
         self._batch_changed_media_ids = {}
         self._content_changed_timeout = None
         self._tracker_playlists = None
