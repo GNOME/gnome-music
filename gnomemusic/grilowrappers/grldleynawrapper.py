@@ -12,6 +12,7 @@ class GrlDleynaWrapper(GObject.GObject):
     """Wrapper for the Grilo Dleyna source.
     """
     _SPLICE_SIZE = 100
+    _OFFSET = 100
     METADATA_KEYS = [
         Grl.METADATA_KEY_ALBUM,
         Grl.METADATA_KEY_ALBUM_ARTIST,
@@ -45,20 +46,26 @@ class GrlDleynaWrapper(GObject.GObject):
         self._fast_options = Grl.OperationOptions()
         self._fast_options.set_resolution_flags(
             Grl.ResolutionFlags.FAST_ONLY | Grl.ResolutionFlags.IDLE_RELAY)
+        self._fast_options.set_count(self._OFFSET)
 
         self.props.source = source
 
-        self._initial_songs_fill()
+        self._initial_songs_fill(0)
 
     @GObject.Property(type=Grl.Source, default=None)
     def source(self):
         return self._source
 
-    def _initial_songs_fill(self):
+    def _initial_songs_fill(self, offset):
         self._window.notifications_popup.push_loading()
         songs_added = []
 
         def _add_to_model(source, op_id, media, remaining, error):
+            if media is None:
+                self._window.notifications_popup.pop_loading()
+                self._initial_albums_fill(0)
+                return
+
             if error:
                 self._log.warning("Error: {}".format(error))
                 self._window.notifications_popup.pop_loading()
@@ -78,22 +85,29 @@ class GrlDleynaWrapper(GObject.GObject):
                 self._songs_model.splice(
                     self._songs_model.get_n_items(), 0, songs_added)
                 self._window.notifications_popup.pop_loading()
-                self._initial_albums_fill()
+                self._initial_songs_fill(offset + self._OFFSET)
                 return
 
         query = """upnp:class derivedfrom 'object.item.audioItem'
         """.replace("\n", " ").strip()
 
         options = self._fast_options.copy()
+        options.set_skip(offset)
         self._source.query(query, self.METADATA_KEYS, options, _add_to_model)
 
-    def _initial_albums_fill(self):
+    def _initial_albums_fill(self, offset):
         self._window.notifications_popup.push_loading()
         albums_added = []
 
         options = self._fast_options.copy()
+        options.set_skip(offset)
 
         def _add_to_albums_model(source, op_id, media, remaining, error):
+            if media is None:
+                self._window.notifications_popup.pop_loading()
+                self._initial_artists_fill(0)
+                return
+
             if error:
                 self._log.warning("Error: {}".format(error))
                 self._window.notifications_popup.pop_loading()
@@ -127,7 +141,7 @@ class GrlDleynaWrapper(GObject.GObject):
                 self._albums_model.splice(
                     self._albums_model.get_n_items(), 0, albums_added)
                 self._window.notifications_popup.pop_loading()
-                self._initial_artists_fill()
+                self._initial_albums_fill(offset + self._OFFSET)
                 return
 
         query = """upnp:class = 'object.container.album.musicAlbum'
@@ -136,11 +150,12 @@ class GrlDleynaWrapper(GObject.GObject):
         self._source.query(
             query, self.METADATA_KEYS, options, _add_to_albums_model)
 
-    def _initial_artists_fill(self):
+    def _initial_artists_fill(self, offset):
         self._window.notifications_popup.push_loading()
         artists_added = []
 
         def _add_to_artists_model(source, op_id, media, remaining, error):
+
             if error:
                 self._log.warning("Error: {}".format(error))
                 self._window.notifications_popup.pop_loading()
@@ -158,12 +173,14 @@ class GrlDleynaWrapper(GObject.GObject):
                 self._artists_model.splice(
                     self._artists_model.get_n_items(), 0, artists_added)
                 self._window.notifications_popup.pop_loading()
+                self._initial_artists_fill(offset + self._OFFSET)
                 return
 
         query = """upnp:class = 'object.container.person.musicArtist'
         """.replace("\n", " ").strip()
 
         options = self._fast_options.copy()
+        options.set_skip(offset)
 
         self._source.query(
             query, self.METADATA_KEYS, options, _add_to_artists_model)
