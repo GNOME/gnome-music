@@ -985,6 +985,13 @@ class GrlTrackerWrapper(GObject.GObject):
         return query
 
     def get_artist_art(self, coreartist):
+        """Get artist art for the artist
+
+        :param CoreArtist coreartist: coreartist
+        """
+        if coresong.props.source != "grl-tracker-source":
+            return
+
         media = coreartist.props.media
 
         def _resolve_cb(source, op_id, resolved_media, data, error):
