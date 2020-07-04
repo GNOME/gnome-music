@@ -1,3 +1,17 @@
+Overview of changes in 3.36.4
+=============================
+
+Bugs fixed:
+ pauseonsuspend: Fix calls to MusicLogger.warning() (!724)
+ Duplication of menu bar (#387)
+
+Thanks to our contributors this release:
+ Evan Nehring
+ Nils Reuße
+
+Updated translation:
+ Kazakh
+
 Overview of changes in 3.36.3
 =============================
 
