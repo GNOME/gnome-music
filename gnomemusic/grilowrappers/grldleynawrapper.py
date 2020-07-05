@@ -1,6 +1,6 @@
 import gi
 gi.require_versions({"Grl": "0.3"})
-from gi.repository import Grl, GObject
+from gi.repository import Gio, Grl, GObject
 
 from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.coreartist import CoreArtist
@@ -32,13 +32,16 @@ class GrlDleynaWrapper(GObject.GObject):
         super().__init__()
 
         self._application = application
-        self._coremodel = application.props.coremodel
+        coremodel = application.props.coremodel
         self._log = application.props.log
-        self._songs_model = self._coremodel.props.songs
+        self._songs_model = Gio.ListStore.new(CoreSong)
+        coremodel.props.songs_proxy.append(self._songs_model)
         self._source = source
-        self._albums_model = self._coremodel.props.albums
+        self._albums_model = Gio.ListStore.new(CoreAlbum)
+        coremodel.props.albums_proxy.append(self._albums_model)
         self._album_ids = {}
-        self._artists_model = self._coremodel.props.artists
+        self._artists_model = Gio.ListStore.new(CoreArtist)
+        coremodel.props.artists_proxy.append(self._artists_model)
         self._artist_ids = {}
         self._hash = {}
         self._window = application.props.window
@@ -274,25 +277,10 @@ class GrlDleynaWrapper(GObject.GObject):
         source disconnects.
         """
         # This Removes Songs
-        id = -1
-        for idx, song in enumerate(self._songs_model):
-            if id < 0 and song.props.source == self._source.props.source_id:
-                id = idx
-            if id > 0:
-                self._songs_model.remove(id)
+        self._songs_model.remove_all()
 
         # This Removes Albums
-        id = -1
-        for idx, album in enumerate(self._albums_model):
-            if id < 0 and album.props.source == self._source.props.source_id:
-                id = idx
-            if id > 0:
-                self._albums_model.remove(id)
+        self._albums_model.remove_all()
 
         # This Removes Artists
-        id = -1
-        for idx, artist in enumerate(self._artists_model):
-            if id < 0 and artist.props.source == self._source.props.source_id:
-                id = idx
-            if id > 0:
-                self._artists_model.remove(id)
+        self._artists_model.remove_all()
