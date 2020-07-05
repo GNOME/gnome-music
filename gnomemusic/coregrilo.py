@@ -160,17 +160,34 @@ class CoreGrilo(GObject.GObject):
         # FIXME: Only removes search sources atm.
         self._search_wrappers.pop(source.props.source_id, None)
 
-    def get_artist_albums(self, artist, filter_model):
-        for wrapper in self._wrappers.values():
-            wrapper.get_artist_albums(artist, filter_model)
+    def get_artist_albums(self, media, filter_model):
+        """Get all album by an artist
+
+        :param Grl.Media media: A Grilo Media item that represents Artist
+        :param Gfm.FilterListModel filter_model: The model to fill
+        """
+        source = media.get_source()
+        self._wrappers[source].get_artist_albums(media, filter_model)
 
     def get_album_discs(self, media, disc_model):
-        for wrapper in self._wrappers.values():
-            wrapper.get_album_discs(media, disc_model)
+        """Get all discs from an album
+
+        :param Grl.Media media: A Grilo Media item that represents Album
+        :param Gfm.SortListModel disc_model: The model to fill
+        """
+        source = media.get_source()
+        self._wrappers[source].get_album_discs(media, disc_model)
 
     def populate_album_disc_songs(self, media, discnr, callback):
-        for wrapper in self._wrappers.values():
-            wrapper.populate_album_disc_songs(media, discnr, callback)
+        """Get all songs from an album disc
+
+        :param Grl.Media media: A Grilo Media item that represents Album
+        :param int discnr: The disc number
+        :param callback: The callback to call for every song added
+        """
+        source = media.get_source()
+        self._wrappers[source].populate_album_disc_songs(
+            media, discnr, callback)
 
     def writeback(self, media, key):
         """Store the values associated with the key.
