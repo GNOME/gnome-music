@@ -24,7 +24,6 @@
 
 from gi.repository import Gdk, GObject, Gtk
 
-from gnomemusic.player import PlayerPlaylist
 from gnomemusic.widgets.notificationspopup import PlaylistNotification
 from gnomemusic.widgets.playlistcontextmenu import PlaylistContextMenu
 from gnomemusic.widgets.playlistcontrols import PlaylistControls  # noqa: F401
@@ -118,9 +117,7 @@ class PlaylistsWidget(Gtk.Box):
         current_playlist = self._playlists_view.props.current_playlist
         signal_id = self._coremodel.connect(
             "playlist-loaded", _on_playlist_loaded)
-        self._coremodel.props.active_playlist = current_playlist
-        self._coremodel.set_player_model(
-            PlayerPlaylist.Type.PLAYLIST, current_playlist.props.model)
+        self._coremodel.props.active_media = current_playlist
 
     def _on_song_widget_moved(self, target, source_position):
         target_position = target.get_parent().get_index()

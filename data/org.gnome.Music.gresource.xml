@@ -19,8 +19,10 @@
     <file preprocess="xml-stripblanks">ui/FilterView.ui</file>
     <file preprocess="xml-stripblanks">ui/HeaderBar.ui</file>
     <file preprocess="xml-stripblanks">ui/LastfmDialog.ui</file>
+    <file preprocess="xml-stripblanks">ui/LinearPlaybackWidget.ui</file>
     <file preprocess="xml-stripblanks">ui/LoadingNotification.ui</file>
     <file preprocess="xml-stripblanks">ui/NotificationsPopup.ui</file>
+    <file preprocess="xml-stripblanks">ui/PlaybackPopover.ui</file>
     <file preprocess="xml-stripblanks">ui/PlayerToolbar.ui</file>
     <file preprocess="xml-stripblanks">ui/PlaylistContextMenu.ui</file>
     <file preprocess="xml-stripblanks">ui/PlaylistControls.ui</file>
@@ -30,6 +32,7 @@
     <file preprocess="xml-stripblanks">ui/PlaylistsView.ui</file>
     <file preprocess="xml-stripblanks">ui/PlaylistsWidget.ui</file>
     <file preprocess="xml-stripblanks">ui/PlaylistTile.ui</file>
+    <file preprocess="xml-stripblanks">ui/RepeatBox.ui</file>
     <file preprocess="xml-stripblanks">ui/SearchHeaderBar.ui</file>
     <file preprocess="xml-stripblanks">ui/SearchView.ui</file>
     <file preprocess="xml-stripblanks">ui/SelectionBarMenuButton.ui</file>
@@ -37,6 +40,7 @@
     <file preprocess="xml-stripblanks">ui/SongsView.ui</file>
     <file preprocess="xml-stripblanks">ui/SongWidget.ui</file>
     <file preprocess="xml-stripblanks">ui/TwoLineTip.ui</file>
+    <file preprocess="xml-stripblanks">ui/TwoLineWidget.ui</file>
     <file preprocess="xml-stripblanks">ui/Window.ui</file>
   </gresource>
 </gresources>

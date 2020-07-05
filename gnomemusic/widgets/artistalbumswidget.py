@@ -24,7 +24,6 @@
 
 from gi.repository import GObject, Gtk
 
-from gnomemusic.player import PlayerPlaylist
 from gnomemusic.widgets.artistalbumwidget import ArtistAlbumWidget
 
 
@@ -49,7 +48,7 @@ class ArtistAlbumsWidget(Gtk.ListBox):
         super().__init__()
 
         self._application = application
-        self._artist = coreartist.props.artist
+        self._artist = coreartist
         self._model = coreartist.props.model
         self._player = self._application.props.player
 
@@ -74,7 +73,7 @@ class ArtistAlbumsWidget(Gtk.ListBox):
             coremodel.disconnect(signal_id)
 
         signal_id = coremodel.connect("playlist-loaded", _on_playlist_loaded)
-        coremodel.set_player_model(PlayerPlaylist.Type.ARTIST, self._model)
+        coremodel.props.active_media = self._artist
 
     def _add_album(self, corealbum):
         row = Gtk.ListBoxRow()
@@ -111,4 +110,4 @@ class ArtistAlbumsWidget(Gtk.ListBox):
     @GObject.Property(type=str, flags=GObject.ParamFlags.READABLE)
     def artist(self):
         """Artist name"""
-        return self._artist
+        return self._artist.props.artist

@@ -31,6 +31,13 @@ from gi.repository import Gio
 from gi._gi import pygobject_new_full
 
 
+class SongState(IntEnum):
+    """The state of a CoreSong"""
+    PLAYED = 0
+    PLAYING = 1
+    UNPLAYED = 2
+
+
 class SongStateIcon(Enum):
     """Enum for icons used in song playing and validation"""
     ERROR = "dialog-error-symbolic"

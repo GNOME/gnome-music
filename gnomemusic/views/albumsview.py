@@ -80,7 +80,8 @@ class AlbumsView(Gtk.Stack):
         self._window.connect(
             "notify::selection-mode", self._on_selection_mode_changed)
 
-        self._album_widget = AlbumWidget(self._application)
+        self._album_widget = AlbumWidget(
+            self._application, AlbumWidget.Mode.ALBUM)
         self._album_widget.bind_property(
             "selection-mode", self, "selection-mode",
             GObject.BindingFlags.BIDIRECTIONAL)

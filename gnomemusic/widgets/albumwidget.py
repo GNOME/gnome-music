@@ -22,12 +22,13 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from enum import IntEnum
+
 from gettext import ngettext
 
 from gi.repository import GObject, Grl, Gtk
 
 from gnomemusic.albumartcache import Art
-from gnomemusic.player import PlayerPlaylist
 from gnomemusic.widgets.disclistboxwidget import DiscBox
 from gnomemusic.widgets.disclistboxwidget import DiscListBox  # noqa: F401
 
@@ -47,18 +48,30 @@ class AlbumWidget(Gtk.EventBox):
     _composer_info_label = Gtk.Template.Child()
     _cover_stack = Gtk.Template.Child()
     _disc_list_box = Gtk.Template.Child()
+    _information_grid = Gtk.Template.Child()
     _released_info_label = Gtk.Template.Child()
     _running_info_label = Gtk.Template.Child()
     _title_label = Gtk.Template.Child()
+    _viewport = Gtk.Template.Child()
 
     selection_mode = GObject.Property(type=bool, default=False)
 
     _duration = 0
 
-    def __init__(self, application):
+    class Mode(IntEnum):
+        """Enum for AlbumWidget display mode.
+        - ALBUM is used by AlbumsView and displays all information.
+        - PLAYBACK is designed for smaller widgets. It displays less
+          information and margins are smaller.
+        """
+        ALBUM = 0
+        PLAYBACK = 1
+
+    def __init__(self, application, mode):
         """Initialize the AlbumWidget.
 
         :param GtkApplication application: The application object
+        :param AlbumWidget.Mode mode: mode
         """
         super().__init__()
 
@@ -70,6 +83,12 @@ class AlbumWidget(Gtk.EventBox):
 
         self._cover_stack.props.size = Art.Size.LARGE
         self._player = self._application.props.player
+
+        self._mode = mode
+        album_mode = (self._mode == AlbumWidget.Mode.ALBUM)
+        self._information_grid.props.visible = album_mode
+        if album_mode is False:
+            self._viewport.props.width_request = 400
 
         self.bind_property(
             "selection-mode", self._disc_list_box, "selection-mode",
@@ -167,8 +186,7 @@ class AlbumWidget(Gtk.EventBox):
 
         signal_id = self._coremodel.connect(
             "playlist-loaded", _on_playlist_loaded)
-        self._coremodel.set_player_model(
-            PlayerPlaylist.Type.ALBUM, self._album_model)
+        self._coremodel.props.active_media = self._corealbum
 
         return True
 

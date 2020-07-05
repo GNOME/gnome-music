@@ -185,3 +185,9 @@ padding: 0px;
 .lastfm-status-label {
     font-weight: bold;
 }
+
+/* now_playing_button */
+.now-playing {
+    padding-top: 0px;
+    padding-bottom: 0px;
+}

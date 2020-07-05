@@ -91,14 +91,13 @@ class Window(Gtk.ApplicationWindow):
         self._view_before_search = None
 
         self._player = app.props.player
+        self._search = app.props.search
 
         self._setup_view()
 
         MediaKeys(self._player, self)
 
     def _setup_view(self):
-        self._search = Search()
-
         self._headerbar = HeaderBar(self._app)
         self._headerbar.props.stack = self._stack
         self._search_headerbar = SearchHeaderBar(self._app)

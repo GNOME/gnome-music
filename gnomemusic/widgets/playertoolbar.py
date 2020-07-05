@@ -29,6 +29,7 @@ from gnomemusic.albumartcache import Art
 from gnomemusic.gstplayer import Playback
 from gnomemusic.player import Player, RepeatMode
 from gnomemusic.widgets.coverstack import CoverStack  # noqa: F401
+from gnomemusic.widgets.playbackpopover import PlaybackPopover
 from gnomemusic.widgets.smoothscale import SmoothScale  # noqa: F401
 from gnomemusic.widgets.twolinetip import TwoLineTip
 import gnomemusic.utils as utils
@@ -47,6 +48,7 @@ class PlayerToolbar(Gtk.ActionBar):
     _cover_stack = Gtk.Template.Child()
     _duration_label = Gtk.Template.Child()
     _next_button = Gtk.Template.Child()
+    _nowplaying_button = Gtk.Template.Child()
     _pause_image = Gtk.Template.Child()
     _play_button = Gtk.Template.Child()
     _play_image = Gtk.Template.Child()
@@ -98,6 +100,13 @@ class PlayerToolbar(Gtk.ActionBar):
         self._player = player
         self._progress_scale.props.player = self._player
 
+        # FIXME
+        self._playback_popover = PlaybackPopover(self._player._app)
+        self._playback_popover.props.relative_to = self._nowplaying_button
+        self._playback_popover.bind_property(
+            "visible", self._nowplaying_button, "active",
+            GObject.BindingFlags.SYNC_CREATE)
+
         self._player.connect('song-changed', self._update_view)
         self._player.connect(
             'notify::repeat-mode', self._on_repeat_mode_changed)
@@ -121,6 +130,11 @@ class PlayerToolbar(Gtk.ActionBar):
     @Gtk.Template.Callback()
     def _on_next_button_clicked(self, button):
         self._player.next()
+
+    @Gtk.Template.Callback()
+    def _on_nowplaying_button_toggled(self, button):
+        if self._nowplaying_button.props.active:
+            self._playback_popover.popup()
 
     def _on_repeat_mode_changed(self, klass, param):
         self._sync_repeat_image()

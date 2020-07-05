@@ -32,7 +32,7 @@ from gi.repository import GObject, GstPbutils
 
 from gnomemusic.coresong import CoreSong
 from gnomemusic.gstplayer import GstPlayer, Playback
-from gnomemusic.widgets.songwidget import SongWidget
+from gnomemusic.utils import SongState
 import gnomemusic.utils as utils
 
 
@@ -75,7 +75,9 @@ class PlayerPlaylist(GObject.GObject):
         self._discoverer.connect("discovered", self._on_discovered)
         self._discoverer.start()
 
-        self._model = self._app.props.coremodel.props.playlist_sort
+        self._coremodel = self._app.props.coremodel
+        self._model = self._coremodel.props.playlist_sort
+        self._model_recent = self._coremodel.props.recent_playlist
 
         self.connect("notify::repeat-mode", self._on_repeat_mode_changed)
 
@@ -142,14 +144,15 @@ class PlayerPlaylist(GObject.GObject):
         else:
             next_position = self.props.position + 1
 
-        self._model[self.props.position].props.state = SongWidget.State.PLAYED
+        self._model[self.props.position].props.state = SongState.PLAYED
         self._position = next_position
 
         next_song = self._model[next_position]
         if next_song.props.validation == CoreSong.Validation.FAILED:
             return self.next()
 
-        next_song.props.state = SongWidget.State.PLAYING
+        self._update_model_recent()
+        next_song.props.state = SongState.PLAYING
         self._validate_next_song()
         return True
 
@@ -170,14 +173,15 @@ class PlayerPlaylist(GObject.GObject):
         else:
             previous_position = self.props.position - 1
 
-        self._model[self.props.position].props.state = SongWidget.State.PLAYED
+        self._model[self.props.position].props.state = SongState.PLAYED
         self._position = previous_position
 
         previous_song = self._model[previous_position]
         if previous_song.props.validation == CoreSong.Validation.FAILED:
             return self.previous()
 
-        self._model[previous_position].props.state = SongWidget.State.PLAYING
+        self._update_model_recent()
+        self._model[previous_position].props.state = SongState.PLAYING
         self._validate_previous_song()
         return True
 
@@ -202,12 +206,13 @@ class PlayerPlaylist(GObject.GObject):
         if (n_items != 0
                 and n_items > self._position):
             current_song = self._model[self._position]
-            if current_song.props.state == SongWidget.State.PLAYING:
+            if current_song.props.state == SongState.PLAYING:
                 return current_song
 
         for idx, coresong in enumerate(self._model):
-            if coresong.props.state == SongWidget.State.PLAYING:
+            if coresong.props.state == SongState.PLAYING:
                 self._position = idx
+                self._update_model_recent()
                 return coresong
 
         return None
@@ -230,21 +235,28 @@ class PlayerPlaylist(GObject.GObject):
             else:
                 position = 0
             song = self._model.get_item(position)
-            song.props.state = SongWidget.State.PLAYING
+            song.props.state = SongState.PLAYING
             self._position = position
             self._validate_song(song)
             self._validate_next_song()
+            self._update_model_recent()
             return song
 
         for idx, coresong in enumerate(self._model):
             if coresong == song:
-                coresong.props.state = SongWidget.State.PLAYING
+                coresong.props.state = SongState.PLAYING
                 self._position = idx
                 self._validate_song(song)
                 self._validate_next_song()
+                self._update_model_recent()
                 return song
 
         return None
+
+    def _update_model_recent(self):
+        recent_size = self._coremodel.props.recent_playlist_size
+        offset = max(0, self._position - recent_size)
+        self._model_recent.set_offset(offset)
 
     def _on_repeat_mode_changed(self, klass, param):
         # FIXME: This shuffle is too simple.
