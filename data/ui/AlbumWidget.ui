@@ -32,7 +32,7 @@
                 <property name="orientation">vertical</property>
                 <property name="spacing">18</property>
                 <child>
-                  <object class="CoverStack" id="_cover_stack">
+                  <object class="ArtStack" id="_art_stack">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="halign">center</property>

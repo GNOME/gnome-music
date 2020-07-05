@@ -45,7 +45,7 @@ class AlbumWidget(Gtk.EventBox):
     _artist_label = Gtk.Template.Child()
     _composer_label = Gtk.Template.Child()
     _composer_info_label = Gtk.Template.Child()
-    _cover_stack = Gtk.Template.Child()
+    _art_stack = Gtk.Template.Child()
     _disc_list_box = Gtk.Template.Child()
     _released_info_label = Gtk.Template.Child()
     _running_info_label = Gtk.Template.Child()
@@ -68,7 +68,7 @@ class AlbumWidget(Gtk.EventBox):
         self._duration_signal_id = None
         self._model_signal_id = None
 
-        self._cover_stack.props.size = Art.Size.LARGE
+        self._art_stack.props.size = Art.Size.LARGE
         self._player = self._application.props.player
 
         self.bind_property(
@@ -89,7 +89,7 @@ class AlbumWidget(Gtk.EventBox):
 
         self._corealbum = corealbum
 
-        self._cover_stack.update(self._corealbum)
+        self._art_stack.props.coreobject = self._corealbum
 
         album_name = self._corealbum.props.title
         artist = self._corealbum.props.artist
