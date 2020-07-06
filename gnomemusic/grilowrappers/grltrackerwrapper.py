@@ -31,6 +31,7 @@ from gnomemusic.coreartist import CoreArtist
 from gnomemusic.coredisc import CoreDisc
 from gnomemusic.coresong import CoreSong
 from gnomemusic.grilowrappers.grltrackerplaylists import GrlTrackerPlaylists
+from gnomemusic.storeart import StoreArt
 
 
 class GrlTrackerWrapper(GObject.GObject):
@@ -880,29 +881,16 @@ class GrlTrackerWrapper(GObject.GObject):
         self.props.source.query(
             query, self.METADATA_KEYS, options, songs_search_cb)
 
-    def get_album_art_for_item(self, coresong, callback):
-        """Placeholder until we got a better solution
-        """
-        item_id = coresong.props.media.get_id()
-
-        if coresong.props.media.is_audio():
-            query = self._get_album_for_song_id(item_id)
-        else:
-            query = self._get_album_for_album_id(item_id)
-
-        full_options = Grl.OperationOptions()
-        full_options.set_resolution_flags(
-            Grl.ResolutionFlags.FULL
-            | Grl.ResolutionFlags.IDLE_RELAY)
-        full_options.set_count(1)
-
-        self.props.source.query(
-            query, self.METADATA_THUMBNAIL_KEYS, full_options, callback)
-
-    def _get_album_for_album_id(self, album_id):
+    def _get_album_for_media_id_query(self, media_id, song=True):
         # Even though we check for the album_artist, we fill
         # the artist key, since Grilo coverart plugins use
         # only that key for retrieval.
+
+        if song:
+            filter_clause = "tracker:id(?song) = {}".format(str(media_id))
+        else:
+            filter_clause = "tracker:id(?album) = {}".format(str(media_id))
+
         query = """
         SELECT DISTINCT
             rdf:type(?album)
@@ -930,81 +918,127 @@ class GrlTrackerWrapper(GObject.GObject):
             }
             OPTIONAL { ?album nmm:albumArtist ?album_artist . }
             FILTER (
-                tracker:id(?album) = %(album_id)s
+                %(filter_clause)s
             )
             %(location_filter)s
         }
         """.replace("\n", " ").strip() % {
-                'album_id': album_id,
-                'location_filter': self._tracker_wrapper.location_filter()
+            "filter_clause": filter_clause,
+            "location_filter": self._tracker_wrapper.location_filter()
         }
 
         return query
 
-    def _get_album_for_song_id(self, song_id):
-        # See get_album_for_album_id comment.
-        query = """
-        SELECT DISTINCT
-            rdf:type(?album)
-            tracker:id(?album) AS ?id
-            tracker:referenceIdentifier(?release_group_id)
-                AS ?mb_release_group_id
-            tracker:referenceIdentifier(?release_id) AS ?mb_release_id
-            tracker:coalesce(nmm:artistName(?album_artist),
-                             nmm:artistName(?song_artist)) AS ?artist
-            nie:title(?album) AS ?album
-        WHERE {
-            ?song a nmm:MusicPiece ;
-                    nmm:musicAlbum ?album ;
-                    nmm:performer ?song_artist .
-            OPTIONAL {
-                ?album tracker:hasExternalReference ?release_group_id .
-                ?release_group_id tracker:referenceSource
-                    "https://musicbrainz.org/doc/Release_Group" .
-            }
-            OPTIONAL {
-                ?album tracker:hasExternalReference ?release_id .
-                ?release_id tracker:referenceSource
-                    "https://musicbrainz.org/doc/Release" .
-            }
-            OPTIONAL { ?album nmm:albumArtist ?album_artist . }
-            FILTER (
-                tracker:id(?song) = %(song_id)s
-            )
-            FILTER (
-                NOT EXISTS { ?song a nmm:Video }
-                && NOT EXISTS { ?song a nmm:Playlist }
-            )
-            %(location_filter)s
-        }
-        """.replace("\n", " ").strip() % {
-            'location_filter': self._tracker_wrapper.location_filter(),
-            'song_id': song_id
-        }
+    def get_song_art(self, coresong):
+        """Retrieve song art for the given CoreSong
 
-        return query
+        Since MediaArt does not really support per-song art this
+        uses the songs album information as base to retrieve relevant
+        art and store it.
+
+        :param CoreSong coresong: CoreSong to get art for
+        """
+        media = coresong.props.media
+
+        # If there is no album and artist do not go through with the
+        # query, it will not give any results.
+        if (media.get_album() is None
+                and (media.get_album_artist() is None
+                     or media.get_artist() is None)):
+            coresong.props.thumbnail = "generic"
+            return
+
+        def art_retrieved_cb(source, op_id, queried_media, remaining, error):
+            if error:
+                self._log.warning("Error: {}".format(error))
+                coresong.props.thumbnail = "generic"
+                return
+
+            if (remaining == 0
+                    and queried_media is None):
+                coresong.props.thumbnail = "generic"
+                return
+
+            thumbnail_uri = queried_media.get_thumbnail()
+            if thumbnail_uri is None:
+                coresong.props.thumbnail = "generic"
+            else:
+                StoreArt(coresong, thumbnail_uri)
+
+        song_id = media.get_id()
+        query = self._get_album_for_media_id_query(song_id)
+
+        full_options = Grl.OperationOptions()
+        full_options.set_resolution_flags(
+            Grl.ResolutionFlags.FULL | Grl.ResolutionFlags.IDLE_RELAY)
+
+        self.props.source.query(
+            query, self.METADATA_THUMBNAIL_KEYS, full_options,
+            art_retrieved_cb)
+
+    def get_album_art(self, corealbum):
+        """Retrieve album art for the given CoreAlbum
+
+        :param CoreAlbum corealbum: CoreAlbum to get art for
+        """
+        media = corealbum.props.media
+
+        def art_retrieved_cb(source, op_id, queried_media, remaining, error):
+            if error:
+                self._log.warning("Error: {}".format(error))
+                corealbum.props.thumbnail = "generic"
+                return
+
+            if (remaining == 0
+                    and queried_media is None):
+                # art_retrieved_cb should be called two times, the
+                # empty result can be ignored.
+                return
+
+            thumbnail_uri = queried_media.get_thumbnail()
+            if thumbnail_uri is None:
+                corealbum.props.thumbnail = "generic"
+            else:
+                StoreArt(corealbum, thumbnail_uri)
+
+        album_id = media.get_id()
+        query = self._get_album_for_media_id_query(album_id, False)
+
+        full_options = Grl.OperationOptions()
+        full_options.set_resolution_flags(
+            Grl.ResolutionFlags.FULL | Grl.ResolutionFlags.IDLE_RELAY)
+
+        self._source.query(
+            query, self.METADATA_THUMBNAIL_KEYS, full_options,
+            art_retrieved_cb)
 
     def get_artist_art(self, coreartist):
-        """Get artist art for the artist
+        """Retrieve artist art for the given CoreArtist
 
-        :param CoreArtist coreartist: coreartist
+        This retrieves art through Grilo online services only.
+
+        :param CoreArtist coreartist: CoreArtist to get art for
         """
         media = coreartist.props.media
 
-        def _resolve_cb(source, op_id, resolved_media, data, error):
-            if resolved_media.get_thumbnail() is None:
-                coreartist.props.thumbnail = ""
+        def art_resolved_cb(source, op_id, resolved_media, data, error):
+            if error:
+                self._log.warning("Error: {}".format(error))
+                coreartist.props.thumbnail = "generic"
                 return
 
-            media.set_thumbnail(resolved_media.get_thumbnail())
-            coreartist.props.thumbnail = media.get_thumbnail()
+            if resolved_media.get_thumbnail() is None:
+                coreartist.props.thumbnail = "generic"
+                return
+
+            StoreArt(coreartist, resolved_media.get_thumbnail())
 
         full_options = Grl.OperationOptions()
         full_options.set_resolution_flags(
             Grl.ResolutionFlags.FULL | Grl.ResolutionFlags.IDLE_RELAY)
 
         self.props.source.resolve(
-            media, [Grl.METADATA_KEY_THUMBNAIL], full_options, _resolve_cb,
+            media, [Grl.METADATA_KEY_THUMBNAIL], full_options, art_resolved_cb,
             None)
 
     def stage_playlist_deletion(self, playlist):

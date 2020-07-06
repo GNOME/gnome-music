@@ -1,4 +1,4 @@
-# Copyright 2019 The GNOME Music developers
+# Copyright 2020 The GNOME Music developers
 #
 # GNOME Music is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -26,35 +26,47 @@ import gi
 gi.require_version("MediaArt", "2.0")
 from gi.repository import GObject, MediaArt
 
+from gnomemusic.embeddedart import EmbeddedArt
 
-class ArtistArt(GObject.GObject):
-    """Artist art retrieval object
+
+class AlbumArt(GObject.GObject):
+    """AlbumArt retrieval object
     """
 
-    def __init__(self, application, coreartist):
-        """Initialize.
+    def __init__(self, application, corealbum):
+        """Initialize AlbumArt
 
         :param Application application: The application object
-        :param CoreArtist coreartist: The coreartist to use
+        :param CoreAlbum corealbum: The corealbum to use
         """
         super().__init__()
 
-        self._coreartist = coreartist
-        self._artist = self._coreartist.props.artist
+        self._application = application
+        self._corealbum = corealbum
+        self._album = self._corealbum.props.title
+        self._artist = self._corealbum.props.artist
 
         if self._in_cache():
             return
 
-        application.props.coregrilo.get_artist_art(self._coreartist)
+        embedded = EmbeddedArt()
+        embedded.connect("art-found", self._on_embedded_art_found)
+        embedded.query(corealbum, self._album)
+
+    def _on_embedded_art_found(self, embeddedart, found):
+        if found:
+            self._in_cache()
+        else:
+            self._application.props.coregrilo.get_album_art(self._corealbum)
 
     def _in_cache(self):
         success, thumb_file = MediaArt.get_file(
-            self._artist, None, "artist")
+            self._artist, self._album, "album")
         if (not success
                 or not thumb_file.query_exists()):
-            self._coreartist.props.thumbnail = "loading"
+            self._corealbum.props.thumbnail = "loading"
             return False
 
-        self._coreartist.props.thumbnail = thumb_file.get_uri()
+        self._corealbum.props.thumbnail = thumb_file.get_uri()
 
         return True

@@ -215,13 +215,27 @@ class CoreGrilo(GObject.GObject):
         for wrapper in self._search_wrappers.values():
             wrapper.search(text)
 
-    def get_album_art_for_item(self, coresong, callback):
-        # Tracker not (yet) loaded.
+    def get_song_art(self, coresong):
+        """Retrieve song art for the given CoreSong
+
+        :param CoreSong coresong: CoreSong to retrieve art for
+        """
         if "grl-tracker-source" in self._wrappers:
-            self._wrappers["grl-tracker-source"].get_album_art_for_item(
-                coresong, callback)
+            self._wrappers["grl-tracker-source"].get_song_art(coresong)
+
+    def get_album_art(self, corealbum):
+        """Retrieve album art for the given CoreAlbum
+
+        :param CoreAlbum corealbum: CoreAlbum to retrieve art for
+        """
+        if "grl-tracker-source" in self._wrappers:
+            self._wrappers["grl-tracker-source"].get_album_art(corealbum)
 
     def get_artist_art(self, coreartist):
+        """Retrieve artist art for the given CoreArtist
+
+        :param CoreArtist coreartist: CoreArtist to retrieve art for
+        """
         if "grl-tracker-source" in self._wrappers:
             self._wrappers["grl-tracker-source"].get_artist_art(coreartist)
 

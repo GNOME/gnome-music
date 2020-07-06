@@ -21,7 +21,7 @@
                 <property name="can_focus">False</property>
                 <signal name="button-release-event" handler="_on_artist_event" swapped="no"/>
                 <child>
-                  <object class="ArtistArtStack" id="_artistart_stack">
+                  <object class="ArtStack" id="_art_stack">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="vexpand">True</property>
