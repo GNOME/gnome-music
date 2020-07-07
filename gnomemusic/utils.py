@@ -27,8 +27,10 @@ import re
 import unicodedata
 
 from gettext import gettext as _
-from gi.repository import Gio
+from gi.repository import Gio, GLib
 from gi._gi import pygobject_new_full
+
+from gnomemusic.musiclogger import MusicLogger
 
 
 class ArtSize(Enum):
@@ -116,8 +118,13 @@ def get_media_title(item):
         if url is None:
             return "NO URL"
         file_ = Gio.File.new_for_uri(url)
-        fileinfo = file_.query_info(
-            "standard::display-name", Gio.FileQueryInfoFlags.NONE, None)
+        try:
+            fileinfo = file_.query_info(
+                "standard::display-name", Gio.FileQueryInfoFlags.NONE, None)
+        except GLib.Error as error:
+            MusicLogger().warning(
+                "Error: {}, {}".format(error.domain, error.message))
+            return "NO URL"
         title = fileinfo.get_display_name()
         title = title.replace("_", " ")
 
