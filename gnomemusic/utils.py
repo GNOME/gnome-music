@@ -27,8 +27,10 @@ import re
 import unicodedata
 
 from gettext import gettext as _
-from gi.repository import Gio
+from gi.repository import Gio, GLib
 from gi._gi import pygobject_new_full
+
+from gnomemusic.musiclogger import MusicLogger
 
 
 class SongStateIcon(Enum):
@@ -98,12 +100,21 @@ def get_media_title(item):
 
     if not title:
         url = item.get_url()
-        # FIXME
+        # FIXME: This and the later occurance are user facing strings,
+        # but they ideally should never be seen. A media should always
+        # contain a URL or we can not play it, in that case it should
+        # be removed.
         if url is None:
             return "NO URL"
         file_ = Gio.File.new_for_uri(url)
-        fileinfo = file_.query_info(
-            "standard::display-name", Gio.FileQueryInfoFlags.NONE, None)
+        try:
+            # FIXME: query_info is not async.
+            fileinfo = file_.query_info(
+                "standard::display-name", Gio.FileQueryInfoFlags.NONE, None)
+        except GLib.Error as error:
+            MusicLogger().warning(
+                "Error: {}, {}".format(error.domain, error.message))
+            return "NO URL"
         title = fileinfo.get_display_name()
         title = title.replace("_", " ")
 
