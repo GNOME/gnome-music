@@ -70,9 +70,9 @@ def get_album_title(item):
     album title and in case of a container we are looking for
     the title.
 
-    :param item: A Grilo Media object
+    :param Grl.Media item: A Grilo Media object
     :return: The album title
-    :rtype: string
+    :rtype: str
     """
     if item.is_container():
         album = get_media_title(item)
@@ -92,9 +92,9 @@ def get_artist_name(item):
     all. The first is preferred in most cases, because it is
     the most accurate in an album setting.
 
-    :param item: A Grilo Media object
+    :param Grl.Media item: A Grilo Media object
     :return: The artist name
-    :rtype: string
+    :rtype: str
     """
 
     return (item.get_album_artist()
@@ -105,9 +105,9 @@ def get_artist_name(item):
 def get_media_title(item):
     """Returns the title of the media item.
 
-    :param item: A Grilo Media object
+    :param Grl.Media item: A Grilo Media object
     :return: The title
-    :rtype:
+    :rtype: str
     """
 
     title = item.get_title()
@@ -134,9 +134,9 @@ def get_media_title(item):
 def get_media_year(item):
     """Returns the year when the media was created.
 
-    :param item: A Grilo Media object
+    :param Grl.Media item: A Grilo Media object
     :return: The creation year or '----' if not defined
-    :rtype: string
+    :rtype: str
     """
     date = item.get_creation_date()
 
@@ -151,7 +151,7 @@ def seconds_to_string(duration):
 
     :param int duration: Time in seconds
     :return: Time in mm:ss format
-    :rtype: string
+    :rtype: str
     """
     seconds = duration
     minutes = seconds // 60
