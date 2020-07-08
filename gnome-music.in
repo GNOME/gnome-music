@@ -87,8 +87,15 @@ def set_exception_hook():
 
 def set_internationalization():
     """Sets application internationalization."""
-    locale.bindtextdomain('@application_id@', LOCALE_DIR)
-    locale.textdomain('@application_id@')
+    try:
+        locale.bindtextdomain('@application_id@', LOCALE_DIR)
+        locale.textdomain('@application_id@')
+    except AttributeError as e:
+        # Python built without gettext support doesn't have bindtextdomain()
+        # and textdomain()
+        print("Couldn't bind the gettext translation domain. Some translations"
+        " won't work.\n{}".format(e))
+
     gettext.bindtextdomain('@application_id@', LOCALE_DIR)
     gettext.textdomain('@application_id@')
 
