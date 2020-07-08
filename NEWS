@@ -1,3 +1,10 @@
+Overview of changes in 3.36.4.1
+===============================
+
+• Fix a showstopper bug in 3.36.4.1
+
+Packagers should use this version and remove 3.36.4 as it is non-functional.
+
 Overview of changes in 3.36.4
 =============================
 
