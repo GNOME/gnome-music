@@ -258,7 +258,7 @@ class Window(Gtk.ApplicationWindow):
 
         # All views are created together, so if the album view is
         # already initialized, assume the rest are as well.
-        if self.views[View.ALBUM] is not None:
+        if not isinstance(self.views[View.ALBUM], Gtk.Box):
             return
 
         self.views[View.ALBUM] = AlbumsView(self._app)
