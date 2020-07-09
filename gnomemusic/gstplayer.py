@@ -63,6 +63,7 @@ class GstPlayer(GObject.GObject):
         Gst.init(None)
 
         self._application = application
+        self._buffering = False
         self._duration = -1.
         self._log = application.props.log
         self._seek = False
@@ -82,6 +83,7 @@ class GstPlayer(GObject.GObject):
             None, self._settings.get_value('replaygain'))
 
         self._bus.connect('message::async-done', self._on_async_done)
+        self._bus.connect("message::buffering", self._on_bus_buffering)
         self._bus.connect('message::error', self._on_bus_error)
         self._bus.connect('message::element', self._on_bus_element)
         self._bus.connect('message::eos', self._on_bus_eos)
@@ -91,7 +93,8 @@ class GstPlayer(GObject.GObject):
 
         self._player.connect("about-to-finish", self._on_about_to_finish)
 
-        self._state = Playback.STOPPED
+        self.props.state = Playback.STOPPED
+        self._gapless_enabled = False
 
     def _setup_replaygain(self):
         """Set up replaygain"""
@@ -124,7 +127,8 @@ class GstPlayer(GObject.GObject):
             self._player.set_property("audio-filter", None)
 
     def _on_about_to_finish(self, klass):
-        self.emit("about-to-finish")
+        if self._gapless_enabled:
+            self.emit("about-to-finish")
 
     def _on_async_done(self, bus, message):
         if self._seek:
@@ -152,6 +156,17 @@ class GstPlayer(GObject.GObject):
     def _on_bus_element(self, bus, message):
         if GstPbutils.is_missing_plugin_message(message):
             self._missing_plugin_messages.append(message)
+
+    def _on_bus_buffering(self, bus, message):
+        percent = message.parse_buffering()
+
+        if (percent < 100
+                and not self._buffering):
+            self._buffering = True
+            self.props.state = Playback.PAUSED
+        elif percent == 100:
+            self._buffering = False
+            self.props.state = Playback.PLAYING
 
     def _on_bus_stream_start(self, bus, message):
         def delayed_query():
@@ -245,6 +260,7 @@ class GstPlayer(GObject.GObject):
 
         :param string url: url to load
         """
+        self._gapless_enabled = (url_.startswith("file"))
         self._player.set_property('uri', url_)
 
     @GObject.Property
@@ -281,6 +297,16 @@ class GstPlayer(GObject.GObject):
         For internal use only.
         """
         self._duration = duration
+
+    @GObject.Property(
+        type=bool, default=False, flags=GObject.ParamFlags.READABLE)
+    def gapless_enabled(self):
+        """Gapless state
+
+        :return: True if gapless is enabled.
+        :rtype: bool
+        """
+        return self._gapless_enabled
 
     def seek(self, seconds):
         """Seek to position

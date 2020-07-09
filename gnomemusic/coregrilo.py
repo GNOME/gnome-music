@@ -28,6 +28,7 @@ import gi
 gi.require_version('Grl', '0.3')
 from gi.repository import Grl, GLib, GObject
 
+from gnomemusic.grilowrappers.grldleynawrapper import GrlDleynaWrapper
 from gnomemusic.grilowrappers.grlsearchwrapper import GrlSearchWrapper
 from gnomemusic.grilowrappers.grltrackerwrapper import GrlTrackerWrapper
 from gnomemusic.trackerwrapper import TrackerState, TrackerWrapper
@@ -143,6 +144,12 @@ class CoreGrilo(GObject.GObject):
                 grl_tracker_wrapper = self._wrappers[source.props.source_id]
                 registry.unregister_source(grl_tracker_wrapper.props.source)
                 grl_tracker_wrapper.props.source = source
+        elif (source.props.source_id.startswith("grl-dleyna")):
+            if source.props.source_id not in self._wrappers.keys():
+                new_wrapper = GrlDleynaWrapper(
+                    source, self._application)
+                self._wrappers[source.props.source_id] = new_wrapper
+                self._log.debug("Adding wrapper {}".format(new_wrapper))
         elif (source.props.source_id not in self._search_wrappers.keys()
                 and source.props.source_id not in self._wrappers.keys()
                 and source.props.source_id != "grl-tracker-source"
@@ -154,11 +161,17 @@ class CoreGrilo(GObject.GObject):
             self._log.debug("Adding search source {}".format(source))
 
     def _on_source_removed(self, registry, source):
-        # FIXME: Handle removing sources.
-        self._log.debug("Removed source {}".format(source.props.source_id))
+        if (source.props.source_id in self._wrappers
+                and source.props.source_id != "grl-tracker-source"):
+            self._wrappers[source.props.source_id].cleanup()
 
-        # FIXME: Only removes search sources atm.
-        self._search_wrappers.pop(source.props.source_id, None)
+        if source.props.source_id in self._wrappers:
+            self._wrappers.pop(source.props.source_id)
+
+        if source.props.source_id in self._search_wrappers:
+            self._search_wrappers.pop(source.props.source_id)
+
+        self._log.debug("Removed source {}".format(source.props.source_id))
 
     def get_artist_albums(self, media, filter_model):
         """Get all album by an artist
@@ -236,8 +249,8 @@ class CoreGrilo(GObject.GObject):
 
         :param CoreArtist coreartist: CoreArtist to retrieve art for
         """
-        if "grl-tracker-source" in self._wrappers:
-            self._wrappers["grl-tracker-source"].get_artist_art(coreartist)
+        source = coreartist.get_source()
+        self._wrappers[source].get_artist_art(coreartist)
 
     def stage_playlist_deletion(self, playlist):
         """Prepares playlist deletion.
