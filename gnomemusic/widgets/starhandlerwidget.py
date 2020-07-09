@@ -81,7 +81,7 @@ class CellRendererStar(Gtk.CellRendererPixbuf):
     def show_star(self):
         return self._show_star
 
-    @show_star.setter
+    @show_star.setter  # type: ignore
     def show_star(self, value):
         """Set the show-star value
 
