@@ -30,5 +30,8 @@
   <section id="delete" style= "2column">
     <title>Remove songs and playlist</title>
   </section>
+  <section id="online" style= "2column">
+    <title>Online accounts</title>
+  </section>
 
 </page>
