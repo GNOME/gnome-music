@@ -497,7 +497,9 @@ class Player(GObject.GObject):
 
         Play the next song of the playlist, if any.
         """
-        if self._playlist.next():
+        if self._gapless_set:
+            self.set_position(0.0)
+        elif self._playlist.next():
             self.play(self._playlist.props.current_song)
 
     def previous(self):
@@ -506,12 +508,24 @@ class Player(GObject.GObject):
         Play the previous song of the playlist, if any.
         """
         position = self._gst_player.props.position
-        if position >= 5:
-            self.set_position(0.0)
-            return
+        if self._gapless_set:
+            self.stop()
 
-        if self._playlist.previous():
+        if (position < 5
+                and self._playlist.has_previous()):
+            self._playlist.previous()
+            self._gapless_set = False
             self.play(self._playlist.props.current_song)
+        # This is a special case for a song that is very short and the
+        # first song in the playlist. It can trigger gapless, but
+        # has_previous will return False.
+        elif (position < 5
+                and self._playlist.props.position == 0):
+            self.set_position(0.0)
+            self._gapless_set = False
+            self.play(self._playlist.props.current_song)
+        else:
+            self.set_position(0.0)
 
     def play_pause(self):
         """Toggle play/pause state"""
