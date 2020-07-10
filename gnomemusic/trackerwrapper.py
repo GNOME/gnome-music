@@ -62,11 +62,11 @@ def in_flatpak():
 class TrackerWrapper(GObject.GObject):
     """Create a connection to an instance of Tracker"""
 
-    def __init__(self, application_id):
+    def __init__(self, application):
         super().__init__()
 
         self._log = MusicLogger()
-        self._application_id = application_id
+        self._application = application
 
         self._local_db = None
         self._local_db_available = TrackerState.UNAVAILABLE
@@ -107,16 +107,12 @@ class TrackerWrapper(GObject.GObject):
                 self.notify('tracker-available')
 
     def _setup_local_miner_fs(self):
-        self._miner_fs_busname = self._application_id + '.Tracker3.Miner.Files'
+        app_id = self._application.get_application_id()
+        bus = self._application.get_dbus_connection()
+
+        self._miner_fs_busname = app_id + '.Tracker3.Miner.Files'
         self._log.debug("Connecting to bundled Tracker indexer at {}"
                         .format(self._miner_fs_busname))
-
-        Gio.bus_get(Gio.BusType.SESSION, None,
-                    self._setup_local_bus_connection_cb)
-
-    def _setup_local_bus_connection_cb(self, klass, result):
-        # Query callback for _setup_local_miner_fs() to connect to session bus
-        bus = Gio.bus_get_finish(result)
 
         miner_fs_startup_timeout_msec = 30 * 1000
         miner_fs_object_path = '/org/freedesktop/Tracker3/Miner/Files'
