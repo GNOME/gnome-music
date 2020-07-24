@@ -35,7 +35,7 @@ from gnomemusic.trackerwrapper import TrackerState, TrackerWrapper
 
 class CoreGrilo(GObject.GObject):
 
-    _blacklist = [
+    _blocklist = [
         'grl-bookmarks',
         'grl-filesystem',
         'grl-itunes-podcast',
@@ -112,7 +112,7 @@ class CoreGrilo(GObject.GObject):
             return GLib.SOURCE_REMOVE
 
         if ("net:plaintext" in source.get_tags()
-                or source.props.source_id in self._blacklist):
+                or source.props.source_id in self._blocklist):
             try:
                 registry.unregister_source(source)
             except GLib.GError:
