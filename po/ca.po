@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2020-02-15 11:24+0000\n"
+"POT-Creation-Date: 2020-05-30 22:52+0000\n"
 "PO-Revision-Date: 2020-02-19 06:43+0100\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
@@ -44,15 +44,15 @@ msgid ""
 "Find tracks in your local collection, get music from DLNA servers or try "
 "something new with the Jamendo and Magnatune services."
 msgstr ""
-"Trobeu cançons en la vostra col·lecció, obteniu música des de servidors DLNA "
-"o proveu quelcom nou amb els serveis Jamendo i Magnatune."
+"Trobeu cançons en la vostra col·lecció, obteniu música des de servidors DLNA"
+" o proveu quelcom nou amb els serveis Jamendo i Magnatune."
 
-#: data/org.gnome.Music.appdata.xml.in.in:67
+#: data/org.gnome.Music.appdata.xml.in.in:110
 msgid "The GNOME Music developers"
 msgstr "L'equip de desenvolupament del Música del GNOME"
 
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:57
-#: gnomemusic/window.py:69
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:58
+#: gnomemusic/window.py:70
 msgid "Music"
 msgstr "Música"
 
@@ -60,7 +60,8 @@ msgstr "Música"
 msgid "Music Player"
 msgstr "Reproductor de música"
 
-#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#. Translators: Search terms to find this application. Do NOT translate or
+#. localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.Music.desktop.in.in:13
 msgid "Music;Player;"
 msgstr "Música;Reproductor;"
@@ -93,13 +94,14 @@ msgstr "Estat de la finestra maximitzada."
 msgid "Playback repeat mode"
 msgstr "Mode de repetició de la reproducció"
 
-#. Translators: Don't translate allowed values, just the description in the brackets
+#. Translators: Don't translate allowed values, just the description in the
+#. brackets
 #: data/org.gnome.Music.gschema.xml:29
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
-"collection. Allowed values are: “none” (repeat and shuffle are off), "
-"“song” (repeat current song), “all” (repeat playlist, no shuffle), "
-"“shuffle” (shuffle playlist, presumes repeat all)."
+"collection. Allowed values are: “none” (repeat and shuffle are off), “song” "
+"(repeat current song), “all” (repeat playlist, no shuffle), “shuffle” "
+"(shuffle playlist, presumes repeat all)."
 msgstr ""
 "El valor estableix si es reprodueix la col·lecció en mode de repetició o "
 "aleatori. Els valors que s'accepten són: «none» (cap, ni es repeteix ni es "
@@ -136,18 +138,19 @@ msgstr ""
 
 #: data/org.gnome.Music.gschema.xml:48
 msgid "Report music history to Last.fm"
-msgstr "Informa de l'històric reproduccions a Last.fm"
+msgstr "Informa de l'històric de reproduccions a Last.fm"
 
 #: data/org.gnome.Music.gschema.xml:49
 msgid ""
 "Enables or disables sending scrobbles and the “currently playing” info to "
 "Last.fm."
 msgstr ""
-""
+"Activa o desactiva l'enviament de «scrobbles» i la informació de la «reproducció "
+"actual» a Last.fm."
 
 #: data/ui/AboutDialog.ui.in:9
 msgid "Copyright © 2018 GNOME Music Developers"
-msgstr "Copyright © 2018 els desenvolupadors del Música del GNOME"
+msgstr "Copyright © 2018 l'equip de desenvolupament del Música del GNOME"
 
 #: data/ui/AboutDialog.ui.in:10
 msgid "A music player and management application for GNOME."
@@ -159,65 +162,35 @@ msgstr "Visiteu el lloc web del Música del GNOME"
 
 #: data/ui/AboutDialog.ui.in:13
 msgid ""
-"GNOME Music is free software; you can redistribute it and/or modify it under "
-"the terms of the GNU General Public License as published by the Free "
-"Software Foundation; either version 2 of the License, or (at your option) "
-"any later version.\n"
+"GNOME Music is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.\n"
 "\n"
-"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
-"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
-"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
-"more details.\n"
+"GNOME Music is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.\n"
 "\n"
-"You should have received a copy of the GNU General Public License along with "
-"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
-"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"You should have received a copy of the GNU General Public License along with GNOME Music; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
 "\n"
-"The GNOME Music authors hereby grant permission for non-GPL compatible "
-"GStreamer plugins to be used and distributed together with GStreamer and "
-"GNOME Music.  This permission is above and beyond the permissions granted by "
-"the GPL license by which GNOME Music is covered.  If you modify this code, "
-"you may extend this exception to your version of the code, but you are not "
-"obligated to do so.  If you do not wish to do so, delete this exception "
-"statement from your version.\n"
+"The GNOME Music authors hereby grant permission for non-GPL compatible GStreamer plugins to be used and distributed together with GStreamer and GNOME Music.  This permission is above and beyond the permissions granted by the GPL license by which GNOME Music is covered.  If you modify this code, you may extend this exception to your version of the code, but you are not obligated to do so.  If you do not wish to do so, delete this exception statement from your version.\n"
 "\n"
-"“Magic of the vinyl” by Sami Pyylampi image is licensed by CC-BY-SA 2.0 "
-"https://www.flickr.com/photos/_spy_/12270839403"
+"“Magic of the vinyl” by Sami Pyylampi image is licensed by CC-BY-SA 2.0 https://www.flickr.com/photos/_spy_/12270839403"
 msgstr ""
-"El Música del GNOME és programari lliure; podeu redistribuir-lo i/o "
-"modificar-lo segons els termes de la llicència pública general GNU publicada "
-"per la Free Software Foundation; sigui la versió 2 de la llicència o (segons "
-"la vostra opció) qualsevol versió posterior.\n"
+"El Música del GNOME és programari lliure; podeu redistribuir-lo i/o modificar-lo segons els termes de la llicència pública general GNU publicada per la Free Software Foundation; sigui la versió 2 de la llicència o (segons la vostra opció) qualsevol versió posterior.\n"
 "\n"
-"El Música del GNOME es distribueix amb l'esperança que sigui útil, però "
-"SENSE CAP GARANTIA; ni tan sols amb la garantia implícita de "
-"COMERCIALITZACIÓ o IDONEÏTAT PER A UN PROPÒSIT PARTICULAR. Vegeu la "
-"Llicència Pública General GNU per més detalls.\n"
+"El Música del GNOME es distribueix amb l'esperança que sigui útil, però SENSE CAP GARANTIA; ni tan sols amb la garantia implícita de COMERCIALITZACIÓ o IDONEÏTAT PER A UN PROPÒSIT PARTICULAR. Vegeu la Llicència Pública General GNU per més detalls.\n"
 "\n"
-"Heu de rebre una còpia de la Llicència Pública General GNU amb el GNOME "
-"Music; si no és el cas, escriviu a la Free Software Foundation, Inc., 51 "
-"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"Heu de rebre una còpia de la Llicència Pública General GNU amb el GNOME Music; si no és el cas, escriviu a la Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
 "\n"
-"Els autors del Música del GNOME presents permeten l'ús i distribució "
-"conjunta del Música del GNOME amb connectors GStreamer no compatibles amb la "
-"GPL. Aquest permís està per sobre dels permisos garantits per la llicència "
-"GPL sota la qual es troba el Música del GNOME. Si modifiqueu aquest codi, "
-"podeu estendre aquesta excepció a la vostra versió del codi, però no esteu "
-"obligat a fer-ho. Si no voleu fer-ho, elimineu aquesta declaració d'excepció "
-"de la vostra versió.\n"
+"Els autors del Música del GNOME presents permeten l'ús i distribució conjunta del Música del GNOME amb connectors GStreamer no compatibles amb la GPL. Aquest permís està per sobre dels permisos garantits per la llicència GPL sota la qual es troba el Música del GNOME. Si modifiqueu aquest codi, podeu estendre aquesta excepció a la vostra versió del codi, però no esteu obligat a fer-ho. Si no voleu fer-ho, elimineu aquesta declaració d'excepció de la vostra versió.\n"
 "\n"
-"La imatge «Magic of the vinyl» d'en Sami Pyylampi està llicenciada sota CC-"
-"BY-SA 2.0 https://www.flickr.com/photos/_spy_/12270839403"
+"La imatge «Magic of the vinyl» d'en Sami Pyylampi està llicenciada sota CC-BY-SA 2.0 https://www.flickr.com/photos/_spy_/12270839403"
 
-#: data/ui/AlbumWidget.ui:105
+#: data/ui/AlbumWidget.ui:107
 msgid "Released"
 msgstr "Publicat"
 
-#: data/ui/AlbumWidget.ui:121
+#: data/ui/AlbumWidget.ui:123
 msgid "Running Length"
 msgstr "Durada"
 
-#: data/ui/AlbumWidget.ui:166
+#: data/ui/AlbumWidget.ui:167
 msgid "Composer"
 msgstr "Compositor"
 
@@ -231,7 +204,7 @@ msgstr "Informa de la música que escolteu"
 
 #: data/ui/AppMenu.ui:69
 msgid "_Keyboard Shortcuts"
-msgstr "_Tecles de drecera"
+msgstr "_Dreceres de teclat"
 
 #: data/ui/AppMenu.ui:83
 msgid "_Help"
@@ -249,16 +222,16 @@ msgstr "Menú"
 msgid "Select"
 msgstr "Selecciona"
 
-#: data/ui/HeaderBar.ui:61 data/ui/PlaylistDialog.ui:244
-#: data/ui/SearchHeaderBar.ui:38
+#: data/ui/HeaderBar.ui:60 data/ui/PlaylistDialog.ui:244
+#: data/ui/SearchHeaderBar.ui:37
 msgid "_Cancel"
 msgstr "_Cancel·la"
 
-#: data/ui/HeaderBar.ui:80 data/ui/SearchHeaderBar.ui:57
+#: data/ui/HeaderBar.ui:79 data/ui/SearchHeaderBar.ui:56
 msgid "Search"
 msgstr "Cerca"
 
-#: data/ui/HeaderBar.ui:103
+#: data/ui/HeaderBar.ui:102
 msgid "Back"
 msgstr "Enrere"
 
@@ -352,6 +325,8 @@ msgid ""
 "Last.fm is a music discovery service that gives you personalised "
 "recommendations based on the music you listen to."
 msgstr ""
+"Last.fm és un servei de descobriment de música que us dóna recomanacions "
+"personalitzades basades en la música que escolteu."
 
 #: data/ui/LastfmDialog.ui:32 gnomemusic/widgets/lastfmdialog.py:58
 msgid "Music Reporting Not Setup"
@@ -359,11 +334,17 @@ msgstr "La informe de la música no configurat"
 
 #: data/ui/LastfmDialog.ui:46 gnomemusic/widgets/lastfmdialog.py:61
 msgid "Login to your Last.fm account to report your music listening."
-msgstr "Inicieu la sessió amb el compte de Last.fm per a informar de la música que escolteu."
+msgstr ""
+"Inicieu la sessió amb el compte de Last.fm per a informar de la música que "
+"escolteu."
 
 #: data/ui/LastfmDialog.ui:57 gnomemusic/widgets/lastfmdialog.py:59
 msgid "Login"
 msgstr "Inicia la sessió"
+
+#: data/ui/LoadingNotification.ui:16
+msgid "Loading"
+msgstr "S'està carregant"
 
 #: data/ui/PlayerToolbar.ui:6
 msgid "Shuffle"
@@ -382,15 +363,15 @@ msgstr "Repeteix la cançó"
 msgid "Shuffle/Repeat Off"
 msgstr "Aleatori/Repetició desactivada"
 
-#: data/ui/PlayerToolbar.ui:70
+#: data/ui/PlayerToolbar.ui:69
 msgid "Previous"
 msgstr "Anterior"
 
-#: data/ui/PlayerToolbar.ui:86 gnomemusic/widgets/playertoolbar.py:147
+#: data/ui/PlayerToolbar.ui:85 gnomemusic/widgets/playertoolbar.py:147
 msgid "Play"
 msgstr "Reprodueix"
 
-#: data/ui/PlayerToolbar.ui:102
+#: data/ui/PlayerToolbar.ui:101
 msgid "Next"
 msgstr "Següent"
 
@@ -423,7 +404,7 @@ msgstr "_Canvia el nom…"
 msgid "Playlist Name"
 msgstr "Nom de la llista de reproducció"
 
-#: data/ui/PlaylistControls.ui:75
+#: data/ui/PlaylistControls.ui:74
 msgid "_Done"
 msgstr "_Fet"
 
@@ -451,19 +432,23 @@ msgstr "Afegeix a la llista de reproducció"
 msgid "_Add"
 msgstr "_Afegeix"
 
-#: data/ui/SearchView.ui:44 gnomemusic/views/artistsview.py:51
+#: data/ui/PlaylistNotification.ui:22
+msgid "_Undo"
+msgstr "_Desfés"
+
+#: data/ui/SearchView.ui:43 gnomemusic/views/artistsview.py:43
 msgid "Artists"
 msgstr "Artistes"
 
-#: data/ui/SearchView.ui:54 data/ui/SearchView.ui:107
+#: data/ui/SearchView.ui:53 data/ui/SearchView.ui:106
 msgid "View All"
 msgstr "Mostra-ho tot"
 
-#: data/ui/SearchView.ui:97 gnomemusic/views/albumsview.py:60
+#: data/ui/SearchView.ui:96 gnomemusic/views/albumsview.py:47
 msgid "Albums"
 msgstr "Àlbums"
 
-#: data/ui/SearchView.ui:150 gnomemusic/views/songsview.py:49
+#: data/ui/SearchView.ui:149 gnomemusic/views/songsview.py:45
 msgid "Songs"
 msgstr "Cançons"
 
@@ -477,34 +462,34 @@ msgstr "No en seleccionis cap"
 
 #: data/ui/SelectionBarMenuButton.ui:31 gnomemusic/widgets/headerbar.py:71
 msgid "Click on items to select them"
-msgstr "Feu clic als elements per seleccionar-los"
+msgstr "Feu clic als elements per a seleccionar-los"
 
 #: data/ui/SelectionToolbar.ui:9
 msgid "_Add to Playlist"
 msgstr "_Afegeix a la llista de reproducció"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:741
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:822
 msgid "Most Played"
 msgstr "Més reproduïdes"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:778
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:858
 msgid "Never Played"
 msgstr "Mai s'han reproduït"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:814
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:893
 msgid "Recently Played"
 msgstr "Reproduccions recents"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:860
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:938
 msgid "Recently Added"
 msgstr "Afegits recentment"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:905
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:982
 msgid "Favorite Songs"
 msgstr "Cançons preferides"
 
@@ -529,18 +514,18 @@ msgstr ", "
 #: gnomemusic/gstplayer.py:395
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
-msgstr[0] "Cal {} per reproduir el fitxer però no està instal·lat."
-msgstr[1] "Calen {} per reproduir el fitxer però no estan instal·lats."
+msgstr[0] "Cal {} per a reproduir el fitxer però no està instal·lat."
+msgstr[1] "Calen {} per a reproduir el fitxer però no estan instal·lats."
 
 #: gnomemusic/inhibitsuspend.py:63
 msgid "Playing music"
 msgstr "Reproducció de música"
 
-#: gnomemusic/utils.py:64
+#: gnomemusic/utils.py:65
 msgid "Unknown album"
 msgstr "Àlbum desconegut"
 
-#: gnomemusic/utils.py:85
+#: gnomemusic/utils.py:86
 msgid "Unknown Artist"
 msgstr "Artista desconegut"
 
@@ -558,54 +543,54 @@ msgstr "Carpeta de la música"
 msgid "The contents of your {} will appear here."
 msgstr "Els continguts de la {} apareixeran aquí."
 
-#: gnomemusic/views/emptyview.py:113
+#: gnomemusic/views/emptyview.py:112
 msgid "Hey DJ"
 msgstr "Ep, DJ"
 
-#: gnomemusic/views/emptyview.py:122 gnomemusic/views/emptyview.py:127
+#: gnomemusic/views/emptyview.py:121 gnomemusic/views/emptyview.py:126
 msgid "No music found"
 msgstr "No s'ha trobat música"
 
-#: gnomemusic/views/emptyview.py:129
+#: gnomemusic/views/emptyview.py:128
 msgid "Try a different search"
 msgstr "Proveu una cerca diferent"
 
-#: gnomemusic/views/emptyview.py:134
+#: gnomemusic/views/emptyview.py:133
 msgid "GNOME Music could not connect to Tracker"
 msgstr "El Música del GNOME no s'ha pogut connectar al Tracker"
 
-#: gnomemusic/views/emptyview.py:137
+#: gnomemusic/views/emptyview.py:136
 msgid "Your music files cannot be indexed without Tracker running"
 msgstr ""
 "Els fitxers de música no es poden indexar si el Tracker no s'està executant"
 
-#: gnomemusic/views/emptyview.py:144
+#: gnomemusic/views/emptyview.py:143
 msgid "Your system Tracker version seems outdated"
 msgstr "El vostre Tracker del sistema sembla obsolet"
 
-#: gnomemusic/views/emptyview.py:147
+#: gnomemusic/views/emptyview.py:146
 msgid "Music needs Tracker version 2.3.0 or higher"
 msgstr "El Música necessita Tracker versió 2.3.0 o superior"
 
-#: gnomemusic/views/playlistsview.py:53
+#: gnomemusic/views/playlistsview.py:41
 msgid "Playlists"
 msgstr "Llistes de reproducció"
 
-#: gnomemusic/views/searchview.py:373
+#: gnomemusic/views/searchview.py:383
 msgid "Artists Results"
 msgstr "Resultats d'artistes"
 
-#: gnomemusic/views/searchview.py:388
+#: gnomemusic/views/searchview.py:398
 msgid "Albums Results"
 msgstr "Resultats d'àlbums"
 
-#: gnomemusic/widgets/albumwidget.py:165
+#: gnomemusic/widgets/albumwidget.py:155
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} minut"
 msgstr[1] "{} minuts"
 
-#: gnomemusic/widgets/disclistboxwidget.py:74
+#: gnomemusic/widgets/disclistboxwidget.py:60
 msgid "Disc {}"
 msgstr "Disc {}"
 
@@ -632,19 +617,11 @@ msgstr "Sessió iniciada com a {}"
 msgid "Configure"
 msgstr "Configura"
 
-#: gnomemusic/widgets/notificationspopup.py:153
-msgid "Loading"
-msgstr "S'està carregant"
-
-#: gnomemusic/widgets/notificationspopup.py:220
-msgid "_Undo"
-msgstr "_Desfés"
-
-#: gnomemusic/widgets/notificationspopup.py:235
+#: gnomemusic/widgets/notificationspopup.py:216
 msgid "Playlist {} removed"
 msgstr "S'ha suprimit la llista de reproducció {}"
 
-#: gnomemusic/widgets/notificationspopup.py:239
+#: gnomemusic/widgets/notificationspopup.py:220
 msgid "{} removed from {}"
 msgstr "{} suprimit de {}"
 
@@ -652,7 +629,7 @@ msgstr "{} suprimit de {}"
 msgid "Pause"
 msgstr "Fes una pausa"
 
-#: gnomemusic/widgets/playlistcontrols.py:129
+#: gnomemusic/widgets/playlistcontrols.py:127
 msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} cançó"
