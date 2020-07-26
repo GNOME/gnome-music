@@ -405,6 +405,9 @@ class MPRIS(DBusInterface):
         return path
 
     def _update_tracklist(self):
+        # FIXME: On a repeat-mode change, the current song needs to be queried
+        # to update the player position property.
+        self._player.props.current_song
         previous_path_list = self._path_list
         self._path_list = []
         self._metadata_list = []
