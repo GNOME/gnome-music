@@ -728,10 +728,11 @@ class MPRIS(DBusInterface):
         :param str path: Identifier of the track to skip to
         """
         current_index = self._path_list.index(self._get_song_dbus_path())
-        current_coresong = self._player_model[current_index]
+        current_coresong = self._player.props.current_song
 
         goto_index = self._path_list.index(path)
-        new_coresong = self._player_model[goto_index]
+        new_position = self._player.props.position + goto_index - current_index
+        new_coresong = self._player_model[new_position]
 
         self._player.play(new_coresong)
         current_coresong.props.state = SongWidget.State.PLAYED
