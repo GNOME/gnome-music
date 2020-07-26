@@ -728,7 +728,14 @@ class MPRIS(DBusInterface):
         current_coresong.props.state = SongWidget.State.PLAYED
         new_coresong.props.state = SongWidget.State.PLAYING
 
-    def _track_list_replaced(self, tracks, current_song):
+    def _track_list_replaced(self, track_paths, current_song_path):
+        """Indicate that the entire tracklist has been replaced.
+
+        (MPRIS Method)
+
+        :param list track_paths: the new list of tracks
+        :param current_song_path: the id of the current song
+        """
         parameters = {
             "Tracks": self._path_list,
             "CurrentTrack": self._get_song_dbus_path()}
