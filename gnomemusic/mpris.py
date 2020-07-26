@@ -22,14 +22,13 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from itertools import chain
 import re
 
 from gi.repository import Gio, GLib
 
 from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
 from gnomemusic.gstplayer import Playback
-from gnomemusic.player import PlayerPlaylist, RepeatMode
+from gnomemusic.player import RepeatMode
 from gnomemusic.widgets.songwidget import SongWidget
 
 
@@ -305,6 +304,10 @@ class MPRIS(DBusInterface):
         self._playlists_model.connect(
             "items-changed", self._on_playlists_items_changed)
 
+        self._recent_playlist = self._coremodel.props.recent_playlist
+        self._recent_playlist.connect(
+            "items-changed", self._on_recent_playlist_changed)
+
         self._player_playlist_type = None
         self._path_list = []
         self._metadata_list = []
@@ -404,54 +407,20 @@ class MPRIS(DBusInterface):
             id_hex, index)
         return path
 
-    def _update_tracklist(self):
-        # FIXME: On a repeat-mode change, the current song needs to be queried
-        # to update the player position property.
-        self._player.props.current_song
-        previous_path_list = self._path_list
+    def _on_recent_playlist_changed(self, model, position, removed, added):
         self._path_list = []
         self._metadata_list = []
-        current_position = self._player.props.position
-        nb_songs = self._player_model.get_n_items()
 
-        index_min = current_position - self._playlist_nb_songs
-        index_max = current_position + self._playlist_nb_songs + 1
-        if self._player_playlist_type == PlayerPlaylist.Type.ALBUM:
-            index_min = 0
-            index_max = self._player_model.get_n_items()
+        offset = self._recent_playlist.get_offset()
+        for position, coresong in enumerate(self._recent_playlist):
+            offset_position = position + offset
+            self._path_list.append(
+                self._get_song_dbus_path(coresong, offset_position))
+            self._metadata_list.append(
+                self._get_metadata(coresong, offset_position))
 
-        first_index = max(index_min, 0)
-        last_index = min(index_max, nb_songs)
-        positions = range(first_index, last_index)
-
-        nb_songs_max = 2 * self._playlist_nb_songs + 1
-        if (self._player.props.repeat_mode == RepeatMode.ALL
-                and (last_index - first_index) < nb_songs_max):
-            offset_sup = min(
-                self._playlist_nb_songs - last_index + current_position + 1,
-                first_index)
-            offset_inf = min(
-                self._playlist_nb_songs - current_position + first_index,
-                nb_songs - last_index)
-
-            positions = chain(
-                range(nb_songs - offset_inf, nb_songs), positions,
-                range(offset_sup))
-
-        for position in positions:
-            coresong = self._player_model.get_item(position)
-            path = self._get_song_dbus_path(coresong, position)
-            metadata = self._get_metadata(coresong, position)
-            self._path_list.append(path)
-            self._metadata_list.append(metadata)
-
-        # current song has changed
-        if (not previous_path_list
-                or previous_path_list[0] != self._path_list[0]
-                or previous_path_list[-1] != self._path_list[-1]
-                or len(previous_path_list) != len(self._path_list)):
-            current_song_path = self._get_song_dbus_path()
-            self._track_list_replaced(self._path_list, current_song_path)
+        current_song_path = self._get_song_dbus_path()
+        self._track_list_replaced(self._path_list, current_song_path)
 
     def _get_playlist_dbus_path(self, playlist):
         """Convert a playlist to a D-Bus path
@@ -512,8 +481,6 @@ class MPRIS(DBusInterface):
         if added == model.get_n_items():
             return
 
-        self._update_tracklist()
-
         properties = {}
         properties["Metadata"] = GLib.Variant("a{sv}", self._get_metadata())
 
@@ -546,8 +513,6 @@ class MPRIS(DBusInterface):
             {'PlaybackStatus': GLib.Variant('s', playback_status), }, [])
 
     def _on_repeat_mode_changed(self, player, param):
-        self._update_tracklist()
-
         properties = {}
 
         is_shuffled = self._player.props.repeat_mode == RepeatMode.SHUFFLE
