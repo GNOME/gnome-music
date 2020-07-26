@@ -737,8 +737,8 @@ class MPRIS(DBusInterface):
         :param current_song_path: the id of the current song
         """
         parameters = {
-            "Tracks": self._path_list,
-            "CurrentTrack": self._get_song_dbus_path()}
+            "Tracks": track_paths,
+            "CurrentTrack": current_song_path}
         self._dbus_emit_signal("TrackListReplaced", parameters)
 
     def _load_player_playlist(self, playlist):
