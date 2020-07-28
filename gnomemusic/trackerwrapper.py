@@ -25,8 +25,6 @@ from enum import IntEnum
 
 from gi.repository import Gio, GLib, GObject, Tracker
 
-from gnomemusic.musiclogger import MusicLogger
-
 
 class TrackerState(IntEnum):
     """Tracker Status
@@ -37,12 +35,15 @@ class TrackerState(IntEnum):
 
 
 class TrackerWrapper(GObject.GObject):
-    """Create a connection to an instance of Tracker"""
 
-    def __init__(self):
+    def __init__(self, application):
+        """Create a connection to an instance of Tracker
+
+        :param Application application: The application object
+        """
         super().__init__()
 
-        self._log = MusicLogger()
+        self._log = application.props.log
 
         self._tracker = None
         self._tracker_available = TrackerState.UNAVAILABLE
