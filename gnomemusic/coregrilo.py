@@ -74,9 +74,6 @@ class CoreGrilo(GObject.GObject):
             "tracker-available", self, "tracker-available",
             GObject.BindingFlags.SYNC_CREATE)
 
-        self._tracker_wrapper.connect(
-            "notify::tracker-available", self._on_tracker_available_changed)
-
         GLib.setenv("GRL_PLUGIN_RANKS", self._grl_plugin_ranks, True)
 
         Grl.init(None)
@@ -89,17 +86,29 @@ class CoreGrilo(GObject.GObject):
         self._registry.connect('source-added', self._on_source_added)
         self._registry.connect('source-removed', self._on_source_removed)
 
-        self._registry.load_all_plugins(True)
+        self._registry.load_all_plugins(False)
+
+        self._tracker_wrapper.connect(
+            "notify::tracker-available", self._on_tracker_available_changed)
+
+        for plugin in self._registry.get_plugins(False):
+            plugin_id = plugin.get_id()
+            # Activate the Tracker plugin only when TrackerWrapper
+            # is available by listening to the tracker-available
+            # property, so skip it here.
+            if plugin_id != "grl-tracker":
+                try:
+                    self._registry.activate_plugin_by_id(plugin_id)
+                except GLib.GError:
+                    self._log.debug(
+                        "Failed to activate {} plugin.".format(plugin_id))
 
         weakref.finalize(self, Grl.deinit)
 
     def _on_tracker_available_changed(self, klass, value):
-        new_state = self._tracker_wrapper.props.tracker_available
         # FIXME:No removal support yet.
+        new_state = self._tracker_wrapper.props.tracker_available
         if new_state == TrackerState.AVAILABLE:
-            tracker_plugin = self._registry.lookup_plugin("grl-tracker")
-            if tracker_plugin:
-                self._registry.unload_plugin("grl-tracker")
             self._registry.activate_plugin_by_id("grl-tracker")
 
     def _on_source_added(self, registry, source):
@@ -128,21 +137,12 @@ class CoreGrilo(GObject.GObject):
                 self._thumbnail_sources_timeout = GLib.timeout_add_seconds(
                     5, _trigger_art_update)
 
-        new_wrapper = None
-
-        new_state = self._tracker_wrapper.props.tracker_available
         if (source.props.source_id == "grl-tracker-source"
-                and self._tracker_wrapper.location_filter() is not None
-                and new_state == TrackerState.AVAILABLE):
-            if source.props.source_id not in self._wrappers.keys():
-                new_wrapper = GrlTrackerWrapper(
-                    source, self._application, self._tracker_wrapper)
-                self._wrappers[source.props.source_id] = new_wrapper
-                self._log.debug("Adding wrapper {}".format(new_wrapper))
-            else:
-                grl_tracker_wrapper = self._wrappers[source.props.source_id]
-                registry.unregister_source(grl_tracker_wrapper.props.source)
-                grl_tracker_wrapper.props.source = source
+                and self._tracker_wrapper.location_filter() is not None):
+            new_wrapper = GrlTrackerWrapper(
+                source, self._application, self._tracker_wrapper)
+            self._wrappers[source.props.source_id] = new_wrapper
+            self._log.debug("Adding wrapper {}".format(new_wrapper))
         elif (source.props.source_id not in self._search_wrappers.keys()
                 and source.props.source_id not in self._wrappers.keys()
                 and source.props.source_id != "grl-tracker-source"
