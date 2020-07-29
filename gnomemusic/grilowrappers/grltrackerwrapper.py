@@ -428,7 +428,7 @@ class GrlTrackerWrapper(GObject.GObject):
             ?type ?urn ?title ?id ?url
             ?artist ?album
             ?duration ?trackNumber
-            ?albumDiscNumber
+            ?albumDiscNumber ?publicationDate
             nie:usageCounter(?urn) AS ?playCount
             ?tag AS ?favorite
         WHERE {{
@@ -446,8 +446,10 @@ class GrlTrackerWrapper(GObject.GObject):
                         nmm:trackNumber(?song) AS ?trackNumber
                         nmm:setNumber(nmm:musicAlbumDisc(?song))
                             AS ?albumDiscNumber
+                        YEAR(?date) AS ?publicationDate
                     WHERE {{
                         ?song a nmm:MusicPiece .
+                        OPTIONAL {{ ?song nie:contentCreated ?date . }}
                         {songs_filter}
                         {location_filter}
                     }}
