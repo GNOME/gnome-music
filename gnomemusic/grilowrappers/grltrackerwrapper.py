@@ -70,6 +70,7 @@ class GrlTrackerWrapper(GObject.GObject):
         Grl.METADATA_KEY_DURATION,
         Grl.METADATA_KEY_FAVOURITE,
         Grl.METADATA_KEY_ID,
+        Grl.METADATA_KEY_MB_RECORDING_ID,
         Grl.METADATA_KEY_PLAY_COUNT,
         Grl.METADATA_KEY_TITLE,
         Grl.METADATA_KEY_TRACK_NUMBER,
@@ -425,7 +426,7 @@ class GrlTrackerWrapper(GObject.GObject):
         miner_fs_busname = self._tracker_wrapper.props.miner_fs_busname
         query = " ".join(f"""
         SELECT
-            ?type ?urn ?title ?id ?url
+            ?type ?urn ?title ?id ?mbRecording ?url
             ?artist ?album
             ?duration ?trackNumber
             ?albumDiscNumber ?publicationDate
@@ -439,6 +440,8 @@ class GrlTrackerWrapper(GObject.GObject):
                         ?song AS ?urn
                         nie:title(?song) AS ?title
                         ?song AS ?id
+                        tracker:referenceIdentifier(?recording_id)
+                            AS ?mbRecording
                         nie:isStoredAs(?song) AS ?url
                         nmm:artistName(nmm:artist(?song)) AS ?artist
                         nie:title(nmm:musicAlbum(?song)) AS ?album
@@ -449,6 +452,11 @@ class GrlTrackerWrapper(GObject.GObject):
                         YEAR(?date) AS ?publicationDate
                     WHERE {{
                         ?song a nmm:MusicPiece .
+                        OPTIONAL {{
+                            ?song tracker:hasExternalReference ?recording_id .
+                            ?recording_id tracker:referenceSource
+                                "https://musicbrainz.org/doc/Recording" .
+                        }}
                         OPTIONAL {{ ?song nie:contentCreated ?date . }}
                         {songs_filter}
                         {location_filter}
@@ -813,7 +821,7 @@ class GrlTrackerWrapper(GObject.GObject):
 
         query = """
         SELECT
-            ?type ?id ?url ?title
+            ?type ?id ?mbRecording ?url ?title
             ?artist ?album
             ?duration ?trackNumber ?albumDiscNumber
             ?publicationDate
@@ -825,6 +833,8 @@ class GrlTrackerWrapper(GObject.GObject):
                     SELECT DISTINCT
                         %(media_type)s AS ?type
                         ?song AS ?id
+                        tracker:referenceIdentifier(?recording_id)
+                            AS ?mbRecording
                         nie:isStoredAs(?song) AS ?url
                         nie:title(?song) AS ?title
                         nmm:artistName(nmm:artist(?song)) AS ?artist
@@ -837,6 +847,11 @@ class GrlTrackerWrapper(GObject.GObject):
                     WHERE {
                         ?song a nmm:MusicPiece ;
                                 nmm:musicAlbum ?album .
+                        OPTIONAL {
+                            ?song tracker:hasExternalReference ?recording_id .
+                            ?recording_id tracker:referenceSource
+                                "https://musicbrainz.org/doc/Recording" .
+                        }
                         OPTIONAL { ?song nie:contentCreated ?date . }
                         FILTER (
                             ?album = <%(album_id)s> &&
