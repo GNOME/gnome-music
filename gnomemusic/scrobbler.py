@@ -31,7 +31,6 @@ gi.require_version('Soup', '2.4')
 from gi.repository import Gio, GLib, Goa, GObject, Soup
 
 from gnomemusic.musiclogger import MusicLogger
-import gnomemusic.utils as utils
 
 
 class GoaLastFM(GObject.GObject):
@@ -324,7 +323,7 @@ class LastFmScrobbler(GObject.GObject):
     def scrobbled(self, scrobbled):
         self._scrobbled = scrobbled
 
-    def _lastfm_api_call(self, media, time_stamp, request_type_key):
+    def _lastfm_api_call(self, coresong, time_stamp, request_type_key):
         """Internal method called by self.scrobble"""
         api_key = self._goa_lastfm.client_id
         sk = self._goa_lastfm.session_key
@@ -335,8 +334,8 @@ class LastFmScrobbler(GObject.GObject):
             return
         secret = self._goa_lastfm.secret
 
-        artist = utils.get_artist_name(media)
-        title = utils.get_media_title(media)
+        artist = coresong.props.artist
+        title = coresong.props.title
 
         request_type = {
             "update now playing": "track.updateNowPlaying",
@@ -345,7 +344,7 @@ class LastFmScrobbler(GObject.GObject):
 
         # The album is optional. So only provide it when it is
         # available.
-        album = media.get_album()
+        album = coresong.props.album
 
         request_dict = {}
         if (request_type_key == "scrobble"
@@ -429,8 +428,7 @@ class LastFmScrobbler(GObject.GObject):
         if not self.props.can_scrobble:
             return
 
-        media = coresong.props.media
-        self._lastfm_api_call(media, time_stamp, "scrobble")
+        self._lastfm_api_call(coresong, time_stamp, "scrobble")
 
     def now_playing(self, coresong):
         """Set now playing song to Last.fm
@@ -444,5 +442,4 @@ class LastFmScrobbler(GObject.GObject):
         if not self.props.can_scrobble:
             return
 
-        media = coresong.props.media
-        self._lastfm_api_call(media, None, "update now playing")
+        self._lastfm_api_call(coresong, None, "update now playing")
