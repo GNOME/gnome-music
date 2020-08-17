@@ -81,8 +81,7 @@ class CoreAlbum(GObject.GObject):
         disc_model_sort.set_sort_func(
             utils.wrap_list_store_sort_func(_disc_order_sort))
 
-        self._coregrilo.get_album_discs(
-            self.props.media, disc_model)
+        self._coregrilo.get_album_discs(self.props.media, disc_model)
 
         return disc_model_sort
 
