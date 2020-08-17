@@ -92,6 +92,7 @@ class CoreAlbum(GObject.GObject):
         if self._model is None:
             self._model = self._get_album_model()
             self._model.connect("items-changed", self._on_list_items_changed)
+            self._model.items_changed(0, 0, self._model.get_n_items())
 
         return self._model
 
