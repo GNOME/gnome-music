@@ -333,7 +333,7 @@ class CoreModel(GObject.GObject):
         # Otherwise, it's a list of songs from the songs view.
         elif self._search.props.search_mode_active:
             playlist_type = PlayerPlaylist.Type.SEARCH_RESULT
-            model = self._song_search_flatten
+            model = self._songs_search_flatten
         else:
             playlist_type = PlayerPlaylist.Type.SONGS
             model = self._songs_model
