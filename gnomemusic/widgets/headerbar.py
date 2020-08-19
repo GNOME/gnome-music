@@ -139,6 +139,10 @@ class HeaderBar(Gtk.HeaderBar):
             "search-mode-active", self._search_button, "active",
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
+        self.bind_property(
+            "selection-mode", self._search_button, "visible",
+            GObject.BindingFlags.INVERT_BOOLEAN
+            | GObject.BindingFlags.SYNC_CREATE)
 
         self.connect(
             "notify::selection-mode-allowed",
