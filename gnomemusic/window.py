@@ -317,6 +317,7 @@ class Window(Gtk.ApplicationWindow):
             # Open search bar on Ctrl + F
             if (keyval == Gdk.KEY_f
                     and not self.views[View.PLAYLIST].rename_active
+                    and not self.props.selection_mode
                     and self._headerbar.props.state != HeaderBar.State.SEARCH):
                 search_mode = self._search.props.search_mode_active
                 self._search.props.search_mode_active = not search_mode
@@ -399,6 +400,7 @@ class Window(Gtk.ApplicationWindow):
                 and (modifiers == shift_mask
                      or modifiers == 0)
                 and not self.views[View.PLAYLIST].rename_active
+                and not self.props.selection_mode
                 and self._headerbar.props.state != HeaderBar.State.SEARCH):
             self._search.props.search_mode_active = True
 
