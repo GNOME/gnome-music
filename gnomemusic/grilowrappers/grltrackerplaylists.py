@@ -36,22 +36,11 @@ import gnomemusic.utils as utils
 
 class GrlTrackerPlaylists(GObject.GObject):
 
-    METADATA_KEYS = [
-        Grl.METADATA_KEY_ALBUM,
-        Grl.METADATA_KEY_ALBUM_ARTIST,
-        Grl.METADATA_KEY_ALBUM_DISC_NUMBER,
-        Grl.METADATA_KEY_ARTIST,
+    _METADATA_PLAYLIST_KEYS = [
         Grl.METADATA_KEY_CHILDCOUNT,
         Grl.METADATA_KEY_CREATION_DATE,
-        Grl.METADATA_KEY_COMPOSER,
-        Grl.METADATA_KEY_DURATION,
-        Grl.METADATA_KEY_FAVOURITE,
         Grl.METADATA_KEY_ID,
-        Grl.METADATA_KEY_PLAY_COUNT,
-        Grl.METADATA_KEY_THUMBNAIL,
-        Grl.METADATA_KEY_TITLE,
-        Grl.METADATA_KEY_TRACK_NUMBER,
-        Grl.METADATA_KEY_URL
+        Grl.METADATA_KEY_TITLE
     ]
 
     def __init__(self, source, application, tracker_wrapper, songs_hash):
@@ -123,7 +112,7 @@ class GrlTrackerPlaylists(GObject.GObject):
         }
 
         self._source.query(
-            query, self.METADATA_KEYS, self._fast_options,
+            query, self._METADATA_PLAYLIST_KEYS, self._fast_options,
             self._add_user_playlist)
 
     def _add_user_playlist(
@@ -230,7 +219,7 @@ class GrlTrackerPlaylists(GObject.GObject):
             }
 
             self._source.query(
-                query, self.METADATA_KEYS, self._fast_options,
+                query, self._METADATA_PLAYLIST_KEYS, self._fast_options,
                 self._add_user_playlist, callback)
 
         self._notificationmanager.push_loading()
@@ -266,20 +255,15 @@ class Playlist(GObject.GObject):
         "playlist-loaded": (GObject.SignalFlags.RUN_FIRST, None, ()),
     }
 
-    METADATA_KEYS = [
+    _METADATA_PLAYLIST_KEYS = [
         Grl.METADATA_KEY_ALBUM,
-        Grl.METADATA_KEY_ALBUM_ARTIST,
-        Grl.METADATA_KEY_ALBUM_DISC_NUMBER,
         Grl.METADATA_KEY_ARTIST,
-        Grl.METADATA_KEY_CREATION_DATE,
-        Grl.METADATA_KEY_COMPOSER,
         Grl.METADATA_KEY_DURATION,
         Grl.METADATA_KEY_FAVOURITE,
         Grl.METADATA_KEY_ID,
+        Grl.METADATA_KEY_LAST_PLAYED,
         Grl.METADATA_KEY_PLAY_COUNT,
-        Grl.METADATA_KEY_THUMBNAIL,
         Grl.METADATA_KEY_TITLE,
-        Grl.METADATA_KEY_TRACK_NUMBER,
         Grl.METADATA_KEY_URL
     ]
 
@@ -416,7 +400,8 @@ class Playlist(GObject.GObject):
             Grl.ResolutionFlags.FAST_ONLY | Grl.ResolutionFlags.IDLE_RELAY)
 
         self._source.query(
-            query, self.METADATA_KEYS, options, _add_to_playlist_cb, None)
+            query, self._METADATA_PLAYLIST_KEYS, options, _add_to_playlist_cb,
+            None)
 
     def _bind_to_main_song(self, coresong):
         main_coresong = self._songs_hash[coresong.props.media.get_id()]
@@ -657,7 +642,8 @@ class Playlist(GObject.GObject):
             }
 
             self._source.query(
-                query, self.METADATA_KEYS, self._fast_options, _add_to_model)
+                query, self._METADATA_PLAYLIST_KEYS, self._fast_options,
+                _add_to_model)
 
         for coresong in coresongs:
             query = """
@@ -734,6 +720,19 @@ class Playlist(GObject.GObject):
 class SmartPlaylist(Playlist):
     """Base class for smart playlists"""
 
+    _METADATA_SMART_PLAYLIST_KEYS = [
+        Grl.METADATA_KEY_ALBUM,
+        Grl.METADATA_KEY_ALBUM_DISC_NUMBER,
+        Grl.METADATA_KEY_ARTIST,
+        Grl.METADATA_KEY_DURATION,
+        Grl.METADATA_KEY_FAVOURITE,
+        Grl.METADATA_KEY_ID,
+        Grl.METADATA_KEY_PLAY_COUNT,
+        Grl.METADATA_KEY_URL,
+        Grl.METADATA_KEY_TITLE,
+        Grl.METADATA_KEY_TRACK_NUMBER,
+    ]
+
     def __init__(self, **args):
         super().__init__(**args)
 
@@ -764,8 +763,8 @@ class SmartPlaylist(Playlist):
                 self._model.append(coresong)
 
             self._source.query(
-                self.props.query, self.METADATA_KEYS, self._fast_options,
-                _add_to_model)
+                self.props.query, self._METADATA_SMART_PLAYLIST_KEYS,
+                self._fast_options, _add_to_model)
 
         return self._model
 
@@ -787,8 +786,8 @@ class SmartPlaylist(Playlist):
             new_model_medias.append(media)
 
         self._source.query(
-            self.props.query, self.METADATA_KEYS, self._fast_options,
-            _fill_new_model)
+            self.props.query, self._METADATA_SMART_PLAYLIST_KEYS,
+            self._fast_options, _fill_new_model)
 
     def _finish_update(self, new_model_medias):
         if not new_model_medias:
