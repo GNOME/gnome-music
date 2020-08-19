@@ -227,11 +227,14 @@ class AlbumsView(Gtk.Stack):
         if self.props.selection_mode is False:
             self.props.selection_mode = True
 
+        rubberband_selection = len(self._flowbox.get_selected_children()) > 1
         with self._application.props.coreselection.freeze_notify():
-            if self._ctrl_hold is False:
+            if (rubberband_selection
+                    and not self._ctrl_hold):
                 self.deselect_all()
             for child in self._flowbox.get_selected_children():
-                if self._ctrl_hold is True:
+                if (self._ctrl_hold is True
+                        or not rubberband_selection):
                     child.props.selected = not child.props.selected
                 else:
                     child.props.selected = True
