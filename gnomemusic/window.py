@@ -52,7 +52,7 @@ class Window(Gtk.ApplicationWindow):
     __gtype_name__ = "Window"
 
     active_view = GObject.Property(type=GObject.GObject, default=None)
-    selected_items_count = GObject.Property(type=int, default=0, minimum=0)
+    selected_songs_count = GObject.Property(type=int, default=0, minimum=0)
     selection_mode = GObject.Property(type=bool, default=False)
 
     notifications_popup = Gtk.Template.Child()
@@ -73,7 +73,7 @@ class Window(Gtk.ApplicationWindow):
         self._coreselection = app.props.coreselection
 
         self._coreselection.bind_property(
-            "selected-items-count", self, "selected-items-count")
+            "selected-songs-count", self, "selected-songs-count")
 
         self._settings = app.props.settings
         self.add_action(self._settings.create_action('repeat'))
@@ -126,17 +126,17 @@ class Window(Gtk.ApplicationWindow):
             'back-button-clicked', self._switch_back_from_childview)
 
         self.bind_property(
-            'selected-items-count', self._headerbar, 'selected-items-count')
+            'selected-songs-count', self._headerbar, 'selected-songs-count')
         self.bind_property(
-            "selected-items-count", self._selection_toolbar,
-            "selected-items-count")
+            "selected-songs-count", self._selection_toolbar,
+            "selected-songs-count")
         self.bind_property(
             'selection-mode', self._headerbar, 'selection-mode',
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
         self.bind_property(
-            "selected-items-count", self._search_headerbar,
-            "selected-items-count")
+            "selected-songs-count", self._search_headerbar,
+            "selected-songs-count")
         self.bind_property(
             "selection-mode", self._search_headerbar, "selection-mode",
             GObject.BindingFlags.BIDIRECTIONAL
@@ -454,7 +454,7 @@ class Window(Gtk.ApplicationWindow):
         if self.props.active_view == self.views[View.PLAYLIST]:
             return
 
-        selected_songs = self._coreselection.props.selected_items
+        selected_songs = self._coreselection.props.selected_songs
 
         if len(selected_songs) < 1:
             return

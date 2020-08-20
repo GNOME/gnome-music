@@ -36,22 +36,22 @@ class SelectionToolbar(Gtk.ActionBar):
         'add-to-playlist': (GObject.SignalFlags.RUN_FIRST, None, ())
     }
 
-    selected_items_count = GObject.Property(type=int, default=0, minimum=0)
+    selected_songs_count = GObject.Property(type=int, default=0, minimum=0)
 
     def __init__(self):
         super().__init__()
 
         self.connect(
-            'notify::selected-items-count', self._on_item_selection_changed)
+            'notify::selected-songs-count', self._on_songs_selection_changed)
 
-        self.notify("selected-items-count")
+        self.notify("selected-songs-count")
 
     @Gtk.Template.Callback()
     def _on_add_to_playlist_button_clicked(self, widget):
         self.emit('add-to-playlist')
 
-    def _on_item_selection_changed(self, widget, data):
-        if self.props.selected_items_count > 0:
+    def _on_songs_selection_changed(self, widget, data):
+        if self.props.selected_songs_count > 0:
             self._add_to_playlist_button.props.sensitive = True
         else:
             self._add_to_playlist_button.props.sensitive = False

@@ -27,24 +27,24 @@ from gi.repository import GObject
 
 class CoreSelection(GObject.GObject):
 
-    selected_items_count = GObject.Property(type=int, default=0)
+    selected_songs_count = GObject.Property(type=int, default=0)
 
     def __init__(self):
         super().__init__()
 
-        self._selected_items = []
+        self._selected_songs = []
 
     def update_selection(self, coresong, value):
         if coresong.props.selected:
-            self.props.selected_items.append(coresong)
+            self.props.selected_songs.append(coresong)
         else:
             try:
-                self.props.selected_items.remove(coresong)
+                self.props.selected_songs.remove(coresong)
             except ValueError:
                 pass
 
-        self.props.selected_items_count = len(self.props.selected_items)
+        self.props.selected_songs_count = len(self.props.selected_songs)
 
     @GObject.Property
-    def selected_items(self):
-        return self._selected_items
+    def selected_songs(self):
+        return self._selected_songs

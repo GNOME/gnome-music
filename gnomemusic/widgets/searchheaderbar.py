@@ -51,7 +51,7 @@ class SearchHeaderBar(Gtk.HeaderBar):
 
     search_mode_active = GObject.Property(type=bool, default=False)
     search_state = GObject.Property(type=int, default=Search.State.NONE)
-    selected_items_count = GObject.Property(type=int, default=0, minimum=0)
+    selected_songs_count = GObject.Property(type=int, default=0, minimum=0)
     selection_mode_allowed = GObject.Property(type=bool, default=True)
     stack = GObject.Property(type=Gtk.Stack)
 
@@ -82,8 +82,8 @@ class SearchHeaderBar(Gtk.HeaderBar):
             "selection-mode", self._select_button, "active",
             GObject.BindingFlags.BIDIRECTIONAL)
         self.bind_property(
-            "selected-items-count", self._selection_menu,
-            "selected-items-count")
+            "selected-songs-count", self._selection_menu,
+            "selected-songs-count")
         self.bind_property(
             "search-mode-active", self._search_button, "active",
             GObject.BindingFlags.BIDIRECTIONAL

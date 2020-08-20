@@ -44,24 +44,24 @@ class SelectionBarMenuButton(Gtk.MenuButton):
     def __init__(self):
         super().__init__()
 
-        self._selected_items_count = 0
+        self._selected_songs_count = 0
 
     @GObject.Property(type=int, default=0, minimum=0)
-    def selected_items_count(self):
-        """The number of items selected
+    def selected_songs_count(self):
+        """The number of songs selected
 
-        :returns: Number of items selected
+        :returns: Number of songs selected
         :rtype: int
         """
-        return self._selected_items_count
+        return self._selected_songs_count
 
-    @selected_items_count.setter
-    def selected_items_count(self, value):
-        """Set the number of items selected
+    @selected_songs_count.setter
+    def selected_songs_count(self, value):
+        """Set the number of songs selected
 
-        :param int value: The number of items selected
+        :param int value: The number of songs selected
         """
-        self._selected_items_count = value
+        self._selected_songs_count = value
 
         if value > 0:
             text = ngettext(
@@ -95,7 +95,7 @@ class HeaderBar(Gtk.HeaderBar):
     _menu_button = Gtk.Template.Child()
 
     search_mode_active = GObject.Property(type=bool, default=False)
-    selected_items_count = GObject.Property(type=int, default=0, minimum=0)
+    selected_songs_count = GObject.Property(type=int, default=0, minimum=0)
     selection_mode_allowed = GObject.Property(type=bool, default=True)
     stack = GObject.Property(type=Gtk.Stack)
 
@@ -133,8 +133,8 @@ class HeaderBar(Gtk.HeaderBar):
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
         self.bind_property(
-            "selected-items-count", self._selection_menu,
-            "selected-items-count")
+            "selected-songs-count", self._selection_menu,
+            "selected-songs-count")
         self.bind_property(
             "search-mode-active", self._search_button, "active",
             GObject.BindingFlags.BIDIRECTIONAL
