@@ -100,6 +100,9 @@ class GrlTrackerWrapper(GObject.GObject):
         self._fast_options = Grl.OperationOptions()
         self._fast_options.set_resolution_flags(
             Grl.ResolutionFlags.FAST_ONLY | Grl.ResolutionFlags.IDLE_RELAY)
+        self._full_options = Grl.OperationOptions()
+        self._full_options.set_resolution_flags(
+            Grl.ResolutionFlags.FULL | Grl.ResolutionFlags.IDLE_RELAY)
 
         self._content_changed_id = None
         self.props.source = source
@@ -1113,12 +1116,8 @@ class GrlTrackerWrapper(GObject.GObject):
         song_id = media.get_id()
         query = self._get_album_for_media_id_query(song_id)
 
-        full_options = Grl.OperationOptions()
-        full_options.set_resolution_flags(
-            Grl.ResolutionFlags.FULL | Grl.ResolutionFlags.IDLE_RELAY)
-
         self.props.source.query(
-            query, self.METADATA_THUMBNAIL_KEYS, full_options,
+            query, self.METADATA_THUMBNAIL_KEYS, self._full_options,
             art_retrieved_cb)
 
     def get_album_art(self, corealbum):
@@ -1149,12 +1148,8 @@ class GrlTrackerWrapper(GObject.GObject):
         album_id = media.get_id()
         query = self._get_album_for_media_id_query(album_id, False)
 
-        full_options = Grl.OperationOptions()
-        full_options.set_resolution_flags(
-            Grl.ResolutionFlags.FULL | Grl.ResolutionFlags.IDLE_RELAY)
-
         self._source.query(
-            query, self.METADATA_THUMBNAIL_KEYS, full_options,
+            query, self.METADATA_THUMBNAIL_KEYS, self._full_options,
             art_retrieved_cb)
 
     def get_artist_art(self, coreartist):
@@ -1178,13 +1173,9 @@ class GrlTrackerWrapper(GObject.GObject):
 
             StoreArt(coreartist, resolved_media.get_thumbnail())
 
-        full_options = Grl.OperationOptions()
-        full_options.set_resolution_flags(
-            Grl.ResolutionFlags.FULL | Grl.ResolutionFlags.IDLE_RELAY)
-
         self.props.source.resolve(
-            media, [Grl.METADATA_KEY_THUMBNAIL], full_options, art_resolved_cb,
-            None)
+            media, [Grl.METADATA_KEY_THUMBNAIL], self._full_options,
+            art_resolved_cb, None)
 
     def stage_playlist_deletion(self, playlist):
         """Prepares playlist deletion.
