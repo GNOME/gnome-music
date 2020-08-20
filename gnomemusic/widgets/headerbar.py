@@ -65,7 +65,7 @@ class SelectionBarMenuButton(Gtk.MenuButton):
 
         if value > 0:
             text = ngettext(
-                "Selected {} item", "Selected {} items", value).format(value)
+                "Selected {} song", "Selected {} songs", value).format(value)
             self._menu_label.props.label = text
         else:
             self._menu_label.props.label = _("Click on items to select them")
