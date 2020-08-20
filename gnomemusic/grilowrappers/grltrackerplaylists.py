@@ -122,10 +122,9 @@ class GrlTrackerPlaylists(GObject.GObject):
             "media_type": int(Grl.MediaType.CONTAINER),
         }
 
-        options = self._fast_options.copy()
-
         self._source.query(
-            query, self.METADATA_KEYS, options, self._add_user_playlist)
+            query, self.METADATA_KEYS, self._fast_options,
+            self._add_user_playlist)
 
     def _add_user_playlist(
             self, source, op_id, media, remaining, data=None, error=None):
@@ -230,10 +229,9 @@ class GrlTrackerPlaylists(GObject.GObject):
                 "playlist_urn": playlist_urn
             }
 
-            options = self._fast_options.copy()
             self._source.query(
-                query, self.METADATA_KEYS, options, self._add_user_playlist,
-                callback)
+                query, self.METADATA_KEYS, self._fast_options,
+                self._add_user_playlist, callback)
 
         self._notificationmanager.push_loading()
         query = """
@@ -658,9 +656,8 @@ class Playlist(GObject.GObject):
                 "miner_fs_busname": miner_fs_busname,
             }
 
-            options = self._fast_options.copy()
             self._source.query(
-                query, self.METADATA_KEYS, options, _add_to_model)
+                query, self.METADATA_KEYS, self._fast_options, _add_to_model)
 
         for coresong in coresongs:
             query = """
@@ -766,10 +763,9 @@ class SmartPlaylist(Playlist):
                 self._bind_to_main_song(coresong)
                 self._model.append(coresong)
 
-            options = self._fast_options.copy()
-
             self._source.query(
-                self.props.query, self.METADATA_KEYS, options, _add_to_model)
+                self.props.query, self.METADATA_KEYS, self._fast_options,
+                _add_to_model)
 
         return self._model
 
@@ -790,9 +786,9 @@ class SmartPlaylist(Playlist):
 
             new_model_medias.append(media)
 
-        options = self._fast_options.copy()
         self._source.query(
-            self.props.query, self.METADATA_KEYS, options, _fill_new_model)
+            self.props.query, self.METADATA_KEYS, self._fast_options,
+            _fill_new_model)
 
     def _finish_update(self, new_model_medias):
         if not new_model_medias:
