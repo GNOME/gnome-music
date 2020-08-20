@@ -239,10 +239,8 @@ class GrlTrackerWrapper(GObject.GObject):
 
             album_ids[media.get_id()] = album
 
-        options = self._fast_options.copy()
-
         self.props.source.query(
-            query, self.METADATA_KEYS, options, check_album_cb)
+            query, self.METADATA_KEYS, self._fast_options, check_album_cb)
 
     def _check_artist_change(self):
         artist_ids = {}
@@ -308,10 +306,8 @@ class GrlTrackerWrapper(GObject.GObject):
 
             artist_ids[media.get_id()] = artist
 
-        options = self._fast_options.copy()
-
         self.props.source.query(
-            query, self.METADATA_KEYS, options, check_artist_cb)
+            query, self.METADATA_KEYS, self._fast_options, check_artist_cb)
 
     def _remove_media(self, media_ids):
         for media_id in media_ids:
@@ -399,11 +395,9 @@ class GrlTrackerWrapper(GObject.GObject):
 
             media_ids.remove(media_id)
 
-        options = self._fast_options.copy()
-
         self.props.source.query(
             self._song_media_query(media_ids), self.METADATA_KEYS,
-            options, _update_changed_media)
+            self._fast_options, _update_changed_media)
 
     def _initial_songs_fill(self):
         self._notificationmanager.push_loading()
@@ -478,9 +472,8 @@ class GrlTrackerWrapper(GObject.GObject):
             'location_filter': self._tracker_wrapper.location_filter()
         }
 
-        options = self._fast_options.copy()
         self.props.source.query(
-            query, self.METADATA_KEYS, options, _add_to_model)
+            query, self.METADATA_KEYS, self._fast_options, _add_to_model)
 
     def _initial_albums_fill(self):
         self._notificationmanager.push_loading()
@@ -546,10 +539,9 @@ class GrlTrackerWrapper(GObject.GObject):
             'location_filter': self._tracker_wrapper.location_filter()
         }
 
-        options = self._fast_options.copy()
-
         self.props.source.query(
-            query, self.METADATA_KEYS, options, _add_to_albums_model)
+            query, self.METADATA_KEYS, self._fast_options,
+            _add_to_albums_model)
 
     def _initial_artists_fill(self):
         self._notificationmanager.push_loading()
@@ -607,10 +599,9 @@ class GrlTrackerWrapper(GObject.GObject):
             'location_filter': self._tracker_wrapper.location_filter()
         }
 
-        options = self._fast_options.copy()
-
         self.props.source.query(
-            query, [Grl.METADATA_KEY_ARTIST], options, _add_to_artists_model)
+            query, [Grl.METADATA_KEY_ARTIST], self._fast_options,
+            _add_to_artists_model)
 
     def get_artist_albums(self, media, model):
         """Get all albums by an artist
@@ -676,9 +667,8 @@ class GrlTrackerWrapper(GObject.GObject):
 
             return False
 
-        options = self._fast_options.copy()
         self.props.source.query(
-            query, [Grl.METADATA_KEY_TITLE], options, query_cb)
+            query, [Grl.METADATA_KEY_TITLE], self._fast_options, query_cb)
 
     def get_album_discs(self, media, disc_model):
         """Get all discs of an album
@@ -731,9 +721,9 @@ class GrlTrackerWrapper(GObject.GObject):
             coredisc = CoreDisc(self._application, media, disc_nr)
             disc_model.append(coredisc)
 
-        options = self._fast_options.copy()
         self.props.source.query(
-            query, [Grl.METADATA_KEY_ALBUM_DISC_NUMBER], options, _disc_nr_cb)
+            query, [Grl.METADATA_KEY_ALBUM_DISC_NUMBER], self._fast_options,
+            _disc_nr_cb)
 
     def populate_album_disc_songs(self, media, disc_nr, callback):
         # FIXME: Pass a model and fill it.
@@ -797,8 +787,8 @@ class GrlTrackerWrapper(GObject.GObject):
             'miner_fs_busname': self._tracker_wrapper.props.miner_fs_busname
         }
 
-        options = self._fast_options.copy()
-        self.props.source.query(query, self.METADATA_KEYS, options, callback)
+        self.props.source.query(
+            query, self.METADATA_KEYS, self._fast_options, callback)
 
     def search(self, text):
         # FIXME: Searches are limited to not bog down the UI with
@@ -882,9 +872,8 @@ class GrlTrackerWrapper(GObject.GObject):
 
             artist_filter_ids.append(media.get_id())
 
-        options = self._fast_options.copy()
         self.props.source.query(
-            query, self.METADATA_KEYS, options, artist_search_cb)
+            query, self.METADATA_KEYS, self._fast_options, artist_search_cb)
 
         # Album search
         self._notificationmanager.push_loading()
@@ -950,9 +939,8 @@ class GrlTrackerWrapper(GObject.GObject):
 
             album_filter_ids.append(media.get_id())
 
-        options = self._fast_options.copy()
         self.props.source.query(
-            query, self.METADATA_KEYS, options, albums_search_cb)
+            query, self.METADATA_KEYS, self._fast_options, albums_search_cb)
 
         # Song search
         self._notificationmanager.push_loading()
@@ -1023,10 +1011,8 @@ class GrlTrackerWrapper(GObject.GObject):
 
             filter_ids.append(media.get_id())
 
-        options = self._fast_options.copy()
-
         self.props.source.query(
-            query, self.METADATA_KEYS, options, songs_search_cb)
+            query, self.METADATA_KEYS, self._fast_options, songs_search_cb)
 
     def _get_album_for_media_id_query(self, media_id, song=True):
         # Even though we check for the album_artist, we fill
