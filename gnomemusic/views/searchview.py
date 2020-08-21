@@ -256,8 +256,6 @@ class SearchView(Gtk.Stack):
         (_, button) = event.get_button()
         if (button == Gdk.BUTTON_PRIMARY
                 and not self.props.selection_mode):
-            # self.emit('song-activated', widget)
-
             self._coremodel.props.active_core_object = widget.props.coresong
             self._player.play(widget.props.coresong)
 
