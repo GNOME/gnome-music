@@ -332,6 +332,7 @@ class SearchView(Gtk.Stack):
     def _on_album_activated(self, widget, child, user_data=None):
         corealbum = child.props.corealbum
         if self.props.selection_mode:
+            corealbum.props.selected = not corealbum.props.selected
             return
 
         # Update and display the album widget if not in selection mode
