@@ -40,8 +40,7 @@ class CoreGrilo(GObject.GObject):
         'grl-filesystem',
         'grl-itunes-podcast',
         'grl-metadata-store',
-        'grl-podcasts',
-        'grl-spotify-cover'
+        'grl-podcasts'
     ]
 
     _grl_plugin_ranks = ("grl-musicbrainz-coverart:3,"
