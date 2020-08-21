@@ -238,10 +238,20 @@ class SearchView(Gtk.Stack):
             self.props.search_state = Search.State.NO_RESULT
 
     def _song_activated(self, widget, event):
+        if widget.props.select_click:
+            widget.props.select_click = False
+            return
+
         mod_mask = Gtk.accelerator_get_default_mod_mask()
         if ((event.get_state() & mod_mask) == Gdk.ModifierType.CONTROL_MASK
                 and not self.props.selection_mode):
             self.props.selection_mode = True
+            return
+
+        if self.props.selection_mode:
+            widget.props.select_click = True
+            widget.props.selected = not widget.props.selected
+            widget.props.coresong.props.selected = widget.props.selected
             return
 
         (_, button) = event.get_button()
@@ -252,10 +262,6 @@ class SearchView(Gtk.Stack):
             self._coremodel.set_player_model(
                 PlayerPlaylist.Type.SEARCH_RESULT, self._model)
             self._player.play(widget.props.coresong)
-
-        # FIXME: Need to ignore the event from the checkbox.
-        # if self.props.selection_mode:
-        #     widget.props.selected = not widget.props.selected
 
         return True
 
