@@ -76,6 +76,7 @@ class GrlTrackerPlaylists(GObject.GObject):
         self._songs_hash = songs_hash
         self._tracker = tracker_wrapper.props.local_db
         self._tracker_wrapper = tracker_wrapper
+        self._notificationmanager = application.props.notificationmanager
         self._window = application.props.window
 
         self._user_model_filter.set_filter_func(self._user_playlists_filter)
@@ -105,7 +106,7 @@ class GrlTrackerPlaylists(GObject.GObject):
         for playlist in smart_playlists.values():
             self._model.append(playlist)
 
-        self._window.notifications_popup.push_loading()
+        self._notificationmanager.push_loading()
         query = """
         SELECT DISTINCT
             %(media_type)s AS ?type
@@ -130,10 +131,10 @@ class GrlTrackerPlaylists(GObject.GObject):
             self, source, op_id, media, remaining, data=None, error=None):
         if error:
             self._log.warning("Error: {}".format(error))
-            self._window.notifications_popup.pop_loading()
+            self._notificationmanager.pop_loading()
             return
         if not media:
-            self._window.notifications_popup.pop_loading()
+            self._notificationmanager.pop_loading()
             return
 
         playlist = Playlist(
@@ -185,9 +186,9 @@ class GrlTrackerPlaylists(GObject.GObject):
                         break
 
             self._model_filter.set_filter_func(self._playlists_filter)
-            self._window.notifications_popup.pop_loading()
+            self._notificationmanager.pop_loading()
 
-        self._window.notifications_popup.push_loading()
+        self._notificationmanager.push_loading()
         query = """
         DELETE {
             ?playlist a rdfs:Resource .
@@ -234,7 +235,7 @@ class GrlTrackerPlaylists(GObject.GObject):
                 query, self.METADATA_KEYS, options, self._add_user_playlist,
                 callback)
 
-        self._window.notifications_popup.push_loading()
+        self._notificationmanager.push_loading()
         query = """
             INSERT {
                 _:playlist a nmm:Playlist ;
@@ -325,7 +326,7 @@ class Playlist(GObject.GObject):
         self._songs_hash = songs_hash
         self._tracker = tracker_wrapper.props.local_db
         self._tracker_wrapper = tracker_wrapper
-        self._window = application.props.window
+        self._notificationmanager = application.props.notificationmanager
 
         self._fast_options = Grl.OperationOptions()
         self._fast_options.set_resolution_flags(
@@ -347,7 +348,7 @@ class Playlist(GObject.GObject):
         self._model = value
 
     def _populate_model(self):
-        self._window.notifications_popup.push_loading()
+        self._notificationmanager.push_loading()
 
         query = """
         SELECT
@@ -404,7 +405,7 @@ class Playlist(GObject.GObject):
             if not media:
                 self.props.count = self._model.get_n_items()
                 self.emit("playlist-loaded")
-                self._window.notifications_popup.pop_loading()
+                self._notificationmanager.pop_loading()
                 return
 
             coresong = CoreSong(self._application, media)
@@ -454,7 +455,7 @@ class Playlist(GObject.GObject):
 
         :param str new_name: new playlist name
         """
-        self._window.notifications_popup.push_loading()
+        self._notificationmanager.push_loading()
 
         def update_cb(conn, res, data):
             try:
@@ -466,7 +467,7 @@ class Playlist(GObject.GObject):
             else:
                 self._title = new_name
             finally:
-                self._window.notifications_popup.pop_loading()
+                self._notificationmanager.pop_loading()
                 self.thaw_notify()
 
         query = """
@@ -520,9 +521,9 @@ class Playlist(GObject.GObject):
         def update_cb(conn, res, data):
             # FIXME: Check for failure.
             conn.update_finish(res)
-            self._window.notifications_popup.pop_loading()
+            self._notificationmanager.pop_loading()
 
-        self._window.notifications_popup.push_loading()
+        self._notificationmanager.push_loading()
         query = """
         INSERT OR REPLACE {
             ?entry nfo:listPosition ?position .
@@ -746,18 +747,18 @@ class SmartPlaylist(Playlist):
         if self._model is None:
             self._model = Gio.ListStore.new(CoreSong)
 
-            self._window.notifications_popup.push_loading()
+            self._notificationmanager.push_loading()
 
             def _add_to_model(source, op_id, media, remaining, error):
                 if error:
                     self._log.warning("Error: {}".format(error))
-                    self._window.notifications_popup.pop_loading()
+                    self._notificationmanager.pop_loading()
                     self.emit("playlist-loaded")
                     return
 
                 if not media:
                     self.props.count = self._model.get_n_items()
-                    self._window.notifications_popup.pop_loading()
+                    self._notificationmanager.pop_loading()
                     self.emit("playlist-loaded")
                     return
 

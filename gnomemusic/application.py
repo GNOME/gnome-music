@@ -40,6 +40,7 @@ from gnomemusic.coreselection import CoreSelection
 from gnomemusic.inhibitsuspend import InhibitSuspend
 from gnomemusic.mpris import MPRIS
 from gnomemusic.musiclogger import MusicLogger
+from gnomemusic.notificationmanager import NotificationManager
 from gnomemusic.pauseonsuspend import PauseOnSuspend
 from gnomemusic.player import Player
 from gnomemusic.scrobbler import LastFmScrobbler
@@ -66,6 +67,7 @@ class Application(Gtk.Application):
         self._log = MusicLogger()
         self._search = Search()
 
+        self._notificationmanager = NotificationManager(self)
         self._coreselection = CoreSelection()
         self._coremodel = CoreModel(self)
         # Order is important: CoreGrilo initializes the Grilo sources,
@@ -175,6 +177,16 @@ class Application(Gtk.Application):
         """
         return self._search
 
+    @GObject.Property(
+        type=NotificationManager, flags=GObject.ParamFlags.READABLE)
+    def notificationmanager(self):
+        """Get notification manager
+
+        :returns: notification manager
+        :rtype: NotificationManager
+        """
+        return self._notificationmanager
+
     def _set_actions(self):
         action_entries = [
             ('about', self._about, None),
@@ -216,6 +228,7 @@ class Application(Gtk.Application):
     def do_activate(self):
         if not self._window:
             self._window = Window(self)
+            self.notify("window")
             self._window.set_default_icon_name(self.props.application_id)
             if self.props.application_id == "org.gnome.Music.Devel":
                 self._window.get_style_context().add_class('devel')
