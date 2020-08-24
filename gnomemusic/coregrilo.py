@@ -83,13 +83,6 @@ class CoreGrilo(GObject.GObject):
         config.set_api_key(self._theaudiodb_api_key)
         self._registry.add_config(config)
 
-        config = Grl.Config.new("grl-tracker3", "grl-tracker3-source")
-        config.set_string(
-            "miner-service", self._tracker_wrapper.props.miner_fs_busname)
-        config.set_string(
-            "store-path", self._tracker_wrapper.cache_directory())
-        self._registry.add_config(config)
-
         self._registry.connect('source-added', self._on_source_added)
         self._registry.connect('source-removed', self._on_source_removed)
 
@@ -121,6 +114,13 @@ class CoreGrilo(GObject.GObject):
         # FIXME:No removal support yet.
         new_state = self._tracker_wrapper.props.tracker_available
         if new_state == TrackerState.AVAILABLE:
+            config = Grl.Config.new("grl-tracker3", "grl-tracker3-source")
+            config.set_string(
+                "miner-service", self._tracker_wrapper.props.miner_fs_busname)
+            config.set_string(
+                "store-path", self._tracker_wrapper.cache_directory())
+            self._registry.add_config(config)
+
             self._registry.activate_plugin_by_id("grl-tracker3")
 
     def _on_source_added(self, registry, source):
