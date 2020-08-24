@@ -434,6 +434,7 @@ class MPRIS(DBusInterface):
 
         # Smart Playlists do not have an id
         pl_id = playlist.props.pl_id or playlist.props.tag_text
+        pl_id = pl_id.rsplit(":")[-1].replace("-", "")
         return "/org/gnome/GnomeMusic/Playlist/{}".format(pl_id)
 
     def _get_mpris_playlist_from_playlist(self, playlist):
