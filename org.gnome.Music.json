@@ -113,8 +113,7 @@
         {
             "name": "grilo-plugins",
             "buildsystem": "meson",
-            "config-opts": [ "-Denable-tracker=yes",
-                             "-Denable-bookmarks=no",
+            "config-opts": [ "-Denable-bookmarks=no",
                              "-Denable-dleyna=no",
                              "-Denable-filesystem=no",
                              "-Denable-freebox=no",
