@@ -9,15 +9,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2020-02-15 14:09+0000\n"
-"PO-Revision-Date: 2020-02-16 05:57+0000\n"
+"POT-Creation-Date: 2020-08-21 14:47+0000\n"
+"PO-Revision-Date: 2020-08-25 14:31+0000\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <>\n"
 "Language: fa\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.3\n"
+"X-Generator: Poedit 2.4.1\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
@@ -44,12 +44,12 @@ msgstr ""
 "یافتن قطعه‌ها روی گنجینهٔ محلّیتان، گرفتن آهنگ‌ها از کارسازهای DLNA یا آزمودن چیزی "
 "جدید با خدمت‌های جمندو و ماگناتون."
 
-#: data/org.gnome.Music.appdata.xml.in.in:82
+#: data/org.gnome.Music.appdata.xml.in.in:110
 msgid "The GNOME Music developers"
 msgstr "توسعه‌دهندگان آهنگ‌های گنوم"
 
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:57
-#: gnomemusic/window.py:69
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:59
+#: gnomemusic/window.py:70
 msgid "Music"
 msgstr "آهنگ‌ها"
 
@@ -195,15 +195,15 @@ msgstr ""
 "تصویر «Magic of the vinyl» توسط Sami Pyylampi تحت لیسانس CC-BY-SA 2.0 از https://"
 "www.flickr.com/photos/_spy_/12270839403"
 
-#: data/ui/AlbumWidget.ui:105
+#: data/ui/AlbumWidget.ui:107
 msgid "Released"
 msgstr "منتشر شده در"
 
-#: data/ui/AlbumWidget.ui:121
+#: data/ui/AlbumWidget.ui:123
 msgid "Running Length"
 msgstr "طول اجرا"
 
-#: data/ui/AlbumWidget.ui:166
+#: data/ui/AlbumWidget.ui:167
 msgid "Composer"
 msgstr "آهنگ‌ساز"
 
@@ -235,16 +235,16 @@ msgstr "فهرست"
 msgid "Select"
 msgstr "گزینش"
 
-#: data/ui/HeaderBar.ui:61 data/ui/PlaylistDialog.ui:244
-#: data/ui/SearchHeaderBar.ui:38
+#: data/ui/HeaderBar.ui:60 data/ui/PlaylistDialog.ui:244
+#: data/ui/SearchHeaderBar.ui:37
 msgid "_Cancel"
 msgstr "_لغو"
 
-#: data/ui/HeaderBar.ui:80 data/ui/SearchHeaderBar.ui:57
+#: data/ui/HeaderBar.ui:79 data/ui/SearchHeaderBar.ui:56
 msgid "Search"
 msgstr "جست‌وجو"
 
-#: data/ui/HeaderBar.ui:103
+#: data/ui/HeaderBar.ui:102
 msgid "Back"
 msgstr "برگشت"
 
@@ -353,6 +353,10 @@ msgstr "برای گزارش گوش کردنتان به آهنگ‌ها، وار�
 msgid "Login"
 msgstr "ورود"
 
+#: data/ui/LoadingNotification.ui:16
+msgid "Loading"
+msgstr "در حال بار کردن"
+
 #: data/ui/PlayerToolbar.ui:6
 msgid "Shuffle"
 msgstr "بر زدن"
@@ -370,15 +374,15 @@ msgstr "تکرار آواز"
 msgid "Shuffle/Repeat Off"
 msgstr "خاموشی بر زدن/تکرار"
 
-#: data/ui/PlayerToolbar.ui:70
+#: data/ui/PlayerToolbar.ui:69
 msgid "Previous"
 msgstr "پیشین"
 
-#: data/ui/PlayerToolbar.ui:86 gnomemusic/widgets/playertoolbar.py:147
+#: data/ui/PlayerToolbar.ui:85 gnomemusic/widgets/playertoolbar.py:146
 msgid "Play"
 msgstr "پخش"
 
-#: data/ui/PlayerToolbar.ui:102
+#: data/ui/PlayerToolbar.ui:101
 msgid "Next"
 msgstr "بعدی"
 
@@ -411,7 +415,7 @@ msgstr "_تغییر نام…"
 msgid "Playlist Name"
 msgstr "نام فهرست پخش"
 
-#: data/ui/PlaylistControls.ui:75
+#: data/ui/PlaylistControls.ui:74
 msgid "_Done"
 msgstr "_انجام شد"
 
@@ -439,19 +443,23 @@ msgstr "افزودن به فهرست پخش"
 msgid "_Add"
 msgstr "ا_فزودن"
 
-#: data/ui/SearchView.ui:44 gnomemusic/views/artistsview.py:50
+#: data/ui/PlaylistNotification.ui:22
+msgid "_Undo"
+msgstr "_برگردان"
+
+#: data/ui/SearchView.ui:43 gnomemusic/views/artistsview.py:43
 msgid "Artists"
 msgstr "هنرمندان"
 
-#: data/ui/SearchView.ui:54 data/ui/SearchView.ui:107
+#: data/ui/SearchView.ui:53 data/ui/SearchView.ui:106
 msgid "View All"
 msgstr "نمایش همه"
 
-#: data/ui/SearchView.ui:97 gnomemusic/views/albumsview.py:60
+#: data/ui/SearchView.ui:96 gnomemusic/views/albumsview.py:47
 msgid "Albums"
 msgstr "آلبوم‌ها"
 
-#: data/ui/SearchView.ui:150 gnomemusic/views/songsview.py:48
+#: data/ui/SearchView.ui:149 gnomemusic/views/songsview.py:44
 msgid "Songs"
 msgstr "آوازها"
 
@@ -472,49 +480,49 @@ msgid "_Add to Playlist"
 msgstr "ا_فزودن به فهرست پخش"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:741
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:822
 msgid "Most Played"
 msgstr "بیش‌ترین پخش شده"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:778
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:858
 msgid "Never Played"
 msgstr "هرگز پخش نشده"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:814
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:893
 msgid "Recently Played"
 msgstr "اخیراً پخش شده"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:860
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:938
 msgid "Recently Added"
 msgstr "اخیراً اضافه شده"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:905
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:982
 msgid "Favorite Songs"
 msgstr "آوازهای محبوب"
 
-#: gnomemusic/gstplayer.py:374
+#: gnomemusic/gstplayer.py:378
 msgid "Unable to play the file"
 msgstr "نمی‌توان پرونده را پخش کرد"
 
-#: gnomemusic/gstplayer.py:380
+#: gnomemusic/gstplayer.py:384
 msgid "_Find in {}"
 msgstr "_یافتن در {}"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:390
+#: gnomemusic/gstplayer.py:394
 msgid " and "
 msgstr " و "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:393
+#: gnomemusic/gstplayer.py:397
 msgid ", "
 msgstr "، "
 
-#: gnomemusic/gstplayer.py:395
+#: gnomemusic/gstplayer.py:399
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "برای پخش پرونده نیاز به {} است، ولی نصب نشده."
@@ -523,11 +531,11 @@ msgstr[0] "برای پخش پرونده نیاز به {} است، ولی نصب 
 msgid "Playing music"
 msgstr "در حال پخش آهنگ"
 
-#: gnomemusic/utils.py:64
+#: gnomemusic/utils.py:81
 msgid "Unknown album"
 msgstr "آلبوم ناشناس"
 
-#: gnomemusic/utils.py:85
+#: gnomemusic/utils.py:102
 msgid "Unknown Artist"
 msgstr "هنرمند ناشناس"
 
@@ -545,59 +553,59 @@ msgstr "شاخهٔ موسیقی"
 msgid "The contents of your {} will appear here."
 msgstr "محتویات {} شما در اینجا نمایان می‌شوند."
 
-#: gnomemusic/views/emptyview.py:113
+#: gnomemusic/views/emptyview.py:112
 msgid "Hey DJ"
 msgstr "هی دی‌جی"
 
-#: gnomemusic/views/emptyview.py:122 gnomemusic/views/emptyview.py:127
+#: gnomemusic/views/emptyview.py:121 gnomemusic/views/emptyview.py:126
 msgid "No music found"
 msgstr "هیچ آهنگی پیدا نشد"
 
-#: gnomemusic/views/emptyview.py:129
+#: gnomemusic/views/emptyview.py:128
 msgid "Try a different search"
 msgstr "جست‌وجویی دیگر را بیازمایید"
 
-#: gnomemusic/views/emptyview.py:134
+#: gnomemusic/views/emptyview.py:133
 msgid "GNOME Music could not connect to Tracker"
 msgstr "آهنگ‌های گنوم نتوانست به ردیاب وصل شود"
 
-#: gnomemusic/views/emptyview.py:137
+#: gnomemusic/views/emptyview.py:136
 msgid "Your music files cannot be indexed without Tracker running"
 msgstr "بدون وجود ردیاب، پرونده‌های آهنگتان قادر به فهرست‌شدن نیستند"
 
-#: gnomemusic/views/emptyview.py:144
+#: gnomemusic/views/emptyview.py:143
 msgid "Your system Tracker version seems outdated"
 msgstr "به نظر نگارش ردیاب سامانه‌تان قدیمی است"
 
-#: gnomemusic/views/emptyview.py:147
+#: gnomemusic/views/emptyview.py:146
 msgid "Music needs Tracker version 2.3.0 or higher"
 msgstr "آهنگ‌ها به نگارش ۲.۳.۰ یا بالاتر ردیاب نیاز دارد"
 
-#: gnomemusic/views/playlistsview.py:52
+#: gnomemusic/views/playlistsview.py:41
 msgid "Playlists"
 msgstr "فهرست‌های پخش"
 
-#: gnomemusic/views/searchview.py:373
+#: gnomemusic/views/searchview.py:381
 msgid "Artists Results"
 msgstr "نتیجه‌های هنرمندان"
 
-#: gnomemusic/views/searchview.py:388
+#: gnomemusic/views/searchview.py:396
 msgid "Albums Results"
 msgstr "نتیجه‌های آلبوم‌ها"
 
-#: gnomemusic/widgets/albumwidget.py:165
+#: gnomemusic/widgets/albumwidget.py:154
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} دقیقه"
 
-#: gnomemusic/widgets/disclistboxwidget.py:74
+#: gnomemusic/widgets/disclistboxwidget.py:60
 msgid "Disc {}"
 msgstr "دیسک {}"
 
 #: gnomemusic/widgets/headerbar.py:68
-msgid "Selected {} item"
-msgid_plural "Selected {} items"
-msgstr[0] "{} مورد گزیده"
+msgid "Selected {} song"
+msgid_plural "Selected {} songs"
+msgstr[0] "{} آواز گزیده"
 
 #: gnomemusic/widgets/lastfmdialog.py:65
 msgid "Your music listening is reported to Last.fm."
@@ -616,27 +624,19 @@ msgstr "وارد شده به عنوان {}"
 msgid "Configure"
 msgstr "پیکربندی"
 
-#: gnomemusic/widgets/notificationspopup.py:153
-msgid "Loading"
-msgstr "در حال بار کردن"
-
-#: gnomemusic/widgets/notificationspopup.py:220
-msgid "_Undo"
-msgstr "_برگردان"
-
-#: gnomemusic/widgets/notificationspopup.py:235
+#: gnomemusic/widgets/notificationspopup.py:216
 msgid "Playlist {} removed"
 msgstr "فهرست پخش {} برداشته شد"
 
-#: gnomemusic/widgets/notificationspopup.py:239
+#: gnomemusic/widgets/notificationspopup.py:220
 msgid "{} removed from {}"
 msgstr "{} از {} برداشته شد"
 
-#: gnomemusic/widgets/playertoolbar.py:144
+#: gnomemusic/widgets/playertoolbar.py:143
 msgid "Pause"
 msgstr "مکث"
 
-#: gnomemusic/widgets/playlistcontrols.py:129
+#: gnomemusic/widgets/playlistcontrols.py:127
 msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} آهنگ"
