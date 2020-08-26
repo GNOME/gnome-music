@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2020-07-04 21:59+0000\n"
-"PO-Revision-Date: 2020-07-05 19:19+0800\n"
+"POT-Creation-Date: 2020-08-21 14:47+0000\n"
+"PO-Revision-Date: 2020-08-25 23:16-0400\n"
 "Last-Translator: Cheng Lu <chenglu1990@gmail.com>\n"
 "Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 2.3.1\n"
+"X-Generator: Poedit 2.4.1\n"
 "X-DamnedLies-Scope: partial\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
@@ -51,7 +51,7 @@ msgstr ""
 msgid "The GNOME Music developers"
 msgstr "GNOME“音乐”开发者"
 
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:58
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:59
 #: gnomemusic/window.py:70
 msgid "Music"
 msgstr "音乐"
@@ -131,7 +131,7 @@ msgstr "播放音乐时是否阻止系统休眠"
 
 #: data/org.gnome.Music.gschema.xml:48
 msgid "Report music history to Last.fm"
-msgstr "将您的音乐历史记录报告给 Last.fm。"
+msgstr "将您的音乐历史记录报告给 Last.fm"
 
 #: data/org.gnome.Music.gschema.xml:49
 msgid ""
@@ -379,7 +379,7 @@ msgstr "关闭“随机/重复播放”"
 msgid "Previous"
 msgstr "上一首"
 
-#: data/ui/PlayerToolbar.ui:85 gnomemusic/widgets/playertoolbar.py:147
+#: data/ui/PlayerToolbar.ui:85 gnomemusic/widgets/playertoolbar.py:146
 msgid "Play"
 msgstr "播放"
 
@@ -460,7 +460,7 @@ msgstr "查看所有"
 msgid "Albums"
 msgstr "专辑"
 
-#: data/ui/SearchView.ui:149 gnomemusic/views/songsview.py:45
+#: data/ui/SearchView.ui:149 gnomemusic/views/songsview.py:44
 msgid "Songs"
 msgstr "歌曲"
 
@@ -532,11 +532,11 @@ msgstr[0] "需要 {} 来播放该文件，但它尚未安装。"
 msgid "Playing music"
 msgstr "正在播放音乐"
 
-#: gnomemusic/utils.py:65
+#: gnomemusic/utils.py:81
 msgid "Unknown album"
 msgstr "未知专辑"
 
-#: gnomemusic/utils.py:86
+#: gnomemusic/utils.py:102
 msgid "Unknown Artist"
 msgstr "未知艺术家"
 
@@ -586,15 +586,15 @@ msgstr "音乐需要跟踪器版本 2.3.0 或更高"
 msgid "Playlists"
 msgstr "播放列表"
 
-#: gnomemusic/views/searchview.py:383
+#: gnomemusic/views/searchview.py:381
 msgid "Artists Results"
 msgstr "艺术家结果"
 
-#: gnomemusic/views/searchview.py:398
+#: gnomemusic/views/searchview.py:396
 msgid "Albums Results"
 msgstr "专辑结果"
 
-#: gnomemusic/widgets/albumwidget.py:155
+#: gnomemusic/widgets/albumwidget.py:154
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} 分钟"
@@ -604,9 +604,9 @@ msgid "Disc {}"
 msgstr "唱片 {}"
 
 #: gnomemusic/widgets/headerbar.py:68
-msgid "Selected {} item"
-msgid_plural "Selected {} items"
-msgstr[0] "已选中 {} 个项目"
+msgid "Selected {} song"
+msgid_plural "Selected {} songs"
+msgstr[0] "已选中 {} 首歌曲"
 
 #: gnomemusic/widgets/lastfmdialog.py:65
 msgid "Your music listening is reported to Last.fm."
@@ -633,7 +633,7 @@ msgstr "播放列表 {} 已移除"
 msgid "{} removed from {}"
 msgstr "{} 已从 {} 移除"
 
-#: gnomemusic/widgets/playertoolbar.py:144
+#: gnomemusic/widgets/playertoolbar.py:143
 msgid "Pause"
 msgstr "暂停"
 
