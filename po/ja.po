@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
 "POT-Creation-Date: 2020-08-21 14:47+0000\n"
-"PO-Revision-Date: 2020-02-09 23:00+0900\n"
+"PO-Revision-Date: 2020-08-26 22:40+0900\n"
 "Last-Translator: sicklylife <translation@sicklylife.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "Language: ja\n"
@@ -59,15 +59,15 @@ msgstr "音楽プレーヤー"
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.Music.desktop.in.in:13
 msgid "Music;Player;"
-msgstr "Music;Player;音楽;ミュージック;再生;プレーヤー;"
+msgstr "Music;Player;音楽;楽曲;ミュージック;再生;プレーヤー;"
 
 #: data/org.gnome.Music.gschema.xml:12
 msgid "Window size"
-msgstr "ウィンドウサイズ"
+msgstr "ウィンドウのサイズ"
 
 #: data/org.gnome.Music.gschema.xml:13
 msgid "Window size (width and height)."
-msgstr "ウィンドウサイズ (幅と高さ) です。"
+msgstr "ウィンドウのサイズ (幅と高さ) です。"
 
 #: data/org.gnome.Music.gschema.xml:17
 msgid "Window position"
@@ -75,15 +75,15 @@ msgstr "ウィンドウの位置"
 
 #: data/org.gnome.Music.gschema.xml:18
 msgid "Window position (x and y)."
-msgstr "ウィンドウの位置 （x と y）です。"
+msgstr "ウィンドウの位置 (X 軸と Y 軸) です。"
 
 #: data/org.gnome.Music.gschema.xml:22
 msgid "Window maximized"
-msgstr "ウィンドウ最大化"
+msgstr "ウィンドウの最大化"
 
 #: data/org.gnome.Music.gschema.xml:23
 msgid "Window maximized state."
-msgstr "ウィンドウ最大化の状態です。"
+msgstr "ウィンドウの最大化状態です。"
 
 #: data/org.gnome.Music.gschema.xml:27
 msgid "Playback repeat mode"
@@ -108,7 +108,7 @@ msgstr "ReplayGain を有効にする"
 
 #: data/org.gnome.Music.gschema.xml:34
 msgid "Enables or disables ReplayGain for albums"
-msgstr "アルバムの ReplayGain を有効にするかどうかの設定です。"
+msgstr "アルバムの ReplayGain を有効にするかどうか"
 
 #: data/org.gnome.Music.gschema.xml:38
 msgid "Inital state has been displayed"
@@ -142,11 +142,11 @@ msgstr "Copyright © 2018 GNOME Music Developers"
 
 #: data/ui/AboutDialog.ui.in:10
 msgid "A music player and management application for GNOME."
-msgstr "GNOME 向け音楽プレーヤーと管理アプリケーション"
+msgstr "音楽の再生と管理をするための GNOME アプリケーションです。"
 
 #: data/ui/AboutDialog.ui.in:12
 msgid "Visit GNOME Music website"
-msgstr "GNOME ミュージックの Web サイトにアクセスする"
+msgstr "GNOME ミュージックのウェブサイトにアクセスする"
 
 #: data/ui/AboutDialog.ui.in:13
 msgid ""
@@ -194,7 +194,7 @@ msgstr "Last.fm アカウント"
 
 #: data/ui/AppMenu.ui:38
 msgid "Report Music Listening"
-msgstr ""
+msgstr "鑑賞した音楽を報告"
 
 #: data/ui/AppMenu.ui:69
 msgid "_Keyboard Shortcuts"
@@ -319,18 +319,21 @@ msgid ""
 "Last.fm is a music discovery service that gives you personalised "
 "recommendations based on the music you listen to."
 msgstr ""
+"Last.fm は、あなたの鑑賞した音楽の傾向からお勧めの音楽を探し出し"
+"て提示してくれる、音楽ディスカバリーサービスです。"
 
 #: data/ui/LastfmDialog.ui:32 gnomemusic/widgets/lastfmdialog.py:58
 msgid "Music Reporting Not Setup"
-msgstr ""
+msgstr "音楽の報告をセットアップしていません"
 
 #: data/ui/LastfmDialog.ui:46 gnomemusic/widgets/lastfmdialog.py:61
 msgid "Login to your Last.fm account to report your music listening."
 msgstr ""
+"鑑賞した音楽を報告するために Last.fm のアカウントへログインしてください。"
 
 #: data/ui/LastfmDialog.ui:57 gnomemusic/widgets/lastfmdialog.py:59
 msgid "Login"
-msgstr ""
+msgstr "ログイン"
 
 #: data/ui/LoadingNotification.ui:16
 msgid "Loading"
@@ -508,7 +511,7 @@ msgstr[0] "ファイルの再生には {} が必要ですが、インストー�
 
 #: gnomemusic/inhibitsuspend.py:63
 msgid "Playing music"
-msgstr ""
+msgstr "再生中"
 
 #: gnomemusic/utils.py:81
 msgid "Unknown album"
@@ -520,7 +523,7 @@ msgstr "不明なアーティスト"
 
 #: gnomemusic/views/emptyview.py:67
 msgid "Your XDG Music directory is not set."
-msgstr ""
+msgstr "XDG の Music ディレクトリを設定していません。"
 
 #: gnomemusic/views/emptyview.py:74
 msgid "Music folder"
@@ -538,11 +541,11 @@ msgstr ""
 
 #: gnomemusic/views/emptyview.py:121 gnomemusic/views/emptyview.py:126
 msgid "No music found"
-msgstr "曲が見つかりません"
+msgstr "曲が見つかりませんでした"
 
 #: gnomemusic/views/emptyview.py:128
 msgid "Try a different search"
-msgstr "別の検索を試してください"
+msgstr "他のキーワードを試してください"
 
 #: gnomemusic/views/emptyview.py:133
 msgid "GNOME Music could not connect to Tracker"
@@ -582,29 +585,28 @@ msgid "Disc {}"
 msgstr "ディスク {}"
 
 #: gnomemusic/widgets/headerbar.py:68
-#, fuzzy
-#| msgid "Selected {} item"
-#| msgid_plural "Selected {} items"
 msgid "Selected {} song"
 msgid_plural "Selected {} songs"
-msgstr[0] "{} 件選択"
+msgstr[0] "{} 曲選択"
 
 #: gnomemusic/widgets/lastfmdialog.py:65
 msgid "Your music listening is reported to Last.fm."
 msgstr ""
+"鑑賞した音楽が Last.fm に報告されます。"
 
 #: gnomemusic/widgets/lastfmdialog.py:67
 msgid "Your music listening is not reported to Last.fm."
 msgstr ""
+"鑑賞した音楽が Last.fm に報告されません。"
 
 #. TRANSLATORS: displays the username of the Last.fm account
 #: gnomemusic/widgets/lastfmdialog.py:71
 msgid "Logged in as {}"
-msgstr ""
+msgstr "{} でログイン"
 
 #: gnomemusic/widgets/lastfmdialog.py:72
 msgid "Configure"
-msgstr ""
+msgstr "設定"
 
 #: gnomemusic/widgets/notificationspopup.py:216
 msgid "Playlist {} removed"
