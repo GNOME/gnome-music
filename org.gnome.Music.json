@@ -63,11 +63,10 @@
         {
             "name": "tracker-miners",
             "buildsystem": "meson",
-            "cleanup": [ "/share/dbus-1/services/org.freedesktop.Tracker3.Miner.Extract.service",
-                         "/share/dbus-1/services/org.freedesktop.Tracker3.Miner.Files.service",
-                         "/share/dbus-1/services/org.freedesktop.Tracker3.Writeback.service" ],
-            "config-opts": [ "-Dman=false",
+            "config-opts": [ "-Ddomain_prefix=org.gnome.Music.Devel",
+                             "-Dman=false",
                              "-Dminer_fs=true",
+                             "-Dminer_fs_cache_location=$XDG_CACHE_HOME/gnome-music/miner/files",
                              "-Dminer_rss=false",
                              "-Dsystemd_user_services=false"],
             "sources": [

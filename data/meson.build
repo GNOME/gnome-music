@@ -81,5 +81,3 @@ install_data(
     install_dir: join_paths(get_option('prefix'), get_option('datadir'), 'icons/hicolor/symbolic/apps'),
     rename: '@0@-symbolic.svg'.format(APPLICATION_ID)
 )
-
-subdir('tracker')
