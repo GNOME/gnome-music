@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2020-08-21 14:47+0000\n"
-"PO-Revision-Date: 2020-08-21 19:28+0300\n"
+"POT-Creation-Date: 2020-08-28 15:14+0000\n"
+"PO-Revision-Date: 2020-08-28 18:18+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -51,7 +51,7 @@ msgstr ""
 msgid "The GNOME Music developers"
 msgstr "Розробники Музики GNOME"
 
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:59
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:60
 #: gnomemusic/window.py:70
 msgid "Music"
 msgstr "Музика"
@@ -494,27 +494,27 @@ msgid "_Add to Playlist"
 msgstr "_Додати до списку композицій"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:822
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:832
 msgid "Most Played"
 msgstr "Часто слухали"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:858
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:885
 msgid "Never Played"
 msgstr "Ніколи не слухали"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:893
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:937
 msgid "Recently Played"
 msgstr "Недавно слухали"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:938
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:999
 msgid "Recently Added"
 msgstr "Недавно додано"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:982
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1061
 msgid "Favorite Songs"
 msgstr "Улюблені пісні"
 
@@ -595,18 +595,19 @@ msgid "Your system Tracker version seems outdated"
 msgstr "Схоже, версія програми Tracker застаріла"
 
 #: gnomemusic/views/emptyview.py:146
-msgid "Music needs Tracker version 2.3.0 or higher"
-msgstr "Музика вимагає програму Tracker з версією 2.3.0 або вище"
+#| msgid "Music needs Tracker version 2.3.0 or higher"
+msgid "Music needs Tracker version 3.0.0 or higher"
+msgstr "Для роботи «Музики» потрібна програма Tracker версії 3.0.0 або вище"
 
 #: gnomemusic/views/playlistsview.py:41
 msgid "Playlists"
 msgstr "Списки композицій"
 
-#: gnomemusic/views/searchview.py:381
+#: gnomemusic/views/searchview.py:386
 msgid "Artists Results"
 msgstr "Виконавці"
 
-#: gnomemusic/views/searchview.py:396
+#: gnomemusic/views/searchview.py:401
 msgid "Albums Results"
 msgstr "Альбоми"
 
@@ -623,8 +624,6 @@ msgid "Disc {}"
 msgstr "Диск {}"
 
 #: gnomemusic/widgets/headerbar.py:68
-#| msgid "Selected {} item"
-#| msgid_plural "Selected {} items"
 msgid "Selected {} song"
 msgid_plural "Selected {} songs"
 msgstr[0] "Вибрано {} композицію"
