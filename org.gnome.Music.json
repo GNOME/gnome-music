@@ -63,7 +63,9 @@
         {
             "name": "tracker-miners",
             "buildsystem": "meson",
-            "config-opts": [ "-Ddomain_prefix=org.gnome.Music.Devel",
+            "config-opts": [ "-Ddefault_index_single_directories=",
+                             "-Ddefault_index_recursive_directories=&MUSIC",
+                             "-Ddomain_prefix=org.gnome.Music.Devel",
                              "-Dman=false",
                              "-Dminer_fs=true",
                              "-Dminer_fs_cache_location=$XDG_CACHE_HOME/gnome-music/miner/files",
