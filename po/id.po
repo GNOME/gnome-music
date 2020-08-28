@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2020-08-21 14:47+0000\n"
-"PO-Revision-Date: 2020-08-21 23:25+0700\n"
+"POT-Creation-Date: 2020-08-28 15:14+0000\n"
+"PO-Revision-Date: 2020-08-28 22:19+0700\n"
 "Last-Translator: Kukuh Syafaat <kukuhsyafaat@gnome.org>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "Language: id\n"
@@ -49,7 +49,7 @@ msgstr ""
 msgid "The GNOME Music developers"
 msgstr "Para Pengembang GNOME Musik"
 
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:59
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:60
 #: gnomemusic/window.py:70
 msgid "Music"
 msgstr "Musik"
@@ -490,27 +490,27 @@ msgid "_Add to Playlist"
 msgstr "T_ambah ke Daftar Putar"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:822
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:832
 msgid "Most Played"
 msgstr "Paling Sering Diputar"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:858
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:885
 msgid "Never Played"
 msgstr "Tak Pernah Diputar"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:893
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:937
 msgid "Recently Played"
 msgstr "Baru-baru Ini Diputar"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:938
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:999
 msgid "Recently Added"
 msgstr "Baru-baru Ini Ditambahkan"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:982
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1061
 msgid "Favorite Songs"
 msgstr "Lagu Favorit"
 
@@ -589,18 +589,18 @@ msgid "Your system Tracker version seems outdated"
 msgstr "Versi Pelacak sistem Anda tampaknya sudah usang"
 
 #: gnomemusic/views/emptyview.py:146
-msgid "Music needs Tracker version 2.3.0 or higher"
-msgstr "Musik membutuhkan Pelacak versi 2.3.0 atau lebih tinggi"
+msgid "Music needs Tracker version 3.0.0 or higher"
+msgstr "Musik membutuhkan Pelacak versi 3.0.0 atau lebih tinggi"
 
 #: gnomemusic/views/playlistsview.py:41
 msgid "Playlists"
 msgstr "Daftar Putar"
 
-#: gnomemusic/views/searchview.py:381
+#: gnomemusic/views/searchview.py:386
 msgid "Artists Results"
 msgstr "Hasil Artis"
 
-#: gnomemusic/views/searchview.py:396
+#: gnomemusic/views/searchview.py:401
 msgid "Albums Results"
 msgstr "Hasil Album"
 
