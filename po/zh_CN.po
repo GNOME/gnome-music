@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2020-08-21 14:47+0000\n"
-"PO-Revision-Date: 2020-08-25 23:16-0400\n"
+"POT-Creation-Date: 2020-08-28 15:14+0000\n"
+"PO-Revision-Date: 2020-08-29 10:01-0400\n"
 "Last-Translator: Cheng Lu <chenglu1990@gmail.com>\n"
 "Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
@@ -51,7 +51,7 @@ msgstr ""
 msgid "The GNOME Music developers"
 msgstr "GNOME“音乐”开发者"
 
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:59
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:60
 #: gnomemusic/window.py:70
 msgid "Music"
 msgstr "音乐"
@@ -481,27 +481,27 @@ msgid "_Add to Playlist"
 msgstr "添加到播放列表(_A)"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:822
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:832
 msgid "Most Played"
 msgstr "最多播放"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:858
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:885
 msgid "Never Played"
 msgstr "从未播放"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:893
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:937
 msgid "Recently Played"
 msgstr "最近播放"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:938
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:999
 msgid "Recently Added"
 msgstr "最近添加"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:982
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1061
 msgid "Favorite Songs"
 msgstr "收藏歌曲"
 
@@ -579,18 +579,18 @@ msgid "Your system Tracker version seems outdated"
 msgstr "您的系统跟踪器版本似乎已过时"
 
 #: gnomemusic/views/emptyview.py:146
-msgid "Music needs Tracker version 2.3.0 or higher"
-msgstr "音乐需要跟踪器版本 2.3.0 或更高"
+msgid "Music needs Tracker version 3.0.0 or higher"
+msgstr "音乐需要跟踪器版本 3.0.0 或更高"
 
 #: gnomemusic/views/playlistsview.py:41
 msgid "Playlists"
 msgstr "播放列表"
 
-#: gnomemusic/views/searchview.py:381
+#: gnomemusic/views/searchview.py:386
 msgid "Artists Results"
 msgstr "艺术家结果"
 
-#: gnomemusic/views/searchview.py:396
+#: gnomemusic/views/searchview.py:401
 msgid "Albums Results"
 msgstr "专辑结果"
 
