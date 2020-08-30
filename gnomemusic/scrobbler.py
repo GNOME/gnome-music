@@ -77,6 +77,11 @@ class GoaLastFM(GObject.GObject):
             return
 
         manager = self._client.get_manager()
+
+        if manager is None:
+            self._log.info("GNOME Online Accounts is unavailable")
+            return
+
         try:
             manager.call_is_supported_provider(
                 "lastfm", None, self._lastfm_is_supported_cb)
