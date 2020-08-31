@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2020-08-21 14:47+0000\n"
-"PO-Revision-Date: 2020-08-21 17:53+0200\n"
+"POT-Creation-Date: 2020-08-28 15:20+0000\n"
+"PO-Revision-Date: 2020-08-28 21:39+0200\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -50,7 +50,7 @@ msgstr ""
 msgid "The GNOME Music developers"
 msgstr "Razvijalci programa GNOME Glasba"
 
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:59
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:60
 #: gnomemusic/window.py:70
 msgid "Music"
 msgstr "Glasba"
@@ -492,27 +492,27 @@ msgid "_Add to Playlist"
 msgstr "Dodaj na _seznam predvajanja"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:822
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:832
 msgid "Most Played"
 msgstr "Najpogosteje predvajano"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:858
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:885
 msgid "Never Played"
 msgstr "Nikoli predvajano"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:893
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:937
 msgid "Recently Played"
 msgstr "Nedavno predvajano"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:938
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:999
 msgid "Recently Added"
 msgstr "Nedavno dodano"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:982
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1061
 msgid "Favorite Songs"
 msgstr "Priljubljeni posnetki"
 
@@ -594,19 +594,19 @@ msgid "Your system Tracker version seems outdated"
 msgstr "Sistemska različica paketa Tracker je videti zastarela"
 
 #: gnomemusic/views/emptyview.py:146
-msgid "Music needs Tracker version 2.3.0 or higher"
+msgid "Music needs Tracker version 3.0.0 or higher"
 msgstr ""
-"Program Music zahteva namestitev različice paketa Tracker 2.3.0 ali višje"
+"Program Music zahteva namestitev različice paketa Tracker 3.0.0 ali višje"
 
 #: gnomemusic/views/playlistsview.py:41
 msgid "Playlists"
 msgstr "Seznami predvajanja"
 
-#: gnomemusic/views/searchview.py:381
+#: gnomemusic/views/searchview.py:386
 msgid "Artists Results"
 msgstr "Izvajalci"
 
-#: gnomemusic/views/searchview.py:396
+#: gnomemusic/views/searchview.py:401
 msgid "Albums Results"
 msgstr "Albumi"
 
