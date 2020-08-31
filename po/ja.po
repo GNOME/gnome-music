@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2020-08-21 14:47+0000\n"
-"PO-Revision-Date: 2020-08-26 22:40+0900\n"
+"POT-Creation-Date: 2020-08-28 15:14+0000\n"
+"PO-Revision-Date: 2020-08-31 22:30+0900\n"
 "Last-Translator: sicklylife <translation@sicklylife.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "Language: ja\n"
@@ -560,8 +560,8 @@ msgid "Your system Tracker version seems outdated"
 msgstr "Tracker のバージョンが古すぎます"
 
 #: gnomemusic/views/emptyview.py:146
-msgid "Music needs Tracker version 2.3.0 or higher"
-msgstr "Tracker のバージョン 2.3.0 以降が必要です"
+msgid "Music needs Tracker version 3.0.0 or higher"
+msgstr "Tracker のバージョン 3.0.0 以降が必要です"
 
 #: gnomemusic/views/playlistsview.py:41
 msgid "Playlists"
