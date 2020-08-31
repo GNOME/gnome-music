@@ -22,7 +22,9 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from __future__ import annotations
 import math
+import typing
 
 import gi
 gi.require_version("Gfm", "0.1")
@@ -35,23 +37,25 @@ from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
 from gnomemusic.player import PlayerPlaylist
 from gnomemusic.songliststore import SongListStore
 from gnomemusic.widgets.songwidget import SongWidget
+if typing.TYPE_CHECKING:
+    from gnomemusic.application import Application
 import gnomemusic.utils as utils
 
 
 class CoreModel(GObject.GObject):
-    """Provides all the list models used in Music
+    """Provides all the global list models used in Music
 
     Music is using a hierarchy of data objects with list models to
     contain the information about the users available music. This
     hierarchy is filled mainly through Grilo, with the exception of
     playlists which are a Tracker only feature.
 
-    There are three main models: one for artist info, one for albums
-    and one for songs. The data objects within these are CoreArtist,
-    CoreAlbum and CoreSong respectively.
+    There are three main models: one for artists, one for albums and
+    one for songs. The data objects within these are CoreArtist,
+    CoreAlbum and CoreSong respectively. These models are flattened
+    list models filled by the wrappers.
 
-    The data objects contain filtered lists of the three main models.
-    This makes the hierarchy as follows.
+    The object hierarchy is as follows.
 
     CoreArtist -> CoreAlbum -> CoreDisc -> CoreSong
 
@@ -73,7 +77,7 @@ class CoreModel(GObject.GObject):
 
     _recent_size = 21
 
-    def __init__(self, application):
+    def __init__(self, application: Application) -> None:
         """Initiate the CoreModel object
 
         :param Application application: The Application instance to use
@@ -116,19 +120,23 @@ class CoreModel(GObject.GObject):
         self._songs_search_flatten = Gfm.FlattenListModel.new(CoreSong)
         self._songs_search_flatten.set_model(self._songs_search_proxy)
 
-        self._albums_search_model = Gfm.FilterListModel.new(
-            self._albums_model)
-        self._albums_search_model.set_filter_func(lambda a: False)
+        self._albums_search_proxy: Gio.Liststore = Gio.ListStore.new(
+            Gfm.FilterListModel)
+        self._albums_search_flatten: Gfm.FlattenListModel = (
+            Gfm.FlattenListModel.new(CoreAlbum))
+        self._albums_search_flatten.set_model(self._albums_search_proxy)
 
         self._albums_search_filter = Gfm.FilterListModel.new(
-            self._albums_search_model)
+            self._albums_search_flatten)
 
-        self._artists_search_model = Gfm.FilterListModel.new(
-            self._artists_model)
-        self._artists_search_model.set_filter_func(lambda a: False)
+        self._artists_search_proxy: Gio.Liststore = Gio.ListStore.new(
+            Gfm.FilterListModel)
+        self._artists_search_flatten: Gfm.FlattenListModel = (
+            Gfm.FlattenListModel.new(CoreArtist))
+        self._artists_search_flatten.set_model(self._artists_search_proxy)
 
         self._artists_search_filter = Gfm.FilterListModel.new(
-            self._artists_search_model)
+            self._artists_search_flatten)
 
         self._playlists_model = Gio.ListStore.new(Playlist)
         self._playlists_model_filter = Gfm.FilterListModel.new(
@@ -421,10 +429,10 @@ class CoreModel(GObject.GObject):
         return self._songs_search_proxy
 
     @GObject.Property(
-        type=Gfm.FilterListModel, default=None,
+        type=Gfm.FlattenListModel, default=None,
         flags=GObject.ParamFlags.READABLE)
-    def albums_search(self):
-        return self._albums_search_model
+    def albums_search(self) -> Gfm.FlattenListModel:
+        return self._albums_search_flatten
 
     @GObject.Property(
         type=Gfm.FilterListModel, default=None,
@@ -433,16 +441,26 @@ class CoreModel(GObject.GObject):
         return self._albums_search_filter
 
     @GObject.Property(
-        type=Gfm.FilterListModel, default=None,
+        type=Gio.ListStore, default=None, flags=GObject.ParamFlags.READABLE)
+    def albums_search_proxy(self) -> Gio.ListStore:
+        return self._albums_search_proxy
+
+    @GObject.Property(
+        type=Gfm.FlattenListModel, default=None,
         flags=GObject.ParamFlags.READABLE)
-    def artists_search(self):
-        return self._artists_search_model
+    def artists_search(self) -> Gfm.FlattenListModel:
+        return self._artists_search_flatten
 
     @GObject.Property(
         type=Gfm.FilterListModel, default=None,
         flags=GObject.ParamFlags.READABLE)
     def artists_search_filter(self):
         return self._artists_search_filter
+
+    @GObject.Property(
+        type=Gio.ListStore, default=None, flags=GObject.ParamFlags.READABLE)
+    def artists_search_proxy(self) -> Gio.ListStore:
+        return self._artists_search_proxy
 
     @GObject.Property(
         type=Gtk.ListStore, default=None, flags=GObject.ParamFlags.READABLE)

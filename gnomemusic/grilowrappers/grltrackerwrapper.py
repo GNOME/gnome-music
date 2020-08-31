@@ -117,9 +117,6 @@ class GrlTrackerWrapper(GObject.GObject):
         self._artist_ids: Dict[str, CoreArtist] = {}
         self._hash: Dict[str, CoreSong] = {}
         self._song_search_proxy: Gio.ListStore = cm.props.songs_search_proxy
-        self._album_search_model: Gfm.FilterListModel = cm.props.albums_search
-        self._artist_search_model: Gfm.FilterListModel = (
-            cm.props.artists_search)
         self._batch_changed_media_ids: Dict[
             Grl.SourceChangeType, List[str]] = {}
         self._content_changed_timeout: int = 0
@@ -131,6 +128,16 @@ class GrlTrackerWrapper(GObject.GObject):
         self._song_search_tracker = Gfm.FilterListModel.new(self._songs_model)
         self._song_search_tracker.set_filter_func(lambda a: False)
         self._song_search_proxy.append(self._song_search_tracker)
+
+        self._albums_search: Gfm.FilterListModel = Gfm.FilterListModel.new(
+            self._albums_model)
+        self._albums_search.set_filter_func(lambda a: False)
+        cm.props.albums_search_proxy.append(self._albums_search)
+
+        self._artists_search: Gfm.FilterListModel = Gfm.FilterListModel.new(
+            self._artists_model)
+        self._artists_search.set_filter_func(lambda a: False)
+        cm.props.artists_search_proxy.append(self._artists_search)
 
         self._fast_options: Grl.OperationOptions = Grl.OperationOptions()
         self._fast_options.set_resolution_flags(
@@ -967,7 +974,7 @@ class GrlTrackerWrapper(GObject.GObject):
                 return
 
             if not media:
-                self._artist_search_model.set_filter_func(artist_filter)
+                self._artists_search.set_filter_func(artist_filter)
                 self._notificationmanager.pop_loading()
                 return
 
@@ -1036,7 +1043,7 @@ class GrlTrackerWrapper(GObject.GObject):
                 return
 
             if not media:
-                self._album_search_model.set_filter_func(album_filter)
+                self._albums_search.set_filter_func(album_filter)
                 self._notificationmanager.pop_loading()
                 return
 
