@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2020-08-21 14:47+0000\n"
-"PO-Revision-Date: 2020-08-25 22:47+0300\n"
+"POT-Creation-Date: 2020-09-01 19:48+0000\n"
+"PO-Revision-Date: 2020-09-01 22:49+0300\n"
 "Last-Translator: Aurimas Černius <aurisc4@gmail.com>\n"
 "Language-Team: Lietuvių <gnome-lt@lists.akl.lt>\n"
 "Language: lt\n"
@@ -48,7 +48,7 @@ msgstr ""
 msgid "The GNOME Music developers"
 msgstr "GNOME Muzikos kūrėjai"
 
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:59
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:60
 #: gnomemusic/window.py:70
 msgid "Music"
 msgstr "Muzika"
@@ -488,27 +488,27 @@ msgid "_Add to Playlist"
 msgstr "_Pridėti į grojaraštį"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:822
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:827
 msgid "Most Played"
 msgstr "Dažniausiai grojama"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:858
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:880
 msgid "Never Played"
 msgstr "Niekada negrota"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:893
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:932
 msgid "Recently Played"
 msgstr "Neseniai grota"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:938
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:994
 msgid "Recently Added"
 msgstr "Neseniai pridėta"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:982
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1056
 msgid "Favorite Songs"
 msgstr "Mėgiama daina"
 
@@ -588,18 +588,19 @@ msgid "Your system Tracker version seems outdated"
 msgstr "Jūsų sistemos Tracker versija atrodo pasenusi"
 
 #: gnomemusic/views/emptyview.py:146
-msgid "Music needs Tracker version 2.3.0 or higher"
-msgstr "Muzikai reikia Tracker versijos 2.3.0 arba naujesnės"
+#| msgid "Music needs Tracker version 2.3.0 or higher"
+msgid "Music needs Tracker version 3.0.0 or higher"
+msgstr "Muzikai reikia Tracker versijos 3.0.0 arba naujesnės"
 
 #: gnomemusic/views/playlistsview.py:41
 msgid "Playlists"
 msgstr "Grojaraščiai"
 
-#: gnomemusic/views/searchview.py:381
+#: gnomemusic/views/searchview.py:386
 msgid "Artists Results"
 msgstr "Atlikėjų rezultatai"
 
-#: gnomemusic/views/searchview.py:396
+#: gnomemusic/views/searchview.py:401
 msgid "Albums Results"
 msgstr "Albumų rezultatai"
 
@@ -615,8 +616,6 @@ msgid "Disc {}"
 msgstr "Diskas {}"
 
 #: gnomemusic/widgets/headerbar.py:68
-#| msgid "Selected {} item"
-#| msgid_plural "Selected {} items"
 msgid "Selected {} song"
 msgid_plural "Selected {} songs"
 msgstr[0] "Pažymėta {} daina"
