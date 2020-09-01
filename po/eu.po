@@ -7,7 +7,7 @@
 msgid ""
 msgstr "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2020-08-21 14:47+0000\n"
+"POT-Creation-Date: 2020-09-01 11:41+0000\n"
 "PO-Revision-Date: 2020-09-01 10:00+0100\n"
 "Last-Translator: Asier Sarasua Garmendia <asiersarasua@ni.eus>\n"
 "Language-Team: Basque <librezale@librezale.eus>\n"
@@ -42,7 +42,7 @@ msgstr "Aurkitu pistak zure bilduma lokalean, eskuratu musika DLNA zerbitzarieta
 msgid "The GNOME Music developers"
 msgstr "GNOME Musika aplikazioaren garatzaileak"
 
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:59
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:60
 #: gnomemusic/window.py:70
 msgid "Music"
 msgstr "Musika"
@@ -463,27 +463,27 @@ msgid "_Add to Playlist"
 msgstr "_Gehitu zerrendari"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:822
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:827
 msgid "Most Played"
 msgstr "Gehien erreproduzitua"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:858
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:880
 msgid "Never Played"
 msgstr "Inoiz erreproduzitu gabea"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:893
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:932
 msgid "Recently Played"
 msgstr "Azken aldian erreproduzitua"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:938
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:994
 msgid "Recently Added"
 msgstr "Azken aldian gehitua"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:982
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1056
 msgid "Favorite Songs"
 msgstr "Gogoko abestiak"
 
@@ -562,18 +562,18 @@ msgid "Your system Tracker version seems outdated"
 msgstr "Zure sistemako Tracker bertsioa zaharkituta dagoela dirudi"
 
 #: gnomemusic/views/emptyview.py:146
-msgid "Music needs Tracker version 2.3.0 or higher"
-msgstr "Musika aplikazioak Tracker 2.3.0 bertsioa edo berriagoa behar du"
+msgid "Music needs Tracker version 3.0.0 or higher"
+msgstr "Musika aplikazioak Tracker 3.0.0 bertsioa edo berriagoa behar du"
 
 #: gnomemusic/views/playlistsview.py:41
 msgid "Playlists"
 msgstr "Erreprodukzio-zerrendak"
 
-#: gnomemusic/views/searchview.py:381
+#: gnomemusic/views/searchview.py:386
 msgid "Artists Results"
 msgstr "Artisten emaitzak"
 
-#: gnomemusic/views/searchview.py:396
+#: gnomemusic/views/searchview.py:401
 msgid "Albums Results"
 msgstr "Albumen emaitzak"
 
