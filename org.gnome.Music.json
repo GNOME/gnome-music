@@ -126,6 +126,8 @@
                              "-Denable-podcasts=no",
                              "-Denable-thetvdb=no",
                              "-Denable-tmdb=no",
+                             "-Denable-tracker=yes",
+                             "-Denable-tracker3=no",
                              "-Denable-vimeo=no",
                              "-Denable-youtube=no" ],
             "sources": [
