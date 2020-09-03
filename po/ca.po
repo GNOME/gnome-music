@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2020-08-21 14:47+0000\n"
+"POT-Creation-Date: 2020-09-01 19:48+0000\n"
 "PO-Revision-Date: 2020-02-19 06:43+0100\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
@@ -51,7 +51,7 @@ msgstr ""
 msgid "The GNOME Music developers"
 msgstr "L'equip de desenvolupament del Música del GNOME"
 
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:59
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:60
 #: gnomemusic/window.py:70
 msgid "Music"
 msgstr "Música"
@@ -497,27 +497,27 @@ msgid "_Add to Playlist"
 msgstr "_Afegeix a la llista de reproducció"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:822
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:827
 msgid "Most Played"
 msgstr "Més reproduïdes"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:858
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:880
 msgid "Never Played"
 msgstr "Mai s'han reproduït"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:893
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:932
 msgid "Recently Played"
 msgstr "Reproduccions recents"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:938
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:994
 msgid "Recently Added"
 msgstr "Afegits recentment"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:982
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1056
 msgid "Favorite Songs"
 msgstr "Cançons preferides"
 
@@ -542,7 +542,7 @@ msgstr ", "
 #: gnomemusic/gstplayer.py:399
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
-msgstr[0] "Cal {} per a reproduir el fitxer però no està instal·lat."
+msgstr[0] "uCal {} per a reproduir el fitxer però no està instal·lat."
 msgstr[1] "Calen {} per a reproduir el fitxer però no estan instal·lats."
 
 #: gnomemusic/inhibitsuspend.py:63
@@ -597,18 +597,18 @@ msgid "Your system Tracker version seems outdated"
 msgstr "El vostre Tracker del sistema sembla obsolet"
 
 #: gnomemusic/views/emptyview.py:146
-msgid "Music needs Tracker version 2.3.0 or higher"
-msgstr "El Música necessita Tracker versió 2.3.0 o superior"
+msgid "Music needs Tracker version 3.0.0 or higher"
+msgstr "El Música necessita Tracker versió 3.0.0 o superior"
 
 #: gnomemusic/views/playlistsview.py:41
 msgid "Playlists"
 msgstr "Llistes de reproducció"
 
-#: gnomemusic/views/searchview.py:381
+#: gnomemusic/views/searchview.py:386
 msgid "Artists Results"
 msgstr "Resultats d'artistes"
 
-#: gnomemusic/views/searchview.py:396
+#: gnomemusic/views/searchview.py:401
 msgid "Albums Results"
 msgstr "Resultats d'àlbums"
 
