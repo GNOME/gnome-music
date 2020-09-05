@@ -1,3 +1,18 @@
+Overview of changes in 3.36.5
+=============================
+
+Bugs fixed:
+ scrobbler: Don't crash if gnome-online-accounts is unavailable (#410)
+ Selection mode search doesn't work (#405)
+ Selecting an album in albums view in selection mode randomly deselects other albums (#406)
+ Selection mode only works for artists during search (#407)
+ mpris misc fixes (!743)
+
+Thanks to our contributors this release:
+ Jean Felder
+ Marinus Schrall
+ Simon McVittie
+
 Overview of changes in 3.36.4.1
 ===============================
 

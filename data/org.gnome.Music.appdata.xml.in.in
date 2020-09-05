@@ -28,6 +28,13 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="3.36.5" date="2020-07-04">
+      <description>
+        <p>
+          This release fixes bugs related to MPRIS and selection-mode.
+        </p>
+      </description>
+    </release>
     <release version="3.36.4.1" date="2020-07-08">
       <description>
         <p>
