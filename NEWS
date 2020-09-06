@@ -1,3 +1,58 @@
+Overview of changes in 3.37.92
+==============================
+
+* Port to Tracker 3
+* Art retrieval complete rework
+* Flatpak cleanups and updates
+
+Bugs fixed:
+ gnome-music gets stuck when next button is pressed when current song is about to finish (#375)
+ Selection mode search doesn't work (#405)
+ Selecting an album in albums view in selection mode randomly deselects other albums (#406)
+ Selection mode only works for artists during search (#407)
+ Music crashed if gnome-online-accounts is unavailable (#410)
+ MPRIS playlist fixes (!741)
+ Gracefully handle locale.{bind,}textdomain not being available (!735)
+
+Thanks to our contributors this release:
+ Adam Blanchet
+ Carlos Garnacho
+ Chinmay Gurjar
+ Jean Felder
+ Marinus Schrall
+ Piotr Drąg
+ Rasmus Thomsen
+ Sam Thursfield
+ Simon McVittie
+
+Updated translation:
+ Basque
+ Brazilian Portuguese
+ Catalan
+ Chinese (China)
+ Croatian
+ Czech
+ Dutch
+ Finnish
+ French
+ Friulian
+ Galician
+ German
+ Indonesian
+ Japanese
+ Kazakh
+ Korean
+ Lithuanian
+ Persian
+ Polish
+ Serbian
+ Slovak
+ Slovenian
+ Spanish
+ Swedish
+ Turkish
+ Ukrainian
+
 Overview of changes in 3.37.3
 =============================
 
