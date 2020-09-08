@@ -10,16 +10,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2019-11-09 21:05+0000\n"
-"PO-Revision-Date: 2020-01-07 01:04+0200\n"
-"Last-Translator: Efstathios Iosifidis <iosifidis@opensuse.org>\n"
+"POT-Creation-Date: 2020-08-28 15:14+0000\n"
+"PO-Revision-Date: 2020-09-09 00:32+0300\n"
+"Last-Translator: Efstathios Iosifidis <eiosifidis@gnome.org>\n"
 "Language-Team: Greek, Modern (1453-) <gnome-el-list@gnome.org>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.2.4\n"
+"X-Generator: Poedit 2.3\n"
 "X-Project-Style: gnome\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
@@ -49,12 +49,12 @@ msgstr ""
 "διακομιστές DLNA ή δοκιμάστε κάτι καινούριο με το Jamendo και τις υπηρεσίες "
 "Magnatune."
 
-#: data/org.gnome.Music.appdata.xml.in.in:52
+#: data/org.gnome.Music.appdata.xml.in.in:110
 msgid "The GNOME Music developers"
 msgstr "Οι προγραμματιστές του GNOME Music"
 
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:59
-#: gnomemusic/window.py:77
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:60
+#: gnomemusic/window.py:70
 msgid "Music"
 msgstr "Μουσική"
 
@@ -135,6 +135,18 @@ msgstr ""
 "Ενεργοποίηση ή απενεργοποίηση την αναστολή συστήματος αναστολής κατά την "
 "αναπαραγωγή μουσικής"
 
+#: data/org.gnome.Music.gschema.xml:48
+msgid "Report music history to Last.fm"
+msgstr "Αναφορά ιστορικού μουσικής στην Last.fm"
+
+#: data/org.gnome.Music.gschema.xml:49
+msgid ""
+"Enables or disables sending scrobbles and the “currently playing” info to "
+"Last.fm."
+msgstr ""
+"Ενεργοποιεί ή απενεργοποιεί την αποστολή πληροφοριών αρχείων \"που "
+"αναπαράγονται αυτήν τη στιγμή\" στο Last.fm."
+
 #: data/ui/AboutDialog.ui.in:9
 msgid "Copyright © 2018 GNOME Music Developers"
 msgstr "Πνευματικά δικαιώματα © 2018 GNOME Music Developers"
@@ -201,27 +213,35 @@ msgstr ""
 "\"Magic of the vinyl\" από Sami Pyylampi εικόνα υπό την άδεια CC-BY-SA 2.0 "
 "https://www.flickr.com/photos/_spy_/12270839403"
 
-#: data/ui/AlbumWidget.ui:105
+#: data/ui/AlbumWidget.ui:107
 msgid "Released"
 msgstr "Κυκλοφόρησε"
 
-#: data/ui/AlbumWidget.ui:121
+#: data/ui/AlbumWidget.ui:123
 msgid "Running Length"
 msgstr "Εκτελούμενη διάρκεια"
 
-#: data/ui/AlbumWidget.ui:166
+#: data/ui/AlbumWidget.ui:167
 msgid "Composer"
 msgstr "Συνθέτης"
 
-#: data/ui/AppMenu.ui:21
+#: data/ui/AppMenu.ui:20 data/ui/LastfmDialog.ui:8
+msgid "Last.fm Account"
+msgstr "Λογαριασμός Last.fm"
+
+#: data/ui/AppMenu.ui:38
+msgid "Report Music Listening"
+msgstr "Αναφορά ακρόασης μουσικής"
+
+#: data/ui/AppMenu.ui:69
 msgid "_Keyboard Shortcuts"
 msgstr "1821"
 
-#: data/ui/AppMenu.ui:35
+#: data/ui/AppMenu.ui:83
 msgid "_Help"
 msgstr "_Βοήθεια"
 
-#: data/ui/AppMenu.ui:49
+#: data/ui/AppMenu.ui:97
 msgid "_About Music"
 msgstr "_Περί του Μουσική"
 
@@ -233,16 +253,16 @@ msgstr "Μενού"
 msgid "Select"
 msgstr "Επιλογή"
 
-#: data/ui/HeaderBar.ui:61 data/ui/PlaylistDialog.ui:244
-#: data/ui/SearchHeaderBar.ui:38
+#: data/ui/HeaderBar.ui:60 data/ui/PlaylistDialog.ui:244
+#: data/ui/SearchHeaderBar.ui:37
 msgid "_Cancel"
 msgstr "Ακύ_ρωση"
 
-#: data/ui/HeaderBar.ui:80 data/ui/SearchHeaderBar.ui:57
+#: data/ui/HeaderBar.ui:79 data/ui/SearchHeaderBar.ui:56
 msgid "Search"
 msgstr "Αναζήτηση"
 
-#: data/ui/HeaderBar.ui:103
+#: data/ui/HeaderBar.ui:102
 msgid "Back"
 msgstr "Πίσω"
 
@@ -331,6 +351,31 @@ msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Μετάβαση πίσω"
 
+#: data/ui/LastfmDialog.ui:21
+msgid ""
+"Last.fm is a music discovery service that gives you personalised "
+"recommendations based on the music you listen to."
+msgstr ""
+"Το Last.fm είναι μια υπηρεσία που ανακαλύπτετε μουσική και σας παρέχει "
+"εξατομικευμένες προτάσεις βάσει της μουσικής που ακούτε."
+
+#: data/ui/LastfmDialog.ui:32 gnomemusic/widgets/lastfmdialog.py:58
+msgid "Music Reporting Not Setup"
+msgstr "Δεν είναι ρυθμισμένη η αναφορά μουσικής"
+
+#: data/ui/LastfmDialog.ui:46 gnomemusic/widgets/lastfmdialog.py:61
+msgid "Login to your Last.fm account to report your music listening."
+msgstr ""
+"Συνδεθείτε στον λογαριασμό σας Last.fm για να αναφέρετε τη μουσική σας."
+
+#: data/ui/LastfmDialog.ui:57 gnomemusic/widgets/lastfmdialog.py:59
+msgid "Login"
+msgstr "Σύνδεση"
+
+#: data/ui/LoadingNotification.ui:16
+msgid "Loading"
+msgstr "Γίνεται φόρτωση"
+
 #: data/ui/PlayerToolbar.ui:6
 msgid "Shuffle"
 msgstr "Τυχαία σειρά"
@@ -348,15 +393,15 @@ msgstr "Επανάληψη τραγουδιού"
 msgid "Shuffle/Repeat Off"
 msgstr "Τυχαία σειρά/Ανενεργή επανάληψη"
 
-#: data/ui/PlayerToolbar.ui:70
+#: data/ui/PlayerToolbar.ui:69
 msgid "Previous"
 msgstr "Προηγούμενο"
 
-#: data/ui/PlayerToolbar.ui:86 gnomemusic/widgets/playertoolbar.py:159
+#: data/ui/PlayerToolbar.ui:85 gnomemusic/widgets/playertoolbar.py:146
 msgid "Play"
 msgstr "Αναπαραγωγή"
 
-#: data/ui/PlayerToolbar.ui:102
+#: data/ui/PlayerToolbar.ui:101
 msgid "Next"
 msgstr "Επόμενο"
 
@@ -385,7 +430,7 @@ msgstr "_Διαγραφή"
 msgid "_Rename…"
 msgstr "_Μετονομασία…"
 
-#: data/ui/PlaylistControls.ui:40
+#: data/ui/PlaylistControls.ui:41
 msgid "Playlist Name"
 msgstr "Όνομα λίστας αναπαραγωγής"
 
@@ -417,19 +462,23 @@ msgstr "Προσθήκη στη λίστα αναπαραγωγής"
 msgid "_Add"
 msgstr "_Προσθήκη"
 
-#: data/ui/SearchView.ui:44 gnomemusic/views/artistsview.py:59
+#: data/ui/PlaylistNotification.ui:22
+msgid "_Undo"
+msgstr "Α_ναίρεση"
+
+#: data/ui/SearchView.ui:43 gnomemusic/views/artistsview.py:43
 msgid "Artists"
 msgstr "Καλλιτέχνες"
 
-#: data/ui/SearchView.ui:54 data/ui/SearchView.ui:107
+#: data/ui/SearchView.ui:53 data/ui/SearchView.ui:106
 msgid "View All"
 msgstr "Προβολή όλων"
 
-#: data/ui/SearchView.ui:97 gnomemusic/views/albumsview.py:63
+#: data/ui/SearchView.ui:96 gnomemusic/views/albumsview.py:47
 msgid "Albums"
 msgstr "Δίσκοι"
 
-#: data/ui/SearchView.ui:150 gnomemusic/views/songsview.py:57
+#: data/ui/SearchView.ui:149 gnomemusic/views/songsview.py:44
 msgid "Songs"
 msgstr "Τραγούδια"
 
@@ -441,7 +490,7 @@ msgstr "Επιλογή όλων"
 msgid "Select None"
 msgstr "Καμία επιλογή"
 
-#: data/ui/SelectionBarMenuButton.ui:31 gnomemusic/widgets/headerbar.py:75
+#: data/ui/SelectionBarMenuButton.ui:31 gnomemusic/widgets/headerbar.py:71
 msgid "Click on items to select them"
 msgstr "Πατήστε σε αντικείμενα για να τα επιλέξετε"
 
@@ -450,49 +499,49 @@ msgid "_Add to Playlist"
 msgstr "Προ_σθήκη στη λίστα αναπαραγωγής"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:727
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:832
 msgid "Most Played"
 msgstr "Το περισσότερο παιγμένο"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:764
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:885
 msgid "Never Played"
 msgstr "Δεν παίχτηκε ποτέ"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:800
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:937
 msgid "Recently Played"
 msgstr "Παίχτηκε πρόσφατα"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:846
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:999
 msgid "Recently Added"
 msgstr "Προστέθηκε πρόσφατα"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:891
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1061
 msgid "Favorite Songs"
 msgstr "Αγαπημένα τραγούδια"
 
-#: gnomemusic/gstplayer.py:403
+#: gnomemusic/gstplayer.py:378
 msgid "Unable to play the file"
 msgstr "Αδύνατη η αναπαραγωγή του αρχείου"
 
-#: gnomemusic/gstplayer.py:409
+#: gnomemusic/gstplayer.py:384
 msgid "_Find in {}"
 msgstr "Εύ_ρεση στο {}"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:420
+#: gnomemusic/gstplayer.py:394
 msgid " and "
 msgstr " και "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:423
+#: gnomemusic/gstplayer.py:397
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:425
+#: gnomemusic/gstplayer.py:399
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] ""
@@ -500,112 +549,120 @@ msgstr[0] ""
 msgstr[1] ""
 "Απαιτούνται τα {} για αναπαραγωγή του αρχείου, αλλά δεν είναι εγκατεστημένα."
 
-#: gnomemusic/inhibitsuspend.py:72
+#: gnomemusic/inhibitsuspend.py:63
 msgid "Playing music"
 msgstr "Αναπαραγωγή μουσικής"
 
-#: gnomemusic/utils.py:62
+#: gnomemusic/utils.py:81
 msgid "Unknown album"
 msgstr "Άγνωστο άλμπουμ"
 
-#: gnomemusic/utils.py:83
+#: gnomemusic/utils.py:102
 msgid "Unknown Artist"
 msgstr "Άγνωστος καλλιτέχνης"
 
-#: gnomemusic/views/emptyview.py:73
+#: gnomemusic/views/emptyview.py:67
 msgid "Your XDG Music directory is not set."
 msgstr "Ο κατάλογός Μουσική XDG δεν έχει ρυθμιστεί."
 
-#: gnomemusic/views/emptyview.py:80
+#: gnomemusic/views/emptyview.py:74
 msgid "Music folder"
 msgstr "Φάκελος μουσικής"
 
 #. TRANSLATORS: This is a label to display a link to open user's music
 #. folder. {} will be replaced with the translated text 'Music folder'
-#: gnomemusic/views/emptyview.py:84
+#: gnomemusic/views/emptyview.py:78
 msgid "The contents of your {} will appear here."
 msgstr "Τα περιεχόμενα του {} θα εμφανιστούν εδώ."
 
-#: gnomemusic/views/emptyview.py:120
+#: gnomemusic/views/emptyview.py:112
 msgid "Hey DJ"
 msgstr "Γεια σου DJ"
 
-#: gnomemusic/views/emptyview.py:130 gnomemusic/views/emptyview.py:136
+#: gnomemusic/views/emptyview.py:121 gnomemusic/views/emptyview.py:126
 msgid "No music found"
 msgstr "Δεν βρέθηκε μουσική"
 
-#: gnomemusic/views/emptyview.py:138
+#: gnomemusic/views/emptyview.py:128
 msgid "Try a different search"
 msgstr "Δοκιμάστε μια διαφορετική αναζήτηση"
 
-#: gnomemusic/views/emptyview.py:144
+#: gnomemusic/views/emptyview.py:133
 msgid "GNOME Music could not connect to Tracker"
 msgstr "Το GNOME Music δεν μπόρεσε να συνδεθεί με το Tracker"
 
-#: gnomemusic/views/emptyview.py:147
+#: gnomemusic/views/emptyview.py:136
 msgid "Your music files cannot be indexed without Tracker running"
 msgstr ""
 "Δεν είναι δυνατή η ευρετηρίαση των αρχείων μουσικής σας χωρίς την εκτέλεση "
 "του Tracker"
 
-#: gnomemusic/views/emptyview.py:155
+#: gnomemusic/views/emptyview.py:143
 msgid "Your system Tracker version seems outdated"
 msgstr "Η έκδοση Tracker του συστήματος είναι παρωχημένη"
 
-#: gnomemusic/views/emptyview.py:158
-#| msgid "Music needs Tracker version 2.2.0 or higher"
-msgid "Music needs Tracker version 2.3.0 or higher"
-msgstr "Η Μουσική χρειάζεται έκδοση Tracker 2.3.0 ή μεγαλύτερη"
+#: gnomemusic/views/emptyview.py:146
+msgid "Music needs Tracker version 3.0.0 or higher"
+msgstr "Η Μουσική χρειάζεται έκδοση Tracker 3.0.0 ή μεγαλύτερη"
 
-#: gnomemusic/views/playlistsview.py:58
+#: gnomemusic/views/playlistsview.py:41
 msgid "Playlists"
 msgstr "Λίστες αναπαραγωγής"
 
-#: gnomemusic/views/searchview.py:366
+#: gnomemusic/views/searchview.py:386
 msgid "Artists Results"
 msgstr "Αποτελέσματα Καλλιτεχνών"
 
-#: gnomemusic/views/searchview.py:380
+#: gnomemusic/views/searchview.py:401
 msgid "Albums Results"
 msgstr "Αποτελέσματα Δίσκων"
 
-#: gnomemusic/widgets/albumwidget.py:145
+#: gnomemusic/widgets/albumwidget.py:154
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} λεπτό"
 msgstr[1] "{} λεπτά"
 
-#: gnomemusic/widgets/disclistboxwidget.py:82
+#: gnomemusic/widgets/disclistboxwidget.py:60
 msgid "Disc {}"
 msgstr "Δίσκος {}"
 
-#: gnomemusic/widgets/headerbar.py:72
-msgid "Selected {} item"
-msgid_plural "Selected {} items"
-msgstr[0] "Επιλέχθηκε %d στοιχείο"
-msgstr[1] "Επιλέχθηκαν %d στοιχεία"
+#: gnomemusic/widgets/headerbar.py:68
+msgid "Selected {} song"
+msgid_plural "Selected {} songs"
+msgstr[0] "Επιλέχθηκε {} τραγούδι"
+msgstr[1] "Επιλέχθηκαν {} τραγούδια"
 
-#: gnomemusic/widgets/notificationspopup.py:168
-msgid "Loading"
-msgstr "Γίνεται φόρτωση"
+#: gnomemusic/widgets/lastfmdialog.py:65
+msgid "Your music listening is reported to Last.fm."
+msgstr "Η μουσική που ακούτε αναφέρεται στο Last.fm."
 
-#: gnomemusic/widgets/notificationspopup.py:241
-msgid "_Undo"
-msgstr "Α_ναίρεση"
+#: gnomemusic/widgets/lastfmdialog.py:67
+msgid "Your music listening is not reported to Last.fm."
+msgstr "Η μουσική που ακούτε δεν αναφέρεται στο Last.fm."
 
-#: gnomemusic/widgets/notificationspopup.py:256
+#. TRANSLATORS: displays the username of the Last.fm account
+#: gnomemusic/widgets/lastfmdialog.py:71
+msgid "Logged in as {}"
+msgstr "Συνδεδεμένος ως {}"
+
+#: gnomemusic/widgets/lastfmdialog.py:72
+msgid "Configure"
+msgstr "Ρύθμιση"
+
+#: gnomemusic/widgets/notificationspopup.py:216
 msgid "Playlist {} removed"
 msgstr "Αφαιρέθηκε η λίστα αναπαραγωγής {}"
 
-#: gnomemusic/widgets/notificationspopup.py:260
+#: gnomemusic/widgets/notificationspopup.py:220
 msgid "{} removed from {}"
 msgstr "{} αφαιρέθηκε από {}"
 
-#: gnomemusic/widgets/playertoolbar.py:156
+#: gnomemusic/widgets/playertoolbar.py:143
 msgid "Pause"
 msgstr "Παύση"
 
-#: gnomemusic/widgets/playlistcontrols.py:83
+#: gnomemusic/widgets/playlistcontrols.py:127
 msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} τραγούδι"
