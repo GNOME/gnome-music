@@ -28,6 +28,22 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="3.38.0" date="2020-09-14">
+      <description>
+        <p>
+          First stable release for GNOME 3.38. This version does not rely on
+          Tracker running on the host. There are also some notable
+          improvements:
+        </p>
+        <ul>
+          <li>Port to Tracker version 3</li>
+          <li>Prefer Albumartist field for artist search</li>
+          <li>Change Artist view selection from artist to song</li>
+          <li>Lots of general cleanups and bugfixes</li>
+        </ul>
+        <p>This release also updates translations.</p>
+      </description>
+    </release>
     <release version="3.36.0" date="2020-03-07">
       <description>
         <p>
