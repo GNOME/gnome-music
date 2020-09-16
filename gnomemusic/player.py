@@ -562,7 +562,7 @@ class Player(GObject.GObject):
         position = self._gst_player.props.position
         if position > 0:
             percentage = tick / self.props.duration
-            if (not self._lastfm.scrobbled
+            if (not self._lastfm.props.scrobbled
                     and self.props.duration > 30.
                     and (percentage > 0.5 or tick > 4 * 60)):
                 self._lastfm.scrobble(current_song, self._time_stamp)

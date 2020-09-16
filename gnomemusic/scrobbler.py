@@ -428,7 +428,7 @@ class LastFmScrobbler(GObject.GObject):
         :param coresong: CoreSong to scrobble
         :param time_stamp: song loaded time (epoch time)
         """
-        self.scrobbled = True
+        self.props.scrobbled = True
 
         if not self.props.can_scrobble:
             return
@@ -442,7 +442,7 @@ class LastFmScrobbler(GObject.GObject):
 
         :param coresong: CoreSong to use for now playing
         """
-        self.scrobbled = False
+        self.props.scrobbled = False
 
         if not self.props.can_scrobble:
             return
