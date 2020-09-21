@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2020-08-28 15:14+0000\n"
-"PO-Revision-Date: 2020-09-04 11:25+0200\n"
+"POT-Creation-Date: 2020-09-06 17:38+0000\n"
+"PO-Revision-Date: 2020-09-21 19:09+0200\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak <gnome-sk-list@gnome.org>\n"
 "Language: sk\n"
@@ -240,9 +240,10 @@ msgstr "_O aplikácii Hudba"
 msgid "Menu"
 msgstr "Ponuka"
 
+# tooltip
 #: data/ui/HeaderBar.ui:39 data/ui/SearchHeaderBar.ui:16
 msgid "Select"
-msgstr "Vybrať"
+msgstr "Vyberie"
 
 #: data/ui/HeaderBar.ui:60 data/ui/PlaylistDialog.ui:244
 #: data/ui/SearchHeaderBar.ui:37
@@ -252,7 +253,7 @@ msgstr "_Zrušiť"
 # DK:tooltip
 #: data/ui/HeaderBar.ui:79 data/ui/SearchHeaderBar.ui:56
 msgid "Search"
-msgstr "Vyhľadávanie"
+msgstr "Vyhľadá"
 
 #: data/ui/HeaderBar.ui:102
 msgid "Back"
@@ -266,7 +267,7 @@ msgstr "Všeobecné"
 #: data/ui/help-overlay.ui:17
 msgctxt "shortcut window"
 msgid "Close window"
-msgstr "Zatvorenie okna"
+msgstr "Zavretie okna"
 
 #: data/ui/help-overlay.ui:24
 msgctxt "shortcut window"
@@ -392,9 +393,10 @@ msgstr "Vypnúť zamiešanie/opakovanie"
 msgid "Previous"
 msgstr "Predchádzajúca"
 
+# tooltip
 #: data/ui/PlayerToolbar.ui:85 gnomemusic/widgets/playertoolbar.py:146
 msgid "Play"
-msgstr "Prehrať"
+msgstr "Prehrá"
 
 # DK: skladba
 #: data/ui/PlayerToolbar.ui:101
@@ -499,27 +501,27 @@ msgid "_Add to Playlist"
 msgstr "_Pridať do zoznamu skladieb"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:832
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:827
 msgid "Most Played"
 msgstr "Najviac prehrávané"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:885
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:880
 msgid "Never Played"
 msgstr "Nikdy neprehraté"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:937
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:932
 msgid "Recently Played"
 msgstr "Nedávno prehrávané"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:999
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:994
 msgid "Recently Added"
 msgstr "Nedávno pridané"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1061
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1056
 msgid "Favorite Songs"
 msgstr "Obľúbené skladby"
 
@@ -529,7 +531,7 @@ msgstr "Nie je možné prehrať tento súbor"
 
 #: gnomemusic/gstplayer.py:384
 msgid "_Find in {}"
-msgstr "_Nájsť pomocou programu {}"
+msgstr "_Nájsť v aplikácii {}"
 
 #. TRANSLATORS: separator for two codecs
 #: gnomemusic/gstplayer.py:394
@@ -660,9 +662,10 @@ msgstr "Zoznam skladieb {} bol odstránený"
 msgid "{} removed from {}"
 msgstr "Skladba {} odstránená zo zoznamu skladieb {}"
 
+# tooltip
 #: gnomemusic/widgets/playertoolbar.py:143
 msgid "Pause"
-msgstr "Pozastaviť"
+msgstr "Pozastaví"
 
 #: gnomemusic/widgets/playlistcontrols.py:127
 msgid "{} Song"
