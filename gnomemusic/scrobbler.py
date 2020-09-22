@@ -444,6 +444,9 @@ class LastFmScrobbler(GObject.GObject):
         """
         self.props.scrobbled = False
 
+        if coresong is None:
+            return
+
         if not self.props.can_scrobble:
             return
 
