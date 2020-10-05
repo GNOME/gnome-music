@@ -1,3 +1,12 @@
+Overview of changes in 3.36.6
+=============================
+
+Bugs fixed:
+ Crash because it can't find some files (#401)
+
+Thanks to our contributors this release:
+ Marinus Schraal
+
 Overview of changes in 3.36.5
 =============================
 
@@ -10,7 +19,7 @@ Bugs fixed:
 
 Thanks to our contributors this release:
  Jean Felder
- Marinus Schrall
+ Marinus Schraal
  Simon McVittie
 
 Overview of changes in 3.36.4.1
