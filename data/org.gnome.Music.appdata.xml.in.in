@@ -28,6 +28,13 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="3.38.1" date="2020-10-05">
+      <description>
+        <p>
+          This updates fixes one crasher and updates translations.
+        </p>
+      </description>
+    </release>
     <release version="3.38.0" date="2020-09-14">
       <description>
         <p>
