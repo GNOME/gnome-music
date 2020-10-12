@@ -183,6 +183,10 @@ class CoreModel(GObject.GObject):
         if playlist_b.props.is_smart:
             return 1
 
+        if (playlist_a.props.creation_date is None
+                or playlist_b.props.creation_date is None):
+            return 0
+
         # cannot use GLib.DateTime.compare
         # https://gitlab.gnome.org/GNOME/pygobject/issues/334
         # newest first
