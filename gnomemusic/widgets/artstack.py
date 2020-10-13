@@ -93,7 +93,6 @@ class ArtStack(Gtk.Stack):
             self._thumbnail_id = 0
 
         self._coreobject = coreobject
-
         self._thumbnail_id = self._coreobject.connect(
             "notify::thumbnail", self._on_thumbnail_changed)
 
