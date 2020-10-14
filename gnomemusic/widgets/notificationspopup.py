@@ -185,9 +185,9 @@ class PlaylistNotification(Gtk.Grid):
             position=None, coresong=None):
         """Creates a playlist deletion notification popup (song or playlist)
 
-        :param GtkRevealer: notifications_popup: the popup object
-        :param Apllication: application object
-        :param type_: NotificationType (song or playlist)
+        :param GtkRevealer notifications_popup: the popup object
+        :param Application application: application object
+        :param enum type_: NotificationType (song or playlist)
         :param Playlist playlist: playlist
         :param int position: position of the object to delete
         :param object coresong: CoreSong for song deletion
