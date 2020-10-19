@@ -123,7 +123,7 @@ class GrlTrackerWrapper(GObject.GObject):
         self._full_options.set_resolution_flags(
             Grl.ResolutionFlags.FULL | Grl.ResolutionFlags.IDLE_RELAY)
 
-        self._content_changed_id = None
+        self._content_changed_id = 0
         self.props.source = source
 
         self._initial_songs_fill()
@@ -143,9 +143,9 @@ class GrlTrackerWrapper(GObject.GObject):
 
         :param Grl.Source new_source: new grilo tracker source
         """
-        if self._content_changed_id is not None:
+        if self._content_changed_id != 0:
             self._source.disconnect(self._content_changed_id)
-            self._content_changed_id = None
+            self._content_changed_id = 0
 
         self._source = new_source
         self._source.notify_change_start()
