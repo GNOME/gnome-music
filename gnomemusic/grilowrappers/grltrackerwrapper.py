@@ -276,7 +276,7 @@ class GrlTrackerWrapper(GObject.GObject):
                     SELECT
                         %(media_type)s AS ?type
                         (COALESCE(?album_artist, ?artist) AS ?id)
-                        ?artist_bind AS ?albumArtist
+                        ?artist_bind AS ?artist
                     WHERE {
                         ?song a nmm:MusicPiece;
                                 nmm:musicAlbum ?album;
@@ -599,14 +599,14 @@ class GrlTrackerWrapper(GObject.GObject):
                 artists_added.clear()
 
         query = """
-        SELECT ?type ?id ?albumArtist
+        SELECT ?type ?id ?artist
         WHERE {
             SERVICE <dbus:%(miner_fs_busname)s> {
                 GRAPH tracker:Audio {
                     SELECT
                        %(media_type)s AS ?type
                        (COALESCE(?album_artist, ?artist) AS ?id)
-                       ?artist_bind AS ?albumArtist
+                       ?artist_bind AS ?artist
                     WHERE {
                         ?song a nmm:MusicPiece;
                                 nmm:musicAlbum ?album;
