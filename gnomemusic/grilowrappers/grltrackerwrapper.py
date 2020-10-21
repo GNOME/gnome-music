@@ -1150,16 +1150,11 @@ class GrlTrackerWrapper(GObject.GObject):
                 coresong.props.thumbnail = "generic"
                 return
 
-            if (remaining == 0
-                    and queried_media is None):
+            if queried_media is None:
                 coresong.props.thumbnail = "generic"
                 return
 
-            thumbnail_uri = queried_media.get_thumbnail()
-            if thumbnail_uri is None:
-                coresong.props.thumbnail = "generic"
-            else:
-                StoreArt(coresong, thumbnail_uri)
+            StoreArt(coresong, queried_media.get_thumbnail())
 
         song_id = media.get_id()
         query = self._get_album_for_media_id_query(song_id)
@@ -1181,17 +1176,11 @@ class GrlTrackerWrapper(GObject.GObject):
                 corealbum.props.thumbnail = "generic"
                 return
 
-            if (remaining == 0
-                    and queried_media is None):
-                # art_retrieved_cb should be called two times, the
-                # empty result can be ignored.
+            if queried_media is None:
+                corealbum.props.thumbnail = "generic"
                 return
 
-            thumbnail_uri = queried_media.get_thumbnail()
-            if thumbnail_uri is None:
-                corealbum.props.thumbnail = "generic"
-            else:
-                StoreArt(corealbum, thumbnail_uri)
+            StoreArt(corealbum, queried_media.get_thumbnail())
 
         album_id = media.get_id()
         query = self._get_album_for_media_id_query(album_id, False)
@@ -1215,7 +1204,7 @@ class GrlTrackerWrapper(GObject.GObject):
                 coreartist.props.thumbnail = "generic"
                 return
 
-            if resolved_media.get_thumbnail() is None:
+            if resolved_media is None:
                 coreartist.props.thumbnail = "generic"
                 return
 
