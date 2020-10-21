@@ -1198,7 +1198,7 @@ class GrlTrackerWrapper(GObject.GObject):
         """
         media = coreartist.props.media
 
-        def art_resolved_cb(source, op_id, resolved_media, data, error):
+        def art_resolved_cb(source, op_id, resolved_media, error):
             if error:
                 self._log.warning("Error: {}".format(error))
                 coreartist.props.thumbnail = "generic"
@@ -1212,7 +1212,7 @@ class GrlTrackerWrapper(GObject.GObject):
 
         self.props.source.resolve(
             media, [Grl.METADATA_KEY_THUMBNAIL], self._full_options,
-            art_resolved_cb, None)
+            art_resolved_cb)
 
     def stage_playlist_deletion(self, playlist):
         """Prepares playlist deletion.
