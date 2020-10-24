@@ -1219,6 +1219,9 @@ class GrlTrackerWrapper(GObject.GObject):
 
         :param Playlist playlist: playlist
         """
+        if self._tracker_playlists is None:
+            return
+
         self._tracker_playlists.stage_playlist_deletion(playlist)
 
     def finish_playlist_deletion(self, playlist, deleted):
@@ -1227,6 +1230,9 @@ class GrlTrackerWrapper(GObject.GObject):
         :param Playlist playlist: playlist
         :param bool deleted: indicates if the playlist has been deleted
         """
+        if self._tracker_playlists is None:
+            return
+
         self._tracker_playlists.finish_playlist_deletion(playlist, deleted)
 
     def create_playlist(self, playlist_title, callback):
@@ -1235,4 +1241,7 @@ class GrlTrackerWrapper(GObject.GObject):
         :param str playlist_title: playlist title
         :param callback: function to perform once, the playlist is created
         """
+        if self._tracker_playlists is None:
+            return
+
         self._tracker_playlists.create_playlist(playlist_title, callback)
