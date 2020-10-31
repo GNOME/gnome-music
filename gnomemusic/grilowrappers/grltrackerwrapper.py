@@ -116,7 +116,6 @@ class GrlTrackerWrapper(GObject.GObject):
         cm.props.artists_proxy.append(self._artists_model)
         self._artist_ids: Dict[str, CoreArtist] = {}
         self._hash: Dict[str, CoreSong] = {}
-        self._song_search_proxy: Gio.ListStore = cm.props.songs_search_proxy
         self._batch_changed_media_ids: Dict[
             Grl.SourceChangeType, List[str]] = {}
         self._content_changed_timeout: int = 0
@@ -125,9 +124,10 @@ class GrlTrackerWrapper(GObject.GObject):
         self._notificationmanager: NotificationManager = (
             application.props.notificationmanager)
 
-        self._song_search_tracker = Gfm.FilterListModel.new(self._songs_model)
-        self._song_search_tracker.set_filter_func(lambda a: False)
-        self._song_search_proxy.append(self._song_search_tracker)
+        self._songs_search: Gfm.FilterListModel = Gfm.FilterListModel.new(
+            self._songs_model)
+        self._songs_search.set_filter_func(lambda a: False)
+        cm.props.songs_search_proxy.append(self._songs_search)
 
         self._albums_search: Gfm.FilterListModel = Gfm.FilterListModel.new(
             self._albums_model)
@@ -1117,7 +1117,7 @@ class GrlTrackerWrapper(GObject.GObject):
                 return
 
             if not media:
-                self._song_search_tracker.set_filter_func(songs_filter)
+                self._songs_search.set_filter_func(songs_filter)
                 self._notificationmanager.pop_loading()
                 return
 
