@@ -36,8 +36,8 @@ msgid ""
 "An easy way to play your music. Automatically discover music on your "
 "computer, the local network and internet services."
 msgstr ""
-"Una manera senzilla de reproduir música. Descobriu automàticament música al "
-"vostre ordinador, la xarxa local o a serveis d'Internet."
+"Una manera senzilla de reproduir música. Descobriu automàticament música a "
+"l'ordinador, la xarxa local o a serveis d'Internet."
 
 #: data/org.gnome.Music.appdata.xml.in.in:12
 msgid ""
@@ -594,7 +594,7 @@ msgstr ""
 
 #: gnomemusic/views/emptyview.py:143
 msgid "Your system Tracker version seems outdated"
-msgstr "El vostre Tracker del sistema sembla obsolet"
+msgstr "El Tracker del sistema sembla obsolet"
 
 #: gnomemusic/views/emptyview.py:146
 msgid "Music needs Tracker version 3.0.0 or higher"
