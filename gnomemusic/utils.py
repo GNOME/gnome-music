@@ -224,6 +224,14 @@ def get_media_track_nr(item: Grl.Media) -> str:
     return str(track_nr)
 
 
+def set_media_track_nr(item: Grl.Media, track_nr: str) -> None:
+    """Set the track number of the media item.
+
+    :param Grl.Media item: A Grilo Media object
+    """
+    item.set_track_number(int(track_nr))
+
+
 def seconds_to_string(duration):
     """Convert a time in seconds to a mm:ss string
 
