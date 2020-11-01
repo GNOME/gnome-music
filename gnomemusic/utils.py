@@ -202,6 +202,14 @@ def get_album_disc_nr(item: Grl.Media) -> str:
     return str(disc_nr)
 
 
+def set_album_disc_nr(item: Grl.Media, disc_nr: str) -> None:
+    """Set the album song number of the media item.
+
+    :param Grl.Media item: A Grilo Media object
+    """
+    item.set_album_disc_number(int(disc_nr))
+
+
 def get_media_track_nr(item: Grl.Media) -> str:
     """Returns the track number of the media item.
 
