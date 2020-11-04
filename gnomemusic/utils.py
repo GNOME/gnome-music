@@ -178,6 +178,16 @@ def get_media_year(item: Grl.Media, fill_empty: bool = False) -> str:
     return str(date.get_year())
 
 
+def set_media_year(item: Grl.Media, year: str) -> None:
+    """Set the year when the media was first released.
+
+    :param Grl.Media item: a Grilo Media object
+    :param str year: first released year
+    """
+    date = GLib.DateTime.new_utc(int(year), 1, 1, 0, 0, 0.)
+    item.set_publication_date(date)
+
+
 def get_album_disc_nr(item: Grl.Media) -> str:
     """Returns the album song number of the media item.
 
