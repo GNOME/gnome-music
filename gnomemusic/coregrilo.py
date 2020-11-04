@@ -23,7 +23,7 @@
 # delete this exception statement from your version.
 
 from __future__ import annotations
-from typing import Callable, Dict, Optional
+from typing import Any, Callable, Dict, List, Optional
 import typing
 import weakref
 
@@ -78,7 +78,7 @@ class CoreGrilo(GObject.GObject):
         self._search_wrappers = {}
         self._thumbnail_sources = []
         self._thumbnail_sources_timeout = None
-        self._wrappers = {}
+        self._wrappers: Dict[str, GObject.GObject] = {}
         self._mb_wrappers: Dict[str, GObject.GObject] = {}
 
         self._tracker_wrapper = TrackerWrapper(application)
@@ -255,13 +255,15 @@ class CoreGrilo(GObject.GObject):
         source = media.get_source()
         self._wrappers[source].get_album_disc(media, discnr, model)
 
-    def writeback(self, media, keys):
+    def writeback(self, media: Grl.Media, keys: List[int]) -> None:
         """Store the values associated with the keys.
 
         :param Grl.Media media: A Grilo media item
         :param list keys: a list of Grilo metadata keys
         """
-        def _store_metadata_cb(source, media, failed_keys, data, error):
+        def _store_metadata_cb(
+                source: Grl.Source, media: Grl.Media, failed_keys: List[int],
+                data: Any, error: Optional[GLib.Error]) -> None:
             if error is not None:
                 self._log.warning(
                     "Error {}: {}".format(error.domain, error.message))
