@@ -28,7 +28,7 @@ import re
 import unicodedata
 
 from gettext import gettext as _
-from gi.repository import Gio, GLib, Gtk
+from gi.repository import Gio, GLib, Grl, Gtk
 
 from gnomemusic.musiclogger import MusicLogger
 
@@ -146,7 +146,7 @@ def get_media_title(item):
     return title
 
 
-def get_media_year(item, fill_empty=False):
+def get_media_year(item: Grl.Media, fill_empty: bool = False) -> str:
     """Returns the year when the media was published.
 
     :param Grl.Media item: A Grilo Media object
