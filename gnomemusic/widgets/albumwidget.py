@@ -64,8 +64,8 @@ class AlbumWidget(Gtk.EventBox):
         self._application = application
         self._corealbum = None
         self._coremodel = self._application.props.coremodel
-        self._duration_signal_id = None
-        self._model_signal_id = None
+        self._duration_signal_id = 0
+        self._model_signal_id = 0
 
         self._art_stack.props.size = ArtSize.LARGE
         self._player = self._application.props.player
