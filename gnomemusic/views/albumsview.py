@@ -22,14 +22,20 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from __future__ import annotations
 import math
+import typing
 
 from gettext import gettext as _
-from gi.repository import Gdk, GLib, GObject, Gtk
+from gi.repository import Gdk, Gfm, GLib, GObject, Gtk
 
 from gnomemusic.widgets.headerbar import HeaderBar
 from gnomemusic.widgets.albumcover import AlbumCover
 from gnomemusic.widgets.albumwidget import AlbumWidget
+if typing.TYPE_CHECKING:
+    from gnomemusic.application import Application
+    from gnomemusic.coremodel import CoreModel
+    from gnomemusic.window import Window
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/AlbumsView.ui")
@@ -50,7 +56,7 @@ class AlbumsView(Gtk.Stack):
     _flowbox = Gtk.Template.Child()
     _flowbox_long_press = Gtk.Template.Child()
 
-    def __init__(self, application):
+    def __init__(self, application: Application) -> None:
         """Initialize AlbumsView
 
         :param application: The Application object
@@ -59,15 +65,16 @@ class AlbumsView(Gtk.Stack):
 
         self.props.name = "albums"
 
-        self._application = application
-        self._window = application.props.window
-        self._headerbar = self._window._headerbar
-        self._adjustment_timeout_id = 0
+        self._application: Application = application
+        self._window: Window = application.props.window
+        self._headerbar: HeaderBar = self._window._headerbar
+        self._adjustment_timeout_id: int = 0
         self._viewport = self._scrolled_window.get_child()
-        self._widget_counter = 1
-        self._ctrl_hold = False
+        self._widget_counter: int = 1
+        self._ctrl_hold: bool = False
 
-        model = self._application.props.coremodel.props.albums_sort
+        coremodel: CoreModel = self._application.props.coremodel
+        model: Gfm.SortListModel = coremodel.props.albums_sort
         self._flowbox.bind_model(model, self._create_widget)
         self._flowbox.set_hadjustment(self._scrolled_window.get_hadjustment())
         self._flowbox.set_vadjustment(self._scrolled_window.get_vadjustment())
