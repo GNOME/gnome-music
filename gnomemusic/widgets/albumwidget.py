@@ -22,7 +22,10 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from __future__ import annotations
 from enum import IntEnum
+from typing import Optional
+import typing
 
 from gettext import ngettext
 
@@ -31,6 +34,11 @@ from gi.repository import GObject, Grl, Gtk
 from gnomemusic.utils import ArtSize
 from gnomemusic.widgets.disclistboxwidget import DiscBox
 from gnomemusic.widgets.disclistboxwidget import DiscListBox  # noqa: F401
+if typing.TYPE_CHECKING:
+    from gnomemusic.application import Application
+    from gnomemusic.corealbum import CoreAlbum
+    from gnomemusic.coremodel import CoreModel
+    from gnomemusic.player import Player
 
 
 @Gtk.Template(resource_path='/org/gnome/Music/ui/AlbumWidget.ui')
@@ -67,7 +75,8 @@ class AlbumWidget(Gtk.EventBox):
         ALBUM = 0
         PLAYBACK = 1
 
-    def __init__(self, application, mode):
+    def __init__(
+            self, application: Application, mode: AlbumWidget.Mode) -> None:
         """Initialize the AlbumWidget.
 
         :param GtkApplication application: The application object
@@ -75,14 +84,14 @@ class AlbumWidget(Gtk.EventBox):
         """
         super().__init__()
 
-        self._application = application
-        self._corealbum = None
-        self._coremodel = self._application.props.coremodel
-        self._duration_signal_id = 0
-        self._model_signal_id = 0
+        self._application: Application = application
+        self._corealbum: Optional[CoreAlbum] = None
+        self._coremodel: CoreModel = self._application.props.coremodel
+        self._duration_signal_id: int = 0
+        self._model_signal_id: int = 0
 
         self._art_stack.props.size = ArtSize.LARGE
-        self._player = self._application.props.player
+        self._player: Player = self._application.props.player
 
         self._mode: AlbumWidget.Mode = mode
         album_mode: bool = (self._mode == AlbumWidget.Mode.ALBUM)
