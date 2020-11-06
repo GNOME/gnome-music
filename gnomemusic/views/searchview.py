@@ -22,10 +22,13 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from __future__ import annotations
 from enum import IntEnum
 from gettext import gettext as _
+from typing import Optional
+import typing
 
-from gi.repository import Gdk, GObject, Gtk
+from gi.repository import Gdk, Gfm, GObject, Gtk
 
 from gnomemusic.search import Search
 from gnomemusic.widgets.albumcover import AlbumCover
@@ -34,6 +37,11 @@ from gnomemusic.widgets.headerbar import HeaderBar
 from gnomemusic.widgets.artistalbumswidget import ArtistAlbumsWidget
 from gnomemusic.widgets.artistsearchtile import ArtistSearchTile
 from gnomemusic.widgets.songwidget import SongWidget
+if typing.TYPE_CHECKING:
+    from gnomemusic.application import Application
+    from gnomemusic.coremodel import CoreModel
+    from gnomemusic.player import Player
+    from gnomemusic.window import Window
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/SearchView.ui")
@@ -73,7 +81,7 @@ class SearchView(Gtk.Stack):
     _view_all_albums = Gtk.Template.Child()
     _view_all_artists = Gtk.Template.Child()
 
-    def __init__(self, application):
+    def __init__(self, application: Application) -> None:
         """Initialize SearchView
 
         :param GtkApplication application: The Application object
@@ -82,16 +90,18 @@ class SearchView(Gtk.Stack):
 
         self.props.name = "search"
 
-        self._application = application
-        self._coremodel = application.props.coremodel
-        self._model = self._coremodel.props.songs_search
-        self._album_model = self._coremodel.props.albums_search
-        self._album_filter = self._coremodel.props.albums_search_filter
+        self._application: Application = application
+        self._coremodel: CoreModel = application.props.coremodel
+
+        model_type: Gfm.FilterListModel = Gfm.FilterListModel
+        self._model: model_type = self._coremodel.props.songs_search
+        self._album_model: model_type = self._coremodel.props.albums_search
+        self._album_filter: model_type = self._coremodel.props.albums_search_filter  # noqa :E501
         self._album_filter.set_filter_func(
             self._core_filter, self._album_model, 12)
 
-        self._artist_model = self._coremodel.props.artists_search
-        self._artist_filter = self._coremodel.props.artists_search_filter
+        self._artist_model: model_type = self._coremodel.props.artists_search
+        self._artist_filter: model_type = self._coremodel.props.artists_search_filter  # noqa :E501
         self._artist_filter.set_filter_func(
             self._core_filter, self._artist_model, 6)
 
@@ -116,10 +126,10 @@ class SearchView(Gtk.Stack):
             "size-allocate", self._on_artist_flowbox_size_allocate)
         self._on_artist_model_items_changed(self._artist_filter, 0, 0, 0)
 
-        self._player = self._application.props.player
+        self._player: Player = self._application.props.player
 
-        self._window = application.props.window
-        self._headerbar = self._window._headerbar
+        self._window: Window = application.props.window
+        self._headerbar: HeaderBar = self._window._headerbar
 
         self.connect("notify::selection-mode", self._on_selection_mode_changed)
 
@@ -135,9 +145,9 @@ class SearchView(Gtk.Stack):
 
         self.add(self._album_widget)
 
-        self._scrolled_artist_window = None
+        self._scrolled_artist_window: Optional[Gtk.ScrolledWindow] = None
 
-        self._search_mode_active = False
+        self._search_mode_active: bool = False
 
     def _core_filter(self, coreitem, coremodel, nr_items):
         if coremodel.get_n_items() <= 5:
