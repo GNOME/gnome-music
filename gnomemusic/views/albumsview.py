@@ -62,7 +62,7 @@ class AlbumsView(Gtk.Stack):
         self._application = application
         self._window = application.props.window
         self._headerbar = self._window._headerbar
-        self._adjustment_timeout_id = None
+        self._adjustment_timeout_id = 0
         self._viewport = self._scrolled_window.get_child()
         self._widget_counter = 1
         self._ctrl_hold = False
@@ -96,9 +96,9 @@ class AlbumsView(Gtk.Stack):
             "changed", self._on_vadjustment_changed)
 
     def _on_vadjustment_changed(self, adjustment):
-        if self._adjustment_timeout_id is not None:
+        if self._adjustment_timeout_id != 0:
             GLib.source_remove(self._adjustment_timeout_id)
-            self._adjustment_timeout_id = None
+            self._adjustment_timeout_id = 0
 
         self._adjustment_timeout_id = GLib.timeout_add(
             200, self._retrieve_covers, adjustment.props.value,
@@ -142,7 +142,7 @@ class AlbumsView(Gtk.Stack):
         for albumcover in retrieve_list:
             albumcover.retrieve()
 
-        self._adjustment_timeout_id = None
+        self._adjustment_timeout_id = 0
 
         return GLib.SOURCE_REMOVE
 
