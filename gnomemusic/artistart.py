@@ -52,7 +52,7 @@ class ArtistArt(GObject.GObject):
             self._artist, None, "artist")
         if (not success
                 or not thumb_file.query_exists()):
-            self._coreartist.props.thumbnail = "loading"
+            self._coreartist.props.thumbnail = "generic"
             return False
 
         self._coreartist.props.thumbnail = thumb_file.get_uri()

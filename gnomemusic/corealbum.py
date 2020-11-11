@@ -137,11 +137,11 @@ class CoreAlbum(GObject.GObject):
     def thumbnail(self):
         """Album art thumbnail retrieval
 
-        :return: The album art uri or "generic" or "loading"
+        :return: The album art uri or "generic"
         :rtype: string
         """
         if self._thumbnail is None:
-            self._thumbnail = "loading"
+            self._thumbnail = "generic"
             AlbumArt(self._application, self)
 
         return self._thumbnail
@@ -150,6 +150,6 @@ class CoreAlbum(GObject.GObject):
     def thumbnail(self, value):
         """Album art thumbnail setter
 
-        :param string value: uri, "generic" or "loading"
+        :param string value: uri or "generic"
         """
         self._thumbnail = value

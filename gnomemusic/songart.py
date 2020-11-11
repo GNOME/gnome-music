@@ -64,7 +64,7 @@ class SongArt(GObject.GObject):
             self._artist, self._album, "album")
         if (not success
                 or not thumb_file.query_exists()):
-            self._coresong.props.thumbnail = "loading"
+            self._coresong.props.thumbnail = "generic"
             return False
 
         self._coresong.props.thumbnail = thumb_file.get_uri()
