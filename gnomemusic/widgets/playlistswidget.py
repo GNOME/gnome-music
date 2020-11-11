@@ -32,6 +32,7 @@ from gnomemusic.widgets.playlistcontextmenu import PlaylistContextMenu
 from gnomemusic.widgets.playlistcontrols import PlaylistControls  # noqa: F401
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
 from gnomemusic.widgets.songwidget import SongWidget
+from gnomemusic.widgets.songwidgetmenu import SongWidgetMenu
 if typing.TYPE_CHECKING:
     from gnomemusic.application import Application
     from gnomemusic.coresong import CoreSong
@@ -107,6 +108,8 @@ class PlaylistsWidget(Gtk.Box):
         song_widget = SongWidget(coresong, can_dnd, True)
         song_widget.props.selectable = True
         song_widget.props.show_song_number = False
+        song_widget.props.menu = SongWidgetMenu(
+            self._application, song_widget, playlist)
 
         if can_dnd is True:
             song_widget.connect("widget_moved", self._on_song_widget_moved)

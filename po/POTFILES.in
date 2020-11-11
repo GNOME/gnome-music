@@ -19,6 +19,7 @@ data/ui/SearchHeaderBar.ui
 data/ui/SearchView.ui
 data/ui/SelectionBarMenuButton.ui
 data/ui/SelectionToolbar.ui
+data/ui/SongWidgetMenu.ui
 gnomemusic/__init__.py
 gnomemusic/application.py
 gnomemusic/grilowrappers/grltrackerplaylists.py
