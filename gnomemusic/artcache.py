@@ -122,12 +122,10 @@ def _make_icon_frame(
 
 
 class DefaultIcon(GObject.GObject):
-    """Provides the symbolic fallback and loading icons."""
+    """Provides the symbolic fallback icons."""
 
     class Type(Enum):
         ARTIST = "avatar-default-symbolic"
-        ARTIST_LOADING = "content-loading-symbolic"
-        LOADING = "content-loading-symbolic"
         MUSIC = "folder-music-symbolic"
 
     _cache: Dict[
@@ -193,7 +191,6 @@ class ArtCache(GObject.GObject):
 
         self._coreobject = None
         self._default_icon = None
-        self._loading_icon = None
 
     def query(self, coreobject):
         """Start the cache query
@@ -203,22 +200,15 @@ class ArtCache(GObject.GObject):
         self._coreobject = coreobject
 
         if isinstance(coreobject, CoreArtist):
-            self._loading_icon = DefaultIcon().get(
-                DefaultIcon.Type.ARTIST_LOADING, self._size, self._scale, True)
             self._default_icon = DefaultIcon().get(
                 DefaultIcon.Type.ARTIST, self._size, self._scale, True)
         elif (isinstance(coreobject, CoreAlbum)
                 or isinstance(coreobject, CoreSong)):
-            self._loading_icon = DefaultIcon().get(
-                DefaultIcon.Type.LOADING, self._size, self._scale)
             self._default_icon = DefaultIcon().get(
                 DefaultIcon.Type.MUSIC, self._size, self._scale)
 
         thumbnail_uri = coreobject.props.thumbnail
-        if thumbnail_uri == "loading":
-            self.emit("result", self._loading_icon)
-            return
-        elif thumbnail_uri == "generic":
+        if thumbnail_uri == "generic":
             self.emit("result", self._default_icon)
             return
 

@@ -131,11 +131,11 @@ class CoreSong(GObject.GObject):
     def thumbnail(self) -> str:
         """Song art thumbnail retrieval
 
-        :return: The song art uri or "generic" or "loading"
+        :return: The song art uri or "generic"
         :rtype: string
         """
         if self._thumbnail is None:
-            self._thumbnail = "loading"
+            self._thumbnail = "generic"
             SongArt(self._application, self)
 
         return self._thumbnail
@@ -144,7 +144,7 @@ class CoreSong(GObject.GObject):
     def thumbnail(self, value: str) -> None:
         """Song art thumbnail setter
 
-        :param string value: uri, "generic" or "loading"
+        :param string value: uri or "generic"
         """
         self._thumbnail = value
 

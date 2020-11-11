@@ -376,7 +376,7 @@ class MPRIS(DBusInterface):
             metadata['xesam:trackNumber'] = GLib.Variant('i', track_nr)
 
         art_url = coresong.props.thumbnail
-        if art_url not in ["generic", "loading"]:
+        if art_url != "generic":
             metadata['mpris:artUrl'] = GLib.Variant('s', art_url)
 
         return metadata
