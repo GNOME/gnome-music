@@ -23,9 +23,11 @@
 # delete this exception statement from your version.
 
 from __future__ import annotations
+from gettext import gettext as _
+from typing import Optional
 import typing
 
-from gi.repository import Gdk, GObject, Gtk
+from gi.repository import Gdk, GLib, GObject, Gtk
 
 from gnomemusic.widgets.playlistcontrols import PlaylistControls  # noqa: F401
 from gnomemusic.widgets.songwidget import SongWidget
@@ -43,7 +45,9 @@ class PlaylistsWidget(Gtk.Box):
 
     __gtype_name__ = "PlaylistsWidget"
 
+    _empty_page = Gtk.Template.Child()
     _pl_ctrls = Gtk.Template.Child()
+    _playlist_container = Gtk.Template.Child()
     _songs_list = Gtk.Template.Child()
     _songs_list_ctrlr = Gtk.Template.Child()
 
@@ -63,6 +67,9 @@ class PlaylistsWidget(Gtk.Box):
         self._player = application.props.player
         self._playlists_view = playlists_view
 
+        self._previous_playlist: Optional[Playlist] = None
+        self._count_id = 0
+        self._count_timeout = 0
         self._playlists_view.connect(
             "notify::current-playlist", self._on_current_playlist_changed)
 
@@ -80,10 +87,51 @@ class PlaylistsWidget(Gtk.Box):
 
         self._songs_list.bind_model(
             playlist.props.model, self._create_song_widget, playlist)
+
+        if self._count_id > 0:
+            self._previous_playlist.disconnect(self._count_id)
+            self._count_id = 0
+
+        self._previous_playlist = playlist
+        self._count_id = playlist.connect(
+            "notify::count", self._on_count_changed)
+        if playlist.props.count == 0:
+            self._pl_ctrls.props.visible = False
+            self._playlist_container.props.visible = False
+            self._count_timeout = GLib.timeout_add(
+                500, self._on_count_changed, playlist)
+        else:
+            self._on_count_changed(playlist)
+
         if playlist.props.is_smart:
             playlist.update()
 
         self._pl_ctrls.props.playlist = playlist
+
+    def _on_count_changed(
+            self, playlist: Playlist,
+            value: GObject.GParamSpec = None) -> None:
+        if self._count_timeout > 0:
+            GLib.source_remove(self._count_timeout)
+            self._count_timeout = 0
+
+        if playlist.props.count == 0:
+            self._pl_ctrls.props.visible = False
+            self._playlist_container.props.visible = False
+            self._empty_page.props.visible = True
+            self._empty_page.props.icon_name = playlist.props.icon_name
+
+            if playlist.props.is_smart:
+                empty_label = _("{} Will Appear Here".format(
+                    playlist.props.title))
+            else:
+                empty_label = _("{} Is Empty".format(playlist.props.title))
+
+            self._empty_page.props.title = empty_label
+        else:
+            self._empty_page.props.visible = False
+            self._pl_ctrls.props.visible = True
+            self._playlist_container.props.visible = True
 
     def _create_song_widget(
             self, coresong: CoreSong, playlist: Playlist) -> Gtk.ListBoxRow:
