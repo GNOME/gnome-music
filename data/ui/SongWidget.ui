@@ -180,6 +180,22 @@
             </child>
           </object>
         </child>
+	<child>
+          <object class="GtkMenuButton" id="_menu_button">
+            <property name="visible">False</property>
+            <property name="can-focus">True</property>
+            <style>
+              <class name="flat"/>
+            </style>
+            <child>
+              <object class="GtkImage">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="icon-name">view-more-symbolic</property>
+              </object>
+            </child>
+          </object>
+        </child>
       </object>
     </child>
   </template>

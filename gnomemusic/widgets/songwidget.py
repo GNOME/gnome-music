@@ -23,6 +23,7 @@
 # delete this exception statement from your version.
 
 from enum import IntEnum
+from typing import Optional
 
 import gi
 gi.require_version('Dazzle', '1.0')
@@ -65,6 +66,7 @@ class SongWidget(Gtk.ListBoxRow):
     _artist_label = Gtk.Template.Child()
     _controller_motion = Gtk.Template.Child()
     _dnd_eventbox = Gtk.Template.Child()
+    _menu_button = Gtk.Template.Child()
     _select_button = Gtk.Template.Child()
     _number_label = Gtk.Template.Child()
     _title_label = Gtk.Template.Child()
@@ -317,3 +319,23 @@ class SongWidget(Gtk.ListBoxRow):
             new_nr = ""
 
         self._number_label.props.label = str(new_nr)
+
+    @GObject.Property(type=Gtk.Popover, default=None)
+    def menu(self) -> Optional[Gtk.Popover]:
+        """Get the song menu.
+
+        If no menu is set, the menu button is not displayed.
+
+        :returns: song menu
+        :rtype: Gtk.PopoverMenu
+        """
+        return self._menu_button.props.popover
+
+    @menu.setter  # type: ignore
+    def menu(self, menu: Optional[Gtk.PopoverMenu]) -> None:
+        """Set song menu.
+
+        :param Gtk.PopoverMenu menu: new song menu
+        """
+        self._menu_button.props.popover = menu
+        self._menu_button.props.visible = (menu is not None)
