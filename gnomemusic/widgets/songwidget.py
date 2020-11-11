@@ -51,7 +51,6 @@ class SongWidget(Gtk.EventBox):
     __gtype_name__ = 'SongWidget'
 
     __gsignals__ = {
-        'selection-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
         "widget-moved": (GObject.SignalFlags.RUN_FIRST, None, (int,))
     }
 
@@ -159,10 +158,6 @@ class SongWidget(Gtk.EventBox):
                 Gdk.DragAction.MOVE)
             self.drag_dest_set(
                 Gtk.DestDefaults.ALL, entries, Gdk.DragAction.MOVE)
-
-    @Gtk.Template.Callback()
-    def _on_selection_changed(self, klass, value):
-        self.emit('selection-changed')
 
     @Gtk.Template.Callback()
     def _on_drag_begin(self, klass, context):
