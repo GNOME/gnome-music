@@ -177,9 +177,14 @@ class GrlTrackerWrapper(GObject.GObject):
         if change_type not in self._batch_changed_media_ids.keys():
             self._batch_changed_media_ids[change_type] = []
 
+        # Remove notifications contain two events for the same file.
+        # One event as a file uri and the other one as a
+        # nie:InformationElement. Only the nie:InformationElement event
+        # needs to be kept because it is saved in the hash.
         changed_medias = [
             media.get_id() for media in medias
-            if media.is_audio() or media.is_container()]
+            if ((media.is_audio() or media.is_container())
+                and media.get_id().startswith("urn:"))]
         self._batch_changed_media_ids[change_type].extend(changed_medias)
 
         if self._content_changed_timeout == 0:
