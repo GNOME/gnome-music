@@ -238,16 +238,9 @@ class CoreModel(GObject.GObject):
         songs_added = []
 
         if playlist_type == PlayerPlaylist.Type.ALBUM:
-            proxy_model = Gio.ListStore.new(Gio.ListModel)
+            self._current_playlist_model = model
 
-            for disc in model:
-                proxy_model.append(disc.props.model)
-
-            self._flatten_model = Gfm.FlattenListModel.new(
-                CoreSong, proxy_model)
-            self._current_playlist_model = self._flatten_model
-
-            for model_song in self._flatten_model:
+            for model_song in model:
                 song = CoreSong(self._application, model_song.props.media)
                 _bind_song_properties(model_song, song)
                 songs_added.append(song)

@@ -22,6 +22,10 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from __future__ import annotations
+
+import typing
+
 import gi
 gi.require_versions({"Gfm": "0.1", "Grl": "0.3"})
 from gi.repository import Gfm, Gio, Grl, GObject
@@ -29,6 +33,9 @@ from gi.repository import Gfm, Gio, Grl, GObject
 import gnomemusic.utils as utils
 
 from gnomemusic.albumart import AlbumArt
+from gnomemusic.coresong import CoreSong
+if typing.TYPE_CHECKING:
+    from gnomemusic.coredisc import CoreDisc
 
 
 class CoreAlbum(GObject.GObject):
@@ -57,6 +64,14 @@ class CoreAlbum(GObject.GObject):
         self._selected = False
         self._thumbnail = None
 
+        self._disc_model_proxy = Gio.ListStore.new(Gio.ListModel)
+        self._disc_model = Gio.ListStore()
+        self._disc_model_sort = Gfm.SortListModel.new(
+            self._disc_model,
+            utils.wrap_list_store_sort_func(self._disc_order_sort))
+        self._disc_model_sort.connect(
+            "items-changed", self._on_core_items_changed)
+
         self.update(media)
 
     def update(self, media):
@@ -71,19 +86,14 @@ class CoreAlbum(GObject.GObject):
         self.props.url = media.get_url()
         self.props.year = utils.get_media_year(media)
 
-    def _get_album_model(self):
-        disc_model = Gio.ListStore()
-        disc_model_sort = Gfm.SortListModel.new(disc_model)
+    @staticmethod
+    def _disc_order_sort(disc_a: CoreDisc, disc_b: CoreDisc) -> int:
+        return disc_a.props.disc_nr - disc_b.props.disc_nr
 
-        def _disc_order_sort(disc_a, disc_b):
-            return disc_a.props.disc_nr - disc_b.props.disc_nr
-
-        disc_model_sort.set_sort_func(
-            utils.wrap_list_store_sort_func(_disc_order_sort))
-
-        self._coregrilo.get_album_discs(self.props.media, disc_model)
-
-        return disc_model_sort
+    def _load_album_model(self):
+        self._coregrilo.get_album_discs(self.props.media, self._disc_model)
+        self._model = Gfm.FlattenListModel.new(
+            CoreSong, self._disc_model_proxy)
 
     @GObject.Property(
         type=bool, default=False, flags=GObject.ParamFlags.READABLE)
@@ -96,16 +106,33 @@ class CoreAlbum(GObject.GObject):
         return self._model is not None
 
     @GObject.Property(
-        type=Gio.ListModel, default=None, flags=GObject.ParamFlags.READABLE)
+        type=Gfm.FlattenListModel, default=None,
+        flags=GObject.ParamFlags.READABLE)
     def model(self):
+        """Model which contains all the songs of an album.
+
+        :returns: songs model
+        :rtype: Gfm.FlattenListModel
+        """
         if not self.props.model_loaded:
-            self._model = self._get_album_model()
-            self._model.connect("items-changed", self._on_list_items_changed)
-            self._model.items_changed(0, 0, self._model.get_n_items())
+            self._load_album_model()
 
         return self._model
 
-    def _on_list_items_changed(self, model, position, removed, added):
+    @GObject.Property(
+        type=Gfm.SortListModel, flags=GObject.ParamFlags.READABLE)
+    def disc_model(self) -> Gfm.SortListModel:
+        """Model which contains all the discs of an album.
+
+        :returns: discs model
+        :rtype: Gfm.SortListModel
+        """
+        if not self.props.model_loaded:
+            self._load_album_model()
+
+        return self._disc_model_sort
+
+    def _on_core_items_changed(self, model, position, removed, added):
         with self.freeze_notify():
             for coredisc in model:
                 coredisc.props.selected = self.props.selected
@@ -113,13 +140,14 @@ class CoreAlbum(GObject.GObject):
             if added > 0:
                 for i in range(added):
                     coredisc = model[position + i]
+                    self._disc_model_proxy.append(coredisc.props.model)
                     coredisc.connect(
                         "notify::duration", self._on_duration_changed)
 
     def _on_duration_changed(self, coredisc, duration):
         duration = 0
 
-        for coredisc in self.props.model:
+        for coredisc in self._disc_model:
             duration += coredisc.props.duration
 
         self.props.duration = duration

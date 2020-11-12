@@ -84,7 +84,7 @@ class AlbumWidget(Gtk.EventBox):
         """
         if self._corealbum:
             self._corealbum.disconnect(self._duration_signal_id)
-            self._corealbum.props.model.disconnect(self._model_signal_id)
+            self._corealbum.props.disc_model.disconnect(self._model_signal_id)
 
         self._corealbum = corealbum
 
@@ -103,7 +103,7 @@ class AlbumWidget(Gtk.EventBox):
 
         self._set_composer_label(corealbum)
 
-        self._album_model = self._corealbum.props.model
+        self._album_model = self._corealbum.props.disc_model
         self._model_signal_id = self._album_model.connect_after(
             "items-changed", self._on_model_items_changed)
         self._disc_list_box.bind_model(self._album_model, self._create_widget)
