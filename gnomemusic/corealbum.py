@@ -24,6 +24,7 @@
 
 from __future__ import annotations
 
+from typing import Optional
 import typing
 
 import gi
@@ -35,7 +36,9 @@ import gnomemusic.utils as utils
 from gnomemusic.albumart import AlbumArt
 from gnomemusic.coresong import CoreSong
 if typing.TYPE_CHECKING:
+    from gnomemusic.application import Application
     from gnomemusic.coredisc import CoreDisc
+    from gnomemusic.coregrilo import CoreGrilo
 
 
 class CoreAlbum(GObject.GObject):
@@ -50,7 +53,7 @@ class CoreAlbum(GObject.GObject):
     url = GObject.Property(type=str)
     year = GObject.Property(type=str, default="----")
 
-    def __init__(self, application, media):
+    def __init__(self, application: Application, media: Grl.Media) -> None:
         """Initiate the CoreAlbum object
 
         :param Application application: The application object
@@ -58,11 +61,11 @@ class CoreAlbum(GObject.GObject):
         """
         super().__init__()
 
-        self._application = application
-        self._coregrilo = application.props.coregrilo
-        self._model = None
-        self._selected = False
-        self._thumbnail = None
+        self._application: Application = application
+        self._coregrilo: CoreGrilo = application.props.coregrilo
+        self._model: Optional[Gfm.FlattenListModel] = None
+        self._selected: bool = False
+        self._thumbnail: Optional[str] = None
 
         self._disc_model_proxy = Gio.ListStore.new(Gio.ListModel)
         self._disc_model = Gio.ListStore()
@@ -74,7 +77,7 @@ class CoreAlbum(GObject.GObject):
 
         self.update(media)
 
-    def update(self, media):
+    def update(self, media: Grl.Media) -> None:
         """Update the CoreAlbum object with new info
 
         :param Grl.Media media: A media object
@@ -90,7 +93,7 @@ class CoreAlbum(GObject.GObject):
     def _disc_order_sort(disc_a: CoreDisc, disc_b: CoreDisc) -> int:
         return disc_a.props.disc_nr - disc_b.props.disc_nr
 
-    def _load_album_model(self):
+    def _load_album_model(self) -> None:
         self._coregrilo.get_album_discs(self.props.media, self._disc_model)
         self._model = Gfm.FlattenListModel.new(
             CoreSong, self._disc_model_proxy)
@@ -108,7 +111,7 @@ class CoreAlbum(GObject.GObject):
     @GObject.Property(
         type=Gfm.FlattenListModel, default=None,
         flags=GObject.ParamFlags.READABLE)
-    def model(self):
+    def model(self) -> Gfm.FlattenListModel:
         """Model which contains all the songs of an album.
 
         :returns: songs model
@@ -132,7 +135,9 @@ class CoreAlbum(GObject.GObject):
 
         return self._disc_model_sort
 
-    def _on_core_items_changed(self, model, position, removed, added):
+    def _on_core_items_changed(
+            self, model: Gfm.SortListModel, position: int, removed: int,
+            added: int) -> None:
         with self.freeze_notify():
             for coredisc in model:
                 coredisc.props.selected = self.props.selected
@@ -144,7 +149,8 @@ class CoreAlbum(GObject.GObject):
                     coredisc.connect(
                         "notify::duration", self._on_duration_changed)
 
-    def _on_duration_changed(self, coredisc, duration):
+    def _on_duration_changed(
+            self, coredisc: CoreDisc, value: GObject.ParamSpec) -> None:
         duration = 0
 
         for coredisc in self._disc_model:
@@ -153,11 +159,11 @@ class CoreAlbum(GObject.GObject):
         self.props.duration = duration
 
     @GObject.Property(type=bool, default=False)
-    def selected(self):
+    def selected(self) -> bool:
         return self._selected
 
     @selected.setter  # type: ignore
-    def selected(self, value):
+    def selected(self, value: bool) -> None:
         if value == self._selected:
             return
 
@@ -171,7 +177,7 @@ class CoreAlbum(GObject.GObject):
         self.props.model.items_changed(0, 0, 0)
 
     @GObject.Property(type=str, default=None)
-    def thumbnail(self):
+    def thumbnail(self) -> Optional[str]:
         """Album art thumbnail retrieval
 
         :return: The album art uri or "generic" or "loading"
@@ -184,7 +190,7 @@ class CoreAlbum(GObject.GObject):
         return self._thumbnail
 
     @thumbnail.setter  # type: ignore
-    def thumbnail(self, value):
+    def thumbnail(self, value: str) -> None:
         """Album art thumbnail setter
 
         :param string value: uri, "generic" or "loading"
