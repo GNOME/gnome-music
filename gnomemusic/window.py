@@ -184,6 +184,7 @@ class Window(Gtk.ApplicationWindow):
 
         state = self._app.props.coregrilo.props.tracker_available
         empty_view = self.views[View.EMPTY]
+        empty_view.props.visible = True
         if state == TrackerState.UNAVAILABLE:
             empty_view.props.state = EmptyView.State.NO_TRACKER
         elif state == TrackerState.OUTDATED:
