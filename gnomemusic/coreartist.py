@@ -24,6 +24,7 @@
 
 from __future__ import annotations
 
+from typing import Optional
 import typing
 
 import gi
@@ -34,7 +35,10 @@ from gnomemusic.artistart import ArtistArt
 from gnomemusic.coresong import CoreSong
 import gnomemusic.utils as utils
 if typing.TYPE_CHECKING:
+    from gnomemusic.application import Application
     from gnomemusic.corealbum import CoreAlbum
+    from gnomemusic.coregrilo import CoreGrilo
+    from gnomemusic.coremodel import CoreModel
 
 
 class CoreArtist(GObject.GObject):
@@ -44,7 +48,7 @@ class CoreArtist(GObject.GObject):
     artist = GObject.Property(type=str)
     media = GObject.Property(type=Grl.Media)
 
-    def __init__(self, application, media):
+    def __init__(self, application: Application, media: Grl.Media) -> None:
         """Initiate the CoreArtist object
 
         :param Application application: The application object
@@ -52,12 +56,12 @@ class CoreArtist(GObject.GObject):
         """
         super().__init__()
 
-        self._application = application
-        self._coregrilo = application.props.coregrilo
-        self._coremodel = application.props.coremodel
-        self._model = None
-        self._selected = False
-        self._thumbnail = None
+        self._application: Application = application
+        self._coregrilo: CoreGrilo = application.props.coregrilo
+        self._coremodel: CoreModel = application.props.coremodel
+        self._model: Optional[Gfm.FlattenListModel] = None
+        self._selected: bool = False
+        self._thumbnail: Optional[str] = None
 
         self._albums_model_proxy = Gio.ListStore.new(Gio.ListModel)
         self._albums_model_filter = Gfm.FilterListModel.new(
@@ -68,7 +72,7 @@ class CoreArtist(GObject.GObject):
 
         self.update(media)
 
-    def update(self, media):
+    def update(self, media: Grl.Media) -> None:
         self.props.media = media
         self.props.artist = utils.get_artist_name(media)
 
@@ -76,7 +80,7 @@ class CoreArtist(GObject.GObject):
     def _album_sort(album_a: CoreAlbum, album_b: CoreAlbum) -> None:
         return album_a.props.year > album_b.props.year
 
-    def _load_artist_album_model(self):
+    def _load_artist_album_model(self) -> None:
         self._model = Gfm.FlattenListModel.new(
             CoreSong, self._albums_model_proxy)
 
@@ -88,7 +92,7 @@ class CoreArtist(GObject.GObject):
             "items-changed", self._on_albums_changed)
 
     @GObject.Property(type=Gfm.FlattenListModel, default=None)
-    def model(self):
+    def model(self) -> Gfm.FlattenListModel:
         """Model which contains all the songs of an artist.
 
         :returns: songs model
@@ -111,7 +115,9 @@ class CoreArtist(GObject.GObject):
 
         return self._albums_model_sort
 
-    def _on_albums_changed(self, model, pos, removed, added):
+    def _on_albums_changed(
+            self, model: Gfm.SortListModel, pos: int, removed: int,
+            added: int) -> None:
         with self.freeze_notify():
             for corealbum in model:
                 corealbum.props.selected = self.props.selected
@@ -123,11 +129,11 @@ class CoreArtist(GObject.GObject):
                         corealbum.props.model)
 
     @GObject.Property(type=bool, default=False)
-    def selected(self):
+    def selected(self) -> bool:
         return self._selected
 
     @selected.setter  # type: ignore
-    def selected(self, value):
+    def selected(self, value: bool) -> None:
         if value == self._selected:
             return
 
@@ -141,7 +147,7 @@ class CoreArtist(GObject.GObject):
         self.props.model.items_changed(0, 0, 0)
 
     @GObject.Property(type=str, default=None)
-    def thumbnail(self):
+    def thumbnail(self) -> str:
         """Artist art thumbnail retrieval
 
         :return: The artist art uri or "generic" or "loading"
@@ -154,7 +160,7 @@ class CoreArtist(GObject.GObject):
         return self._thumbnail
 
     @thumbnail.setter  # type: ignore
-    def thumbnail(self, value):
+    def thumbnail(self, value: str) -> None:
         """Artist art thumbnail setter
 
         :param string value: uri, "generic" or "loading"
