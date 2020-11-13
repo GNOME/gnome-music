@@ -93,6 +93,7 @@ class Window(Gtk.ApplicationWindow):
         self._player = app.props.player
         self._search = app.props.search
 
+        self._startup_timeout_id = 0
         self._setup_view()
 
         MediaKeys(self._player, self)
@@ -174,10 +175,8 @@ class Window(Gtk.ApplicationWindow):
         self._app.props.coregrilo.connect(
             "notify::tracker-available", self._on_tracker_available)
 
-        if self._app.props.coremodel.props.songs_available:
-            self._switch_to_player_view()
-        else:
-            self._switch_to_empty_view()
+        self._startup_timeout_id = GLib.timeout_add(
+            2000, self._on_songs_available, None, None)
 
     def _switch_to_empty_view(self):
         did_initial_state = self._settings.get_boolean('did-initial-state')
@@ -204,6 +203,10 @@ class Window(Gtk.ApplicationWindow):
             self._headerbar_stack.props.visible_child_name = "main"
 
     def _on_songs_available(self, klass, value):
+        if self._startup_timeout_id > 0:
+            GLib.source_remove(self._startup_timeout_id)
+            self._startup_timeout_id = 0
+
         if self._app.props.coremodel.props.songs_available:
             self._switch_to_player_view()
         else:
