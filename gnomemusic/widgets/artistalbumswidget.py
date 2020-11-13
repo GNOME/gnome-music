@@ -49,7 +49,7 @@ class ArtistAlbumsWidget(Gtk.ListBox):
 
         self._application = application
         self._artist = coreartist
-        self._model = coreartist.props.model
+        self._model = coreartist.props.albums_model
         self._player = self._application.props.player
 
         self._cover_size_group = Gtk.SizeGroup.new(

@@ -22,12 +22,19 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from __future__ import annotations
+
+import typing
+
 import gi
 gi.require_versions({"Gfm": "0.1", "Grl": "0.3"})
 from gi.repository import Gfm, Gio, Grl, GObject
 
 from gnomemusic.artistart import ArtistArt
+from gnomemusic.coresong import CoreSong
 import gnomemusic.utils as utils
+if typing.TYPE_CHECKING:
+    from gnomemusic.corealbum import CoreAlbum
 
 
 class CoreArtist(GObject.GObject):
@@ -52,42 +59,68 @@ class CoreArtist(GObject.GObject):
         self._selected = False
         self._thumbnail = None
 
+        self._albums_model_proxy = Gio.ListStore.new(Gio.ListModel)
+        self._albums_model_filter = Gfm.FilterListModel.new(
+            self._coremodel.props.albums)
+        self._albums_model_sort = Gfm.SortListModel.new(
+            self._albums_model_filter,
+            utils.wrap_list_store_sort_func(self._album_sort))
+
         self.update(media)
 
     def update(self, media):
         self.props.media = media
         self.props.artist = utils.get_artist_name(media)
 
-    def _get_artist_album_model(self):
-        albums_model_filter = Gfm.FilterListModel.new(
-            self._coremodel.props.albums)
-        albums_model_filter.set_filter_func(lambda a: False)
+    @staticmethod
+    def _album_sort(album_a: CoreAlbum, album_b: CoreAlbum) -> None:
+        return album_a.props.year > album_b.props.year
 
-        albums_model_sort = Gfm.SortListModel.new(albums_model_filter)
+    def _load_artist_album_model(self):
+        self._model = Gfm.FlattenListModel.new(
+            CoreSong, self._albums_model_proxy)
 
+        self._albums_model_filter.set_filter_func(lambda a: False)
         self._coregrilo.get_artist_albums(
-            self.props.media, albums_model_filter)
+            self.props.media, self._albums_model_filter)
 
-        def _album_sort(album_a, album_b):
-            return album_a.props.year > album_b.props.year
+        self._albums_model_sort.connect(
+            "items-changed", self._on_albums_changed)
 
-        albums_model_sort.set_sort_func(
-            utils.wrap_list_store_sort_func(_album_sort))
-
-        return albums_model_sort
-
-    @GObject.Property(type=Gio.ListModel, default=None)
+    @GObject.Property(type=Gfm.FlattenListModel, default=None)
     def model(self):
+        """Model which contains all the songs of an artist.
+
+        :returns: songs model
+        :rtype: Gfm.FlattenListModel
+        """
         if self._model is None:
-            self._model = self._get_artist_album_model()
-            self._model.connect("items-changed", self._on_items_changed)
+            self._load_artist_album_model()
 
         return self._model
 
-    def _on_items_changed(self, model, pos, removed, added):
+    @GObject.Property(type=Gio.ListModel, flags=GObject.ParamFlags.READABLE)
+    def albums_model(self) -> Gio.ListModel:
+        """Model which contains all the albums of an artists.
+
+        :returns: albums model
+        :rtype: Gfm.SortListModel
+        """
+        if self._model is None:
+            self._load_artist_album_model()
+
+        return self._albums_model_sort
+
+    def _on_albums_changed(self, model, pos, removed, added):
         with self.freeze_notify():
-            for corealbum in self._model:
+            for corealbum in model:
                 corealbum.props.selected = self.props.selected
+
+            if added > 0:
+                for i in range(added):
+                    corealbum = model[pos + i]
+                    self._albums_model_proxy.append(
+                        corealbum.props.model)
 
     @GObject.Property(type=bool, default=False)
     def selected(self):
