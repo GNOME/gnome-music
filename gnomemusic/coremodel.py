@@ -85,7 +85,7 @@ class CoreModel(GObject.GObject):
         super().__init__()
 
         self._flatten_model = None
-        self._player_signal_id = None
+        self._player_signal_id = 0
         self._current_playlist_model = None
         self._previous_playlist_model = None
 
@@ -238,9 +238,9 @@ class CoreModel(GObject.GObject):
             if song.props.state in played_states:
                 song.props.state = SongWidget.State.UNPLAYED
 
-        if self._player_signal_id is not None:
+        if self._player_signal_id != 0:
             self._current_playlist_model.disconnect(self._player_signal_id)
-            self._player_signal_id = None
+            self._player_signal_id = 0
             self._current_playlist_model = None
 
         songs_added = []
