@@ -86,7 +86,8 @@ class CoreAlbum(GObject.GObject):
         return disc_model_sort
 
     @GObject.Property(
-        type=Gio.ListModel, default=None, flags=GObject.ParamFlags.READABLE)
+        type=Gfm.SortListModel, default=None,
+        flags=GObject.ParamFlags.READABLE)
     def model(self):
         if self._model is None:
             self._model = self._get_album_model()

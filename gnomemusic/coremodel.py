@@ -23,6 +23,7 @@
 # delete this exception statement from your version.
 
 from __future__ import annotations
+from typing import Optional, Union
 import math
 import typing
 
@@ -39,6 +40,7 @@ from gnomemusic.songliststore import SongListStore
 from gnomemusic.widgets.songwidget import SongWidget
 if typing.TYPE_CHECKING:
     from gnomemusic.application import Application
+    from gnomemusic.search import Search
 import gnomemusic.utils as utils
 
 
@@ -84,40 +86,52 @@ class CoreModel(GObject.GObject):
         """
         super().__init__()
 
-        self._flatten_model = None
+        self._flatten_model: Optional[Gfm.FlattenListModel] = None
         self._player_signal_id = 0
-        self._current_playlist_model = None
-        self._previous_playlist_model = None
+        self._current_playlist_model: Optional[Union[
+            Gfm.FlattenListModel, Gfm.SortListModel, Gio.ListModel]] = None
+        self._previous_playlist_model: Optional[Union[
+            Gfm.FlattenListModel, Gfm.SortListModel, Gio.ListModel]] = None
 
-        self._songs_model_proxy = Gio.ListStore.new(Gio.ListModel)
-        self._songs_model = Gfm.FlattenListModel.new(
+        self._songs_model_proxy: Gio.ListStore = Gio.ListStore.new(
+            Gio.ListModel)
+        self._songs_model: Gfm.FlattenListModel = Gfm.FlattenListModel.new(
             CoreSong, self._songs_model_proxy)
         self._songliststore = SongListStore(self._songs_model)
 
         self._application = application
 
-        self._albums_model_proxy = Gio.ListStore.new(Gio.ListModel)
-        self._albums_model = Gfm.FlattenListModel.new(
+        self._albums_model_proxy: Gio.ListStore = Gio.ListStore.new(
+            Gio.ListModel)
+        self._albums_model: Gfm.FlattenListModel = Gfm.FlattenListModel.new(
             CoreAlbum, self._albums_model_proxy)
-        self._albums_model_sort = Gfm.SortListModel.new(self._albums_model)
+        self._albums_model_sort: Gfm.SortListModel = Gfm.SortListModel.new(
+            self._albums_model)
         self._albums_model_sort.set_sort_func(
             utils.wrap_list_store_sort_func(self._albums_sort))
 
-        self._artists_model_proxy = Gio.ListStore.new(Gio.ListModel)
-        self._artists_model = Gfm.FlattenListModel.new(
+        self._artists_model_proxy: Gio.ListStore = Gio.ListStore.new(
+            Gio.ListModel)
+        self._artists_model: Gfm.FlattenListModel = Gfm.FlattenListModel.new(
             CoreArtist, self._artists_model_proxy)
-        self._artists_model_sort = Gfm.SortListModel.new(self._artists_model)
+        self._artists_model_sort: Gfm.SortListModel = Gfm.SortListModel.new(
+            self._artists_model)
         self._artists_model_sort.set_sort_func(
             utils.wrap_list_store_sort_func(self._artist_sort))
 
-        self._playlist_model = Gio.ListStore.new(CoreSong)
-        self._playlist_model_sort = Gfm.SortListModel.new(self._playlist_model)
-        self._playlist_model_recent = Gfm.SliceListModel.new(
-            self._playlist_model_sort, 0, self._recent_size)
-        self._active_core_object = None
+        self._playlist_model: Gio.ListStore = Gio.ListStore.new(CoreSong)
+        self._playlist_model_sort: Gfm.SortListModel = Gfm.SortListModel.new(
+            self._playlist_model)
+        self._playlist_model_recent: Gfm.SliceListModel = (
+            Gfm.SliceListModel.new(
+                self._playlist_model_sort, 0, self._recent_size))
+        self._active_core_object: Optional[Union[
+            CoreAlbum, CoreArtist, Playlist]] = None
 
-        self._songs_search_proxy = Gio.ListStore.new(Gfm.FilterListModel)
-        self._songs_search_flatten = Gfm.FlattenListModel.new(CoreSong)
+        self._songs_search_proxy: Gio.ListStore = Gio.ListStore.new(
+            Gfm.FilterListModel)
+        self._songs_search_flatten: Gfm.FlattenListModel = (
+            Gfm.FlattenListModel.new(CoreSong))
         self._songs_search_flatten.set_model(self._songs_search_proxy)
 
         self._albums_search_proxy: Gio.Liststore = Gio.ListStore.new(
@@ -126,8 +140,8 @@ class CoreModel(GObject.GObject):
             Gfm.FlattenListModel.new(CoreAlbum))
         self._albums_search_flatten.set_model(self._albums_search_proxy)
 
-        self._albums_search_filter = Gfm.FilterListModel.new(
-            self._albums_search_flatten)
+        self._albums_search_filter: Gfm.FilterListModel = (
+            Gfm.FilterListModel.new(self._albums_search_flatten))
 
         self._artists_search_proxy: Gio.Liststore = Gio.ListStore.new(
             Gfm.FilterListModel)
@@ -135,25 +149,25 @@ class CoreModel(GObject.GObject):
             Gfm.FlattenListModel.new(CoreArtist))
         self._artists_search_flatten.set_model(self._artists_search_proxy)
 
-        self._artists_search_filter = Gfm.FilterListModel.new(
-            self._artists_search_flatten)
+        self._artists_search_filter: Gfm.FilterListModel = (
+            Gfm.FilterListModel.new(self._artists_search_flatten))
 
-        self._playlists_model = Gio.ListStore.new(Playlist)
-        self._playlists_model_filter = Gfm.FilterListModel.new(
-            self._playlists_model)
-        self._playlists_model_sort = Gfm.SortListModel.new(
+        self._playlists_model: Gio.ListStore = Gio.ListStore.new(Playlist)
+        self._playlists_model_filter: Gfm.FilterListModel = (
+            Gfm.FilterListModel.new(self._playlists_model))
+        self._playlists_model_sort: Gfm.SortListModel = Gfm.SortListModel.new(
             self._playlists_model_filter)
         self._playlists_model_sort.set_sort_func(
             utils.wrap_list_store_sort_func(self._playlists_sort))
 
-        self._user_playlists_model_filter = Gfm.FilterListModel.new(
-            self._playlists_model)
-        self._user_playlists_model_sort = Gfm.SortListModel.new(
-            self._user_playlists_model_filter)
+        self._user_playlists_model_filter: Gfm.FilterListModel = (
+            Gfm.FilterListModel.new(self._playlists_model))
+        self._user_playlists_model_sort: Gfm.SortListModel = (
+            Gfm.SortListModel.new(self._user_playlists_model_filter))
         self._user_playlists_model_sort.set_sort_func(
             utils.wrap_list_store_sort_func(self._playlists_sort))
 
-        self._search = application.props.search
+        self._search: Search = application.props.search
 
         self._songs_model.connect(
             "items-changed", self._on_songs_items_changed)

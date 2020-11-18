@@ -24,7 +24,7 @@
 
 import gi
 gi.require_versions({"Gfm": "0.1", "Grl": "0.3"})
-from gi.repository import Gfm, Gio, Grl, GObject
+from gi.repository import Gfm, Grl, GObject
 
 from gnomemusic.artistart import ArtistArt
 import gnomemusic.utils as utils
@@ -76,7 +76,7 @@ class CoreArtist(GObject.GObject):
 
         return albums_model_sort
 
-    @GObject.Property(type=Gio.ListModel, default=None)
+    @GObject.Property(type=Gfm.SortListModel, default=None)
     def model(self):
         if self._model is None:
             self._model = self._get_artist_album_model()
