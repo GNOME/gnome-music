@@ -68,7 +68,7 @@ class PlayerToolbar(Gtk.ActionBar):
 
         self._player = None
 
-        self._art_stack.props.size = ArtSize.XSMALL
+        self._art_stack.props.size = ArtSize.SMALL
 
         self._tooltip = TwoLineTip()
 
