@@ -28,6 +28,13 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="3.36.7" date="2020-11-21">
+      <description>
+        <p>
+          This release fixes an issue with checkbox style in the album view.
+        </p>
+      </description>
+    </release>
     <release version="3.36.6" date="2020-10-05">
       <description>
         <p>
