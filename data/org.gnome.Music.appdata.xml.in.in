@@ -28,6 +28,21 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="3.38.2" date="2020-11-21">
+      <description>
+        <p>
+	  This release fixes some issues:
+	</p>
+	<ul>
+	  <li>Do not display an empty view on launch</li>
+	  <li>Fix a regression for live update of songs</li>
+	  <li>Correctly retrieve artist art</li>
+	  <li>Do not crash when a playlist is sorted</li>
+	  <li>Fix checkbox style in the albums view</li>
+ 	</ul>
+	<p>This release also updates translations.</p>
+      </description>
+    </release>
     <release version="3.38.1" date="2020-10-05">
       <description>
         <p>

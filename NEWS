@@ -1,3 +1,20 @@
+Overview of changes in 3.38.2
+=============================
+
+Bugs fixed:
+ Do not make display an empty view on launch
+ Fix new songs retrieval when they are added to the music directory (#422)
+ Fix artist queries to retrieve art
+ Fix playlist sorting crash (#417)
+ Wrong checkbox style in AlbumWidget (#414)
+
+Thanks to our contributors this release:
+ Jean Felder
+ Marinus Schraal
+
+Updated translations:
+ Chinese (Taiwan)
+
 Overview of changes in 3.38.1
 =============================
 
