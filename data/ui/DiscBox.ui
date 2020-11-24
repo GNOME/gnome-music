@@ -5,6 +5,7 @@
   <template parent="GtkListBoxRow" class="DiscBox">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
+    <property name="activatable">False</property>
     <property name="selectable">False</property>
     <child>
       <object class="GtkBox">

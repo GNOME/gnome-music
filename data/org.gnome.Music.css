@@ -24,7 +24,6 @@
 }
 
 .disc-label {
-    background-color: @theme_bg_color;
     color: alpha(@theme_fg_color, 0.8);
     padding: 12px 0;
 }
