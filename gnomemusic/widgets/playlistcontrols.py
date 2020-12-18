@@ -91,9 +91,9 @@ class PlaylistControls(Gtk.Grid):
         self._window.add_action(self._rename_action)
 
     def _on_delete_action(self, menutime, data=None):
-        active_playlist = self._coremodel.props.active_playlist
-        if (active_playlist is not None
-                and active_playlist == self.props.playlist):
+        active_core_object = self._coremodel.props.active_core_object
+        if (active_core_object is not None
+                and active_core_object == self.props.playlist):
             self._player.stop()
             self._window.set_player_visible(False)
 
