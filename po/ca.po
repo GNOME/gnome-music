@@ -326,22 +326,22 @@ msgstr "Navegació"
 #: data/ui/help-overlay.ui:92
 msgctxt "shortcut window"
 msgid "Go to Albums"
-msgstr "Vés als àlbums"
+msgstr "Ves als àlbums"
 
 #: data/ui/help-overlay.ui:99
 msgctxt "shortcut window"
 msgid "Go to Artists"
-msgstr "Vés als artistes"
+msgstr "Ves als artistes"
 
 #: data/ui/help-overlay.ui:106
 msgctxt "shortcut window"
 msgid "Go to Songs"
-msgstr "Vés a les cançons"
+msgstr "Ves a les cançons"
 
 #: data/ui/help-overlay.ui:113
 msgctxt "shortcut window"
 msgid "Go to Playlists"
-msgstr "Vés a les llistes de reproducció"
+msgstr "Ves a les llistes de reproducció"
 
 #: data/ui/help-overlay.ui:120
 msgctxt "shortcut window"
@@ -353,7 +353,7 @@ msgid ""
 "Last.fm is a music discovery service that gives you personalised "
 "recommendations based on the music you listen to."
 msgstr ""
-"Last.fm és un servei de descobriment de música que us dóna recomanacions "
+"Last.fm és un servei de descobriment de música que us dona recomanacions "
 "personalitzades basades en la música que escolteu."
 
 #: data/ui/LastfmDialog.ui:32 gnomemusic/widgets/lastfmdialog.py:58
@@ -542,8 +542,8 @@ msgstr ", "
 #: gnomemusic/gstplayer.py:399
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
-msgstr[0] "uCal {} per a reproduir el fitxer però no està instal·lat."
-msgstr[1] "Calen {} per a reproduir el fitxer però no estan instal·lats."
+msgstr[0] "Cal {} per a reproduir el fitxer, però no està instal·lat."
+msgstr[1] "Calen {} per a reproduir el fitxer, però no estan instal·lats."
 
 #: gnomemusic/inhibitsuspend.py:63
 msgid "Playing music"
