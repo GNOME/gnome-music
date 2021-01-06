@@ -107,7 +107,8 @@ class ArtistAlbumWidget(Gtk.Box):
         n_items = model.get_n_items()
         for i in range(n_items):
             discbox = self._disc_list_box.get_row_at_index(i)
-            discbox.props.show_disc_label = (n_items > 1)
+            if discbox is not None:
+                discbox.props.show_disc_label = (n_items > 1)
 
     def _song_activated(self, widget, song_widget):
         if self.props.selection_mode:
