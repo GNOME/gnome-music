@@ -30,7 +30,7 @@ from gnomemusic.widgets.artisttile import ArtistTile
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/ArtistsView.ui")
-class ArtistsView(Gtk.Box):
+class ArtistsView(Gtk.Paned):
     """Main view of all available artists
 
     Consists of a list of artists on the left side and an overview of
