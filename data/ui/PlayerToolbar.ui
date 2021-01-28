@@ -135,7 +135,7 @@
             </child>
             <child>
               <object class="GtkButton" id="_play_button">
-                <property name="width_request">60</property>
+                <property name="width_request">80</property>
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
