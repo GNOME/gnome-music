@@ -53,6 +53,18 @@ box#ArtistAlbumsWidget .artist-label {
     border-style: solid;
 }
 
+.semi-circular {
+    border-radius: 20px;
+    -gtk-outline-radius: 20px;
+}
+
+.semi-circular:hover {
+    border-top-width: 0px;
+    border-bottom-width: 0px;
+    border-left-width: 0px;
+    border-right-width: 0px;
+}
+
 .pill {
     border-radius: 9999px;
     -gtk-outline-radius: 9999px;
