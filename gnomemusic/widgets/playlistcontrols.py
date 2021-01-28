@@ -31,7 +31,7 @@ from gnomemusic.widgets.notificationspopup import PlaylistNotification
 
 
 @Gtk.Template(resource_path='/org/gnome/Music/ui/PlaylistControls.ui')
-class PlaylistControls(Gtk.Grid):
+class PlaylistControls(Gtk.Box):
     """Widget holding the playlist controls"""
 
     __gtype_name__ = "PlaylistControls"

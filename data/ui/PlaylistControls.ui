@@ -22,10 +22,11 @@
     <property name="icon_name">view-more-symbolic</property>
     <property name="icon_size">1</property>
   </object>
-  <template class="PlaylistControls" parent="GtkGrid">
+  <template class="PlaylistControls" parent="GtkBox">
+    <property name="orientation">vertical</property>
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="margin-bottom">18</property>
+    <property name="margin-bottom">0</property>
     <property name="margin-end">80</property>
     <property name="margin-start">80</property>
     <property name="margin-top">18</property>
@@ -86,12 +87,6 @@
           </packing>
         </child>
       </object>
-      <packing>
-        <property name="left_attach">0</property>
-        <property name="top_attach">0</property>
-        <property name="width">1</property>
-        <property name="height">1</property>
-      </packing>
     </child>
     <child>
       <object class="GtkLabel" id="_songs_count_label">
@@ -103,36 +98,26 @@
           <class name="dim-label"/>
         </style>
       </object>
-      <packing>
-        <property name="left_attach">0</property>
-        <property name="top_attach">1</property>
-        <property name="width">1</property>
-        <property name="height">1</property>
-      </packing>
     </child>
     <child>
       <object class="GtkMenuButton" id="_menubutton">
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
-        <property name="halign">end</property>
+        <property name="halign">start</property>
         <property name="valign">center</property>
         <property name="focus_on_click">False</property>
         <property name="menu-model">playlistMenu</property>
         <property name="direction">none</property>
         <property name="use_popover">True</property>
         <property name="image">_view_more_image</property>
+        <property name="margin-bottom">8</property>
+        <property name="margin-top">18</property>
         <style>
           <class name="image-button"/>
           <class name="circular"/>
         </style>
       </object>
-      <packing>
-        <property name="left_attach">1</property>
-        <property name="top_attach">0</property>
-        <property name="width">1</property>
-        <property name="height">2</property>
-      </packing>
     </child>
   </template>
   <object class="GtkEventControllerKey" id="_rename_controller">
