@@ -22,6 +22,13 @@
     <property name="icon_name">view-more-symbolic</property>
     <property name="icon_size">1</property>
   </object>
+  <object class="GtkImage" id="_play_image">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="margin-top">1</property>
+    <property name="icon_name">media-playback-start-symbolic</property>
+    <property name="icon_size">1</property>
+  </object>
   <template class="PlaylistControls" parent="GtkBox">
     <property name="orientation">vertical</property>
     <property name="visible">True</property>
@@ -100,23 +107,45 @@
       </object>
     </child>
     <child>
-      <object class="GtkMenuButton" id="_menubutton">
+      <object class="GtkBox">
+        <property name="orientation">horizontal</property>
         <property name="visible">True</property>
-        <property name="can_focus">True</property>
-        <property name="receives_default">True</property>
-        <property name="halign">start</property>
-        <property name="valign">center</property>
-        <property name="focus_on_click">False</property>
-        <property name="menu-model">playlistMenu</property>
-        <property name="direction">none</property>
-        <property name="use_popover">True</property>
-        <property name="image">_view_more_image</property>
-        <property name="margin-bottom">8</property>
+        <property name="spacing">12</property>
         <property name="margin-top">18</property>
-        <style>
-          <class name="image-button"/>
-          <class name="circular"/>
-        </style>
+        <property name="margin-bottom">8</property>
+        <child>
+          <object class="GtkButton" id="_play_button">
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">True</property>
+            <property name="image">_play_image</property>
+            <property name="always_show_image">True</property>
+            <property name="tooltip-text" translatable="yes">Play</property>
+            <property name="valign">center</property>
+            <signal name="clicked" handler="_on_play_button_clicked" swapped="no"/>
+            <style>
+              <class name="circular"/>
+            </style>
+          </object>
+        </child>
+        <child>
+          <object class="GtkMenuButton" id="_menubutton">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="halign">start</property>
+            <property name="valign">center</property>
+            <property name="focus_on_click">False</property>
+            <property name="menu-model">playlistMenu</property>
+            <property name="direction">none</property>
+            <property name="use_popover">True</property>
+            <property name="image">_view_more_image</property>
+            <style>
+              <class name="image-button"/>
+              <class name="circular"/>
+            </style>
+          </object>
+        </child>
       </object>
     </child>
   </template>

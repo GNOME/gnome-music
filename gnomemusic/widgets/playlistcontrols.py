@@ -38,6 +38,7 @@ class PlaylistControls(Gtk.Box):
 
     _name_stack = Gtk.Template.Child()
     _name_label = Gtk.Template.Child()
+    _play_button = Gtk.Template.Child()
     _rename_controller = Gtk.Template.Child()
     _rename_entry = Gtk.Template.Child()
     _rename_done_button = Gtk.Template.Child()
@@ -103,6 +104,10 @@ class PlaylistControls(Gtk.Box):
             PlaylistNotification.Type.PLAYLIST, self.props.playlist)
 
     @Gtk.Template.Callback()
+    def _on_play_button_clicked(self, button: Gtk.Button) -> None:
+        self._play_action.activate()
+
+    @Gtk.Template.Callback()
     def _on_rename_entry_changed(self, selection):
         selection_length = selection.props.text_length
         self._rename_done_button.props.sensitive = selection_length > 0
@@ -127,7 +132,9 @@ class PlaylistControls(Gtk.Box):
             "{} Song", "{} Songs", self.props.playlist.count).format(
                 self.props.playlist.count)
 
-        self._play_action.props.enabled = self.props.playlist.props.count > 0
+        empty_pl = (self.props.playlist.props.count == 0)
+        self._play_button.props.sensitive = not empty_pl
+        self._play_action.props.enabled = not empty_pl
 
     def _enable_rename_playlist(self, menuitem, data=None):
         self._name_stack.props.visible_child_name = "renaming_dialog"
