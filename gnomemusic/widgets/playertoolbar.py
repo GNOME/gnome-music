@@ -44,6 +44,7 @@ class PlayerToolbar(Gtk.ActionBar):
 
     _artist_label = Gtk.Template.Child()
     _art_stack = Gtk.Template.Child()
+    _buttons_and_scale = Gtk.Template.Child()
     _duration_label = Gtk.Template.Child()
     _next_button = Gtk.Template.Child()
     _pause_image = Gtk.Template.Child()
@@ -71,6 +72,13 @@ class PlayerToolbar(Gtk.ActionBar):
         self._art_stack.props.size = ArtSize.SMALL
 
         self._tooltip = TwoLineTip()
+
+        # A centered widget has an expand child property set to False
+        # by default. It needs to be True to have a progress scale
+        # at the correct size.
+        main_container = self._buttons_and_scale.get_parent()
+        main_container.child_set_property(
+            self._buttons_and_scale, "expand", True)
 
     # FIXME: This is a workaround for not being able to pass the player
     # object via init when using Gtk.Builder.
