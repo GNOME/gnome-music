@@ -170,6 +170,18 @@
             <property name="orientation">horizontal</property>
             <property name="can_focus">False</property>
             <child>
+              <object class="GtkLabel" id="_progress_time_label">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="halign">start</property>
+                <property name="valign">center</property>
+                <property name="label">0:00</property>
+                <attributes>
+                  <attribute name="font-features" value="tnum=1"/>
+                </attributes>
+              </object>
+            </child>
+            <child>
               <object class="SmoothScale" id="_progress_scale">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -180,45 +192,15 @@
               </object>
             </child>
             <child>
-              <object class="GtkBox" id="timer">
+              <object class="GtkLabel" id="_duration_label">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="halign">start</property>
                 <property name="valign">center</property>
-                <property name="spacing">6</property>
-                <child>
-                  <object class="GtkLabel" id="_progress_time_label">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="halign">start</property>
-                    <property name="valign">center</property>
-                    <property name="label">0:00</property>
-                    <attributes>
-                      <attribute name="font-features" value="tnum=1"/>
-                    </attributes>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="separator">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="halign">start</property>
-                    <property name="valign">center</property>
-                    <property name="label">/</property>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="_duration_label">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="halign">start</property>
-                    <property name="valign">center</property>
-                    <property name="label">0:00</property>
-                    <attributes>
-                      <attribute name="font-features" value="tnum=1"/>
-                    </attributes>
-                  </object>
-                </child>
+                <property name="label">0:00</property>
+                <attributes>
+                  <attribute name="font-features" value="tnum=1"/>
+                </attributes>
               </object>
             </child>
           </object>
