@@ -36,6 +36,7 @@ class PlaylistTile(Gtk.ListBoxRow):
 
     __gtype_name__ = "PlaylistTile"
 
+    _icon = Gtk.Template.Child()
     _label = Gtk.Template.Child()
 
     playlist = GObject.Property(type=Playlist, default=None)
@@ -45,6 +46,8 @@ class PlaylistTile(Gtk.ListBoxRow):
         super().__init__()
 
         self.props.playlist = playlist
+
+        self._icon.props.icon_name = playlist.props.icon_name
 
         self.props.playlist.bind_property(
             "title", self._label, "label", GObject.BindingFlags.SYNC_CREATE)
