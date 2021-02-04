@@ -5,58 +5,11 @@
     <property name="transition_type">crossfade</property>
     <property name="visible">False</property>
     <child>
-      <object class="GtkBox" id="_container">
+      <object class="HdyStatusPage" id="_status_page">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
-        <property name="can_focus">False</property>
-        <property name="halign">center</property>
-        <property name="valign">center</property>
         <property name="hexpand">True</property>
         <property name="vexpand">True</property>
-        <child>
-          <object class="GtkImage" id="_icon">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="valign">center</property>
-            <property name="pixel_size">128</property>
-            <property name="icon_name">emblem-music-symbolic</property>
-            <property name="icon_size">0</property>
-            <property name="margin-bottom">18</property>
-            <style>
-              <class name="grey-image"/>
-            </style>
-          </object>
-        </child>
-        <child>
-          <object class="GtkBox" id="box">
-            <property name="orientation">vertical</property>
-            <property name="visible">True</property>
-            <child>
-              <object class="GtkLabel" id="_main_label">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="halign">center</property>
-                <property name="xalign">0</property>
-                <property name="margin-bottom">12</property>
-                <style>
-                  <class name="no-music-found-label"/>
-                  <class name="dim-label"/>
-                </style>
-              </object>
-            </child>
-            <child>
-              <object class="GtkLabel" id="_information_label">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="justify">left</property>
-                <property name="use_markup">true</property>
-                <style>
-                  <class name="dim-label"/>
-                </style>
-              </object>
-            </child>
-          </object>
-        </child>
+        <property name="icon_name">emblem-music-symbolic</property>
       </object>
     </child>
   </template>

@@ -27,8 +27,6 @@ from enum import IntEnum
 from gettext import gettext as _
 from gi.repository import GLib, GObject, Gtk, Tracker
 
-from gnomemusic.utils import ArtSize
-
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/EmptyView.ui")
 class EmptyView(Gtk.Stack):
@@ -51,9 +49,7 @@ class EmptyView(Gtk.Stack):
 
     __gtype_name__ = "EmptyView"
 
-    _information_label = Gtk.Template.Child()
-    _main_label = Gtk.Template.Child()
-    _icon = Gtk.Template.Child()
+    _status_page = Gtk.Template.Child()
 
     def __init__(self):
         super().__init__()
@@ -108,44 +104,34 @@ class EmptyView(Gtk.Stack):
             self._set_tracker_outdated_state()
 
     def _set_initial_state(self):
-        self._information_label.props.label = self._content_text
-        self._main_label.props.label = _("Hey DJ")
-        self._main_label.props.margin_bottom = 18
+        self._status_page.props.title = _("Hey DJ")
+        self._status_page.props.description = self._content_text
 
-        self._icon.props.resource = "/org/gnome/Music/icons/initial-state.png"
-        self._icon.props.margin_bottom = 32
-        self._icon.props.height_request = ArtSize.LARGE.height
-        self._icon.props.width_request = ArtSize.LARGE.width
+        self._status_page.props.icon_name = "initial-state"
 
     def _set_empty_state(self):
-        self._main_label.props.label = _("No Music Found")
-        self._information_label.props.label = self._content_text
+        self._status_page.props.title = _("No Music Found")
+        self._status_page.props.description = self._content_text
 
     def _set_search_state(self):
-        self._main_label.props.margin_bottom = 12
-        self._main_label.props.label = _("No Music Found")
-        self._icon.props.margin_bottom = 18
-        self._information_label.props.label = _("Try a Different Search")
+        self._status_page.props.title = _("No Music Found")
+        self._status_page.props.description = _("Try a Different Search")
 
     def _set_no_tracker_state(self):
-        self._main_label.props.margin_bottom = 12
-        self._main_label.props.label = _(
+        self._status_page.props.title = _(
             "GNOME Music could not connect to Tracker.")
-        self._icon.props.margin_bottom = 18
-        self._information_label.props.label = _(
+        self._status_page.props.description = _(
             "Your music files cannot be indexed without Tracker running.")
 
-        self._icon.props.icon_name = "dialog-error-symbolic"
+        self._status_page.props.icon_name = "dialog-error-symbolic"
 
     def _set_tracker_outdated_state(self):
-        self._main_label.props.margin_bottom = 12
-        self._main_label.props.label = _(
+        self._status_page.props.title = _(
             "Your system Tracker version seems outdated.")
-        self._icon.props.margin_bottom = 18
-        self._information_label.props.label = _(
+        self._status_page.props.description = _(
             "Music needs Tracker version 3.0.0 or higher.")
 
-        self._icon.props.icon_name = "dialog-error-symbolic"
+        self._status_page.props.icon_name = "dialog-error-symbolic"
 
     def select_all(self):
         """Cannot select songs from EmptyView."""
