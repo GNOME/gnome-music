@@ -24,14 +24,14 @@
 
 from enum import IntEnum
 
-from gi.repository import GLib, GObject, Gtk
+from gi.repository import GLib, GObject, Gtk, Handy
 
 from gnomemusic.search import Search
 from gnomemusic.widgets.headerbar import HeaderBar, SelectionBarMenuButton
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/SearchHeaderBar.ui")
-class SearchHeaderBar(Gtk.HeaderBar):
+class SearchHeaderBar(Handy.HeaderBar):
     """SearcnHeaderbar of the application"""
 
     class State(IntEnum):

@@ -22,7 +22,7 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from gi.repository import Gtk, Gdk, Gio, GLib, GObject
+from gi.repository import Gtk, Gdk, Gio, GLib, GObject, Handy
 from gettext import gettext as _
 
 from gnomemusic.gstplayer import Playback
@@ -47,7 +47,7 @@ from gnomemusic.windowplacement import WindowPlacement
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/Window.ui")
-class Window(Gtk.ApplicationWindow):
+class Window(Handy.ApplicationWindow):
 
     __gtype_name__ = "Window"
 

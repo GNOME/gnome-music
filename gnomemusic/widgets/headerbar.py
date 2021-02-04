@@ -72,7 +72,7 @@ class SelectionBarMenuButton(Gtk.MenuButton):
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/HeaderBar.ui")
-class HeaderBar(Gtk.HeaderBar):
+class HeaderBar(Handy.HeaderBar):
     """Headerbar of the application"""
 
     class State(IntEnum):
