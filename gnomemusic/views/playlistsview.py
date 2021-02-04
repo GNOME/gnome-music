@@ -37,6 +37,9 @@ class PlaylistsView(Gtk.Box):
 
     __gtype_name__ = "PlaylistsView"
 
+    icon_name = GObject.Property(
+        type=str, default="view-list-symbolic",
+        flags=GObject.ParamFlags.READABLE)
     title = GObject.Property(
         type=str, default=_("Playlists"), flags=GObject.ParamFlags.READABLE)
 

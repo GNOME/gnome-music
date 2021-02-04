@@ -25,7 +25,7 @@
 from enum import IntEnum
 
 from gettext import gettext as _, ngettext
-from gi.repository import GObject, Gtk
+from gi.repository import GObject, Gtk, Handy
 
 from gnomemusic.widgets.appmenu import AppMenu
 
@@ -108,7 +108,7 @@ class HeaderBar(Gtk.HeaderBar):
 
         self._selection_mode = False
 
-        self._stack_switcher = Gtk.StackSwitcher(
+        self._stack_switcher = Handy.ViewSwitcher(
             can_focus=False, halign="center")
         self._stack_switcher.show()
 

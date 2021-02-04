@@ -258,6 +258,8 @@ class Window(Gtk.ApplicationWindow):
         for i in self.views[View.ALBUM:]:
             if i.props.title:
                 self._stack.add_titled(i, i.props.name, i.props.title)
+                self._stack.child_set_property(
+                    i, "icon-name", i.props.icon_name)
             else:
                 self._stack.add_named(i, i.props.name)
 

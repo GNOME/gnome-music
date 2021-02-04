@@ -41,6 +41,9 @@ class AlbumsView(Gtk.Stack):
 
     __gtype_name__ = "AlbumsView"
 
+    icon_name = GObject.Property(
+        type=str, default="media-optical-cd-audio-symbolic",
+        flags=GObject.ParamFlags.READABLE)
     search_mode_active = GObject.Property(type=bool, default=False)
     selection_mode = GObject.Property(type=bool, default=False)
     title = GObject.Property(
