@@ -32,7 +32,7 @@
             <property name="selection_mode">none</property>
             <signal name="row-activated" handler="_song_activated" swapped="no"/>
             <style>
-              <class name="songs-list"/>
+              <class name="content"/>
             </style>
           </object>
         </child>
