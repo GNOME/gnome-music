@@ -122,7 +122,7 @@ class StarHandlerWidget(object):
 
     def _on_star_toggled(self, widget, path):
         """Called if a star is clicked"""
-        model = self._parent._view.props.model
+        model = self._parent._songs_view.props.model
         try:
             _iter = model.get_iter(path)
         except ValueError:
