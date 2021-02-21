@@ -2,27 +2,27 @@
 # Copyright (C) 2012 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Fran Diéguez <frandieguez@gnome.org>, 2012.
-# Fran Dieguez <frandieguez@gnome.gl>, 2012-2020.
+# Fran Dieguez <frandieguez@gnome.org>, 2012-2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2020-08-28 15:14+0000\n"
-"PO-Revision-Date: 2020-09-01 21:46+0200\n"
-"Last-Translator: Fran Dieguez <frandieguez@gnome.gl>\n"
-"Language-Team: Galician <Proxecto Trasno <proxecto@trasno.gal>>\n"
+"POT-Creation-Date: 2020-12-04 14:27+0000\n"
+"PO-Revision-Date: 2021-02-21 23:43+0100\n"
+"Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
+"Language-Team: Galician <proxecto@trasno.gal>\n"
 "Language: gl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"X-Generator: Gtranslator 3.36.0\n"
+"X-Generator: Gtranslator 3.38.0\n"
 "X-Project-Style: gnome\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
 msgid "GNOME Music"
-msgstr "GNOME Música"
+msgstr "Música de GNOME"
 
 #: data/org.gnome.Music.appdata.xml.in.in:7
 #: data/org.gnome.Music.desktop.in.in:5
@@ -45,7 +45,7 @@ msgstr ""
 "Atope pistas na súa colección local, obteña música desde servidores DLNA ou "
 "tente algo novo cos servizos Jamendo e Magnatune."
 
-#: data/org.gnome.Music.appdata.xml.in.in:110
+#: data/org.gnome.Music.appdata.xml.in.in:126
 msgid "The GNOME Music developers"
 msgstr "Os desenvolvedores de GNOME Music"
 
@@ -207,15 +207,15 @@ msgstr ""
 "A imaxe de “Magic of the vinyl” por Sami Pyylampi ten licenza CC-BY-SA 2.0 "
 "https://www.flickr.com/photos/_spy_/12270839403"
 
-#: data/ui/AlbumWidget.ui:107
+#: data/ui/AlbumWidget.ui:106
 msgid "Released"
 msgstr "Publicada"
 
-#: data/ui/AlbumWidget.ui:123
+#: data/ui/AlbumWidget.ui:122
 msgid "Running Length"
 msgstr "Lonxitude da execución"
 
-#: data/ui/AlbumWidget.ui:167
+#: data/ui/AlbumWidget.ui:166
 msgid "Composer"
 msgstr "Compositor"
 
@@ -493,27 +493,27 @@ msgid "_Add to Playlist"
 msgstr "_Engadir á lista de reprodución"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:832
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:827
 msgid "Most Played"
 msgstr "Máis reproducidos"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:885
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:880
 msgid "Never Played"
 msgstr "Nunca reproducidos"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:937
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:932
 msgid "Recently Played"
 msgstr "Reproducidos recentemente"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:999
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:994
 msgid "Recently Added"
 msgstr "Engadidos recentemente"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1061
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1056
 msgid "Favorite Songs"
 msgstr "Cancións favoritas"
 
@@ -546,11 +546,11 @@ msgstr[1] ""
 msgid "Playing music"
 msgstr "Reproducindo música"
 
-#: gnomemusic/utils.py:81
+#: gnomemusic/utils.py:79
 msgid "Unknown album"
 msgstr "Álbum descoñecido"
 
-#: gnomemusic/utils.py:102
+#: gnomemusic/utils.py:100
 msgid "Unknown Artist"
 msgstr "Artista descoñecido"
 
@@ -570,7 +570,7 @@ msgstr "Os contidos de {} aparecerán aquí."
 
 #: gnomemusic/views/emptyview.py:112
 msgid "Hey DJ"
-msgstr "Hola DJ"
+msgstr "Ola DJ"
 
 #: gnomemusic/views/emptyview.py:121 gnomemusic/views/emptyview.py:126
 msgid "No music found"
@@ -594,7 +594,6 @@ msgid "Your system Tracker version seems outdated"
 msgstr "A versión de Tracker do seu sistema semella desfasada"
 
 #: gnomemusic/views/emptyview.py:146
-#| msgid "Music needs Tracker version 2.3.0 or higher"
 msgid "Music needs Tracker version 3.0.0 or higher"
 msgstr "Música precisa Tracker versión 3.0.0 ou superior"
 
@@ -621,8 +620,6 @@ msgid "Disc {}"
 msgstr "Disco {}"
 
 #: gnomemusic/widgets/headerbar.py:68
-#| msgid "Selected {} item"
-#| msgid_plural "Selected {} items"
 msgid "Selected {} song"
 msgid_plural "Selected {} songs"
 msgstr[0] "Canción {} seleccionadas"
