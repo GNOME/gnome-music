@@ -169,6 +169,8 @@ class SongWidget(Gtk.EventBox):
         self._drag_widget.set_size_request(allocation.width, allocation.height)
 
         drag_row = SongWidget(self.props.coresong)
+        drag_row.props.show_song_number = self.props.show_song_number
+
         self._drag_widget.add(drag_row)
         self._drag_widget.drag_highlight_row(drag_row.get_parent())
         self._drag_widget.props.visible = True
