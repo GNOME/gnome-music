@@ -201,6 +201,16 @@ class SongsView(Gtk.ScrolledWindow):
 
         return False
 
+    @GObject.Property(
+        type=Gtk.ListStore, default=None, flags=GObject.ParamFlags.READABLE)
+    def model(self):
+        """Get songs view model
+
+        :returns: songs view model
+        :rtype: Gtk.ListStore
+        """
+        return self._model
+
     def _select(self, value):
         with self._model.freeze_notify():
             itr = self._model.iter_children(None)
