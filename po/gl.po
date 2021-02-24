@@ -1,17 +1,17 @@
 # Galician translations for PACKAGE package.
 # Copyright (C) 2012 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
+#
 # Fran Diéguez <frandieguez@gnome.org>, 2012.
 # Fran Dieguez <frandieguez@gnome.org>, 2012-2021.
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2020-12-04 14:27+0000\n"
-"PO-Revision-Date: 2021-02-21 23:43+0100\n"
-"Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
-"Language-Team: Galician <proxecto@trasno.gal>\n"
+"POT-Creation-Date: 2021-02-21 22:48+0000\n"
+"PO-Revision-Date: 2021-02-24 22:31+0100\n"
+"Last-Translator: Fran Diéguez <frandieguez@gnome.org>\n"
+"Language-Team: Proxecto Trasno <proxecto@trasno.gal>\n"
 "Language: gl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -323,7 +323,7 @@ msgstr "Navegación"
 #: data/ui/help-overlay.ui:92
 msgctxt "shortcut window"
 msgid "Go to Albums"
-msgstr "Ir aos álbumes"
+msgstr "Ir aos álbums"
 
 #: data/ui/help-overlay.ui:99
 msgctxt "shortcut window"
@@ -470,7 +470,7 @@ msgstr "Ver todo"
 
 #: data/ui/SearchView.ui:96 gnomemusic/views/albumsview.py:47
 msgid "Albums"
-msgstr "Álbumes"
+msgstr "Álbums"
 
 #: data/ui/SearchView.ui:149 gnomemusic/views/songsview.py:44
 msgid "Songs"
@@ -607,7 +607,7 @@ msgstr "Resultados de artistas"
 
 #: gnomemusic/views/searchview.py:401
 msgid "Albums Results"
-msgstr "Resultados de álbumes"
+msgstr "Resultados de álbums"
 
 #: gnomemusic/widgets/albumwidget.py:154
 msgid "{} minute"
@@ -644,7 +644,7 @@ msgstr "Configurar"
 
 #: gnomemusic/widgets/notificationspopup.py:216
 msgid "Playlist {} removed"
-msgstr "Elminouse a lista de reprodución {}"
+msgstr "Eliminouse a lista de reprodución {}"
 
 #: gnomemusic/widgets/notificationspopup.py:220
 msgid "{} removed from {}"
