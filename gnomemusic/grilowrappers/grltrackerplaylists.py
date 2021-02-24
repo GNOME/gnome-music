@@ -481,7 +481,7 @@ class Playlist(GObject.GObject):
             )
         }
         """.replace("\n", " ").strip() % {
-            'title': new_name,
+            'title': Tracker.sparql_escape_string(new_name),
             'playlist_id': self.props.pl_id
         }
 
