@@ -368,7 +368,8 @@ class Window(Gtk.ApplicationWindow):
 
             child = self.props.active_view
             if (keyval == Gdk.KEY_Delete
-                    and child == self.views[View.PLAYLIST]):
+                    and child == self.views[View.PLAYLIST]
+                    and not self.views[View.PLAYLIST].rename_active):
                 self.views[View.PLAYLIST].remove_playlist()
             # Close selection mode or search bar after Esc is pressed
             if keyval == Gdk.KEY_Escape:
