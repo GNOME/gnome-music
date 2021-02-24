@@ -514,8 +514,13 @@ class Playlist(GObject.GObject):
         :param CoreSong coresong: song to remove
         """
         def update_cb(conn, res):
-            # FIXME: Check for failure.
-            conn.update_finish(res)
+            try:
+                conn.update_finish(res)
+            except GLib.Error as e:
+                self._log.warning(
+                    "Unable to remove song from playlist {}: {}".format(
+                        self.props.title, e.message))
+
             self._notificationmanager.pop_loading()
 
         def entry_retrieved_cb(source, op_id, media, remaining, error):
