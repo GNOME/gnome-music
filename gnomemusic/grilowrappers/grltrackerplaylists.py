@@ -651,7 +651,7 @@ class Playlist(GObject.GObject):
                 FILTER (
                     %(filter_clause_pl)s
                 )
-            }
+            } LIMIT 1
             """.replace("\n", " ").strip() % {
                 "media_type": int(Grl.MediaType.AUDIO),
                 "filter_clause_song": "tracker:id(?song) = " + media_id,
