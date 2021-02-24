@@ -366,9 +366,8 @@ class Window(Gtk.ApplicationWindow):
             if keyval == Gdk.KEY_AudioNext:
                 self._player.next()
 
-            child = self.props.active_view
             if (keyval == Gdk.KEY_Delete
-                    and child == self.views[View.PLAYLIST]
+                    and self.props.active_view == self.views[View.PLAYLIST]
                     and not self.views[View.PLAYLIST].rename_active):
                 self.activate_action("playlist_delete", None)
 
