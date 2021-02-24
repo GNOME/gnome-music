@@ -605,6 +605,7 @@ class Playlist(GObject.GObject):
                 return
 
             media_id = coresong.props.media.get_id()
+            pl_id = self.props.pl_id
             miner_fs_busname = self._tracker_wrapper.props.miner_fs_busname
             query = """
             SELECT
@@ -632,10 +633,14 @@ class Playlist(GObject.GObject):
                             nmm:artistName(nmm:artist(?song)) AS ?artist
                             nie:title(nmm:musicAlbum(?song)) AS ?album
                             nfo:duration(?song) AS ?duration
+                            ?url
                         WHERE {
                             ?song a nmm:MusicPiece ;
                                   nie:isStoredAs ?url .
                             %(location_filter)s
+                            FILTER (
+                                %(filter_clause_song)s
+                            )
                         }
                     }
                 }
@@ -644,12 +649,13 @@ class Playlist(GObject.GObject):
                     FILTER( ?tag = nao:predefined-tag-favorite )
                 }
                 FILTER (
-                   %(filter_clause)s
+                    %(filter_clause_pl)s
                 )
             }
             """.replace("\n", " ").strip() % {
                 "media_type": int(Grl.MediaType.AUDIO),
-                "filter_clause": "tracker:id(?song) = " + media_id,
+                "filter_clause_song": "tracker:id(?song) = " + media_id,
+                "filter_clause_pl": "tracker:id(?playlist) = " + pl_id,
                 "location_filter": self._tracker_wrapper.location_filter(),
                 "miner_fs_busname": miner_fs_busname,
             }
