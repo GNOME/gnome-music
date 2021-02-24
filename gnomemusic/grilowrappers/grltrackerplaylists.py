@@ -587,7 +587,6 @@ class Playlist(GObject.GObject):
     def add_songs(self, coresongs):
         """Adds songs to the playlist
 
-        :param Playlist playlist:
         :param list coresongs: list of Coresong
         """
         def _add_to_model(source, op_id, media, remaining, error):
