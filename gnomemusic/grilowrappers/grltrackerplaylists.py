@@ -513,76 +513,123 @@ class Playlist(GObject.GObject):
 
         :param CoreSong coresong: song to remove
         """
-
-        def update_cb(conn, res, data):
+        def update_cb(conn, res):
             # FIXME: Check for failure.
             conn.update_finish(res)
             self._notificationmanager.pop_loading()
 
-        self._notificationmanager.push_loading()
-        query = """
-        INSERT OR REPLACE {
-            ?entry nfo:listPosition ?position .
+        def entry_retrieved_cb(source, op_id, media, remaining, error):
+            if error:
+                self._log.warning("Error: {}".format(error))
+                return
 
-        }
-        WHERE {
-            SELECT ?entry
-                   (?old_position - 1) AS ?position
+            if not media:
+                return
+
+            self._notificationmanager.push_loading()
+            update_query = """
+            INSERT OR REPLACE {
+                ?entry nfo:listPosition ?position .
+            }
             WHERE {
-                ?entry a nfo:MediaFileListEntry ;
-                         nfo:listPosition ?old_position .
-                ?playlist nfo:hasMediaFileListEntry ?entry .
-                FILTER (?old_position > ?removed_position)
-                {
-                    SELECT ?playlist
-                           ?removed_position
-                    WHERE {
-                        ?playlist a nmm:Playlist ;
-                                  a nfo:MediaList ;
-                                    nfo:hasMediaFileListEntry ?removed_entry .
-                        ?removed_entry nfo:listPosition ?removed_position .
-                        FILTER (
-                            tracker:id(?playlist) = %(playlist_id)s &&
-                            tracker:id(?removed_entry) = %(song_id)s
-                        )
+                SELECT ?entry
+                       (?old_position - 1) AS ?position
+                WHERE {
+                    ?entry a nfo:MediaFileListEntry ;
+                             nfo:listPosition ?old_position .
+                    ?playlist nfo:hasMediaFileListEntry ?entry .
+                    FILTER (?old_position > ?removed_position)
+                    {
+                        SELECT ?playlist
+                               ?removed_position
+                        WHERE {
+                            ?playlist a nmm:Playlist ;
+                                      a nfo:MediaList ;
+                                        nfo:hasMediaFileListEntry
+                                        ?removed_entry .
+                            ?removed_entry nfo:listPosition ?removed_position .
+                            FILTER (
+                                tracker:id(?playlist) = %(playlist_id)s &&
+                                tracker:id(?removed_entry) = %(entry_id)s
+                            )
+                        }
                     }
                 }
+            };
+            INSERT OR REPLACE {
+                ?playlist nfo:entryCounter ?new_counter .
             }
-        };
-        INSERT OR REPLACE {
-            ?playlist nfo:entryCounter ?new_counter .
-        }
-        WHERE {
-            SELECT ?playlist
-                   (?counter - 1) AS ?new_counter
+            WHERE {
+                SELECT ?playlist
+                       (?counter - 1) AS ?new_counter
+                WHERE {
+                    ?playlist a nmm:Playlist ;
+                              a nfo:MediaList ;
+                                nfo:entryCounter ?counter .
+                    FILTER (
+                        tracker:id(?playlist) = %(playlist_id)s
+                    )
+                }
+            };
+            DELETE {
+                ?playlist nfo:hasMediaFileListEntry ?entry .
+                ?entry a rdfs:Resource .
+            }
             WHERE {
                 ?playlist a nmm:Playlist ;
                           a nfo:MediaList ;
-                            nfo:entryCounter ?counter .
+                            nfo:hasMediaFileListEntry ?entry .
                 FILTER (
-                    tracker:id(?playlist) = %(playlist_id)s
+                    tracker:id(?playlist) = %(playlist_id)s &&
+                    tracker:id(?entry) = %(entry_id)s
                 )
             }
-        };
-        DELETE {
-            ?playlist nfo:hasMediaFileListEntry ?entry .
-            ?entry a rdfs:Resource .
-        }
-        WHERE {
-            ?playlist a nmm:Playlist ;
-                      a nfo:MediaList ;
-                        nfo:hasMediaFileListEntry ?entry .
-            FILTER (
-                tracker:id(?playlist) = %(playlist_id)s &&
-                tracker:id(?entry) = %(song_id)s
-            )
-        }
+            """.replace("\n", " ").strip() % {
+                "playlist_id": self.props.pl_id,
+                "entry_id": media.get_id()
+            }
+
+            self._tracker.update_async(update_query, None, update_cb)
+
+        song_id = coresong.props.media.get_id()
+        entry_query = """
+        SELECT
+            %(media_type)s AS ?type
+            ?entry AS ?id
+            WHERE {
+                ?playlist a nmm:Playlist ;
+                          a nfo:MediaList ;
+                            nfo:hasMediaFileListEntry ?entry .
+                ?entry a nfo:MediaFileListEntry ;
+                         nfo:entryUrl ?url .
+                SERVICE <dbus:%(miner_fs_busname)s> {
+                    GRAPH tracker:Audio {
+                        SELECT
+                            ?song
+                            ?url
+                        WHERE {
+                            ?song a nmm:MusicPiece ;
+                                  nie:isStoredAs ?url .
+                            FILTER (
+                                %(filter_clause_song)s
+                            )
+                        }
+                    }
+                }
+                FILTER (
+                    %(filter_clause_pl)s
+                )
+            }
         """.replace("\n", " ").strip() % {
-            "playlist_id": self.props.pl_id,
-            "song_id": coresong.props.media.get_id()
+            "media_type": int(Grl.MediaType.AUDIO),
+            "filter_clause_song": "tracker:id(?song) = " + song_id,
+            "filter_clause_pl": "tracker:id(?playlist) = " + self.props.pl_id,
+            "miner_fs_busname": self._tracker_wrapper.props.miner_fs_busname
         }
 
-        self._tracker.update_async(query, None, update_cb, None)
+        self._source.query(
+            entry_query, [Grl.METADATA_KEY_ID], self._fast_options,
+            entry_retrieved_cb)
 
     def add_songs(self, coresongs):
         """Adds songs to the playlist
