@@ -28,7 +28,7 @@ from gettext import gettext as _
 
 import gi
 gi.require_versions({"Grl": "0.3"})
-from gi.repository import Gio, Grl, GLib, GObject
+from gi.repository import Gio, Grl, GLib, GObject, Tracker
 
 from gnomemusic.coresong import CoreSong
 import gnomemusic.utils as utils
@@ -241,7 +241,9 @@ class GrlTrackerPlaylists(GObject.GObject):
                              nie:title "%(title)s" ;
                              nfo:entryCounter 0 .
             }
-            """.replace("\n", " ").strip() % {"title": playlist_title}
+            """.replace("\n", " ").strip() % {
+                "title": Tracker.sparql_escape_string(playlist_title)
+        }
         self._tracker.update_blank_async(query, None, _create_cb, None)
 
     def check_smart_playlist_change(self):
