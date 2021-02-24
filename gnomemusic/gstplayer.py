@@ -224,7 +224,11 @@ class GstPlayer(GObject.GObject):
         if state == Playback.PAUSED:
             self._player.set_state(Gst.State.PAUSED)
         if state == Playback.STOPPED:
+            # Changing the state to NULL flushes the pipeline.
+            # Thus, the change message never arrives.
             self._player.set_state(Gst.State.NULL)
+            self._state = Playback.STOPPED
+            self.notify("state")
         if state == Playback.LOADING:
             self._player.set_state(Gst.State.READY)
         if state == Playback.PLAYING:
