@@ -200,7 +200,18 @@ class GrlTrackerPlaylists(GObject.GObject):
         :param callback: function to perform once, the playlist is created
         """
         def _create_cb(conn, res, data):
-            result = conn.update_blank_finish(res)
+            try:
+                result = conn.update_blank_finish(res)
+            except GLib.Error as error:
+                self._log.warning(
+                    "Unable to create playlist {}: {}".format(
+                        playlist_title, error.message))
+                self._notificationmanager.pop_loading()
+                if callback is not None:
+                    callback(None)
+
+                return
+
             playlist_urn = result[0][0]['playlist']
             query = """
             SELECT
