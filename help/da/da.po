@@ -1,12 +1,13 @@
-# Danish translation for gnome-music-help.
+# Danish translation for gnome-music.
 # Copyright (C) 2015 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-music package.
-# scootergrisen, 2015.
+# scootergrisen, 2015, 2020.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: gnome-music-help gnome-3-18\n"
-"POT-Creation-Date: 2016-03-18 09:31+0000\n"
-"PO-Revision-Date: 2016-09-29 13:41+0200\n"
+"Project-Id-Version: gnome-music master\n"
+"POT-Creation-Date: 2020-12-18 14:03+0000\n"
+"PO-Revision-Date: 2020-12-30 00:00+0200\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
@@ -19,10 +20,11 @@ msgstr ""
 msgctxt "_"
 msgid "translator-credits"
 msgstr ""
-"scootergrisen, 2015\n"
+"scootergrisen <>, 2015, 2020\n"
 "\n"
-"Dansk-gruppen <dansk@dansk-gruppen.dk>\n"
-"Mere info: http://www.dansk-gruppen.dk"
+"Dansk-gruppen\n"
+"Websted http://dansk-gruppen.dk\n"
+"E-mail <dansk@dansk-gruppen.dk>"
 
 #. (itstool) path: credit/name
 #: C/introduction.page:11 C/index.page:11 C/play-music.page:11
@@ -46,8 +48,10 @@ msgstr "2014"
 #. (itstool) path: page/p
 #: C/introduction.page:18 C/introduction.page:23
 msgid ""
-"A simple and elegant replacement for using files to show the music directory."
-msgstr "En enkel og elegant erstatning for filer til at vise musikmappen."
+"A simple and elegant replacement for using <app>Files</app> to show the "
+"music directory."
+msgstr ""
+"En enkel og elegant erstatning for <app>Filer</app> til at vise musikmappen."
 
 #. (itstool) path: page/title
 #: C/introduction.page:22
@@ -101,7 +105,9 @@ msgstr "Afspil musik"
 msgid ""
 "You can play your favorite music by creating a playlist or by simply "
 "clicking on the song of your choice from any view."
-msgstr "Du kan afspille din favoritmusik ved at oprette en afspilningsliste eller blot ved at klikke på en sang efter eget valg i enhver visning."
+msgstr ""
+"Du kan afspille din favoritmusik ved at oprette en afspilningsliste eller "
+"blot ved at klikke på en sang efter eget valg i enhver visning."
 
 #. (itstool) path: steps/title
 #: C/play-music.page:28 C/playlist-delete.page:27
@@ -117,7 +123,7 @@ msgstr "Vælg en afspilningsliste."
 #. (itstool) path: item/p
 #: C/play-music.page:33 C/playlist-delete.page:32
 msgid "Click on the gear button on the right hand side."
-msgstr "Klik på tandshjulsknappen i højre side."
+msgstr "Klik på tandhjulsknappen i højre side."
 
 #. (itstool) path: item/p
 #: C/play-music.page:36
@@ -211,7 +217,10 @@ msgid ""
 "To select all the songs click <guiseq><gui>Click on items to select them</"
 "gui><gui>Select All</gui></guiseq> in the toolbar or press "
 "<keyseq><key>Ctrl</key><key>A</key></keyseq>."
-msgstr "For at vælge alle sange klikkes <guiseq><gui>Klik på elementerne for at vælge dem</gui><gui>Vælg alle</gui></guiseq> i værktøjslinjen, eller med tastaturet <keyseq><key>Ctrl</key><key>A</key></keyseq>."
+msgstr ""
+"For at vælge alle sange klikkes <guiseq><gui>Klik på elementerne for at "
+"vælge dem</gui><gui>Vælg alle</gui></guiseq> i værktøjslinjen, eller med "
+"tastaturet <keyseq><key>Ctrl</key><key>A</key></keyseq>."
 
 #. (itstool) path: note/p
 #: C/playlist-create-albums.page:76 C/playlist-create-songs.page:51
@@ -291,7 +300,8 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/playlist-create-artists.page:33
 msgid "Select all the artists whose songs you want to add to the playlist."
-msgstr "Vælg alle de kunstnere, hvis sange du vil tilføje til afspilningslisten."
+msgstr ""
+"Vælg alle de kunstnere, hvis sange du vil tilføje til afspilningslisten."
 
 #. (itstool) path: item/p
 #: C/playlist-create-artists.page:44
@@ -371,7 +381,7 @@ msgstr "Hvordan gentager jeg sange?"
 #. (itstool) path: list/title
 #: C/playlist-repeat.page:25
 msgid "In the taskbar, click on the button on the right side:"
-msgstr "Klik på knappen i højre side af opgavelinjen."
+msgstr "Klik på knappen i højre side af opgavelinjen:"
 
 #. (itstool) path: item/p
 #: C/playlist-repeat.page:27
@@ -424,9 +434,10 @@ msgstr ""
 #. (itstool) path: p/link
 #: C/legal.xml:5
 msgid "Creative Commons Attribution-ShareAlike 3.0 Unported License"
-msgstr "Creative Commons Attribution-ShareAlike 3.0 Unported License"
+msgstr ""
+"Creative Commons Kreditering-Deling på samme vilkår 3.0 Ikke porteret-licens"
 
 #. (itstool) path: license/p
 #: C/legal.xml:4
 msgid "This work is licensed under a <_:link-1/>."
-msgstr "Dette værk er licenseret under <_:link-1/>."
+msgstr "Værket er licenseret under en <_:link-1/>."
