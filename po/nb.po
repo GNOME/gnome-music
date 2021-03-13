@@ -1,15 +1,15 @@
 # Norwegian bokmål translation of gnome-music.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# Kjartan Maraas <kmaraas@gnome.org>, 2012-2020.
+# Kjartan Maraas <kmaraas@gnome.org>, 2012-2021.
 # Åka Sikrom <a4NOSPAMPLEASETHANKYOU@hush.com>, 2014.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gnome-music 3.38.x\n"
+"Project-Id-Version: gnome-music 3.40.x\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2020-10-05 15:17+0000\n"
-"PO-Revision-Date: 2020-12-04 15:25+0100\n"
+"POT-Creation-Date: 2020-12-04 14:27+0000\n"
+"PO-Revision-Date: 2021-03-13 18:41+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: no\n"
@@ -31,15 +31,19 @@ msgstr "Spill av og organiser musikksamlingen din"
 msgid ""
 "An easy way to play your music. Automatically discover music on your "
 "computer, the local network and internet services."
-msgstr "En enkel måte å spille av din musikk. Finner musikk automatisk på din datamaskin, det lokale nettverket og tjenester på internett."
+msgstr ""
+"En enkel måte å spille av din musikk. Finner musikk automatisk på din "
+"datamaskin, det lokale nettverket og tjenester på internett."
 
 #: data/org.gnome.Music.appdata.xml.in.in:12
 msgid ""
 "Find tracks in your local collection, get music from DLNA servers or try "
 "something new with the Jamendo and Magnatune services."
-msgstr "Finn sanger i din lokale samling, hent musikk fra DNLA-tjenere eller prøv noe nytt med Jamendo- og Magnatune-tjenestene."
+msgstr ""
+"Finn sanger i din lokale samling, hent musikk fra DNLA-tjenere eller prøv "
+"noe nytt med Jamendo- og Magnatune-tjenestene."
 
-#: data/org.gnome.Music.appdata.xml.in.in:133
+#: data/org.gnome.Music.appdata.xml.in.in:126
 msgid "The GNOME Music developers"
 msgstr "GNOME Music-utviklerene"
 
@@ -172,25 +176,40 @@ msgid ""
 "“Magic of the vinyl” by Sami Pyylampi image is licensed by CC-BY-SA 2.0 "
 "https://www.flickr.com/photos/_spy_/12270839403"
 msgstr ""
-"GNOME musikk er fri programvare. Du kan redistribuere og/eller endre programmet under betingelsene gitt i GNU General Public License som utgitt av Free Software Foundation; enten versjon 2 av lisensen, eller (hvis du ønsker det) enhver senere versjon.\n"
+"GNOME musikk er fri programvare. Du kan redistribuere og/eller endre "
+"programmet under betingelsene gitt i GNU General Public License som utgitt "
+"av Free Software Foundation; enten versjon 2 av lisensen, eller (hvis du "
+"ønsker det) enhver senere versjon.\n"
 "\n"
-"GNOME musikk distribueres i håp om at programmet er nyttig, men uten NOEN GARANTI, ikke engang implisitt garanti om at det er SALGBART eller PASSER ET BESTEMT FORMÅL. Se GNU General Public License for detaljer.\n"
+"GNOME musikk distribueres i håp om at programmet er nyttig, men uten NOEN "
+"GARANTI, ikke engang implisitt garanti om at det er SALGBART eller PASSER ET "
+"BESTEMT FORMÅL. Se GNU General Public License for detaljer.\n"
 "\n"
-"Du skal ha mottatt en kopi av GNU General Public License sammen med dette programmet. Hvis dette ikke er tilfelle, kan du skrive til Free Software Foundation, Inc. 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.\n"
+"Du skal ha mottatt en kopi av GNU General Public License sammen med dette "
+"programmet. Hvis dette ikke er tilfelle, kan du skrive til Free Software "
+"Foundation, Inc. 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, "
+"USA.\n"
 "\n"
-"GNOME musikk utviklerene gir herved rettigheter for bruk og distribusjon av GStreamer-tillegg som ikke er kompatible med GPL sammen med GStreamer og GNOME musikk. Denne rettigheten går foran rettighetene som gis av GPL-lisensen som gjelder for GNOME musikk. Hvis du endrer denne koden kan du bruke dette unntaket for din versjon av koden, men du er ikke pliktig til gjøre dette. Hvis du ikke ønsker å gjøre dette kan du slette denne teksten fra din versjon.\n"
+"GNOME musikk utviklerene gir herved rettigheter for bruk og distribusjon av "
+"GStreamer-tillegg som ikke er kompatible med GPL sammen med GStreamer og "
+"GNOME musikk. Denne rettigheten går foran rettighetene som gis av GPL-"
+"lisensen som gjelder for GNOME musikk. Hvis du endrer denne koden kan du "
+"bruke dette unntaket for din versjon av koden, men du er ikke pliktig til "
+"gjøre dette. Hvis du ikke ønsker å gjøre dette kan du slette denne teksten "
+"fra din versjon.\n"
 "\n"
-"Bildet «Magic of the vinyl» av Sami Pyylampi er lisensiert med CC-BY-SA 2.0. https://www.flickr.com/photos/_spy_/12270839403"
+"Bildet «Magic of the vinyl» av Sami Pyylampi er lisensiert med CC-BY-SA 2.0. "
+"https://www.flickr.com/photos/_spy_/12270839403"
 
-#: data/ui/AlbumWidget.ui:107
+#: data/ui/AlbumWidget.ui:106
 msgid "Released"
 msgstr "Utgitt"
 
-#: data/ui/AlbumWidget.ui:123
+#: data/ui/AlbumWidget.ui:122
 msgid "Running Length"
 msgstr "Spillelengde"
 
-#: data/ui/AlbumWidget.ui:167
+#: data/ui/AlbumWidget.ui:166
 msgid "Composer"
 msgstr "Komponist"
 
@@ -324,7 +343,9 @@ msgstr "Gå tilbake"
 msgid ""
 "Last.fm is a music discovery service that gives you personalised "
 "recommendations based on the music you listen to."
-msgstr "Last.fm er en tjeneste for utforsking av musikk som gir deg personlige anbefalinger basert på det du lytter til."
+msgstr ""
+"Last.fm er en tjeneste for utforsking av musikk som gir deg personlige "
+"anbefalinger basert på det du lytter til."
 
 #: data/ui/LastfmDialog.ui:32 gnomemusic/widgets/lastfmdialog.py:58
 msgid "Music Reporting Not Setup"
@@ -517,11 +538,11 @@ msgstr[1] "{} kreves for å spille av filen, men er ikke installert."
 msgid "Playing music"
 msgstr "Spiller musikk"
 
-#: gnomemusic/utils.py:81
+#: gnomemusic/utils.py:79
 msgid "Unknown album"
 msgstr "Ukjent album"
 
-#: gnomemusic/utils.py:102
+#: gnomemusic/utils.py:100
 msgid "Unknown Artist"
 msgstr "Ukjent artist"
 
