@@ -1,29 +1,25 @@
 # Danish translation for gnome-music.
 # Copyright (C) 2013-2018 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-music package.
-#
 # Kris Thomsen <lakristho@gmail.com>, 2013-2014.
 # Ask Hjorth Larsen <asklarsen@gmail.com>, 2015, 2016, 2017, 2018.
-# scootergrisen, 2015.
-# Joe Hansen (joedalton2@yahoo.dk), 2017.
+# scootergrisen, 2015, 2020.
+# Joe Hansen <joedalton2@yahoo.dk>, 2017.
 # Alan Mortensen <alanmortensen.am@gmail.com>, 2019-20.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2020-08-28 15:14+0000\n"
-"PO-Revision-Date: 2020-09-08 19:24+0200\n"
-"Last-Translator: Alan Mortensen <alanmortensen.am@gmail.com>\n"
+"POT-Creation-Date: 2020-12-04 14:27+0000\n"
+"PO-Revision-Date: 2020-12-31 00:00+0200\n"
+"Last-Translator: scootergrisen\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Language: da_DK\n"
-"X-Source-Language: C\n"
-"X-Generator: Poedit 2.3\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
 msgid "GNOME Music"
@@ -50,7 +46,7 @@ msgstr ""
 "Find spor i din lokale samling, hent musik fra DLNA-servere eller prøv noget "
 "nyt med tjenesterne Jamendo og Magnatune."
 
-#: data/org.gnome.Music.appdata.xml.in.in:110
+#: data/org.gnome.Music.appdata.xml.in.in:126
 msgid "The GNOME Music developers"
 msgstr "GNOME Musik-udviklerne"
 
@@ -145,8 +141,8 @@ msgid ""
 "Enables or disables sending scrobbles and the “currently playing” info to "
 "Last.fm."
 msgstr ""
-"Aktiverer eller deaktiverer, at der sendes “scrobbler” og “afspilles nu”-"
-"information til Last.fm."
+"Aktiverer eller deaktiverer, at der sendes “scrobbler” og “afspilles nu”-information "
+"til Last.fm."
 
 #: data/ui/AboutDialog.ui.in:9
 msgid "Copyright © 2018 GNOME Music Developers"
@@ -212,15 +208,15 @@ msgstr ""
 "“Magic of the vinyl” af Sami Pyylampi, billede er licenseret af CC-BY-SA 2.0 "
 "https://www.flickr.com/photos/_spy_/12270839403"
 
-#: data/ui/AlbumWidget.ui:107
+#: data/ui/AlbumWidget.ui:106
 msgid "Released"
 msgstr "Udgivet"
 
-#: data/ui/AlbumWidget.ui:123
+#: data/ui/AlbumWidget.ui:122
 msgid "Running Length"
 msgstr "Spilletid"
 
-#: data/ui/AlbumWidget.ui:167
+#: data/ui/AlbumWidget.ui:166
 msgid "Composer"
 msgstr "Komponist"
 
@@ -265,7 +261,6 @@ msgstr "Søg"
 msgid "Back"
 msgstr "Tilbage"
 
-# ?
 #: data/ui/help-overlay.ui:13
 msgctxt "shortcut window"
 msgid "General"
@@ -499,27 +494,27 @@ msgid "_Add to Playlist"
 msgstr "_Tilføj til afspilningsliste"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:832
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:827
 msgid "Most Played"
 msgstr "Mest afspillet"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:885
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:880
 msgid "Never Played"
 msgstr "Aldrig afspillet"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:937
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:932
 msgid "Recently Played"
 msgstr "Afspillet for nylig"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:999
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:994
 msgid "Recently Added"
 msgstr "Tilføjet for nylig"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1061
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1056
 msgid "Favorite Songs"
 msgstr "Yndlingssange"
 
@@ -551,11 +546,11 @@ msgstr[1] "{} kræves for at afspille filen, men er ikke installeret."
 msgid "Playing music"
 msgstr "Afspiller musik"
 
-#: gnomemusic/utils.py:81
+#: gnomemusic/utils.py:79
 msgid "Unknown album"
 msgstr "Ukendt album"
 
-#: gnomemusic/utils.py:102
+#: gnomemusic/utils.py:100
 msgid "Unknown Artist"
 msgstr "Ukendt kunstner"
 
@@ -663,69 +658,3 @@ msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} sang"
 msgstr[1] "{} sange"
-
-#~ msgid "@icon@"
-#~ msgstr "@icon@"
-
-#~ msgid "Untitled"
-#~ msgstr "Unavngivet"
-
-#~ msgid "All"
-#~ msgstr "Alle"
-
-#~ msgid "Artist"
-#~ msgstr "Kunstner"
-
-#~ msgid "Album"
-#~ msgstr "Album"
-
-#~ msgid "Track Title"
-#~ msgstr "Sportitel"
-
-#~ msgid "Local"
-#~ msgstr "Lokalt"
-
-#~ msgid "Sources"
-#~ msgstr "Kilder"
-
-#~ msgid "Match"
-#~ msgstr "Søg på"
-
-#~ msgid "_Quit"
-#~ msgstr "_Afslut"
-
-#~ msgid "Music is the new GNOME music playing application."
-#~ msgstr "Musik er det nye musikafspilningsprogram til GNOME."
-
-#~ msgid "org.gnome.Music"
-#~ msgstr "org.gnome.Music"
-
-#~ msgid "Search mode"
-#~ msgstr "Søgetilstand"
-
-#~ msgid "If true, the search bar is shown."
-#~ msgstr "Hvis true, vises søgelinjen."
-
-#~ msgid "Notifications mode"
-#~ msgstr "Påmindelsestilstand"
-
-#~ msgid "Enables or disables playback notifications"
-#~ msgstr "Aktiverer eller deaktiverer afspilningspåmindelser"
-
-#~ msgid "Selected %d item"
-#~ msgid_plural "Selected %d items"
-#~ msgstr[0] "%d element valgt"
-#~ msgstr[1] "%d elementer valgt"
-
-#~ msgid "%d min"
-#~ msgstr "%d min"
-
-#~ msgid "Empty"
-#~ msgstr "Tom"
-
-#~ msgid "Select Playlist"
-#~ msgstr "Vælg afspilningsliste"
-
-# vel ikke rigtig nogen danske vi ser bort fra?
-#~ msgid "the|a|an"
-#~ msgstr "the|a|an"
