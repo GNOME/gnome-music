@@ -3,6 +3,7 @@
       type="guide" id="index">
 
   <info>
+    <title type="link" role="trail">Music</title>
     <title type="link">Music</title>
     <title type="text">Music</title>
     <revision pkgversion="3.12" date="2014-02-24" status="review"/>
@@ -16,9 +17,8 @@
   </info>
 
   <title>
-  <media type="image" mime="image/png" src="figures/gnome-music-3.32.png"
-  its:translate="no"/>
-  Music
+  <media type="image" width="48px" height="48px" its:translate="no"
+    src="figures/org.gnome.Music.svg" /> Music
   </title>
 
   <section id="create" style= "2column">
