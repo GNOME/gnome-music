@@ -1,3 +1,39 @@
+Overview of changes in 40.rc
+============================
+
+• Improve startup loading
+• Misc playlist handling fixes
+• Use publication date instead of creation date for songs
+
+Bugs fixed:
+ Scrobbling crash (#412, !769)
+ Fix artist queries to retrieve art (!773)
+ Ignore redundant Tracker delete events (!781)
+ Fix album selection checkboxes style (#414)
+ Fix playlist deletion (!793, !813)
+ adding songs to favorite crashes the app (#441)
+ GNOME Music crashes during startup: discbox is None (#430)
+ Crash when creating a playlist containing a quotation mark (#447)
+
+Thanks to our contributors this release:
+ James A. Baker
+ Jean Felder
+ Marinus Schraal
+ Yann Delaby
+
+Updated translation:
+ British English
+ Catalan
+ Chinese (Taiwan)
+ Danish
+ Friulian
+ Galician
+ Hebrew
+ Norwegian Bokmål
+ Punjabi
+ Romanian
+ Slovak
+
 Overview of changes in 3.38.0
 =============================
 
@@ -30,7 +66,7 @@ Thanks to our contributors this release:
  Carlos Garnacho
  Chinmay Gurjar
  Jean Felder
- Marinus Schrall
+ Marinus Schraal
  Piotr Drąg
  Rasmus Thomsen
  Sam Thursfield
