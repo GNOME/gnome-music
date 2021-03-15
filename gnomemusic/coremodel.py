@@ -24,12 +24,11 @@
 
 from __future__ import annotations
 from typing import Optional, Union
-import math
 import typing
 
 import gi
 gi.require_version("Gfm", "0.1")
-from gi.repository import GObject, Gio, Gfm, Gtk
+from gi.repository import GLib, GObject, Gio, Gfm, Gtk
 
 from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.coreartist import CoreArtist
@@ -205,12 +204,8 @@ class CoreModel(GObject.GObject):
         if playlist_b.props.is_smart:
             return 1
 
-        # cannot use GLib.DateTime.compare
-        # https://gitlab.gnome.org/GNOME/pygobject/issues/334
-        # newest first
-        date_diff = playlist_b.props.creation_date.difference(
-            playlist_a.props.creation_date)
-        return math.copysign(1, date_diff)
+        return GLib.DateTime.compare(
+            playlist_b.props.creation_date, playlist_a.props.creation_date)
 
     def _set_player_model(self, playlist_type, model):
         """Set the model for PlayerPlaylist to use
