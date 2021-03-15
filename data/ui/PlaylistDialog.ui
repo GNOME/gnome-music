@@ -40,7 +40,10 @@
                     <property name="orientation">vertical</property>
                     <property name="valign">fill</property>
                     <property name="vexpand">True</property>
-                    <property name="margin">18</property>
+                    <property name="margin-bottom">18</property>
+                    <property name="margin-end">18</property>
+                    <property name="margin-start">18</property>
+                    <property name="margin-top">18</property>
                     <child>
                       <object class="GtkImage" id="image">
                         <property name="visible">True</property>
@@ -77,8 +80,10 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="halign">center</property>
-                        <property name="margin_bottom">16</property>
-                        <property name="margin">18</property>
+                        <property name="margin-bottom">16</property>
+                        <property name="margin-end">18</property>
+                        <property name="margin-start">18</property>
+                        <property name="margin-top">18</property>
                         <signal name="activate" handler="_on_editing_done" swapped="no"/>
                         <signal name="changed" handler="_on_add_playlist_entry_changed" swapped="no"/>
                         <signal name="focus-in-event" handler="_on_add_playlist_entry_focused" swapped="no"/>
@@ -99,9 +104,10 @@
                         <property name="receives_default">True</property>
                         <property name="halign">center</property>
                         <property name="valign">center</property>
-                        <property name="margin_top">10</property>
-                        <property name="margin_bottom">20</property>
-                        <property name="margin">18</property>
+                        <property name="margin-bottom">20</property>
+                        <property name="margin-end">18</property>
+                        <property name="margin-start">18</property>
+                        <property name="margin-top">10</property>
                         <signal name="clicked" handler="_on_editing_done" swapped="no"/>
                       </object>
                       <packing>
