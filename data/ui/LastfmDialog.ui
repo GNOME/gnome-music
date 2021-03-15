@@ -11,7 +11,10 @@
     <property name="window_position">center-on-parent</property>
     <child internal-child="vbox">
       <object class="GtkBox">
-        <property name="margin">16</property>
+        <property name="margin-bottom">16</property>
+        <property name="margin-end">16</property>
+        <property name="margin-start">16</property>
+        <property name="margin-top">16</property>
         <property name="orientation">vertical</property>
         <property name="valign">start</property>
         <property name="visible">True</property>
