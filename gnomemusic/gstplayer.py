@@ -31,7 +31,7 @@ from gettext import gettext as _, ngettext
 import gi
 gi.require_version('Gst', '1.0')
 gi.require_version('GstPbutils', '1.0')
-from gi.repository import GLib, Gtk, Gio, GObject, Gst, GstPbutils
+from gi.repository import Gtk, Gio, GObject, Gst, GstPbutils
 
 if typing.TYPE_CHECKING:
     from gnomemusic.application import Application
@@ -70,6 +70,7 @@ class GstPlayer(GObject.GObject):
 
         self._application = application
         self._duration = -1.
+        self._known_duration = False
         self._log = application.props.log
         self._seek = False
         self._tick = 0
@@ -90,6 +91,8 @@ class GstPlayer(GObject.GObject):
         self._settings.emit("changed", "replaygain")
 
         self._bus.connect('message::async-done', self._on_async_done)
+        self._bus.connect(
+            "message::duration-changed", self._on_duration_changed)
         self._bus.connect('message::error', self._on_bus_error)
         self._bus.connect('message::element', self._on_bus_element)
         self._bus.connect('message::eos', self._on_bus_eos)
@@ -141,12 +144,19 @@ class GstPlayer(GObject.GObject):
             self._seek = False
             self.emit("seek-finished")
 
-    def _query_duration(self):
-        success, duration = self._player.query_duration(
+        if not self._known_duration:
+            self._query_duration()
+
+    def _on_duration_changed(self, bus: Gst.Bus, message: Gst.Message) -> None:
+        self._query_duration()
+
+    def _query_duration(self) -> None:
+        self._known_duration, duration = self._player.query_duration(
             Gst.Format.TIME)
 
-        if success:
+        if self._known_duration:
             self.props.duration = duration / Gst.SECOND
+            self._log.debug("duration changed: {}".format(self.props.duration))
         else:
             self.props.duration = duration
 
@@ -178,14 +188,9 @@ class GstPlayer(GObject.GObject):
             self._missing_plugin_messages.append(message)
 
     def _on_bus_stream_start(self, bus, message):
-        def delayed_query():
-            self._query_duration()
-            self._tick = 0
-            self.emit("stream-start")
-
-        # Delay the signalling slightly or the new duration will not
-        # have been set yet.
-        GLib.timeout_add(1, delayed_query)
+        self._query_duration()
+        self._tick = 0
+        self.emit("stream-start")
 
     def _on_state_changed(self, bus, message):
         if message.src != self._player:
