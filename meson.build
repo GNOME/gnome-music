@@ -1,5 +1,5 @@
 project('gnome-music',
-    version: '40.rc',
+    version: '40.0',
     meson_version: '>= 0.49.0'
 )
 

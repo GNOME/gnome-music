@@ -28,6 +28,20 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="40.0" date="2021-03-21">
+      <description>
+        <p>
+          First stable release for GNOME 40. This version mostly consists
+          of stability improvements. There are also some notable
+          improvements:
+        </p>
+        <ul>
+	  <li>Improve startup loading</li>
+          <li>Use publication date instead of creation date for songs</li>
+        </ul>
+        <p>This release also updates translations.</p>
+      </description>
+    </release>
     <release version="3.38.0" date="2020-09-14">
       <description>
         <p>
