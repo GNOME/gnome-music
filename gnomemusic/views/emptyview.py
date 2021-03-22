@@ -130,20 +130,20 @@ class EmptyView(Gtk.Stack):
     def _set_no_tracker_state(self):
         self._main_label.props.margin_bottom = 12
         self._main_label.props.label = _(
-            "GNOME Music could not connect to Tracker")
+            "GNOME Music could not connect to Tracker.")
         self._icon.props.margin_bottom = 18
         self._information_label.props.label = _(
-            "Your music files cannot be indexed without Tracker running")
+            "Your music files cannot be indexed without Tracker running.")
 
         self._icon.props.icon_name = "dialog-error-symbolic"
 
     def _set_tracker_outdated_state(self):
         self._main_label.props.margin_bottom = 12
         self._main_label.props.label = _(
-            "Your system Tracker version seems outdated")
+            "Your system Tracker version seems outdated.")
         self._icon.props.margin_bottom = 18
         self._information_label.props.label = _(
-            "Music needs Tracker version 3.0.0 or higher")
+            "Music needs Tracker version 3.0.0 or higher.")
 
         self._icon.props.icon_name = "dialog-error-symbolic"
 
