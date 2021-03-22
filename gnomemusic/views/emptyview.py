@@ -71,7 +71,7 @@ class EmptyView(Gtk.Stack):
             GLib.filename_to_uri(music_folder))
 
         href_text = "<a href='{}'>{}</a>".format(
-            music_folder, _("Music folder"))
+            music_folder, _("Music Folder"))
 
         # TRANSLATORS: This is a label to display a link to open user's music
         # folder. {} will be replaced with the translated text 'Music folder'
@@ -118,14 +118,14 @@ class EmptyView(Gtk.Stack):
         self._icon.props.width_request = ArtSize.LARGE.width
 
     def _set_empty_state(self):
-        self._main_label.props.label = _("No music found")
+        self._main_label.props.label = _("No Music Found")
         self._information_label.props.label = self._content_text
 
     def _set_search_state(self):
         self._main_label.props.margin_bottom = 12
-        self._main_label.props.label = _("No music found")
+        self._main_label.props.label = _("No Music Found")
         self._icon.props.margin_bottom = 18
-        self._information_label.props.label = _("Try a different search")
+        self._information_label.props.label = _("Try a Different Search")
 
     def _set_no_tracker_state(self):
         self._main_label.props.margin_bottom = 12
