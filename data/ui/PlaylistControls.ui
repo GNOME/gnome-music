@@ -18,17 +18,17 @@
   <object class="GtkImage" id="_view_more_image">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="margin_top">1</property>
+    <property name="margin-top">1</property>
     <property name="icon_name">view-more-symbolic</property>
     <property name="icon_size">1</property>
   </object>
   <template class="PlaylistControls" parent="GtkGrid">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="margin_start">18</property>
-    <property name="margin_end">24</property>
-    <property name="margin_top">18</property>
-    <property name="margin_bottom">18</property>
+    <property name="margin-bottom">18</property>
+    <property name="margin-end">24</property>
+    <property name="margin-start">18</property>
+    <property name="margin-top">18</property>
     <child>
       <object class="GtkStack" id="_name_stack">
         <property name="visible">True</property>

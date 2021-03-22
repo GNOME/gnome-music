@@ -11,8 +11,8 @@
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="spacing">3</property>
-        <property name="margin_top">10</property>
-        <property name="margin_bottom">10</property>
+        <property name="margin-bottom">10</property>
+        <property name="margin-top">10</property>
         <child>
           <object class="GtkEventBox" id="_dnd_eventbox">
             <property name="visible">False</property>
@@ -74,8 +74,8 @@
           <object class="GtkBox" id="title_box">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="margin_top">1</property>
-            <property name="margin_bottom">1</property>
+            <property name="margin-bottom">1</property>
+            <property name="margin-top">1</property>
             <property name="hexpand">True</property>
             <child>
               <object class="DzlBoldingLabel" id="_title_label">
@@ -88,7 +88,7 @@
                 <property name="ellipsize">end</property>
                 <property name="max_width_chars">90</property>
                 <property name="justify">fill</property>
-                <property name="margin_start">9</property>
+                <property name="margin-start">9</property>
               </object>
             </child>
           </object>
@@ -97,8 +97,8 @@
           <object class="GtkBox" id="_artist_box">
             <property name="visible">False</property>
             <property name="can_focus">False</property>
-            <property name="margin_top">1</property>
-            <property name="margin_bottom">1</property>
+            <property name="margin-bottom">1</property>
+            <property name="margin-top">1</property>
             <property name="hexpand">True</property>
             <child>
               <object class="GtkLabel" id="_artist_label">
@@ -111,7 +111,7 @@
                 <property name="ellipsize">end</property>
                 <property name="max_width_chars">90</property>
                 <property name="justify">fill</property>
-                <property name="margin_start">9</property>
+                <property name="margin-start">9</property>
               </object>
             </child>
           </object>
@@ -120,8 +120,8 @@
           <object class="GtkBox" id="_album_duration_box">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="margin_top">1</property>
-            <property name="margin_bottom">1</property>
+            <property name="margin-bottom">1</property>
+            <property name="margin-top">1</property>
             <property name="hexpand">True</property>
             <child>
               <object class="GtkLabel" id="_album_label">
@@ -134,7 +134,7 @@
                 <property name="ellipsize">end</property>
                 <property name="max_width_chars">90</property>
                 <property name="justify">fill</property>
-                <property name="margin_start">9</property>
+                <property name="margin-start">9</property>
               </object>
             </child>
             <child>
@@ -172,7 +172,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="valign">center</property>
-                    <property name="margin_start">10</property>
+                    <property name="margin-start">10</property>
                   </object>
                 </child>
               </object>

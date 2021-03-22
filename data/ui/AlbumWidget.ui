@@ -16,10 +16,10 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="halign">end</property>
-            <property name="margin_start">32</property>
-            <property name="margin_end">32</property>
-            <property name="margin_top">48</property>
-            <property name="margin_bottom">32</property>
+            <property name="margin-bottom">32</property>
+            <property name="margin-end">32</property>
+            <property name="margin-start">32</property>
+            <property name="margin-top">48</property>
             <property name="vexpand">True</property>
             <property name="hexpand">True</property>
             <child>
@@ -36,8 +36,8 @@
                     <property name="can_focus">False</property>
                     <property name="halign">center</property>
                     <property name="valign">start</property>
-                    <property name="margin_start">1</property>
-                    <property name="margin_end">1</property>
+                    <property name="margin-end">1</property>
+                    <property name="margin-start">1</property>
                     <property name="hhomogeneous">False</property>
                     <property name="vhomogeneous">False</property>
                   </object>
@@ -93,7 +93,7 @@
                   <object class="GtkGrid" id="grid">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_top">21</property>
+                    <property name="margin-top">21</property>
                     <property name="column_spacing">32</property>
                     <property name="column_homogeneous">True</property>
                     <child>
@@ -101,8 +101,8 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="halign">end</property>
-                        <property name="margin_top">2</property>
-                        <property name="margin_bottom">2</property>
+                        <property name="margin-bottom">2</property>
+                        <property name="margin-top">2</property>
                         <property name="label" translatable="yes">Released</property>
                         <property name="use_markup">True</property>
                         <style>
@@ -135,8 +135,8 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="halign">start</property>
-                        <property name="margin_top">2</property>
-                        <property name="margin_bottom">2</property>
+                        <property name="margin-bottom">2</property>
+                        <property name="margin-top">2</property>
                         <property name="label">----</property>
                       </object>
                       <packing>
@@ -161,8 +161,8 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="halign">end</property>
-                        <property name="margin_top">2</property>
-                        <property name="margin_bottom">2</property>
+                        <property name="margin-bottom">2</property>
+                        <property name="margin-top">2</property>
                         <property name="label" translatable="yes">Composer</property>
                         <property name="use_markup">True</property>
                         <style>
@@ -179,8 +179,8 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="halign">start</property>
-                        <property name="margin_top">2</property>
-                        <property name="margin_bottom">2</property>
+                        <property name="margin-bottom">2</property>
+                        <property name="margin-top">2</property>
                         <property name="ellipsize">end</property>
                       </object>
                       <packing>
@@ -221,9 +221,9 @@
                 <child>
                   <object class="DiscListBox" id="_disc_list_box">
                     <property name="can_focus">False</property>
-                    <property name="margin_top">48</property>
-                    <property name="margin_bottom">48</property>
-                    <property name="margin_end">32</property>
+                    <property name="margin-bottom">48</property>
+                    <property name="margin-end">32</property>
+                    <property name="margin-top">48</property>
                     <property name="selection_mode">0</property>
                     <property name="visible">True</property>
                   </object>
