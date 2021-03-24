@@ -63,6 +63,7 @@ class SongWidget(Gtk.EventBox):
     _album_duration_box = Gtk.Template.Child()
     _artist_box = Gtk.Template.Child()
     _artist_label = Gtk.Template.Child()
+    _controller_motion = Gtk.Template.Child()
     _dnd_eventbox = Gtk.Template.Child()
     _select_button = Gtk.Template.Child()
     _number_label = Gtk.Template.Child()
@@ -215,11 +216,11 @@ class SongWidget(Gtk.EventBox):
         return True
 
     @Gtk.Template.Callback()
-    def _on_star_hover(self, widget, event):
+    def _on_star_hover(self, controller, x, y):
         self._star_image.props.hover = True
 
     @Gtk.Template.Callback()
-    def _on_star_unhover(self, widget, event):
+    def _on_star_unhover(self, controller):
         self._star_image.props.hover = False
 
     @GObject.Property(type=bool, default=False)

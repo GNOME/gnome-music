@@ -165,8 +165,6 @@
                 <property name="visible_window">True</property>
                 <property name="margin-end">12</property>
                 <signal name="button-release-event" handler="_on_star_toggle" swapped="no"/>
-                <signal name="enter-notify-event" handler="_on_star_hover" swapped="no"/>
-                <signal name="leave-notify-event" handler="_on_star_unhover" swapped="no"/>
                 <child>
                   <object class="StarImage" id="_star_image">
                     <property name="visible">True</property>
@@ -201,5 +199,10 @@
       <widget name="_artist_box"/>
       <widget name="_album_duration_box"/>
     </widgets>
+  </object>
+  <object class="GtkEventControllerMotion" id="_controller_motion">
+    <property name="widget">_star_eventbox</property>
+    <signal name="enter" handler="_on_star_hover" swapped="no"/>
+    <signal name="leave" handler="_on_star_unhover" swapped="no"/>
   </object>
 </interface>
