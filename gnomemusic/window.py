@@ -262,7 +262,10 @@ class Window(Gtk.ApplicationWindow):
             else:
                 self._stack.add_named(i, i.props.name)
 
+        # The "visible-child" notification ensures that the AlbumView
+        # appears as selected by the stack switcher on launch.
         self._stack.props.visible_child = self.views[View.ALBUM]
+        self._stack.notify("visible-child")
 
         self.views[View.SEARCH].bind_property(
             "search-state", self._search, "state",
