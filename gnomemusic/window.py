@@ -57,6 +57,7 @@ class Window(Gtk.ApplicationWindow):
 
     notifications_popup = Gtk.Template.Child()
     _headerbar_stack = Gtk.Template.Child()
+    _key_controller = Gtk.Template.Child()
     _overlay = Gtk.Template.Child()
     _player_toolbar = Gtk.Template.Child()
     _selection_toolbar = Gtk.Template.Child()
@@ -228,8 +229,6 @@ class Window(Gtk.ApplicationWindow):
         self._on_notify_model_id = self._stack.connect(
             'notify::visible-child', self._on_notify_mode)
         self.connect('destroy', self._notify_mode_disconnect)
-        self._key_press_event_id = self.connect(
-            'key_press_event', self._on_key_press)
 
         self._btn_ctrl = Gtk.GestureMultiPress().new(self)
         self._btn_ctrl.props.propagation_phase = Gtk.PropagationPhase.CAPTURE
@@ -289,10 +288,9 @@ class Window(Gtk.ApplicationWindow):
 
         self.props.active_view.deselect_all()
 
-    def _on_key_press(self, widget, event):
-        modifiers = event.get_state() & Gtk.accelerator_get_default_mod_mask()
-        (_, keyval) = event.get_keyval()
-
+    @Gtk.Template.Callback()
+    def _on_key_press(self, controller, keyval, keycode, state):
+        modifiers = state & Gtk.accelerator_get_default_mod_mask()
         control_mask = Gdk.ModifierType.CONTROL_MASK
         shift_mask = Gdk.ModifierType.SHIFT_MASK
         mod1_mask = Gdk.ModifierType.MOD1_MASK

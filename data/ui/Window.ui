@@ -44,4 +44,9 @@
       </object>
     </child>
   </template>
+  <object class="GtkEventControllerKey" id="_key_controller">
+    <property name="widget">Window</property>
+    <property name="propagation-phase">capture</property>
+    <signal name="key-pressed" handler="_on_key_press" swapped="no"/>
+  </object>
 </interface>
