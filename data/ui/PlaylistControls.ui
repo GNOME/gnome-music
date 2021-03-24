@@ -62,7 +62,6 @@
                 <property name="receives_default">True</property>
                 <signal name="activate" handler="_on_playlist_renamed" swapped="no"/>
                 <signal name="changed" handler="_on_rename_entry_changed" swapped="no"/>
-                <signal name="key-press-event" handler="_on_rename_entry_key_pressed" swapped="no"/>
               </object>
             </child>
             <child>
@@ -136,4 +135,8 @@
       </packing>
     </child>
   </template>
+  <object class="GtkEventControllerKey" id="_rename_controller">
+    <property name="widget">_rename_entry</property>
+    <signal name="key-pressed" handler="_on_rename_entry_key_pressed" swapped="no"/>
+  </object>
 </interface>

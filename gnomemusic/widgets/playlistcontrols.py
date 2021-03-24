@@ -38,6 +38,7 @@ class PlaylistControls(Gtk.Grid):
 
     _name_stack = Gtk.Template.Child()
     _name_label = Gtk.Template.Child()
+    _rename_controller = Gtk.Template.Child()
     _rename_entry = Gtk.Template.Child()
     _rename_done_button = Gtk.Template.Child()
     _songs_count_label = Gtk.Template.Child()
@@ -107,8 +108,7 @@ class PlaylistControls(Gtk.Grid):
         self._rename_done_button.props.sensitive = selection_length > 0
 
     @Gtk.Template.Callback()
-    def _on_rename_entry_key_pressed(self, widget, event):
-        (_, keyval) = event.get_keyval()
+    def _on_rename_entry_key_pressed(self, controller, keyval, keycode, state):
         if keyval == Gdk.KEY_Escape:
             self._disable_rename_playlist()
 
