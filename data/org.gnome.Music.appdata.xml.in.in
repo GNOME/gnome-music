@@ -28,6 +28,20 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="3.38.3" date="2020-03-26">
+      <description>
+        <p>
+	  This release fixes some issues:
+	</p>
+	<ul>
+	  <li>Fix adding songs to favorite from the songs view</li>
+	  <li>Fix playlist deletion with the delete key</li>
+	  <li>Fix playbar reset at the end of playlist</li>
+	  <li>Fix removal of songs from a playlist</li>
+ 	</ul>
+	<p>This release also updates translations.</p>
+      </description>
+    </release>
     <release version="3.38.2" date="2020-11-21">
       <description>
         <p>

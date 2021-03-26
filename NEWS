@@ -1,3 +1,25 @@
+Overview of changes in 3.38.3
+=============================
+
+Bugs fixed:
+ Fix disc label color
+ Adding songs to favorite crash the app (#441)
+ Crash when creating a playlist containing a quotation mark (#447)
+ Do not try to delete a playlist when renamed
+ Fix playlist deletion with a key (!815)
+ Play bar buggy after end of playlist (#411)
+ User playlists list does not update after adding new songs (#445)
+ Fix removal of songs from a playlist (!822)
+ Fix album view selection by the stack switcher on launch (!825)
+
+Thanks to our contributors this release:
+ Jean Felder
+ Yann Delaby
+
+Updated translations:
+ Norwegian Bokmål
+ Romanian
+
 Overview of changes in 3.38.2
 =============================
 
