@@ -2,14 +2,14 @@
 # Copyright (C) 2013 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Yaron Shahrabani <sh.yaron@gmail.com>, 2013.
-# Yosef Or Boczko <yoseforb@gmail.com>, 2013-2020.
+# Yosef Or Boczko <yoseforb@gmail.com>, 2013-2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: GNOME Music\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2020-08-28 15:14+0000\n"
-"PO-Revision-Date: 2020-09-29 00:54+0300\n"
+"POT-Creation-Date: 2020-12-04 14:27+0000\n"
+"PO-Revision-Date: 2021-03-29 02:03+0300\n"
 "Last-Translator: Yosef Or Boczko <yoseforb@gmail.com>\n"
 "Language-Team: Hebrew <yoseforb@gmail.com>\n"
 "Language: he\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-Poedit-Language: Hebrew\n"
 "X-Poedit-Country: ISRAEL\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Gtranslator 3.36.0\n"
+"X-Generator: Gtranslator 3.38.0\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
 msgid "GNOME Music"
@@ -47,7 +47,7 @@ msgstr ""
 "למצוא רצועות באוספים המקומיים שלך, לקבל מוזיקה משרתי DLNA או לנסות משהו חדש "
 "עם שרתי Jamendo ו־Magnatune."
 
-#: data/org.gnome.Music.appdata.xml.in.in:110
+#: data/org.gnome.Music.appdata.xml.in.in:126
 msgid "The GNOME Music developers"
 msgstr "מפתח GNOME Music"
 
@@ -152,10 +152,9 @@ msgstr "נגן מוזיקה ויישום ניהול עבור GNOME"
 
 #: data/ui/AboutDialog.ui.in:12
 msgid "Visit GNOME Music website"
-msgstr "בקר באתר GNOME מוזיקה"
+msgstr "ביקור באתר GNOME מוזיקה"
 
 #: data/ui/AboutDialog.ui.in:13
-#, fuzzy
 #| msgid ""
 #| "GNOME Music is free software; you can redistribute it and/or modify it "
 #| "under the terms of the GNU General Public License as published by the "
@@ -213,9 +212,11 @@ msgstr ""
 "\n"
 "תכנית זו מופצת בתקווה שתביא תועלת אך ללא אחריות כלשהי; אפילו לא האחריות "
 "המשתמעת בדבר מסחריותה או התאמתה למטרה מסוימת. לפרטים נוספים ניתן לעיין "
-"ברישיון הציבורי הכללי של GNU.לתכנית זו אמור היה להיות מצורף עותק של הרישיון "
-"הציבורי הכללי של GNU; במידה שלא, ניתן לכתוב ל־Free Software Foundation, "
-"Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"ברישיון הציבורי הכללי של GNU.\n"
+"\n"
+"עם GNOME Music אמור היה להיות מצורף עותק של הרישיון הציבורי הכללי של GNU; "
+"במידה שלא, ניתן לכתוב ל־Free Software Foundation, Inc., 51 Franklin Street, "
+"Fifth Floor, Boston, MA 02110-1301 USA.\n"
 "\n"
 "היוצרים של GNOME Music מצהירים בזאת כי הם מעניקים הרשאה להפצה של תוספי "
 "GStreamer שאינם מעוגנים תחת ה־GPL יחד עם GStreamer ו־GNOME Music. הרשאה זו "
@@ -223,18 +224,19 @@ msgstr ""
 "Music. כל שינוי בקוד זה עשוי לאלץ אותך להרחיב את החריגה לקוד בגרסה שהכנת, אך "
 "אין כל התחייבות לעשות זאת. אם אין לך עניין לעשות דבר שכזה, יש למחוק את הצהרת "
 "החריגה הזאת מהגרסה שלך.\n"
+"\n"
 "התמונה „Magic of the vinyl” מאת Sami Pyylampi תחת הרישיון ייחוס-שיתוף זהה "
-"2.0 לא מותאם (CC BY-SA 2.0) ‏https://www.flickr.com/photos/_spy_/12270839403\n"
+"2.0 לא מותאם (CC BY-SA 2.0) ‏https://www.flickr.com/photos/_spy_/12270839403"
 
-#: data/ui/AlbumWidget.ui:107
+#: data/ui/AlbumWidget.ui:106
 msgid "Released"
 msgstr "הוצאה לאור"
 
-#: data/ui/AlbumWidget.ui:123
+#: data/ui/AlbumWidget.ui:122
 msgid "Running Length"
 msgstr "משך ההשמעה"
 
-#: data/ui/AlbumWidget.ui:167
+#: data/ui/AlbumWidget.ui:166
 msgid "Composer"
 msgstr "מלחין"
 
@@ -511,27 +513,27 @@ msgid "_Add to Playlist"
 msgstr "_הוספה לרשימת השמעה"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:832
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:827
 msgid "Most Played"
 msgstr "הושמע ביותר"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:885
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:880
 msgid "Never Played"
 msgstr "לעולם לא הושמע"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:937
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:932
 msgid "Recently Played"
 msgstr "הושמע לאחרונה"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:999
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:994
 msgid "Recently Added"
 msgstr "נוסף לאחרונה"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1061
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1056
 msgid "Favorite Songs"
 msgstr "שירים מועדפים"
 
@@ -564,11 +566,11 @@ msgstr[2] "{} נדרשים לניגון הקובץ, אך אלה אינם מות�
 msgid "Playing music"
 msgstr "מנגן מוזיקה"
 
-#: gnomemusic/utils.py:81
+#: gnomemusic/utils.py:79
 msgid "Unknown album"
 msgstr "אלבום לא ידוע"
 
-#: gnomemusic/utils.py:102
+#: gnomemusic/utils.py:100
 msgid "Unknown Artist"
 msgstr "אמן לא ידוע"
 
@@ -611,7 +613,6 @@ msgid "Your system Tracker version seems outdated"
 msgstr "נראה כי גרסת Tracker שבמערכת שלך לא מעודכנת"
 
 #: gnomemusic/views/emptyview.py:146
-#| msgid "Music needs Tracker version 2.3.0 or higher"
 msgid "Music needs Tracker version 3.0.0 or higher"
 msgstr "מוזיקה דורש Tracker בגרסה 3.0.0 לפחות"
 
@@ -639,8 +640,6 @@ msgid "Disc {}"
 msgstr "דיסק {}"
 
 #: gnomemusic/widgets/headerbar.py:68
-#| msgid "Selected {} item"
-#| msgid_plural "Selected {} items"
 msgid "Selected {} song"
 msgid_plural "Selected {} songs"
 msgstr[0] "שיר {} נבחר"
