@@ -128,7 +128,8 @@
                              "-Denable-tracker=no",
                              "-Denable-tracker3=yes",
                              "-Denable-vimeo=no",
-                             "-Denable-youtube=no" ],
+                             "-Denable-youtube=no",
+                             "-Dhelp=no" ],
             "sources": [
                 {
                     "type": "git",
