@@ -7,13 +7,13 @@
 # Wouter Bolsterlee <wbolster@gnome.org>, 2013.
 # Hannie Dumoleyn <hannie@ubuntu-nl.org>, 2015.
 # Justin van Steijn <jvs@fsfe.org>, 2016.
-# Nathan Follens <nthn@unseen.is>, 2018-2020.
+# Nathan Follens <nthn@unseen.is>, 2018-2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2020-08-21 14:47+0000\n"
-"PO-Revision-Date: 2020-08-25 18:12+0200\n"
+"POT-Creation-Date: 2020-12-04 14:27+0000\n"
+"PO-Revision-Date: 2021-04-01 22:50+0200\n"
 "Last-Translator: Nathan Follens <nthn@unseen.is>\n"
 "Language-Team: Dutch <gnome-nl-list@gnome.org>\n"
 "Language: nl\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.4.1\n"
+"X-Generator: Poedit 2.4.2\n"
 "X-Project-Style: gnome\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
@@ -49,11 +49,11 @@ msgstr ""
 "Zoek nummers in uw lokale verzameling, haal muziek op van DLNA-servers of "
 "probeer eens iets nieuws met de Jamendo- en Magnatune-diensten."
 
-#: data/org.gnome.Music.appdata.xml.in.in:110
+#: data/org.gnome.Music.appdata.xml.in.in:126
 msgid "The GNOME Music developers"
 msgstr "De Gnome Muziek-ontwikkelaars"
 
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:59
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:60
 #: gnomemusic/window.py:70
 msgid "Music"
 msgstr "Muziek"
@@ -211,15 +211,15 @@ msgstr ""
 "‘Magic of the vinyl’ door Sami Pyylampi afbeelding is uitgebracht onder CC-"
 "BY-SA 2.0 https://www.flickr.com/photos/_spy_/12270839403"
 
-#: data/ui/AlbumWidget.ui:107
+#: data/ui/AlbumWidget.ui:106
 msgid "Released"
 msgstr "Uitgegeven"
 
-#: data/ui/AlbumWidget.ui:123
+#: data/ui/AlbumWidget.ui:122
 msgid "Running Length"
 msgstr "Speelduur"
 
-#: data/ui/AlbumWidget.ui:167
+#: data/ui/AlbumWidget.ui:166
 msgid "Composer"
 msgstr "Componist"
 
@@ -497,27 +497,27 @@ msgid "_Add to Playlist"
 msgstr "Toevoegen aan _afspeellijst"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:822
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:827
 msgid "Most Played"
 msgstr "Meest afgespeeld"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:858
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:880
 msgid "Never Played"
 msgstr "Nooit afgespeeld"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:893
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:932
 msgid "Recently Played"
 msgstr "Onlangs afgespeeld"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:938
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:994
 msgid "Recently Added"
 msgstr "Onlangs toegevoegd"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:982
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1056
 msgid "Favorite Songs"
 msgstr "Favoriete nummers"
 
@@ -551,11 +551,11 @@ msgstr[1] ""
 msgid "Playing music"
 msgstr "Muziek wordt afgespeeld"
 
-#: gnomemusic/utils.py:81
+#: gnomemusic/utils.py:79
 msgid "Unknown album"
 msgstr "Onbekend album"
 
-#: gnomemusic/utils.py:102
+#: gnomemusic/utils.py:100
 msgid "Unknown Artist"
 msgstr "Onbekende artiest"
 
@@ -600,18 +600,18 @@ msgid "Your system Tracker version seems outdated"
 msgstr "Uw versie van Tracker is verouderd"
 
 #: gnomemusic/views/emptyview.py:146
-msgid "Music needs Tracker version 2.3.0 or higher"
-msgstr "Muziek vereist versie 2.3.0 of hoger van Tracker"
+msgid "Music needs Tracker version 3.0.0 or higher"
+msgstr "Muziek vereist versie 3.0.0 of hoger van Tracker"
 
 #: gnomemusic/views/playlistsview.py:41
 msgid "Playlists"
 msgstr "Afspeellijsten"
 
-#: gnomemusic/views/searchview.py:381
+#: gnomemusic/views/searchview.py:386
 msgid "Artists Results"
 msgstr "Artiestresultaten"
 
-#: gnomemusic/views/searchview.py:396
+#: gnomemusic/views/searchview.py:401
 msgid "Albums Results"
 msgstr "Albumresultaten"
 
