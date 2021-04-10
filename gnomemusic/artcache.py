@@ -51,7 +51,10 @@ def _make_icon_frame(
     :rtype: cairo.Surface
     """
     degrees = pi / 180
-    radius = 8
+    if art_size == ArtSize.SMALL:
+        radius = 2
+    else:
+        radius = 8
     icon_w = icon_surface.get_width()
     icon_h = icon_surface.get_height()
     ratio = icon_h / icon_w
