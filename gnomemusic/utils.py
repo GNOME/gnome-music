@@ -36,7 +36,7 @@ from gnomemusic.musiclogger import MusicLogger
 class ArtSize(Enum):
     """Enum for icon sizes"""
     SMALL = (74, 74)
-    MEDIUM = (128, 128)
+    MEDIUM = (192, 192)
     LARGE = (256, 256)
 
     def __init__(self, width, height):
