@@ -50,9 +50,8 @@ def _make_icon_frame(
     :return: The framed surface
     :rtype: cairo.Surface
     """
-    border = 3
     degrees = pi / 180
-    radius = 3
+    radius = 8
     icon_w = icon_surface.get_width()
     icon_h = icon_surface.get_height()
     ratio = icon_h / icon_w
@@ -68,27 +67,15 @@ def _make_icon_frame(
     surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, w * scale, h * scale)
     surface.set_device_scale(scale, scale)
     ctx = cairo.Context(surface)
-    matrix = cairo.Matrix()
 
     if round_shape:
-        line_width = 0.6
-        ctx.new_sub_path()
-        ctx.arc(w / 2, h / 2, (w / 2) - line_width, 0, 2 * pi)
-        ctx.set_source_rgba(0, 0, 0, 0.7)
-        ctx.set_line_width(line_width)
-        ctx.stroke_preserve()
+        ctx.arc(w / 2, h / 2, w / 2, 0, 2 * pi)
     else:
-        # draw outline
-        ctx.new_sub_path()
         ctx.arc(w - radius, radius, radius - 0.5, -90 * degrees, 0 * degrees)
         ctx.arc(
             w - radius, h - radius, radius - 0.5, 0 * degrees, 90 * degrees)
         ctx.arc(radius, h - radius, radius - 0.5, 90 * degrees, 180 * degrees)
         ctx.arc(radius, radius, radius - 0.5, 180 * degrees, 270 * degrees)
-        ctx.close_path()
-        ctx.set_line_width(0.6)
-        ctx.set_source_rgba(0, 0, 0, 0.7)
-        ctx.stroke_preserve()
 
     if default_icon:
         ctx.set_source_rgb(1, 1, 1)
@@ -97,26 +84,12 @@ def _make_icon_frame(
         ctx.mask_surface(icon_surface, w / 3, h / 3)
         ctx.fill()
     else:
-        if round_shape:
-            matrix.scale(icon_w / (w * scale), icon_h / (h * scale))
-        else:
-            matrix.scale(
-                icon_w / ((w - border * 2) * scale),
-                icon_h / ((h - border * 2) * scale))
-            matrix.translate(-border, -border)
-
+        matrix = cairo.Matrix()
+        matrix.scale(icon_w / (w * scale), icon_h / (h * scale))
         ctx.set_source_surface(icon_surface, 0, 0)
-
         pattern = ctx.get_source()
         pattern.set_matrix(matrix)
         ctx.fill()
-
-    if round_shape:
-        ctx.arc(w / 2, h / 2, w / 2, 0, 2 * pi)
-    else:
-        ctx.rectangle(border, border, w - border * 2, h - border * 2)
-
-    ctx.clip()
 
     return surface
 
