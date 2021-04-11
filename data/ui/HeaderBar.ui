@@ -7,7 +7,7 @@
     <style>
       <class name="titlebar"/>
     </style>
-    <child>
+    <child type="end">
       <object class="GtkMenuButton" id="_menu_button">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
@@ -26,11 +26,8 @@
           </object>
         </child>
       </object>
-      <packing>
-        <property name="pack_type">end</property>
-      </packing>
     </child>
-    <child>
+    <child type="end">
       <object class="GtkToggleButton" id="_select_button">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
@@ -49,11 +46,8 @@
           </object>
         </child>
       </object>
-      <packing>
-        <property name="pack_type">end</property>
-      </packing>
     </child>
-    <child>
+    <child type="end">
       <object class="GtkButton" id="_cancel_button">
         <property name="visible">False</property>
         <property name="can_focus">False</property>
@@ -66,11 +60,8 @@
           <class name="text-button"/>
         </style>
       </object>
-      <packing>
-        <property name="pack_type">end</property>
-      </packing>
     </child>
-    <child>
+    <child type="end">
       <object class="GtkToggleButton" id="_search_button">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
@@ -89,11 +80,8 @@
           </object>
         </child>
       </object>
-      <packing>
-        <property name="pack_type">end</property>
-      </packing>
     </child>
-    <child>
+    <child type="start">
       <object class="GtkButton" id="_back_button">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
@@ -113,9 +101,6 @@
           </object>
         </child>
       </object>
-      <packing>
-        <property name="pack_type">start</property>
-      </packing>
     </child>
   </template>
   <object class="GtkSizeGroup" id="size1">
