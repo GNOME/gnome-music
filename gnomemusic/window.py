@@ -44,7 +44,7 @@ from gnomemusic.widgets.playertoolbar import PlayerToolbar  # noqa: F401
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
 from gnomemusic.widgets.searchheaderbar import SearchHeaderBar
 from gnomemusic.widgets.selectiontoolbar import SelectionToolbar  # noqa: F401
-from gnomemusic.windowplacement import WindowPlacement
+# from gnomemusic.windowplacement import WindowPlacement
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/Window.ui")
@@ -86,7 +86,7 @@ class Window(Handy.ApplicationWindow):
         self.add_action(deselect_all)
 
         self.set_size_request(200, 100)
-        WindowPlacement(self)
+        # WindowPlacement(self)
 
         self._current_view = None
         self._view_before_search = None
