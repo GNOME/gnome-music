@@ -120,7 +120,7 @@
         <property name="focus_on_click">False</property>
         <property name="menu-model">playlistMenu</property>
         <property name="direction">none</property>
-        <property name="use_popover">True</property>
+        <!-- <property name="use_popover">True</property> -->
         <property name="image">_view_more_image</property>
         <style>
           <class name="image-button"/>
