@@ -4,6 +4,12 @@
     <property name="default-height">500</property>
     <property name="default-width">300</property>
     <child>
+      <object class="GtkEventControllerKey">
+        <property name="propagation-phase">capture</property>
+        <signal name="key-pressed" handler="_on_key_press" swapped="no"/>
+      </object>
+    </child>
+    <child>
       <object class="GtkBox">
         <property name="orientation">vertical</property>
         <property name="visible">True</property>
@@ -45,9 +51,4 @@
       </object>
     </child>
   </template>
-  <object class="GtkEventControllerKey" id="_key_controller">
-    <property name="widget">Window</property>
-    <property name="propagation-phase">capture</property>
-    <signal name="key-pressed" handler="_on_key_press" swapped="no"/>
-  </object>
 </interface>
