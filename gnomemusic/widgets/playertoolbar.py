@@ -125,7 +125,6 @@ class PlayerToolbar(Gtk.ActionBar):
         self._repeat_action.set_state(new_state)
         new_mode = new_state.get_string()
         self._player.props.repeat_mode = RepeatMode(int(new_mode))
-        self._repeat_menu_button.props.active = False
 
     @Gtk.Template.Callback()
     def _on_progress_value_changed(self, progress_scale):
