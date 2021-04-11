@@ -16,10 +16,15 @@
             <property name="can_focus">False</property>
             <property name="margin-bottom">4</property>
             <child>
-              <object class="GtkEventBox" id="_events">
+              <object class="GtkBox">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <signal name="button-release-event" handler="_on_artist_event" swapped="no"/>
+                <child>
+                  <object class="GtkGestureClick">
+                    <signal name="released" handler="_on_artist_event" swapped="no"/>
+                  </object>
+                </child>
                 <child>
                   <object class="ArtStack" id="_art_stack">
                     <property name="visible">True</property>
