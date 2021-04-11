@@ -120,8 +120,8 @@ class DefaultIcon(GObject.GObject):
     def _make_default_icon(
             self, icon_type: DefaultIconType, art_size: ArtSize, scale: int,
             dark: bool) -> cairo.ImageSurface:
-        icon_info = self._default_theme.lookup_icon_for_scale(
-            icon_type.value, art_size.width / 3, scale, 0)
+        icon_info = self._default_theme.lookup_icon(
+            icon_type.value, art_size.width / 3, scale, 0, 0)
         icon = icon_info.load_surface()
 
         round_shape = icon_type == DefaultIconType.ARTIST
