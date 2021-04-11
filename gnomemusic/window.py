@@ -289,7 +289,7 @@ class Window(Adw.ApplicationWindow):
         modifiers = state & Gtk.accelerator_get_default_mod_mask()
         control_mask = Gdk.ModifierType.CONTROL_MASK
         shift_mask = Gdk.ModifierType.SHIFT_MASK
-        mod1_mask = Gdk.ModifierType.MOD1_MASK
+        alt_mask = Gdk.ModifierType.ALT_MASK
         shift_ctrl_mask = control_mask | shift_mask
 
         # Ctrl+<KEY>
@@ -329,7 +329,7 @@ class Window(Adw.ApplicationWindow):
             if keyval == Gdk.KEY_A:
                 self._deselect_all()
         # Alt+<KEY>
-        elif modifiers == mod1_mask:
+        elif modifiers == alt_mask:
             # Go back from child view on Alt + Left
             if keyval == Gdk.KEY_Left:
                 self._switch_back_from_childview()
