@@ -36,7 +36,6 @@ class LastfmDialog(Gtk.Dialog):
     __gtype_name__ = "LastfmDialog"
 
     _action_button = Gtk.Template.Child()
-    _action_button_gesture = Gtk.Template.Child()
     _action_label = Gtk.Template.Child()
     _status_label = Gtk.Template.Child()
 
