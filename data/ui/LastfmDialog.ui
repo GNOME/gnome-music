@@ -56,6 +56,11 @@
         </child>
         <child>
           <object class="GtkButton" id="_action_button">
+            <child>
+              <object class="GtkGestureClick">
+                <signal name="released" handler="_on_action_button_clicked" swapped="no"/>
+              </object>
+            </child>
             <property name="halign">start</property>
             <property name="label" translatable="yes">Login</property>
             <property name="margin-bottom">8</property>
@@ -65,8 +70,4 @@
       </object>
     </child>
   </template>
-  <object class="GtkGestureMultiPress" id="_action_button_gesture">
-    <property name="widget">_action_button</property>
-    <signal name="released" handler="_on_action_button_clicked" swapped="no"/>
-  </object>
 </interface>
