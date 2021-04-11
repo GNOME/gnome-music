@@ -42,7 +42,7 @@ class ArtistSearchTile(Gtk.FlowBoxChild):
     _artist_label = Gtk.Template.Child()
     _art_stack = Gtk.Template.Child()
     _check = Gtk.Template.Child()
-    _events = Gtk.Template.Child()
+    # _events = Gtk.Template.Child()
 
     coreartist = GObject.Property(
         type=CoreArtist, default=None, flags=GObject.ParamFlags.READWRITE)
@@ -83,7 +83,7 @@ class ArtistSearchTile(Gtk.FlowBoxChild):
             "selection-mode", self._check, "visible",
             GObject.BindingFlags.BIDIRECTIONAL)
 
-        self._events.add_events(Gdk.EventMask.TOUCH_MASK)
+        # self._events.add_events(Gdk.EventMask.TOUCH_MASK)
 
         self.show()
 
