@@ -28,6 +28,7 @@ from gi.repository import GObject, Gtk
 from gnomemusic.gstplayer import Playback
 from gnomemusic.utils import ArtSize
 from gnomemusic.player import Player, RepeatMode
+from gnomemusic.widgets.artstack import ArtStack  # noqa: F401
 from gnomemusic.widgets.smoothscale import SmoothScale  # noqa: F401
 from gnomemusic.widgets.twolinetip import TwoLineTip
 import gnomemusic.utils as utils
@@ -44,12 +45,10 @@ class PlayerToolbar(Gtk.ActionBar):
 
     _artist_label = Gtk.Template.Child()
     _art_stack = Gtk.Template.Child()
-    _buttons_and_scale = Gtk.Template.Child()
     _duration_label = Gtk.Template.Child()
     _next_button = Gtk.Template.Child()
-    _pause_image = Gtk.Template.Child()
     _play_button = Gtk.Template.Child()
-    _play_image = Gtk.Template.Child()
+    _play_pause_image = Gtk.Template.Child()
     _prev_button = Gtk.Template.Child()
     _progress_scale = Gtk.Template.Child()
     _progress_time_label = Gtk.Template.Child()
@@ -72,13 +71,6 @@ class PlayerToolbar(Gtk.ActionBar):
         self._art_stack.props.size = ArtSize.SMALL
 
         self._tooltip = TwoLineTip()
-
-        # A centered widget has an expand child property set to False
-        # by default. It needs to be True to have a progress scale
-        # at the correct size.
-        main_container = self._buttons_and_scale.get_parent()
-        main_container.child_set_property(
-            self._buttons_and_scale, "expand", True)
 
     # FIXME: This is a workaround for not being able to pass the player
     # object via init when using Gtk.Builder.
@@ -135,26 +127,26 @@ class PlayerToolbar(Gtk.ActionBar):
 
     def _sync_repeat_image(self):
         icon = self._repeat_dict[self._player.props.repeat_mode]
-        self._repeat_image.set_from_icon_name(icon, Gtk.IconSize.MENU)
+        self._repeat_image.set_from_icon_name(icon)
 
     def _sync_playing(self, player, state):
         if (self._player.props.state == Playback.STOPPED
                 and not self._player.props.has_next
                 and not self._player.props.has_previous):
-            self.hide()
+            self.props.revealed = False
             return
 
-        self.show()
+        self.props.revealed = True
 
         if self._player.props.state == Playback.PLAYING:
-            image = self._pause_image
+            icon_name = "media-playback-pause-symbolic"
             tooltip = _("Pause")
         else:
-            image = self._play_image
+            icon_name = "media-playback-start-symbolic"
             tooltip = _("Play")
 
-        if self._play_button.get_image() != image:
-            self._play_button.set_image(image)
+        if self._play_pause_image.props.icon_name != icon_name:
+            self._play_pause_image.props.icon_name = icon_name
 
         self._play_button.set_tooltip_text(tooltip)
 

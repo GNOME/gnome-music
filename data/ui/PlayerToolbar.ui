@@ -23,36 +23,9 @@
       <attribute name="target">none</attribute>
     </item>
   </menu>
-  <object class="GtkImage" id="next_image">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="margin-top">1</property>
-    <property name="icon_name">media-skip-forward-symbolic</property>
-    <property name="icon_size">1</property>
-  </object>
-  <object class="GtkImage" id="_pause_image">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="margin-top">1</property>
-    <property name="icon_name">media-playback-pause-symbolic</property>
-    <property name="icon_size">5</property>
-  </object>
-  <object class="GtkImage" id="_play_image">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="margin-top">1</property>
-    <property name="icon_name">media-playback-start-symbolic</property>
-    <property name="icon_size">5</property>
-  </object>
-  <object class="GtkImage" id="previous_image">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="margin-top">1</property>
-    <property name="icon_name">media-skip-backward-symbolic</property>
-    <property name="icon_size">1</property>
-  </object>
   <template class="PlayerToolbar" parent="GtkActionBar">
     <property name="can_focus">False</property>
+    <property name="revealed">False</property>
     <child>
       <object class="GtkBox" id="_song_info_box">
         <property name="visible">True</property>
@@ -112,6 +85,7 @@
     </child>
     <child type="center">
       <object class="GtkBox" id="_buttons_and_scale">
+        <property name="hexpand">True</property>
         <property name="orientation">vertical</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
@@ -128,8 +102,7 @@
                 <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="image">previous_image</property>
-                <property name="always_show_image">True</property>
+                <property name="icon_name">media-skip-backward-symbolic</property>
                 <property name="tooltip_text" translatable="yes">Previous</property>
                 <signal name="clicked" handler="_on_prev_button_clicked" swapped="no"/>
                 <style>
@@ -145,14 +118,18 @@
                 <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="image">_play_image</property>
-                <property name="always_show_image">True</property>
                 <property name="tooltip_text" translatable="yes">Play</property>
                 <signal name="clicked" handler="_on_play_button_clicked" swapped="no"/>
                 <style>
                   <class name="border-solid"/>
                   <class name="pill"/>
                 </style>
+                <child>
+                  <object class="GtkImage" id="_play_pause_image">
+                    <property name="icon_name">media-playback-start-symbolic</property>
+                    <property name="icon_size">2</property>
+                  </object>
+                </child>
               </object>
             </child>
             <child>
@@ -162,8 +139,7 @@
                 <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="image">next_image</property>
-                <property name="always_show_image">True</property>
+                <property name="icon_name">media-skip-forward-symbolic</property>
                 <property name="tooltip_text" translatable="yes">Next</property>
                 <signal name="clicked" handler="_on_next_button_clicked" swapped="no"/>
                 <style>
@@ -224,7 +200,7 @@
         </child>
       </object>
     </child>
-    <child>
+    <child type="end">
       <object class="GtkBox" id="menuBox">
         <property name="height_request">34</property>
         <property name="visible">True</property>
@@ -264,9 +240,6 @@
           </object>
         </child>
       </object>
-      <packing>
-        <property name="pack-type">end</property>
-      </packing>
     </child>
   </template>
 </interface>

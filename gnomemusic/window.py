@@ -458,7 +458,7 @@ class Window(Adw.ApplicationWindow):
     def _on_selection_mode_changed(self, widget, data=None):
         if (not self.props.selection_mode
                 and self._player.state == Playback.STOPPED):
-            self._player_toolbar.hide()
+            self._player_toolbar.props.revealed = False
 
     def _on_add_to_playlist(self, widget):
         if self.props.active_view == self.views[View.PLAYLIST]:
@@ -483,4 +483,4 @@ class Window(Adw.ApplicationWindow):
 
         :param bool visible: actionbar visibility
         """
-        self._player_toolbar.set_visible(visible)
+        self._player_toolbar.props.revealed = visible
