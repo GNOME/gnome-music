@@ -252,9 +252,4 @@
       </object>
     </child>
   </template>
-  <object class="GtkRadioMenuItem" id="radiomenuitem1">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="draw_as_radio">True</property>
-  </object>
 </interface>
