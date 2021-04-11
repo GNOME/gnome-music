@@ -31,7 +31,6 @@
 
 .semi-circular {
     border-radius: 20px;
-    -gtk-outline-radius: 20px;
 }
 
 .semi-circular:hover {
@@ -43,7 +42,6 @@
 
 .pill {
     border-radius: 9999px;
-    -gtk-outline-radius: 9999px;
 }
 
 .smooth-scale {
