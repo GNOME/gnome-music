@@ -84,7 +84,7 @@ class SongListStore(Gtk.ListStore):
             for i in list(range(added)):
                 coresong = model[position + i]
                 time = utils.seconds_to_string(coresong.props.duration)
-                self.insert_with_valuesv(
+                self.insert_with_values(
                     position + i, [2, 3, 4, 5, 6, 7],
                     [coresong.props.title, coresong.props.artist,
                      coresong.props.album, time,
