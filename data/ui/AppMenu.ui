@@ -86,9 +86,6 @@
           </object>
         </child>
       </object>
-      <packing>
-        <property name="submenu">main</property>
-      </packing>
     </child>
   </template>
 </interface>
