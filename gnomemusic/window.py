@@ -58,7 +58,6 @@ class Window(Adw.ApplicationWindow):
 
     notifications_popup = Gtk.Template.Child()
     _headerbar_stack = Gtk.Template.Child()
-    _key_controller = Gtk.Template.Child()
     _overlay = Gtk.Template.Child()
     _player_toolbar = Gtk.Template.Child()
     _selection_toolbar = Gtk.Template.Child()
