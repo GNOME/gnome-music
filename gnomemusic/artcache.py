@@ -107,7 +107,7 @@ class DefaultIcon(GObject.GObject):
     _cache: Dict[
         Tuple["DefaultIcon.Type", ArtSize, int, bool], cairo.Surface] = {}
 
-    _default_theme = Gtk.IconTheme.get_default()
+    _default_theme = Gtk.IconTheme.new()
 
     def __init__(self):
         super().__init__()
