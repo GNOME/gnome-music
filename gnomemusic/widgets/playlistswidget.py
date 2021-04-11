@@ -69,7 +69,7 @@ class PlaylistsWidget(Gtk.Box):
 
         self._pl_ctrls.props.application = application
 
-        self._song_popover = PlaylistContextMenu(application, self._songs_list)
+        self._song_popover = PlaylistContextMenu(application)
 
         play_song = self._window.lookup_action("play_song")
         play_song.connect("activate", self._play_song)
@@ -153,7 +153,6 @@ class PlaylistsWidget(Gtk.Box):
         rect.x = x
         rect.y = y0 + 0.5 * row_height
 
-        self._song_popover.props.relative_to = self._songs_list
         self._song_popover.props.pointing_to = rect
         self._song_popover.popup()
 

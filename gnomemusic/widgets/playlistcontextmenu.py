@@ -32,17 +32,15 @@ class PlaylistContextMenu(Gtk.Popover):
 
     _song_menu = Gtk.Template.Child()
 
-    def __init__(self, application, view):
+    def __init__(self, application):
         """Initialize
 
         :param GtkApplication application: The Application object
-        :param GtkListBox view: The view the popup is relative to
         """
         super().__init__()
 
         window = application.props.window
 
-        self.props.relative_to = view
         self.bind_model(self._song_menu, None)
 
         add_song = Gio.SimpleAction.new("add_song_to_playlist", None)
