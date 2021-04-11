@@ -55,6 +55,11 @@
             </style>
             <child>
               <object class="GtkEntry" id="_rename_entry">
+                <child>
+                  <object class="GtkEventControllerKey" id="_rename_controller">
+                    <signal name="key-pressed" handler="_on_rename_entry_key_pressed" swapped="no"/>
+                  </object>
+                </child>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="is_focus">True</property>
@@ -135,8 +140,4 @@
       </packing>
     </child>
   </template>
-  <object class="GtkEventControllerKey" id="_rename_controller">
-    <property name="widget">_rename_entry</property>
-    <signal name="key-pressed" handler="_on_rename_entry_key_pressed" swapped="no"/>
-  </object>
 </interface>
