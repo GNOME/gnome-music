@@ -41,9 +41,6 @@
                     <property name="hhomogeneous">False</property>
                     <property name="vhomogeneous">False</property>
                   </object>
-                  <packing>
-                    <property name="position">0</property>
-                  </packing>
                 </child>
                 <child>
                   <object class="GtkBox" id="artistBox">
@@ -64,9 +61,6 @@
                           <class name="title-artist"/>
                         </style>
                       </object>
-                      <packing>
-                        <property name="position">0</property>
-                      </packing>
                     </child>
                     <child>
                       <object class="GtkLabel" id="_artist_label">
@@ -80,14 +74,8 @@
                           <class name="dim-label"/>
                         </style>
                       </object>
-                      <packing>
-                        <property name="position">1</property>
-                      </packing>
                     </child>
                   </object>
-                  <packing>
-                    <property name="position">1</property>
-                  </packing>
                 </child>
                 <child>
                   <object class="GtkGrid" id="grid">
@@ -189,19 +177,10 @@
                       </packing>
                     </child>
                   </object>
-                  <packing>
-                    <property name="position">3</property>
-                  </packing>
                 </child>
               </object>
-              <packing>
-                <property name="position">0</property>
-              </packing>
             </child>
           </object>
-          <packing>
-            <property name="position">1</property>
-          </packing>
         </child>
         <child>
           <object class="GtkScrolledWindow" id="scrolledWindow">
@@ -231,9 +210,6 @@
               </object>
             </child>
           </object>
-          <packing>
-            <property name="position">2</property>
-          </packing>
         </child>
       </object>
     </child>

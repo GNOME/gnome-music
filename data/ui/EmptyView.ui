@@ -26,14 +26,11 @@
               <class name="grey-image"/>
             </style>
           </object>
-          <packing>
-            <property name="position">0</property>
-          </packing>
         </child>
         <child>
           <object class="GtkBox" id="box">
             <property name="orientation">vertical</property>
-                <property name="visible">True</property>
+            <property name="visible">True</property>
             <child>
               <object class="GtkLabel" id="_main_label">
                 <property name="visible">True</property>
@@ -45,11 +42,7 @@
                   <class name="no-music-found-label"/>
                   <class name="dim-label"/>
                 </style>
-
               </object>
-              <packing>
-                <property name="position">0</property>
-              </packing>
             </child>
             <child>
               <object class="GtkLabel" id="_information_label">
@@ -61,14 +54,8 @@
                   <class name="dim-label"/>
                 </style>
               </object>
-              <packing>
-                <property name="position">1</property>
-              </packing>
             </child>
           </object>
-          <packing>
-            <property name="position">1</property>
-          </packing>
         </child>
       </object>
     </child>

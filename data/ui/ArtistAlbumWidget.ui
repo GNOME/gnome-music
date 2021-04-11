@@ -16,9 +16,6 @@
         <property name="can_focus">False</property>
         <property name="valign">start</property>
       </object>
-      <packing>
-        <property name="position">0</property>
-      </packing>
     </child>
     <child>
       <object class="GtkBox" id="_album_box">
@@ -44,9 +41,6 @@
               </object>
             </child>
           </object>
-          <packing>
-            <property name="position">0</property>
-          </packing>
         </child>
         <child>
           <object class="DiscListBox" id="_disc_list_box">
@@ -55,14 +49,8 @@
             <property name="selection-mode">0</property>
             <!-- <property name="orientation">vertical</property> -->
           </object>
-          <packing>
-            <property name="position">1</property>
-          </packing>
         </child>
       </object>
-      <packing>
-        <property name="position">1</property>
-      </packing>
     </child>
   </template>
 </interface>
