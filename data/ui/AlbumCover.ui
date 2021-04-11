@@ -30,7 +30,7 @@
                 <property name="receives_default">False</property>
                 <property name="halign">end</property>
                 <property name="valign">end</property>
-                <property name="draw_indicator">True</property>
+                <!-- <property name="draw_indicator">True</property> -->
               </object>
             </child>
           </object>
