@@ -61,13 +61,11 @@ class SongWidget(Gtk.ListBoxRow):
     _album_duration_box = Gtk.Template.Child()
     _artist_box = Gtk.Template.Child()
     _artist_label = Gtk.Template.Child()
-    _controller_motion = Gtk.Template.Child()
-    _dnd_eventbox = Gtk.Template.Child()
+    # _dnd_eventbox = Gtk.Template.Child()
     _select_button = Gtk.Template.Child()
     _number_label = Gtk.Template.Child()
     _title_label = Gtk.Template.Child()
     _duration_label = Gtk.Template.Child()
-    _star_eventbox = Gtk.Template.Child()
     _star_image = Gtk.Template.Child()
     _star_stack = Gtk.Template.Child()
     _play_icon = Gtk.Template.Child()
@@ -145,57 +143,57 @@ class SongWidget(Gtk.ListBoxRow):
         if not self.props.coresong.props.is_tracker:
             self._star_stack.props.visible_child_name = "empty"
 
-        if can_dnd is True:
-            self._dnd_eventbox.props.visible = True
-            self._drag_widget = None
-            entries = [
-                Gtk.TargetEntry.new(
-                    "GTK_EVENT_BOX", Gtk.TargetFlags.SAME_APP, 0)
-            ]
-            self._dnd_eventbox.drag_source_set(
-                Gdk.ModifierType.BUTTON1_MASK, entries,
-                Gdk.DragAction.MOVE)
-            self.drag_dest_set(
-                Gtk.DestDefaults.ALL, entries, Gdk.DragAction.MOVE)
+    #     if can_dnd is True:
+    #         self._dnd_eventbox.props.visible = True
+    #         self._drag_widget = None
+    #         entries = [
+    #             Gtk.TargetEntry.new(
+    #                 "GTK_EVENT_BOX", Gtk.TargetFlags.SAME_APP, 0)
+    #         ]
+    #         self._dnd_eventbox.drag_source_set(
+    #             Gdk.ModifierType.BUTTON1_MASK, entries,
+    #             Gdk.DragAction.MOVE)
+    #         self.drag_dest_set(
+    #             Gtk.DestDefaults.ALL, entries, Gdk.DragAction.MOVE)
 
-    @Gtk.Template.Callback()
-    def _on_drag_begin(self, klass, context):
-        gdk_window = self.get_window()
-        _, x, y, _ = gdk_window.get_device_position(context.get_device())
-        allocation = self.get_allocation()
+    # @Gtk.Template.Callback()
+    # def _on_drag_begin(self, klass, context):
+    #     gdk_window = self.get_window()
+    #     _, x, y, _ = gdk_window.get_device_position(context.get_device())
+    #     allocation = self.get_allocation()
 
-        self._drag_widget = Gtk.ListBox()
-        self._drag_widget.set_size_request(allocation.width, allocation.height)
+    #     self._drag_widget = Gtk.ListBox()
+    #     self._drag_widget.set_size_request(allocation.width, allocation.height)
 
-        drag_row = SongWidget(self.props.coresong)
-        drag_row.props.show_song_number = self.props.show_song_number
+    #     drag_row = SongWidget(self.props.coresong)
+    #     drag_row.props.show_song_number = self.props.show_song_number
 
-        self._drag_widget.add(drag_row)
-        self._drag_widget.drag_highlight_row(drag_row)
-        self._drag_widget.props.visible = True
-        Gtk.drag_set_icon_widget(
-            context, self._drag_widget, x - allocation.x, y - allocation.y)
+    #     self._drag_widget.add(drag_row)
+    #     self._drag_widget.drag_highlight_row(drag_row)
+    #     self._drag_widget.props.visible = True
+    #     Gtk.drag_set_icon_widget(
+    #         context, self._drag_widget, x - allocation.x, y - allocation.y)
 
-    @Gtk.Template.Callback()
-    def _on_drag_end(self, klass, context):
-        self._drag_widget = None
+    # @Gtk.Template.Callback()
+    # def _on_drag_end(self, klass, context):
+    #     self._drag_widget = None
 
-    @Gtk.Template.Callback()
-    def _on_drag_data_get(self, klass, context, selection_data, info, time_):
-        row_position = self.get_index()
-        selection_data.set(
-            Gdk.Atom.intern("row_position", False), 0,
-            bytes(str(row_position), encoding="UTF8"))
+    # @Gtk.Template.Callback()
+    # def _on_drag_data_get(self, klass, context, selection_data, info, time_):
+    #     row_position = self.get_index()
+    #     selection_data.set(
+    #         Gdk.Atom.intern("row_position", False), 0,
+    #         bytes(str(row_position), encoding="UTF8"))
 
-    @Gtk.Template.Callback()
-    def _on_drag_data_received(
-            self, klass, context, x, y, selection_data, info, time_):
-        source_position = int(str(selection_data.get_data(), "UTF-8"))
-        target_position = self.get_index()
-        if source_position == target_position:
-            return
+    # @Gtk.Template.Callback()
+    # def _on_drag_data_received(
+    #         self, klass, context, x, y, selection_data, info, time_):
+    #     source_position = int(str(selection_data.get_data(), "UTF-8"))
+    #     target_position = self.get_index()
+    #     if source_position == target_position:
+    #         return
 
-        self.emit("widget-moved", source_position)
+    #     self.emit("widget-moved", source_position)
 
     @Gtk.Template.Callback()
     def _on_select_button_toggled(self, widget):

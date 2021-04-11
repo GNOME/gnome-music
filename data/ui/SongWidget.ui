@@ -6,7 +6,7 @@
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="selectable">False</property>
-    <signal name="drag_data_received" handler="_on_drag_data_received"/>
+    <!-- <signal name="drag_data_received" handler="_on_drag_data_received"/> -->
     <child>
       <object class="GtkBox" id="box1">
         <property name="visible">True</property>
@@ -15,11 +15,11 @@
         <property name="margin-bottom">10</property>
         <property name="margin-top">10</property>
         <child>
-          <object class="GtkEventBox" id="_dnd_eventbox">
+          <object class="GtkBox" id="_dnd_eventbox">
             <property name="visible">False</property>
-            <signal name="drag-begin" handler="_on_drag_begin"/>
-            <signal name="drag-end" handler="_on_drag_end"/>
-            <signal name="drag_data_get" handler="_on_drag_data_get"/>
+            <!-- <signal name="drag-begin" handler="_on_drag_begin"/> -->
+            <!-- <signal name="drag-end" handler="_on_drag_end"/> -->
+            <!-- <signal name="drag_data_get" handler="_on_drag_data_get"/> -->
             <child>
               <object class="GtkImage">
                 <property name="visible">True</property>
@@ -152,13 +152,18 @@
             <property name="can-focus">False</property>
             <property name="visible">True</property>
             <child>
-              <object class="GtkEventBox" id="_star_eventbox">
+              <object class="GtkBox" id="_star_box">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="halign">end</property>
                 <property name="valign">center</property>
-                <property name="visible_window">True</property>
                 <signal name="button-release-event" handler="_on_star_toggle" swapped="no"/>
+                <child>
+                  <object class="GtkEventControllerMotion">
+                    <signal name="enter" handler="_on_star_hover" swapped="no"/>
+                    <signal name="leave" handler="_on_star_unhover" swapped="no"/>
+                  </object>
+                </child>
                 <child>
                   <object class="StarImage" id="_star_image">
                     <property name="visible">True</property>
