@@ -26,15 +26,16 @@
             <style>
               <class name="content-view"/>
             </style>
+            <child>
+              <object class="GtkGestureLongPress" id="_flowbox_long_press">
+                <property name="propagation-phase">capture</property>
+                <signal name="begin" handler="_on_flowbox_press_begin" swapped="no"/>
+                <signal name="cancel" handler="_on_flowbox_press_cancel" swapped="no"/>
+              </object>
+            </child>
           </object>
         </child>
       </object>
     </child>
   </template>
-  <object class="GtkGestureLongPress" id="_flowbox_long_press">
-    <property name="propagation-phase">capture</property>
-    <property name="widget">_flowbox</property>
-    <signal name="begin" handler="_on_flowbox_press_begin" swapped="no"/>
-    <signal name="cancel" handler="_on_flowbox_press_cancel" swapped="no"/>
-  </object>
 </interface>

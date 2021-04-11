@@ -230,11 +230,11 @@ class Window(Adw.ApplicationWindow):
             'notify::visible-child', self._on_notify_mode)
         self.connect('destroy', self._notify_mode_disconnect)
 
-        self._btn_ctrl = Gtk.GestureMultiPress().new(self)
-        self._btn_ctrl.props.propagation_phase = Gtk.PropagationPhase.CAPTURE
+        ctrl = Gtk.GestureClick().new()
         # Mouse button 8 is the back button.
-        self._btn_ctrl.props.button = 8
-        self._btn_ctrl.connect("pressed", self._on_back_button_pressed)
+        ctrl.props.button = 8
+        ctrl.connect("pressed", self._on_back_button_pressed)
+        self.add_controller(ctrl)
 
         self.views[View.EMPTY].props.state = EmptyView.State.SEARCH
 

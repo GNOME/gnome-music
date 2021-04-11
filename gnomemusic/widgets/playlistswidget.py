@@ -47,7 +47,6 @@ class PlaylistsWidget(Gtk.Box):
 
     _pl_ctrls = Gtk.Template.Child()
     _songs_list = Gtk.Template.Child()
-    _songs_list_ctrlr = Gtk.Template.Child()
 
     def __init__(
             self, application: Application,
