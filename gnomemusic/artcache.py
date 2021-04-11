@@ -113,8 +113,8 @@ class DefaultIcon(GObject.GObject):
         super().__init__()
 
     def _make_default_icon(self, icon_type, art_size, scale, round_shape):
-        icon_info = self._default_theme.lookup_icon_for_scale(
-            icon_type.value, art_size.width / 3, scale, 0)
+        icon_info = self._default_theme.lookup_icon(
+            icon_type.value, None, art_size.width / 3, scale, 0, 0)
         icon = icon_info.load_surface()
 
         icon_surface = _make_icon_frame(
