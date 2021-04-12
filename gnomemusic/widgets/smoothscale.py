@@ -103,6 +103,7 @@ class SmoothScale(Gtk.Scale):
         duration = self._player.props.duration
 
         if duration != -1.:
+            self.set_value(0)
             self.set_range(0.0, duration * 60)
             self.set_increments(300, 600)
 
