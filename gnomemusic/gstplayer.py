@@ -290,7 +290,9 @@ class GstPlayer(GObject.GObject):
 
         return position
 
-    @GObject.Property(type=float)
+    @GObject.Property(
+        type=float, flags=GObject.ParamFlags.READWRITE
+        | GObject.ParamFlags.EXPLICIT_NOTIFY)
     def duration(self):
         """Total duration of current media
 
@@ -311,7 +313,9 @@ class GstPlayer(GObject.GObject):
 
         For internal use only.
         """
-        self._duration = duration
+        if duration != self._duration:
+            self._duration = duration
+            self.notify("duration")
 
     def seek(self, seconds):
         """Seek to position
