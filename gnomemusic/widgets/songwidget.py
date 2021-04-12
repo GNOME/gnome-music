@@ -201,16 +201,16 @@ class SongWidget(Gtk.ListBoxRow):
         # (one event in SongWidget and the other one in select_button).
         self.props.select_click = not self.props.select_click
 
-    @Gtk.Template.Callback()
-    def _on_star_toggle(self, widget, event):
-        (_, button) = event.get_button()
-        if button != Gdk.BUTTON_PRIMARY:
-            return False
+    # @Gtk.Template.Callback()
+    # def _on_star_toggle(self, widget, event):
+    #     (_, button) = event.get_button()
+    #     if button != Gdk.BUTTON_PRIMARY:
+    #         return False
 
-        favorite = not self._star_image.favorite
-        self._star_image.props.favorite = favorite
+    #     favorite = not self._star_image.favorite
+    #     self._star_image.props.favorite = favorite
 
-        return True
+    #     return True
 
     @Gtk.Template.Callback()
     def _on_star_hover(self, controller, x, y):
