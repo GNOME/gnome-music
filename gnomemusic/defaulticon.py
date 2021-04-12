@@ -30,6 +30,7 @@ from typing import Dict, Tuple
 import cairo
 from gi.repository import Adw, Gtk, GObject, Gdk
 
+from gnomemusic.coverpaintable import CoverPaintable
 from gnomemusic.utils import ArtSize, DefaultIconType
 
 
@@ -120,15 +121,16 @@ class DefaultIcon(GObject.GObject):
     def _make_default_icon(
             self, icon_type: DefaultIconType, art_size: ArtSize, scale: int,
             dark: bool) -> cairo.ImageSurface:
-        icon_info = self._default_theme.lookup_icon(
-            icon_type.value, art_size.width / 3, scale, 0, 0)
-        icon = icon_info.load_surface()
+        # icon_info = self._default_theme.lookup_icon(
+        #     icon_type.value, art_size.width / 3, scale, 0, 0)
+        # icon = icon_info.load_surface()
 
-        round_shape = icon_type == DefaultIconType.ARTIST
-        icon_surface = make_icon_frame(
-            icon, art_size, scale, True, round_shape, dark)
+        # round_shape = icon_type == DefaultIconType.ARTIST
+        # icon_surface = make_icon_frame(
+        #     icon, art_size, scale, True, round_shape, dark)
+        paintable = CoverPaintable(art_size)
 
-        return icon_surface
+        return paintable
 
     def get(self, icon_type: DefaultIconType,
             art_size: ArtSize) -> cairo.ImageSurface:
