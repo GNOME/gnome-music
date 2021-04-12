@@ -27,7 +27,8 @@ from gi.repository import Gdk, GdkPixbuf, Gio, Gtk, GLib, GObject
 from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.coreartist import CoreArtist
 from gnomemusic.coresong import CoreSong
-from gnomemusic.defaulticon import DefaultIcon, make_icon_frame
+from gnomemusic.coverpaintable import CoverPaintable
+from gnomemusic.defaulticon import DefaultIcon
 from gnomemusic.musiclogger import MusicLogger
 from gnomemusic.utils import ArtSize, DefaultIconType
 
@@ -115,16 +116,17 @@ class ArtCache(GObject.GObject):
         stream.close_async(
             GLib.PRIORITY_DEFAULT_IDLE, None, self._close_stream, None)
 
-        scale = self._widget.props.scale_factor
-        surface = Gdk.cairo_surface_create_from_pixbuf(pixbuf, scale, None)
-        if isinstance(self._coreobject, CoreArtist):
-            surface = make_icon_frame(
-                surface, self._size, scale, round_shape=True)
-        elif (isinstance(self._coreobject, CoreAlbum)
-                or isinstance(self._coreobject, CoreSong)):
-            surface = make_icon_frame(surface, self._size, scale)
+        # scale = self._widget.props.scale_factor
+        # surface = Gdk.cairo_surface_create_from_pixbuf(pixbuf, scale, None)
+        # if isinstance(self._coreobject, CoreArtist):
+        #     surface = make_icon_frame(
+        #         surface, self._size, scale, round_shape=True)
+        # elif (isinstance(self._coreobject, CoreAlbum)
+        #         or isinstance(self._coreobject, CoreSong)):
+        #     surface = make_icon_frame(surface, self._size, scale)
+        paintable = CoverPaintable(self._size)
 
-        self._surface = surface
+        self._surface = paintable
 
     def _close_stream(self, stream, result, data):
         try:
