@@ -83,7 +83,7 @@ class ArtistAlbumsWidget(Adw.Clamp):
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
 
-        row.add(widget)
+        row.set_child(widget)
 
         return row
 
