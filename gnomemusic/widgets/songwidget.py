@@ -121,8 +121,7 @@ class SongWidget(Gtk.ListBoxRow):
 
         self._select_button.set_visible(False)
 
-        self._play_icon.set_from_icon_name(
-            'media-playback-start-symbolic', Gtk.IconSize.NORMAL)
+        self._play_icon.set_from_icon_name("media-playback-start-symbolic")
 
         self.props.coresong.bind_property(
             'selected', self._select_button, 'active',
