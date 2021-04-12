@@ -163,24 +163,24 @@ class ArtStack(Gtk.Stack):
 
         self._async_queue.queue(self._cache, coreobject, self._size)
 
-    def _swap_thumbnails(self, surface: ImageSurface, animate: bool) -> None:
+    def _swap_thumbnails(self, paintable: Paintable, animate: bool) -> None:
         if self.props.visible_child_name == "B":
-            self._cover_a.props.surface = surface
+            self._cover_a.props.paintable = paintable
             if animate:
                 self.set_visible_child_full(
                     "A", Gtk.StackTransitionType.CROSSFADE)
             else:
                 self.props.visible_child_name = "A"
         else:
-            self._cover_b.props.surface = surface
+            self._cover_b.props.paintable = paintable
             if animate:
                 self.set_visible_child_full(
                     "B", Gtk.StackTransitionType.CROSSFADE)
             else:
                 self.props.visible_child_name = "B"
 
-    def _on_cache_result(self, cache: ArtCache, surface: ImageSurface) -> None:
-        self._swap_thumbnails(surface, True)
+    def _on_cache_result(self, cache: ArtCache, paintable: Gdk.Paintable) -> None:
+        self._swap_thumbnails(paintable, True)
 
     def _on_destroy(self, widget: ArtStack) -> None:
         # If the stack is destroyed while the art is updated, an error
