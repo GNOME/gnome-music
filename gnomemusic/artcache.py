@@ -32,6 +32,7 @@ from gi.repository import Gdk, GdkPixbuf, Gio, Gtk, GLib, GObject
 from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.coreartist import CoreArtist
 from gnomemusic.coresong import CoreSong
+from gnomemusic.coverpaintable import CoverPaintable
 from gnomemusic.musiclogger import MusicLogger
 from gnomemusic.utils import ArtSize
 
@@ -113,14 +114,15 @@ class DefaultIcon(GObject.GObject):
         super().__init__()
 
     def _make_default_icon(self, icon_type, art_size, scale, round_shape):
-        icon_info = self._default_theme.lookup_icon(
-            icon_type.value, None, art_size.width / 3, scale, 0, 0)
-        icon = icon_info.load_surface()
+        # icon_info = self._default_theme.lookup_icon(
+        #     icon_type.value, None, art_size.width / 3, scale, 0, 0)
+        # icon = icon_info.load_surface()
 
-        icon_surface = _make_icon_frame(
-            icon, art_size, scale, True, round_shape=round_shape)
+        # icon_surface = _make_icon_frame(
+        #     icon, art_size, scale, True, round_shape=round_shape)
+        paintable = CoverPaintable(art_size)
 
-        return icon_surface
+        return paintable
 
     def get(self, icon_type, art_size, scale=1, round_shape=False):
         """Returns the requested symbolic icon
@@ -219,16 +221,17 @@ class ArtCache(GObject.GObject):
 
         stream.close_async(GLib.PRIORITY_LOW, None, self._close_stream, None)
 
-        surface = Gdk.cairo_surface_create_from_pixbuf(
-            pixbuf, self._scale, None)
-        if isinstance(self._coreobject, CoreArtist):
-            surface = _make_icon_frame(
-                surface, self._size, self._scale, round_shape=True)
-        elif (isinstance(self._coreobject, CoreAlbum)
-                or isinstance(self._coreobject, CoreSong)):
-            surface = _make_icon_frame(surface, self._size, self._scale)
+        # surface = Gdk.cairo_surface_create_from_pixbuf(
+        #     pixbuf, self._scale, None)
+        # if isinstance(self._coreobject, CoreArtist):
+        #     surface = _make_icon_frame(
+        #         surface, self._size, self._scale, round_shape=True)
+        # elif (isinstance(self._coreobject, CoreAlbum)
+        #         or isinstance(self._coreobject, CoreSong)):
+        #     surface = _make_icon_frame(surface, self._size, self._scale)
+        paintable = CoverPaintable(self._size)
 
-        self.emit("result", surface)
+        self.emit("result", paintable)
 
     def _close_stream(self, stream, result, data):
         try:

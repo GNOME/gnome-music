@@ -107,12 +107,12 @@ class ArtStack(Gtk.Stack):
 
         self._cache.query(coreobject)
 
-    def _on_cache_result(self, cache, surface):
+    def _on_cache_result(self, cache, paintable):
         if self.props.visible_child_name == "B":
-            self._cover_a.props.surface = surface
+            self._cover_a.props.paintable = paintable
             self.props.visible_child_name = "A"
         else:
-            self._cover_b.props.surface = surface
+            self._cover_b.props.paintable = paintable
             self.props.visible_child_name = "B"
 
     def _on_destroy(self, widget):
