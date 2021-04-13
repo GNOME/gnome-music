@@ -68,6 +68,9 @@ class GstPlayer(GObject.GObject):
         self._seek = False
         self._tick = 0
 
+        self._clock_id = 0
+        self._clock = None
+
         self._missing_plugin_messages = []
         self._settings = application.props.settings
 
@@ -140,10 +143,18 @@ class GstPlayer(GObject.GObject):
         else:
             self.props.duration = duration
 
+    def _create_clock_tick(self):
+        if self._clock_id > 0:
+            return
+
+        self._clock_id = self._clock.new_periodic_id(
+            self._clock.get_time(), 1 * Gst.SECOND)
+        self._clock.id_wait_async(self._clock_id, self._on_clock_tick, None)
+
     def _on_new_clock(self, bus, message):
-        clock = message.parse_new_clock()
-        id_ = clock.new_periodic_id(0, 1 * Gst.SECOND)
-        clock.id_wait_async(id_, self._on_clock_tick, None)
+        self._clock_id = 0
+        self._clock = message.parse_new_clock()
+        self._create_clock_tick()
 
     def _on_clock_tick(self, clock, time, id, data):
         self.emit("clock-tick", self._tick)
@@ -173,8 +184,12 @@ class GstPlayer(GObject.GObject):
 
         if new_state == Gst.State.PAUSED:
             self._state = Playback.PAUSED
+            if self._clock_id > 0:
+                self._clock.id_unschedule(self._clock_id)
+                self._clock_id = 0
         elif new_state == Gst.State.PLAYING:
             self._state = Playback.PLAYING
+            self._create_clock_tick()
         elif new_state == Gst.State.READY:
             self._state = Playback.LOADING
         else:
