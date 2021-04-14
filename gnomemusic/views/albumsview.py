@@ -142,7 +142,7 @@ class AlbumsView(Gtk.Stack):
         covers_col = math.ceil(viewport_w / cover_w)
         covers_row = math.ceil(viewport_h / cover_h)
 
-        children = self._flowbox.get_children()
+        children = [child for child in self._flowbox]
         retrieve_list = []
         for i, albumcover in enumerate(children):
             if top_left_cover == albumcover:
@@ -213,14 +213,13 @@ class AlbumsView(Gtk.Stack):
 
     def _set_album_headerbar(self, corealbum):
         self._headerbar.props.state = HeaderBar.State.CHILD
-        self._headerbar.props.title = corealbum.props.title
-        self._headerbar.props.subtitle = corealbum.props.artist
+        # self._headerbar.props.title = corealbum.props.title
+        # self._headerbar.props.subtitle = corealbum.props.artist
 
     @Gtk.Template.Callback()
     def _on_flowbox_press_begin(self, gesture, sequence):
-        event = gesture.get_last_event(sequence)
-        ok, state = event.get_state()
-        if ((ok is True
+        state = gesture.get_current_event_state()
+        if ((state
              and state == Gdk.ModifierType.CONTROL_MASK)
                 or self.props.selection_mode is True):
             self._flowbox.props.selection_mode = Gtk.SelectionMode.MULTIPLE
