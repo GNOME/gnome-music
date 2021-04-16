@@ -8,10 +8,10 @@
       <object class="GtkFrame">
         <property name="visible">True</property>
         <child>
-          <object class="GtkGrid" id="_grid">
+          <object class="GtkBox" id="_box">
             <property name="visible">True</property>
             <property name="orientation">vertical</property>
-            <property name="row_spacing">6</property>
+            <property name="spacing">6</property>
           </object>
         </child>
         <style>

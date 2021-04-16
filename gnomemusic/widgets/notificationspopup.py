@@ -39,7 +39,7 @@ class NotificationsPopup(Gtk.Revealer):
 
     __gtype_name__ = "NotificationsPopup"
 
-    _grid = Gtk.Template.Child()
+    _box = Gtk.Template.Child()
 
     def __init__(self):
         super().__init__()
@@ -47,11 +47,11 @@ class NotificationsPopup(Gtk.Revealer):
         self._loading_notification = LoadingNotification()
         self._loading_notification.connect('visible', self._set_visibility)
         self._loading_notification.connect('invisible', self._set_visibility)
-        self._grid.add(self._loading_notification)
+        self._box.add(self._loading_notification)
 
     def _hide_notifications(self, notification, remove):
         if remove:
-            self._grid.remove(notification)
+            self._box.remove(notification)
         self._loading_notification.hide()
         self.hide()
 
@@ -62,14 +62,14 @@ class NotificationsPopup(Gtk.Revealer):
         deletion is in progress.
         """
         loading_finished = self._loading_notification._counter == 0
-        no_other_notif = (len(self._grid.get_children()) == 1
-                          or (len(self._grid.get_children()) == 2
+        no_other_notif = (len(self._box.get_children()) == 1
+                          or (len(self._box.get_children()) == 2
                               and notification != self._loading_notification))
         invisible = loading_finished and no_other_notif
 
         if not invisible:
             if remove:
-                self._grid.remove(notification)
+                self._box.remove(notification)
             self.show()
         else:
             # notification has to be removed from grid once unreveal is
@@ -98,7 +98,7 @@ class NotificationsPopup(Gtk.Revealer):
 
         :param notification: notification to display
         """
-        self._grid.add(notification)
+        self._box.add(notification)
         self.show()
         self.set_reveal_child(True)
 
@@ -111,7 +111,7 @@ class NotificationsPopup(Gtk.Revealer):
 
     def terminate_pending(self):
         """Terminate all pending playlists notifications"""
-        children = self._grid.get_children()
+        children = self._box.get_children()
         if len(children) > 1:
             for notification in children[:-1]:
                 notification._finish_deletion()
