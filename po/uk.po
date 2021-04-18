@@ -4,22 +4,21 @@
 # Daniel Korostil <ted.korostiled@gmail.com>, 2013, 2014, 2015, 2016, 2017.
 # Eugene Strezhnev <strezhnev.ua@gmail.com>, 2019.
 # Danylo Korostil <ted.korostiled@gmail.com>, 2019.
-# Yuri Chornoivan <yurchor@ukr.net>, 2020.
+# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2020-08-28 15:14+0000\n"
-"PO-Revision-Date: 2020-08-28 18:18+0300\n"
+"POT-Creation-Date: 2021-04-10 17:32+0000\n"
+"PO-Revision-Date: 2021-04-18 10:29+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
-"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2\n"
-"X-Generator: Lokalize 20.11.70\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2\n"
+"X-Generator: Lokalize 20.12.0\n"
 "X-Project-Style: gnome\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
@@ -47,12 +46,12 @@ msgstr ""
 "Знаходь композиції у локальній збірці, отримай музику з DLNA серверів або "
 "спробуй щось нове з сервісами Jamendo та Magnatune."
 
-#: data/org.gnome.Music.appdata.xml.in.in:110
+#: data/org.gnome.Music.appdata.xml.in.in:140
 msgid "The GNOME Music developers"
 msgstr "Розробники Музики GNOME"
 
 #: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:60
-#: gnomemusic/window.py:70
+#: gnomemusic/window.py:71
 msgid "Music"
 msgstr "Музика"
 
@@ -207,35 +206,35 @@ msgstr ""
 "Зображення “Magic of the vinyl” автора Sami Pyylampi використано на умовах "
 "ліцензії CC-BY-SA 2.0 https://www.flickr.com/photos/_spy_/12270839403"
 
-#: data/ui/AlbumWidget.ui:107
+#: data/ui/AlbumWidget.ui:106
 msgid "Released"
 msgstr "Випущено"
 
-#: data/ui/AlbumWidget.ui:123
+#: data/ui/AlbumWidget.ui:122
 msgid "Running Length"
 msgstr "Тривалість виконання"
 
-#: data/ui/AlbumWidget.ui:167
+#: data/ui/AlbumWidget.ui:166
 msgid "Composer"
 msgstr "Композитор"
 
-#: data/ui/AppMenu.ui:20 data/ui/LastfmDialog.ui:8
+#: data/ui/AppMenu.ui:23 data/ui/LastfmDialog.ui:8
 msgid "Last.fm Account"
 msgstr "Обліковий запис Last.fm"
 
-#: data/ui/AppMenu.ui:38
+#: data/ui/AppMenu.ui:41
 msgid "Report Music Listening"
 msgstr "Сповіщати щодо відтворення музики"
 
-#: data/ui/AppMenu.ui:69
+#: data/ui/AppMenu.ui:72
 msgid "_Keyboard Shortcuts"
 msgstr "_Клавіатурні скорочення"
 
-#: data/ui/AppMenu.ui:83
+#: data/ui/AppMenu.ui:86
 msgid "_Help"
 msgstr "_Довідка"
 
-#: data/ui/AppMenu.ui:97
+#: data/ui/AppMenu.ui:100
 msgid "_About Music"
 msgstr "_Про Музику"
 
@@ -247,7 +246,7 @@ msgstr "Меню"
 msgid "Select"
 msgstr "Вибрати"
 
-#: data/ui/HeaderBar.ui:60 data/ui/PlaylistDialog.ui:244
+#: data/ui/HeaderBar.ui:60 data/ui/PlaylistDialog.ui:250
 #: data/ui/SearchHeaderBar.ui:37
 msgid "_Cancel"
 msgstr "_Скасувати"
@@ -345,7 +344,7 @@ msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Повернутися"
 
-#: data/ui/LastfmDialog.ui:21
+#: data/ui/LastfmDialog.ui:24
 msgid ""
 "Last.fm is a music discovery service that gives you personalised "
 "recommendations based on the music you listen to."
@@ -353,17 +352,17 @@ msgstr ""
 "Last.fm — служба ознайомлення з музикою, яка надає вам персоналізовані "
 "рекомендації на основі даних щодо музики, яку ви слухаєте."
 
-#: data/ui/LastfmDialog.ui:32 gnomemusic/widgets/lastfmdialog.py:58
+#: data/ui/LastfmDialog.ui:35 gnomemusic/widgets/lastfmdialog.py:58
 msgid "Music Reporting Not Setup"
 msgstr "Надсилання журналів відтворення не налаштовано"
 
-#: data/ui/LastfmDialog.ui:46 gnomemusic/widgets/lastfmdialog.py:61
+#: data/ui/LastfmDialog.ui:49 gnomemusic/widgets/lastfmdialog.py:61
 msgid "Login to your Last.fm account to report your music listening."
 msgstr ""
 "Увійдіть до вашого облікового запису на Last.fm, щоб надіслати дані журналу "
 "відтворення."
 
-#: data/ui/LastfmDialog.ui:57 gnomemusic/widgets/lastfmdialog.py:59
+#: data/ui/LastfmDialog.ui:60 gnomemusic/widgets/lastfmdialog.py:59
 msgid "Login"
 msgstr "Увійти"
 
@@ -429,31 +428,31 @@ msgstr "_Перейменувати…"
 msgid "Playlist Name"
 msgstr "Назва списку композицій"
 
-#: data/ui/PlaylistControls.ui:74
+#: data/ui/PlaylistControls.ui:73
 msgid "_Done"
 msgstr "_Зроблено"
 
-#: data/ui/PlaylistDialog.ui:66
+#: data/ui/PlaylistDialog.ui:69
 msgid "Enter a name for your first playlist"
 msgstr "Введіть назву вашого першого списку композицій"
 
-#: data/ui/PlaylistDialog.ui:92
+#: data/ui/PlaylistDialog.ui:97
 msgid "C_reate"
 msgstr "С_творити"
 
-#: data/ui/PlaylistDialog.ui:155
+#: data/ui/PlaylistDialog.ui:161
 msgid "New Playlist…"
 msgstr "Створити список композицій…"
 
-#: data/ui/PlaylistDialog.ui:169
+#: data/ui/PlaylistDialog.ui:175
 msgid "Add"
 msgstr "Додати"
 
-#: data/ui/PlaylistDialog.ui:241
+#: data/ui/PlaylistDialog.ui:247
 msgid "Add to Playlist"
 msgstr "Додати до списку композицій"
 
-#: data/ui/PlaylistDialog.ui:257
+#: data/ui/PlaylistDialog.ui:263
 msgid "_Add"
 msgstr "_Додати"
 
@@ -494,49 +493,49 @@ msgid "_Add to Playlist"
 msgstr "_Додати до списку композицій"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:832
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:897
 msgid "Most Played"
 msgstr "Часто слухали"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:885
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:950
 msgid "Never Played"
 msgstr "Ніколи не слухали"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:937
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1002
 msgid "Recently Played"
 msgstr "Недавно слухали"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:999
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1064
 msgid "Recently Added"
 msgstr "Недавно додано"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1061
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1126
 msgid "Favorite Songs"
 msgstr "Улюблені пісні"
 
-#: gnomemusic/gstplayer.py:378
+#: gnomemusic/gstplayer.py:382
 msgid "Unable to play the file"
 msgstr "Неможливо відтворити файл"
 
-#: gnomemusic/gstplayer.py:384
+#: gnomemusic/gstplayer.py:388
 msgid "_Find in {}"
 msgstr "_Знайти в {}"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:394
+#: gnomemusic/gstplayer.py:398
 msgid " and "
 msgstr " і "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:397
+#: gnomemusic/gstplayer.py:401
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:399
+#: gnomemusic/gstplayer.py:403
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "Потрібний {}, щоб програти файл, але його не встановлено."
@@ -548,11 +547,11 @@ msgstr[3] "Потрібний {}, щоб програти файл, але йо�
 msgid "Playing music"
 msgstr "Програється музика"
 
-#: gnomemusic/utils.py:81
+#: gnomemusic/utils.py:79
 msgid "Unknown album"
 msgstr "Невідомий альбом"
 
-#: gnomemusic/utils.py:102
+#: gnomemusic/utils.py:100
 msgid "Unknown Artist"
 msgstr "Невідомий виконавець"
 
@@ -561,7 +560,8 @@ msgid "Your XDG Music directory is not set."
 msgstr "Не вказано музичної теки XDG."
 
 #: gnomemusic/views/emptyview.py:74
-msgid "Music folder"
+#| msgid "Music folder"
+msgid "Music Folder"
 msgstr "Тека з музикою"
 
 #. TRANSLATORS: This is a label to display a link to open user's music
@@ -575,29 +575,34 @@ msgid "Hey DJ"
 msgstr "Агов, ді-джею!"
 
 #: gnomemusic/views/emptyview.py:121 gnomemusic/views/emptyview.py:126
-msgid "No music found"
+#| msgid "No music found"
+msgid "No Music Found"
 msgstr "Музики не знайдено"
 
 #: gnomemusic/views/emptyview.py:128
-msgid "Try a different search"
+#| msgid "Try a different search"
+msgid "Try a Different Search"
 msgstr "Спробуйте пошукати інакше"
 
 #: gnomemusic/views/emptyview.py:133
-msgid "GNOME Music could not connect to Tracker"
-msgstr "Музика GNOME не може з'єднатись з Tracker"
+#| msgid "GNOME Music could not connect to Tracker"
+msgid "GNOME Music could not connect to Tracker."
+msgstr "Музика GNOME не може з'єднатись з Tracker."
 
 #: gnomemusic/views/emptyview.py:136
-msgid "Your music files cannot be indexed without Tracker running"
-msgstr "Музика не може бути індексована без запущеного Tracker"
+#| msgid "Your music files cannot be indexed without Tracker running"
+msgid "Your music files cannot be indexed without Tracker running."
+msgstr "Музика не може бути індексована без запущеного Tracker."
 
 #: gnomemusic/views/emptyview.py:143
-msgid "Your system Tracker version seems outdated"
-msgstr "Схоже, версія програми Tracker застаріла"
+#| msgid "Your system Tracker version seems outdated"
+msgid "Your system Tracker version seems outdated."
+msgstr "Схоже, версія програми Tracker застаріла."
 
 #: gnomemusic/views/emptyview.py:146
-#| msgid "Music needs Tracker version 2.3.0 or higher"
-msgid "Music needs Tracker version 3.0.0 or higher"
-msgstr "Для роботи «Музики» потрібна програма Tracker версії 3.0.0 або вище"
+#| msgid "Music needs Tracker version 3.0.0 or higher"
+msgid "Music needs Tracker version 3.0.0 or higher."
+msgstr "Для роботи «Музики» потрібна програма Tracker версії 3.0.0 або вище."
 
 #: gnomemusic/views/playlistsview.py:41
 msgid "Playlists"
