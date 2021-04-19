@@ -8,6 +8,7 @@
     <file>icons/welcome-music.svg</file>
     <file preprocess="xml-stripblanks">ui/AboutDialog.ui</file>
     <file preprocess="xml-stripblanks">ui/AlbumCover.ui</file>
+    <file preprocess="xml-stripblanks">ui/AlbumCoverListItem.ui</file>
     <file preprocess="xml-stripblanks">ui/AlbumWidget.ui</file>
     <file preprocess="xml-stripblanks">ui/AlbumsView.ui</file>
     <file preprocess="xml-stripblanks">ui/ArtistAlbumsWidget.ui</file>
