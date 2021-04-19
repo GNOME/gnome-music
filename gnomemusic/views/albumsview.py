@@ -49,9 +49,9 @@ class AlbumsView(Gtk.Stack):
     title = GObject.Property(
         type=str, default=_("Albums"), flags=GObject.ParamFlags.READABLE)
 
-    _scrolled_window = Gtk.Template.Child()
-    _flowbox = Gtk.Template.Child()
-    _flowbox_long_press = Gtk.Template.Child()
+    # _scrolled_window = Gtk.Template.Child()
+    _gridview = Gtk.Template.Child()
+    # _flowbox_long_press = Gtk.Template.Child()
 
     def __init__(self, application):
         """Initialize AlbumsView
@@ -66,37 +66,44 @@ class AlbumsView(Gtk.Stack):
         self._window = application.props.window
         self._headerbar = self._window._headerbar
         self._adjustment_timeout_id = 0
-        self._viewport = self._scrolled_window.get_child()
+        # self._viewport = self._scrolled_window.get_child()
         self._widget_counter = 1
         self._ctrl_hold = False
 
-        model = self._application.props.coremodel.props.albums_sort
-        self._flowbox.bind_model(model, self._create_widget)
-        self._flowbox.set_hadjustment(self._scrolled_window.get_hadjustment())
-        self._flowbox.set_vadjustment(self._scrolled_window.get_vadjustment())
-        self._flowbox.connect("child-activated", self._on_child_activated)
+        list_item_factory = Gtk.BuilderListItemFactory(
+            resource="/org/gnome/Music/ui/AlbumCoverListItem.ui")
+        self._gridview.props.factory = list_item_factory
 
-        self.bind_property(
-            "selection-mode", self._window, "selection-mode",
-            GObject.BindingFlags.DEFAULT)
+        multi_select_model = Gtk.MultiSelection.new(
+            self._application.props.coremodel.props.albums_sort)
+        self._gridview.props.model = multi_select_model
 
-        self._window.connect(
-            "notify::selection-mode", self._on_selection_mode_changed)
+        # self._flowbox.bind_model(model, self._create_widget)
+        # self._flowbox.set_hadjustment(self._scrolled_window.get_hadjustment())
+        # self._flowbox.set_vadjustment(self._scrolled_window.get_vadjustment())
+        # self._flowbox.connect("child-activated", self._on_child_activated)
 
-        self._album_widget = AlbumWidget(self._application)
-        self._album_widget.bind_property(
-            "selection-mode", self, "selection-mode",
-            GObject.BindingFlags.BIDIRECTIONAL)
+        # self.bind_property(
+        #     "selection-mode", self._window, "selection-mode",
+        #     GObject.BindingFlags.DEFAULT)
 
-        self.add_child(self._album_widget)
+        # self._window.connect(
+        #     "notify::selection-mode", self._on_selection_mode_changed)
 
-        self.connect(
-            "notify::search-mode-active", self._on_search_mode_changed)
+        # self._album_widget = AlbumWidget(self._application)
+        # self._album_widget.bind_property(
+        #     "selection-mode", self, "selection-mode",
+        #     GObject.BindingFlags.BIDIRECTIONAL)
 
-        self._scrolled_window.props.vadjustment.connect(
-            "value-changed", self._on_vadjustment_changed)
-        self._scrolled_window.props.vadjustment.connect(
-            "changed", self._on_vadjustment_changed)
+        # self.add_child(self._album_widget)
+
+        # self.connect(
+        #     "notify::search-mode-active", self._on_search_mode_changed)
+
+        # self._scrolled_window.props.vadjustment.connect(
+        #     "value-changed", self._on_vadjustment_changed)
+        # self._scrolled_window.props.vadjustment.connect(
+        #     "changed", self._on_vadjustment_changed)
 
     def _on_vadjustment_changed(self, adjustment):
         if self._adjustment_timeout_id != 0:
@@ -210,42 +217,42 @@ class AlbumsView(Gtk.Stack):
         # self._headerbar.props.title = corealbum.props.title
         # self._headerbar.props.subtitle = corealbum.props.artist
 
-    @Gtk.Template.Callback()
-    def _on_flowbox_press_begin(self, gesture, sequence):
-        state = gesture.get_current_event_state()
-        if ((state
-             and state == Gdk.ModifierType.CONTROL_MASK)
-                or self.props.selection_mode is True):
-            self._flowbox.props.selection_mode = Gtk.SelectionMode.MULTIPLE
-            if state == Gdk.ModifierType.CONTROL_MASK:
-                self._ctrl_hold = True
+    # @Gtk.Template.Callback()
+    # def _on_flowbox_press_begin(self, gesture, sequence):
+    #     state = gesture.get_current_event_state()
+    #     if ((state
+    #          and state == Gdk.ModifierType.CONTROL_MASK)
+    #             or self.props.selection_mode is True):
+    #         self._flowbox.props.selection_mode = Gtk.SelectionMode.MULTIPLE
+    #         if state == Gdk.ModifierType.CONTROL_MASK:
+    #             self._ctrl_hold = True
 
-    @Gtk.Template.Callback()
-    def _on_flowbox_press_cancel(self, gesture, sequence):
-        self._flowbox.props.selection_mode = Gtk.SelectionMode.NONE
+    # @Gtk.Template.Callback()
+    # def _on_flowbox_press_cancel(self, gesture, sequence):
+    #     self._flowbox.props.selection_mode = Gtk.SelectionMode.NONE
 
-    @Gtk.Template.Callback()
-    def _on_selected_children_changed(self, flowbox):
-        if self._flowbox.props.selection_mode == Gtk.SelectionMode.NONE:
-            return
+    # @Gtk.Template.Callback()
+    # def _on_selected_children_changed(self, flowbox):
+    #     if self._flowbox.props.selection_mode == Gtk.SelectionMode.NONE:
+    #         return
 
-        if self.props.selection_mode is False:
-            self.props.selection_mode = True
+    #     if self.props.selection_mode is False:
+    #         self.props.selection_mode = True
 
-        rubberband_selection = len(self._flowbox.get_selected_children()) > 1
-        with self._application.props.coreselection.freeze_notify():
-            if (rubberband_selection
-                    and not self._ctrl_hold):
-                self.deselect_all()
-            for child in self._flowbox.get_selected_children():
-                if (self._ctrl_hold is True
-                        or not rubberband_selection):
-                    child.props.selected = not child.props.selected
-                else:
-                    child.props.selected = True
+    #     rubberband_selection = len(self._flowbox.get_selected_children()) > 1
+    #     with self._application.props.coreselection.freeze_notify():
+    #         if (rubberband_selection
+    #                 and not self._ctrl_hold):
+    #             self.deselect_all()
+    #         for child in self._flowbox.get_selected_children():
+    #             if (self._ctrl_hold is True
+    #                     or not rubberband_selection):
+    #                 child.props.selected = not child.props.selected
+    #             else:
+    #                 child.props.selected = True
 
-        self._ctrl_hold = False
-        self._flowbox.props.selection_mode = Gtk.SelectionMode.NONE
+    #     self._ctrl_hold = False
+    #     self._flowbox.props.selection_mode = Gtk.SelectionMode.NONE
 
     def _toggle_all_selection(self, selected):
         """Selects or deselects all items.

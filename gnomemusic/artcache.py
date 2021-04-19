@@ -237,6 +237,7 @@ class ArtCache(GObject.GObject):
         # elif (isinstance(self._coreobject, CoreAlbum)
         #         or isinstance(self._coreobject, CoreSong)):
         #     surface = _make_icon_frame(surface, self._size, self._scale)
+
         else:
             paintable = CoverPaintable(self._size)
 

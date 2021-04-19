@@ -35,6 +35,8 @@ class CoreAlbum(GObject.GObject):
     """Exposes a Grl.Media with relevant data as properties
     """
 
+    __gtype_name__ = "CoreAlbum"
+
     artist = GObject.Property(type=str)
     composer = GObject.Property(type=str, default=None)
     duration = GObject.Property(type=int, default=0)
@@ -42,6 +44,7 @@ class CoreAlbum(GObject.GObject):
     title = GObject.Property(type=str)
     url = GObject.Property(type=str)
     year = GObject.Property(type=str, default="----")
+    corealbum = GObject.Property(type=object, default=None)
 
     def __init__(self, application, media):
         """Initiate the CoreAlbum object
@@ -51,6 +54,7 @@ class CoreAlbum(GObject.GObject):
         """
         super().__init__()
 
+        self.props.corealbum = self
         self._application = application
         self._coregrilo = application.props.coregrilo
         self._model = None
