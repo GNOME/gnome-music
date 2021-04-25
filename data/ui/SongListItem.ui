@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk+" version="4.0"/>
+  <template class="GtkListItem">
+    <property name="child">
+      <object class="GtkBox">
+        <property name="orientation">horizontal</property>
+        <child>
+          <object class="GtkBox">
+            <property name="homogeneous">True</property>
+            <child>
+              <object class="GtkLabel" id="_number_label">
+                <binding name="label">
+                  <lookup name="track_number" type="CoreSong">
+                    <lookup name="item">GtkListItem</lookup>
+                  </lookup>
+                </binding>
+                <property name="can_focus">False</property>
+                <property name="halign">end</property>
+                <style>
+                  <class name="dim-label"/>
+                </style>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkLabel">
+            <binding name="label">
+              <lookup name="title" type="CoreSong">
+                <lookup name="item">GtkListItem</lookup>
+              </lookup>
+            </binding>
+          </object>
+        </child>
+        <child>
+          <object class="GtkLabel" id="_duration_label">
+            <property name="halign">end</property>
+            <property name="hexpand">True</property>
+            <property name="single_line_mode">True</property>
+            <binding name="label">
+              <lookup name="duration" type="CoreSong">
+                <lookup name="item">GtkListItem</lookup>
+              </lookup>
+            </binding>
+            <attributes>
+              <attribute name="font-features" value="tnum=1"/>
+            </attributes>
+          </object>
+        </child>
+      </object>
+    </property>
+  </template>
+</interface>

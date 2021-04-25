@@ -43,7 +43,7 @@ class DiscBox(Gtk.ListBoxRow):
     __gtype_name__ = 'DiscBox'
 
     _disc_label = Gtk.Template.Child()
-    _list_box = Gtk.Template.Child()
+    _list_view = Gtk.Template.Child()
 
     __gsignals__ = {
         'song-activated': (GObject.SignalFlags.RUN_FIRST, None, (Gtk.Widget,))
@@ -68,7 +68,12 @@ class DiscBox(Gtk.ListBoxRow):
             'show-disc-label', self._disc_label, 'visible',
             GObject.BindingFlags.SYNC_CREATE)
 
-        self._list_box.bind_model(self._model, self._create_widget)
+        multi_selection_model = Gtk.MultiSelection.new(self._model)
+        self._list_view.props.model = multi_selection_model
+
+        list_item_factory = Gtk.BuilderListItemFactory(
+            resource="/org/gnome/Music/ui/SongListItem.ui")
+        self._list_view.props.factory = list_item_factory
 
     def select_all(self):
         """Select all songs"""

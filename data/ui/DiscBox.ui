@@ -25,12 +25,10 @@
           </object>
         </child>
         <child>
-          <object class="GtkListBox" id="_list_box">
-            <property name="visible">True</property>
+          <object class="GtkListView" id="_list_view">
             <property name="can_focus">False</property>
             <property name="valign">start</property>
-            <property name="selection_mode">none</property>
-            <signal name="row-activated" handler="_song_activated" swapped="no"/>
+            <property name="single_click_activate">True</property>
             <style>
               <class name="content"/>
             </style>

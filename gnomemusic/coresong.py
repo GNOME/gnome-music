@@ -43,9 +43,12 @@ class CoreSong(GObject.GObject):
     """Exposes a Grl.Media with relevant data as properties
     """
 
+    __gtype_name__ = "CoreSong"
+
     album = GObject.Property(type=str)
     album_disc_number = GObject.Property(type=int)
     artist = GObject.Property(type=str)
+    coresong = GObject.Property(type=object, default=None)
     duration = GObject.Property(type=int)
     media = GObject.Property(type=Grl.Media)
     grlid = GObject.Property(type=str, default=None)
@@ -77,6 +80,7 @@ class CoreSong(GObject.GObject):
         self._favorite: bool = False
         self._selected: bool = False
         self._thumbnail: Optional[str] = None
+        self.props.coresong = self
 
         self.props.grlid = media.get_source() + media.get_id()
         self._is_tracker: bool = media.get_source() == "grl-tracker3-source"
