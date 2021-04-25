@@ -27,6 +27,9 @@ from gi.repository import GObject, Gio, Grl, Gtk
 
 class CoreDisc(GObject.GObject):
 
+    __gtype_name__ = "CoreDisc"
+
+    coredisc = GObject.Property(type=object, default=None)
     disc_nr = GObject.Property(type=int, default=0)
     duration = GObject.Property(type=int, default=None)
     media = GObject.Property(type=Grl.Media, default=None)
@@ -40,6 +43,7 @@ class CoreDisc(GObject.GObject):
         """
         super().__init__()
 
+        self.props.coredisc = self
         self._coregrilo = application.props.coregrilo
         self._coremodel = application.props.coremodel
         self._filter_model = None
