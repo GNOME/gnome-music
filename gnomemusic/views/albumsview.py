@@ -54,7 +54,7 @@ class AlbumsView(Gtk.Stack):
         type=str, default=_("Albums"), flags=GObject.ParamFlags.READABLE)
 
     _album_scrolled_window = Gtk.Template.Child()
-    # _scrolled_window = Gtk.Template.Child()
+    _scrolled_window = Gtk.Template.Child()
     _gridview = Gtk.Template.Child()
     # _flowbox_long_press = Gtk.Template.Child()
 
@@ -75,6 +75,8 @@ class AlbumsView(Gtk.Stack):
         self._widget_counter = 1
         self._ctrl_hold = False
 
+        self._gridview.props.single_click_activate = True
+
         list_item_factory = Gtk.BuilderListItemFactory(
             resource="/org/gnome/Music/ui/AlbumCoverListItem.ui")
         self._gridview.props.factory = list_item_factory
@@ -82,6 +84,8 @@ class AlbumsView(Gtk.Stack):
         multi_select_model = Gtk.MultiSelection.new(
             self._application.props.coremodel.props.albums_sort)
         self._gridview.props.model = multi_select_model
+
+        self._gridview.connect("activate", self._on_album_activated)
 
         # self._flowbox.bind_model(model, self._create_widget)
         # self._flowbox.set_hadjustment(self._scrolled_window.get_hadjustment())
@@ -95,12 +99,12 @@ class AlbumsView(Gtk.Stack):
         # self._window.connect(
         #     "notify::selection-mode", self._on_selection_mode_changed)
 
-        # self._album_widget = AlbumWidget(self._application)
-        # self._album_widget.bind_property(
-        #     "selection-mode", self, "selection-mode",
-        #     GObject.BindingFlags.BIDIRECTIONAL)
+        self._album_widget = AlbumWidget(self._application)
+        self._album_widget.bind_property(
+            "selection-mode", self, "selection-mode",
+            GObject.BindingFlags.BIDIRECTIONAL)
 
-        # self._album_scrolled_window.set_child(self._album_widget)
+        self._album_scrolled_window.set_child(self._album_widget)
 
         # self.connect(
         #     "notify::search-mode-active", self._on_search_mode_changed)
@@ -206,6 +210,13 @@ class AlbumsView(Gtk.Stack):
     def _back_button_clicked(self, widget, data=None):
         self._headerbar.state = HeaderBar.State.MAIN
         self.props.visible_child = self._scrolled_window
+
+    def _on_album_activated(self, widget, position):
+        corealbum = widget.props.model[position]
+
+        self._album_widget.props.corealbum = corealbum
+        self._set_album_headerbar(corealbum)
+        self.props.visible_child = self._album_scrolled_window
 
     def _on_child_activated(self, widget, child, user_data=None):
         corealbum = child.props.corealbum
