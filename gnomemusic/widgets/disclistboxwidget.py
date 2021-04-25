@@ -28,6 +28,7 @@ import typing
 
 from gi.repository import Gdk, Gio, GObject, Gtk
 
+from gnomemusic.coresong import CoreSong
 from gnomemusic.widgets.songwidget import SongWidget
 if typing.TYPE_CHECKING:
     from gnomemusic.coredisc import CoreDisc
@@ -46,7 +47,7 @@ class DiscBox(Gtk.ListBoxRow):
     _list_view = Gtk.Template.Child()
 
     __gsignals__ = {
-        'song-activated': (GObject.SignalFlags.RUN_FIRST, None, (Gtk.Widget,))
+        'song-activated': (GObject.SignalFlags.RUN_FIRST, None, (CoreSong,))
     }
 
     selection_mode = GObject.Property(type=bool, default=False)
@@ -75,6 +76,8 @@ class DiscBox(Gtk.ListBoxRow):
             resource="/org/gnome/Music/ui/SongListItem.ui")
         self._list_view.props.factory = list_item_factory
 
+        self._list_view.connect("activate", self._song_activated)
+
     def select_all(self):
         """Select all songs"""
         def child_select_all(child):
@@ -99,34 +102,31 @@ class DiscBox(Gtk.ListBoxRow):
 
         return song_widget
 
-    @Gtk.Template.Callback()
-    def _song_activated(
-            self, list_box: Gtk.ListBox, song_widget: SongWidget) -> bool:
-        if song_widget.props.select_click:
-            song_widget.props.select_click = False
-            return True
+    def _song_activated(self, widget, position):
+        self.emit("song-activated", self._model[position])
+        # if widget.props.select_click:
+        #     widget.props.select_click = False
+        #     return
 
-        event = Gtk.get_current_event()
-        (_, state) = event.get_state()
-        mod_mask = Gtk.accelerator_get_default_mod_mask()
-        if ((state & mod_mask) == Gdk.ModifierType.CONTROL_MASK
-                and not self.props.selection_mode):
-            self.props.selection_mode = True
-            song_widget.props.select_click = True
-            song_widget.props.coresong.props.selected = True
-            return True
+        # mod_mask = Gtk.accelerator_get_default_mod_mask()
+        # if ((event.get_state() & mod_mask) == Gdk.ModifierType.CONTROL_MASK
+        #         and not self.props.selection_mode):
+        #     self.props.selection_mode = True
+        #     widget.props.select_click = True
+        #     widget.props.coresong.props.selected = True
+        #     return
 
-        (_, button) = event.get_button()
-        if (button == Gdk.BUTTON_PRIMARY
-                and not self.props.selection_mode):
-            self.emit("song-activated", song_widget)
+        # (_, button) = event.get_button()
+        # if (button == Gdk.BUTTON_PRIMARY
+        #         and not self.props.selection_mode):
+        #     self.emit('song-activated', widget)
 
-        if self.props.selection_mode:
-            song_widget.props.select_click = True
-            selection_state = song_widget.props.coresong.props.selected
-            song_widget.props.coresong.props.selected = not selection_state
+        # if self.props.selection_mode:
+        #     widget.props.select_click = True
+        #     selection_state = widget.props.coresong.props.selected
+        #     widget.props.coresong.props.selected = not selection_state
 
-        return True
+        # return True
 
 
 class DiscListBox(Gtk.ListBox):

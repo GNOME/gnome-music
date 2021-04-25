@@ -153,7 +153,7 @@ class AlbumWidget(Gtk.Box):
         self._running_info_label.props.label = ngettext(
             "{} minute", "{} minutes", mins).format(mins)
 
-    def _song_activated(self, widget, song_widget):
+    def _song_activated(self, widget, coresong):
         if self.props.selection_mode:
             song_widget.props.selected = not song_widget.props.selected
             return
@@ -161,7 +161,7 @@ class AlbumWidget(Gtk.Box):
         signal_id = None
 
         def _on_playlist_loaded(klass, playlist_type):
-            self._player.play(song_widget.props.coresong)
+            self._player.play(coresong)
             self._coremodel.disconnect(signal_id)
 
         signal_id = self._coremodel.connect(
