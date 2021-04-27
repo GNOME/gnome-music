@@ -35,7 +35,7 @@ from gnomemusic.musiclogger import MusicLogger
 
 class ArtSize(Enum):
     """Enum for icon sizes"""
-    SMALL = (34, 34)
+    SMALL = (74, 74)
     MEDIUM = (128, 128)
     LARGE = (256, 256)
 

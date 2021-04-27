@@ -70,6 +70,11 @@ box#ArtistAlbumsWidget .artist-label {
     -gtk-outline-radius: 9999px;
 }
 
+.smooth-scale {
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
 /* PlaylistControls */
 .playlist-name-label {
   font-weight: bold;

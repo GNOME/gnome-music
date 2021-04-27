@@ -182,6 +182,7 @@
             <property name="visible">True</property>
             <property name="orientation">horizontal</property>
             <property name="can_focus">False</property>
+            <property name="margin_top">12</property>
             <child>
               <object class="GtkLabel" id="_progress_time_label">
                 <property name="visible">True</property>
@@ -202,6 +203,9 @@
                 <property name="hexpand">True</property>
                 <property name="draw_value">False</property>
                 <signal name = "value-changed" handler="_on_progress_value_changed" swapped="no"/>
+                <style>
+                  <class name="smooth-scale"/>
+                </style>
               </object>
             </child>
             <child>
