@@ -49,6 +49,15 @@ box#ArtistAlbumsWidget .artist-label {
     font-size: smaller;
 }
 
+.border-solid {
+    border-style: solid;
+}
+
+.pill {
+    border-radius: 9999px;
+    -gtk-outline-radius: 9999px;
+}
+
 /* PlaylistControls */
 .playlist-name-label {
   font-weight: bold;

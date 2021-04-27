@@ -144,6 +144,10 @@
                 <property name="always_show_image">True</property>
                 <property name="tooltip_text" translatable="yes">Play</property>
                 <signal name="clicked" handler="_on_play_button_clicked" swapped="no"/>
+                <style>
+                  <class name="border-solid"/>
+                  <class name="pill"/>
+                </style>
               </object>
             </child>
             <child>
