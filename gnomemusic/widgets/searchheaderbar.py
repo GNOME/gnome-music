@@ -24,9 +24,7 @@
 
 from enum import IntEnum
 
-import gi
-gi.require_version("Gd", "1.0")
-from gi.repository import GLib, GObject, Gd, Gtk
+from gi.repository import GLib, GObject, Gtk
 
 from gnomemusic.search import Search
 from gnomemusic.widgets.headerbar import HeaderBar, SelectionBarMenuButton
@@ -62,7 +60,7 @@ class SearchHeaderBar(Gtk.HeaderBar):
         self._selection_mode = False
         self._timeout = None
 
-        self._entry = Gd.TaggedEntry()
+        self._entry = Gtk.SearchEntry()
         self._entry.props.halign = Gtk.Align.CENTER
         self._entry.props.visible = True
         self._entry.props.width_request = 500
