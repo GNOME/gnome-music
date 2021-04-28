@@ -51,17 +51,6 @@ LOCALE_DIR = '@localedir@'
 PKGDATA_DIR = '@pkgdatadir@'
 
 
-def set_libgd():
-    """Configures application to run our own libgd copy."""
-    libgd_libdir = '@pkglibdir@'
-    if _LOCAL:
-        libgd_typelibdir = '@pkglibdir@'
-    else:
-        libgd_typelibdir = '@pkglibdir@/girepository-1.0'
-
-    GIRepository.Repository.prepend_search_path(libgd_typelibdir)
-    GIRepository.Repository.prepend_library_path(libgd_libdir)
-
 def set_gfm():
     """Configures application to use gfm."""
     gfm_libdir = '@gfmlibdir@'
@@ -119,7 +108,6 @@ def run_application():
 
 def main():
     """Sets environment and runs GNOME Music."""
-    set_libgd()
     set_gfm()
     set_exception_hook()
     set_internationalization()

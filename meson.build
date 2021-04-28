@@ -54,16 +54,6 @@ dependency('py3cairo', version: '>= 1.14.0')
 dependency('grilo-0.3', version: '>= 0.3.13', fallback: ['grilo', 'libgrl_dep'])
 dependency('grilo-plugins-0.3', version: '>= 0.3.12', fallback: ['grilo-plugins', 'grilo_plugins_dep'])
 
-subproject('libgd',
-    default_options: [
-        'with-introspection=true',
-        'with-main-view=true',
-        'with-tagged-entry=true',
-        'static=false',
-        'pkgdatadir=' + PKGDATA_DIR,
-        'pkglibdir=' + PKGLIB_DIR
-    ])
-
 subproject('gfm',
     default_options: [
         'pkgdatadir=' + PKGDATA_DIR,
@@ -88,8 +78,7 @@ bin_config.set('pkgdatadir', PKGDATA_DIR)
 bin_config.set('localedir', join_paths(get_option('prefix'), get_option('datadir'), 'locale'))
 bin_config.set('pythondir', PYTHON_DIR)
 bin_config.set('schemasdir', PKGDATA_DIR)
-# Used for libgd/gfm
-bin_config.set('pkglibdir', PKGLIB_DIR)
+# Used for gfm
 bin_config.set('gfmlibdir', PKGLIB_DIR)
 
 bin_config.set('local_build', 'False')
@@ -109,8 +98,7 @@ local_config.set('pkgdatadir', join_paths(meson.build_root(), 'data'))
 local_config.set('localedir', join_paths(get_option('prefix'), get_option('datadir'), 'locale'))
 local_config.set('pythondir', meson.source_root())
 local_config.set('schemasdir', join_paths(meson.build_root(), 'data'))
-# Used for libgd/gfm
-local_config.set('pkglibdir', join_paths(meson.build_root(), 'subprojects', 'libgd', 'libgd'))
+# Used for gfm
 local_config.set('gfmlibdir', join_paths(meson.build_root(), 'subprojects', 'gfm'))
 
 local_config.set('local_build', 'True')
