@@ -102,7 +102,7 @@
         <property name="tooltip_text" translatable="yes">Back</property>
         <signal name="clicked" handler="_on_back_button_clicked" swapped="no"/>
         <style>
-              <class name="image-button"/>
+          <class name="image-button"/>
         </style>
         <child>
           <object class="GtkImage" id="_back_button_image">
@@ -119,10 +119,10 @@
     </child>
   </template>
   <object class="GtkSizeGroup" id="size1">
-      <property name="mode">vertical</property>
-      <widgets>
-        <widget name="_search_button"/>
-        <widget name="_cancel_button"/>
-      </widgets>
+    <property name="mode">vertical</property>
+    <widgets>
+      <widget name="_search_button"/>
+      <widget name="_cancel_button"/>
+    </widgets>
   </object>
 </interface>
