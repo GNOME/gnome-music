@@ -22,13 +22,19 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from __future__ import annotations
+from typing import List, Optional
 from enum import IntEnum
+import typing
 
 from gettext import gettext as _, ngettext
 import gi
 gi.require_version('Gst', '1.0')
 gi.require_version('GstPbutils', '1.0')
 from gi.repository import GLib, Gtk, Gio, GObject, Gst, GstPbutils
+
+if typing.TYPE_CHECKING:
+    from gnomemusic.application import Application
 
 
 class Playback(IntEnum):
@@ -53,7 +59,7 @@ class GstPlayer(GObject.GObject):
         "stream-start": (GObject.SignalFlags.RUN_FIRST, None, ())
     }
 
-    def __init__(self, application):
+    def __init__(self, application: Application) -> None:
         """Initialize the GStreamer player
 
         :param Application application: Application object
@@ -69,9 +75,9 @@ class GstPlayer(GObject.GObject):
         self._tick = 0
 
         self._clock_id = 0
-        self._clock = None
+        self._clock: Optional[Gst.Clock] = None
 
-        self._missing_plugin_messages = []
+        self._missing_plugin_messages: List[Gst.Message] = []
         self._settings = application.props.settings
 
         self._player = Gst.ElementFactory.make('playbin3', 'player')
