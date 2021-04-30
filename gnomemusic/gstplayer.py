@@ -157,6 +157,12 @@ class GstPlayer(GObject.GObject):
             self._clock.get_time(), 1 * Gst.SECOND)
         self._clock.id_wait_async(self._clock_id, self._on_clock_tick, None)
 
+    def _destroy_clock_tick(self) -> None:
+        if (self._clock_id > 0
+                and self._clock is not None):
+            self._clock.id_unschedule(self._clock_id)
+            self._clock_id = 0
+
     def _on_new_clock(self, bus, message):
         self._clock_id = 0
         self._clock = message.parse_new_clock()
@@ -190,9 +196,7 @@ class GstPlayer(GObject.GObject):
 
         if new_state == Gst.State.PAUSED:
             self._state = Playback.PAUSED
-            if self._clock_id > 0:
-                self._clock.id_unschedule(self._clock_id)
-                self._clock_id = 0
+            self._destroy_clock_tick()
         elif new_state == Gst.State.PLAYING:
             self._state = Playback.PLAYING
             self._create_clock_tick()
@@ -250,6 +254,7 @@ class GstPlayer(GObject.GObject):
             self._player.set_state(Gst.State.NULL)
             self._state = Playback.STOPPED
             self.notify("state")
+            self._destroy_clock_tick()
         if state == Playback.LOADING:
             self._player.set_state(Gst.State.READY)
         if state == Playback.PLAYING:
