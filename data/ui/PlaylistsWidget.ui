@@ -20,6 +20,7 @@
             <property name="margin-top">20</property>
             <property name="valign">start</property>
             <property name="visible">True</property>
+            <signal name="row-activated" handler="_on_song_activated" swapped="no"/>
             <style>
               <class name="songs-list"/>
             </style>

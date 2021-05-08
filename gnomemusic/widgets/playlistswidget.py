@@ -107,7 +107,6 @@ class PlaylistsWidget(Gtk.Box):
         song_widget = SongWidget(coresong, can_dnd, True)
         song_widget.props.show_song_number = False
 
-        song_widget.connect("button-release-event", self._on_song_activated)
         if can_dnd is True:
             song_widget.connect("widget_moved", self._on_song_widget_moved)
 
@@ -117,8 +116,10 @@ class PlaylistsWidget(Gtk.Box):
 
         return row
 
-    def _on_song_activated(self, widget, event):
-        coresong = widget.props.coresong
+    @Gtk.Template.Callback()
+    def _on_song_activated(
+            self, list_box: Gtk.ListBox, row: Gtk.ListBoxRow) -> bool:
+        coresong = row.get_child().props.coresong
         self._play(coresong)
         return True
 
