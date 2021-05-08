@@ -22,6 +22,9 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from __future__ import annotations
+import typing
+
 from gi.repository import Gdk, GObject, Gtk
 
 from gnomemusic.widgets.notificationspopup import PlaylistNotification
@@ -29,6 +32,9 @@ from gnomemusic.widgets.playlistcontextmenu import PlaylistContextMenu
 from gnomemusic.widgets.playlistcontrols import PlaylistControls  # noqa: F401
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
 from gnomemusic.widgets.songwidget import SongWidget
+if typing.TYPE_CHECKING:
+    from gnomemusic.application import Application
+    from gnomemusic.view.playlistsview import PlaylistsView
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/PlaylistsWidget.ui")
@@ -41,7 +47,9 @@ class PlaylistsWidget(Gtk.Box):
     _songs_list = Gtk.Template.Child()
     _songs_list_ctrlr = Gtk.Template.Child()
 
-    def __init__(self, application, playlists_view):
+    def __init__(
+            self, application: Application,
+            playlists_view: PlaylistsView) -> None:
         """Initialize the PlaylistsWidget.
 
         :param Application application: The application object
