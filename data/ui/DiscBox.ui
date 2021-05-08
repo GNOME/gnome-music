@@ -30,6 +30,7 @@
             <property name="can_focus">False</property>
             <property name="valign">start</property>
             <property name="selection_mode">none</property>
+            <signal name="row-activated" handler="_song_activated" swapped="no"/>
             <style>
               <class name="songs-list"/>
             </style>

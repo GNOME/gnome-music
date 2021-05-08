@@ -94,37 +94,39 @@ class DiscBox(Gtk.ListBoxRow):
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
 
-        song_widget.connect('button-release-event', self._song_activated)
-
         row = Gtk.ListBoxRow()
-        row.props.activatable = False
         row.props.selectable = False
         row.add(song_widget)
 
         return row
 
-    def _song_activated(self, widget, event):
-        if widget.props.select_click:
-            widget.props.select_click = False
-            return
+    @Gtk.Template.Callback()
+    def _song_activated(
+            self, list_box: Gtk.ListBox, row: Gtk.ListBoxRow) -> bool:
+        song_widget = row.get_child()
+        if song_widget.props.select_click:
+            song_widget.props.select_click = False
+            return True
 
+        event = Gtk.get_current_event()
+        (_, state) = event.get_state()
         mod_mask = Gtk.accelerator_get_default_mod_mask()
-        if ((event.get_state() & mod_mask) == Gdk.ModifierType.CONTROL_MASK
+        if ((state & mod_mask) == Gdk.ModifierType.CONTROL_MASK
                 and not self.props.selection_mode):
             self.props.selection_mode = True
-            widget.props.select_click = True
-            widget.props.coresong.props.selected = True
-            return
+            song_widget.props.select_click = True
+            song_widget.props.coresong.props.selected = True
+            return True
 
         (_, button) = event.get_button()
         if (button == Gdk.BUTTON_PRIMARY
                 and not self.props.selection_mode):
-            self.emit('song-activated', widget)
+            self.emit("song-activated", song_widget)
 
         if self.props.selection_mode:
-            widget.props.select_click = True
-            selection_state = widget.props.coresong.props.selected
-            widget.props.coresong.props.selected = not selection_state
+            song_widget.props.select_click = True
+            selection_state = song_widget.props.coresong.props.selected
+            song_widget.props.coresong.props.selected = not selection_state
 
         return True
 
