@@ -229,6 +229,6 @@
           </object>
         </child>
       </object>
-      </child>
-    </template>
-  </interface>
+    </child>
+  </template>
+</interface>
