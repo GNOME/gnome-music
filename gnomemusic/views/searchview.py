@@ -245,6 +245,8 @@ class SearchView(Gtk.Stack):
         if ((event.get_state() & mod_mask) == Gdk.ModifierType.CONTROL_MASK
                 and not self.props.selection_mode):
             self.props.selection_mode = True
+            widget.props.select_click = True
+            widget.props.coresong.props.selected = True
             return
 
         if self.props.selection_mode:
