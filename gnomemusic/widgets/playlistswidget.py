@@ -110,16 +110,12 @@ class PlaylistsWidget(Gtk.Box):
         if can_dnd is True:
             song_widget.connect("widget_moved", self._on_song_widget_moved)
 
-        row = Gtk.ListBoxRow()
-        row.props.selectable = False
-        row.add(song_widget)
-
-        return row
+        return song_widget
 
     @Gtk.Template.Callback()
     def _on_song_activated(
-            self, list_box: Gtk.ListBox, row: Gtk.ListBoxRow) -> bool:
-        coresong = row.get_child().props.coresong
+            self, list_box: Gtk.ListBox, song_widget: SongWidget) -> bool:
+        coresong = song_widget.props.coresong
         self._play(coresong)
         return True
 
@@ -136,7 +132,7 @@ class PlaylistsWidget(Gtk.Box):
         self._coremodel.props.active_core_object = current_playlist
 
     def _on_song_widget_moved(self, target, source_position):
-        target_position = target.get_parent().get_index()
+        target_position = target.get_index()
         current_playlist = self._playlists_view.props.current_playlist
         current_playlist.reorder(source_position, target_position)
 
@@ -163,15 +159,13 @@ class PlaylistsWidget(Gtk.Box):
 
     def _play_song(self, menuitem, data=None):
         selected_row = self._songs_list.get_selected_row()
-        song_widget = selected_row.get_child()
-        coresong = song_widget.props.coresong
+        coresong = selected_row.props.coresong
         self._songs_list.unselect_all()
         self._play(coresong)
 
     def _add_song_to_playlist(self, menuitem, data=None):
         selected_row = self._songs_list.get_selected_row()
-        song_widget = selected_row.get_child()
-        coresong = song_widget.props.coresong
+        coresong = selected_row.props.coresong
 
         playlist_dialog = PlaylistDialog(self._application)
         playlist_dialog.props.transient_for = self._window
@@ -185,8 +179,7 @@ class PlaylistsWidget(Gtk.Box):
     def _stage_song_for_deletion(self, menuitem, data=None):
         selected_row = self._songs_list.get_selected_row()
         position = selected_row.get_index()
-        song_widget = selected_row.get_child()
-        coresong = song_widget.props.coresong
+        coresong = selected_row.props.coresong
 
         current_playlist = self._playlists_view.props.current_playlist
 

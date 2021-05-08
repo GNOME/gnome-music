@@ -36,7 +36,7 @@ from gnomemusic.widgets.starimage import StarImage  # noqa: F401
 
 
 @Gtk.Template(resource_path='/org/gnome/Music/ui/SongWidget.ui')
-class SongWidget(Gtk.EventBox):
+class SongWidget(Gtk.ListBoxRow):
     """The single song widget used in DiscListBox
 
     Contains
@@ -173,9 +173,10 @@ class SongWidget(Gtk.EventBox):
         drag_row.props.show_song_number = self.props.show_song_number
 
         self._drag_widget.add(drag_row)
-        self._drag_widget.drag_highlight_row(drag_row.get_parent())
+        self._drag_widget.drag_highlight_row(drag_row)
         self._drag_widget.props.visible = True
-        Gtk.drag_set_icon_widget(context, self._drag_widget, x, y)
+        Gtk.drag_set_icon_widget(
+            context, self._drag_widget, x - allocation.x, y - allocation.y)
 
     @Gtk.Template.Callback()
     def _on_drag_end(self, klass, context):
@@ -183,7 +184,7 @@ class SongWidget(Gtk.EventBox):
 
     @Gtk.Template.Callback()
     def _on_drag_data_get(self, klass, context, selection_data, info, time_):
-        row_position = self.get_parent().get_index()
+        row_position = self.get_index()
         selection_data.set(
             Gdk.Atom.intern("row_position", False), 0,
             bytes(str(row_position), encoding="UTF8"))
@@ -192,7 +193,7 @@ class SongWidget(Gtk.EventBox):
     def _on_drag_data_received(
             self, klass, context, x, y, selection_data, info, time_):
         source_position = int(str(selection_data.get_data(), "UTF-8"))
-        target_position = self.get_parent().get_index()
+        target_position = self.get_index()
         if source_position == target_position:
             return
 

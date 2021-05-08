@@ -163,11 +163,7 @@ class SearchView(Gtk.Stack):
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
 
-        row = Gtk.ListBoxRow()
-        row.props.selectable = False
-        row.add(song_widget)
-
-        return row
+        return song_widget
 
     def _create_album_widget(self, corealbum):
         album_widget = AlbumCover(corealbum)
@@ -246,8 +242,7 @@ class SearchView(Gtk.Stack):
 
     @Gtk.Template.Callback()
     def _song_activated(
-            self, list_box: Gtk.ListBox, row: Gtk.ListBoxRow) -> bool:
-        song_widget = row.get_child()
+            self, list_box: Gtk.ListBox, song_widget: SongWidget) -> bool:
         if song_widget.props.select_click:
             song_widget.props.select_click = False
             return True
@@ -433,8 +428,7 @@ class SearchView(Gtk.Stack):
         if self.props.state == SearchView.State.MAIN:
             with self._model.freeze_notify():
                 def song_select(child):
-                    song_widget = child.get_child()
-                    song_widget.props.coresong.props.selected = value
+                    child.props.coresong.props.selected = value
 
                 self._songs_listbox.foreach(song_select)
                 self._album_flowbox.foreach(child_select)
