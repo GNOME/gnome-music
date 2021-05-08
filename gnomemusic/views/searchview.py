@@ -39,6 +39,7 @@ from gnomemusic.widgets.artistsearchtile import ArtistSearchTile
 from gnomemusic.widgets.songwidget import SongWidget
 if typing.TYPE_CHECKING:
     from gnomemusic.application import Application
+    from gnomemusic.coresong import CoreSong
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/SearchView.ui")
@@ -153,7 +154,7 @@ class SearchView(Gtk.Stack):
 
         return False
 
-    def _create_song_widget(self, coresong):
+    def _create_song_widget(self, coresong: CoreSong) -> Gtk.ListBoxRow:
         song_widget = SongWidget(coresong, False, True)
         song_widget.props.show_song_number = False
 
@@ -162,9 +163,11 @@ class SearchView(Gtk.Stack):
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
 
-        song_widget.connect('button-release-event', self._song_activated)
+        row = Gtk.ListBoxRow()
+        row.props.selectable = False
+        row.add(song_widget)
 
-        return song_widget
+        return row
 
     def _create_album_widget(self, corealbum):
         album_widget = AlbumCover(corealbum)
