@@ -22,8 +22,11 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from __future__ import annotations
 from enum import IntEnum
 from gettext import gettext as _
+from typing import Optional
+import typing
 
 from gi.repository import Gdk, GObject, Gtk
 
@@ -34,6 +37,8 @@ from gnomemusic.widgets.headerbar import HeaderBar
 from gnomemusic.widgets.artistalbumswidget import ArtistAlbumsWidget
 from gnomemusic.widgets.artistsearchtile import ArtistSearchTile
 from gnomemusic.widgets.songwidget import SongWidget
+if typing.TYPE_CHECKING:
+    from gnomemusic.application import Application
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/SearchView.ui")
@@ -73,7 +78,7 @@ class SearchView(Gtk.Stack):
     _view_all_albums = Gtk.Template.Child()
     _view_all_artists = Gtk.Template.Child()
 
-    def __init__(self, application):
+    def __init__(self, application: Application) -> None:
         """Initialize SearchView
 
         :param GtkApplication application: The Application object
@@ -134,7 +139,7 @@ class SearchView(Gtk.Stack):
 
         self.add(self._album_widget)
 
-        self._scrolled_artist_window = None
+        self._scrolled_artist_window: Optional[Gtk.ScrolledWindow] = None
 
         self._search_mode_active = False
 
