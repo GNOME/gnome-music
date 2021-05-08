@@ -22,10 +22,15 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from __future__ import annotations
 from gettext import gettext as _
-from gi.repository import Gdk, GObject, Gtk
+import typing
+
+from gi.repository import Gdk, Gio, GObject, Gtk
 
 from gnomemusic.widgets.songwidget import SongWidget
+if typing.TYPE_CHECKING:
+    from gnomemusic.coredisc import CoreDisc
 
 
 @Gtk.Template(resource_path='/org/gnome/Music/ui/DiscBox.ui')
@@ -47,16 +52,16 @@ class DiscBox(Gtk.ListBoxRow):
     selection_mode = GObject.Property(type=bool, default=False)
     show_disc_label = GObject.Property(type=bool, default=False)
 
-    def __init__(self, coredisc):
+    def __init__(self, coredisc: CoreDisc) -> None:
         """Initialize
 
         :param CoreDisc coredisc: The CoreDisc object to use
         """
         super().__init__()
 
-        self._model = coredisc.props.model
+        self._model: Gio.ListModel = coredisc.props.model
 
-        disc_nr = coredisc.props.disc_nr
+        disc_nr: int = coredisc.props.disc_nr
         self._disc_label.props.label = _("Disc {}").format(disc_nr)
 
         self.bind_property(
