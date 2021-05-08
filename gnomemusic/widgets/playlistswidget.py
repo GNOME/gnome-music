@@ -34,6 +34,8 @@ from gnomemusic.widgets.playlistdialog import PlaylistDialog
 from gnomemusic.widgets.songwidget import SongWidget
 if typing.TYPE_CHECKING:
     from gnomemusic.application import Application
+    from gnomemusic.coresong import CoreSong
+    from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
     from gnomemusic.view.playlistsview import PlaylistsView
 
 
@@ -99,7 +101,8 @@ class PlaylistsWidget(Gtk.Box):
 
         self._remove_song_action.set_enabled(not playlist.props.is_smart)
 
-    def _create_song_widget(self, coresong, playlist):
+    def _create_song_widget(
+            self, coresong: CoreSong, playlist: Playlist) -> Gtk.ListBoxRow:
         can_dnd = not playlist.props.is_smart
         song_widget = SongWidget(coresong, can_dnd, True)
         song_widget.props.show_song_number = False
@@ -108,7 +111,11 @@ class PlaylistsWidget(Gtk.Box):
         if can_dnd is True:
             song_widget.connect("widget_moved", self._on_song_widget_moved)
 
-        return song_widget
+        row = Gtk.ListBoxRow()
+        row.props.selectable = False
+        row.add(song_widget)
+
+        return row
 
     def _on_song_activated(self, widget, event):
         coresong = widget.props.coresong
