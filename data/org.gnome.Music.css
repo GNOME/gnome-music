@@ -183,6 +183,10 @@ padding: 0px;
     border-bottom: none;
 }
 
+.songs-list > row:selected {
+    color: @theme_fg_color;
+}
+
 .playlistdialog-row:selected {
     color: @theme_fg_color;
     background-color: @theme_insensitive_bg_color;
