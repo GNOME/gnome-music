@@ -23,15 +23,17 @@
 # delete this exception statement from your version.
 
 from __future__ import annotations
+from typing import Union
 import typing
 
 from gi.repository import Gtk
 
+from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
 from gnomemusic.widgets.notificationspopup import PlaylistNotification
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
 if typing.TYPE_CHECKING:
     from gnomemusic.application import Application
-    from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
+    from gnomemusic.corealbum import CoreAlbum
     from gnomemusic.widgets.songwidget import SongWidget
 
 
@@ -44,13 +46,13 @@ class SongWidgetMenu(Gtk.PopoverMenu):
 
     def __init__(
             self, application: Application, song_widget: SongWidget,
-            playlist: Playlist) -> None:
+            coreobject: Union[CoreAlbum, Playlist]) -> None:
         """Menu to interact with the song of a SongWidget.
 
         :param Application application: The application object
         :param SongWidget song_widget: The songwidget associated with the menu
-        :param Playlist playlist: The coreobject associated with the
-            menu
+        :param Union[CoreAlbum, Playlist]  coreboject: The coreobject
+            associated with the menu
         """
         super().__init__()
 
@@ -59,12 +61,16 @@ class SongWidgetMenu(Gtk.PopoverMenu):
         self._player = application.props.player
         self._window = application.props.window
 
-        self._playlist = playlist
+        self._coreobject = coreobject
         self._song_widget = song_widget
         self._coresong = song_widget.props.coresong
 
-        self._remove_from_playlist_button.props.sensitive = (
-            not playlist.props.is_smart)
+        if isinstance(self._coreobject, Playlist):
+            self._remove_from_playlist_button.props.visible = True
+            self._remove_from_playlist_button.props.sensitive = (
+                not self._coreobject.props.is_smart)
+        else:
+            self._remove_from_playlist_button.props.visible = False
 
     @Gtk.Template.Callback()
     def _on_play_clicked(self, widget: Gtk.Button) -> None:
@@ -77,7 +83,7 @@ class SongWidgetMenu(Gtk.PopoverMenu):
 
         signal_id = self._coremodel.connect(
             "playlist-loaded", _on_playlist_loaded)
-        self._coremodel.props.active_core_object = self._playlist
+        self._coremodel.props.active_core_object = self._coreobject
 
     @Gtk.Template.Callback()
     def _on_add_to_playlist_clicked(self, widget: Gtk.Button) -> None:
@@ -96,5 +102,5 @@ class SongWidgetMenu(Gtk.PopoverMenu):
         position = self._song_widget.get_index()
         notification = PlaylistNotification(  # noqa: F841
             self._window.notifications_popup, self._application,
-            PlaylistNotification.Type.SONG, self._playlist, position,
+            PlaylistNotification.Type.SONG, self._coreobject, position,
             self._coresong)
