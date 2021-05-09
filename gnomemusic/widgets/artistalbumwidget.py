@@ -22,11 +22,17 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from __future__ import annotations
+from typing import Optional
+import typing
+
 from gi.repository import GObject, Gtk
 
 from gnomemusic.utils import ArtSize
 from gnomemusic.widgets.disclistboxwidget import DiscBox
 from gnomemusic.widgets.songwidget import SongWidget
+if typing.TYPE_CHECKING:
+    from gnomemusic.corealbum import CoreAlbum
 
 
 @Gtk.Template(resource_path='/org/gnome/Music/ui/ArtistAlbumWidget.ui')
@@ -52,7 +58,10 @@ class ArtistAlbumWidget(Gtk.Box):
         ),
     }
 
-    def __init__(self, corealbum, size_group=None, cover_size_group=None):
+    def __init__(
+            self, corealbum: CoreAlbum,
+            size_group: Optional[Gtk.SizeGroup] = None,
+            cover_size_group: Optional[Gtk.SizeGroup] = None) -> None:
         """Initialize the ArtistAlbumWidget
 
         :param CoreAlbum corealbum: The CoreAlbum object
