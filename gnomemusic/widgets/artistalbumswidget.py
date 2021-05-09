@@ -81,7 +81,8 @@ class ArtistAlbumsWidget(Gtk.ListBox):
         row.props.activatable = False
 
         widget = ArtistAlbumWidget(
-            corealbum, self._songs_grid_size_group, self._cover_size_group)
+            self._application, corealbum, self._songs_grid_size_group,
+            self._cover_size_group)
 
         self.bind_property(
             'selection-mode', widget, 'selection-mode',

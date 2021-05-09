@@ -152,7 +152,7 @@ class AlbumWidget(Gtk.ScrolledWindow):
         self._album_model.items_changed(0, 0, 0)
 
     def _create_widget(self, disc: CoreDisc) -> DiscBox:
-        disc_box = DiscBox(disc)
+        disc_box = DiscBox(self._application, self._corealbum, disc)
         disc_box.connect('song-activated', self._song_activated)
 
         self._disc_list_box.bind_property(

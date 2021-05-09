@@ -29,7 +29,10 @@ import typing
 from gi.repository import Gdk, Gio, GObject, Gtk
 
 from gnomemusic.widgets.songwidget import SongWidget
+from gnomemusic.widgets.songwidgetmenu import SongWidgetMenu
 if typing.TYPE_CHECKING:
+    from gnomemusic.application import Application
+    from gnomemusic.corealbum import CoreAlbum
     from gnomemusic.coredisc import CoreDisc
 
 
@@ -52,13 +55,19 @@ class DiscBox(Gtk.ListBoxRow):
     selection_mode = GObject.Property(type=bool, default=False)
     show_disc_label = GObject.Property(type=bool, default=False)
 
-    def __init__(self, coredisc: CoreDisc) -> None:
+    def __init__(
+            self, application: Application, corealbum: CoreAlbum,
+            coredisc: CoreDisc) -> None:
         """Initialize
 
+        :param Application coredisc: The Application object
+        :param CoreAlbum corealbum: The corealbum of the coredisc
         :param CoreDisc coredisc: The CoreDisc object to use
         """
         super().__init__()
 
+        self._application = application
+        self._corealbum = corealbum
         self._model: Gio.ListModel = coredisc.props.model
 
         disc_nr: int = coredisc.props.disc_nr
@@ -86,6 +95,8 @@ class DiscBox(Gtk.ListBoxRow):
 
     def _create_widget(self, coresong):
         song_widget = SongWidget(coresong)
+        song_widget.props.menu = SongWidgetMenu(
+            self._application, song_widget, self._corealbum)
 
         self.bind_property(
             "selection-mode", song_widget, "selection-mode",

@@ -32,6 +32,7 @@ from gnomemusic.utils import ArtSize
 from gnomemusic.widgets.disclistboxwidget import DiscBox
 from gnomemusic.widgets.songwidget import SongWidget
 if typing.TYPE_CHECKING:
+    from gnomemusic.application import Application
     from gnomemusic.corealbum import CoreAlbum
 
 
@@ -59,16 +60,20 @@ class ArtistAlbumWidget(Gtk.Box):
     }
 
     def __init__(
-            self, corealbum: CoreAlbum,
+            self, application: Application, corealbum: CoreAlbum,
             size_group: Optional[Gtk.SizeGroup] = None,
             cover_size_group: Optional[Gtk.SizeGroup] = None) -> None:
         """Initialize the ArtistAlbumWidget
 
+        :param Application application: The Application object
         :param CoreAlbum corealbum: The CoreAlbum object
         :param GtkSizeGroup size_group: SizeGroup for the discs
         :param GtkSizeGroup cover_size_group: SizeGroup for the cover
         """
         super().__init__(orientation=Gtk.Orientation.HORIZONTAL)
+
+        self._application = application
+        self._corealbum = corealbum
 
         self._size_group = size_group
         self._cover_size_group = cover_size_group
@@ -102,7 +107,7 @@ class ArtistAlbumWidget(Gtk.Box):
         corealbum.props.model.items_changed(0, 0, 0)
 
     def _create_widget(self, disc):
-        disc_box = DiscBox(disc)
+        disc_box = DiscBox(self._application, self._corealbum, disc)
         disc_box.connect('song-activated', self._song_activated)
 
         self._disc_list_box.bind_property(
