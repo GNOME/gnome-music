@@ -195,6 +195,7 @@
     </widgets>
   </object>
   <object class="GtkEventControllerMotion" id="_controller_motion">
+    <property name="propagation-phase">target</property>
     <property name="widget">_star_eventbox</property>
     <signal name="enter" handler="_on_star_hover" swapped="no"/>
     <signal name="leave" handler="_on_star_unhover" swapped="no"/>
