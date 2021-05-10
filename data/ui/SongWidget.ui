@@ -157,13 +157,13 @@
                 <property name="halign">end</property>
                 <property name="valign">center</property>
                 <property name="visible_window">True</property>
-                <property name="margin-end">12</property>
                 <signal name="button-release-event" handler="_on_star_toggle" swapped="no"/>
                 <child>
                   <object class="StarImage" id="_star_image">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="valign">center</property>
+                    <property name="margin-end">10</property>
                     <property name="margin-start">10</property>
                   </object>
                 </child>
