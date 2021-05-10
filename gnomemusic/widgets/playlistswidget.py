@@ -89,7 +89,6 @@ class PlaylistsWidget(Gtk.Box):
             self, coresong: CoreSong, playlist: Playlist) -> Gtk.ListBoxRow:
         can_dnd = not playlist.props.is_smart
         song_widget = SongWidget(coresong, can_dnd, True)
-        song_widget.props.selectable = True
         song_widget.props.show_song_number = False
         song_widget.props.menu = SongWidgetMenu(
             self._application, song_widget, playlist)

@@ -153,11 +153,6 @@ list {
 padding: 0px;
 }
 
-.content > row:selected {
-    background-color: @theme_base_color;
-    color: @theme_fg_color;
-}
-
 .playlistdialog-row:selected {
     color: @theme_fg_color;
     background-color: @theme_insensitive_bg_color;
