@@ -25,6 +25,10 @@
 }
 
 /* PlayerToolbar */
+.player-toolbar-background {
+    background-color: @theme_base_color;
+}
+
 .border-solid {
     border-style: solid;
 }

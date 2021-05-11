@@ -246,5 +246,8 @@
         <property name="pack-type">end</property>
       </packing>
     </child>
+    <style>
+      <class name="player-toolbar-background"/>
+    </style>
   </template>
 </interface>
