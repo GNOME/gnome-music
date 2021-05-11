@@ -12,9 +12,6 @@
         <property name="valign">start</property>
         <property name="visible">True</property>
         <signal name="row-activated" handler="_on_item_activated" swapped="no"/>
-        <style>
-          <class name="songs-list-old"/>
-        </style>
         <child internal-child="selection">
           <object class="GtkTreeSelection">
             <property name="mode">single</property>
