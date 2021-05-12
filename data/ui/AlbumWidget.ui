@@ -93,11 +93,11 @@
                     <style>
                       <class name="dim-label"/>
                     </style>
+                    <layout>
+                      <property name="column">0</property>
+                      <property name="row">0</property>
+                    </layout>
                   </object>
-                  <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">0</property>
-                  </packing>
                 </child>
                 <child>
                   <object class="GtkLabel" id="running_label">
@@ -109,11 +109,11 @@
                     <style>
                       <class name="dim-label"/>
                     </style>
+                    <layout>
+                      <property name="column">0</property>
+                      <property name="row">1</property>
+                    </layout>
                   </object>
-                  <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">1</property>
-                  </packing>
                 </child>
                 <child>
                   <object class="GtkLabel" id="_released_info_label">
@@ -123,11 +123,11 @@
                     <property name="margin-bottom">2</property>
                     <property name="margin-top">2</property>
                     <property name="label">----</property>
+                    <layout>
+                      <property name="column">1</property>
+                      <property name="row">0</property>
+                    </layout>
                   </object>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">0</property>
-                  </packing>
                 </child>
                 <child>
                   <object class="GtkLabel" id="_running_info_label">
@@ -135,11 +135,11 @@
                     <property name="can_focus">False</property>
                     <property name="halign">start</property>
                     <property name="label">--:--</property>
+                    <layout>
+                      <property name="column">1</property>
+                      <property name="row">1</property>
+                    </layout>
                   </object>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">1</property>
-                  </packing>
                 </child>
                 <child>
                   <object class="GtkLabel" id="_composer_label">
@@ -153,11 +153,11 @@
                     <style>
                       <class name="dim-label"/>
                     </style>
+                    <layout>
+                      <property name="column">0</property>
+                      <property name="row">2</property>
+                    </layout>
                   </object>
-                  <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">2</property>
-                  </packing>
                 </child>
                 <child>
                   <object class="GtkLabel" id="_composer_info_label">
@@ -167,11 +167,11 @@
                     <property name="margin-bottom">2</property>
                     <property name="margin-top">2</property>
                     <property name="ellipsize">end</property>
+                    <layout>
+                      <property name="column">1</property>
+                      <property name="row">2</property>
+                    </layout>
                   </object>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">2</property>
-                  </packing>
                 </child>
               </object>
             </child>
