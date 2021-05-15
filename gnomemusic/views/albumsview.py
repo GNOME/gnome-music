@@ -122,22 +122,25 @@ class AlbumsView(Gtk.Stack):
         if first_cover is None:
             return GLib.SOURCE_REMOVE
 
-        cover_size, _ = first_cover.get_allocated_size()
-        if cover_size.width == 0 or cover_size.height == 0:
+        cover_w = first_cover.get_allocated_width()
+        cover_h = first_cover.get_allocated_height()
+
+        if cover_w == 0 or cover_h == 0:
             return GLib.SOURCE_REMOVE
 
-        viewport_size, _ = self._viewport.get_allocated_size()
+        viewport_w = self._viewport.get_allocated_width()
+        viewport_h = self._viewport.get_allocated_height()
 
         h_space = self._flowbox.get_column_spacing()
         v_space = self._flowbox.get_row_spacing()
         nr_cols = (
-            (viewport_size.width + h_space) // (cover_size.width + h_space))
+            (viewport_w + h_space) // (cover_w + h_space))
 
         top_left_cover = self._flowbox.get_child_at_index(
-            nr_cols * (adjustment // (cover_size.height + v_space)))
+            nr_cols * (adjustment // (cover_h + v_space)))
 
-        covers_col = math.ceil(viewport_size.width / cover_size.width)
-        covers_row = math.ceil(viewport_size.height / cover_size.height)
+        covers_col = math.ceil(viewport_w / cover_w)
+        covers_row = math.ceil(viewport_h / cover_h)
 
         children = self._flowbox.get_children()
         retrieve_list = []
