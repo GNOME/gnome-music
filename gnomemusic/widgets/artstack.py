@@ -47,7 +47,7 @@ class ArtStack(Gtk.Stack):
 
         self._cache = None
         self._handler_id = None
-        self._size = None
+        self._size = size
         self._thumbnail_id = 0
 
         self._cover_a = Gtk.Image()
@@ -79,7 +79,7 @@ class ArtStack(Gtk.Stack):
 
         :param ArtSize value: The size to use for the cover
         """
-        self._cover_a.set_size_request(value.width, value.height)
+        self.set_size_request(value.width, value.height)
         self._size = value
 
     @GObject.Property(type=object, default=None)
