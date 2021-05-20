@@ -189,7 +189,7 @@
                 <property name="can_focus">False</property>
                 <property name="halign">start</property>
                 <property name="valign">center</property>
-                <property name="label">0:00</property>
+                <property name="label">0∶00</property>
                 <attributes>
                   <attribute name="font-features" value="tnum=1"/>
                 </attributes>
@@ -214,7 +214,7 @@
                 <property name="can_focus">False</property>
                 <property name="halign">start</property>
                 <property name="valign">center</property>
-                <property name="label">0:00</property>
+                <property name="label">0∶00</property>
                 <attributes>
                   <attribute name="font-features" value="tnum=1"/>
                 </attributes>

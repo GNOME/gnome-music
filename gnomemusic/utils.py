@@ -159,7 +159,7 @@ def seconds_to_string(duration):
     minutes = seconds // 60
     seconds %= 60
 
-    return '{:d}:{:02d}'.format(minutes, seconds)
+    return '{:d}∶{:02d}'.format(minutes, seconds)
 
 
 def normalize_caseless(text):
