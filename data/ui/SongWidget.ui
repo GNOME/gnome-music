@@ -5,6 +5,7 @@
   <template class="SongWidget" parent="GtkListBoxRow">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
+    <property name="selectable">False</property>
     <signal name="drag_data_received" handler="_on_drag_data_received"/>
     <child>
       <object class="GtkBox" id="box1">
