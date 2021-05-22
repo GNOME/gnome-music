@@ -27,7 +27,7 @@ from gettext import ngettext
 from typing import Optional, Union
 import typing
 
-from gi.repository import Gio, GLib, GObject, Gtk, Handy
+from gi.repository import Gio, GLib, GObject, Gtk
 
 from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.utils import ArtSize, DefaultIconType
@@ -42,7 +42,7 @@ if typing.TYPE_CHECKING:
 
 
 @Gtk.Template(resource_path='/org/gnome/Music/ui/AlbumWidget.ui')
-class AlbumWidget(Handy.Clamp):
+class AlbumWidget(Gtk.Box):
     """Album widget.
 
     The album widget consists of an image with the album art

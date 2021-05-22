@@ -28,7 +28,7 @@ from math import pi
 from typing import Dict, Tuple
 
 import cairo
-from gi.repository import Gtk, GObject, Gdk, Handy
+from gi.repository import Adw, Gtk, GObject, Gdk
 
 from gnomemusic.utils import ArtSize, DefaultIconType
 
@@ -143,7 +143,7 @@ class DefaultIcon(GObject.GObject):
         :return: The symbolic icon
         :rtype: cairo.ImageSurface
         """
-        dark = Handy.StyleManager.get_default().props.dark
+        dark = Adw.StyleManager.get_default().props.dark
         scale = self._widget.props.scale_factor
 
         if (icon_type, art_size, scale, dark) not in self._cache.keys():
