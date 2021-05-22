@@ -22,7 +22,7 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from gi.repository import Gtk, Gdk, Gio, GLib, GObject, Handy
+from gi.repository import Adw, Gtk, Gdk, Gio, GLib, GObject
 from gettext import gettext as _
 
 from gnomemusic.gstplayer import Playback
@@ -47,7 +47,7 @@ from gnomemusic.widgets.selectiontoolbar import SelectionToolbar  # noqa: F401
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/Window.ui")
-class Window(Handy.ApplicationWindow):
+class Window(Adw.ApplicationWindow):
 
     __gtype_name__ = "Window"
 
@@ -259,9 +259,9 @@ class Window(Handy.ApplicationWindow):
             if isinstance(i, Gtk.Box):
                 continue
             if i.props.title:
-                self._stack.add_titled(i, i.props.name, i.props.title)
-                self._stack.child_set_property(
-                    i, "icon-name", i.props.icon_name)
+                stackpage = self._stack.add_titled(
+                    i, i.props.name, i.props.title)
+                stackpage.props.icon_name = i.props.icon_name
             else:
                 self._stack.add_named(i, i.props.name)
 
