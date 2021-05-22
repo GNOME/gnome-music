@@ -20,7 +20,7 @@
         <property name="vexpand">True</property>
         <property name="visible">True</property>
         <child>
-          <object class="HdyClamp">
+          <object class="AdwClamp">
             <property name="maximum-size">1600</property>
             <property name="visible">True</property>
             <child>
@@ -177,7 +177,7 @@
         <property name="vexpand">True</property>
         <property name="visible">True</property>
         <child>
-          <object class="HdyClamp">
+          <object class="AdwClamp">
             <property name="maximum-size">1600</property>
             <property name="visible">True</property>
             <child>

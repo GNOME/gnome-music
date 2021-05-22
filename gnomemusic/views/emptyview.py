@@ -76,10 +76,10 @@ class EmptyView(Gtk.Stack):
         folder_text = _("The contents of your {} will appear here.")
         self._content_text = folder_text.format(href_text)
 
-        # Hack to get to HdyClamp, so it can be hidden for the
+        # Hack to get to AdwClamp, so it can be hidden for the
         # initial state.
         child_of_child = self._status_page.get_child().get_child()
-        self._hdy_clamp = child_of_child.get_child().get_children()[0]
+        self._adw_clamp = child_of_child.get_child().get_children()[0]
 
         self._status_page.add(self._initial_state)
 
@@ -102,7 +102,7 @@ class EmptyView(Gtk.Stack):
         """
         self._state = value
 
-        self._hdy_clamp.props.visible = True
+        self._adw_clamp.props.visible = True
         self._initial_state.props.visible = False
 
         if self._state == EmptyView.State.EMPTY:
@@ -115,7 +115,7 @@ class EmptyView(Gtk.Stack):
             self._set_tracker_outdated_state()
 
     def _set_empty_state(self):
-        self._hdy_clamp.props.visible = False
+        self._adw_clamp.props.visible = False
         self._initial_state.props.visible = True
 
         self._description_label.props.label = self._content_text
