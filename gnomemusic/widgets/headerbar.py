@@ -25,7 +25,7 @@
 from enum import IntEnum
 
 from gettext import gettext as _, ngettext
-from gi.repository import GObject, Gtk, Handy
+from gi.repository import Adw, GObject, Gtk
 
 from gnomemusic.widgets.appmenu import AppMenu
 
@@ -72,7 +72,7 @@ class SelectionBarMenuButton(Gtk.MenuButton):
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/HeaderBar.ui")
-class HeaderBar(Handy.HeaderBar):
+class HeaderBar(Adw.Bin):
     """Headerbar of the application"""
 
     class State(IntEnum):
@@ -108,9 +108,8 @@ class HeaderBar(Handy.HeaderBar):
 
         self._selection_mode = False
 
-        self._stack_switcher = Handy.ViewSwitcher(
-            can_focus=False, halign="center")
-        self._stack_switcher.show()
+        self._stack_switcher = Adw.ViewSwitcher(
+            focusable=False, halign="center")
 
         self._selection_menu = SelectionBarMenuButton()
 

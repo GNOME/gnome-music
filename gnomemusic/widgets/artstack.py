@@ -26,7 +26,7 @@ from __future__ import annotations
 from typing import Optional, Union
 import typing
 
-from gi.repository import GObject, Gtk, Handy
+from gi.repository import Adw, GObject, Gtk
 if typing.TYPE_CHECKING:
     from cairo import ImageSurface
 
@@ -82,7 +82,7 @@ class ArtStack(Gtk.Stack):
         self.props.size = size
 
         self.connect("destroy", self._on_destroy)
-        Handy.StyleManager.get_default().connect(
+        Adw.StyleManager.get_default().connect(
             "notify::dark", self._on_dark_changed)
 
     @GObject.Property(type=object, flags=GObject.ParamFlags.READWRITE)
@@ -143,7 +143,7 @@ class ArtStack(Gtk.Stack):
             self._on_thumbnail_changed(self._coreobject, None)
 
     def _on_dark_changed(
-            self, style_manager: Handy.StyleManager,
+            self, style_manager: Adw.StyleManager,
             pspec: GObject.ParamSpecBoolean) -> None:
         default_icon = DefaultIcon(self).get(self._art_type, self._size)
 

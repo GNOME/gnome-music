@@ -156,7 +156,7 @@
           </object>
         </child>
         <child>
-          <object class="HdyClamp">
+          <object class="AdwClamp">
             <property name="maximum-size">1000</property>
             <property name="visible">True</property>
             <child>
