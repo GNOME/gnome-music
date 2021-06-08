@@ -1,3 +1,24 @@
+Overview of changes in 40.1
+===========================
+
+• Playlist fixes
+• Fix CPU usage with GStreamer 1.18
+• Flatpak improvements
+
+Bugs fixed:
+ Play bar buggy at end of playlist (#441)
+ User playlists does not update after adding new songs (#445)
+ gnome-music fails to start with with future annotations error (#451)
+ gnome-music uses too much processing power (#443)
+
+Thanks to our contributor this release:
+ Jean Felder
+
+Updated translation:
+ Vietnamese
+ Hebrew
+ Dutch
+
 Overview of changes in 40.0
 ===========================
 
