@@ -36,7 +36,7 @@
           improvements:
         </p>
         <ul>
-	  <li>Improve startup loading</li>
+          <li>Improve startup loading</li>
           <li>Use publication date instead of creation date for songs</li>
         </ul>
         <p>This release also updates translations.</p>
