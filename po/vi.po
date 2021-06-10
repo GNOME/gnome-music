@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2020-08-28 15:14+0000\n"
-"PO-Revision-Date: 2021-03-23 08:26+0700\n"
+"POT-Creation-Date: 2021-06-08 08:51+0000\n"
+"PO-Revision-Date: 2021-06-10 13:41+0700\n"
 "Last-Translator: Trần Ngọc Quân <vnwildman@gmail.com>\n"
 "Language-Team: Vietnamese <gnome-vi-list@gnome.org>\n"
 "Language: vi\n"
@@ -43,12 +43,12 @@ msgstr ""
 "Tìm các rãnh trong bộ sưu tập nội bộ của bạn, lấy nhạc từ máy phục vụ DLNA "
 "hoặc thử một số cái mới với các dịch vụ Jamendo và Magnatune."
 
-#: data/org.gnome.Music.appdata.xml.in.in:110
+#: data/org.gnome.Music.appdata.xml.in.in:140
 msgid "The GNOME Music developers"
 msgstr "Nhóm phát triển Nhạc GNOME"
 
 #: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:60
-#: gnomemusic/window.py:70
+#: gnomemusic/window.py:71
 msgid "Music"
 msgstr "Nhạc"
 
@@ -201,19 +201,19 @@ msgstr ""
 "\"Magic of the vinyl\" của hình ảnh Sami Pyylampi được cấp phép bởi CC-BY-SA "
 "2.0 https://www.flickr.com/photos/_spy_/12270839403"
 
-#: data/ui/AlbumWidget.ui:107
+#: data/ui/AlbumWidget.ui:91
 msgid "Released"
 msgstr "Được phát hành"
 
-#: data/ui/AlbumWidget.ui:123
+#: data/ui/AlbumWidget.ui:107
 msgid "Running Length"
 msgstr "Tổng thời lượng"
 
-#: data/ui/AlbumWidget.ui:167
+#: data/ui/AlbumWidget.ui:151
 msgid "Composer"
 msgstr "Nhà soạn nhạc"
 
-#: data/ui/AppMenu.ui:20 data/ui/LastfmDialog.ui:8
+#: data/ui/AppMenu.ui:23 data/ui/LastfmDialog.ui:8
 msgid "Last.fm Account"
 msgstr "Tài khoản Last.fm"
 
@@ -221,15 +221,15 @@ msgstr "Tài khoản Last.fm"
 msgid "Report Music Listening"
 msgstr "Báo cáo việc nghe Nhạc"
 
-#: data/ui/AppMenu.ui:69
+#: data/ui/AppMenu.ui:63
 msgid "_Keyboard Shortcuts"
 msgstr "_Phím tắt"
 
-#: data/ui/AppMenu.ui:83
+#: data/ui/AppMenu.ui:74
 msgid "_Help"
 msgstr "T_rợ giúp"
 
-#: data/ui/AppMenu.ui:97
+#: data/ui/AppMenu.ui:85
 msgid "_About Music"
 msgstr "G_iới thiệu Nhạc"
 
@@ -241,7 +241,7 @@ msgstr "Trình đơn"
 msgid "Select"
 msgstr "Chọn"
 
-#: data/ui/HeaderBar.ui:60 data/ui/PlaylistDialog.ui:244
+#: data/ui/HeaderBar.ui:60 data/ui/PlaylistDialog.ui:211
 #: data/ui/SearchHeaderBar.ui:37
 msgid "_Cancel"
 msgstr "T_hôi"
@@ -339,7 +339,7 @@ msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Quay lại"
 
-#: data/ui/LastfmDialog.ui:21
+#: data/ui/LastfmDialog.ui:24
 msgid ""
 "Last.fm is a music discovery service that gives you personalised "
 "recommendations based on the music you listen to."
@@ -347,16 +347,16 @@ msgstr ""
 "Last.fm là một dịch vụ khám phá âm nhạc cung cấp cho bạn các đề xuất được cá "
 "nhân hóa dựa trên nhạc bạn nghe."
 
-#: data/ui/LastfmDialog.ui:32 gnomemusic/widgets/lastfmdialog.py:58
+#: data/ui/LastfmDialog.ui:35 gnomemusic/widgets/lastfmdialog.py:58
 msgid "Music Reporting Not Setup"
 msgstr "Chưa cài đặt báo cáo Nhạc"
 
-#: data/ui/LastfmDialog.ui:46 gnomemusic/widgets/lastfmdialog.py:61
+#: data/ui/LastfmDialog.ui:49 gnomemusic/widgets/lastfmdialog.py:61
 msgid "Login to your Last.fm account to report your music listening."
 msgstr ""
 "Đăng nhập vào tài khoản Last.fm của bạn để báo cáo việc nghe nhạc của bạn."
 
-#: data/ui/LastfmDialog.ui:57 gnomemusic/widgets/lastfmdialog.py:59
+#: data/ui/LastfmDialog.ui:60 gnomemusic/widgets/lastfmdialog.py:59
 msgid "Login"
 msgstr "Đăng nhập"
 
@@ -381,15 +381,15 @@ msgstr "Lặp bài hát"
 msgid "Shuffle/Repeat Off"
 msgstr "Tắt xáo trộn/lặp"
 
-#: data/ui/PlayerToolbar.ui:69
+#: data/ui/PlayerToolbar.ui:133
 msgid "Previous"
 msgstr "Kế trước"
 
-#: data/ui/PlayerToolbar.ui:85 gnomemusic/widgets/playertoolbar.py:146
+#: data/ui/PlayerToolbar.ui:150 gnomemusic/widgets/playertoolbar.py:154
 msgid "Play"
 msgstr "Phát"
 
-#: data/ui/PlayerToolbar.ui:101
+#: data/ui/PlayerToolbar.ui:167
 msgid "Next"
 msgstr "Kế tiếp"
 
@@ -422,7 +422,7 @@ msgstr "Đổ_i tên…"
 msgid "Playlist Name"
 msgstr "Tên Danh sách phát"
 
-#: data/ui/PlaylistControls.ui:74
+#: data/ui/PlaylistControls.ui:73
 msgid "_Done"
 msgstr "_Xong"
 
@@ -430,23 +430,23 @@ msgstr "_Xong"
 msgid "Enter a name for your first playlist"
 msgstr "Nhận vào tên cho danh sách phát đầu tiên của bạn"
 
-#: data/ui/PlaylistDialog.ui:92
+#: data/ui/PlaylistDialog.ui:88
 msgid "C_reate"
 msgstr "Tạ_o"
 
-#: data/ui/PlaylistDialog.ui:155
+#: data/ui/PlaylistDialog.ui:156
 msgid "New Playlist…"
 msgstr "Danh sách phát mới…"
 
-#: data/ui/PlaylistDialog.ui:169
+#: data/ui/PlaylistDialog.ui:167
 msgid "Add"
 msgstr "Thêm"
 
-#: data/ui/PlaylistDialog.ui:241
+#: data/ui/PlaylistDialog.ui:208
 msgid "Add to Playlist"
 msgstr "Thêm vào danh sách phát"
 
-#: data/ui/PlaylistDialog.ui:257
+#: data/ui/PlaylistDialog.ui:224
 msgid "_Add"
 msgstr "T_hêm"
 
@@ -454,7 +454,7 @@ msgstr "T_hêm"
 msgid "_Undo"
 msgstr "_Hủy bước"
 
-#: data/ui/SearchView.ui:43 gnomemusic/views/artistsview.py:43
+#: data/ui/SearchView.ui:43 gnomemusic/views/artistsview.py:46
 msgid "Artists"
 msgstr "Nghệ sĩ"
 
@@ -462,11 +462,11 @@ msgstr "Nghệ sĩ"
 msgid "View All"
 msgstr "Hiện tất cả"
 
-#: data/ui/SearchView.ui:96 gnomemusic/views/albumsview.py:47
+#: data/ui/SearchView.ui:96 gnomemusic/views/albumsview.py:50
 msgid "Albums"
 msgstr "Tuyển tập"
 
-#: data/ui/SearchView.ui:149 gnomemusic/views/songsview.py:44
+#: data/ui/SearchView.ui:149 gnomemusic/views/songsview.py:47
 msgid "Songs"
 msgstr "Bài hát"
 
@@ -478,7 +478,7 @@ msgstr "Chọn tất cả"
 msgid "Select None"
 msgstr "Không chọn gì"
 
-#: data/ui/SelectionBarMenuButton.ui:31 gnomemusic/widgets/headerbar.py:71
+#: data/ui/SelectionBarMenuButton.ui:30 gnomemusic/widgets/headerbar.py:71
 msgid "Click on items to select them"
 msgstr "Bấm vào từng mục để chọn chúng"
 
@@ -487,49 +487,49 @@ msgid "_Add to Playlist"
 msgstr "T_hêm vào danh sách phát"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:832
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:897
 msgid "Most Played"
 msgstr "Phát nhiều nhất"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:885
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:950
 msgid "Never Played"
 msgstr "Chưa phát lần nào"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:937
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1002
 msgid "Recently Played"
 msgstr "Mới phát"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:999
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1064
 msgid "Recently Added"
 msgstr "Mới thêm"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1061
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1126
 msgid "Favorite Songs"
 msgstr "Bài hát ưa thích"
 
-#: gnomemusic/gstplayer.py:378
+#: gnomemusic/gstplayer.py:408
 msgid "Unable to play the file"
 msgstr "Không thể phát tập tin"
 
-#: gnomemusic/gstplayer.py:384
+#: gnomemusic/gstplayer.py:414
 msgid "_Find in {}"
 msgstr "_Tìm trong {}"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:394
+#: gnomemusic/gstplayer.py:424
 msgid " and "
 msgstr " và "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:397
+#: gnomemusic/gstplayer.py:427
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:399
+#: gnomemusic/gstplayer.py:429
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] ""
@@ -539,67 +539,67 @@ msgstr[0] ""
 msgid "Playing music"
 msgstr "Đang phát nhạc"
 
-#: gnomemusic/utils.py:81
+#: gnomemusic/utils.py:79
 msgid "Unknown album"
 msgstr "Tập nhạc chưa biết"
 
-#: gnomemusic/utils.py:102
+#: gnomemusic/utils.py:100
 msgid "Unknown Artist"
 msgstr "Nghệ sĩ chưa biết"
 
-#: gnomemusic/views/emptyview.py:67
+#: gnomemusic/views/emptyview.py:63
 msgid "Your XDG Music directory is not set."
 msgstr "Thư mục Nhạc XDG của bạn chưa được đặt."
 
-#: gnomemusic/views/emptyview.py:74
-msgid "Music folder"
+#: gnomemusic/views/emptyview.py:70
+msgid "Music Folder"
 msgstr "Thư mục nhạc"
 
 #. TRANSLATORS: This is a label to display a link to open user's music
 #. folder. {} will be replaced with the translated text 'Music folder'
-#: gnomemusic/views/emptyview.py:78
+#: gnomemusic/views/emptyview.py:74
 msgid "The contents of your {} will appear here."
 msgstr "Nội dung của {} của bạn sẽ xuất hiện ở đây."
 
-#: gnomemusic/views/emptyview.py:112
+#: gnomemusic/views/emptyview.py:107
 msgid "Hey DJ"
 msgstr "Hey DJ"
 
-#: gnomemusic/views/emptyview.py:121 gnomemusic/views/emptyview.py:126
-msgid "No music found"
+#: gnomemusic/views/emptyview.py:113 gnomemusic/views/emptyview.py:117
+msgid "No Music Found"
 msgstr "Không tìm thấy bài hát nào"
 
-#: gnomemusic/views/emptyview.py:128
-msgid "Try a different search"
+#: gnomemusic/views/emptyview.py:118
+msgid "Try a Different Search"
 msgstr "Thử tìm kiếm khác"
 
-#: gnomemusic/views/emptyview.py:133
-msgid "GNOME Music could not connect to Tracker"
-msgstr "Nhạc GNOME không thể kết nối đến Tracker"
+#: gnomemusic/views/emptyview.py:122
+msgid "GNOME Music could not connect to Tracker."
+msgstr "Nhạc GNOME không thể kết nối đến Tracker."
 
-#: gnomemusic/views/emptyview.py:136
-msgid "Your music files cannot be indexed without Tracker running"
+#: gnomemusic/views/emptyview.py:124
+msgid "Your music files cannot be indexed without Tracker running."
 msgstr ""
 "Các tập tin nhạc của bạn không thể được đánh mục lục mà không có Tracker "
-"đang chạy"
+"đang chạy."
 
-#: gnomemusic/views/emptyview.py:143
-msgid "Your system Tracker version seems outdated"
-msgstr "Phiên bản Tracker của bạn có vẻ lỗi thời"
+#: gnomemusic/views/emptyview.py:130
+msgid "Your system Tracker version seems outdated."
+msgstr "Phiên bản Tracker của bạn có vẻ lỗi thời."
 
-#: gnomemusic/views/emptyview.py:146
-msgid "Music needs Tracker version 3.0.0 or higher"
-msgstr "Nhạc cần Tracker phiên bản 3.0.0 trở lên"
+#: gnomemusic/views/emptyview.py:132
+msgid "Music needs Tracker version 3.0.0 or higher."
+msgstr "Nhạc cần Tracker phiên bản 3.0.0 trở lên."
 
-#: gnomemusic/views/playlistsview.py:41
+#: gnomemusic/views/playlistsview.py:44
 msgid "Playlists"
 msgstr "Danh sách phát"
 
-#: gnomemusic/views/searchview.py:386
+#: gnomemusic/views/searchview.py:398
 msgid "Artists Results"
 msgstr "Kết quả Nghệ sĩ"
 
-#: gnomemusic/views/searchview.py:401
+#: gnomemusic/views/searchview.py:413
 msgid "Albums Results"
 msgstr "Kết quả Tuyển tập"
 
@@ -608,7 +608,7 @@ msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} phút"
 
-#: gnomemusic/widgets/disclistboxwidget.py:60
+#: gnomemusic/widgets/disclistboxwidget.py:65
 msgid "Disc {}"
 msgstr "Đĩa {}"
 
@@ -642,7 +642,7 @@ msgstr "Danh sách phát {} đã bị xóa bỏ"
 msgid "{} removed from {}"
 msgstr "{} bị xóa khỏi {}"
 
-#: gnomemusic/widgets/playertoolbar.py:143
+#: gnomemusic/widgets/playertoolbar.py:151
 msgid "Pause"
 msgstr "Tạm dừng"
 
