@@ -4,20 +4,20 @@
 #
 # Andika Triwidada <andika@gmail.com>, 2013, 2014, 2015.
 # Dirgita <dirgitadevina@yahoo.co.id>, 2013.
-# Kukuh Syafaat <kukuhsyafaat@gnome.org>, 2017-2020.
+# Kukuh Syafaat <kukuhsyafaat@gnome.org>, 2017-2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2020-08-28 15:14+0000\n"
-"PO-Revision-Date: 2020-08-28 22:19+0700\n"
+"POT-Creation-Date: 2021-04-29 10:20+0000\n"
+"PO-Revision-Date: 2021-06-21 11:45+0700\n"
 "Last-Translator: Kukuh Syafaat <kukuhsyafaat@gnome.org>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4.1\n"
+"X-Generator: Poedit 3.0\n"
 "Plural-Forms: nplurals=2; plural= n!=1;\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
@@ -45,12 +45,12 @@ msgstr ""
 "Temukan trek di koleksi lokal Anda, dapatkan musik dari server DLNA atau "
 "coba sesuatu yang baru dengan layanan Jamendo dan Magnatune."
 
-#: data/org.gnome.Music.appdata.xml.in.in:110
+#: data/org.gnome.Music.appdata.xml.in.in:140
 msgid "The GNOME Music developers"
 msgstr "Para Pengembang GNOME Musik"
 
 #: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:60
-#: gnomemusic/window.py:70
+#: gnomemusic/window.py:71
 msgid "Music"
 msgstr "Musik"
 
@@ -205,19 +205,19 @@ msgstr ""
 "Citra \"Magic of the vinyl\" oleh Sami Pyylampi dilisensikan memakai CC-BY-"
 "SA 2.0 https://www.flickr.com/photos/_spy_/12270839403"
 
-#: data/ui/AlbumWidget.ui:107
+#: data/ui/AlbumWidget.ui:94
 msgid "Released"
 msgstr "Dirilis"
 
-#: data/ui/AlbumWidget.ui:123
+#: data/ui/AlbumWidget.ui:110
 msgid "Running Length"
 msgstr "Lama Putar"
 
-#: data/ui/AlbumWidget.ui:167
+#: data/ui/AlbumWidget.ui:154
 msgid "Composer"
 msgstr "Pencipta"
 
-#: data/ui/AppMenu.ui:20 data/ui/LastfmDialog.ui:8
+#: data/ui/AppMenu.ui:23 data/ui/LastfmDialog.ui:8
 msgid "Last.fm Account"
 msgstr "Akun Last.fm"
 
@@ -225,15 +225,15 @@ msgstr "Akun Last.fm"
 msgid "Report Music Listening"
 msgstr "Laporkan Mendengarkan Musik"
 
-#: data/ui/AppMenu.ui:69
+#: data/ui/AppMenu.ui:63
 msgid "_Keyboard Shortcuts"
 msgstr "Pintasan Papan _Ketik"
 
-#: data/ui/AppMenu.ui:83
+#: data/ui/AppMenu.ui:74
 msgid "_Help"
 msgstr "_Bantuan"
 
-#: data/ui/AppMenu.ui:97
+#: data/ui/AppMenu.ui:85
 msgid "_About Music"
 msgstr "Tent_ang Musik"
 
@@ -245,7 +245,7 @@ msgstr "Menu"
 msgid "Select"
 msgstr "Pilih"
 
-#: data/ui/HeaderBar.ui:60 data/ui/PlaylistDialog.ui:244
+#: data/ui/HeaderBar.ui:60 data/ui/PlaylistDialog.ui:211
 #: data/ui/SearchHeaderBar.ui:37
 msgid "_Cancel"
 msgstr "_Batal"
@@ -343,7 +343,7 @@ msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Mundur"
 
-#: data/ui/LastfmDialog.ui:21
+#: data/ui/LastfmDialog.ui:24
 msgid ""
 "Last.fm is a music discovery service that gives you personalised "
 "recommendations based on the music you listen to."
@@ -351,15 +351,15 @@ msgstr ""
 "Last.fm adalah layanan penemuan musik yang memberi Anda rekomendasi hasil "
 "personalisasi berdasarkan musik yang Anda dengarkan."
 
-#: data/ui/LastfmDialog.ui:32 gnomemusic/widgets/lastfmdialog.py:58
+#: data/ui/LastfmDialog.ui:35 gnomemusic/widgets/lastfmdialog.py:58
 msgid "Music Reporting Not Setup"
 msgstr "Pelaporan Musik Tidak Disetel"
 
-#: data/ui/LastfmDialog.ui:46 gnomemusic/widgets/lastfmdialog.py:61
+#: data/ui/LastfmDialog.ui:49 gnomemusic/widgets/lastfmdialog.py:61
 msgid "Login to your Last.fm account to report your music listening."
 msgstr "Masuk ke akun Last.fm Anda untuk melaporkan musik yang Anda dengar."
 
-#: data/ui/LastfmDialog.ui:57 gnomemusic/widgets/lastfmdialog.py:59
+#: data/ui/LastfmDialog.ui:60 gnomemusic/widgets/lastfmdialog.py:59
 msgid "Login"
 msgstr "Masuk"
 
@@ -388,11 +388,11 @@ msgstr "Acak/Ulang Mati"
 msgid "Previous"
 msgstr "Sebelumnya"
 
-#: data/ui/PlayerToolbar.ui:85 gnomemusic/widgets/playertoolbar.py:146
+#: data/ui/PlayerToolbar.ui:82 gnomemusic/widgets/playertoolbar.py:146
 msgid "Play"
 msgstr "Putar"
 
-#: data/ui/PlayerToolbar.ui:101
+#: data/ui/PlayerToolbar.ui:95
 msgid "Next"
 msgstr "Selanjutnya"
 
@@ -425,7 +425,7 @@ msgstr "_Ubah Nama…"
 msgid "Playlist Name"
 msgstr "Nama Daftar Putar"
 
-#: data/ui/PlaylistControls.ui:74
+#: data/ui/PlaylistControls.ui:73
 msgid "_Done"
 msgstr "_Selesai"
 
@@ -433,23 +433,23 @@ msgstr "_Selesai"
 msgid "Enter a name for your first playlist"
 msgstr "Masukkan nama daftar putar pertama Anda"
 
-#: data/ui/PlaylistDialog.ui:92
+#: data/ui/PlaylistDialog.ui:88
 msgid "C_reate"
 msgstr "B_uat"
 
-#: data/ui/PlaylistDialog.ui:155
+#: data/ui/PlaylistDialog.ui:156
 msgid "New Playlist…"
 msgstr "Daftar Putar Baru…"
 
-#: data/ui/PlaylistDialog.ui:169
+#: data/ui/PlaylistDialog.ui:167
 msgid "Add"
 msgstr "Tambah"
 
-#: data/ui/PlaylistDialog.ui:241
+#: data/ui/PlaylistDialog.ui:208
 msgid "Add to Playlist"
 msgstr "Tambah ke Daftar Putar"
 
-#: data/ui/PlaylistDialog.ui:257
+#: data/ui/PlaylistDialog.ui:224
 msgid "_Add"
 msgstr "T_ambah"
 
@@ -481,7 +481,7 @@ msgstr "Pilih Semua"
 msgid "Select None"
 msgstr "Pilih Tak Satupun"
 
-#: data/ui/SelectionBarMenuButton.ui:31 gnomemusic/widgets/headerbar.py:71
+#: data/ui/SelectionBarMenuButton.ui:30 gnomemusic/widgets/headerbar.py:71
 msgid "Click on items to select them"
 msgstr "Klik pada butir untuk memilihnya"
 
@@ -490,49 +490,49 @@ msgid "_Add to Playlist"
 msgstr "T_ambah ke Daftar Putar"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:832
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:897
 msgid "Most Played"
 msgstr "Paling Sering Diputar"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:885
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:950
 msgid "Never Played"
 msgstr "Tak Pernah Diputar"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:937
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1002
 msgid "Recently Played"
 msgstr "Baru-baru Ini Diputar"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:999
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1064
 msgid "Recently Added"
 msgstr "Baru-baru Ini Ditambahkan"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1061
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1126
 msgid "Favorite Songs"
 msgstr "Lagu Favorit"
 
-#: gnomemusic/gstplayer.py:378
+#: gnomemusic/gstplayer.py:397
 msgid "Unable to play the file"
 msgstr "Tak dapat memutar berkas"
 
-#: gnomemusic/gstplayer.py:384
+#: gnomemusic/gstplayer.py:403
 msgid "_Find in {}"
 msgstr "_Cari di {}"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:394
+#: gnomemusic/gstplayer.py:413
 msgid " and "
 msgstr " dan "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:397
+#: gnomemusic/gstplayer.py:416
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:399
+#: gnomemusic/gstplayer.py:418
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "{} diperlukan untuk memutar berkas, tapi tak terpasang."
@@ -542,11 +542,11 @@ msgstr[1] "{} diperlukan untuk memutar berkas, tapi tak terpasang."
 msgid "Playing music"
 msgstr "Memutar musik"
 
-#: gnomemusic/utils.py:81
+#: gnomemusic/utils.py:79
 msgid "Unknown album"
 msgstr "Album tak dikenal"
 
-#: gnomemusic/utils.py:102
+#: gnomemusic/utils.py:100
 msgid "Unknown Artist"
 msgstr "Artis Tak Dikenal"
 
@@ -555,8 +555,8 @@ msgid "Your XDG Music directory is not set."
 msgstr "Direktori XDG Music Anda tidak disetel."
 
 #: gnomemusic/views/emptyview.py:74
-msgid "Music folder"
-msgstr "Folder musik"
+msgid "Music Folder"
+msgstr "Folder Musik"
 
 #. TRANSLATORS: This is a label to display a link to open user's music
 #. folder. {} will be replaced with the translated text 'Music folder'
@@ -569,28 +569,28 @@ msgid "Hey DJ"
 msgstr "Hey DJ"
 
 #: gnomemusic/views/emptyview.py:121 gnomemusic/views/emptyview.py:126
-msgid "No music found"
-msgstr "Tak ada musik"
+msgid "No Music Found"
+msgstr "Tak Ada Musik"
 
 #: gnomemusic/views/emptyview.py:128
-msgid "Try a different search"
-msgstr "Cobalah pencarian lain"
+msgid "Try a Different Search"
+msgstr "Cobalah Pencarian Lain"
 
 #: gnomemusic/views/emptyview.py:133
-msgid "GNOME Music could not connect to Tracker"
-msgstr "GNOME Musik tidak dapat terhubung ke Pelacak"
+msgid "GNOME Music could not connect to Tracker."
+msgstr "GNOME Musik tidak dapat terhubung ke Pelacak."
 
 #: gnomemusic/views/emptyview.py:136
-msgid "Your music files cannot be indexed without Tracker running"
-msgstr "Berkas musik Anda tidak dapat diindeks tanpa Pelacak berjalan"
+msgid "Your music files cannot be indexed without Tracker running."
+msgstr "Berkas musik Anda tidak dapat diindeks tanpa Pelacak berjalan."
 
 #: gnomemusic/views/emptyview.py:143
-msgid "Your system Tracker version seems outdated"
-msgstr "Versi Pelacak sistem Anda tampaknya sudah usang"
+msgid "Your system Tracker version seems outdated."
+msgstr "Versi Pelacak sistem Anda tampaknya sudah usang."
 
 #: gnomemusic/views/emptyview.py:146
-msgid "Music needs Tracker version 3.0.0 or higher"
-msgstr "Musik membutuhkan Pelacak versi 3.0.0 atau lebih tinggi"
+msgid "Music needs Tracker version 3.0.0 or higher."
+msgstr "Musik membutuhkan Pelacak versi 3.0.0 atau lebih tinggi."
 
 #: gnomemusic/views/playlistsview.py:41
 msgid "Playlists"
