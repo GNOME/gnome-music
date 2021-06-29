@@ -23,6 +23,7 @@
 # delete this exception statement from your version.
 
 from gettext import gettext as _
+from typing import Optional
 
 from gi.repository import GObject, Gtk
 
@@ -64,6 +65,7 @@ class PlaylistsView(Gtk.Paned):
         self._playlist_widget = PlaylistsWidget(application, self)
         self.add(self._playlist_widget)
 
+        self._sidebar.set_header_func(self._sidebar_header_func)
         self._sidebar.bind_model(self._model, self._add_playlist_to_sidebar)
 
         self._coremodel.connect(
@@ -71,6 +73,20 @@ class PlaylistsView(Gtk.Paned):
 
         self._model.connect("items-changed", self._on_playlists_model_changed)
         self._on_playlists_model_changed(self._model, 0, 0, 0)
+
+    def _sidebar_header_func(
+            self, row: Gtk.ListBoxRow,
+            before: Optional[Gtk.ListBoxRow]) -> None:
+        if (before
+                and before.props.playlist.props.is_smart
+                and not row.props.playlist.props.is_smart):
+            separator = Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL)
+            separator.props.height_request = 2
+            separator.props.margin_end = 16
+            separator.props.margin_start = 16
+            row.set_header(separator)
+        else:
+            row.set_header(None)
 
     def _add_playlist_to_sidebar(self, playlist):
         """Add a playlist to sidebar
