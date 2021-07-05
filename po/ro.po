@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2020-12-04 14:27+0000\n"
-"PO-Revision-Date: 2020-12-12 19:22+0200\n"
+"POT-Creation-Date: 2021-04-29 10:20+0000\n"
+"PO-Revision-Date: 2021-07-05 22:18+0300\n"
 "Last-Translator: Florentina Mușat <florentina.musat.28@gmail.com>\n"
 "Language-Team: Gnome Romanian Translation Team <gnomero-list@lists."
 "sourceforge.net>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2);\n"
-"X-Generator: Poedit 2.4.2\n"
+"X-Generator: Poedit 3.0\n"
 "X-Project-Style: gnome\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
@@ -47,12 +47,12 @@ msgstr ""
 "Găsește piese în colecția locală, obțineți muzică de la servere DLNA sau "
 "încercați ceva nou cu noile servicii Jamendo și Magnatune."
 
-#: data/org.gnome.Music.appdata.xml.in.in:126
+#: data/org.gnome.Music.appdata.xml.in.in:140
 msgid "The GNOME Music developers"
 msgstr "Dezvoltatorii Muzică GNOME"
 
 #: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:60
-#: gnomemusic/window.py:70
+#: gnomemusic/window.py:71
 msgid "Music"
 msgstr "Muzică"
 
@@ -209,19 +209,19 @@ msgstr ""
 "Imaginea „Magic of the vinyl” de Sami Pyylampi este licențiată sub CC-BY-SA "
 "2.0 https://www.flickr.com/photos/_spy_/12270839403"
 
-#: data/ui/AlbumWidget.ui:106
+#: data/ui/AlbumWidget.ui:94
 msgid "Released"
 msgstr "Lansat"
 
-#: data/ui/AlbumWidget.ui:122
+#: data/ui/AlbumWidget.ui:110
 msgid "Running Length"
 msgstr "Lungimea piesei"
 
-#: data/ui/AlbumWidget.ui:166
+#: data/ui/AlbumWidget.ui:154
 msgid "Composer"
 msgstr "Compozitor"
 
-#: data/ui/AppMenu.ui:20 data/ui/LastfmDialog.ui:8
+#: data/ui/AppMenu.ui:23 data/ui/LastfmDialog.ui:8
 msgid "Last.fm Account"
 msgstr "Cont Last.fm"
 
@@ -229,15 +229,15 @@ msgstr "Cont Last.fm"
 msgid "Report Music Listening"
 msgstr "Raportează ascultarea de muzică"
 
-#: data/ui/AppMenu.ui:69
+#: data/ui/AppMenu.ui:63
 msgid "_Keyboard Shortcuts"
 msgstr "S_curtături de tastatură"
 
-#: data/ui/AppMenu.ui:83
+#: data/ui/AppMenu.ui:74
 msgid "_Help"
 msgstr "_Ajutor"
 
-#: data/ui/AppMenu.ui:97
+#: data/ui/AppMenu.ui:85
 msgid "_About Music"
 msgstr "_Despre Muzică"
 
@@ -249,7 +249,7 @@ msgstr "Meniu"
 msgid "Select"
 msgstr "Selectează"
 
-#: data/ui/HeaderBar.ui:60 data/ui/PlaylistDialog.ui:244
+#: data/ui/HeaderBar.ui:60 data/ui/PlaylistDialog.ui:211
 #: data/ui/SearchHeaderBar.ui:37
 msgid "_Cancel"
 msgstr "_Anulează"
@@ -347,7 +347,7 @@ msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Înapoi"
 
-#: data/ui/LastfmDialog.ui:21
+#: data/ui/LastfmDialog.ui:24
 msgid ""
 "Last.fm is a music discovery service that gives you personalised "
 "recommendations based on the music you listen to."
@@ -355,16 +355,16 @@ msgstr ""
 "Last.fm este un serviciu de descoperire de muzică ce vă oferă recomandări "
 "personalizate pe baza muzicii pe care o ascultați."
 
-#: data/ui/LastfmDialog.ui:32 gnomemusic/widgets/lastfmdialog.py:58
+#: data/ui/LastfmDialog.ui:35 gnomemusic/widgets/lastfmdialog.py:58
 msgid "Music Reporting Not Setup"
 msgstr "Raportarea de muzică nu este stabilită"
 
-#: data/ui/LastfmDialog.ui:46 gnomemusic/widgets/lastfmdialog.py:61
+#: data/ui/LastfmDialog.ui:49 gnomemusic/widgets/lastfmdialog.py:61
 msgid "Login to your Last.fm account to report your music listening."
 msgstr ""
 "Autentificați-vă la contul Last.fm pentru a raporta ascultarea de muzică."
 
-#: data/ui/LastfmDialog.ui:57 gnomemusic/widgets/lastfmdialog.py:59
+#: data/ui/LastfmDialog.ui:60 gnomemusic/widgets/lastfmdialog.py:59
 msgid "Login"
 msgstr "Autentificare"
 
@@ -393,11 +393,11 @@ msgstr "Amestecare/Repetare oprită"
 msgid "Previous"
 msgstr "Precedenta"
 
-#: data/ui/PlayerToolbar.ui:85 gnomemusic/widgets/playertoolbar.py:146
+#: data/ui/PlayerToolbar.ui:82 gnomemusic/widgets/playertoolbar.py:146
 msgid "Play"
 msgstr "Redă"
 
-#: data/ui/PlayerToolbar.ui:101
+#: data/ui/PlayerToolbar.ui:95
 msgid "Next"
 msgstr "Următoarea"
 
@@ -430,7 +430,7 @@ msgstr "_Redenumește…"
 msgid "Playlist Name"
 msgstr "Numele listei de redare"
 
-#: data/ui/PlaylistControls.ui:74
+#: data/ui/PlaylistControls.ui:73
 msgid "_Done"
 msgstr "_Gata"
 
@@ -438,23 +438,23 @@ msgstr "_Gata"
 msgid "Enter a name for your first playlist"
 msgstr "Introduceți un nume pentru prima listă de redare"
 
-#: data/ui/PlaylistDialog.ui:92
+#: data/ui/PlaylistDialog.ui:88
 msgid "C_reate"
 msgstr "C_reează"
 
-#: data/ui/PlaylistDialog.ui:155
+#: data/ui/PlaylistDialog.ui:156
 msgid "New Playlist…"
 msgstr "Listă de redare nouă…"
 
-#: data/ui/PlaylistDialog.ui:169
+#: data/ui/PlaylistDialog.ui:167
 msgid "Add"
 msgstr "Adaugă"
 
-#: data/ui/PlaylistDialog.ui:241
+#: data/ui/PlaylistDialog.ui:208
 msgid "Add to Playlist"
 msgstr "Adaugă în lista de redare"
 
-#: data/ui/PlaylistDialog.ui:257
+#: data/ui/PlaylistDialog.ui:224
 msgid "_Add"
 msgstr "_Adaugă"
 
@@ -486,7 +486,7 @@ msgstr "Selectează toate"
 msgid "Select None"
 msgstr "Deselectează toate"
 
-#: data/ui/SelectionBarMenuButton.ui:31 gnomemusic/widgets/headerbar.py:71
+#: data/ui/SelectionBarMenuButton.ui:30 gnomemusic/widgets/headerbar.py:71
 msgid "Click on items to select them"
 msgstr "Clic pe obiecte pentru a le selecta"
 
@@ -495,49 +495,49 @@ msgid "_Add to Playlist"
 msgstr "_Adaugă în lista de redare"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:827
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:897
 msgid "Most Played"
 msgstr "Cele mai redate"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:880
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:950
 msgid "Never Played"
 msgstr "Niciodată redate"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:932
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1002
 msgid "Recently Played"
 msgstr "Redate recent"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:994
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1064
 msgid "Recently Added"
 msgstr "Adăugate recent"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1056
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1126
 msgid "Favorite Songs"
 msgstr "Melodii favorite"
 
-#: gnomemusic/gstplayer.py:378
+#: gnomemusic/gstplayer.py:397
 msgid "Unable to play the file"
 msgstr "Nu s-a putut reda fișierul"
 
-#: gnomemusic/gstplayer.py:384
+#: gnomemusic/gstplayer.py:403
 msgid "_Find in {}"
 msgstr "_Caută în {}"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:394
+#: gnomemusic/gstplayer.py:413
 msgid " and "
 msgstr " și "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:397
+#: gnomemusic/gstplayer.py:416
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:399
+#: gnomemusic/gstplayer.py:418
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "{} este necesar pentru a reda fișierul, dar nu este instalat."
@@ -561,7 +561,7 @@ msgid "Your XDG Music directory is not set."
 msgstr "Directorul de muzică XDG nu este stabilit."
 
 #: gnomemusic/views/emptyview.py:74
-msgid "Music folder"
+msgid "Music Folder"
 msgstr "Dosar de muzică"
 
 #. TRANSLATORS: This is a label to display a link to open user's music
@@ -575,29 +575,28 @@ msgid "Hey DJ"
 msgstr "Salut DJ"
 
 #: gnomemusic/views/emptyview.py:121 gnomemusic/views/emptyview.py:126
-msgid "No music found"
+msgid "No Music Found"
 msgstr "Nu s-a găsit muzică"
 
 #: gnomemusic/views/emptyview.py:128
-msgid "Try a different search"
+msgid "Try a Different Search"
 msgstr "Încercați o altă căutare"
 
 #: gnomemusic/views/emptyview.py:133
-msgid "GNOME Music could not connect to Tracker"
-msgstr "Muzică GNOME nu s-a putut conecta la Tracker"
+msgid "GNOME Music could not connect to Tracker."
+msgstr "Muzică GNOME nu s-a putut conecta la Tracker."
 
 #: gnomemusic/views/emptyview.py:136
-msgid "Your music files cannot be indexed without Tracker running"
-msgstr ""
-"Fișierele dumneavoastră cu muzică nu pot fi indexate când Tracker nu rulează"
+msgid "Your music files cannot be indexed without Tracker running."
+msgstr "Fișierele de muzică nu pot fi indexate fără ca Tracker să ruleze."
 
 #: gnomemusic/views/emptyview.py:143
-msgid "Your system Tracker version seems outdated"
-msgstr "Versiunea lui Tracker din sistem este depășită"
+msgid "Your system Tracker version seems outdated."
+msgstr "Versiunea de Tracker din sistem pare învechită."
 
 #: gnomemusic/views/emptyview.py:146
-msgid "Music needs Tracker version 3.0.0 or higher"
-msgstr "Muzică are nevoie de Tracker versiunea 3.0.0 sau mai nouă"
+msgid "Music needs Tracker version 3.0.0 or higher."
+msgstr "Muzică are nevoie de Tracker versiunea 3.0.0 sau mai nouă."
 
 #: gnomemusic/views/playlistsview.py:41
 msgid "Playlists"
