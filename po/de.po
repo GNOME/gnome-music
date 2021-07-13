@@ -5,28 +5,30 @@
 # music listening   = Musikverlauf
 #
 #
-# Mario Blättermann <mario.blaettermann@gmail.com>, 2013, 2016-2018, 2020.
 # Tobias Endrigkeit <tobiasendrigkeit@outlook.com>, 2013.
 # Christian Kirbach <christian.kirbach@gmail.com>, 2013.
 # Benjamin Steinwender <b@stbe.at>, 2013.
-# Wolfgang Stöggl <c72578@yahoo.de>, 2014-2015, 2020.
 # Bernd Homuth <dev@hmt.im>, 2014, 2015.
 # Vinzenz Vietzke <vinz@vinzv.de>, 2018.
+# Mario Blättermann <mario.blaettermann@gmail.com>, 2013, 2016-2018, 2020.
+# Wolfgang Stöggl <c72578@yahoo.de>, 2014-2015, 2020.
 # Tim Sabsch <tim@sabsch.com>, 2019-2020.
+# Philipp Kiemle <philipp.kiemle@gmail.com>, 2021.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2020-08-28 15:14+0000\n"
-"PO-Revision-Date: 2020-09-04 16:54+0200\n"
-"Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
+"POT-Creation-Date: 2021-04-29 10:20+0000\n"
+"PO-Revision-Date: 2021-06-03 20:31+0200\n"
+"Last-Translator: Philipp Kiemle <philipp.kiemle@gmail.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 20.08.0\n"
+"X-Generator: Poedit 2.4.2\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
 msgid "GNOME Music"
@@ -54,12 +56,12 @@ msgstr ""
 "Finden Sie Titel in Ihrer lokalen Sammlung, beziehen Sie Musik von DLNA-"
 "Servern oder entdecken Sie Neues mit den Diensten Jamendo und Magnatune."
 
-#: data/org.gnome.Music.appdata.xml.in.in:110
+#: data/org.gnome.Music.appdata.xml.in.in:140
 msgid "The GNOME Music developers"
 msgstr "Die GNOME-Musik-Entwickler"
 
 #: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:60
-#: gnomemusic/window.py:70
+#: gnomemusic/window.py:71
 msgid "Music"
 msgstr "Musik"
 
@@ -221,19 +223,19 @@ msgstr ""
 "Das Bild “Magic of the vinyl” von Sami Pyylampi ist unter CC-BY-SA 2.0 "
 "lizenziert, https://www.flickr.com/photos/_spy_/12270839403"
 
-#: data/ui/AlbumWidget.ui:107
+#: data/ui/AlbumWidget.ui:94
 msgid "Released"
 msgstr "Erschienen"
 
-#: data/ui/AlbumWidget.ui:123
+#: data/ui/AlbumWidget.ui:110
 msgid "Running Length"
 msgstr "Spielzeit"
 
-#: data/ui/AlbumWidget.ui:167
+#: data/ui/AlbumWidget.ui:154
 msgid "Composer"
 msgstr "Komponist"
 
-#: data/ui/AppMenu.ui:20 data/ui/LastfmDialog.ui:8
+#: data/ui/AppMenu.ui:23 data/ui/LastfmDialog.ui:8
 msgid "Last.fm Account"
 msgstr "Last.fm-Konto"
 
@@ -241,15 +243,15 @@ msgstr "Last.fm-Konto"
 msgid "Report Music Listening"
 msgstr "Musikverlauf senden"
 
-#: data/ui/AppMenu.ui:69
+#: data/ui/AppMenu.ui:63
 msgid "_Keyboard Shortcuts"
 msgstr "Tasten_kombinationen"
 
-#: data/ui/AppMenu.ui:83
+#: data/ui/AppMenu.ui:74
 msgid "_Help"
 msgstr "_Hilfe"
 
-#: data/ui/AppMenu.ui:97
+#: data/ui/AppMenu.ui:85
 msgid "_About Music"
 msgstr "_Info zu Musik"
 
@@ -261,7 +263,7 @@ msgstr "Menü"
 msgid "Select"
 msgstr "Auswählen"
 
-#: data/ui/HeaderBar.ui:60 data/ui/PlaylistDialog.ui:244
+#: data/ui/HeaderBar.ui:60 data/ui/PlaylistDialog.ui:211
 #: data/ui/SearchHeaderBar.ui:37
 msgid "_Cancel"
 msgstr "A_bbrechen"
@@ -359,7 +361,7 @@ msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Zurück gehen"
 
-#: data/ui/LastfmDialog.ui:21
+#: data/ui/LastfmDialog.ui:24
 msgid ""
 "Last.fm is a music discovery service that gives you personalised "
 "recommendations based on the music you listen to."
@@ -367,16 +369,16 @@ msgstr ""
 "Last.fm ist ein Dienst zur Entdeckung neuer Musik, der Ihnen personalisierte "
 "Empfehlungen anhand Ihres Musikverlaufs gibt."
 
-#: data/ui/LastfmDialog.ui:32 gnomemusic/widgets/lastfmdialog.py:58
+#: data/ui/LastfmDialog.ui:35 gnomemusic/widgets/lastfmdialog.py:58
 msgid "Music Reporting Not Setup"
 msgstr "Senden des Musikverlaufs ist nicht eingerichtet"
 
-#: data/ui/LastfmDialog.ui:46 gnomemusic/widgets/lastfmdialog.py:61
+#: data/ui/LastfmDialog.ui:49 gnomemusic/widgets/lastfmdialog.py:61
 msgid "Login to your Last.fm account to report your music listening."
 msgstr ""
 "Melden Sie sich mit Ihrem Last.fm-Konto an, um Ihren Musikverlauf zu senden."
 
-#: data/ui/LastfmDialog.ui:57 gnomemusic/widgets/lastfmdialog.py:59
+#: data/ui/LastfmDialog.ui:60 gnomemusic/widgets/lastfmdialog.py:59
 msgid "Login"
 msgstr "Anmelden"
 
@@ -405,11 +407,11 @@ msgstr "Zufall/Wiederholung aus"
 msgid "Previous"
 msgstr "Vorheriges"
 
-#: data/ui/PlayerToolbar.ui:85 gnomemusic/widgets/playertoolbar.py:146
+#: data/ui/PlayerToolbar.ui:82 gnomemusic/widgets/playertoolbar.py:146
 msgid "Play"
 msgstr "Wiedergeben"
 
-#: data/ui/PlayerToolbar.ui:101
+#: data/ui/PlayerToolbar.ui:95
 msgid "Next"
 msgstr "Nächstes"
 
@@ -442,7 +444,7 @@ msgstr "_Umbenennen …"
 msgid "Playlist Name"
 msgstr "Name der Wiedergabeliste"
 
-#: data/ui/PlaylistControls.ui:74
+#: data/ui/PlaylistControls.ui:73
 msgid "_Done"
 msgstr "_Fertig"
 
@@ -450,23 +452,23 @@ msgstr "_Fertig"
 msgid "Enter a name for your first playlist"
 msgstr "Geben Sie einen Namen für Ihre erste Wiedergabeliste ein"
 
-#: data/ui/PlaylistDialog.ui:92
+#: data/ui/PlaylistDialog.ui:88
 msgid "C_reate"
 msgstr "An_legen"
 
-#: data/ui/PlaylistDialog.ui:155
+#: data/ui/PlaylistDialog.ui:156
 msgid "New Playlist…"
 msgstr "Neue Wiedergabeliste …"
 
-#: data/ui/PlaylistDialog.ui:169
+#: data/ui/PlaylistDialog.ui:167
 msgid "Add"
 msgstr "Hinzufügen"
 
-#: data/ui/PlaylistDialog.ui:241
+#: data/ui/PlaylistDialog.ui:208
 msgid "Add to Playlist"
 msgstr "Zur Wiedergabeliste hinzufügen"
 
-#: data/ui/PlaylistDialog.ui:257
+#: data/ui/PlaylistDialog.ui:224
 msgid "_Add"
 msgstr "_Hinzufügen"
 
@@ -498,7 +500,7 @@ msgstr "Alle auswählen"
 msgid "Select None"
 msgstr "Keinen auswählen"
 
-#: data/ui/SelectionBarMenuButton.ui:31 gnomemusic/widgets/headerbar.py:71
+#: data/ui/SelectionBarMenuButton.ui:30 gnomemusic/widgets/headerbar.py:71
 msgid "Click on items to select them"
 msgstr "Klicken Sie auf ein Objekt, um es auszuwählen"
 
@@ -507,49 +509,49 @@ msgid "_Add to Playlist"
 msgstr "Zur Wiedergabeliste _hinzufügen"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:832
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:897
 msgid "Most Played"
 msgstr "Am häufigsten wiedergegeben"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:885
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:950
 msgid "Never Played"
 msgstr "Noch nie wiedergegeben"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:937
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1002
 msgid "Recently Played"
 msgstr "Zuletzt wiedergegeben"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:999
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1064
 msgid "Recently Added"
 msgstr "Zuletzt hinzugefügt"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1061
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1126
 msgid "Favorite Songs"
 msgstr "Lieblingstitel"
 
-#: gnomemusic/gstplayer.py:378
+#: gnomemusic/gstplayer.py:397
 msgid "Unable to play the file"
 msgstr "Datei kann nicht abgespielt werden"
 
-#: gnomemusic/gstplayer.py:384
+#: gnomemusic/gstplayer.py:403
 msgid "_Find in {}"
 msgstr "﻿In {} _suchen"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:394
+#: gnomemusic/gstplayer.py:413
 msgid " and "
 msgstr " und "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:397
+#: gnomemusic/gstplayer.py:416
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:399
+#: gnomemusic/gstplayer.py:418
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] ""
@@ -561,11 +563,11 @@ msgstr[1] ""
 msgid "Playing music"
 msgstr "Musik wird wiedergegeben"
 
-#: gnomemusic/utils.py:81
+#: gnomemusic/utils.py:79
 msgid "Unknown album"
 msgstr "Unbekanntes Album"
 
-#: gnomemusic/utils.py:102
+#: gnomemusic/utils.py:100
 msgid "Unknown Artist"
 msgstr "Unbekannter Künstler"
 
@@ -574,7 +576,7 @@ msgid "Your XDG Music directory is not set."
 msgstr "Ihr XDG-Musikorder wurde nicht festgelegt."
 
 #: gnomemusic/views/emptyview.py:74
-msgid "Music folder"
+msgid "Music Folder"
 msgstr "Musikordner"
 
 # Der Inhalt von Ihrem »Musikordner« …
@@ -589,29 +591,28 @@ msgid "Hey DJ"
 msgstr "Hey DJ"
 
 #: gnomemusic/views/emptyview.py:121 gnomemusic/views/emptyview.py:126
-msgid "No music found"
+msgid "No Music Found"
 msgstr "Keine Musik gefunden"
 
 #: gnomemusic/views/emptyview.py:128
-msgid "Try a different search"
-msgstr "Andere Suche ausprobieren"
+msgid "Try a Different Search"
+msgstr "Versuchen Sie eine andere Suchanfrage"
 
 #: gnomemusic/views/emptyview.py:133
-msgid "GNOME Music could not connect to Tracker"
-msgstr "GNOME Musik konnte nicht mit Tracker verbunden werden"
+msgid "GNOME Music could not connect to Tracker."
+msgstr "GNOME Musik konnte nicht mit Tracker verbunden werden."
 
 #: gnomemusic/views/emptyview.py:136
-msgid "Your music files cannot be indexed without Tracker running"
-msgstr "Ihre Musikdateien können nicht ohne Tracker indiziert werden"
+msgid "Your music files cannot be indexed without Tracker running."
+msgstr "Ihre Musikdateien können nur indiziert werden, wenn Tracker läuft."
 
 #: gnomemusic/views/emptyview.py:143
-msgid "Your system Tracker version seems outdated"
-msgstr "Ihre Systemversion von Tracker scheint veraltet zu sein"
+msgid "Your system Tracker version seems outdated."
+msgstr "Ihre Systemversion von Tracker scheint veraltet zu sein."
 
 #: gnomemusic/views/emptyview.py:146
-#| msgid "Music needs Tracker version 2.3.0 or higher"
-msgid "Music needs Tracker version 3.0.0 or higher"
-msgstr "Musik benötigt Tracker-Version 3.0.0 oder neuer"
+msgid "Music needs Tracker version 3.0.0 or higher."
+msgstr "Musik benötigt Tracker in der Version 3.0.0 oder neuer."
 
 #: gnomemusic/views/playlistsview.py:41
 msgid "Playlists"
@@ -636,8 +637,6 @@ msgid "Disc {}"
 msgstr "Disc {}"
 
 #: gnomemusic/widgets/headerbar.py:68
-#| msgid "Selected {} item"
-#| msgid_plural "Selected {} items"
 msgid "Selected {} song"
 msgid_plural "Selected {} songs"
 msgstr[0] "{} Titel gewählt"
