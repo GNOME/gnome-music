@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2020-09-01 19:48+0000\n"
+"POT-Creation-Date: 2021-04-29 10:20+0000\n"
 "PO-Revision-Date: 2020-02-19 06:43+0100\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
@@ -47,12 +47,12 @@ msgstr ""
 "Trobeu cançons en la vostra col·lecció, obteniu música des de servidors DLNA "
 "o proveu quelcom nou amb els serveis Jamendo i Magnatune."
 
-#: data/org.gnome.Music.appdata.xml.in.in:110
+#: data/org.gnome.Music.appdata.xml.in.in:140
 msgid "The GNOME Music developers"
 msgstr "L'equip de desenvolupament del Música del GNOME"
 
 #: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:60
-#: gnomemusic/window.py:70
+#: gnomemusic/window.py:71
 msgid "Music"
 msgstr "Música"
 
@@ -210,19 +210,19 @@ msgstr ""
 "La imatge «Magic of the vinyl» d'en Sami Pyylampi està llicenciada sota CC-"
 "BY-SA 2.0 https://www.flickr.com/photos/_spy_/12270839403"
 
-#: data/ui/AlbumWidget.ui:107
+#: data/ui/AlbumWidget.ui:94
 msgid "Released"
 msgstr "Publicat"
 
-#: data/ui/AlbumWidget.ui:123
+#: data/ui/AlbumWidget.ui:110
 msgid "Running Length"
 msgstr "Durada"
 
-#: data/ui/AlbumWidget.ui:167
+#: data/ui/AlbumWidget.ui:154
 msgid "Composer"
 msgstr "Compositor"
 
-#: data/ui/AppMenu.ui:20 data/ui/LastfmDialog.ui:8
+#: data/ui/AppMenu.ui:23 data/ui/LastfmDialog.ui:8
 msgid "Last.fm Account"
 msgstr "Compte Last.fm"
 
@@ -230,15 +230,15 @@ msgstr "Compte Last.fm"
 msgid "Report Music Listening"
 msgstr "Informa de la música que escolteu"
 
-#: data/ui/AppMenu.ui:69
+#: data/ui/AppMenu.ui:63
 msgid "_Keyboard Shortcuts"
 msgstr "_Dreceres de teclat"
 
-#: data/ui/AppMenu.ui:83
+#: data/ui/AppMenu.ui:74
 msgid "_Help"
 msgstr "_Ajuda"
 
-#: data/ui/AppMenu.ui:97
+#: data/ui/AppMenu.ui:85
 msgid "_About Music"
 msgstr "_Quant al Música"
 
@@ -250,7 +250,7 @@ msgstr "Menú"
 msgid "Select"
 msgstr "Selecciona"
 
-#: data/ui/HeaderBar.ui:60 data/ui/PlaylistDialog.ui:244
+#: data/ui/HeaderBar.ui:60 data/ui/PlaylistDialog.ui:211
 #: data/ui/SearchHeaderBar.ui:37
 msgid "_Cancel"
 msgstr "_Cancel·la"
@@ -348,7 +348,7 @@ msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Torna enrere"
 
-#: data/ui/LastfmDialog.ui:21
+#: data/ui/LastfmDialog.ui:24
 msgid ""
 "Last.fm is a music discovery service that gives you personalised "
 "recommendations based on the music you listen to."
@@ -356,17 +356,17 @@ msgstr ""
 "Last.fm és un servei de descobriment de música que us dona recomanacions "
 "personalitzades basades en la música que escolteu."
 
-#: data/ui/LastfmDialog.ui:32 gnomemusic/widgets/lastfmdialog.py:58
+#: data/ui/LastfmDialog.ui:35 gnomemusic/widgets/lastfmdialog.py:58
 msgid "Music Reporting Not Setup"
 msgstr "La informe de la música no configurat"
 
-#: data/ui/LastfmDialog.ui:46 gnomemusic/widgets/lastfmdialog.py:61
+#: data/ui/LastfmDialog.ui:49 gnomemusic/widgets/lastfmdialog.py:61
 msgid "Login to your Last.fm account to report your music listening."
 msgstr ""
 "Inicieu la sessió amb el compte de Last.fm per a informar de la música que "
 "escolteu."
 
-#: data/ui/LastfmDialog.ui:57 gnomemusic/widgets/lastfmdialog.py:59
+#: data/ui/LastfmDialog.ui:60 gnomemusic/widgets/lastfmdialog.py:59
 msgid "Login"
 msgstr "Inicia la sessió"
 
@@ -395,11 +395,11 @@ msgstr "Aleatori/Repetició desactivada"
 msgid "Previous"
 msgstr "Anterior"
 
-#: data/ui/PlayerToolbar.ui:85 gnomemusic/widgets/playertoolbar.py:146
+#: data/ui/PlayerToolbar.ui:82 gnomemusic/widgets/playertoolbar.py:146
 msgid "Play"
 msgstr "Reprodueix"
 
-#: data/ui/PlayerToolbar.ui:101
+#: data/ui/PlayerToolbar.ui:95
 msgid "Next"
 msgstr "Següent"
 
@@ -432,7 +432,7 @@ msgstr "_Canvia el nom…"
 msgid "Playlist Name"
 msgstr "Nom de la llista de reproducció"
 
-#: data/ui/PlaylistControls.ui:74
+#: data/ui/PlaylistControls.ui:73
 msgid "_Done"
 msgstr "_Fet"
 
@@ -440,23 +440,23 @@ msgstr "_Fet"
 msgid "Enter a name for your first playlist"
 msgstr "Introduïu un nom per a la vostra primera llista de reproducció"
 
-#: data/ui/PlaylistDialog.ui:92
+#: data/ui/PlaylistDialog.ui:88
 msgid "C_reate"
 msgstr "_Crea"
 
-#: data/ui/PlaylistDialog.ui:155
+#: data/ui/PlaylistDialog.ui:156
 msgid "New Playlist…"
 msgstr "Llista de reproducció nova…"
 
-#: data/ui/PlaylistDialog.ui:169
+#: data/ui/PlaylistDialog.ui:167
 msgid "Add"
 msgstr "Afegeix"
 
-#: data/ui/PlaylistDialog.ui:241
+#: data/ui/PlaylistDialog.ui:208
 msgid "Add to Playlist"
 msgstr "Afegeix a la llista de reproducció"
 
-#: data/ui/PlaylistDialog.ui:257
+#: data/ui/PlaylistDialog.ui:224
 msgid "_Add"
 msgstr "_Afegeix"
 
@@ -488,7 +488,7 @@ msgstr "Selecciona-ho tot"
 msgid "Select None"
 msgstr "No en seleccionis cap"
 
-#: data/ui/SelectionBarMenuButton.ui:31 gnomemusic/widgets/headerbar.py:71
+#: data/ui/SelectionBarMenuButton.ui:30 gnomemusic/widgets/headerbar.py:71
 msgid "Click on items to select them"
 msgstr "Feu clic als elements per a seleccionar-los"
 
@@ -497,49 +497,49 @@ msgid "_Add to Playlist"
 msgstr "_Afegeix a la llista de reproducció"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:827
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:897
 msgid "Most Played"
 msgstr "Més reproduïdes"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:880
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:950
 msgid "Never Played"
 msgstr "Mai s'han reproduït"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:932
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1002
 msgid "Recently Played"
 msgstr "Reproduccions recents"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:994
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1064
 msgid "Recently Added"
 msgstr "Afegits recentment"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1056
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1126
 msgid "Favorite Songs"
 msgstr "Cançons preferides"
 
-#: gnomemusic/gstplayer.py:378
+#: gnomemusic/gstplayer.py:397
 msgid "Unable to play the file"
 msgstr "No s'ha pogut reproduir el fitxer"
 
-#: gnomemusic/gstplayer.py:384
+#: gnomemusic/gstplayer.py:403
 msgid "_Find in {}"
 msgstr "_Cerca a {}"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:394
+#: gnomemusic/gstplayer.py:413
 msgid " and "
 msgstr " i "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:397
+#: gnomemusic/gstplayer.py:416
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:399
+#: gnomemusic/gstplayer.py:418
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "Cal {} per a reproduir el fitxer, però no està instal·lat."
@@ -549,11 +549,11 @@ msgstr[1] "Calen {} per a reproduir el fitxer, però no estan instal·lats."
 msgid "Playing music"
 msgstr "Reproducció de música"
 
-#: gnomemusic/utils.py:81
+#: gnomemusic/utils.py:79
 msgid "Unknown album"
 msgstr "Àlbum desconegut"
 
-#: gnomemusic/utils.py:102
+#: gnomemusic/utils.py:100
 msgid "Unknown Artist"
 msgstr "Artista desconegut"
 
@@ -562,7 +562,7 @@ msgid "Your XDG Music directory is not set."
 msgstr "El directori XDG de música no està configurat."
 
 #: gnomemusic/views/emptyview.py:74
-msgid "Music folder"
+msgid "Music Folder"
 msgstr "Carpeta de la música"
 
 #. TRANSLATORS: This is a label to display a link to open user's music
@@ -576,29 +576,29 @@ msgid "Hey DJ"
 msgstr "Ep, DJ"
 
 #: gnomemusic/views/emptyview.py:121 gnomemusic/views/emptyview.py:126
-msgid "No music found"
+msgid "No Music Found"
 msgstr "No s'ha trobat música"
 
 #: gnomemusic/views/emptyview.py:128
-msgid "Try a different search"
+msgid "Try a Different Search"
 msgstr "Proveu una cerca diferent"
 
 #: gnomemusic/views/emptyview.py:133
-msgid "GNOME Music could not connect to Tracker"
-msgstr "El Música del GNOME no s'ha pogut connectar al Tracker"
+msgid "GNOME Music could not connect to Tracker."
+msgstr "El Música del GNOME no s'ha pogut connectar al Tracker."
 
 #: gnomemusic/views/emptyview.py:136
-msgid "Your music files cannot be indexed without Tracker running"
+msgid "Your music files cannot be indexed without Tracker running."
 msgstr ""
-"Els fitxers de música no es poden indexar si el Tracker no s'està executant"
+"Els fitxers de música no es poden indexar si el Tracker no s'està executant."
 
 #: gnomemusic/views/emptyview.py:143
-msgid "Your system Tracker version seems outdated"
-msgstr "El Tracker del sistema sembla obsolet"
+msgid "Your system Tracker version seems outdated."
+msgstr "El Tracker del sistema sembla obsolet."
 
 #: gnomemusic/views/emptyview.py:146
-msgid "Music needs Tracker version 3.0.0 or higher"
-msgstr "El Música necessita Tracker versió 3.0.0 o superior"
+msgid "Music needs Tracker version 3.0.0 or higher."
+msgstr "El Música necessita Tracker versió 3.0.0 o superior."
 
 #: gnomemusic/views/playlistsview.py:41
 msgid "Playlists"
