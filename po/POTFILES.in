@@ -4,7 +4,6 @@ data/org.gnome.Music.appdata.xml.in.in
 data/org.gnome.Music.desktop.in.in
 data/org.gnome.Music.gschema.xml
 data/ui/AboutDialog.ui.in
-data/ui/AlbumWidget.ui
 data/ui/AppMenu.ui
 data/ui/HeaderBar.ui
 data/ui/help-overlay.ui

@@ -17,12 +17,6 @@
     background-color: transparent;
 }
 
-/* AlbumWidget */
-.title-artist {
-    font-size: larger;
-    font-weight: bold;
-}
-
 .disc-label {
     color: alpha(@theme_fg_color, 0.8);
     padding: 12px 0;

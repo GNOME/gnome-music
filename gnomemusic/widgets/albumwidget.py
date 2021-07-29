@@ -51,11 +51,9 @@ class AlbumWidget(Gtk.ScrolledWindow):
 
     _artist_label = Gtk.Template.Child()
     _composer_label = Gtk.Template.Child()
-    _composer_info_label = Gtk.Template.Child()
     _art_stack = Gtk.Template.Child()
     _disc_list_box = Gtk.Template.Child()
-    _released_info_label = Gtk.Template.Child()
-    _running_info_label = Gtk.Template.Child()
+    _released_label = Gtk.Template.Child()
     _title_label = Gtk.Template.Child()
 
     selection_mode = GObject.Property(type=bool, default=False)
@@ -71,6 +69,7 @@ class AlbumWidget(Gtk.ScrolledWindow):
         self._corealbum: CoreAlbum
         self._coremodel = self._application.props.coremodel
         self._duration_signal_id = 0
+        self._year_signal_id = 0
         self._model_signal_id = 0
 
         self._art_stack.props.size = ArtSize.LARGE
@@ -103,8 +102,10 @@ class AlbumWidget(Gtk.ScrolledWindow):
         :param CoreAlbum corealbum: The CoreAlbum object
         """
         if (self._duration_signal_id != 0
+                or self._year_signal_id != 0
                 or self._model_signal_id != 0):
             self._corealbum.disconnect(self._duration_signal_id)
+            self._corealbum.disconnect(self._year_signal_id)
             self._corealbum.props.model.disconnect(self._model_signal_id)
 
         self._corealbum = corealbum
@@ -120,18 +121,16 @@ class AlbumWidget(Gtk.ScrolledWindow):
         self._artist_label.props.label = artist
         self._artist_label.props.tooltip_text = artist
 
-        self._released_info_label.props.label = self._corealbum.props.year
-
+        self._duration_signal_id = self._corealbum.connect(
+            "notify::duration", self._on_release_info_changed)
+        self._year_signal_id = self._corealbum.connect(
+            "notify::year", self._on_release_info_changed)
         self._set_composer_label()
 
         self._album_model = self._corealbum.props.model
         self._model_signal_id = self._album_model.connect_after(
             "items-changed", self._on_model_items_changed)
         self._disc_list_box.bind_model(self._album_model, self._create_widget)
-
-        self._on_duration_changed(self._corealbum, 0)
-        self._duration_signal_id = self._corealbum.connect(
-            "notify::duration", self._on_duration_changed)
 
         self._album_model.items_changed(0, 0, 0)
 
@@ -163,18 +162,24 @@ class AlbumWidget(Gtk.ScrolledWindow):
         show = False
 
         if composer:
-            self._composer_info_label.props.label = composer
-            self._composer_info_label.props.max_width_chars = 10
-            self._composer_info_label.props.tooltip_text = composer
+            self._composer_label.props.label = composer
+            self._composer_label.props.tooltip_text = composer
             show = True
 
         self._composer_label.props.visible = show
-        self._composer_info_label.props.visible = show
+        self._composer_label.props.visible = show
 
-    def _on_duration_changed(self, coredisc: CoreDisc, duration: int) -> None:
-        mins = (coredisc.props.duration // 60) + 1
-        self._running_info_label.props.label = ngettext(
-            "{} minute", "{} minutes", mins).format(mins)
+    def _on_release_info_changed(
+            self, klass: CoreAlbum,
+            value: Optional[GObject.ParamSpecString]) -> None:
+        if not self._corealbum:
+            return
+
+        mins = (self._corealbum.props.duration // 60) + 1
+        year = self._corealbum.props.year
+        release_info_label = ngettext(
+            "{}, {} minute", "{}, {} minutes", mins).format(year, mins)
+        self._released_label.props.label = release_info_label
 
     def _song_activated(
             self, widget: Gtk.Widget, song_widget: SongWidget) -> None:
