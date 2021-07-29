@@ -40,7 +40,7 @@ if typing.TYPE_CHECKING:
 
 
 @Gtk.Template(resource_path='/org/gnome/Music/ui/AlbumWidget.ui')
-class AlbumWidget(Gtk.Box):
+class AlbumWidget(Gtk.ScrolledWindow):
     """Album widget.
 
     The album widget consists of an image with the album art
