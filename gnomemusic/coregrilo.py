@@ -154,6 +154,9 @@ class CoreGrilo(GObject.GObject):
                 source, self._application, self._tracker_wrapper)
             self._wrappers[source.props.source_id] = new_wrapper
             self._log.debug("Adding wrapper {}".format(new_wrapper))
+            music_dir = GLib.get_user_special_dir(
+                GLib.UserDirectory.DIRECTORY_MUSIC)
+            self._log.debug("XDG Music dir is: {}".format(music_dir))
         elif (source.props.source_id not in self._search_wrappers.keys()
                 and source.props.source_id not in self._wrappers.keys()
                 and source.props.source_id != "grl-tracker3-source"
