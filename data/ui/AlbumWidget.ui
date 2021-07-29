@@ -31,6 +31,17 @@
                 <property name="can_focus">False</property>
                 <property name="halign">fill</property>
                 <property name="hexpand">True</property>
+                <property name="spacing">32</property>
+                <child>
+                  <object class="ArtStack" id="_art_stack">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="halign">center</property>
+                    <property name="valign">start</property>
+                    <property name="hhomogeneous">False</property>
+                    <property name="vhomogeneous">False</property>
+                  </object>
+                </child>
                 <child>
                   <object class="GtkBox" id="albumDetails">
                     <property name="visible">True</property>
@@ -39,16 +50,6 @@
                     <property name="valign">start</property>
                     <property name="orientation">vertical</property>
                     <property name="spacing">18</property>
-                    <child>
-                      <object class="ArtStack" id="_art_stack">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="halign">center</property>
-                        <property name="valign">start</property>
-                        <property name="hhomogeneous">False</property>
-                        <property name="vhomogeneous">False</property>
-                      </object>
-                    </child>
                     <child>
                       <object class="GtkBox" id="artistBox">
                         <property name="visible">True</property>
