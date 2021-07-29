@@ -27,12 +27,13 @@ from gettext import ngettext
 from typing import Optional
 import typing
 
-from gi.repository import Gfm, GObject, Gtk
+from gi.repository import Gfm, Gio, GLib, GObject, Gtk
 
 from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.utils import ArtSize
 from gnomemusic.widgets.disclistboxwidget import DiscBox
 from gnomemusic.widgets.disclistboxwidget import DiscListBox  # noqa: F401
+from gnomemusic.widgets.playlistdialog import PlaylistDialog
 if typing.TYPE_CHECKING:
     from gnomemusic.application import Application
     from gnomemusic.coredisc import CoreDisc
@@ -54,6 +55,7 @@ class AlbumWidget(Gtk.ScrolledWindow):
     _composer_label = Gtk.Template.Child()
     _art_stack = Gtk.Template.Child()
     _disc_list_box = Gtk.Template.Child()
+    _menu_button = Gtk.Template.Child()
     _play_button = Gtk.Template.Child()
     _released_label = Gtk.Template.Child()
     _title_label = Gtk.Template.Child()
@@ -83,6 +85,19 @@ class AlbumWidget(Gtk.ScrolledWindow):
             | GObject.BindingFlags.SYNC_CREATE)
 
         self.connect("notify::selection-mode", self._on_selection_mode_changed)
+
+        action_group = Gio.SimpleActionGroup()
+        actions = (
+            ("play", self._on_play_action),
+            ("add_favorites", self._on_add_favorites_action),
+            ("add_playlist", self._on_add_playlist_action)
+        )
+        for (name, callback) in actions:
+            action = Gio.SimpleAction.new(name, None)
+            action.connect("activate", callback)
+            action_group.add_action(action)
+
+        self.insert_action_group("album", action_group)
 
     @GObject.Property(
         type=CoreAlbum, default=None, flags=GObject.ParamFlags.READWRITE)
@@ -161,6 +176,7 @@ class AlbumWidget(Gtk.ScrolledWindow):
 
         empty_album = (n_items == 0)
         self._play_button.props.sensitive = not empty_album
+        self._menu_button.props.sensitive = not empty_album
 
     def _set_composer_label(self) -> None:
         composer = self._corealbum.props.composer
@@ -215,6 +231,39 @@ class AlbumWidget(Gtk.ScrolledWindow):
             self, widget: Gtk.Widget, value: GObject.ParamSpecBoolean) -> None:
         if not self.props.selection_mode:
             self.deselect_all()
+
+    def _on_add_favorites_action(
+            self, action: Gio.SimpleAction,
+            data: Optional[GLib.Variant]) -> None:
+        if self._corealbum:
+            for coredisc in self._corealbum.props.model:
+                for coresong in coredisc.props.model:
+                    if not coresong.props.favorite:
+                        coresong.props.favorite = True
+
+    def _on_add_playlist_action(
+            self, action: Gio.SimpleAction,
+            data: Optional[GLib.Variant]) -> None:
+        if not self._corealbum:
+            return
+
+        playlist_dialog = PlaylistDialog(self._application)
+        active_window = self._application.props.active_window
+        playlist_dialog.props.transient_for = active_window
+        if playlist_dialog.run() == Gtk.ResponseType.ACCEPT:
+            playlist = playlist_dialog.props.selected_playlist
+            coresongs = [
+                song
+                for disc in self._corealbum.props.model
+                for song in disc.props.model]
+            playlist.add_songs(coresongs)
+
+        playlist_dialog.destroy()
+
+    def _on_play_action(
+            self, action: Gio.SimpleAction,
+            data: Optional[GLib.Variant]) -> None:
+        self._play()
 
     @Gtk.Template.Callback()
     def _on_play_button_clicked(self, button: Gtk.Button) -> None:
