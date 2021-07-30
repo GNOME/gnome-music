@@ -61,6 +61,7 @@ class AlbumWidget(Gtk.Box):
     _title_label = Gtk.Template.Child()
 
     selection_mode = GObject.Property(type=bool, default=False)
+    show_artist_label = GObject.Property(type=bool, default=True)
 
     def __init__(self, application: Application) -> None:
         """Initialize the AlbumWidget.
@@ -83,6 +84,10 @@ class AlbumWidget(Gtk.Box):
             "selection-mode", self._disc_list_box, "selection-mode",
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
+
+        self.bind_property(
+            "show-artist-label", self._artist_label, "visible",
+            GObject.BindingFlags.SYNC_CREATE)
 
         self.connect("notify::selection-mode", self._on_selection_mode_changed)
 
