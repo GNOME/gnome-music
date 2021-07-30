@@ -36,6 +36,7 @@ from gnomemusic.widgets.disclistboxwidget import DiscListBox  # noqa: F401
 if typing.TYPE_CHECKING:
     from gnomemusic.application import Application
     from gnomemusic.coredisc import CoreDisc
+    from gnomemusic.coresong import CoreSong
     from gnomemusic.widgets.songwidget import SongWidget
 
 
@@ -53,6 +54,7 @@ class AlbumWidget(Gtk.ScrolledWindow):
     _composer_label = Gtk.Template.Child()
     _art_stack = Gtk.Template.Child()
     _disc_list_box = Gtk.Template.Child()
+    _play_button = Gtk.Template.Child()
     _released_label = Gtk.Template.Child()
     _title_label = Gtk.Template.Child()
 
@@ -157,6 +159,9 @@ class AlbumWidget(Gtk.ScrolledWindow):
                 discbox = self._disc_list_box.get_row_at_index(i)
                 discbox.props.show_disc_label = True
 
+        empty_album = (n_items == 0)
+        self._play_button.props.sensitive = not empty_album
+
     def _set_composer_label(self) -> None:
         composer = self._corealbum.props.composer
         show = False
@@ -181,23 +186,24 @@ class AlbumWidget(Gtk.ScrolledWindow):
             "{}, {} minute", "{}, {} minutes", mins).format(year, mins)
         self._released_label.props.label = release_info_label
 
-    def _song_activated(
-            self, widget: Gtk.Widget, song_widget: SongWidget) -> None:
-        if self.props.selection_mode:
-            song_widget.props.selected = not song_widget.props.selected
-            return
-
-        signal_id = None
+    def _play(self, coresong: Optional[CoreSong] = None) -> None:
+        signal_id = 0
 
         def _on_playlist_loaded(klass, playlist_type):
-            self._player.play(song_widget.props.coresong)
+            self._player.play(coresong)
             self._coremodel.disconnect(signal_id)
 
         signal_id = self._coremodel.connect(
             "playlist-loaded", _on_playlist_loaded)
         self._coremodel.props.active_core_object = self._corealbum
 
-        return
+    def _song_activated(
+            self, widget: Gtk.Widget, song_widget: SongWidget) -> None:
+        if self.props.selection_mode:
+            song_widget.props.selected = not song_widget.props.selected
+            return
+
+        self._play(song_widget.props.coresong)
 
     def select_all(self) -> None:
         self._disc_list_box.select_all()
@@ -209,3 +215,7 @@ class AlbumWidget(Gtk.ScrolledWindow):
             self, widget: Gtk.Widget, value: GObject.ParamSpecBoolean) -> None:
         if not self.props.selection_mode:
             self.deselect_all()
+
+    @Gtk.Template.Callback()
+    def _on_play_button_clicked(self, button: Gtk.Button) -> None:
+        self._play()
