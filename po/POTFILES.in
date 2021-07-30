@@ -34,7 +34,6 @@ gnomemusic/views/playlistsview.py
 gnomemusic/views/searchview.py
 gnomemusic/views/songsview.py
 gnomemusic/widgets/albumwidget.py
-gnomemusic/widgets/artistalbumwidget.py
 gnomemusic/widgets/disclistboxwidget.py
 gnomemusic/widgets/headerbar.py
 gnomemusic/widgets/lastfmdialog.py
