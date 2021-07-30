@@ -189,7 +189,7 @@ class AlbumWidget(Gtk.Box):
             "playlist-loaded", _on_playlist_loaded)
         self._coremodel.props.active_core_object = self._corealbum
 
-        return True
+        return
 
     def select_all(self):
         self._disc_list_box.select_all()
