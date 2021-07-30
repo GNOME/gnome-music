@@ -24,7 +24,7 @@
 
 from __future__ import annotations
 from gettext import ngettext
-from typing import Optional
+from typing import Optional, Union
 import typing
 
 from gi.repository import Gfm, Gio, GLib, GObject, Gtk
@@ -36,6 +36,7 @@ from gnomemusic.widgets.disclistboxwidget import DiscListBox  # noqa: F401
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
 if typing.TYPE_CHECKING:
     from gnomemusic.application import Application
+    from gnomemusic.coreartist import CoreArtist
     from gnomemusic.coredisc import CoreDisc
     from gnomemusic.coresong import CoreSong
     from gnomemusic.widgets.songwidget import SongWidget
@@ -72,6 +73,7 @@ class AlbumWidget(Gtk.Box):
 
         self._application = application
         self._corealbum: CoreAlbum
+        self._active_coreobject: Union[CoreAlbum, CoreArtist]
         self._coremodel = self._application.props.coremodel
         self._duration_signal_id = 0
         self._year_signal_id = 0
@@ -156,6 +158,34 @@ class AlbumWidget(Gtk.Box):
 
         self._album_model.items_changed(0, 0, 0)
 
+    @GObject.Property(
+        type=object, default=None, flags=GObject.ParamFlags.READWRITE)
+    def active_coreobject(self) -> Optional[Union[CoreAlbum, CoreArtist]]:
+        """Get the current CoreObject.
+
+        active_coreobject is used to set the Player playlist
+        AlbumWidget can be used to display an Album in AlbumsView or
+        ArtistsView. In the former case, there is no need to set it: it's
+        already the corealbum. In the later case, the active_coreobject is
+        an artist. It needs to be set.
+
+        :returns: The current CoreAlbum
+        :rtype: CoreAlbum or None
+        """
+        try:
+            return self._active_coreobject
+        except AttributeError:
+            return self.props.corealbum
+
+    @active_coreobject.setter  # type:ignore
+    def active_coreobject(
+            self, coreobject: Union[CoreAlbum, CoreArtist]) -> None:
+        """Update CoreOject used for AlbumWidget.
+
+        :param CoreAlbum corealbum: The CoreAlbum object
+        """
+        self._active_coreobject = coreobject
+
     def _create_widget(self, disc: CoreDisc) -> DiscBox:
         disc_box = DiscBox(self._application, self._corealbum, disc)
         disc_box.connect('song-activated', self._song_activated)
@@ -216,7 +246,7 @@ class AlbumWidget(Gtk.Box):
 
         signal_id = self._coremodel.connect(
             "playlist-loaded", _on_playlist_loaded)
-        self._coremodel.props.active_core_object = self._corealbum
+        self._coremodel.props.active_core_object = self.props.active_coreobject
 
     def _song_activated(
             self, widget: Gtk.Widget, song_widget: SongWidget) -> None:
