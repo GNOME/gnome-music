@@ -24,13 +24,13 @@
 
 from gi.repository import GObject, Gtk
 
-from gnomemusic.widgets.artistalbumwidget import ArtistAlbumWidget
+from gnomemusic.widgets.albumwidget import AlbumWidget
 
 
 class ArtistAlbumsWidget(Gtk.ListBox):
     """Widget containing all albums by an artist
 
-    A vertical list of ArtistAlbumWidget, containing all the albums
+    A vertical list of AlbumWidget, containing all the albums
     by one artist. Contains the model for all the song widgets of
     the album(s).
     """
@@ -52,37 +52,20 @@ class ArtistAlbumsWidget(Gtk.ListBox):
         self._model = coreartist.props.model
         self._player = self._application.props.player
 
-        self._cover_size_group = Gtk.SizeGroup.new(
-            Gtk.SizeGroupMode.HORIZONTAL)
-        self._songs_grid_size_group = Gtk.SizeGroup.new(
-            Gtk.SizeGroupMode.HORIZONTAL)
-
         self.bind_model(self._model, self._add_album)
 
         self.get_style_context().add_class("artist-albums-widget")
         self.props.visible = True
-
-    def _song_activated(self, widget, song_widget):
-        if self.props.selection_mode:
-            return
-
-        coremodel = self._application.props.coremodel
-
-        def _on_playlist_loaded(klass, playlist_type):
-            self._player.play(song_widget.props.coresong)
-            coremodel.disconnect(signal_id)
-
-        signal_id = coremodel.connect("playlist-loaded", _on_playlist_loaded)
-        coremodel.props.active_core_object = self._artist
 
     def _add_album(self, corealbum):
         row = Gtk.ListBoxRow()
         row.props.selectable = False
         row.props.activatable = False
 
-        widget = ArtistAlbumWidget(
-            self._application, corealbum, self._songs_grid_size_group,
-            self._cover_size_group)
+        widget = AlbumWidget(self._application)
+        widget.props.corealbum = corealbum
+        widget.props.active_coreobject = self._artist
+        widget.props.show_artist_label = False
 
         self.bind_property(
             'selection-mode', widget, 'selection-mode',
@@ -90,7 +73,6 @@ class ArtistAlbumsWidget(Gtk.ListBox):
             | GObject.BindingFlags.SYNC_CREATE)
 
         row.add(widget)
-        widget.connect("song-activated", self._song_activated)
 
         return row
 
