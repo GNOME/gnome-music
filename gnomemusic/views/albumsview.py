@@ -49,6 +49,7 @@ class AlbumsView(Gtk.Stack):
     title = GObject.Property(
         type=str, default=_("Albums"), flags=GObject.ParamFlags.READABLE)
 
+    _album_scrolled_window = Gtk.Template.Child()
     _scrolled_window = Gtk.Template.Child()
     _flowbox = Gtk.Template.Child()
     _flowbox_long_press = Gtk.Template.Child()
@@ -88,7 +89,7 @@ class AlbumsView(Gtk.Stack):
             "selection-mode", self, "selection-mode",
             GObject.BindingFlags.BIDIRECTIONAL)
 
-        self.add(self._album_widget)
+        self._album_scrolled_window.add(self._album_widget)
 
         self.connect(
             "notify::search-mode-active", self._on_search_mode_changed)
@@ -200,7 +201,7 @@ class AlbumsView(Gtk.Stack):
         self._album_widget.props.corealbum = corealbum
 
         self._set_album_headerbar(corealbum)
-        self.set_visible_child(self._album_widget)
+        self.set_visible_child(self._album_scrolled_window)
 
     def _set_album_headerbar(self, corealbum):
         self._headerbar.props.state = HeaderBar.State.CHILD

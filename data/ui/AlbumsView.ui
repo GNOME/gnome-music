@@ -30,6 +30,18 @@
         </child>
       </object>
     </child>
+    <child>
+      <object class="GtkScrolledWindow" id="_album_scrolled_window">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="hexpand">True</property>
+        <property name="vexpand">True</property>
+        <property name="hscrollbar_policy">never</property>
+        <style>
+          <class name="view"/>
+        </style>
+      </object>
+    </child>
   </template>
   <object class="GtkGestureLongPress" id="_flowbox_long_press">
     <property name="propagation-phase">capture</property>
