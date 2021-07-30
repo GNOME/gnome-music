@@ -24,8 +24,9 @@
 
 from gettext import ngettext
 
-from gi.repository import GObject, Grl, Gtk
+from gi.repository import GObject, Gtk
 
+from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.utils import ArtSize
 from gnomemusic.widgets.disclistboxwidget import DiscBox
 from gnomemusic.widgets.disclistboxwidget import DiscListBox  # noqa: F401
@@ -181,7 +182,7 @@ class AlbumWidget(Gtk.Box):
             self.deselect_all()
 
     @GObject.Property(
-        type=Grl.Media, default=None, flags=GObject.ParamFlags.READABLE)
+        type=CoreAlbum, default=None, flags=GObject.ParamFlags.READABLE)
     def album(self):
         """Get the current album.
 
