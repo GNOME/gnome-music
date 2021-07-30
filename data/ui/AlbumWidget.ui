@@ -22,8 +22,8 @@
             <property name="orientation">vertical</property>
             <property name="visible">True</property>
             <property name="margin-bottom">48</property>
-            <property name="margin-end">32</property>
-            <property name="margin-start">32</property>
+            <property name="margin-end">160</property>
+            <property name="margin-start">160</property>
             <property name="margin-top">48</property>
             <child>
               <object class="GtkBox" id="albumInfo">
