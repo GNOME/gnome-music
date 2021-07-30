@@ -27,7 +27,7 @@ from gettext import ngettext
 from typing import Optional
 import typing
 
-from gi.repository import GObject, Gtk
+from gi.repository import Gfm, GObject, Gtk
 
 from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.utils import ArtSize
@@ -35,6 +35,8 @@ from gnomemusic.widgets.disclistboxwidget import DiscBox
 from gnomemusic.widgets.disclistboxwidget import DiscListBox  # noqa: F401
 if typing.TYPE_CHECKING:
     from gnomemusic.application import Application
+    from gnomemusic.coredisc import CoreDisc
+    from gnomemusic.widgets.songwidget import SongWidget
 
 
 @Gtk.Template(resource_path='/org/gnome/Music/ui/AlbumWidget.ui')
@@ -129,13 +131,13 @@ class AlbumWidget(Gtk.Box):
             "items-changed", self._on_model_items_changed)
         self._disc_list_box.bind_model(self._album_model, self._create_widget)
 
-        self._on_duration_changed(self._corealbum, None)
+        self._on_duration_changed(self._corealbum, 0)
         self._duration_signal_id = self._corealbum.connect(
             "notify::duration", self._on_duration_changed)
 
         self._album_model.items_changed(0, 0, 0)
 
-    def _create_widget(self, disc):
+    def _create_widget(self, disc: CoreDisc) -> DiscBox:
         disc_box = DiscBox(disc)
         disc_box.connect('song-activated', self._song_activated)
 
@@ -146,8 +148,10 @@ class AlbumWidget(Gtk.Box):
 
         return disc_box
 
-    def _on_model_items_changed(self, model, position, removed, added):
-        n_items = model.get_n_items()
+    def _on_model_items_changed(
+            self, model: Gfm.SortListModel, position: int, removed: int,
+            added: int) -> None:
+        n_items: int = model.get_n_items()
         if n_items == 1:
             discbox = self._disc_list_box.get_row_at_index(0)
             discbox.props.show_disc_label = False
@@ -169,12 +173,13 @@ class AlbumWidget(Gtk.Box):
         self._composer_label.props.visible = show
         self._composer_info_label.props.visible = show
 
-    def _on_duration_changed(self, coredisc, duration):
+    def _on_duration_changed(self, coredisc: CoreDisc, duration: int) -> None:
         mins = (coredisc.props.duration // 60) + 1
         self._running_info_label.props.label = ngettext(
             "{} minute", "{} minutes", mins).format(mins)
 
-    def _song_activated(self, widget, song_widget):
+    def _song_activated(
+            self, widget: Gtk.Widget, song_widget: SongWidget) -> None:
         if self.props.selection_mode:
             song_widget.props.selected = not song_widget.props.selected
             return
@@ -191,12 +196,13 @@ class AlbumWidget(Gtk.Box):
 
         return
 
-    def select_all(self):
+    def select_all(self) -> None:
         self._disc_list_box.select_all()
 
-    def deselect_all(self):
+    def deselect_all(self) -> None:
         self._disc_list_box.deselect_all()
 
-    def _on_selection_mode_changed(self, widget, value):
+    def _on_selection_mode_changed(
+            self, widget: Gtk.Widget, value: GObject.ParamSpecBoolean) -> None:
         if not self.props.selection_mode:
             self.deselect_all()
