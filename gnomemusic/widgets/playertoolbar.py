@@ -57,13 +57,6 @@ class PlayerToolbar(Gtk.ActionBar):
     _song_info_box = Gtk.Template.Child()
     _title_label = Gtk.Template.Child()
 
-    _repeat_dict = {
-        RepeatMode.ALL: "media-playlist-repeat-symbolic",
-        RepeatMode.NONE: "media-playlist-consecutive-symbolic",
-        RepeatMode.SHUFFLE: "media-playlist-shuffle-symbolic",
-        RepeatMode.SONG: "media-playlist-repeat-song-symbolic"
-    }
-
     def __init__(self):
         super().__init__()
 
@@ -133,9 +126,9 @@ class PlayerToolbar(Gtk.ActionBar):
         self._sync_repeat_image()
         self._sync_prev_next()
 
-    def _sync_repeat_image(self):
-        icon = self._repeat_dict[self._player.props.repeat_mode]
-        self._repeat_image.set_from_icon_name(icon, Gtk.IconSize.MENU)
+    def _sync_repeat_image(self) -> None:
+        self._repeat_image.set_from_icon_name(
+            self._player.props.repeat_mode.icon, Gtk.IconSize.MENU)
 
     def _sync_playing(self, player, state):
         if (self._player.props.state == Playback.STOPPED

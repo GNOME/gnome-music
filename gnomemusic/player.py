@@ -22,9 +22,10 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from enum import IntEnum
+from enum import Enum, IntEnum
 from random import randint, randrange
 import time
+import typing
 
 import gi
 gi.require_version('GstPbutils', '1.0')
@@ -36,12 +37,23 @@ from gnomemusic.widgets.songwidget import SongWidget
 import gnomemusic.utils as utils
 
 
-class RepeatMode(IntEnum):
+class RepeatMode(Enum):
     """Enum for player repeat mode"""
-    NONE = 0
-    SONG = 1
-    ALL = 2
-    SHUFFLE = 3
+    NONE = 0, "media-playlist-consecutive-symbolic"
+    SONG = 1, "media-playlist-repeat-song-symbolic"
+    ALL = 2, "media-playlist-repeat-symbolic"
+    SHUFFLE = 3, "media-playlist-shuffle-symbolic"
+
+    # The type_checking is necessary to avoid false positives
+    # See: https://github.com/python/mypy/issues/1021
+    if typing.TYPE_CHECKING:
+        icon: str
+
+    def __new__(cls, value: int, icon: str = "") -> "RepeatMode":
+        obj = object.__new__(cls)
+        obj._value_ = value
+        obj.icon = icon
+        return obj
 
 
 class PlayerPlaylist(GObject.GObject):
@@ -59,7 +71,7 @@ class PlayerPlaylist(GObject.GObject):
         PLAYLIST = 3
         SEARCH_RESULT = 4
 
-    repeat_mode = GObject.Property(type=int, default=RepeatMode.NONE)
+    repeat_mode = GObject.Property(type=object)
 
     def __init__(self, application):
         super().__init__()
@@ -366,7 +378,7 @@ class Player(GObject.GObject):
         self._settings.connect(
             'changed::repeat', self._on_repeat_setting_changed)
 
-        self._repeat = self._settings.get_enum('repeat')
+        self._repeat = RepeatMode(self._settings.get_enum("repeat"))
         self.bind_property(
             'repeat-mode', self._playlist, 'repeat-mode',
             GObject.BindingFlags.SYNC_CREATE)
@@ -579,10 +591,15 @@ class Player(GObject.GObject):
                 current_song.set_last_played()
 
     def _on_repeat_setting_changed(self, settings, value):
-        self.props.repeat_mode = settings.get_enum('repeat')
+        self.props.repeat_mode = RepeatMode(settings.get_enum("repeat"))
 
-    @GObject.Property(type=int, default=RepeatMode.NONE)
-    def repeat_mode(self):
+    @GObject.Property(type=object)
+    def repeat_mode(self) -> RepeatMode:
+        """Gets current repeat mode.
+
+        :returns: current repeat mode
+        :rtype: RepeatMode
+        """
         return self._repeat
 
     @repeat_mode.setter  # type: ignore
@@ -591,7 +608,7 @@ class Player(GObject.GObject):
             return
 
         self._repeat = mode
-        self._settings.set_enum('repeat', mode)
+        self._settings.set_enum("repeat", mode.value)
 
     @GObject.Property(type=int, default=0, flags=GObject.ParamFlags.READABLE)
     def position(self):
