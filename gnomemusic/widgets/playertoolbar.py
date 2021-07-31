@@ -79,10 +79,12 @@ class PlayerToolbar(Gtk.ActionBar):
             item = Gio.MenuItem.new()
             item.set_label(mode.label)
             item.set_action_and_target_value(
-                "win.repeat", GLib.Variant("s", mode.name.lower()))
+                "playertoolbar.repeat", GLib.Variant("s", str(mode.value)))
             repeat_menu.append_item(item)
 
         self._repeat_menu_button.props.menu_model = repeat_menu
+        self._repeat_action: Gio.SimpleAction = Gio.SimpleAction.new_stateful(
+            "repeat", GLib.VariantType.new("s"), GLib.Variant("s", ""))
 
     # FIXME: This is a workaround for not being able to pass the player
     # object via init when using Gtk.Builder.
@@ -114,7 +116,22 @@ class PlayerToolbar(Gtk.ActionBar):
             'notify::repeat-mode', self._on_repeat_mode_changed)
         self._player.connect('notify::state', self._sync_playing)
 
+        repeat_mode = self._player.props.repeat_mode
+        self._repeat_action.set_state(
+            GLib.Variant("s", str(repeat_mode.value)))
+        self._repeat_action.connect("activate", self._repeat_menu_changed)
+        action_group = Gio.SimpleActionGroup()
+        action_group.add_action(self._repeat_action)
+        self.insert_action_group("playertoolbar", action_group)
+
         self._sync_repeat_image()
+
+    def _repeat_menu_changed(
+            self, action: Gio.SimpleAction, new_state: GLib.Variant) -> None:
+        self._repeat_action.set_state(new_state)
+        new_mode = new_state.get_string()
+        self._player.props.repeat_mode = RepeatMode(int(new_mode))
+        self._repeat_menu_button.props.active = False
 
     @Gtk.Template.Callback()
     def _on_progress_value_changed(self, progress_scale):

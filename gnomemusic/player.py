@@ -381,9 +381,6 @@ class Player(GObject.GObject):
             "items-changed", self._on_playlist_model_items_changed)
 
         self._settings = application.props.settings
-        self._settings.connect(
-            'changed::repeat', self._on_repeat_setting_changed)
-
         self._repeat = RepeatMode(self._settings.get_enum("repeat"))
         self.bind_property(
             'repeat-mode', self._playlist, 'repeat-mode',
@@ -595,9 +592,6 @@ class Player(GObject.GObject):
                 # playlists.update_all_smart_playlists()
                 current_song.bump_play_count()
                 current_song.set_last_played()
-
-    def _on_repeat_setting_changed(self, settings, value):
-        self.props.repeat_mode = RepeatMode(settings.get_enum("repeat"))
 
     @GObject.Property(type=object)
     def repeat_mode(self) -> RepeatMode:
