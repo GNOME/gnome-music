@@ -23,6 +23,7 @@
 # delete this exception statement from your version.
 
 from enum import Enum, IntEnum
+from gettext import gettext as _
 from random import randint, randrange
 import time
 import typing
@@ -39,20 +40,25 @@ import gnomemusic.utils as utils
 
 class RepeatMode(Enum):
     """Enum for player repeat mode"""
-    NONE = 0, "media-playlist-consecutive-symbolic"
-    SONG = 1, "media-playlist-repeat-song-symbolic"
-    ALL = 2, "media-playlist-repeat-symbolic"
-    SHUFFLE = 3, "media-playlist-shuffle-symbolic"
 
-    # The type_checking is necessary to avoid false positives
+    # Translators: "shuffle" causes tracks to play in random order.
+    SHUFFLE = 0, "media-playlist-shuffle-symbolic", _("Shuffle")
+    SONG = 1, "media-playlist-repeat-song-symbolic", _("Repeat Song")
+    ALL = 2, "media-playlist-repeat-symbolic", _("Repeat All")
+    NONE = 3, "media-playlist-consecutive-symbolic", _("Shuffle/Repeat Off")
+
+    # The type checking is necessary to avoid false positives
     # See: https://github.com/python/mypy/issues/1021
     if typing.TYPE_CHECKING:
         icon: str
+        label: str
 
-    def __new__(cls, value: int, icon: str = "") -> "RepeatMode":
+    def __new__(
+            cls, value: int, icon: str = "", label: str = "") -> "RepeatMode":
         obj = object.__new__(cls)
         obj._value_ = value
         obj.icon = icon
+        obj.label = label
         return obj
 
 

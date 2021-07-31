@@ -23,7 +23,7 @@
 # delete this exception statement from your version.
 
 from gettext import gettext as _
-from gi.repository import GObject, Gtk
+from gi.repository import Gio, GLib, GObject, Gtk
 
 from gnomemusic.gstplayer import Playback
 from gnomemusic.utils import ArtSize
@@ -53,6 +53,7 @@ class PlayerToolbar(Gtk.ActionBar):
     _prev_button = Gtk.Template.Child()
     _progress_scale = Gtk.Template.Child()
     _progress_time_label = Gtk.Template.Child()
+    _repeat_menu_button = Gtk.Template.Child()
     _repeat_image = Gtk.Template.Child()
     _song_info_box = Gtk.Template.Child()
     _title_label = Gtk.Template.Child()
@@ -72,6 +73,16 @@ class PlayerToolbar(Gtk.ActionBar):
         main_container = self._buttons_and_scale.get_parent()
         main_container.child_set_property(
             self._buttons_and_scale, "expand", True)
+
+        repeat_menu = Gio.Menu.new()
+        for mode in RepeatMode:
+            item = Gio.MenuItem.new()
+            item.set_label(mode.label)
+            item.set_action_and_target_value(
+                "win.repeat", GLib.Variant("s", mode.name.lower()))
+            repeat_menu.append_item(item)
+
+        self._repeat_menu_button.props.menu_model = repeat_menu
 
     # FIXME: This is a workaround for not being able to pass the player
     # object via init when using Gtk.Builder.
