@@ -60,8 +60,6 @@ class AlbumWidget(Gtk.ScrolledWindow):
 
     selection_mode = GObject.Property(type=bool, default=False)
 
-    _duration = 0
-
     def __init__(self, application: Application) -> None:
         """Initialize the AlbumWidget.
 
