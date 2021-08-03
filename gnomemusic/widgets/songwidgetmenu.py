@@ -34,6 +34,7 @@ from gnomemusic.widgets.playlistdialog import PlaylistDialog
 if typing.TYPE_CHECKING:
     from gnomemusic.application import Application
     from gnomemusic.corealbum import CoreAlbum
+    from gnomemusic.coresong import CoreSong
     from gnomemusic.widgets.songwidget import SongWidget
 
 
@@ -46,13 +47,13 @@ class SongWidgetMenu(Gtk.PopoverMenu):
 
     def __init__(
             self, application: Application, song_widget: SongWidget,
-            coreobject: Union[CoreAlbum, Playlist]) -> None:
+            coreobject: Union[CoreAlbum, CoreSong, Playlist]) -> None:
         """Menu to interact with the song of a SongWidget.
 
         :param Application application: The application object
         :param SongWidget song_widget: The songwidget associated with the menu
-        :param Union[CoreAlbum, Playlist]  coreboject: The coreobject
-            associated with the menu
+        :param Union[CoreAlbum, CoreSong, Playlist]  coreboject: The
+            coreobject associated with the menu
         """
         super().__init__()
 
