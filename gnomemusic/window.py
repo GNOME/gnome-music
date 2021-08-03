@@ -179,8 +179,6 @@ class Window(Handy.ApplicationWindow):
             2000, self._on_songs_available, None, None)
 
     def _switch_to_empty_view(self):
-        did_initial_state = self._settings.get_boolean('did-initial-state')
-
         state = self._app.props.coregrilo.props.tracker_available
         empty_view = self.views[View.EMPTY]
         empty_view.props.visible = True
@@ -188,11 +186,8 @@ class Window(Handy.ApplicationWindow):
             empty_view.props.state = EmptyView.State.NO_TRACKER
         elif state == TrackerState.OUTDATED:
             empty_view.props.state = EmptyView.State.TRACKER_OUTDATED
-        elif did_initial_state:
-            empty_view.props.state = EmptyView.State.EMPTY
         else:
-            # FIXME: On switch back this view does not show properly.
-            empty_view.props.state = EmptyView.State.INITIAL
+            empty_view.props.state = EmptyView.State.EMPTY
 
         self._headerbar.props.state = HeaderBar.State.EMPTY
 
@@ -224,7 +219,6 @@ class Window(Handy.ApplicationWindow):
         self._on_songs_available(None, None)
 
     def _switch_to_player_view(self):
-        self._settings.set_boolean('did-initial-state', True)
         self._on_notify_model_id = self._stack.connect(
             'notify::visible-child', self._on_notify_mode)
         self.connect('destroy', self._notify_mode_disconnect)

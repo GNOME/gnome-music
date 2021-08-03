@@ -32,20 +32,20 @@ from gi.repository import GLib, GObject, Gtk, Tracker
 class EmptyView(Gtk.Stack):
     """Empty view when there is no music to display
 
-    This view can have three states
-    INITIAL means that Music app has never been initialized and no music
-    has been found
-    EMPTY means that no music has been found at startup
-    SEARCH is the empty search view: no music found during a search
+    This view can have several states
+
+    EMPTY: No music has been found at startup (default)
+    SEARCH: No music found with a user search
+    NO_TRACKER: Tracker is unavailable
+    TRACKER_OUTDATED: Tracker version is too old
     """
 
     class State(IntEnum):
         """Enum for EmptyView state."""
-        INITIAL = 0
-        EMPTY = 1
-        SEARCH = 2
-        NO_TRACKER = 3
-        TRACKER_OUTDATED = 4
+        EMPTY = 0
+        SEARCH = 1
+        NO_TRACKER = 2
+        TRACKER_OUTDATED = 3
 
     __gtype_name__ = "EmptyView"
 
@@ -83,7 +83,7 @@ class EmptyView(Gtk.Stack):
 
         self._status_page.add(self._initial_state)
 
-        self._state = EmptyView.State.INITIAL
+        self._state = EmptyView.State.EMPTY
 
     @GObject.Property(type=int, default=0, minimum=0, maximum=4)
     def state(self):
@@ -105,9 +105,7 @@ class EmptyView(Gtk.Stack):
         self._hdy_clamp.props.visible = True
         self._initial_state.props.visible = False
 
-        if self._state == EmptyView.State.INITIAL:
-            self._set_initial_state()
-        elif self._state == EmptyView.State.EMPTY:
+        if self._state == EmptyView.State.EMPTY:
             self._set_empty_state()
         elif self._state == EmptyView.State.SEARCH:
             self._set_search_state()
@@ -115,12 +113,6 @@ class EmptyView(Gtk.Stack):
             self._set_no_tracker_state()
         elif self._state == EmptyView.State.TRACKER_OUTDATED:
             self._set_tracker_outdated_state()
-
-    def _set_initial_state(self):
-        self._status_page.props.title = _("Hey DJ")
-        self._status_page.props.description = self._content_text
-
-        self._status_page.props.icon_name = "initial-state"
 
     def _set_empty_state(self):
         self._hdy_clamp.props.visible = False

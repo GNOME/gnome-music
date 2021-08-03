@@ -3,7 +3,6 @@
   <gresource prefix="/org/gnome/Music">
     <file alias="gtk/help-overlay.ui" preprocess="xml-stripblanks">ui/help-overlay.ui</file>
     <file>org.gnome.Music.css</file>
-    <file>icons/initial-state.png</file>
     <file>icons/playlist2-symbolic.svg</file>
     <file>icons/welcome-music.svg</file>
     <file preprocess="xml-stripblanks">ui/AboutDialog.ui</file>
