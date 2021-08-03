@@ -37,6 +37,7 @@ from gnomemusic.widgets.headerbar import HeaderBar
 from gnomemusic.widgets.artistalbumswidget import ArtistAlbumsWidget
 from gnomemusic.widgets.artistsearchtile import ArtistSearchTile
 from gnomemusic.widgets.songwidget import SongWidget
+from gnomemusic.widgets.songwidgetmenu import SongWidgetMenu
 if typing.TYPE_CHECKING:
     from gnomemusic.application import Application
     from gnomemusic.coresong import CoreSong
@@ -157,6 +158,8 @@ class SearchView(Gtk.Stack):
     def _create_song_widget(self, coresong: CoreSong) -> Gtk.ListBoxRow:
         song_widget = SongWidget(coresong, False, True)
         song_widget.props.show_song_number = False
+        song_widget.props.menu = SongWidgetMenu(
+            self._application, song_widget, coresong)
 
         self.bind_property(
             "selection-mode", song_widget, "selection-mode",
