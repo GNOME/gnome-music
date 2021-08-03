@@ -110,8 +110,9 @@ class EmptyView(Gtk.Stack):
         self._status_page.props.icon_name = "initial-state"
 
     def _set_empty_state(self):
-        self._status_page.props.title = _("No Music Found")
+        self._status_page.props.title = _("Welcome to Music")
         self._status_page.props.description = self._content_text
+        self._status_page.props.icon_name = "welcome-music"
 
     def _set_search_state(self):
         self._status_page.props.title = _("No Music Found")
