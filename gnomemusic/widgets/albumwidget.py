@@ -22,7 +22,10 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from __future__ import annotations
 from gettext import ngettext
+from typing import Optional
+import typing
 
 from gi.repository import GObject, Gtk
 
@@ -30,6 +33,8 @@ from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.utils import ArtSize
 from gnomemusic.widgets.disclistboxwidget import DiscBox
 from gnomemusic.widgets.disclistboxwidget import DiscListBox  # noqa: F401
+if typing.TYPE_CHECKING:
+    from gnomemusic.application import Application
 
 
 @Gtk.Template(resource_path='/org/gnome/Music/ui/AlbumWidget.ui')
@@ -55,7 +60,7 @@ class AlbumWidget(Gtk.Box):
 
     _duration = 0
 
-    def __init__(self, application):
+    def __init__(self, application: Application) -> None:
         """Initialize the AlbumWidget.
 
         :param GtkApplication application: The application object
@@ -63,7 +68,7 @@ class AlbumWidget(Gtk.Box):
         super().__init__()
 
         self._application = application
-        self._corealbum = None
+        self._corealbum: CoreAlbum
         self._coremodel = self._application.props.coremodel
         self._duration_signal_id = 0
         self._model_signal_id = 0
@@ -80,16 +85,19 @@ class AlbumWidget(Gtk.Box):
 
     @GObject.Property(
         type=CoreAlbum, default=None, flags=GObject.ParamFlags.READWRITE)
-    def corealbum(self):
+    def corealbum(self) -> Optional[CoreAlbum]:
         """Get the current CoreAlbum.
 
         :returns: The current CoreAlbum
-        :rtype: CoreAlbum
+        :rtype: CoreAlbum or None
         """
-        return self._corealbum
+        try:
+            return self._corealbum
+        except AttributeError:
+            return None
 
     @corealbum.setter  # type:ignore
-    def corealbum(self, corealbum):
+    def corealbum(self, corealbum: CoreAlbum) -> None:
         """Update CoreAlbum used for AlbumWidget.
 
         :param CoreAlbum corealbum: The CoreAlbum object
