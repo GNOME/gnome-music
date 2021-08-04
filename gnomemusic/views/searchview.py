@@ -352,7 +352,7 @@ class SearchView(Gtk.Stack):
             return
 
         # Update and display the album widget if not in selection mode
-        self._album_widget.update(corealbum)
+        self._album_widget.props.corealbum = corealbum
 
         self.props.state = SearchView.State.ALBUM
         self._headerbar.props.state = HeaderBar.State.SEARCH

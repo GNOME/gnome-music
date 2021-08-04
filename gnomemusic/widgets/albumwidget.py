@@ -78,10 +78,21 @@ class AlbumWidget(Gtk.Box):
 
         self.connect("notify::selection-mode", self._on_selection_mode_changed)
 
-    def update(self, corealbum):
-        """Update the album widget.
+    @GObject.Property(
+        type=CoreAlbum, default=None, flags=GObject.ParamFlags.READWRITE)
+    def corealbum(self):
+        """Get the current CoreAlbum.
 
-        :param CoreAlbum album: The CoreAlbum object
+        :returns: The current CoreAlbum
+        :rtype: CoreAlbum
+        """
+        return self._corealbum
+
+    @corealbum.setter  # type:ignore
+    def corealbum(self, corealbum):
+        """Update CoreAlbum used for AlbumWidget.
+
+        :param CoreAlbum corealbum: The CoreAlbum object
         """
         if self._corealbum:
             self._corealbum.disconnect(self._duration_signal_id)
@@ -180,13 +191,3 @@ class AlbumWidget(Gtk.Box):
     def _on_selection_mode_changed(self, widget, value):
         if not self.props.selection_mode:
             self.deselect_all()
-
-    @GObject.Property(
-        type=CoreAlbum, default=None, flags=GObject.ParamFlags.READABLE)
-    def album(self):
-        """Get the current album.
-
-        :returns: the current album
-        :rtype: CoreAlbum
-        """
-        return self._corealbum

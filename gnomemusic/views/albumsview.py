@@ -163,7 +163,7 @@ class AlbumsView(Gtk.Stack):
         if (not self.props.search_mode_active
                 and self._headerbar.props.stack.props.visible_child == self
                 and self.get_visible_child() == self._album_widget):
-            self._set_album_headerbar(self._album_widget.props.album)
+            self._set_album_headerbar(self._album_widget.props.corealbum)
 
     def _create_widget(self, corealbum):
         album_widget = AlbumCover(corealbum)
@@ -197,7 +197,7 @@ class AlbumsView(Gtk.Stack):
             return
 
         # Update and display the album widget if not in selection mode
-        self._album_widget.update(corealbum)
+        self._album_widget.props.corealbum = corealbum
 
         self._set_album_headerbar(corealbum)
         self.set_visible_child(self._album_widget)
