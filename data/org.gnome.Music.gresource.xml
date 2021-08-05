@@ -22,7 +22,6 @@
     <file preprocess="xml-stripblanks">ui/LoadingNotification.ui</file>
     <file preprocess="xml-stripblanks">ui/NotificationsPopup.ui</file>
     <file preprocess="xml-stripblanks">ui/PlayerToolbar.ui</file>
-    <file preprocess="xml-stripblanks">ui/PlaylistContextMenu.ui</file>
     <file preprocess="xml-stripblanks">ui/PlaylistControls.ui</file>
     <file preprocess="xml-stripblanks">ui/PlaylistDialog.ui</file>
     <file preprocess="xml-stripblanks">ui/PlaylistDialogRow.ui</file>
