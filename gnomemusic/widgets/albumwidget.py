@@ -121,7 +121,7 @@ class AlbumWidget(Gtk.Box):
 
         self._released_info_label.props.label = self._corealbum.props.year
 
-        self._set_composer_label(corealbum)
+        self._set_composer_label()
 
         self._album_model = self._corealbum.props.model
         self._model_signal_id = self._album_model.connect_after(
@@ -155,8 +155,8 @@ class AlbumWidget(Gtk.Box):
                 discbox = self._disc_list_box.get_row_at_index(i)
                 discbox.props.show_disc_label = True
 
-    def _set_composer_label(self, corealbum):
-        composer = corealbum.props.composer
+    def _set_composer_label(self) -> None:
+        composer = self._corealbum.props.composer
         show = False
 
         if composer:
