@@ -27,10 +27,7 @@ import typing
 
 from gi.repository import Gdk, GObject, Gtk
 
-from gnomemusic.widgets.notificationspopup import PlaylistNotification
-from gnomemusic.widgets.playlistcontextmenu import PlaylistContextMenu
 from gnomemusic.widgets.playlistcontrols import PlaylistControls  # noqa: F401
-from gnomemusic.widgets.playlistdialog import PlaylistDialog
 from gnomemusic.widgets.songwidget import SongWidget
 from gnomemusic.widgets.songwidgetmenu import SongWidgetMenu
 if typing.TYPE_CHECKING:
@@ -71,18 +68,6 @@ class PlaylistsWidget(Gtk.Box):
 
         self._pl_ctrls.props.application = application
 
-        self._song_popover = PlaylistContextMenu(application, self._songs_list)
-
-        play_song = self._window.lookup_action("play_song")
-        play_song.connect("activate", self._play_song)
-
-        add_song = self._window.lookup_action("add_song_to_playlist")
-        add_song.connect("activate", self._add_song_to_playlist)
-
-        self._remove_song_action = self._window.lookup_action("remove_song")
-        self._remove_song_action.connect(
-            "activate", self._stage_song_for_deletion)
-
         playlist_play_action = self._window.lookup_action("playlist_play")
         playlist_play_action.connect("activate", self._on_play_playlist)
 
@@ -99,8 +84,6 @@ class PlaylistsWidget(Gtk.Box):
             playlist.update()
 
         self._pl_ctrls.props.playlist = playlist
-
-        self._remove_song_action.set_enabled(not playlist.props.is_smart)
 
     def _create_song_widget(
             self, coresong: CoreSong, playlist: Playlist) -> Gtk.ListBoxRow:
@@ -148,49 +131,22 @@ class PlaylistsWidget(Gtk.Box):
 
     @Gtk.Template.Callback()
     def _songs_list_right_click(self, gesture, n_press, x, y):
-        requested_row = self._songs_list.get_row_at_y(y)
-        self._songs_list.select_row(requested_row)
+        song_widget = self._songs_list.get_row_at_y(y)
+        self._songs_list.select_row(song_widget)
 
-        _, y0 = requested_row.translate_coordinates(self._songs_list, 0, 0)
-        row_height = requested_row.get_allocated_height()
+        _, y0 = song_widget.translate_coordinates(self._songs_list, 0, 0)
+        row_height = song_widget.get_allocated_height()
         rect = Gdk.Rectangle()
         rect.x = x
         rect.y = y0 + 0.5 * row_height
 
-        self._song_popover.props.relative_to = self._songs_list
-        self._song_popover.props.pointing_to = rect
-        self._song_popover.popup()
-
-    def _play_song(self, menuitem, data=None):
-        selected_row = self._songs_list.get_selected_row()
-        coresong = selected_row.props.coresong
-        self._songs_list.unselect_all()
-        self._play(coresong)
-
-    def _add_song_to_playlist(self, menuitem, data=None):
-        selected_row = self._songs_list.get_selected_row()
-        coresong = selected_row.props.coresong
-
-        playlist_dialog = PlaylistDialog(self._application)
-        playlist_dialog.props.transient_for = self._window
-        if playlist_dialog.run() == Gtk.ResponseType.ACCEPT:
-            playlist = playlist_dialog.props.selected_playlist
-            playlist.add_songs([coresong])
-
-        self._songs_list.unselect_all()
-        playlist_dialog.destroy()
-
-    def _stage_song_for_deletion(self, menuitem, data=None):
-        selected_row = self._songs_list.get_selected_row()
-        position = selected_row.get_index()
-        coresong = selected_row.props.coresong
-
         current_playlist = self._playlists_view.props.current_playlist
-
-        notification = PlaylistNotification(  # noqa: F841
-            self._window.notifications_popup, self._application,
-            PlaylistNotification.Type.SONG, current_playlist, position,
-            coresong)
+        song_context_menu = SongWidgetMenu(
+            self._application, song_widget, current_playlist)
+        song_context_menu.props.relative_to = self._songs_list
+        song_context_menu.props.pointing_to = rect
+        song_context_menu.props.position = Gtk.PositionType.BOTTOM
+        song_context_menu.popup()
 
     def _on_play_playlist(self, menuitem, data=None):
         self._play()
