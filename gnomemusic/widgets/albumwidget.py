@@ -102,7 +102,8 @@ class AlbumWidget(Gtk.Box):
 
         :param CoreAlbum corealbum: The CoreAlbum object
         """
-        if self._corealbum:
+        if (self._duration_signal_id != 0
+                or self._model_signal_id != 0):
             self._corealbum.disconnect(self._duration_signal_id)
             self._corealbum.props.model.disconnect(self._model_signal_id)
 
