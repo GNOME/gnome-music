@@ -31,6 +31,7 @@ from gi.repository import Gio, Gtk
 from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
 from gnomemusic.songtoast import SongToast
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
+from gnomemusic.widgets.songeditordialog import SongEditorDialog
 from gnomemusic.widgets.songwidget import SongWidget
 if typing.TYPE_CHECKING:
     from gnomemusic.application import Application
@@ -70,10 +71,12 @@ class SongWidgetMenu(Gtk.PopoverMenu):
             self._coresong = coreobject
 
         self._playlist_dialog: Optional[PlaylistDialog] = None
+        self._song_editor_dialog: Optional[SongEditorDialog] = None
 
         action_group = Gio.SimpleActionGroup()
         action_entries = [
             ("play", self._play_song),
+            ("edit_details", self._edit_details),
             ("add_playlist", self._add_to_playlist)
         ]
         if (isinstance(self._coreobject, Playlist)
@@ -81,7 +84,7 @@ class SongWidgetMenu(Gtk.PopoverMenu):
             action_entries.append(
                 ("remove_playlist", self._remove_from_playlist))
         elif not isinstance(self._coreobject, Playlist):
-            self.props.menu_model.remove(2)
+            self.props.menu_model.remove(3)
 
         for name, callback in action_entries:
             action = Gio.SimpleAction.new(name, None)
@@ -101,6 +104,22 @@ class SongWidgetMenu(Gtk.PopoverMenu):
         signal_id = self._coremodel.connect(
             "playlist-loaded", _on_playlist_loaded)
         self._coremodel.props.active_core_object = self._coreobject
+
+    def _edit_details(self, action: Gio.Simple, param: Any) -> None:
+
+        def on_response(dialog: PlaylistDialog, response_id: int) -> None:
+            if not self._song_editor_dialog:
+                return
+
+            self._song_editor_dialog.destroy()
+            self._song_editor_dialog = None
+
+        self.popdown()
+        self._song_editor_dialog = SongEditorDialog(
+            self._application, self._coresong)
+        self._song_editor_dialog.props.transient_for = self._window
+        self._song_editor_dialog.connect("response", on_response)
+        self._song_editor_dialog.present()
 
     def _add_to_playlist(self, action: Gio.Simple, param: Any) -> None:
 

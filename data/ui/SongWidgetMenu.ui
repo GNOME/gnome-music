@@ -12,6 +12,10 @@
       <attribute name="action">songwidget.play</attribute>
     </item>
     <item>
+      <attribute name="label" translatable="yes">_Edit Details…</attribute>
+      <attribute name="action">songwidget.edit_details</attribute>
+    </item>
+    <item>
       <attribute name="label" translatable="yes">_Add to Playlist…</attribute>
       <attribute name="action">songwidget.add_playlist</attribute>
     </item>
