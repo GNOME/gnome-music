@@ -61,6 +61,7 @@ class ArtistAlbumsWidget(Gtk.ListBox):
         row = Gtk.ListBoxRow()
         row.props.selectable = False
         row.props.activatable = False
+        row.props.can_focus = False
 
         widget = AlbumWidget(self._application)
         widget.props.corealbum = corealbum
