@@ -39,4 +39,10 @@
       </object>
     </child>
   </template>
+  <object class="GtkGestureMultiPress" id="_list_box_ctrlr">
+    <property name="widget">_list_box</property>
+    <property name="propagation-phase">capture</property>
+    <property name="button">3</property>
+    <signal name="pressed" handler="_list_box_right_click" swapped="no"/>
+  </object>
 </interface>

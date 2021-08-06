@@ -47,6 +47,7 @@ class DiscBox(Gtk.ListBoxRow):
 
     _disc_label = Gtk.Template.Child()
     _list_box = Gtk.Template.Child()
+    _list_box_ctrlr = Gtk.Template.Child()
 
     __gsignals__ = {
         'song-activated': (GObject.SignalFlags.RUN_FIRST, None, (Gtk.Widget,))
@@ -133,6 +134,24 @@ class DiscBox(Gtk.ListBoxRow):
             song_widget.props.coresong.props.selected = not selection_state
 
         return True
+
+    @Gtk.Template.Callback()
+    def _list_box_right_click(
+            self, gesture: Gtk.GestureMultiPress, n_press: int, x: int,
+            y: int) -> None:
+        song_widget = self._list_box.get_row_at_y(y)
+
+        _, y0 = song_widget.translate_coordinates(self._list_box, 0, 0)
+        row_height = song_widget.get_allocated_height()
+        rect = Gdk.Rectangle()
+        rect.x = x
+        rect.y = y0 + 0.5 * row_height
+
+        song_context_menu = SongWidgetMenu(
+            self._application, song_widget, self._corealbum)
+        song_context_menu.props.relative_to = self._list_box
+        song_context_menu.props.pointing_to = rect
+        song_context_menu.popup()
 
 
 class DiscListBox(Gtk.ListBox):
