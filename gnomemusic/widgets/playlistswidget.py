@@ -131,7 +131,6 @@ class PlaylistsWidget(Gtk.Box):
     @Gtk.Template.Callback()
     def _songs_list_right_click(self, gesture, n_press, x, y):
         song_widget = self._songs_list.get_row_at_y(y)
-        self._songs_list.select_row(song_widget)
 
         _, y0 = song_widget.translate_coordinates(self._songs_list, 0, 0)
         row_height = song_widget.get_allocated_height()
