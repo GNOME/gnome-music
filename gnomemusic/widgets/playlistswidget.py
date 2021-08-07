@@ -143,7 +143,6 @@ class PlaylistsWidget(Gtk.Box):
             self._application, song_widget, current_playlist)
         song_context_menu.props.relative_to = self._songs_list
         song_context_menu.props.pointing_to = rect
-        song_context_menu.props.position = Gtk.PositionType.BOTTOM
         song_context_menu.popup()
 
     def _on_play_playlist(self, menuitem, data=None):

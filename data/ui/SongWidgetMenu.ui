@@ -2,6 +2,7 @@
 <interface>
   <template class="SongWidgetMenu" parent="GtkPopoverMenu">
     <property name="modal">True</property>
+    <property name="position">bottom</property>
     <property name="visible">False</property>
     <child>
       <object class="GtkBox">
