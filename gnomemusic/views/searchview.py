@@ -77,6 +77,7 @@ class SearchView(Gtk.Stack):
     _search_results = Gtk.Template.Child()
     _songs_header = Gtk.Template.Child()
     _songs_listbox = Gtk.Template.Child()
+    _songs_listbox_ctrlr = Gtk.Template.Child()
     _view_all_albums = Gtk.Template.Child()
     _view_all_artists = Gtk.Template.Child()
 
@@ -275,6 +276,24 @@ class SearchView(Gtk.Stack):
             self._player.play(coresong)
 
         return True
+
+    @Gtk.Template.Callback()
+    def _songs_listbox_right_click(
+            self, gesture: Gtk.GestureMultiPress, n_press: int, x: int,
+            y: int) -> None:
+        song_widget = self._songs_listbox.get_row_at_y(y)
+
+        _, y0 = song_widget.translate_coordinates(self._songs_listbox, 0, 0)
+        row_height = song_widget.get_allocated_height()
+        rect = Gdk.Rectangle()
+        rect.x = x
+        rect.y = y0 + 0.5 * row_height
+
+        song_context_menu = SongWidgetMenu(
+            self._application, song_widget, song_widget.props.coresong)
+        song_context_menu.props.relative_to = self._songs_listbox
+        song_context_menu.props.pointing_to = rect
+        song_context_menu.popup()
 
     def _on_album_flowbox_size_allocate(self, widget, allocation, data=None):
         nb_children = self._album_filter.get_n_items()
