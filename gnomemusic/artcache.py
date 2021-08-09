@@ -159,21 +159,25 @@ class ArtCache(GObject.GObject):
 
     _log = MusicLogger()
 
-    def __init__(self, size, scale):
+    def __init__(self):
         super().__init__()
 
-        self._size = size
-        self._scale = scale
+        self._size = ArtSize.SMALL
+        self._scale = 1
 
         self._coreobject = None
         self._default_icon = None
 
-    def query(self, coreobject):
+    def query(self, coreobject, size, scale):
         """Start the cache query
 
         :param coreobject: The object to search art for
+        :param ArtSize size: The desired size
+        :param int scale: The scaling factor
         """
         self._coreobject = coreobject
+        self._scale = scale
+        self._size = size
 
         if isinstance(coreobject, CoreArtist):
             self._default_icon = DefaultIcon().get(

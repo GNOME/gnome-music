@@ -45,8 +45,8 @@ class ArtStack(Gtk.Stack):
         """
         super().__init__()
 
-        self._cache = None
-        self._handler_id = None
+        self._cache = ArtCache()
+        self._handler_id = 0
         self._size = size
         self._thumbnail_id = 0
 
@@ -102,10 +102,9 @@ class ArtStack(Gtk.Stack):
     def _on_thumbnail_changed(self, coreobject, uri):
         self._disconnect_cache()
 
-        self._cache = ArtCache(self.props.size, self.props.scale_factor)
         self._handler_id = self._cache.connect("result", self._on_cache_result)
 
-        self._cache.query(coreobject)
+        self._cache.query(coreobject, self._size, self.props.scale_factor)
 
     def _on_cache_result(self, cache, surface):
         if self.props.visible_child_name == "B":
@@ -122,7 +121,6 @@ class ArtStack(Gtk.Stack):
         self._disconnect_cache()
 
     def _disconnect_cache(self):
-        if (self._cache is not None
-                and self._handler_id is not None):
+        if self._handler_id != 0:
             self._cache.disconnect(self._handler_id)
-            self._handler_id = None
+            self._handler_id = 0
