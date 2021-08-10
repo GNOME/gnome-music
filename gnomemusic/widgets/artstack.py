@@ -24,6 +24,7 @@
 
 from gi.repository import GObject, Gtk
 
+from gnomemusic.asyncqueue import AsyncQueue
 from gnomemusic.artcache import ArtCache
 from gnomemusic.utils import ArtSize
 
@@ -37,6 +38,8 @@ class ArtStack(Gtk.Stack):
     """
 
     __gtype_name__ = "ArtStack"
+
+    _async_queue = AsyncQueue()
 
     def __init__(self, size=ArtSize.MEDIUM):
         """Initialize the ArtStack
@@ -103,9 +106,11 @@ class ArtStack(Gtk.Stack):
     def _on_thumbnail_changed(self, coreobject, uri):
         self._disconnect_cache()
 
-        self._handler_id = self._cache.connect("result", self._on_cache_result)
+        self._handler_id = self._cache.connect(
+            "finished", self._on_cache_result)
 
-        self._cache.query(coreobject, self._size, self.props.scale_factor)
+        self._async_queue.queue(
+            self._cache, coreobject, self._size, self.props.scale_factor)
 
     def _on_cache_result(self, cache, surface):
         if self.props.visible_child_name == "B":

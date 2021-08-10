@@ -24,7 +24,7 @@
 
 from enum import Enum
 from math import pi
-from typing import Dict, Tuple
+from typing import Dict, Tuple, Union
 
 import cairo
 from gi.repository import Gdk, GdkPixbuf, Gio, Gtk, GLib, GObject
@@ -154,7 +154,7 @@ class ArtCache(GObject.GObject):
     __gtype_name__ = "ArtCache"
 
     __gsignals__ = {
-        "result": (GObject.SignalFlags.RUN_FIRST, None, (object, ))
+        "finished": (GObject.SignalFlags.RUN_FIRST, None, (object, ))
     }
 
     _log = MusicLogger()
@@ -168,7 +168,7 @@ class ArtCache(GObject.GObject):
         self._coreobject = None
         self._default_icon = None
 
-    def query(self, coreobject, size, scale):
+    def start(self, coreobject, size, scale):
         """Start the cache query
 
         :param coreobject: The object to search art for
@@ -189,7 +189,7 @@ class ArtCache(GObject.GObject):
 
         thumbnail_uri = coreobject.props.thumbnail
         if thumbnail_uri == "generic":
-            self.emit("result", self._default_icon)
+            self.emit("finished", self._default_icon)
             return
 
         thumb_file = Gio.File.new_for_uri(thumbnail_uri)
@@ -198,7 +198,7 @@ class ArtCache(GObject.GObject):
                 GLib.PRIORITY_LOW, None, self._open_stream, None)
             return
 
-        self.emit("result", self._default_icon)
+        self.emit("finished", self._default_icon)
 
     def _open_stream(self, thumb_file, result, arguments):
         try:
@@ -206,7 +206,7 @@ class ArtCache(GObject.GObject):
         except GLib.Error as error:
             self._log.warning(
                 "Error: {}, {}".format(error.domain, error.message))
-            self.emit("result", self._default_icon)
+            self.emit("finished", self._default_icon)
             return
 
         GdkPixbuf.Pixbuf.new_from_stream_async(
@@ -218,7 +218,7 @@ class ArtCache(GObject.GObject):
         except GLib.Error as error:
             self._log.warning(
                 "Error: {}, {}".format(error.domain, error.message))
-            self.emit("result", self._default_icon)
+            self.emit("finished", self._default_icon)
             return
 
         stream.close_async(GLib.PRIORITY_LOW, None, self._close_stream, None)
@@ -232,7 +232,7 @@ class ArtCache(GObject.GObject):
                 or isinstance(self._coreobject, CoreSong)):
             surface = _make_icon_frame(surface, self._size, self._scale)
 
-        self.emit("result", surface)
+        self.emit("finished", surface)
 
     def _close_stream(self, stream, result, data):
         try:

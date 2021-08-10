@@ -22,7 +22,7 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from typing import Dict, Tuple
+from typing import Any, Dict, Tuple
 
 from gi.repository import GObject
 
@@ -52,7 +52,7 @@ class AsyncQueue(GObject.GObject):
         self._async_active_pool: Dict[int, Tuple] = {}
         self._max_async = 4
 
-    def queue(self, *args) -> None:
+    def queue(self, *args: Any) -> None:
         """Queue an async call
 
         :param *args: The first item should be an async class, the
