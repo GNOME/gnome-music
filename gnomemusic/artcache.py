@@ -101,8 +101,8 @@ class DefaultIcon(GObject.GObject):
     """Provides the symbolic fallback icons."""
 
     class Type(Enum):
+        ALBUM = "folder-music-symbolic"
         ARTIST = "avatar-default-symbolic"
-        MUSIC = "folder-music-symbolic"
 
     _cache: Dict[
         Tuple["DefaultIcon.Type", ArtSize, int, bool], cairo.Surface] = {}
@@ -185,7 +185,7 @@ class ArtCache(GObject.GObject):
         elif (isinstance(coreobject, CoreAlbum)
                 or isinstance(coreobject, CoreSong)):
             self._default_icon = DefaultIcon().get(
-                DefaultIcon.Type.MUSIC, self._size, self._scale)
+                DefaultIcon.Type.ALBUM, self._size, self._scale)
 
         thumbnail_uri = coreobject.props.thumbnail
         if thumbnail_uri == "generic":
