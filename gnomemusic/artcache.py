@@ -122,7 +122,7 @@ class DefaultIcon(GObject.GObject):
 
         return icon_surface
 
-    def get(self, icon_type, art_size, scale=1, round_shape=False):
+    def get(self, icon_type, art_size, scale=1):
         """Returns the requested symbolic icon
 
         Returns a cairo surface of the requested symbolic icon in the
@@ -131,11 +131,15 @@ class DefaultIcon(GObject.GObject):
         :param enum icon_type: The DefaultIcon.Type of the icon
         :param enum art_size: The ArtSize requested
         :param int scale: The scale
-        :param bool round_shape: Indicates square or round icon shape
 
         :return: The symbolic icon
         :rtype: cairo.Surface
         """
+        if icon_type == DefaultIcon.Type.ALBUM:
+            round_shape = False
+        else:
+            round_shape = True
+
         if (icon_type, art_size, scale) not in self._cache.keys():
             new_icon = self._make_default_icon(
                 icon_type, art_size, scale, round_shape)
@@ -181,7 +185,7 @@ class ArtCache(GObject.GObject):
 
         if isinstance(coreobject, CoreArtist):
             self._default_icon = DefaultIcon().get(
-                DefaultIcon.Type.ARTIST, self._size, self._scale, True)
+                DefaultIcon.Type.ARTIST, self._size, self._scale)
         elif (isinstance(coreobject, CoreAlbum)
                 or isinstance(coreobject, CoreSong)):
             self._default_icon = DefaultIcon().get(
