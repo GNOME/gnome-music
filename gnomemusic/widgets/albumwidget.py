@@ -30,6 +30,7 @@ import typing
 from gi.repository import Gfm, Gio, GLib, GObject, Gtk
 
 from gnomemusic.corealbum import CoreAlbum
+from gnomemusic.defaulticon import DefaultIcon
 from gnomemusic.utils import ArtSize
 from gnomemusic.widgets.disclistboxwidget import DiscBox
 from gnomemusic.widgets.disclistboxwidget import DiscListBox  # noqa: F401
@@ -80,6 +81,7 @@ class AlbumWidget(Gtk.Box):
         self._model_signal_id = 0
 
         self._art_stack.props.size = ArtSize.LARGE
+        self._art_stack.props.art_type = DefaultIcon.Type.ALBUM
         self._player = self._application.props.player
 
         self.bind_property(

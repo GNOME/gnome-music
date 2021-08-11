@@ -26,6 +26,7 @@ import gi
 gi.require_version('Grl', '0.3')
 from gi.repository import GObject, Gtk
 
+from gnomemusic.defaulticon import DefaultIcon
 from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.utils import ArtSize
 from gnomemusic.widgets.twolinetip import TwoLineTip
@@ -82,6 +83,7 @@ class AlbumCover(Gtk.FlowBoxChild):
         self.connect('query-tooltip', self._on_tooltip_query)
 
         self._art_stack.props.size = ArtSize.MEDIUM
+        self._art_stack.props.art_type = DefaultIcon.Type.ALBUM
 
         self.show()
 
