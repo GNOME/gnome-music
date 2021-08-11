@@ -36,20 +36,30 @@ class StoreArt(GObject.Object):
     """Stores Art in the MediaArt cache.
     """
 
-    def __init__(self, coreobject, uri):
+    __gsignals__ = {
+        "finished": (GObject.SignalFlags.RUN_FIRST, None, ())
+    }
+
+    def __init__(self):
         """Initialize StoreArtistArt
 
         :param coreobject: The CoreArtist or CoreAlbum to store art for
         :param string uri: The art uri
         """
-        self._coreobject = coreobject
+        super().__init__()
+
+        self._coreobject = None
 
         self._log = MusicLogger()
         self._soup_session = Soup.Session.new()
 
+    def start(self, coreobject, uri):
+        self._coreobject = coreobject
+
         if (uri is None
                 or uri == ""):
             self._coreobject.props.thumbnail = "generic"
+            self.emit("finished")
             return
 
         cache_dir = GLib.build_filenamev(
@@ -70,6 +80,7 @@ class StoreArt(GObject.Object):
                 self._log.warning(
                     "Error: {}, {}".format(error.domain, error.message))
                 self._coreobject.props.thumbnail = "generic"
+                self.emit("finished")
                 return
 
         msg = Soup.Message.new("GET", uri)
@@ -88,6 +99,7 @@ class StoreArt(GObject.Object):
             self._log.warning(
                 "Error: {}, {}".format(error.domain, error.message))
             self._coreobject.props.thumbnail = "generic"
+            self.emit("finished")
             return
 
         istream = Gio.MemoryInputStream.new_from_bytes(
@@ -119,6 +131,7 @@ class StoreArt(GObject.Object):
             self._log.warning(
                 "Error: {}, {}".format(error.domain, error.message))
             self._coreobject.props.thumbnail = "generic"
+            self.emit("finished")
             return
 
         if isinstance(self._coreobject, CoreArtist):
@@ -137,6 +150,7 @@ class StoreArt(GObject.Object):
 
         if not success:
             self._coreobject.props.thumbnail = "generic"
+            self.emit("finished")
             return
 
         try:
@@ -146,10 +160,13 @@ class StoreArt(GObject.Object):
             self._log.warning(
                 "Error: {}, {}".format(error.domain, error.message))
             self._coreobject.props.thumbnail = "generic"
+            self.emit("finished")
             return
 
         self._coreobject.props.media.set_thumbnail(cache_file.get_uri())
         self._coreobject.props.thumbnail = cache_file.get_uri()
+
+        self.emit("finished")
 
         tmp_file.delete_async(
             GLib.PRIORITY_LOW, None, self._delete_callback, None)

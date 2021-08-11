@@ -30,6 +30,7 @@ import gi
 gi.require_versions({"Gfm": "0.1", "Grl": "0.3", "Tracker": "3.0"})
 from gi.repository import Gfm, Gio, Grl, GLib, GObject, Tracker
 
+from gnomemusic.asyncqueue import AsyncQueue
 from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.coreartist import CoreArtist
 from gnomemusic.coredisc import CoreDisc
@@ -103,6 +104,7 @@ class GrlTrackerWrapper(GObject.GObject):
         """
         super().__init__()
 
+        self._async_queue = AsyncQueue()
         self._application: Application = application
         cm: CoreModel = application.props.coremodel
         self._log: MusicLogger = application.props.log
@@ -1219,7 +1221,8 @@ class GrlTrackerWrapper(GObject.GObject):
                 coresong.props.thumbnail = "generic"
                 return
 
-            StoreArt(coresong, queried_media.get_thumbnail())
+            self._async_queue.queue(
+                StoreArt(), coresong, queried_media.get_thumbnail())
 
         song_id: str = media.get_id()
         query: str = self._get_album_for_media_id_query(song_id)
@@ -1248,7 +1251,8 @@ class GrlTrackerWrapper(GObject.GObject):
                 corealbum.props.thumbnail = "generic"
                 return
 
-            StoreArt(corealbum, queried_media.get_thumbnail())
+            self._async_queue.queue(
+                StoreArt(), corealbum, queried_media.get_thumbnail())
 
         album_id: str = media.get_id()
         query: str = self._get_album_for_media_id_query(album_id, False)
@@ -1279,7 +1283,8 @@ class GrlTrackerWrapper(GObject.GObject):
                 coreartist.props.thumbnail = "generic"
                 return
 
-            StoreArt(coreartist, resolved_media.get_thumbnail())
+            self._async_queue.queue(
+                StoreArt(), coreartist, resolved_media.get_thumbnail())
 
         self.props.source.resolve(
             media, [Grl.METADATA_KEY_THUMBNAIL], self._full_options,
