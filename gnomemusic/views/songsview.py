@@ -65,6 +65,9 @@ class SongsView(Gtk.ScrolledWindow):
         self._window = application.props.window
         self._coremodel = application.props.coremodel
 
+        ctx = self._songs_view.get_style_context()
+        ctx.remove_class("view")
+
         self._iter_to_clean = None
         self._set_list_renderers()
 
