@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2021-06-12 21:07+0000\n"
-"PO-Revision-Date: 2021-08-03 19:46+0200\n"
+"POT-Creation-Date: 2021-08-03 17:47+0000\n"
+"PO-Revision-Date: 2021-08-12 23:09+0200\n"
 "Last-Translator: Quentin PAGÈS\n"
 "Language-Team: Tot En Òc\n"
 "Language: oc\n"
@@ -32,12 +32,16 @@ msgid ""
 "An easy way to play your music. Automatically discover music on your "
 "computer, the local network and internet services."
 msgstr ""
+"Un biais simple de legir vòstra musica. Descobèrta automatica de la musica "
+"sus vòstre ordenador, lo ret local e los servicis internet."
 
 #: data/org.gnome.Music.appdata.xml.in.in:12
 msgid ""
 "Find tracks in your local collection, get music from DLNA servers or try "
 "something new with the Jamendo and Magnatune services."
 msgstr ""
+"Trobatz de pistas dins vòstra colleccion locala, obtenètz de la musica de "
+"servidors DLNA o ensajatz quicòm de nòu amb los servicis Jamendo e Magnatune."
 
 #: data/org.gnome.Music.appdata.xml.in.in:149
 msgid "The GNOME Music developers"
@@ -55,7 +59,7 @@ msgstr "Lector de musica"
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.Music.desktop.in.in:13
 msgid "Music;Player;"
-msgstr "musica;lector de musica;"
+msgstr "Musica;musica;lector de musica;"
 
 #: data/org.gnome.Music.gschema.xml:12
 msgid "Window size"
@@ -123,6 +127,7 @@ msgstr ""
 #: data/org.gnome.Music.gschema.xml:44
 msgid "Enables or disables inhibiting system suspend while playing music"
 msgstr ""
+"Activa o desactiva l’inibicion de la mesa en velha en legissent de la musica"
 
 #: data/org.gnome.Music.gschema.xml:48
 msgid "Report music history to Last.fm"
@@ -133,6 +138,8 @@ msgid ""
 "Enables or disables sending scrobbles and the “currently playing” info to "
 "Last.fm."
 msgstr ""
+"Activa o desactiva lo mandadís a Last.fm de pistas escotadas e de "
+"l’informacion « Lectura »."
 
 #: data/ui/AboutDialog.ui.in:9
 msgid "Copyright © 2018 GNOME Music Developers"
@@ -342,6 +349,8 @@ msgid ""
 "Last.fm is a music discovery service that gives you personalised "
 "recommendations based on the music you listen to."
 msgstr ""
+"Last.fm es un servici de descobèrta de musica que vos dòna de recomandacions "
+"personalizadas segon la musica qu’escotatz."
 
 #: data/ui/LastfmDialog.ui:32 gnomemusic/widgets/lastfmdialog.py:58
 msgid "Music Reporting Not Setup"
