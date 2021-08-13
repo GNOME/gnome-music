@@ -39,6 +39,7 @@
         <property name="has_tooltip">True</property>
         <property name="valign">center</property>
         <property name="spacing">8</property>
+        <property name="margin">6</property>
         <signal name="query-tooltip" handler="_on_tooltip_query"/>
         <child>
           <object class="ArtStack" id="_art_stack">
@@ -93,6 +94,7 @@
         <property name="orientation">vertical</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="margin">6</property>
         <child>
           <object class="GtkBox" id="buttons">
             <property name="visible">True</property>
@@ -209,6 +211,7 @@
         <property name="can_focus">False</property>
         <property name="halign">end</property>
         <property name="valign">center</property>
+        <property name="margin">6</property>
         <child>
           <object class="GtkMenuButton" id="_repeat_menu_button">
             <property name="visible">True</property>
