@@ -34,15 +34,6 @@ box#ArtistAlbumsWidget .artist-label {
 }
 
 /* PlayerToolbar */
-.player-title-label {
-    font-weight: bold;
-    font-size: smaller;
-}
-
-.player-artist-label {
-    font-size: smaller;
-}
-
 .border-solid {
     border-style: solid;
 }

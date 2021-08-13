@@ -61,9 +61,9 @@
                 <property name="ellipsize">middle</property>
                 <property name="width_chars">28</property>
                 <property name="max_width_chars">28</property>
-                <style>
-                  <class name="player-title-label"/>
-                </style>
+                <attributes>
+                  <attribute name="weight" value="bold" />
+                </attributes>
               </object>
             </child>
             <child>
@@ -76,9 +76,6 @@
                 <property name="ellipsize">middle</property>
                 <property name="width_chars">28</property>
                 <property name="max_width_chars">28</property>
-                <style>
-                  <class name="player-artist-label"/>
-                </style>
               </object>
             </child>
           </object>
