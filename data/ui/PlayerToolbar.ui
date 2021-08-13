@@ -4,28 +4,24 @@
   <object class="GtkImage" id="next_image">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="margin-top">1</property>
     <property name="icon_name">media-skip-forward-symbolic</property>
     <property name="icon_size">1</property>
   </object>
   <object class="GtkImage" id="_pause_image">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="margin-top">1</property>
     <property name="icon_name">media-playback-pause-symbolic</property>
     <property name="icon_size">5</property>
   </object>
   <object class="GtkImage" id="_play_image">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="margin-top">1</property>
     <property name="icon_name">media-playback-start-symbolic</property>
     <property name="icon_size">5</property>
   </object>
   <object class="GtkImage" id="previous_image">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="margin-top">1</property>
     <property name="icon_name">media-skip-backward-symbolic</property>
     <property name="icon_size">1</property>
   </object>
