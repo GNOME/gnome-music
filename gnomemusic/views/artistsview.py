@@ -23,7 +23,7 @@
 # delete this exception statement from your version.
 
 from gettext import gettext as _
-from gi.repository import GObject, Gtk
+from gi.repository import GLib, GObject, Gtk
 
 from gnomemusic.widgets.artistalbumswidget import ArtistAlbumsWidget
 from gnomemusic.widgets.artisttile import ArtistTile
@@ -60,6 +60,7 @@ class ArtistsView(Gtk.Paned):
 
         self._application = application
         self._artists = {}
+        self._widget_counter = 1
 
         self._selected_artist = None
         self._loaded_artists = []
@@ -87,6 +88,11 @@ class ArtistsView(Gtk.Paned):
     def _create_widget(self, coreartist):
         row = ArtistTile(coreartist)
         row.props.text = coreartist.props.artist
+
+        GLib.timeout_add(
+            self._widget_counter * 300, row.retrieve,
+            priority=GLib.PRIORITY_LOW)
+        self._widget_counter = self._widget_counter + 1
 
         return row
 

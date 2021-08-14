@@ -25,6 +25,7 @@
 from gi.repository import GObject, Gtk
 
 from gnomemusic.coreartist import CoreArtist
+from gnomemusic.defaulticon import DefaultIcon
 from gnomemusic.utils import ArtSize
 
 
@@ -49,9 +50,16 @@ class ArtistTile(Gtk.ListBoxRow):
         self.props.coreartist = coreartist
 
         self._art_stack.props.size = ArtSize.XSMALL
+        self._art_stack.props.art_type = DefaultIcon.Type.ARTIST
+
         self._art_stack.props.coreobject = self.props.coreartist
 
         self.bind_property('text', self._label, 'label')
         self.bind_property('text', self._label, 'tooltip-text')
 
         self.show()
+
+    def retrieve(self):
+        """Start retrieving artist art
+        """
+        self._art_stack.props.coreobject = self.props.coreartist
