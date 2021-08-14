@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2021-08-06 09:35+0000\n"
-"PO-Revision-Date: 2021-08-07 15:00-0300\n"
+"POT-Creation-Date: 2021-08-13 22:09+0000\n"
+"PO-Revision-Date: 2021-08-14 09:49-0300\n"
 "Last-Translator: Enrico Nicoletto <liverig@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
@@ -37,20 +37,16 @@ msgid "Play and organize your music collection"
 msgstr "Reproduza e organize sua coleção de músicas"
 
 #: data/org.gnome.Music.appdata.xml.in.in:9
-msgid ""
-"An easy way to play your music. Automatically discover music on your "
-"computer, the local network and internet services."
-msgstr ""
-"Uma maneira fácil de tocar sua música. Descobrir música automaticamente no "
-"seu computador, na rede local e nos serviços da Internet."
+msgid "An easy and pleasant way to play your music."
+msgstr "Uma maneira fácil e agradável de reproduzir sua música."
 
 #: data/org.gnome.Music.appdata.xml.in.in:12
 msgid ""
-"Find tracks in your local collection, get music from DLNA servers or try "
-"something new with the Jamendo and Magnatune services."
+"Find tracks in your local collection, use automatically generated playlists "
+"or curate a fresh one."
 msgstr ""
-"Encontre faixas em sua coleção local, obtenha músicas de servidores DLNA ou "
-"tente algo novo com os serviços Jamendo e Magnatune."
+"Localize faixas na sua coleção local, use listas de reprodução geradas "
+"automaticamente ou faça a curadoria de uma nova."
 
 #: data/org.gnome.Music.appdata.xml.in.in:140
 msgid "The GNOME Music developers"
@@ -214,21 +210,21 @@ msgstr ""
 "A imagem “Magic of the vinyl” de Sami Pyylampi é licenciada sob CC-BY-SA 2.0 "
 "https://www.flickr.com/photos/_spy_/12270839403"
 
-#: data/ui/AlbumWidget.ui:114 data/ui/PlayerToolbar.ui:128
-#: data/ui/PlaylistControls.ui:123 data/ui/SongWidgetMenu.ui:18
+#: data/ui/AlbumWidget.ui:98 data/ui/PlayerToolbar.ui:128
+#: data/ui/PlaylistControls.ui:123 data/ui/SongWidgetMenu.ui:19
 #: gnomemusic/widgets/playertoolbar.py:175
 msgid "Play"
 msgstr "Reproduzir"
 
-#: data/ui/AlbumWidget.ui:175 data/ui/PlaylistControls.ui:6
+#: data/ui/AlbumWidget.ui:155 data/ui/PlaylistControls.ui:6
 msgid "_Play"
 msgstr "_Reproduzir"
 
-#: data/ui/AlbumWidget.ui:179
+#: data/ui/AlbumWidget.ui:159
 msgid "Add to _Favorite Songs"
 msgstr "Adicionar para músicas _favoritas"
 
-#: data/ui/AlbumWidget.ui:183
+#: data/ui/AlbumWidget.ui:163
 msgid "_Add to Playlist…"
 msgstr "_Adicionar para lista de reprodução…"
 
@@ -466,11 +462,11 @@ msgstr "Clique nos itens para selecioná-los"
 msgid "_Add to Playlist"
 msgstr "_Adicionar para lista de reprodução"
 
-#: data/ui/SongWidgetMenu.ui:28
+#: data/ui/SongWidgetMenu.ui:29
 msgid "Add to Playlist…"
 msgstr "Adicionar para lista de reprodução…"
 
-#: data/ui/SongWidgetMenu.ui:38
+#: data/ui/SongWidgetMenu.ui:39
 msgid "Remove From Playlist"
 msgstr "Remover da lista de reprodução"
 
@@ -600,21 +596,21 @@ msgstr "O Música precisa do Tracker na versão 3.0.0 ou mais novo."
 msgid "Playlists"
 msgstr "Listas de reprodução"
 
-#: gnomemusic/views/searchview.py:401
+#: gnomemusic/views/searchview.py:420
 msgid "Artists Results"
 msgstr "Resultados de artistas"
 
-#: gnomemusic/views/searchview.py:416
+#: gnomemusic/views/searchview.py:435
 msgid "Albums Results"
 msgstr "Resultados de álbuns"
 
-#: gnomemusic/widgets/albumwidget.py:202
+#: gnomemusic/widgets/albumwidget.py:237
 msgid "{}, {} minute"
 msgid_plural "{}, {} minutes"
 msgstr[0] "{}, {} minuto"
 msgstr[1] "{}, {} minutos"
 
-#: gnomemusic/widgets/disclistboxwidget.py:74
+#: gnomemusic/widgets/disclistboxwidget.py:75
 msgid "Disc {}"
 msgstr "Disco {}"
 
