@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2021-08-06 09:35+0000\n"
-"PO-Revision-Date: 2021-08-06 14:36+0100\n"
+"POT-Creation-Date: 2021-08-13 22:09+0000\n"
+"PO-Revision-Date: 2021-08-14 15:32+0100\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <>\n"
 "Language: pt\n"
@@ -32,20 +32,16 @@ msgid "Play and organize your music collection"
 msgstr "Reproduz e organiza a sua coleção de música"
 
 #: data/org.gnome.Music.appdata.xml.in.in:9
-msgid ""
-"An easy way to play your music. Automatically discover music on your "
-"computer, the local network and internet services."
-msgstr ""
-"Uma maneira fácil de tocar música. Descobre músicas automaticamente em seu "
-"computador, na rede local ou em serviços na Internet."
+msgid "An easy and pleasant way to play your music."
+msgstr "Uma maneira fácil e agradável de tocar a sua música."
 
 #: data/org.gnome.Music.appdata.xml.in.in:12
 msgid ""
-"Find tracks in your local collection, get music from DLNA servers or try "
-"something new with the Jamendo and Magnatune services."
+"Find tracks in your local collection, use automatically generated playlists "
+"or curate a fresh one."
 msgstr ""
-"Encontre faixas em seu repertório local, transfira músicas de servidores "
-"DLNA ou tente algo novo com os serviços Jamendo e Magnatune."
+"Encontre faixas na sua coleção local, use listas de reprodução geradas "
+"automaticamente ou categorize uma nova."
 
 #: data/org.gnome.Music.appdata.xml.in.in:140
 msgid "The GNOME Music developers"
@@ -205,21 +201,21 @@ msgstr ""
 "A imagem “Magic of the vinyl” de Sami Pyylampi é licensiada por CC-BY-SA 2.0 "
 "https://www.flickr.com/photos/_spy_/12270839403"
 
-#: data/ui/AlbumWidget.ui:114 data/ui/PlayerToolbar.ui:128
-#: data/ui/PlaylistControls.ui:123 data/ui/SongWidgetMenu.ui:18
+#: data/ui/AlbumWidget.ui:98 data/ui/PlayerToolbar.ui:128
+#: data/ui/PlaylistControls.ui:123 data/ui/SongWidgetMenu.ui:19
 #: gnomemusic/widgets/playertoolbar.py:175
 msgid "Play"
 msgstr "Reproduzir"
 
-#: data/ui/AlbumWidget.ui:175 data/ui/PlaylistControls.ui:6
+#: data/ui/AlbumWidget.ui:155 data/ui/PlaylistControls.ui:6
 msgid "_Play"
 msgstr "Re_Produzir"
 
-#: data/ui/AlbumWidget.ui:179
+#: data/ui/AlbumWidget.ui:159
 msgid "Add to _Favorite Songs"
 msgstr "Adicionar às músicas _favoritas"
 
-#: data/ui/AlbumWidget.ui:183
+#: data/ui/AlbumWidget.ui:163
 msgid "_Add to Playlist…"
 msgstr "_Adicionar à lista de reprodução…"
 
@@ -457,11 +453,11 @@ msgstr "Clique nos itens para os selecionar"
 msgid "_Add to Playlist"
 msgstr "_Adicionar à lista de reprodução"
 
-#: data/ui/SongWidgetMenu.ui:28
+#: data/ui/SongWidgetMenu.ui:29
 msgid "Add to Playlist…"
 msgstr "Adicionar à lista de reprodução…"
 
-#: data/ui/SongWidgetMenu.ui:38
+#: data/ui/SongWidgetMenu.ui:39
 msgid "Remove From Playlist"
 msgstr "Remover da lista de reprodução"
 
@@ -592,23 +588,21 @@ msgstr "O Música precisa de um rastreador com a versão 3.0.0 ou superior."
 msgid "Playlists"
 msgstr "Listas de reprodução"
 
-#: gnomemusic/views/searchview.py:401
+#: gnomemusic/views/searchview.py:420
 msgid "Artists Results"
 msgstr "Artistas encontrados"
 
-#: gnomemusic/views/searchview.py:416
+#: gnomemusic/views/searchview.py:435
 msgid "Albums Results"
 msgstr "Álbuns encontrados"
 
-#: gnomemusic/widgets/albumwidget.py:202
-#| msgid "{} minute"
-#| msgid_plural "{} minutes"
+#: gnomemusic/widgets/albumwidget.py:237
 msgid "{}, {} minute"
 msgid_plural "{}, {} minutes"
 msgstr[0] "{}, {} minuto"
 msgstr[1] "{}, {} minutos"
 
-#: gnomemusic/widgets/disclistboxwidget.py:74
+#: gnomemusic/widgets/disclistboxwidget.py:75
 msgid "Disc {}"
 msgstr "Disco {}"
 
@@ -652,6 +646,20 @@ msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} música"
 msgstr[1] "{} músicas"
+
+#~ msgid ""
+#~ "An easy way to play your music. Automatically discover music on your "
+#~ "computer, the local network and internet services."
+#~ msgstr ""
+#~ "Uma maneira fácil de tocar música. Descobre músicas automaticamente em "
+#~ "seu computador, na rede local ou em serviços na Internet."
+
+#~ msgid ""
+#~ "Find tracks in your local collection, get music from DLNA servers or try "
+#~ "something new with the Jamendo and Magnatune services."
+#~ msgstr ""
+#~ "Encontre faixas em seu repertório local, transfira músicas de servidores "
+#~ "DLNA ou tente algo novo com os serviços Jamendo e Magnatune."
 
 #~ msgid "Released"
 #~ msgstr "Lançado"
