@@ -6,6 +6,7 @@ data/org.gnome.Music.gschema.xml
 data/ui/AboutDialog.ui.in
 data/ui/AlbumWidget.ui
 data/ui/AppMenu.ui
+data/ui/EmptyView.ui
 data/ui/HeaderBar.ui
 data/ui/help-overlay.ui
 data/ui/LastfmDialog.ui

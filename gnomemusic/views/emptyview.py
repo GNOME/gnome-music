@@ -49,6 +49,8 @@ class EmptyView(Gtk.Stack):
 
     __gtype_name__ = "EmptyView"
 
+    _description_label = Gtk.Template.Child()
+    _initial_state = Gtk.Template.Child()
     _status_page = Gtk.Template.Child()
 
     def __init__(self):
@@ -74,6 +76,13 @@ class EmptyView(Gtk.Stack):
         folder_text = _("The contents of your {} will appear here.")
         self._content_text = folder_text.format(href_text)
 
+        # Hack to get to HdyClamp, so it can be hidden for the
+        # initial state.
+        child_of_child = self._status_page.get_child().get_child()
+        self._hdy_clamp = child_of_child.get_child().get_children()[0]
+
+        self._status_page.add(self._initial_state)
+
         self._state = EmptyView.State.INITIAL
 
     @GObject.Property(type=int, default=0, minimum=0, maximum=4)
@@ -92,6 +101,10 @@ class EmptyView(Gtk.Stack):
         :param int value: new state
         """
         self._state = value
+
+        self._hdy_clamp.props.visible = True
+        self._initial_state.props.visible = False
+
         if self._state == EmptyView.State.INITIAL:
             self._set_initial_state()
         elif self._state == EmptyView.State.EMPTY:
@@ -110,9 +123,10 @@ class EmptyView(Gtk.Stack):
         self._status_page.props.icon_name = "initial-state"
 
     def _set_empty_state(self):
-        self._status_page.props.title = _("Welcome to Music")
-        self._status_page.props.description = self._content_text
-        self._status_page.props.icon_name = "welcome-music"
+        self._hdy_clamp.props.visible = False
+        self._initial_state.props.visible = True
+
+        self._description_label.props.label = self._content_text
 
     def _set_search_state(self):
         self._status_page.props.title = _("No Music Found")
