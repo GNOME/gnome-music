@@ -46,6 +46,7 @@ class ArtStack(Gtk.Stack):
         super().__init__()
 
         self._cache = ArtCache()
+        self._coreobject = None
         self._handler_id = 0
         self._size = size
         self._thumbnail_id = 0
