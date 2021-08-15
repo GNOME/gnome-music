@@ -26,10 +26,15 @@ import gi
 gi.require_version("MediaArt", "2.0")
 from gi.repository import GObject, MediaArt
 
+from gnomemusic.asyncqueue import AsyncQueue
+from gnomemusic.fileexistsasync import FileExistsAsync
+
 
 class ArtistArt(GObject.GObject):
     """Artist art retrieval object
     """
+
+    _async_queue = AsyncQueue()
 
     def __init__(self, application, coreartist):
         """Initialize.
@@ -40,21 +45,25 @@ class ArtistArt(GObject.GObject):
         super().__init__()
 
         self._coreartist = coreartist
+        self._coregrilo = application.props.coregrilo
         self._artist = self._coreartist.props.artist
 
-        if self._in_cache():
-            return
-
-        application.props.coregrilo.get_artist_art(self._coreartist)
+        self._in_cache()
 
     def _in_cache(self):
-        success, thumb_file = MediaArt.get_file(
-            self._artist, None, "artist")
-        if (not success
-                or not thumb_file.query_exists()):
+        success, thumb_file = MediaArt.get_file(self._artist, None, "artist")
+
+        if not success:
             self._coreartist.props.thumbnail = "generic"
-            return False
+            return
 
-        self._coreartist.props.thumbnail = thumb_file.get_uri()
+        def on_file_exists_async_finished(obj, result):
+            if result:
+                self._coreartist.props.thumbnail = thumb_file.get_uri()
+            else:
+                self._coregrilo.get_artist_art(self._coreartist)
 
-        return True
+        file_exists_async = FileExistsAsync()
+        file_exists_async.connect(
+            "finished", on_file_exists_async_finished)
+        self._async_queue.queue(file_exists_async, thumb_file)
