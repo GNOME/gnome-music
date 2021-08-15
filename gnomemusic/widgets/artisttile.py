@@ -52,8 +52,6 @@ class ArtistTile(Gtk.ListBoxRow):
         self._art_stack.props.size = ArtSize.XSMALL
         self._art_stack.props.art_type = DefaultIcon.Type.ARTIST
 
-        self._art_stack.props.coreobject = self.props.coreartist
-
         self.bind_property('text', self._label, 'label')
         self.bind_property('text', self._label, 'tooltip-text')
 
