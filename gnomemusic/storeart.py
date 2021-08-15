@@ -166,8 +166,6 @@ class StoreArt(GObject.Object):
         self._coreobject.props.media.set_thumbnail(cache_file.get_uri())
         self._coreobject.props.thumbnail = cache_file.get_uri()
 
-        self.emit("finished")
-
         tmp_file.delete_async(
             GLib.PRIORITY_LOW, None, self._delete_callback, None)
 
@@ -177,3 +175,5 @@ class StoreArt(GObject.Object):
         except GLib.Error as error:
             self._log.warning(
                 "Error: {}, {}".format(error.domain, error.message))
+
+        self.emit("finished")

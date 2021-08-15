@@ -55,6 +55,7 @@ class ArtCache(GObject.GObject):
 
         self._coreobject = None
         self._default_icon = None
+        self._surface = None
 
     def start(self, coreobject, size, scale):
         """Start the cache query
@@ -120,7 +121,7 @@ class ArtCache(GObject.GObject):
                 or isinstance(self._coreobject, CoreSong)):
             surface = make_icon_frame(surface, self._size, self._scale)
 
-        self.emit("finished", surface)
+        self._surface = surface
 
     def _close_stream(self, stream, result, data):
         try:
@@ -128,3 +129,5 @@ class ArtCache(GObject.GObject):
         except GLib.Error as error:
             self._log.warning(
                 "Error: {}, {}".format(error.domain, error.message))
+
+        self.emit("finished", self._surface)
