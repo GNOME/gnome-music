@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2021-08-06 09:35+0000\n"
-"PO-Revision-Date: 2021-08-08 20:23+0700\n"
+"POT-Creation-Date: 2021-08-14 21:41+0000\n"
+"PO-Revision-Date: 2021-08-15 18:42+0700\n"
 "Last-Translator: Kukuh Syafaat <kukuhsyafaat@gnome.org>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "Language: id\n"
@@ -30,20 +30,16 @@ msgid "Play and organize your music collection"
 msgstr "Putar dan tata koleksi musik Anda"
 
 #: data/org.gnome.Music.appdata.xml.in.in:9
-msgid ""
-"An easy way to play your music. Automatically discover music on your "
-"computer, the local network and internet services."
-msgstr ""
-"Cara mudah memainkan musik Anda. Secara otomatis menemukan musik di komputer "
-"Anda, jaringan lokal, dan layanan internet."
+msgid "An easy and pleasant way to play your music."
+msgstr "Cara mudah dan menyenangkan untuk memainkan musik Anda."
 
 #: data/org.gnome.Music.appdata.xml.in.in:12
 msgid ""
-"Find tracks in your local collection, get music from DLNA servers or try "
-"something new with the Jamendo and Magnatune services."
+"Find tracks in your local collection, use automatically generated playlists "
+"or curate a fresh one."
 msgstr ""
-"Temukan trek di koleksi lokal Anda, dapatkan musik dari server DLNA atau "
-"coba sesuatu yang baru dengan layanan Jamendo dan Magnatune."
+"Temukan trek di koleksi lokal Anda, gunakan daftar putar yang dibuat secara "
+"otomatis atau kurasi yang baru."
 
 #: data/org.gnome.Music.appdata.xml.in.in:140
 msgid "The GNOME Music developers"
@@ -114,27 +110,19 @@ msgid "Enables or disables ReplayGain for albums"
 msgstr "Mengaktifkan atau menonaktifkan pemberitahuan pemutaran"
 
 #: data/org.gnome.Music.gschema.xml:38
-msgid "Inital state has been displayed"
-msgstr "Keadaan awal telah ditampilkan"
-
-#: data/org.gnome.Music.gschema.xml:39
-msgid "Set to true when initial state has been displayed"
-msgstr "Diisi dengan true ketika keadaan awal telah ditampilkan"
-
-#: data/org.gnome.Music.gschema.xml:43
 msgid "Inhibit system suspend"
 msgstr "Cegah suspensi sistem"
 
-#: data/org.gnome.Music.gschema.xml:44
+#: data/org.gnome.Music.gschema.xml:39
 msgid "Enables or disables inhibiting system suspend while playing music"
 msgstr ""
 "Mengaktifkan atau menonaktifkan pencegah suspensi sistem saat memutar musik"
 
-#: data/org.gnome.Music.gschema.xml:48
+#: data/org.gnome.Music.gschema.xml:43
 msgid "Report music history to Last.fm"
 msgstr "Laporkan riwayat musik ke Last.fm"
 
-#: data/org.gnome.Music.gschema.xml:49
+#: data/org.gnome.Music.gschema.xml:44
 msgid ""
 "Enables or disables sending scrobbles and the “currently playing” info to "
 "Last.fm."
@@ -176,10 +164,7 @@ msgid ""
 "the GPL license by which GNOME Music is covered.  If you modify this code, "
 "you may extend this exception to your version of the code, but you are not "
 "obligated to do so.  If you do not wish to do so, delete this exception "
-"statement from your version.\n"
-"\n"
-"“Magic of the vinyl” by Sami Pyylampi image is licensed by CC-BY-SA 2.0 "
-"https://www.flickr.com/photos/_spy_/12270839403"
+"statement from your version."
 msgstr ""
 "GNOME Musik adalah perangkat lunak bebas; Anda dapat mendistribusikannya dan/"
 "atau mengubahnya di bawah persyaratan GNU General Public License sebagaimana "
@@ -200,26 +185,23 @@ msgstr ""
 "diberikan oleh lisensi GPL yang mencakup GNOME Musik.  Bila Anda mengubah "
 "kode ini, Anda boleh memperluas pengecualian ini ke versi kode Anda, tapi "
 "Anda tidak wajib melakukannya.  Bila Anda tak ingin seperti itu, hapuslah "
-"pernyataan pengecualian ini dari versi Anda.\n"
-"\n"
-"Citra \"Magic of the vinyl\" oleh Sami Pyylampi dilisensikan memakai CC-BY-"
-"SA 2.0 https://www.flickr.com/photos/_spy_/12270839403"
+"pernyataan pengecualian ini dari versi Anda."
 
-#: data/ui/AlbumWidget.ui:114 data/ui/PlayerToolbar.ui:128
-#: data/ui/PlaylistControls.ui:123 data/ui/SongWidgetMenu.ui:18
+#: data/ui/AlbumWidget.ui:98 data/ui/PlayerToolbar.ui:124
+#: data/ui/PlaylistControls.ui:123 data/ui/SongWidgetMenu.ui:19
 #: gnomemusic/widgets/playertoolbar.py:175
 msgid "Play"
 msgstr "Putar"
 
-#: data/ui/AlbumWidget.ui:175 data/ui/PlaylistControls.ui:6
+#: data/ui/AlbumWidget.ui:155 data/ui/PlaylistControls.ui:6
 msgid "_Play"
 msgstr "_Putar"
 
-#: data/ui/AlbumWidget.ui:179
+#: data/ui/AlbumWidget.ui:159
 msgid "Add to _Favorite Songs"
 msgstr "Tambah ke Lagu _Favorit"
 
-#: data/ui/AlbumWidget.ui:183
+#: data/ui/AlbumWidget.ui:163
 msgid "_Add to Playlist…"
 msgstr "T_ambah ke Daftar Putar…"
 
@@ -242,6 +224,10 @@ msgstr "_Bantuan"
 #: data/ui/AppMenu.ui:85
 msgid "_About Music"
 msgstr "Tent_ang Musik"
+
+#: data/ui/EmptyView.ui:35
+msgid "Welcome to Music"
+msgstr "Selamat Datang di Musik"
 
 #: data/ui/HeaderBar.ui:16
 msgid "Menu"
@@ -373,11 +359,11 @@ msgstr "Masuk"
 msgid "Loading"
 msgstr "Memuat"
 
-#: data/ui/PlayerToolbar.ui:111
+#: data/ui/PlayerToolbar.ui:107
 msgid "Previous"
 msgstr "Sebelumnya"
 
-#: data/ui/PlayerToolbar.ui:145
+#: data/ui/PlayerToolbar.ui:141
 msgid "Next"
 msgstr "Selanjutnya"
 
@@ -457,36 +443,36 @@ msgstr "Klik pada butir untuk memilihnya"
 msgid "_Add to Playlist"
 msgstr "T_ambah ke Daftar Putar"
 
-#: data/ui/SongWidgetMenu.ui:28
+#: data/ui/SongWidgetMenu.ui:29
 msgid "Add to Playlist…"
 msgstr "Tambah ke Daftar Putar…"
 
-#: data/ui/SongWidgetMenu.ui:38
+#: data/ui/SongWidgetMenu.ui:39
 msgid "Remove From Playlist"
 msgstr "Hapus dari Daftar Putar"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:897
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:898
 msgid "Most Played"
 msgstr "Paling Sering Diputar"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:950
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:952
 msgid "Never Played"
 msgstr "Tak Pernah Diputar"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1002
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1005
 msgid "Recently Played"
 msgstr "Baru-baru Ini Diputar"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1064
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1068
 msgid "Recently Added"
 msgstr "Baru-baru Ini Ditambahkan"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1126
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1131
 msgid "Favorite Songs"
 msgstr "Lagu Favorit"
 
@@ -535,53 +521,49 @@ msgstr "Ulangi Semua"
 msgid "Shuffle/Repeat Off"
 msgstr "Acak/Ulang Mati"
 
-#: gnomemusic/utils.py:79
+#: gnomemusic/utils.py:80
 msgid "Unknown album"
 msgstr "Album tak dikenal"
 
-#: gnomemusic/utils.py:100
+#: gnomemusic/utils.py:101
 msgid "Unknown Artist"
 msgstr "Artis Tak Dikenal"
 
-#: gnomemusic/views/emptyview.py:63
+#: gnomemusic/views/emptyview.py:65
 msgid "Your XDG Music directory is not set."
 msgstr "Direktori XDG Music Anda tidak disetel."
 
-#: gnomemusic/views/emptyview.py:70
+#: gnomemusic/views/emptyview.py:72
 msgid "Music Folder"
 msgstr "Folder Musik"
 
 #. TRANSLATORS: This is a label to display a link to open user's music
 #. folder. {} will be replaced with the translated text 'Music folder'
-#: gnomemusic/views/emptyview.py:74
+#: gnomemusic/views/emptyview.py:76
 msgid "The contents of your {} will appear here."
 msgstr "Konten {} Anda akan muncul di sini."
 
-#: gnomemusic/views/emptyview.py:107
-msgid "Hey DJ"
-msgstr "Hey DJ"
-
-#: gnomemusic/views/emptyview.py:113 gnomemusic/views/emptyview.py:117
+#: gnomemusic/views/emptyview.py:124
 msgid "No Music Found"
 msgstr "Tak Ada Musik"
 
-#: gnomemusic/views/emptyview.py:118
+#: gnomemusic/views/emptyview.py:125
 msgid "Try a Different Search"
 msgstr "Cobalah Pencarian Lain"
 
-#: gnomemusic/views/emptyview.py:122
+#: gnomemusic/views/emptyview.py:129
 msgid "GNOME Music could not connect to Tracker."
 msgstr "GNOME Musik tidak dapat terhubung ke Pelacak."
 
-#: gnomemusic/views/emptyview.py:124
+#: gnomemusic/views/emptyview.py:131
 msgid "Your music files cannot be indexed without Tracker running."
 msgstr "Berkas musik Anda tidak dapat diindeks tanpa Pelacak berjalan."
 
-#: gnomemusic/views/emptyview.py:130
+#: gnomemusic/views/emptyview.py:137
 msgid "Your system Tracker version seems outdated."
 msgstr "Versi Pelacak sistem Anda tampaknya sudah usang."
 
-#: gnomemusic/views/emptyview.py:132
+#: gnomemusic/views/emptyview.py:139
 msgid "Music needs Tracker version 3.0.0 or higher."
 msgstr "Musik membutuhkan Pelacak versi 3.0.0 atau lebih tinggi."
 
@@ -589,21 +571,21 @@ msgstr "Musik membutuhkan Pelacak versi 3.0.0 atau lebih tinggi."
 msgid "Playlists"
 msgstr "Daftar Putar"
 
-#: gnomemusic/views/searchview.py:401
+#: gnomemusic/views/searchview.py:420
 msgid "Artists Results"
 msgstr "Hasil Artis"
 
-#: gnomemusic/views/searchview.py:416
+#: gnomemusic/views/searchview.py:435
 msgid "Albums Results"
 msgstr "Hasil Album"
 
-#: gnomemusic/widgets/albumwidget.py:202
+#: gnomemusic/widgets/albumwidget.py:237
 msgid "{}, {} minute"
 msgid_plural "{}, {} minutes"
 msgstr[0] "{}, {} menit"
 msgstr[1] "{}, {} menit"
 
-#: gnomemusic/widgets/disclistboxwidget.py:74
+#: gnomemusic/widgets/disclistboxwidget.py:75
 msgid "Disc {}"
 msgstr "Cakram {}"
 
@@ -647,6 +629,29 @@ msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} Lagu"
 msgstr[1] "{} Lagu"
+
+#~ msgid ""
+#~ "An easy way to play your music. Automatically discover music on your "
+#~ "computer, the local network and internet services."
+#~ msgstr ""
+#~ "Cara mudah memainkan musik Anda. Secara otomatis menemukan musik di "
+#~ "komputer Anda, jaringan lokal, dan layanan internet."
+
+#~ msgid ""
+#~ "Find tracks in your local collection, get music from DLNA servers or try "
+#~ "something new with the Jamendo and Magnatune services."
+#~ msgstr ""
+#~ "Temukan trek di koleksi lokal Anda, dapatkan musik dari server DLNA atau "
+#~ "coba sesuatu yang baru dengan layanan Jamendo dan Magnatune."
+
+#~ msgid "Inital state has been displayed"
+#~ msgstr "Keadaan awal telah ditampilkan"
+
+#~ msgid "Set to true when initial state has been displayed"
+#~ msgstr "Diisi dengan true ketika keadaan awal telah ditampilkan"
+
+#~ msgid "Hey DJ"
+#~ msgstr "Hey DJ"
 
 #~ msgid "Released"
 #~ msgstr "Dirilis"
