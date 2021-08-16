@@ -26,12 +26,16 @@ import gi
 gi.require_version("MediaArt", "2.0")
 from gi.repository import GObject, MediaArt
 
+from gnomemusic.asyncqueue import AsyncQueue
 from gnomemusic.embeddedart import EmbeddedArt
+from gnomemusic.fileexistsasync import FileExistsAsync
 
 
 class AlbumArt(GObject.GObject):
     """AlbumArt retrieval object
     """
+
+    _async_queue = AsyncQueue()
 
     def __init__(self, application, corealbum):
         """Initialize AlbumArt
@@ -41,32 +45,35 @@ class AlbumArt(GObject.GObject):
         """
         super().__init__()
 
-        self._application = application
         self._corealbum = corealbum
+        self._coregrilo = application.props.coregrilo
         self._album = self._corealbum.props.title
         self._artist = self._corealbum.props.artist
 
-        if self._in_cache():
-            return
-
-        embedded = EmbeddedArt()
-        embedded.connect("art-found", self._on_embedded_art_found)
-        embedded.query(corealbum, self._album)
+        self._in_cache()
 
     def _on_embedded_art_found(self, embeddedart, found):
         if found:
             self._in_cache()
         else:
-            self._application.props.coregrilo.get_album_art(self._corealbum)
+            self._coregrilo.get_album_art(self._corealbum)
 
     def _in_cache(self):
         success, thumb_file = MediaArt.get_file(
             self._artist, self._album, "album")
-        if (not success
-                or not thumb_file.query_exists()):
+        if not success:
             self._corealbum.props.thumbnail = "generic"
-            return False
+            return
 
-        self._corealbum.props.thumbnail = thumb_file.get_uri()
+        def on_file_exists_async_finished(obj, result):
+            if result:
+                self._corealbum.props.thumbnail = thumb_file.get_uri()
+            else:
+                embedded = EmbeddedArt()
+                embedded.connect("art-found", self._on_embedded_art_found)
+                embedded.query(self._corealbum, self._album)
 
-        return True
+        file_exists_async = FileExistsAsync()
+        file_exists_async.connect(
+            "finished", on_file_exists_async_finished)
+        self._async_queue.queue(file_exists_async, thumb_file)
