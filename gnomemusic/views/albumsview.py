@@ -159,6 +159,7 @@ class AlbumsView(Gtk.Stack):
         self.props.selection_mode = selection_mode
         if not self.props.selection_mode:
             self.deselect_all()
+            self._flowbox.props.selection_mode = Gtk.SelectionMode.NONE
 
     def _on_search_mode_changed(self, klass, param):
         if (not self.props.search_mode_active
