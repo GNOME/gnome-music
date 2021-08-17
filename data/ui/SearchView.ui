@@ -235,6 +235,12 @@
         </child>
       </object>
     </child>
+    <child>
+      <object class="GtkScrolledWindow" id="_scrolled_album_widget">
+        <property name="visible">True</property>
+        <property name="hscrollbar_policy">never</property>
+      </object>
+    </child>
   </template>
   <object class="GtkGestureMultiPress" id="_songs_listbox_ctrlr">
     <property name="widget">_songs_listbox</property>

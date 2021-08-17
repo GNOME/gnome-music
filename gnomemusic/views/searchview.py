@@ -74,6 +74,7 @@ class SearchView(Gtk.Stack):
     _artist_header = Gtk.Template.Child()
     _artist_all_flowbox = Gtk.Template.Child()
     _artist_flowbox = Gtk.Template.Child()
+    _scrolled_album_widget = Gtk.Template.Child()
     _search_results = Gtk.Template.Child()
     _songs_header = Gtk.Template.Child()
     _songs_listbox = Gtk.Template.Child()
@@ -139,8 +140,7 @@ class SearchView(Gtk.Stack):
         self._album_widget.bind_property(
             "selection-mode", self, "selection-mode",
             GObject.BindingFlags.BIDIRECTIONAL)
-
-        self.add(self._album_widget)
+        self._scrolled_album_widget.add(self._album_widget)
 
         self._scrolled_artist_window: Optional[Gtk.ScrolledWindow] = None
 
@@ -381,7 +381,7 @@ class SearchView(Gtk.Stack):
         self._headerbar.props.title = corealbum.props.title
         self._headerbar.props.subtitle = corealbum.props.artist
 
-        self.set_visible_child(self._album_widget)
+        self.set_visible_child(self._scrolled_album_widget)
         self.props.search_mode_active = False
 
     @Gtk.Template.Callback()
@@ -462,7 +462,7 @@ class SearchView(Gtk.Stack):
             with self._model.freeze_notify():
                 self._artist_all_flowbox.foreach(child_select)
         elif self.props.state == SearchView.State.ALBUM:
-            view = self.get_visible_child()
+            view = self._album_widget
             if value is True:
                 view.select_all()
             else:
