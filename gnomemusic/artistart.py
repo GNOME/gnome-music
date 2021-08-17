@@ -34,7 +34,7 @@ class ArtistArt(GObject.GObject):
     """Artist art retrieval object
     """
 
-    _async_queue = AsyncQueue()
+    _async_queue = AsyncQueue("ArtistArt")
 
     def __init__(self, application, coreartist):
         """Initialize.

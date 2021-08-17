@@ -35,7 +35,7 @@ class SongArt(GObject.GObject):
     """SongArt retrieval object
     """
 
-    _async_queue = AsyncQueue()
+    _async_queue = AsyncQueue("SongArt")
 
     def __init__(self, application, coresong):
         """Initialize SongArt

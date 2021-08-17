@@ -35,7 +35,7 @@ class AlbumArt(GObject.GObject):
     """AlbumArt retrieval object
     """
 
-    _async_queue = AsyncQueue()
+    _async_queue = AsyncQueue("AlbumArt")
 
     def __init__(self, application, corealbum):
         """Initialize AlbumArt

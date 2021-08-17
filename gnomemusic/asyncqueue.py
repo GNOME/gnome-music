@@ -22,9 +22,12 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from typing import Any, Dict, Tuple
+from typing import Any, Dict, Optional, Tuple
+import time
 
 from gi.repository import GObject
+
+from gnomemusic.musiclogger import MusicLogger
 
 
 class AsyncQueue(GObject.GObject):
@@ -43,14 +46,19 @@ class AsyncQueue(GObject.GObject):
     may have an arbitrary number of arguments following.
     """
 
-    def __init__(self) -> None:
+    def __init__(self, queue_name: Optional[str] = None) -> None:
         """Initialize AsyncQueue
+
+        :param str queue_name: The user facing name of this queue or
+            None for the generic class identifier
         """
         super().__init__()
 
         self._async_pool: Dict[int, Tuple] = {}
         self._async_active_pool: Dict[int, Tuple] = {}
+        self._log = MusicLogger()
         self._max_async = 4
+        self._queue_name = queue_name if queue_name else self
 
     def queue(self, *args: Any) -> None:
         """Queue an async call
@@ -70,7 +78,17 @@ class AsyncQueue(GObject.GObject):
         else:
             return
 
+        tick = time.time()
+
         def on_async_finished(obj, *signal_args):
+            t = (time.time() - tick) * 1000
+            self._log.debug(f"{self._queue_name}: {t:.2f} ms task")
+
+            a = len(self._async_active_pool)
+            self._log.debug(
+                f"{self._queue_name}: "
+                f"{a} active task(s) of {len(self._async_pool) + a}")
+
             obj.disconnect(result_id)
             self._async_active_pool.pop(id(obj))
 

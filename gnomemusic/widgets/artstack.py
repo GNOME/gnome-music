@@ -40,7 +40,7 @@ class ArtStack(Gtk.Stack):
 
     __gtype_name__ = "ArtStack"
 
-    _async_queue = AsyncQueue()
+    _async_queue = AsyncQueue("ArtStack")
 
     def __init__(self, size: ArtSize = ArtSize.MEDIUM) -> None:
         """Initialize the ArtStack

@@ -104,7 +104,7 @@ class GrlTrackerWrapper(GObject.GObject):
         """
         super().__init__()
 
-        self._async_queue = AsyncQueue()
+        self._async_queue = AsyncQueue("GrlTrackerWrapper")
         self._application: Application = application
         cm: CoreModel = application.props.coremodel
         self._log: MusicLogger = application.props.log
