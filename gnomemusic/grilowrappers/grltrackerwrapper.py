@@ -143,10 +143,10 @@ class GrlTrackerWrapper(GObject.GObject):
 
         self._fast_options: Grl.OperationOptions = Grl.OperationOptions()
         self._fast_options.set_resolution_flags(
-            Grl.ResolutionFlags.FAST_ONLY | Grl.ResolutionFlags.IDLE_RELAY)
+            Grl.ResolutionFlags.FAST_ONLY)
         self._full_options: Grl.OperationOptions = Grl.OperationOptions()
         self._full_options.set_resolution_flags(
-            Grl.ResolutionFlags.FULL | Grl.ResolutionFlags.IDLE_RELAY)
+            Grl.ResolutionFlags.FULL)
 
         self._content_changed_id: int = 0
         self.props.source = source
