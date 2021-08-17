@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2021-08-06 09:35+0000\n"
-"PO-Revision-Date: 2021-08-09 11:54+0200\n"
+"POT-Creation-Date: 2021-08-14 21:41+0000\n"
+"PO-Revision-Date: 2021-08-17 11:38+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -31,20 +31,16 @@ msgid "Play and organize your music collection"
 msgstr "Přehrávat a organizovat svou hudební sbírku"
 
 #: data/org.gnome.Music.appdata.xml.in.in:9
-msgid ""
-"An easy way to play your music. Automatically discover music on your "
-"computer, the local network and internet services."
-msgstr ""
-"Snadný způsob, jak si přehrávat hudbu. Automaticky najde hudbu ve vašem "
-"počítači, v místní síti a na internetových službách."
+msgid "An easy and pleasant way to play your music."
+msgstr "Snadný a příjemný způsob přehrávání hudby."
 
 #: data/org.gnome.Music.appdata.xml.in.in:12
 msgid ""
-"Find tracks in your local collection, get music from DLNA servers or try "
-"something new with the Jamendo and Magnatune services."
+"Find tracks in your local collection, use automatically generated playlists "
+"or curate a fresh one."
 msgstr ""
-"Hledejte si skladby ve své hudební sbírce, přistupujte k hudbě na serverech "
-"DLNA nebo zkuste něco nového díky službám Jamendo a Magnatune."
+"Vyhledávejte skladby ve své místní sbírce, používejte automaticky "
+"vygenerované seznamy skladeb nebo si vytvořte své vlastní."
 
 #: data/org.gnome.Music.appdata.xml.in.in:140
 msgid "The GNOME Music developers"
@@ -115,27 +111,19 @@ msgid "Enables or disables ReplayGain for albums"
 msgstr "Povolí nebo zakáže vyrovnání hlasitosti u alb pomocí ReplayGain"
 
 #: data/org.gnome.Music.gschema.xml:38
-msgid "Inital state has been displayed"
-msgstr "Počáteční stav byl zobrazen"
-
-#: data/org.gnome.Music.gschema.xml:39
-msgid "Set to true when initial state has been displayed"
-msgstr "Nastavit na zapnuto, když byl již zobrazen počáteční stav"
-
-#: data/org.gnome.Music.gschema.xml:43
 msgid "Inhibit system suspend"
 msgstr "Bránit uspání systému"
 
-#: data/org.gnome.Music.gschema.xml:44
+#: data/org.gnome.Music.gschema.xml:39
 msgid "Enables or disables inhibiting system suspend while playing music"
 msgstr ""
 "Zapne nebo vypne blokování uspávání systému ve chvíli, kdy se přehrává hudba."
 
-#: data/org.gnome.Music.gschema.xml:48
+#: data/org.gnome.Music.gschema.xml:43
 msgid "Report music history to Last.fm"
 msgstr "Sdělovat Last.fm hudební historii"
 
-#: data/org.gnome.Music.gschema.xml:49
+#: data/org.gnome.Music.gschema.xml:44
 msgid ""
 "Enables or disables sending scrobbles and the “currently playing” info to "
 "Last.fm."
@@ -177,10 +165,7 @@ msgid ""
 "the GPL license by which GNOME Music is covered.  If you modify this code, "
 "you may extend this exception to your version of the code, but you are not "
 "obligated to do so.  If you do not wish to do so, delete this exception "
-"statement from your version.\n"
-"\n"
-"“Magic of the vinyl” by Sami Pyylampi image is licensed by CC-BY-SA 2.0 "
-"https://www.flickr.com/photos/_spy_/12270839403"
+"statement from your version."
 msgstr ""
 "Hudba GNOME (v originálním znění GNOME Music) je svobodný software: Můžete "
 "jej dále šířit a/nebo upravovat za podmínek licence GNU General Public "
@@ -202,26 +187,23 @@ msgstr ""
 "licencí GPL, která pokrývá Hudbu GNOME. Pokud provedete změny v jejím "
 "zdrojovém kódu, můžete tuto výjimku vztáhnout i na svoji verzi kódu, ale "
 "nejste povinni tak učinit. Pokud si tak učinit nepřejete, odstraňte tento "
-"odstavec s výjimkou ze svojí verze.\n"
-"\n"
-"Obrázek „Magic of the vinyl“ od autora Sami Pyylampi je licencován pod CC-BY-"
-"SA 2.0 https://www.flickr.com/photos/_spy_/12270839403"
+"odstavec s výjimkou ze svojí verze."
 
-#: data/ui/AlbumWidget.ui:114 data/ui/PlayerToolbar.ui:128
-#: data/ui/PlaylistControls.ui:123 data/ui/SongWidgetMenu.ui:18
+#: data/ui/AlbumWidget.ui:98 data/ui/PlayerToolbar.ui:124
+#: data/ui/PlaylistControls.ui:123 data/ui/SongWidgetMenu.ui:19
 #: gnomemusic/widgets/playertoolbar.py:175
 msgid "Play"
 msgstr "Přehrát"
 
-#: data/ui/AlbumWidget.ui:175 data/ui/PlaylistControls.ui:6
+#: data/ui/AlbumWidget.ui:155 data/ui/PlaylistControls.ui:6
 msgid "_Play"
 msgstr "_Přehrát"
 
-#: data/ui/AlbumWidget.ui:179
+#: data/ui/AlbumWidget.ui:159
 msgid "Add to _Favorite Songs"
 msgstr "Přidat do o_blíbených skladeb"
 
-#: data/ui/AlbumWidget.ui:183
+#: data/ui/AlbumWidget.ui:163
 msgid "_Add to Playlist…"
 msgstr "Přid_at do seznamu k přehrání…"
 
@@ -244,6 +226,10 @@ msgstr "_Nápověda"
 #: data/ui/AppMenu.ui:85
 msgid "_About Music"
 msgstr "O _aplikaci Hudba"
+
+#: data/ui/EmptyView.ui:35
+msgid "Welcome to Music"
+msgstr "Vítejte v Hudbě"
 
 #: data/ui/HeaderBar.ui:16
 msgid "Menu"
@@ -377,11 +363,11 @@ msgstr "Přihlásit"
 msgid "Loading"
 msgstr "Načítá se"
 
-#: data/ui/PlayerToolbar.ui:111
+#: data/ui/PlayerToolbar.ui:107
 msgid "Previous"
 msgstr "Předchozí"
 
-#: data/ui/PlayerToolbar.ui:145
+#: data/ui/PlayerToolbar.ui:141
 msgid "Next"
 msgstr "Následující"
 
@@ -461,36 +447,36 @@ msgstr "Klikáním vyberte položky"
 msgid "_Add to Playlist"
 msgstr "Přid_at do seznamu k přehrání"
 
-#: data/ui/SongWidgetMenu.ui:28
+#: data/ui/SongWidgetMenu.ui:29
 msgid "Add to Playlist…"
 msgstr "Přidat do seznamu k přehrání…"
 
-#: data/ui/SongWidgetMenu.ui:38
+#: data/ui/SongWidgetMenu.ui:39
 msgid "Remove From Playlist"
 msgstr "Odebrat ze seznamu k přehrání"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:897
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:898
 msgid "Most Played"
 msgstr "Nejčastěji přehráváno"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:950
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:952
 msgid "Never Played"
 msgstr "Nikdy nepřehráno"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1002
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1005
 msgid "Recently Played"
 msgstr "Nedávno přehráno"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1064
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1068
 msgid "Recently Added"
 msgstr "Nedávno přidáno"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1126
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1131
 msgid "Favorite Songs"
 msgstr "Oblíbené skladby"
 
@@ -542,53 +528,49 @@ msgstr "Opakovat vše"
 msgid "Shuffle/Repeat Off"
 msgstr "Náhodně/opakování vypnuto"
 
-#: gnomemusic/utils.py:79
+#: gnomemusic/utils.py:80
 msgid "Unknown album"
 msgstr "Neznámé album"
 
-#: gnomemusic/utils.py:100
+#: gnomemusic/utils.py:101
 msgid "Unknown Artist"
 msgstr "Neznámý umělec"
 
-#: gnomemusic/views/emptyview.py:63
+#: gnomemusic/views/emptyview.py:65
 msgid "Your XDG Music directory is not set."
 msgstr "Nemáte nastavenou složku Hudba dle standardu XDG."
 
-#: gnomemusic/views/emptyview.py:70
+#: gnomemusic/views/emptyview.py:72
 msgid "Music Folder"
 msgstr "Složka s hudbou"
 
 #. TRANSLATORS: This is a label to display a link to open user's music
 #. folder. {} will be replaced with the translated text 'Music folder'
-#: gnomemusic/views/emptyview.py:74
+#: gnomemusic/views/emptyview.py:76
 msgid "The contents of your {} will appear here."
 msgstr "Zde se objeví, co obsahuje vaše {}."
 
-#: gnomemusic/views/emptyview.py:107
-msgid "Hey DJ"
-msgstr "Hej, DJ"
-
-#: gnomemusic/views/emptyview.py:113 gnomemusic/views/emptyview.py:117
+#: gnomemusic/views/emptyview.py:124
 msgid "No Music Found"
 msgstr "Nebyla nalezena žádná hudba"
 
-#: gnomemusic/views/emptyview.py:118
+#: gnomemusic/views/emptyview.py:125
 msgid "Try a Different Search"
 msgstr "Zkuste hledat nějak jinak"
 
-#: gnomemusic/views/emptyview.py:122
+#: gnomemusic/views/emptyview.py:129
 msgid "GNOME Music could not connect to Tracker."
 msgstr "Hudbě GNOME se nezdařilo spojit s programem Tracker."
 
-#: gnomemusic/views/emptyview.py:124
+#: gnomemusic/views/emptyview.py:131
 msgid "Your music files cannot be indexed without Tracker running."
 msgstr "Pokud Tracker neběží, není možné indexovat hudební soubory."
 
-#: gnomemusic/views/emptyview.py:130
+#: gnomemusic/views/emptyview.py:137
 msgid "Your system Tracker version seems outdated."
 msgstr "Verze programu Tracker je pravděpodoně zastaralá."
 
-#: gnomemusic/views/emptyview.py:132
+#: gnomemusic/views/emptyview.py:139
 msgid "Music needs Tracker version 3.0.0 or higher."
 msgstr "Hudba potřebuje program Tracker ve verzi 3.0.0 nebo vyšší."
 
@@ -596,22 +578,22 @@ msgstr "Hudba potřebuje program Tracker ve verzi 3.0.0 nebo vyšší."
 msgid "Playlists"
 msgstr "Seznamy k přehrání"
 
-#: gnomemusic/views/searchview.py:401
+#: gnomemusic/views/searchview.py:420
 msgid "Artists Results"
 msgstr "Nalezení umělci"
 
-#: gnomemusic/views/searchview.py:416
+#: gnomemusic/views/searchview.py:435
 msgid "Albums Results"
 msgstr "Nalezená alba"
 
-#: gnomemusic/widgets/albumwidget.py:202
+#: gnomemusic/widgets/albumwidget.py:237
 msgid "{}, {} minute"
 msgid_plural "{}, {} minutes"
 msgstr[0] "{}, {} minuta"
 msgstr[1] "{}, {} minuty"
 msgstr[2] "{}, {} minut"
 
-#: gnomemusic/widgets/disclistboxwidget.py:74
+#: gnomemusic/widgets/disclistboxwidget.py:75
 msgid "Disc {}"
 msgstr "Disk {}"
 
@@ -658,3 +640,25 @@ msgstr[0] "{} skladba"
 msgstr[1] "{} skladby"
 msgstr[2] "{} skladeb"
 
+#~ msgid ""
+#~ "An easy way to play your music. Automatically discover music on your "
+#~ "computer, the local network and internet services."
+#~ msgstr ""
+#~ "Snadný způsob, jak si přehrávat hudbu. Automaticky najde hudbu ve vašem "
+#~ "počítači, v místní síti a na internetových službách."
+
+#~ msgid ""
+#~ "Find tracks in your local collection, get music from DLNA servers or try "
+#~ "something new with the Jamendo and Magnatune services."
+#~ msgstr ""
+#~ "Hledejte si skladby ve své hudební sbírce, přistupujte k hudbě na "
+#~ "serverech DLNA nebo zkuste něco nového díky službám Jamendo a Magnatune."
+
+#~ msgid "Inital state has been displayed"
+#~ msgstr "Počáteční stav byl zobrazen"
+
+#~ msgid "Set to true when initial state has been displayed"
+#~ msgstr "Nastavit na zapnuto, když byl již zobrazen počáteční stav"
+
+#~ msgid "Hey DJ"
+#~ msgstr "Hej, DJ"
