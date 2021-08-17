@@ -10,10 +10,13 @@ gnome.compile_resources(
   dependencies: about_dialog
 )
 
+schema_src = PROJECT_RDNN_NAME + '.gschema.xml'
+gnome.compile_schemas(build_by_default: true, depend_files: files(schema_src))
+
 # Installing the schema file
 install_data(
-  PROJECT_RDNN_NAME + '.gschema.xml',
-  install_dir: 'share/glib-2.0/schemas'
+  schema_src,
+  install_dir: join_paths(get_option('datadir'), 'glib-2.0/schemas')
 )
 
 # Merging the translations with the desktop file

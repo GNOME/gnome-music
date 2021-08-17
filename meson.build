@@ -1,6 +1,6 @@
 project('gnome-music',
     version: '41.0',
-    meson_version: '>= 0.49.0'
+    meson_version: '>= 0.59.0'
 )
 
 # Importing modules
@@ -111,5 +111,8 @@ configure_file(
     configuration: local_config
 )
 
-meson.add_postconf_script('meson_post_conf.py')
-meson.add_install_script('meson_post_install.py')
+gnome.post_install(
+    glib_compile_schemas: true,
+    gtk_update_icon_cache: true,
+    update_desktop_database: true
+)
