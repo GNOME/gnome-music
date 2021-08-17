@@ -96,12 +96,12 @@ configure_file(
 local_config = configuration_data()
 local_config.set('application_id', APPLICATION_ID)
 local_config.set('rdnn_name', PROJECT_RDNN_NAME)
-local_config.set('pkgdatadir', join_paths(meson.build_root(), 'data'))
+local_config.set('pkgdatadir', join_paths(meson.current_build_dir(), 'data'))
 local_config.set('localedir', join_paths(get_option('prefix'), get_option('datadir'), 'locale'))
-local_config.set('pythondir', meson.source_root())
-local_config.set('schemasdir', join_paths(meson.build_root(), 'data'))
+local_config.set('pythondir', meson.current_source_dir())
+local_config.set('schemasdir', join_paths(meson.current_build_dir(), 'data'))
 # Used for gfm
-local_config.set('gfmlibdir', join_paths(meson.build_root(), 'subprojects', 'gfm'))
+local_config.set('gfmlibdir', join_paths(meson.current_build_dir(), 'subprojects', 'gfm'))
 
 local_config.set('local_build', 'True')
 
