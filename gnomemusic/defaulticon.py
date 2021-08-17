@@ -133,7 +133,7 @@ class DefaultIcon(GObject.GObject):
         else:
             round_shape = True
 
-        if (icon_type, art_size, scale) not in self._cache.keys():
+        if (icon_type, art_size, scale, round_shape) not in self._cache.keys():
             new_icon = self._make_default_icon(
                 icon_type, art_size, scale, round_shape)
             self._cache[(icon_type, art_size, scale, round_shape)] = new_icon
