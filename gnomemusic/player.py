@@ -24,7 +24,7 @@
 
 from enum import Enum, IntEnum
 from gettext import gettext as _
-from random import randint, randrange
+from random import randrange
 import time
 import typing
 
@@ -277,11 +277,12 @@ class PlayerPlaylist(GObject.GObject):
         self._model_recent.set_offset(offset)
 
     def _on_repeat_mode_changed(self, klass, param):
-        # FIXME: This shuffle is too simple.
         def _shuffle_sort(song_a, song_b):
-            return randint(-1, 1)
+            return song_a.shuffle_pos < song_b.shuffle_pos
 
         if self.props.repeat_mode == RepeatMode.SHUFFLE:
+            for idx, coresong in enumerate(self._model):
+                coresong.update_shuffle_pos()
             self._model.set_sort_func(
                 utils.wrap_list_store_sort_func(_shuffle_sort))
         elif self.props.repeat_mode in [RepeatMode.NONE, RepeatMode.ALL]:

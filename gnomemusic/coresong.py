@@ -24,6 +24,7 @@
 
 from __future__ import annotations
 from enum import IntEnum
+from random import randint
 from typing import Optional
 import typing
 
@@ -52,6 +53,7 @@ class CoreSong(GObject.GObject):
     media = GObject.Property(type=Grl.Media)
     grlid = GObject.Property(type=str, default=None)
     play_count = GObject.Property(type=int)
+    shuffle_pos = GObject.Property(type=int)
     state = GObject.Property()  # FIXME: How to set an IntEnum type?
     title = GObject.Property(type=str)
     track_number = GObject.Property(type=int)
@@ -84,6 +86,7 @@ class CoreSong(GObject.GObject):
         self._is_tracker: bool = media.get_source() == "grl-tracker3-source"
         self.props.validation = CoreSong.Validation.PENDING
         self.update(media)
+        self.update_shuffle_pos()
 
     def __eq__(self, other: object) -> bool:
         return (isinstance(other, CoreSong)
@@ -180,3 +183,7 @@ class CoreSong(GObject.GObject):
         self.props.media.set_last_played(GLib.DateTime.new_now_utc())
         self._coregrilo.writeback_tracker(
             self.props.media, "last-played")
+
+    def update_shuffle_pos(self) -> None:
+        """Randomizes the shuffle position of this song"""
+        self.props.shuffle_pos = randint(1, 1_000_000)
