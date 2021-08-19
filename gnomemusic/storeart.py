@@ -24,7 +24,7 @@
 
 import gi
 gi.require_versions({"MediaArt": "2.0", "Soup": "2.4"})
-from gi.repository import Gio, GLib, GObject, MediaArt, Soup
+from gi.repository import Gio, GLib, GObject, MediaArt, Soup, GdkPixbuf
 
 from gnomemusic.musiclogger import MusicLogger
 from gnomemusic.coreartist import CoreArtist
@@ -50,6 +50,7 @@ class StoreArt(GObject.Object):
 
         self._coreobject = None
 
+        self._file = None
         self._log = MusicLogger()
         self._soup_session = Soup.Session.new()
 
@@ -58,6 +59,25 @@ class StoreArt(GObject.Object):
 
         if (uri is None
                 or uri == ""):
+            self._coreobject.props.thumbnail = "generic"
+            self.emit("finished")
+            return
+
+        if isinstance(self._coreobject, CoreArtist):
+            success, self._file = MediaArt.get_file(
+                self._coreobject.props.artist, None, "artist")
+        elif isinstance(self._coreobject, CoreAlbum):
+            success, self._file = MediaArt.get_file(
+                self._coreobject.props.artist, self._coreobject.props.title,
+                "album")
+        elif isinstance(self._coreobject, CoreSong):
+            success, self._file = MediaArt.get_file(
+                self._coreobject.props.artist, self._coreobject.props.album,
+                "album")
+        else:
+            success = False
+
+        if not success:
             self._coreobject.props.thumbnail = "generic"
             self.emit("finished")
             return
@@ -91,89 +111,58 @@ class StoreArt(GObject.Object):
             self._log.debug(
                 "Failed to get remote art: {}".format(
                     result.props.reason_phrase))
-            return
-
-        try:
-            [tmp_file, iostream] = Gio.File.new_tmp()
-        except GLib.Error as error:
-            self._log.warning(
-                "Error: {}, {}".format(error.domain, error.message))
-            self._coreobject.props.thumbnail = "generic"
             self.emit("finished")
             return
 
         istream = Gio.MemoryInputStream.new_from_bytes(
             result.props.response_body_data)
-        ostream = iostream.get_output_stream()
-        # FIXME: Passing the iostream here, otherwise it gets
-        # closed. PyGI specific issue?
-        ostream.splice_async(
-            istream, Gio.OutputStreamSpliceFlags.CLOSE_SOURCE
-            | Gio.OutputStreamSpliceFlags.CLOSE_TARGET, GLib.PRIORITY_LOW,
-            None, self._splice_callback, [tmp_file, iostream])
+        GdkPixbuf.Pixbuf.new_from_stream_async(
+            istream, None, self._pixbuf_from_stream_finished)
 
-    def _delete_callback(self, src, result, data):
+    def _pixbuf_from_stream_finished(
+            self, stream: Gio.MemoryInputStream,
+            result: Gio.AsyncResult) -> None:
         try:
-            src.delete_finish(result)
+            pixbuf = GdkPixbuf.Pixbuf.new_from_stream_finish(result)
         except GLib.Error as error:
-            self._log.warning(
-                "Error: {}, {}".format(error.domain, error.message))
-
-    def _splice_callback(self, src, result, data):
-        tmp_file, iostream = data
-
-        iostream.close_async(
-            GLib.PRIORITY_LOW, None, self._close_iostream_callback, None)
-
-        try:
-            src.splice_finish(result)
-        except GLib.Error as error:
-            self._log.warning(
-                "Error: {}, {}".format(error.domain, error.message))
-            self._coreobject.props.thumbnail = "generic"
+            self._log.warning(f"Error: {error.domain}, {error.message}")
             self.emit("finished")
-            return
-
-        if isinstance(self._coreobject, CoreArtist):
-            success, cache_file = MediaArt.get_file(
-                self._coreobject.props.artist, None, "artist")
-        elif isinstance(self._coreobject, CoreAlbum):
-            success, cache_file = MediaArt.get_file(
-                self._coreobject.props.artist, self._coreobject.props.title,
-                "album")
-        elif isinstance(self._coreobject, CoreSong):
-            success, cache_file = MediaArt.get_file(
-                self._coreobject.props.artist, self._coreobject.props.album,
-                "album")
         else:
-            success = False
+            self._file.create_async(
+                Gio.FileCreateFlags.NONE, GLib.PRIORITY_LOW, None,
+                self._output_stream_created, pixbuf)
+        finally:
+            stream.close_async(GLib.PRIORITY_LOW, None, self._stream_closed)
 
-        if not success:
-            self._coreobject.props.thumbnail = "generic"
-            self.emit("finished")
-            return
-
+    def _output_stream_created(
+            self, stream: Gio.FileOutputStream, result: Gio.AsyncResult,
+            pixbuf: GdkPixbuf.Pixbuf) -> None:
         try:
-            # FIXME: I/O blocking
-            MediaArt.file_to_jpeg(tmp_file.get_path(), cache_file.get_path())
+            output_stream = stream.create_finish(result)
         except GLib.Error as error:
-            self._log.warning(
-                "Error: {}, {}".format(error.domain, error.message))
-            self._coreobject.props.thumbnail = "generic"
-            self.emit("finished")
-            return
+            # File already exists.
+            self._log.info(f"Error: {error.domain}, {error.message}")
+        else:
+            pixbuf.save_to_streamv_async(
+                output_stream, "jpeg", None, None, None,
+                self._output_stream_saved, output_stream)
 
-        self._coreobject.props.media.set_thumbnail(cache_file.get_uri())
-        self._coreobject.props.thumbnail = cache_file.get_uri()
-
-        self.emit("finished")
-
-        tmp_file.delete_async(
-            GLib.PRIORITY_LOW, None, self._delete_callback, None)
-
-    def _close_iostream_callback(self, src, result, data):
+    def _output_stream_saved(
+            self, pixbuf: GdkPixbuf.Pixbuf, result: Gio.AsyncResult,
+            output_stream: Gio.FileOutputStream) -> None:
         try:
-            src.close_finish(result)
+            pixbuf.save_to_stream_finish(result)
         except GLib.Error as error:
-            self._log.warning(
-                "Error: {}, {}".format(error.domain, error.message))
+            self._log.warning(f"Error: {error.domain}, {error.message}")
+        else:
+            self.emit("finished")
+        finally:
+            output_stream.close_async(
+                GLib.PRIORITY_LOW, None, self._stream_closed)
+
+    def _stream_closed(
+            self, stream: Gio.OutputStream, result: Gio.AsyncResult) -> None:
+        try:
+            stream.close_finish(result)
+        except GLib.Error as error:
+            self._log.warning(f"Error: {error.domain}, {error.message}")
