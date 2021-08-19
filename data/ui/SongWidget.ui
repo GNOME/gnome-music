@@ -69,8 +69,6 @@
           <object class="GtkBox" id="title_box">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="margin-bottom">1</property>
-            <property name="margin-top">1</property>
             <property name="hexpand">True</property>
             <child>
               <object class="DzlBoldingLabel" id="_title_label">
@@ -91,8 +89,6 @@
           <object class="GtkBox" id="_artist_box">
             <property name="visible">False</property>
             <property name="can_focus">False</property>
-            <property name="margin-bottom">1</property>
-            <property name="margin-top">1</property>
             <property name="hexpand">True</property>
             <child>
               <object class="GtkLabel" id="_artist_label">
@@ -113,8 +109,6 @@
           <object class="GtkBox" id="_album_duration_box">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="margin-bottom">1</property>
-            <property name="margin-top">1</property>
             <property name="hexpand">True</property>
             <child>
               <object class="GtkLabel" id="_album_label">
