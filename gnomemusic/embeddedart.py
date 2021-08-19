@@ -24,7 +24,8 @@
 
 import gi
 gi.require_versions({"GstPbutils": "1.0", "GstTag": "1.0", "MediaArt": "2.0"})
-from gi.repository import GLib, GObject, MediaArt, Gst, GstTag, GstPbutils
+from gi.repository import (
+    GLib, GObject, MediaArt, GdkPixbuf, Gio, Gst, GstTag, GstPbutils)
 
 from gnomemusic.musiclogger import MusicLogger
 
@@ -60,7 +61,7 @@ class EmbeddedArt(GObject.GObject):
         self._album = None
         self._artist = None
         self._coreobject = None
-        self._path = None
+        self._file = None
 
     def query(self, coreobject, title):
         """Start the local query
@@ -91,14 +92,14 @@ class EmbeddedArt(GObject.GObject):
         discoverer.connect("discovered", self._discovered)
         discoverer.start()
 
-        success, path = MediaArt.get_path(self._artist, self._album, "album")
+        success, file = MediaArt.get_file(self._artist, self._album, "album")
 
         if not success:
             self.emit("art-found", False)
             discoverer.stop()
             return
 
-        self._path = path
+        self._file = file
 
         success = discoverer.discover_uri_async(self._coreobject.props.url)
 
@@ -141,19 +142,63 @@ class EmbeddedArt(GObject.GObject):
             if not success:
                 continue
 
-            try:
-                mime = sample.get_caps().get_structure(0).get_name()
-                MediaArt.buffer_to_jpeg(map_info.data, mime, self._path)
-                discoverer.stop()
-                self.emit("art-found", True)
-                return
-            except GLib.Error as error:
-                self._log.warning("Error: {}, {}".format(
-                    MediaArt.Error(error.code), error.message))
+            istream = Gio.MemoryInputStream.new_from_data(map_info.data)
+            GdkPixbuf.Pixbuf.new_from_stream_async(
+                istream, None, self._pixbuf_from_stream_finished)
+            discoverer.stop()
+            return
 
         discoverer.stop()
-
         self._lookup_cover_in_directory()
+
+    def _pixbuf_from_stream_finished(
+            self, stream: Gio.MemoryInputStream,
+            result: Gio.AsyncResult) -> None:
+        try:
+            pixbuf = GdkPixbuf.Pixbuf.new_from_stream_finish(result)
+        except GLib.Error as error:
+            self._log.warning(f"Error: {error.domain}, {error.message}")
+            self._lookup_cover_in_directory()
+        else:
+            self._file.create_async(
+                Gio.FileCreateFlags.NONE, GLib.PRIORITY_LOW, None,
+                self._output_stream_created, pixbuf)
+        finally:
+            stream.close_async(GLib.PRIORITY_LOW, None, self._stream_closed)
+
+    def _output_stream_created(
+            self, stream: Gio.FileOutputStream, result: Gio.AsyncResult,
+            pixbuf: GdkPixbuf.Pixbuf) -> None:
+        try:
+            output_stream = stream.create_finish(result)
+        except GLib.Error as error:
+            # File already exists.
+            self._log.info(f"Error: {error.domain}, {error.message}")
+        else:
+            pixbuf.save_to_streamv_async(
+                output_stream, "jpeg", None, None, None,
+                self._output_stream_saved, output_stream)
+
+    def _output_stream_saved(
+            self, pixbuf: GdkPixbuf.Pixbuf, result: Gio.AsyncResult,
+            output_stream: Gio.FileOutputStream) -> None:
+        try:
+            pixbuf.save_to_stream_finish(result)
+        except GLib.Error as error:
+            self._log.warning(f"Error: {error.domain}, {error.message}")
+            self._lookup_cover_in_directory()
+        else:
+            self.emit("art-found", True)
+        finally:
+            output_stream.close_async(
+                GLib.PRIORITY_LOW, None, self._stream_closed)
+
+    def _stream_closed(
+            self, stream: Gio.OutputStream, result: Gio.AsyncResult) -> None:
+        try:
+            stream.close_finish(result)
+        except GLib.Error as error:
+            self._log.warning(f"Error: {error.domain}, {error.message}")
 
     def _lookup_cover_in_directory(self):
         # Find local art in cover.jpeg files.
