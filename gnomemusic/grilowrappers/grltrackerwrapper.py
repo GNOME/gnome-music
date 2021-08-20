@@ -830,21 +830,16 @@ class GrlTrackerWrapper(GObject.GObject):
             query, [Grl.METADATA_KEY_ALBUM_DISC_NUMBER], self._fast_options,
             _disc_nr_cb)
 
-    def populate_album_disc_songs(
+    def get_album_disc(
             self, media: Grl.Media, disc_nr: int,
-            callback: Callable[
-                [Grl.Source, int, Optional[Grl.Media], int,
-                 Optional[GLib.Error]], None]) -> None:
-        # FIXME: Pass a model and fill it.
-        # FIXME: The query is similar to the other song queries, reuse
-        # if possible.
+            model: Gfm.FilterListModel) -> None:
         """Get all songs of an album disc
 
         :param Grl.Media media: The media with the album id
         :param int disc_nr: The disc number
-        :param callback: The callback to call for every song added
+        :param Gfm.FilterListModel model: The model to fill
         """
-        album_id: str = media.get_id()
+        album_id = media.get_id()
 
         query = """
         SELECT
@@ -908,8 +903,26 @@ class GrlTrackerWrapper(GObject.GObject):
             Grl.METADATA_KEY_URL
         ]
 
+        disc_song_ids: List[int] = []
+
+        def _filter_func(coresong: CoreSong) -> bool:
+            return coresong.props.grlid in disc_song_ids
+
+        def _callback(
+                source: Grl.Source, op_id: int, media: Grl.Media,
+                remaining: int, error: GLib.Error) -> None:
+            if error:
+                self._log.warning(f"Error: {error.domain}, {error.message}")
+                return
+
+            if media is None:
+                model.set_filter_func(_filter_func)
+                return
+
+            disc_song_ids.append(media.get_source() + media.get_id())
+
         self.props.source.query(
-            query, metadata_keys, self._fast_options, callback)
+            query, metadata_keys, self._fast_options, _callback)
 
     def search(self, text: str) -> None:
         # FIXME: Searches are limited to not bog down the UI with

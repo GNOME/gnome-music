@@ -49,7 +49,6 @@ class CoreDisc(GObject.GObject):
         self._filter_model = None
         self._log = application.props.log
         self._model = None
-        self._old_album_ids = []
         self._selected = False
 
         self.update(media)
@@ -73,7 +72,7 @@ class CoreDisc(GObject.GObject):
 
             self._model.connect("items-changed", self._on_disc_changed)
 
-            self._get_album_disc(
+            self._coregrilo.get_album_disc(
                 self.props.media, self.props.disc_nr, self._filter_model)
 
         return self._model
@@ -86,29 +85,6 @@ class CoreDisc(GObject.GObject):
                 duration += coresong.props.duration
 
             self.props.duration = duration
-
-    def _get_album_disc(self, media, discnr, model):
-        album_ids = []
-        model_filter = model
-
-        def _filter_func(core_song):
-            return core_song.props.grlid in album_ids
-
-        def _callback(source, op_id, media, remaining, error):
-            if error:
-                self._log.warning("Error: {}".format(error))
-                return
-
-            if media is None:
-                if sorted(album_ids) == sorted(self._old_album_ids):
-                    return
-                model_filter.set_filter_func(_filter_func)
-                self._old_album_ids = album_ids
-                return
-
-            album_ids.append(media.get_source() + media.get_id())
-
-        self._coregrilo.populate_album_disc_songs(media, discnr, _callback)
 
     @GObject.Property(
         type=bool, default=False, flags=GObject.ParamFlags.READWRITE)

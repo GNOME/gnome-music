@@ -25,8 +25,8 @@
 import weakref
 
 import gi
-gi.require_version('Grl', '0.3')
-from gi.repository import Grl, GLib, GObject
+gi.require_versions({"Grl": "0.3", "Gfm": "0.1"})
+from gi.repository import Grl, GLib, GObject, Gfm
 
 from gnomemusic.grilowrappers.grlsearchwrapper import GrlSearchWrapper
 from gnomemusic.grilowrappers.grltrackerwrapper import GrlTrackerWrapper
@@ -192,16 +192,17 @@ class CoreGrilo(GObject.GObject):
         source = media.get_source()
         self._wrappers[source].get_album_discs(media, disc_model)
 
-    def populate_album_disc_songs(self, media, discnr, callback):
+    def get_album_disc(
+            self, media: Grl.Media, discnr: int,
+            model: Gfm.FilterListModel) -> None:
         """Get all songs from an album disc
 
-        :param Grl.Media media: A Grilo Media item that represents Album
+        :param Grl.Media media: An album
         :param int discnr: The disc number
-        :param callback: The callback to call for every song added
+        :param Gfm.FilterListModel model: The model to fill
         """
         source = media.get_source()
-        self._wrappers[source].populate_album_disc_songs(
-            media, discnr, callback)
+        self._wrappers[source].get_album_disc(media, discnr, model)
 
     def writeback(self, media, key):
         """Store the values associated with the key.
