@@ -142,10 +142,6 @@ list {
     background-color: transparent;
 }
 
-.disc-list-box > row {
-padding: 0px;
-}
-
 .playlistdialog-row:selected {
     color: @theme_fg_color;
     background-color: @theme_insensitive_bg_color;

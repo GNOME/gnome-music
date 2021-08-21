@@ -167,7 +167,6 @@ class DiscListBox(Gtk.ListBox):
         super().__init__()
 
         self.props.valign = Gtk.Align.START
-        self.get_style_context().add_class("disc-list-box")
 
     def select_all(self):
         """Select all songs"""
