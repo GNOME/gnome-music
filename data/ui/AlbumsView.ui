@@ -37,9 +37,6 @@
         <property name="hexpand">True</property>
         <property name="vexpand">True</property>
         <property name="hscrollbar_policy">never</property>
-        <style>
-          <class name="view"/>
-        </style>
       </object>
     </child>
   </template>
