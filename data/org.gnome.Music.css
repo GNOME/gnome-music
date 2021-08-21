@@ -28,11 +28,6 @@
     padding: 12px 0;
 }
 
-/* ArtistAlbumsWidget */
-box#ArtistAlbumsWidget .artist-label {
-    font-weight: bold;
-}
-
 /* NoMusic */
 .no-music-found-label {
     font-size: xx-large;
@@ -70,21 +65,6 @@ box#ArtistAlbumsWidget .artist-label {
 .playlist-name-label {
   font-weight: bold;
   font-size: x-large;
-}
-
-.artist-albums-widget,
-.artist-albums-widget:hover {
-    background-color: @theme_bg_color;
-}
-
-.artist-albums-widget > row:hover {
-    background-color: rgba(0, 0, 0, 0.0);
-    box-shadow: none;
-}
-
-.album-title {
-    font-size: large;
-    font-weight: bold;
 }
 
 /* FIXME: Remove once songsview is ported to the new style */

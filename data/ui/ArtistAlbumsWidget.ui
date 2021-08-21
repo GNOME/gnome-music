@@ -8,9 +8,6 @@
     <child>
       <object class="GtkListBox" id="_listbox">
         <property name="visible">True</property>
-        <style>
-          <class name="artist-album-widget"/>
-        </style>
       </object>
     </child>
   </template>
