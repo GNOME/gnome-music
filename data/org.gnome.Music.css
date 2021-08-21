@@ -1,7 +1,3 @@
-.discsongsflowbox > flowboxchild {
-    padding: 0px;
-}
-
 /* AlbumCover */
 .albumcover-title-label {
     color: @theme_fg_color;
@@ -26,12 +22,6 @@
 .disc-label {
     color: alpha(@theme_fg_color, 0.8);
     padding: 12px 0;
-}
-
-/* NoMusic */
-.no-music-found-label {
-    font-size: xx-large;
-    font-weight: bold;
 }
 
 /* PlayerToolbar */
