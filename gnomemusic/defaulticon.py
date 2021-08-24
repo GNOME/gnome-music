@@ -83,11 +83,8 @@ def make_icon_frame(
         ctx.mask_surface(icon_surface, w / 3, h / 3)
         ctx.fill()
     else:
-        matrix = cairo.Matrix()
-        matrix.scale(icon_w / (w * scale), icon_h / (h * scale))
+        ctx.scale((w * scale) / icon_w, (h * scale) / icon_h)
         ctx.set_source_surface(icon_surface, 0, 0)
-        pattern = ctx.get_source()
-        pattern.set_matrix(matrix)
         ctx.fill()
 
     return surface
