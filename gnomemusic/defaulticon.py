@@ -48,9 +48,9 @@ def make_icon_frame(
     """
     degrees = pi / 180
     if art_size == ArtSize.SMALL:
-        radius = 2
+        radius = 4.5
     else:
-        radius = 8
+        radius = 9
     icon_w = icon_surface.get_width()
     icon_h = icon_surface.get_height()
     ratio = icon_h / icon_w
