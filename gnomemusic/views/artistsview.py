@@ -215,11 +215,11 @@ class ArtistsView(Gtk.Paned):
             self._selected_artist = None
 
     def select_all(self):
-        artist_albums = self._artist_view.get_visible_child()
+        artist_albums = self._artist_view.get_visible_child().get_child()
         for row in artist_albums:
             row.get_child().select_all()
 
     def deselect_all(self):
-        artist_albums = self._artist_view.get_visible_child()
+        artist_albums = self._artist_view.get_visible_child().get_child()
         for row in artist_albums:
             row.get_child().deselect_all()

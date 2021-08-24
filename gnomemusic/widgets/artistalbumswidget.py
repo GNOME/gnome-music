@@ -25,7 +25,7 @@
 from __future__ import annotations
 import typing
 
-from gi.repository import GObject, Gtk
+from gi.repository import GObject, Gtk, Handy
 
 from gnomemusic.widgets.albumwidget import AlbumWidget
 if typing.TYPE_CHECKING:
@@ -34,7 +34,7 @@ if typing.TYPE_CHECKING:
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/ArtistAlbumsWidget.ui")
-class ArtistAlbumsWidget(Gtk.ListBox):
+class ArtistAlbumsWidget(Handy.Clamp):
     """Widget containing all albums by an artist
 
     A vertical list of AlbumWidget, containing all the albums
@@ -43,6 +43,8 @@ class ArtistAlbumsWidget(Gtk.ListBox):
     """
 
     __gtype_name__ = 'ArtistAlbumsWidget'
+
+    _listbox = Gtk.Template.Child()
 
     selection_mode = GObject.Property(type=bool, default=False)
 
@@ -60,7 +62,7 @@ class ArtistAlbumsWidget(Gtk.ListBox):
         self._model = coreartist.props.model
         self._player = self._application.props.player
 
-        self.bind_model(self._model, self._add_album)
+        self._listbox.bind_model(self._model, self._add_album)
 
     def _add_album(self, corealbum):
         row = Gtk.ListBoxRow()
@@ -87,14 +89,14 @@ class ArtistAlbumsWidget(Gtk.ListBox):
         def toggle_selection(row: Gtk.ListBoxRow) -> None:
             row.get_child().select_all()
 
-        self.foreach(toggle_selection)
+        self._listbox.foreach(toggle_selection)
 
     def deselect_all(self) -> None:
         """Deselect all items"""
         def toggle_selection(row: Gtk.ListBoxRow) -> None:
             row.get_child().deselect_all()
 
-        self.foreach(toggle_selection)
+        self._listbox.foreach(toggle_selection)
 
     @GObject.Property(type=str, flags=GObject.ParamFlags.READABLE)
     def artist(self) -> str:
