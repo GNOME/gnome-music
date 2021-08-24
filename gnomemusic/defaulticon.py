@@ -70,11 +70,11 @@ def make_icon_frame(
     if round_shape:
         ctx.arc(w / 2, h / 2, w / 2, 0, 2 * pi)
     else:
-        ctx.arc(w - radius, radius, radius - 0.5, -90 * degrees, 0 * degrees)
+        ctx.arc(w - radius, radius, radius, -90 * degrees, 0 * degrees)
         ctx.arc(
-            w - radius, h - radius, radius - 0.5, 0 * degrees, 90 * degrees)
-        ctx.arc(radius, h - radius, radius - 0.5, 90 * degrees, 180 * degrees)
-        ctx.arc(radius, radius, radius - 0.5, 180 * degrees, 270 * degrees)
+            w - radius, h - radius, radius, 0 * degrees, 90 * degrees)
+        ctx.arc(radius, h - radius, radius, 90 * degrees, 180 * degrees)
+        ctx.arc(radius, radius, radius, 180 * degrees, 270 * degrees)
 
     if default_icon:
         ctx.set_source_rgb(1, 1, 1)
