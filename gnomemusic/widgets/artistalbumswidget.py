@@ -22,11 +22,18 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from __future__ import annotations
+import typing
+
 from gi.repository import GObject, Gtk
 
 from gnomemusic.widgets.albumwidget import AlbumWidget
+if typing.TYPE_CHECKING:
+    from gnomemusic.application import Application
+    from gnomemusic.coreartist import CoreArtist
 
 
+@Gtk.Template(resource_path="/org/gnome/Music/ui/ArtistAlbumsWidget.ui")
 class ArtistAlbumsWidget(Gtk.ListBox):
     """Widget containing all albums by an artist
 
@@ -39,7 +46,8 @@ class ArtistAlbumsWidget(Gtk.ListBox):
 
     selection_mode = GObject.Property(type=bool, default=False)
 
-    def __init__(self, coreartist, application):
+    def __init__(
+            self, coreartist: CoreArtist, application: Application) -> None:
         """Initialize the ArtistAlbumsWidget
 
         :param CoreArtist coreartist: The CoreArtist object
@@ -53,9 +61,6 @@ class ArtistAlbumsWidget(Gtk.ListBox):
         self._player = self._application.props.player
 
         self.bind_model(self._model, self._add_album)
-
-        self.get_style_context().add_class("artist-albums-widget")
-        self.props.visible = True
 
     def _add_album(self, corealbum):
         row = Gtk.ListBoxRow()
@@ -77,21 +82,21 @@ class ArtistAlbumsWidget(Gtk.ListBox):
 
         return row
 
-    def select_all(self):
+    def select_all(self) -> None:
         """Select all items"""
-        def toggle_selection(row):
+        def toggle_selection(row: Gtk.ListBoxRow) -> None:
             row.get_child().select_all()
 
         self.foreach(toggle_selection)
 
-    def deselect_all(self):
+    def deselect_all(self) -> None:
         """Deselect all items"""
-        def toggle_selection(row):
+        def toggle_selection(row: Gtk.ListBoxRow) -> None:
             row.get_child().deselect_all()
 
         self.foreach(toggle_selection)
 
     @GObject.Property(type=str, flags=GObject.ParamFlags.READABLE)
-    def artist(self):
+    def artist(self) -> str:
         """Artist name"""
         return self._artist.props.artist
