@@ -20,14 +20,14 @@
     <property name="can_focus">False</property>
     <property name="margin-top">1</property>
     <property name="icon_name">view-more-symbolic</property>
-    <property name="icon_size">1</property>
+    <property name="icon_size">4</property>
   </object>
   <object class="GtkImage" id="_play_image">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="margin-top">1</property>
     <property name="icon_name">media-playback-start-symbolic</property>
-    <property name="icon_size">1</property>
+    <property name="icon_size">4</property>
   </object>
   <template class="PlaylistControls" parent="GtkBox">
     <property name="orientation">vertical</property>
@@ -112,6 +112,8 @@
         <property name="margin-bottom">8</property>
         <child>
           <object class="GtkButton" id="_play_button">
+            <property name="height-request">44</property>
+            <property name="width-request">44</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="receives-default">True</property>
@@ -127,6 +129,8 @@
         </child>
         <child>
           <object class="GtkMenuButton" id="_menubutton">
+            <property name="height-request">44</property>
+            <property name="width-request">44</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
