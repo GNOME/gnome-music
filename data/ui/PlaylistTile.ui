@@ -11,8 +11,7 @@
           <object class="GtkImage" id="_icon">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="icon_size">0</property>
-            <property name="pixel_size">20</property>
+            <property name="icon_size">4</property>
             <property name="valign">center</property>
             <style>
               <class name="playlist-icon"/>
