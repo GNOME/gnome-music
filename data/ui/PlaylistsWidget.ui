@@ -4,8 +4,14 @@
     <property name="orientation">vertical</property>
     <property name="visible">True</property>
     <child>
-      <object class="PlaylistControls" id="_pl_ctrls">
+      <object class="HdyClamp">
+        <property name="maximum-size">1000</property>
         <property name="visible">True</property>
+        <child>
+          <object class="PlaylistControls" id="_pl_ctrls">
+            <property name="visible">True</property>
+          </object>
+        </child>
       </object>
     </child>
     <child>
@@ -13,17 +19,20 @@
         <property name="vexpand">True</property>
         <property name="visible">True</property>
         <child>
-          <object class="GtkListBox" id="_songs_list">
-            <property name="margin-bottom">20</property>
-            <property name="margin-end">80</property>
-            <property name="margin-start">80</property>
-            <property name="margin-top">20</property>
-            <property name="valign">start</property>
+          <object class="HdyClamp">
+            <property name="maximum-size">1000</property>
             <property name="visible">True</property>
-            <signal name="row-activated" handler="_on_song_activated" swapped="no"/>
-            <style>
-              <class name="content"/>
-            </style>
+            <child>
+              <object class="GtkListBox" id="_songs_list">
+                <property name="margin-bottom">20</property>
+                <property name="margin-top">20</property>
+                <property name="visible">True</property>
+                <signal name="row-activated" handler="_on_song_activated" swapped="no"/>
+                <style>
+                  <class name="content"/>
+                </style>
+              </object>
+            </child>
           </object>
         </child>
       </object>
