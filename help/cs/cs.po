@@ -2,13 +2,13 @@
 # Copyright (C) 2014 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-music package.
 #
-# Marek Černocký <marek@manet.cz>, 2014, 2015, 2016.
+# Marek Černocký <marek@manet.cz>, 2014, 2015, 2016, 2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music\n"
-"POT-Creation-Date: 2016-10-05 12:45+0000\n"
-"PO-Revision-Date: 2016-10-23 09:18+0200\n"
+"POT-Creation-Date: 2021-04-10 19:23+0000\n"
+"PO-Revision-Date: 2021-08-27 00:47+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -24,7 +24,7 @@ msgid "translator-credits"
 msgstr "Marek Černocký <marek@manet.cz>"
 
 #. (itstool) path: credit/name
-#: C/introduction.page:11 C/index.page:11 C/play-music.page:11
+#: C/introduction.page:11 C/index.page:12 C/play-music.page:11
 #: C/playlist-create-albums.page:11 C/playlist-create-songs.page:11
 #: C/playlist-create-artists.page:11 C/playlist-delete.page:11
 #: C/playlist-remove-songs.page:11 C/playlist-repeat.page:11
@@ -33,7 +33,7 @@ msgid "Shobha Tyagi"
 msgstr "Shobha Tyagi"
 
 #. (itstool) path: credit/years
-#: C/introduction.page:13 C/index.page:13 C/play-music.page:13
+#: C/introduction.page:13 C/index.page:14 C/play-music.page:13
 #: C/playlist-create-albums.page:13 C/playlist-create-songs.page:13
 #: C/playlist-create-artists.page:13 C/playlist-delete.page:13
 #: C/playlist-remove-songs.page:13 C/playlist-repeat.page:13
@@ -58,18 +58,24 @@ msgstr "Úvod do aplikace Hudba"
 
 #. (itstool) path: info/title
 #: C/index.page:6
-msgctxt "link"
+msgctxt "link:trail"
 msgid "Music"
 msgstr "Hudba"
 
 #. (itstool) path: info/title
 #: C/index.page:7
+msgctxt "link"
+msgid "Music"
+msgstr "Hudba"
+
+#. (itstool) path: info/title
+#: C/index.page:8
 msgctxt "text"
 msgid "Music"
 msgstr "Hudba"
 
 #. (itstool) path: page/title
-#: C/index.page:18
+#: C/index.page:19
 msgid "<_:media-1/> Music"
 msgstr "<_:media-1/> Hudba"
 
