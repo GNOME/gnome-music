@@ -6,23 +6,23 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
-"POT-Creation-Date: 2019-12-14 13:11+0000\n"
-"PO-Revision-Date: 2019-12-16 19:53+0700\n"
-"Last-Translator: Andika Triwidada <atriwidada@gnome.org>\n"
+"POT-Creation-Date: 2021-04-10 19:23+0000\n"
+"PO-Revision-Date: 2021-08-26 07:32+0700\n"
+"Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: Indonesian <gnome-l10n-id@googlegroups.com>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2.1\n"
+"X-Generator: Poedit 2.4.2\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
-msgstr "Andika Triwidada <andika@gmail.com>, 2019."
+msgstr "Andika Triwidada <andika@gmail.com>, 2019, 2021."
 
 #. (itstool) path: credit/name
-#: C/introduction.page:11 C/index.page:11 C/play-music.page:11
+#: C/introduction.page:11 C/index.page:12 C/play-music.page:11
 #: C/playlist-create-albums.page:11 C/playlist-create-songs.page:11
 #: C/playlist-create-artists.page:11 C/playlist-delete.page:11
 #: C/playlist-remove-songs.page:11 C/playlist-repeat.page:11
@@ -31,7 +31,7 @@ msgid "Shobha Tyagi"
 msgstr "Shobha Tyagi"
 
 #. (itstool) path: credit/years
-#: C/introduction.page:13 C/index.page:13 C/play-music.page:13
+#: C/introduction.page:13 C/index.page:14 C/play-music.page:13
 #: C/playlist-create-albums.page:13 C/playlist-create-songs.page:13
 #: C/playlist-create-artists.page:13 C/playlist-delete.page:13
 #: C/playlist-remove-songs.page:13 C/playlist-repeat.page:13
@@ -56,18 +56,24 @@ msgstr "Perkenalan ke Musik"
 
 #. (itstool) path: info/title
 #: C/index.page:6
-msgctxt "link"
+msgctxt "link:trail"
 msgid "Music"
 msgstr "Musik"
 
 #. (itstool) path: info/title
 #: C/index.page:7
+msgctxt "link"
+msgid "Music"
+msgstr "Musik"
+
+#. (itstool) path: info/title
+#: C/index.page:8
 msgctxt "text"
 msgid "Music"
 msgstr "Musik"
 
 #. (itstool) path: page/title
-#: C/index.page:18
+#: C/index.page:19
 msgid "<_:media-1/> Music"
 msgstr "<_:media-1/> Musik"
 
@@ -172,8 +178,8 @@ msgstr "Klik pada tombol <gui style=\"button\">Tambah ke Daftar Putar</gui>."
 #: C/playlist-create-artists.page:40
 msgid "Click on <gui>New Playlist</gui> and type a name for your playlist."
 msgstr ""
-"Klik pada <gui>Daftar Putar Baru</gui> dan ketikkan sebuah nama untuk "
-"daftar putar Anda."
+"Klik pada <gui>Daftar Putar Baru</gui> dan ketikkan sebuah nama untuk daftar "
+"putar Anda."
 
 #. (itstool) path: item/p
 #: C/playlist-create-albums.page:42 C/playlist-create-albums.page:67
@@ -264,8 +270,8 @@ msgid ""
 "Click on <gui style=\"button\">New Playlist</gui> and type a name for your "
 "playlist."
 msgstr ""
-"Klik pada <gui style=\"button\">Daftar Putar Baru</gui> dan ketikkan "
-"sebuah nama untuk daftar putar Anda."
+"Klik pada <gui style=\"button\">Daftar Putar Baru</gui> dan ketikkan sebuah "
+"nama untuk daftar putar Anda."
 
 #. (itstool) path: info/desc
 #: C/playlist-create-artists.page:18
@@ -407,8 +413,7 @@ msgid ""
 "In the taskbar, click on the button on right hand side and select "
 "<gui>Shuffle</gui>."
 msgstr ""
-"Dalam bilah tugas, klik pada tombol di sisi kanan dan pilih <gui>Acak</"
-"gui>."
+"Dalam bilah tugas, klik pada tombol di sisi kanan dan pilih <gui>Acak</gui>."
 
 #. (itstool) path: info/desc
 #: C/search.page:18
@@ -427,9 +432,8 @@ msgid ""
 "want to search through then click the <gui>Search</gui> button and start "
 "searching."
 msgstr ""
-"Anda dapat mencari album, artis, lagu, dan daftar putar Anda. Pilih apa "
-"yang ingin Anda cari lalu klik tombol <gui>Cari</gui> dan memulai "
-"pencarian."
+"Anda dapat mencari album, artis, lagu, dan daftar putar Anda. Pilih apa yang "
+"ingin Anda cari lalu klik tombol <gui>Cari</gui> dan memulai pencarian."
 
 #. (itstool) path: p/link
 #: C/legal.xml:5
