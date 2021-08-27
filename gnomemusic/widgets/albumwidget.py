@@ -234,10 +234,15 @@ class AlbumWidget(Handy.Clamp):
             return
 
         mins = (self._corealbum.props.duration // 60) + 1
+        mins_text = ngettext("{} minute", "{} minutes", mins).format(mins)
         year = self._corealbum.props.year
-        release_info_label = ngettext(
-            "{}, {} minute", "{}, {} minutes", mins).format(year, mins)
-        self._released_label.props.label = release_info_label
+
+        if year == "----":
+            label = mins_text
+        else:
+            label = f"{year}, {mins_text}"
+
+        self._released_label.props.label = label
 
     def _play(self, coresong: Optional[CoreSong] = None) -> None:
         signal_id = 0
