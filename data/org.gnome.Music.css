@@ -133,3 +133,9 @@ list {
 .lastfm-status-label {
     font-weight: bold;
 }
+
+/* SongWidget */
+
+.songwidget {
+  padding: 12px;
+}
