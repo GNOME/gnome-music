@@ -70,10 +70,9 @@ class AsyncQueue(GObject.GObject):
         else:
             return
 
-        def on_async_finished(*args):
-            async_obj = args[0]
-            async_obj.disconnect(result_id)
-            self._async_active_pool.pop(id(async_obj))
+        def on_async_finished(obj, *signal_args):
+            obj.disconnect(result_id)
+            self._async_active_pool.pop(id(obj))
 
             if len(self._async_pool) > 0:
                 key = list(self._async_pool.keys())[0]
@@ -81,9 +80,9 @@ class AsyncQueue(GObject.GObject):
                 self.queue(*args)
 
         if len(self._async_active_pool) < self._max_async:
-            async_task = self._async_pool.pop(async_obj_id)
-            async_obj = async_task[0]
-            self._async_active_pool[async_obj_id] = async_obj
+            async_task_args = self._async_pool.pop(async_obj_id)
+            async_obj = async_task_args[0]
+            self._async_active_pool[async_obj_id] = async_task_args
 
             result_id = async_obj.connect("finished", on_async_finished)
-            async_obj.start(*args[1:])
+            async_obj.start(*async_task_args[1:])
