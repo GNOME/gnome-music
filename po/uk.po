@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2021-08-14 21:41+0000\n"
-"PO-Revision-Date: 2021-08-15 15:42+0300\n"
+"POT-Creation-Date: 2021-08-27 21:42+0000\n"
+"PO-Revision-Date: 2021-08-28 10:23+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -144,31 +144,6 @@ msgid "Visit GNOME Music website"
 msgstr "Відвідати сайт Музики GNOME"
 
 #: data/ui/AboutDialog.ui.in:13
-#| msgid ""
-#| "GNOME Music is free software; you can redistribute it and/or modify it "
-#| "under the terms of the GNU General Public License as published by the "
-#| "Free Software Foundation; either version 2 of the License, or (at your "
-#| "option) any later version.\n"
-#| "\n"
-#| "GNOME Music is distributed in the hope that it will be useful, but "
-#| "WITHOUT ANY WARRANTY; without even the implied warranty of "
-#| "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General "
-#| "Public License for more details.\n"
-#| "\n"
-#| "You should have received a copy of the GNU General Public License along "
-#| "with GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
-#| "Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
-#| "\n"
-#| "The GNOME Music authors hereby grant permission for non-GPL compatible "
-#| "GStreamer plugins to be used and distributed together with GStreamer and "
-#| "GNOME Music.  This permission is above and beyond the permissions granted "
-#| "by the GPL license by which GNOME Music is covered.  If you modify this "
-#| "code, you may extend this exception to your version of the code, but you "
-#| "are not obligated to do so.  If you do not wish to do so, delete this "
-#| "exception statement from your version.\n"
-#| "\n"
-#| "“Magic of the vinyl” by Sami Pyylampi image is licensed by CC-BY-SA 2.0 "
-#| "https://www.flickr.com/photos/_spy_/12270839403"
 msgid ""
 "GNOME Music is free software; you can redistribute it and/or modify it under "
 "the terms of the GNU General Public License as published by the Free "
@@ -213,21 +188,21 @@ msgstr ""
 "виняток на свою версію коду, але не зобов'язані цього робити. У цьому разі, "
 "вилучіть заяву про цей виняток зі своєї версії."
 
-#: data/ui/AlbumWidget.ui:98 data/ui/PlayerToolbar.ui:124
-#: data/ui/PlaylistControls.ui:123 data/ui/SongWidgetMenu.ui:19
-#: gnomemusic/widgets/playertoolbar.py:175
+#: data/ui/AlbumWidget.ui:104 data/ui/PlayerToolbar.ui:122
+#: data/ui/PlaylistControls.ui:121 data/ui/SongWidgetMenu.ui:19
+#: gnomemusic/widgets/playertoolbar.py:177
 msgid "Play"
 msgstr "Програти"
 
-#: data/ui/AlbumWidget.ui:155 data/ui/PlaylistControls.ui:6
+#: data/ui/AlbumWidget.ui:163 data/ui/PlaylistControls.ui:6
 msgid "_Play"
 msgstr "Про_грати"
 
-#: data/ui/AlbumWidget.ui:159
+#: data/ui/AlbumWidget.ui:167
 msgid "Add to _Favorite Songs"
 msgstr "Додати до _улюблених пісень"
 
-#: data/ui/AlbumWidget.ui:163
+#: data/ui/AlbumWidget.ui:171
 msgid "_Add to Playlist…"
 msgstr "_Додати до списку композицій…"
 
@@ -253,8 +228,7 @@ msgstr "_Про «Музику»"
 
 #: data/ui/EmptyView.ui:35
 msgid "Welcome to Music"
-msgstr ""
-"Вітаємо у «Музиці»"
+msgstr "Вітаємо у «Музиці»"
 
 #: data/ui/HeaderBar.ui:16
 msgid "Menu"
@@ -388,11 +362,11 @@ msgstr "Увійти"
 msgid "Loading"
 msgstr "Завантаження"
 
-#: data/ui/PlayerToolbar.ui:107
+#: data/ui/PlayerToolbar.ui:105
 msgid "Previous"
 msgstr "Попередня"
 
-#: data/ui/PlayerToolbar.ui:141
+#: data/ui/PlayerToolbar.ui:139
 msgid "Next"
 msgstr "Наступна"
 
@@ -404,11 +378,11 @@ msgstr "В_илучити"
 msgid "_Rename…"
 msgstr "_Перейменувати…"
 
-#: data/ui/PlaylistControls.ui:49
+#: data/ui/PlaylistControls.ui:44
 msgid "Playlist Name"
 msgstr "Назва списку композицій"
 
-#: data/ui/PlaylistControls.ui:81
+#: data/ui/PlaylistControls.ui:77
 msgid "_Done"
 msgstr "_Зроблено"
 
@@ -440,15 +414,15 @@ msgstr "_Додати"
 msgid "_Undo"
 msgstr "_Повернути"
 
-#: data/ui/SearchView.ui:43 gnomemusic/views/artistsview.py:46
+#: data/ui/SearchView.ui:47 gnomemusic/views/artistsview.py:46
 msgid "Artists"
 msgstr "Виконавці"
 
-#: data/ui/SearchView.ui:53 data/ui/SearchView.ui:106
+#: data/ui/SearchView.ui:57 data/ui/SearchView.ui:108
 msgid "View All"
 msgstr "Переглянути все"
 
-#: data/ui/SearchView.ui:96 gnomemusic/views/albumsview.py:50
+#: data/ui/SearchView.ui:98 gnomemusic/views/albumsview.py:50
 msgid "Albums"
 msgstr "Альбоми"
 
@@ -611,12 +585,14 @@ msgid "Albums Results"
 msgstr "Альбоми"
 
 #: gnomemusic/widgets/albumwidget.py:237
-msgid "{}, {} minute"
-msgid_plural "{}, {} minutes"
-msgstr[0] "{}, {} хвилина"
-msgstr[1] "{}, {} хвилини"
-msgstr[2] "{}, {} хвилин"
-msgstr[3] "{}, {} хвилина"
+#| msgid "{}, {} minute"
+#| msgid_plural "{}, {} minutes"
+msgid "{} minute"
+msgid_plural "{} minutes"
+msgstr[0] "{} хвилина"
+msgstr[1] "{} хвилини"
+msgstr[2] "{} хвилин"
+msgstr[3] "{} хвилина"
 
 #: gnomemusic/widgets/disclistboxwidget.py:75
 msgid "Disc {}"
@@ -655,7 +631,7 @@ msgstr "Список композицій {} вилучено"
 msgid "{} removed from {}"
 msgstr "{} вилучено з {}"
 
-#: gnomemusic/widgets/playertoolbar.py:172
+#: gnomemusic/widgets/playertoolbar.py:174
 msgid "Pause"
 msgstr "Призупинити"
 
