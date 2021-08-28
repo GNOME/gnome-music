@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2021-08-14 21:41+0000\n"
-"PO-Revision-Date: 2021-08-14 22:47+0100\n"
+"POT-Creation-Date: 2021-08-27 21:42+0000\n"
+"PO-Revision-Date: 2021-08-28 12:55+0100\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <>\n"
 "Language: pt\n"
@@ -187,21 +187,21 @@ msgstr ""
 "obrigado a fazê-lo. Se não o quiser fazer, apague esta declaração de exceção "
 "da sua versão."
 
-#: data/ui/AlbumWidget.ui:98 data/ui/PlayerToolbar.ui:124
-#: data/ui/PlaylistControls.ui:123 data/ui/SongWidgetMenu.ui:19
-#: gnomemusic/widgets/playertoolbar.py:175
+#: data/ui/AlbumWidget.ui:104 data/ui/PlayerToolbar.ui:122
+#: data/ui/PlaylistControls.ui:121 data/ui/SongWidgetMenu.ui:19
+#: gnomemusic/widgets/playertoolbar.py:177
 msgid "Play"
 msgstr "Reproduzir"
 
-#: data/ui/AlbumWidget.ui:155 data/ui/PlaylistControls.ui:6
+#: data/ui/AlbumWidget.ui:163 data/ui/PlaylistControls.ui:6
 msgid "_Play"
 msgstr "Re_Produzir"
 
-#: data/ui/AlbumWidget.ui:159
+#: data/ui/AlbumWidget.ui:167
 msgid "Add to _Favorite Songs"
 msgstr "Adicionar às músicas _favoritas"
 
-#: data/ui/AlbumWidget.ui:163
+#: data/ui/AlbumWidget.ui:171
 msgid "_Add to Playlist…"
 msgstr "_Adicionar à lista de reprodução…"
 
@@ -359,11 +359,11 @@ msgstr "Início de sessão"
 msgid "Loading"
 msgstr "A carregar"
 
-#: data/ui/PlayerToolbar.ui:107
+#: data/ui/PlayerToolbar.ui:105
 msgid "Previous"
 msgstr "Anterior"
 
-#: data/ui/PlayerToolbar.ui:141
+#: data/ui/PlayerToolbar.ui:139
 msgid "Next"
 msgstr "Seguinte"
 
@@ -375,11 +375,11 @@ msgstr "_Eliminar"
 msgid "_Rename…"
 msgstr "_Renomear…"
 
-#: data/ui/PlaylistControls.ui:49
+#: data/ui/PlaylistControls.ui:44
 msgid "Playlist Name"
 msgstr "Nome da lista de reprodução"
 
-#: data/ui/PlaylistControls.ui:81
+#: data/ui/PlaylistControls.ui:77
 msgid "_Done"
 msgstr "_Terminado"
 
@@ -411,15 +411,15 @@ msgstr "_Adicionar"
 msgid "_Undo"
 msgstr "_Desfazer"
 
-#: data/ui/SearchView.ui:43 gnomemusic/views/artistsview.py:46
+#: data/ui/SearchView.ui:47 gnomemusic/views/artistsview.py:46
 msgid "Artists"
 msgstr "Artistas"
 
-#: data/ui/SearchView.ui:53 data/ui/SearchView.ui:106
+#: data/ui/SearchView.ui:57 data/ui/SearchView.ui:108
 msgid "View All"
 msgstr "Ver tudo"
 
-#: data/ui/SearchView.ui:96 gnomemusic/views/albumsview.py:50
+#: data/ui/SearchView.ui:98 gnomemusic/views/albumsview.py:50
 msgid "Albums"
 msgstr "Álbuns"
 
@@ -583,10 +583,10 @@ msgid "Albums Results"
 msgstr "Álbuns encontrados"
 
 #: gnomemusic/widgets/albumwidget.py:237
-msgid "{}, {} minute"
-msgid_plural "{}, {} minutes"
-msgstr[0] "{}, {} minuto"
-msgstr[1] "{}, {} minutos"
+msgid "{} minute"
+msgid_plural "{} minutes"
+msgstr[0] "{} minuto"
+msgstr[1] "{} minutos"
 
 #: gnomemusic/widgets/disclistboxwidget.py:75
 msgid "Disc {}"
@@ -623,7 +623,7 @@ msgstr "Lista {} removida"
 msgid "{} removed from {}"
 msgstr "{} removida de {}"
 
-#: gnomemusic/widgets/playertoolbar.py:172
+#: gnomemusic/widgets/playertoolbar.py:174
 msgid "Pause"
 msgstr "Pausa"
 
