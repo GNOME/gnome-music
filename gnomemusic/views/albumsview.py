@@ -106,7 +106,7 @@ class AlbumsView(Gtk.Stack):
 
         self._adjustment_timeout_id = GLib.timeout_add(
             200, self._retrieve_covers, adjustment.props.value,
-            priority=GLib.PRIORITY_LOW)
+            priority=GLib.PRIORITY_DEFAULT - 10)
 
     def _retrieve_covers(self, old_adjustment):
         adjustment = self._scrolled_window.props.vadjustment.props.value
