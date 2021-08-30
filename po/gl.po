@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2021-08-14 21:41+0000\n"
-"PO-Revision-Date: 2021-08-25 20:09+0200\n"
+"POT-Creation-Date: 2021-08-27 21:42+0000\n"
+"PO-Revision-Date: 2021-08-30 11:38+0200\n"
 "Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
 "Language-Team: Galician <Proxecto Trasno <proxecto@trasno.gal>>\n"
 "Language: gl\n"
@@ -150,31 +150,6 @@ msgid "Visit GNOME Music website"
 msgstr "Visite o sitio web de GNOME Music"
 
 #: data/ui/AboutDialog.ui.in:13
-#| msgid ""
-#| "GNOME Music is free software; you can redistribute it and/or modify it "
-#| "under the terms of the GNU General Public License as published by the "
-#| "Free Software Foundation; either version 2 of the License, or (at your "
-#| "option) any later version.\n"
-#| "\n"
-#| "GNOME Music is distributed in the hope that it will be useful, but "
-#| "WITHOUT ANY WARRANTY; without even the implied warranty of "
-#| "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General "
-#| "Public License for more details.\n"
-#| "\n"
-#| "You should have received a copy of the GNU General Public License along "
-#| "with GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
-#| "Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
-#| "\n"
-#| "The GNOME Music authors hereby grant permission for non-GPL compatible "
-#| "GStreamer plugins to be used and distributed together with GStreamer and "
-#| "GNOME Music.  This permission is above and beyond the permissions granted "
-#| "by the GPL license by which GNOME Music is covered.  If you modify this "
-#| "code, you may extend this exception to your version of the code, but you "
-#| "are not obligated to do so.  If you do not wish to do so, delete this "
-#| "exception statement from your version.\n"
-#| "\n"
-#| "“Magic of the vinyl” by Sami Pyylampi image is licensed by CC-BY-SA 2.0 "
-#| "https://www.flickr.com/photos/_spy_/12270839403"
 msgid ""
 "GNOME Music is free software; you can redistribute it and/or modify it under "
 "the terms of the GNU General Public License as published by the Free "
@@ -222,23 +197,21 @@ msgstr ""
 "A imaxe de “Magic of the vinyl” por Sami Pyylampi ten licenza CC-BY-SA 2.0 "
 "https://www.flickr.com/photos/_spy_/12270839403"
 
-#: data/ui/AlbumWidget.ui:98 data/ui/PlayerToolbar.ui:124
-#: data/ui/PlaylistControls.ui:123 data/ui/SongWidgetMenu.ui:19
-#: gnomemusic/widgets/playertoolbar.py:175
+#: data/ui/AlbumWidget.ui:104 data/ui/PlayerToolbar.ui:122
+#: data/ui/PlaylistControls.ui:121 data/ui/SongWidgetMenu.ui:19
+#: gnomemusic/widgets/playertoolbar.py:177
 msgid "Play"
 msgstr "Reproducir"
 
-#: data/ui/AlbumWidget.ui:155 data/ui/PlaylistControls.ui:6
+#: data/ui/AlbumWidget.ui:163 data/ui/PlaylistControls.ui:6
 msgid "_Play"
 msgstr "_Reproducir"
 
-#: data/ui/AlbumWidget.ui:159
-#| msgid "Favorite Songs"
+#: data/ui/AlbumWidget.ui:167
 msgid "Add to _Favorite Songs"
 msgstr "Engadir ás cancións _favoritas"
 
-#: data/ui/AlbumWidget.ui:163
-#| msgid "Add to Playlist…"
+#: data/ui/AlbumWidget.ui:171
 msgid "_Add to Playlist…"
 msgstr "_Engadir á lista de reprodución"
 
@@ -397,11 +370,11 @@ msgstr "Iniciar sesión"
 msgid "Loading"
 msgstr "Cargando"
 
-#: data/ui/PlayerToolbar.ui:107
+#: data/ui/PlayerToolbar.ui:105
 msgid "Previous"
 msgstr "Anterior"
 
-#: data/ui/PlayerToolbar.ui:141
+#: data/ui/PlayerToolbar.ui:139
 msgid "Next"
 msgstr "Seguinte"
 
@@ -413,11 +386,11 @@ msgstr "_Retirar"
 msgid "_Rename…"
 msgstr "_Renomear…"
 
-#: data/ui/PlaylistControls.ui:49
+#: data/ui/PlaylistControls.ui:44
 msgid "Playlist Name"
 msgstr "Nome da lista de reprodución"
 
-#: data/ui/PlaylistControls.ui:81
+#: data/ui/PlaylistControls.ui:77
 msgid "_Done"
 msgstr "_Feito"
 
@@ -449,15 +422,15 @@ msgstr "_Engadir"
 msgid "_Undo"
 msgstr "_Desfacer"
 
-#: data/ui/SearchView.ui:43 gnomemusic/views/artistsview.py:46
+#: data/ui/SearchView.ui:47 gnomemusic/views/artistsview.py:46
 msgid "Artists"
 msgstr "Artistas"
 
-#: data/ui/SearchView.ui:53 data/ui/SearchView.ui:106
+#: data/ui/SearchView.ui:57 data/ui/SearchView.ui:108
 msgid "View All"
 msgstr "Ver todo"
 
-#: data/ui/SearchView.ui:96 gnomemusic/views/albumsview.py:50
+#: data/ui/SearchView.ui:98 gnomemusic/views/albumsview.py:50
 msgid "Albums"
 msgstr "Álbums"
 
@@ -573,7 +546,6 @@ msgid "Your XDG Music directory is not set."
 msgstr "O seu cartafol «Música» de XDG non está estabelecido."
 
 #: gnomemusic/views/emptyview.py:72
-#| msgid "Music folder"
 msgid "Music Folder"
 msgstr "Cartafol de música"
 
@@ -584,33 +556,27 @@ msgid "The contents of your {} will appear here."
 msgstr "Os contidos de {} aparecerán aquí."
 
 #: gnomemusic/views/emptyview.py:124
-#| msgid "No music found"
 msgid "No Music Found"
 msgstr "Non se atopou música"
 
 #: gnomemusic/views/emptyview.py:125
-#| msgid "Try a different search"
 msgid "Try a Different Search"
 msgstr "Probe unha busca diferente"
 
 #: gnomemusic/views/emptyview.py:129
-#| msgid "GNOME Music could not connect to Tracker"
 msgid "GNOME Music could not connect to Tracker."
 msgstr "Música de GNOME non puido conectarse a Tracker."
 
 #: gnomemusic/views/emptyview.py:131
-#| msgid "Your music files cannot be indexed without Tracker running"
 msgid "Your music files cannot be indexed without Tracker running."
 msgstr ""
 "Os seus ficheiros de música non poden indexarse sen ter Tracker executándose."
 
 #: gnomemusic/views/emptyview.py:137
-#| msgid "Your system Tracker version seems outdated"
 msgid "Your system Tracker version seems outdated."
 msgstr "A versión de Tracker do seu sistema semella desfasada."
 
 #: gnomemusic/views/emptyview.py:139
-#| msgid "Music needs Tracker version 3.0.0 or higher"
 msgid "Music needs Tracker version 3.0.0 or higher."
 msgstr "Música precisa Tracker versión 3.0.0 ou superior."
 
@@ -627,12 +593,12 @@ msgid "Albums Results"
 msgstr "Resultados de álbums"
 
 #: gnomemusic/widgets/albumwidget.py:237
-#| msgid "{} minute"
-#| msgid_plural "{} minutes"
-msgid "{}, {} minute"
-msgid_plural "{}, {} minutes"
+#| msgid "{}, {} minute"
+#| msgid_plural "{}, {} minutes"
+msgid "{} minute"
+msgid_plural "{} minutes"
 msgstr[0] "{}, {} minuto"
-msgstr[1] "{}, {} minutos"
+msgstr[1] "{} minutos"
 
 #: gnomemusic/widgets/disclistboxwidget.py:75
 msgid "Disc {}"
@@ -669,7 +635,7 @@ msgstr "Eliminouse a lista de reprodución {}"
 msgid "{} removed from {}"
 msgstr "{} eliminado de {}"
 
-#: gnomemusic/widgets/playertoolbar.py:172
+#: gnomemusic/widgets/playertoolbar.py:174
 msgid "Pause"
 msgstr "Pausar"
 
