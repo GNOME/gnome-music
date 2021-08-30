@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2021-08-14 21:41+0000\n"
-"PO-Revision-Date: 2021-08-27 20:44+0300\n"
+"POT-Creation-Date: 2021-08-27 21:42+0000\n"
+"PO-Revision-Date: 2021-08-30 11:14+0300\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: suomi <lokalisointi-lista@googlegroups.com>\n"
 "Language: fi\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
 msgid "GNOME Music"
-msgstr "Gnomen musiikki"
+msgstr "Gnomen Musiikki"
 
 #: data/org.gnome.Music.appdata.xml.in.in:7
 #: data/org.gnome.Music.desktop.in.in:5
@@ -165,21 +165,21 @@ msgid ""
 "statement from your version."
 msgstr ""
 
-#: data/ui/AlbumWidget.ui:98 data/ui/PlayerToolbar.ui:124
-#: data/ui/PlaylistControls.ui:123 data/ui/SongWidgetMenu.ui:19
-#: gnomemusic/widgets/playertoolbar.py:175
+#: data/ui/AlbumWidget.ui:104 data/ui/PlayerToolbar.ui:122
+#: data/ui/PlaylistControls.ui:121 data/ui/SongWidgetMenu.ui:19
+#: gnomemusic/widgets/playertoolbar.py:177
 msgid "Play"
 msgstr "Toista"
 
-#: data/ui/AlbumWidget.ui:155 data/ui/PlaylistControls.ui:6
+#: data/ui/AlbumWidget.ui:163 data/ui/PlaylistControls.ui:6
 msgid "_Play"
 msgstr "_Toista"
 
-#: data/ui/AlbumWidget.ui:159
+#: data/ui/AlbumWidget.ui:167
 msgid "Add to _Favorite Songs"
 msgstr "Lisää _suosikkikappaleisiin"
 
-#: data/ui/AlbumWidget.ui:163
+#: data/ui/AlbumWidget.ui:171
 msgid "_Add to Playlist…"
 msgstr "Lisää s_oittolistalle…"
 
@@ -337,11 +337,11 @@ msgstr "Kirjaudu"
 msgid "Loading"
 msgstr "Ladataan"
 
-#: data/ui/PlayerToolbar.ui:107
+#: data/ui/PlayerToolbar.ui:105
 msgid "Previous"
 msgstr "Edellinen"
 
-#: data/ui/PlayerToolbar.ui:141
+#: data/ui/PlayerToolbar.ui:139
 msgid "Next"
 msgstr "Seuraava"
 
@@ -353,11 +353,11 @@ msgstr "_Poista"
 msgid "_Rename…"
 msgstr "_Nimeä uudelleen…"
 
-#: data/ui/PlaylistControls.ui:49
+#: data/ui/PlaylistControls.ui:44
 msgid "Playlist Name"
 msgstr "Soittolistan nimi"
 
-#: data/ui/PlaylistControls.ui:81
+#: data/ui/PlaylistControls.ui:77
 msgid "_Done"
 msgstr "_Valmis"
 
@@ -389,15 +389,15 @@ msgstr "_Lisää"
 msgid "_Undo"
 msgstr "_Kumoa"
 
-#: data/ui/SearchView.ui:43 gnomemusic/views/artistsview.py:46
+#: data/ui/SearchView.ui:47 gnomemusic/views/artistsview.py:46
 msgid "Artists"
 msgstr "Esittäjät"
 
-#: data/ui/SearchView.ui:53 data/ui/SearchView.ui:106
+#: data/ui/SearchView.ui:57 data/ui/SearchView.ui:108
 msgid "View All"
 msgstr "Näytä kaikki"
 
-#: data/ui/SearchView.ui:96 gnomemusic/views/albumsview.py:50
+#: data/ui/SearchView.ui:98 gnomemusic/views/albumsview.py:50
 msgid "Albums"
 msgstr "Albumit"
 
@@ -558,12 +558,12 @@ msgid "Albums Results"
 msgstr "Albumitulokset"
 
 #: gnomemusic/widgets/albumwidget.py:237
-#| msgid "{} minute"
-#| msgid_plural "{} minutes"
-msgid "{}, {} minute"
-msgid_plural "{}, {} minutes"
-msgstr[0] "{}, {} minuutti"
-msgstr[1] "{}, {} minuuttia"
+#| msgid "{}, {} minute"
+#| msgid_plural "{}, {} minutes"
+msgid "{} minute"
+msgid_plural "{} minutes"
+msgstr[0] "{} minuutti"
+msgstr[1] "{} minuuttia"
 
 #: gnomemusic/widgets/disclistboxwidget.py:75
 msgid "Disc {}"
@@ -600,7 +600,7 @@ msgstr "Soittolista {} poistettu"
 msgid "{} removed from {}"
 msgstr "{} poistettu soittolistalta {}"
 
-#: gnomemusic/widgets/playertoolbar.py:172
+#: gnomemusic/widgets/playertoolbar.py:174
 msgid "Pause"
 msgstr "Keskeytä"
 
