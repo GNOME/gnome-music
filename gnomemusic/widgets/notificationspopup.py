@@ -249,4 +249,4 @@ class PlaylistNotification(Gtk.Grid):
         if self.type_ == PlaylistNotification.Type.PLAYLIST:
             self._coregrilo.finish_playlist_deletion(self._playlist, True)
         else:
-            self._playlist.finish_song_deletion(self._coresong)
+            self._playlist.finish_song_deletion(self._coresong, self._position)

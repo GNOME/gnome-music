@@ -509,10 +509,12 @@ class Playlist(GObject.GObject):
         self._model.insert(position, coresong)
         self.props.count += 1
 
-    def finish_song_deletion(self, coresong):
+    def finish_song_deletion(self, coresong: CoreSong, position: int) -> None:
         """Removes a song from the playlist
 
         :param CoreSong coresong: song to remove
+        :param int position: Song position in the playlist, starts from
+        zero
         """
         def update_cb(conn, res):
             try:
@@ -597,7 +599,6 @@ class Playlist(GObject.GObject):
 
             self._tracker.update_async(update_query, None, update_cb)
 
-        song_id = coresong.props.media.get_id()
         entry_query = """
         SELECT
             %(media_type)s AS ?type
@@ -606,31 +607,16 @@ class Playlist(GObject.GObject):
                 ?playlist a nmm:Playlist ;
                           a nfo:MediaList ;
                             nfo:hasMediaFileListEntry ?entry .
-                ?entry a nfo:MediaFileListEntry ;
-                         nfo:entryUrl ?url .
-                SERVICE <dbus:%(miner_fs_busname)s> {
-                    GRAPH tracker:Audio {
-                        SELECT
-                            ?song
-                            ?url
-                        WHERE {
-                            ?song a nmm:MusicPiece ;
-                                  nie:isStoredAs ?url .
-                            FILTER (
-                                %(filter_clause_song)s
-                            )
-                        }
-                    }
-                }
+                ?entry a nfo:MediaFileListEntry .
                 FILTER (
-                    %(filter_clause_pl)s
+                    %(filter_clause_pl)s &&
+                    nfo:listPosition(?entry) = %(position)s
                 )
             }
         """.replace("\n", " ").strip() % {
             "media_type": int(Grl.MediaType.AUDIO),
-            "filter_clause_song": "tracker:id(?song) = " + song_id,
+            "position": position + 1,
             "filter_clause_pl": "tracker:id(?playlist) = " + self.props.pl_id,
-            "miner_fs_busname": self._tracker_wrapper.props.miner_fs_busname
         }
 
         self._source.query(
