@@ -419,7 +419,10 @@ class GrlTrackerWrapper(GObject.GObject):
             media_ids = str(ids)[1:-1].replace("'", "")
             songs_filter = f"FILTER ( ?song in ( {media_ids} ) )"
 
-        query = """
+        location_filter = self._tracker_wrapper.location_filter()
+        media_type = int(Grl.MediaType.AUDIO)
+        miner_fs_busname = self._tracker_wrapper.props.miner_fs_busname
+        query = " ".join(f"""
         SELECT
             ?type ?urn ?title ?id ?url
             ?artist ?album
@@ -427,11 +430,11 @@ class GrlTrackerWrapper(GObject.GObject):
             ?albumDiscNumber
             nie:usageCounter(?urn) AS ?playCount
             ?tag AS ?favorite
-        WHERE {
-            SERVICE <dbus:%(miner_fs_busname)s> {
-                GRAPH tracker:Audio {
+        WHERE {{
+            SERVICE <dbus:{miner_fs_busname}> {{
+                GRAPH tracker:Audio {{
                     SELECT DISTINCT
-                        %(media_type)s AS ?type
+                        {media_type} AS ?type
                         ?song AS ?urn
                         nie:title(?song) AS ?title
                         ?song AS ?id
@@ -442,24 +445,19 @@ class GrlTrackerWrapper(GObject.GObject):
                         nmm:trackNumber(?song) AS ?trackNumber
                         nmm:setNumber(nmm:musicAlbumDisc(?song))
                             AS ?albumDiscNumber
-                    WHERE {
+                    WHERE {{
                         ?song a nmm:MusicPiece .
-                        %(songs_filter)s
-                        %(location_filter)s
-                    }
-                }
-            }
-            OPTIONAL {
+                        {songs_filter}
+                        {location_filter}
+                    }}
+                }}
+            }}
+            OPTIONAL {{
                 ?urn nao:hasTag ?tag .
                 FILTER (?tag = nao:predefined-tag-favorite)
-            }
-        }
-        """.replace('\n', ' ').strip() % {
-            "miner_fs_busname": self._tracker_wrapper.props.miner_fs_busname,
-            "media_type": int(Grl.MediaType.AUDIO),
-            'location_filter': self._tracker_wrapper.location_filter(),
-            "songs_filter": songs_filter
-        }
+            }}
+        }}
+        """.split())
 
         return query
 
