@@ -408,8 +408,16 @@ class GrlTrackerWrapper(GObject.GObject):
                     self._songs_model.remove(idx)
                     break
 
-    def _song_media_query(self, ids: List[str]) -> str:
-        media_ids: str = str(ids)[1:-1].replace("'", "")
+    def _song_media_query(self, ids: Optional[List[str]] = None) -> str:
+        """Returns a songs query string
+
+        :param list ids: List of Media ids to filter by or None
+        """
+        if ids is None:
+            songs_filter = ""
+        else:
+            media_ids = str(ids)[1:-1].replace("'", "")
+            songs_filter = f"FILTER ( ?song in ( {media_ids} ) )"
 
         query = """
         SELECT
@@ -436,7 +444,7 @@ class GrlTrackerWrapper(GObject.GObject):
                             AS ?albumDiscNumber
                     WHERE {
                         ?song a nmm:MusicPiece .
-                        FILTER ( ?song in ( %(media_ids)s ) )
+                        %(songs_filter)s
                         %(location_filter)s
                     }
                 }
@@ -450,7 +458,7 @@ class GrlTrackerWrapper(GObject.GObject):
             "miner_fs_busname": self._tracker_wrapper.props.miner_fs_busname,
             "media_type": int(Grl.MediaType.AUDIO),
             'location_filter': self._tracker_wrapper.location_filter(),
-            'media_ids': media_ids
+            "songs_filter": songs_filter
         }
 
         return query
@@ -519,50 +527,9 @@ class GrlTrackerWrapper(GObject.GObject):
                     self._songs_model.get_n_items(), 0, songs_added)
                 songs_added.clear()
 
-        query = """
-        SELECT
-            ?type ?urn ?title ?id ?url
-            ?artist ?album
-            ?duration ?trackNumber
-            ?albumDiscNumber
-            nie:usageCounter(?urn) AS ?playCount
-            ?tag AS ?favorite
-        WHERE {
-            SERVICE <dbus:%(miner_fs_busname)s> {
-                GRAPH tracker:Audio {
-                    SELECT
-                        %(media_type)s AS ?type
-                        ?song AS ?urn
-                        nie:title(?song) AS ?title
-                        ?song AS ?id
-                        nie:isStoredAs(?song) AS ?url
-                        nmm:artistName(nmm:artist(?song)) AS ?artist
-                        nie:title(nmm:musicAlbum(?song)) AS ?album
-                        nfo:duration(?song) AS ?duration
-                        nmm:trackNumber(?song) AS ?trackNumber
-                        nmm:setNumber(nmm:musicAlbumDisc(?song))
-                            AS ?albumDiscNumber
-                    WHERE {
-                        ?song a nmm:MusicPiece .
-                        %(location_filter)s
-                    }
-                    ORDER BY ?title
-                }
-            }
-            OPTIONAL {
-                ?urn nao:hasTag ?tag .
-                FILTER (?tag = nao:predefined-tag-favorite)
-            }
-        }
-        """.replace('\n', ' ').strip() % {
-            "miner_fs_busname": self._tracker_wrapper.props.miner_fs_busname,
-            "media_type": int(Grl.MediaType.AUDIO),
-            'location_filter': self._tracker_wrapper.location_filter()
-        }
-
         self.props.source.query(
-            query, self._METADATA_SONG_FILL_KEYS, self._fast_options,
-            _add_to_model)
+            self._song_media_query(), self._METADATA_SONG_FILL_KEYS,
+            self._fast_options, _add_to_model)
 
     def _initial_albums_fill(self) -> None:
         self._notificationmanager.push_loading()
