@@ -1,23 +1,28 @@
 # Frisian translation for gnome-music.
 # Copyright (C) 2021 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-music package.
-# Tjipke van der Heide <tjipke@tutanota.com>, 2021.
 # vancha <tjipke@tutanota.com>, 2021.
+# Tjipke van der Heide <tjipke@tutanota.com>, 2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2021-07-26 05:11+0000\n"
-"PO-Revision-Date: 2021-07-26 15:11+0200\n"
-"Last-Translator: vancha <tjipke@tutanota.com>\n"
-"Language-Team: Western Frisian <none>\n"
+"POT-Creation-Date: 2021-08-27 21:42+0000\n"
+"PO-Revision-Date: 2021-08-31 16:25+0200\n"
+"Last-Translator: Tjipke van der Heide <tjipke@tutanota.com>\n"
+"Language-Team: Western Frisian <tjipke@tutanota.com>\n"
 "Language: fy\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "X-Generator: Gtranslator 40.0\n"
+"X-DL-Team: fy\n"
+"X-DL-Module: gnome-music\n"
+"X-DL-Branch: master\n"
+"X-DL-Domain: po\n"
+"X-DL-State: Translating\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
 msgid "GNOME Music"
@@ -29,20 +34,16 @@ msgid "Play and organize your music collection"
 msgstr "Spylje jo muzyk samling ôf en organisearje it"
 
 #: data/org.gnome.Music.appdata.xml.in.in:9
-msgid ""
-"An easy way to play your music. Automatically discover music on your "
-"computer, the local network and internet services."
-msgstr ""
-"In maklike manier om jo muzyk ôf te spyljen. Ûntdek automatysk muzyk op jo "
-"kompûter, it lokale netwurk en internet tsjinsten."
+msgid "An easy and pleasant way to play your music."
+msgstr "In maklik en noflik te brûken wize om jo muzyk ôf te spiljen."
 
 #: data/org.gnome.Music.appdata.xml.in.in:12
 msgid ""
-"Find tracks in your local collection, get music from DLNA servers or try "
-"something new with the Jamendo and Magnatune services."
+"Find tracks in your local collection, use automatically generated playlists "
+"or curate a fresh one."
 msgstr ""
-"Fyn ferskes yn jo lokale samling, helje muzyk fan DLNA tsjinners of "
-"probearje wot nijs mei de Jamendo en Magnatune tsjinsten."
+"Fynt ferskes yn jo lokale samling, brûk automatysk oanmakke ôfspyllistten as "
+"meitsje sels jo eigen."
 
 #: data/org.gnome.Music.appdata.xml.in.in:140
 msgid "The GNOME Music developers"
@@ -113,27 +114,19 @@ msgid "Enables or disables ReplayGain for albums"
 msgstr "Skeakelt ReplayGain foar albums of út"
 
 #: data/org.gnome.Music.gschema.xml:38
-msgid "Inital state has been displayed"
-msgstr "Inisjele steat is sjen litten"
-
-#: data/org.gnome.Music.gschema.xml:39
-msgid "Set to true when initial state has been displayed"
-msgstr "Wurd op wier set as de inisjele steat sjen litten is"
-
-#: data/org.gnome.Music.gschema.xml:43
 msgid "Inhibit system suspend"
 msgstr "Foarkomme dat de kompûter yn skoftmodus giet"
 
-#: data/org.gnome.Music.gschema.xml:44
+#: data/org.gnome.Music.gschema.xml:39
 msgid "Enables or disables inhibiting system suspend while playing music"
 msgstr ""
 "Skeakelt it foarkommen fan dat it systeem yn de skoft stân giet yn of út."
 
-#: data/org.gnome.Music.gschema.xml:48
+#: data/org.gnome.Music.gschema.xml:43
 msgid "Report music history to Last.fm"
 msgstr "Muzyk skiednis nei Last.fm ferstjoere"
 
-#: data/org.gnome.Music.gschema.xml:49
+#: data/org.gnome.Music.gschema.xml:44
 msgid ""
 "Enables or disables sending scrobbles and the “currently playing” info to "
 "Last.fm."
@@ -175,23 +168,32 @@ msgid ""
 "the GPL license by which GNOME Music is covered.  If you modify this code, "
 "you may extend this exception to your version of the code, but you are not "
 "obligated to do so.  If you do not wish to do so, delete this exception "
-"statement from your version.\n"
-"\n"
-"“Magic of the vinyl” by Sami Pyylampi image is licensed by CC-BY-SA 2.0 "
-"https://www.flickr.com/photos/_spy_/12270839403"
+"statement from your version."
 msgstr ""
+"GNOME Music is frije software; jo meie it fierder stjoere en/of oanpasse "
+"ûnder de betingsten fan de GNU General Public License sa as útjûn troch de "
+"Free Software Foundation; Ferzje 2 fan de lisinsje, of as jo dat wolle, elke "
+"nijere ferzje."
 
-#: data/ui/AlbumWidget.ui:91
-msgid "Released"
-msgstr "Útjûn"
+#: data/ui/AlbumWidget.ui:104 data/ui/PlayerToolbar.ui:122
+#: data/ui/PlaylistControls.ui:121 data/ui/SongWidgetMenu.ui:19
+#: gnomemusic/widgets/playertoolbar.py:177
+msgid "Play"
+msgstr "Ôfspylje"
 
-#: data/ui/AlbumWidget.ui:107
-msgid "Running Length"
-msgstr "Totale Lingte"
+#: data/ui/AlbumWidget.ui:163 data/ui/PlaylistControls.ui:6
+msgid "_Play"
+msgstr "Ôfs_Pylje"
 
-#: data/ui/AlbumWidget.ui:151
-msgid "Composer"
-msgstr "Komponist"
+#: data/ui/AlbumWidget.ui:167
+#| msgid "Favorite Songs"
+msgid "Add to _Favorite Songs"
+msgstr "Oan _Favoryte Ferskes Tafoegje"
+
+#: data/ui/AlbumWidget.ui:171
+#| msgid "Add to Playlist…"
+msgid "_Add to Playlist…"
+msgstr "o_An Ôfspyllist tafoegje…"
 
 #: data/ui/AppMenu.ui:23 data/ui/LastfmDialog.ui:8
 msgid "Last.fm Account"
@@ -213,6 +215,10 @@ msgstr "_Help"
 msgid "_About Music"
 msgstr "Oange_Ande Music"
 
+#: data/ui/EmptyView.ui:35
+msgid "Welcome to Music"
+msgstr "Wolkom by Music"
+
 #: data/ui/HeaderBar.ui:16
 msgid "Menu"
 msgstr "Menu"
@@ -224,7 +230,7 @@ msgstr "Selektearje"
 #: data/ui/HeaderBar.ui:60 data/ui/PlaylistDialog.ui:211
 #: data/ui/SearchHeaderBar.ui:37
 msgid "_Cancel"
-msgstr ""
+msgstr "_Ofbrekke"
 
 #: data/ui/HeaderBar.ui:79 data/ui/SearchHeaderBar.ui:56
 msgid "Search"
@@ -344,65 +350,27 @@ msgstr "Ynlogge"
 msgid "Loading"
 msgstr "Laden"
 
-#: data/ui/PlayerToolbar.ui:6
-msgid "Shuffle"
-msgstr "Minge"
-
-#: data/ui/PlayerToolbar.ui:11
-msgid "Repeat All"
-msgstr "Alles opnij ôfspylje"
-
-#: data/ui/PlayerToolbar.ui:16
-msgid "Repeat Song"
-msgstr "Ferske opnij ôfspylje"
-
-#. Causes tracks to play in random order
-#: data/ui/PlayerToolbar.ui:21
-msgid "Shuffle/Repeat Off"
-msgstr "Minge/Opnij ôfspylje Út"
-
-#: data/ui/PlayerToolbar.ui:133
+#: data/ui/PlayerToolbar.ui:105
 msgid "Previous"
 msgstr "Foarige"
 
-#: data/ui/PlayerToolbar.ui:150 gnomemusic/widgets/playertoolbar.py:154
-msgid "Play"
-msgstr "Ôfspylje"
-
-#: data/ui/PlayerToolbar.ui:167
+#: data/ui/PlayerToolbar.ui:139
 msgid "Next"
 msgstr "Folgjende"
 
-#: data/ui/PlaylistContextMenu.ui:5
-msgctxt "context menu item"
-msgid "Play"
-msgstr "Ôfspylje"
-
-#: data/ui/PlaylistContextMenu.ui:9
-msgid "Add to Playlist…"
-msgstr "Oan Ôfspyllist tafoegje…"
-
-#: data/ui/PlaylistContextMenu.ui:13
-msgid "Remove From Playlist"
-msgstr "Út Ôfspyllist wei smite"
-
-#: data/ui/PlaylistControls.ui:6
-msgid "_Play"
-msgstr "Ôfs_Pylje"
-
 #: data/ui/PlaylistControls.ui:10
 msgid "_Delete"
-msgstr ""
+msgstr "_Fuortsmite"
 
 #: data/ui/PlaylistControls.ui:14
 msgid "_Rename…"
-msgstr "We_Rneame…"
+msgstr "_Werneame…"
 
-#: data/ui/PlaylistControls.ui:41
+#: data/ui/PlaylistControls.ui:44
 msgid "Playlist Name"
 msgstr "Namme fan de Ôfspyllist"
 
-#: data/ui/PlaylistControls.ui:73
+#: data/ui/PlaylistControls.ui:77
 msgid "_Done"
 msgstr "_Dien"
 
@@ -412,7 +380,7 @@ msgstr "In namme foar jo ôfspyllist ynfiere"
 
 #: data/ui/PlaylistDialog.ui:88
 msgid "C_reate"
-msgstr ""
+msgstr "_Oanmeitsje"
 
 #: data/ui/PlaylistDialog.ui:156
 msgid "New Playlist…"
@@ -428,21 +396,21 @@ msgstr "Tafoegje oan ôfspyllist"
 
 #: data/ui/PlaylistDialog.ui:224
 msgid "_Add"
-msgstr "T_Afoegje"
+msgstr "_Tafoegje"
 
 #: data/ui/PlaylistNotification.ui:22
 msgid "_Undo"
 msgstr "_Ungedien meitsje"
 
-#: data/ui/SearchView.ui:43 gnomemusic/views/artistsview.py:46
+#: data/ui/SearchView.ui:47 gnomemusic/views/artistsview.py:46
 msgid "Artists"
 msgstr "Artysten"
 
-#: data/ui/SearchView.ui:53 data/ui/SearchView.ui:106
+#: data/ui/SearchView.ui:57 data/ui/SearchView.ui:108
 msgid "View All"
 msgstr "Alles Besjen"
 
-#: data/ui/SearchView.ui:96 gnomemusic/views/albumsview.py:50
+#: data/ui/SearchView.ui:98 gnomemusic/views/albumsview.py:50
 msgid "Albums"
 msgstr "Albums"
 
@@ -466,28 +434,36 @@ msgstr "Klik op items om se te selektearjen"
 msgid "_Add to Playlist"
 msgstr "T_Afoegje oan Ôfspyllist"
 
+#: data/ui/SongWidgetMenu.ui:29
+msgid "Add to Playlist…"
+msgstr "Oan Ôfspyllist tafoegje…"
+
+#: data/ui/SongWidgetMenu.ui:39
+msgid "Remove From Playlist"
+msgstr "Út Ôfspyllist wei smite"
+
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:897
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:898
 msgid "Most Played"
 msgstr "Faakst ôfspile"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:950
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:952
 msgid "Never Played"
 msgstr "Nea Ôfspile"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1002
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1005
 msgid "Recently Played"
 msgstr "Koartlyn Ôfspile"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1064
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1068
 msgid "Recently Added"
 msgstr "Koartlyn Tafoege"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1126
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1131
 msgid "Favorite Songs"
 msgstr "Favorite Ferskes"
 
@@ -521,76 +497,89 @@ msgstr[1] ""
 msgid "Playing music"
 msgstr "Muzyk oan it ôfspyljen"
 
-#: gnomemusic/utils.py:79
+#. Translators: "shuffle" causes tracks to play in random order.
+#: gnomemusic/player.py:45
+msgid "Shuffle"
+msgstr "Minge"
+
+#: gnomemusic/player.py:46
+msgid "Repeat Song"
+msgstr "Ferske opnij ôfspylje"
+
+#: gnomemusic/player.py:47
+msgid "Repeat All"
+msgstr "Alles opnij ôfspylje"
+
+#: gnomemusic/player.py:48
+msgid "Shuffle/Repeat Off"
+msgstr "Minge/Opnij ôfspylje Út"
+
+#: gnomemusic/utils.py:80
 msgid "Unknown album"
 msgstr "Ûnbekend album"
 
-#: gnomemusic/utils.py:100
+#: gnomemusic/utils.py:101
 msgid "Unknown Artist"
 msgstr "Ûnbekende Artyst"
 
-#: gnomemusic/views/emptyview.py:63
+#: gnomemusic/views/emptyview.py:65
 msgid "Your XDG Music directory is not set."
 msgstr "Jo XDG Muzyk triemtafel is net ynsteld."
 
-#: gnomemusic/views/emptyview.py:70
+#: gnomemusic/views/emptyview.py:72
 msgid "Music Folder"
 msgstr "Muzyk Folder"
 
 #. TRANSLATORS: This is a label to display a link to open user's music
 #. folder. {} will be replaced with the translated text 'Music folder'
-#: gnomemusic/views/emptyview.py:74
+#: gnomemusic/views/emptyview.py:76
 msgid "The contents of your {} will appear here."
 msgstr "De ynhâld fan jo {} sil hjir sichtber wurde."
 
-#: gnomemusic/views/emptyview.py:107
-msgid "Hey DJ"
-msgstr "Ah Goeie DJ"
-
-#: gnomemusic/views/emptyview.py:113 gnomemusic/views/emptyview.py:117
+#: gnomemusic/views/emptyview.py:124
 msgid "No Music Found"
 msgstr "Gjin Muzyk Fûn"
 
-#: gnomemusic/views/emptyview.py:118
+#: gnomemusic/views/emptyview.py:125
 msgid "Try a Different Search"
 msgstr "Probearje ris om wot oars te Sykjen"
 
-#: gnomemusic/views/emptyview.py:122
+#: gnomemusic/views/emptyview.py:129
 msgid "GNOME Music could not connect to Tracker."
 msgstr "GNOME Music koe net mei Tracker ferbine."
 
-#: gnomemusic/views/emptyview.py:124
+#: gnomemusic/views/emptyview.py:131
 msgid "Your music files cannot be indexed without Tracker running."
 msgstr ""
 "Jo muzyk bestannen kin net yndeksearre wurde sûnder dat Tracker útfierd wurd."
 
-#: gnomemusic/views/emptyview.py:130
+#: gnomemusic/views/emptyview.py:137
 msgid "Your system Tracker version seems outdated."
 msgstr "De ferzje fan Tracker op jo systeem liket ferâldere."
 
-#: gnomemusic/views/emptyview.py:132
+#: gnomemusic/views/emptyview.py:139
 msgid "Music needs Tracker version 3.0.0 or higher."
 msgstr "Muzyk hat Tracker ferzje 3.0.0 of heger nedich."
 
-#: gnomemusic/views/playlistsview.py:44
+#: gnomemusic/views/playlistsview.py:45
 msgid "Playlists"
 msgstr "Ôfspyllisten"
 
-#: gnomemusic/views/searchview.py:398
+#: gnomemusic/views/searchview.py:420
 msgid "Artists Results"
 msgstr "Artysten Resultaten"
 
-#: gnomemusic/views/searchview.py:413
+#: gnomemusic/views/searchview.py:435
 msgid "Albums Results"
 msgstr "Albums Resultaten"
 
-#: gnomemusic/widgets/albumwidget.py:154
+#: gnomemusic/widgets/albumwidget.py:237
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} minút"
 msgstr[1] "{} minuten"
 
-#: gnomemusic/widgets/disclistboxwidget.py:65
+#: gnomemusic/widgets/disclistboxwidget.py:75
 msgid "Disc {}"
 msgstr "Skiif {}"
 
@@ -625,12 +614,48 @@ msgstr "Ôfspyllist {} fuortsmiten"
 msgid "{} removed from {}"
 msgstr "{} út {} wei smiten"
 
-#: gnomemusic/widgets/playertoolbar.py:151
+#: gnomemusic/widgets/playertoolbar.py:174
 msgid "Pause"
 msgstr "Skoftsje"
 
-#: gnomemusic/widgets/playlistcontrols.py:127
+#: gnomemusic/widgets/playlistcontrols.py:132
 msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} Ferske"
 msgstr[1] "{} Ferskes"
+
+#~ msgid ""
+#~ "An easy way to play your music. Automatically discover music on your "
+#~ "computer, the local network and internet services."
+#~ msgstr ""
+#~ "In maklike manier om jo muzyk ôf te spyljen. Ûntdek automatysk muzyk op "
+#~ "jo kompûter, it lokale netwurk en internet tsjinsten."
+
+#~ msgid ""
+#~ "Find tracks in your local collection, get music from DLNA servers or try "
+#~ "something new with the Jamendo and Magnatune services."
+#~ msgstr ""
+#~ "Fyn ferskes yn jo lokale samling, helje muzyk fan DLNA tsjinners of "
+#~ "probearje wot nijs mei de Jamendo en Magnatune tsjinsten."
+
+#~ msgid "Inital state has been displayed"
+#~ msgstr "Inisjele steat is sjen litten"
+
+#~ msgid "Set to true when initial state has been displayed"
+#~ msgstr "Wurd op wier set as de inisjele steat sjen litten is"
+
+#~ msgid "Released"
+#~ msgstr "Útjûn"
+
+#~ msgid "Running Length"
+#~ msgstr "Totale Lingte"
+
+#~ msgid "Composer"
+#~ msgstr "Komponist"
+
+#~ msgctxt "context menu item"
+#~ msgid "Play"
+#~ msgstr "Ôfspylje"
+
+#~ msgid "Hey DJ"
+#~ msgstr "Ah Goeie DJ"
