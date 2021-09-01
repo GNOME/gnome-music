@@ -1,13 +1,13 @@
 # Korean translation for gnome-music.
 # Copyright (C) 2014 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-music package.
-# Seong-ho Cho <shcho@gnome.org>, 2014, 2016, 2017.
+# Seong-ho Cho <shcho@gnome.org>, 2014, 2016, 2017, 2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
-"POT-Creation-Date: 2017-02-23 07:23+0000\n"
-"PO-Revision-Date: 2017-03-04 14:25+0900\n"
+"POT-Creation-Date: 2021-04-10 19:23+0000\n"
+"PO-Revision-Date: 2021-08-31 16:38+0900\n"
 "Last-Translator: Seong-ho Cho <shcho@gnome.org>\n"
 "Language-Team: Korean <gnome-kr@googlegroups.com>\n"
 "Language: ko\n"
@@ -15,15 +15,15 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 1.8.7\n"
+"X-Generator: Poedit 2.3.1\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
-msgstr "조성호 <shcho@gnome.org>, 2014, 2016, 2017."
+msgstr "조성호 <shcho@gnome.org>, 2014, 2016, 2017, 2021."
 
 #. (itstool) path: credit/name
-#: C/introduction.page:11 C/index.page:11 C/play-music.page:11
+#: C/introduction.page:11 C/index.page:12 C/play-music.page:11
 #: C/playlist-create-albums.page:11 C/playlist-create-songs.page:11
 #: C/playlist-create-artists.page:11 C/playlist-delete.page:11
 #: C/playlist-remove-songs.page:11 C/playlist-repeat.page:11
@@ -32,7 +32,7 @@ msgid "Shobha Tyagi"
 msgstr "Shobha Tyagi"
 
 #. (itstool) path: credit/years
-#: C/introduction.page:13 C/index.page:13 C/play-music.page:13
+#: C/introduction.page:13 C/index.page:14 C/play-music.page:13
 #: C/playlist-create-albums.page:13 C/playlist-create-songs.page:13
 #: C/playlist-create-artists.page:13 C/playlist-delete.page:13
 #: C/playlist-remove-songs.page:13 C/playlist-repeat.page:13
@@ -57,18 +57,24 @@ msgstr "음악 소개"
 
 #. (itstool) path: info/title
 #: C/index.page:6
-msgctxt "link"
+msgctxt "link:trail"
 msgid "Music"
 msgstr "음악"
 
 #. (itstool) path: info/title
 #: C/index.page:7
+msgctxt "link"
+msgid "Music"
+msgstr "음악"
+
+#. (itstool) path: info/title
+#: C/index.page:8
 msgctxt "text"
 msgid "Music"
 msgstr "음악"
 
 #. (itstool) path: page/title
-#: C/index.page:18
+#: C/index.page:19
 msgid "<_:media-1/> Music"
 msgstr "<_:media-1/> 음악"
 
