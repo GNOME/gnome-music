@@ -25,7 +25,7 @@
 from typing import Any, Dict, Optional, Tuple
 import time
 
-from gi.repository import GObject
+from gi.repository import GObject, GLib
 
 from gnomemusic.musiclogger import MusicLogger
 
@@ -59,6 +59,7 @@ class AsyncQueue(GObject.GObject):
         self._log = MusicLogger()
         self._max_async = 4
         self._queue_name = queue_name if queue_name else self
+        self._timeout_id = 0
 
     def queue(self, *args: Any) -> None:
         """Queue an async call
@@ -68,16 +69,17 @@ class AsyncQueue(GObject.GObject):
             to the `start` call of the given class.
             See the class doc for more information.
         """
-        async_obj = args[0]
-        async_obj_id = id(async_obj)
-        result_id = 0
+        async_obj_id = id(args[0])
 
         if (async_obj_id not in self._async_pool
                 and async_obj_id not in self._async_active_pool):
             self._async_pool[async_obj_id] = (args)
-        else:
-            return
 
+        if self._timeout_id == 0:
+            self._timeout_id = GLib.timeout_add(100, self._dispatch)
+
+    def _dispatch(self) -> bool:
+        result_id = 0
         tick = time.time()
 
         def on_async_finished(obj, *signal_args):
@@ -97,10 +99,15 @@ class AsyncQueue(GObject.GObject):
                 args = self._async_pool.pop(key)
                 self.queue(*args)
 
-        if len(self._async_active_pool) < self._max_async:
-            async_task_args = self._async_pool.pop(async_obj_id)
+        if len(self._async_pool) == 0:
+            self._timeout_id = 0
+            return GLib.SOURCE_REMOVE
+        elif len(self._async_active_pool) < self._max_async:
+            async_obj_id, async_task_args = self._async_pool.popitem()
             async_obj = async_task_args[0]
             self._async_active_pool[async_obj_id] = async_task_args
 
             result_id = async_obj.connect("finished", on_async_finished)
             async_obj.start(*async_task_args[1:])
+
+        return GLib.SOURCE_CONTINUE
