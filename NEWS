@@ -1,3 +1,41 @@
+Overview of changes in 41.rc
+============================
+
+• Touch-ups for the new design
+• Async improvements
+
+Bugs fixed:
+ Fix duplicated playlist song removal (#469)
+ Fix flowbox selection state (#460)
+
+Thanks to our contributors this release:
+ Marinus Schraal
+ Mpho Jele
+
+Updated translations:
+ Indonesian
+ Ukrainian
+ Swedish
+ Czech
+ Spanish
+ Basque
+ Catalan
+ Brazilian Portuguese
+ Galician
+ Finnish
+ British English
+ Kazakh
+ Slovenian
+ Slovak
+ Frisian
+ French
+ Korean
+ Persian
+ Greek
+ Lithuanian
+ Romanian
+ Chinese (China)
+
 Overview of changes in 41.beta
 ==============================
 
