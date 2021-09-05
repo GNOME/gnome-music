@@ -7,8 +7,8 @@
 msgid ""
 msgstr "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2021-08-14 21:41+0000\n"
-"PO-Revision-Date: 20201-08-17 10:00+0100\n"
+"POT-Creation-Date: 2021-08-27 21:42+0000\n"
+"PO-Revision-Date: 20201-09-05 10:00+0100\n"
 "Last-Translator: Asier Sarasua Garmendia <asiersarasua@ni.eus>\n"
 "Language-Team: Basque <librezale@librezale.eus>\n"
 "Language: eu\n"
@@ -160,21 +160,21 @@ msgstr "GNOME Musika software librea da; birbana eta/edo alda dezakezu Free Soft
 "\n"
 "GNOME Musikaren egileek baimena ematen dute GPL lizentziarekin bateragarriak ez diren GStreamer pluginak erabiltzeko eta banatzeko GStreamerrekin eta GNOME Musikarekin batera. Baimen hori GNOME Musikak darabilen GPL lizentziak ematen dituen baimenen gainetik eta haratago dago. Kode hau aldatzen baduzu, salbuespen hori kodearen zure bertsiora hedatu dezakezu, baina ez zaude hori egitera behartuta. Ez baduzu egin nahi, ezabatu salbuespen-adierazpen hau zure bertsiotik."
 
-#: data/ui/AlbumWidget.ui:98 data/ui/PlayerToolbar.ui:124
-#: data/ui/PlaylistControls.ui:123 data/ui/SongWidgetMenu.ui:19
-#: gnomemusic/widgets/playertoolbar.py:175
+#: data/ui/AlbumWidget.ui:104 data/ui/PlayerToolbar.ui:122
+#: data/ui/PlaylistControls.ui:121 data/ui/SongWidgetMenu.ui:19
+#: gnomemusic/widgets/playertoolbar.py:177
 msgid "Play"
 msgstr "Erreproduzitu"
 
-#: data/ui/AlbumWidget.ui:155 data/ui/PlaylistControls.ui:6
+#: data/ui/AlbumWidget.ui:163 data/ui/PlaylistControls.ui:6
 msgid "_Play"
 msgstr "_Erreproduzitu"
 
-#: data/ui/AlbumWidget.ui:159
+#: data/ui/AlbumWidget.ui:167
 msgid "Add to _Favorite Songs"
 msgstr "Gehitu _gogoko abestiei"
 
-#: data/ui/AlbumWidget.ui:163
+#: data/ui/AlbumWidget.ui:171
 msgid "_Add to Playlist…"
 msgstr "Gehitu e_rreprodukzio-zerrendari…"
 
@@ -330,11 +330,11 @@ msgstr "Saio-hasiera"
 msgid "Loading"
 msgstr "Kargatzen"
 
-#: data/ui/PlayerToolbar.ui:107
+#: data/ui/PlayerToolbar.ui:105
 msgid "Previous"
 msgstr "Aurrekoa"
 
-#: data/ui/PlayerToolbar.ui:141
+#: data/ui/PlayerToolbar.ui:139
 msgid "Next"
 msgstr "Hurrengoa"
 
@@ -346,11 +346,11 @@ msgstr "Ez_abatu"
 msgid "_Rename…"
 msgstr "Be_rrizendatu…"
 
-#: data/ui/PlaylistControls.ui:49
+#: data/ui/PlaylistControls.ui:44
 msgid "Playlist Name"
 msgstr "Zerrendaren izena"
 
-#: data/ui/PlaylistControls.ui:81
+#: data/ui/PlaylistControls.ui:77
 msgid "_Done"
 msgstr "_Eginda"
 
@@ -382,15 +382,15 @@ msgstr "_Gehitu"
 msgid "_Undo"
 msgstr "_Desegin"
 
-#: data/ui/SearchView.ui:43 gnomemusic/views/artistsview.py:46
+#: data/ui/SearchView.ui:47 gnomemusic/views/artistsview.py:46
 msgid "Artists"
 msgstr "Artistak"
 
-#: data/ui/SearchView.ui:53 data/ui/SearchView.ui:106
+#: data/ui/SearchView.ui:57 data/ui/SearchView.ui:108
 msgid "View All"
 msgstr "Ikusi dena"
 
-#: data/ui/SearchView.ui:96 gnomemusic/views/albumsview.py:50
+#: data/ui/SearchView.ui:98 gnomemusic/views/albumsview.py:50
 msgid "Albums"
 msgstr "Albumak"
 
@@ -551,10 +551,10 @@ msgid "Albums Results"
 msgstr "Albumen emaitzak"
 
 #: gnomemusic/widgets/albumwidget.py:237
-msgid "{}, {} minute"
-msgid_plural "{}, {} minutes"
-msgstr[0] "Minutu {}, {}"
-msgstr[1] "{}, {} minutu"
+msgid "{} minute"
+msgid_plural "{} minutes"
+msgstr[0] "Minutu {}"
+msgstr[1] "{} minutu"
 
 #: gnomemusic/widgets/disclistboxwidget.py:75
 msgid "Disc {}"
@@ -591,7 +591,7 @@ msgstr "{} zerrenda kenduta"
 msgid "{} removed from {}"
 msgstr "{} kenduta hemendik: {}"
 
-#: gnomemusic/widgets/playertoolbar.py:172
+#: gnomemusic/widgets/playertoolbar.py:174
 msgid "Pause"
 msgstr "Pausatu"
 
