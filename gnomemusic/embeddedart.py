@@ -134,7 +134,9 @@ class EmbeddedArt(GObject.GObject):
                 "image-type", GstTag.TagImageType)
             if not success:
                 continue
-            if image_type != GstTag.TagImageType.FRONT_COVER:
+            if image_type not in [
+                    GstTag.TagImageType.UNDEFINED,
+                    GstTag.TagImageType.FRONT_COVER]:
                 continue
 
             buf = sample.get_buffer()
