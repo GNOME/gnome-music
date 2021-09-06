@@ -95,7 +95,7 @@ class ArtStack(Gtk.Stack):
         :returns: The type of the default icon
         :rtype: DefaultIcon.Type
         """
-        return self._type
+        return self._art_type
 
     @art_type.setter  # type: ignore
     def art_type(self, value: DefaultIcon.Type) -> None:
@@ -104,10 +104,10 @@ class ArtStack(Gtk.Stack):
         :param DefaultIcon.Type value: The default icon type for the
             stack
         """
-        self._type = value
+        self._art_type = value
 
         default_icon = DefaultIcon().get(
-            self._type, self._size, self.props.scale_factor)
+            self._art_type, self._size, self.props.scale_factor)
 
         self._on_cache_result(None, default_icon)
 
