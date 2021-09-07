@@ -153,3 +153,6 @@ class CoreAlbum(GObject.GObject):
         :param string value: uri or "generic"
         """
         self._thumbnail = value
+
+        if self._thumbnail != "generic":
+            self.props.media.set_thumbnail(self._thumbnail)

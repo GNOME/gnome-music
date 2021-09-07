@@ -148,6 +148,9 @@ class CoreSong(GObject.GObject):
         """
         self._thumbnail = value
 
+        if self._thumbnail != "generic":
+            self.props.media.set_thumbnail(self._thumbnail)
+
     def update(self, media: Grl.Media) -> None:
         self.props.media = media
         self.props.album = utils.get_album_title(media)
