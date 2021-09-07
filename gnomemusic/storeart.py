@@ -155,8 +155,9 @@ class StoreArt(GObject.Object):
         except GLib.Error as error:
             self._log.warning(f"Error: {error.domain}, {error.message}")
         else:
-            self.emit("finished")
+            self._coreobject.props.thumbnail = self._file.get_uri()
         finally:
+            self.emit("finished")
             output_stream.close_async(
                 GLib.PRIORITY_LOW, None, self._stream_closed)
 
