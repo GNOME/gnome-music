@@ -145,10 +145,21 @@ class GrlTrackerWrapper(GObject.GObject):
         self._fast_options.set_type_filter(Grl.TypeFilter.AUDIO)
         self._fast_options.set_resolution_flags(
             Grl.ResolutionFlags.FAST_ONLY)
+
+        self._fast_options_lprio = Grl.OperationOptions()
+        self._fast_options_lprio.set_type_filter(Grl.TypeFilter.AUDIO)
+        self._fast_options_lprio.set_resolution_flags(
+            Grl.ResolutionFlags.FAST_ONLY)
+
         self._full_options: Grl.OperationOptions = Grl.OperationOptions()
         self._full_options.set_type_filter(Grl.TypeFilter.AUDIO)
         self._full_options.set_resolution_flags(
             Grl.ResolutionFlags.FULL)
+
+        self._full_options_lprio = Grl.OperationOptions()
+        self._full_options_lprio.set_type_filter(Grl.TypeFilter.AUDIO)
+        self._full_options_lprio.set_resolution_flags(
+            Grl.ResolutionFlags.FULL | Grl.ResolutionFlags.IDLE_RELAY)
 
         self._content_changed_id: int = 0
         self.props.source = source
