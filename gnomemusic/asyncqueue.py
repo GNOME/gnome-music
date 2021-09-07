@@ -94,11 +94,6 @@ class AsyncQueue(GObject.GObject):
             obj.disconnect(result_id)
             self._async_active_pool.pop(id(obj))
 
-            if len(self._async_pool) > 0:
-                key = list(self._async_pool.keys())[0]
-                args = self._async_pool.pop(key)
-                self.queue(*args)
-
         if len(self._async_pool) == 0:
             self._timeout_id = 0
             return GLib.SOURCE_REMOVE
