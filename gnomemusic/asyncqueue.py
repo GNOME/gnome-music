@@ -98,7 +98,8 @@ class AsyncQueue(GObject.GObject):
             self._timeout_id = 0
             return GLib.SOURCE_REMOVE
         elif len(self._async_active_pool) < self._max_async:
-            async_obj_id, async_task_args = self._async_pool.popitem()
+            async_obj_id = list(self._async_pool.keys())[0]
+            async_task_args = self._async_pool.pop(async_obj_id)
             async_obj = async_task_args[0]
             self._async_active_pool[async_obj_id] = async_task_args
 
