@@ -1218,7 +1218,6 @@ class GrlTrackerWrapper(GObject.GObject):
                 return
 
             if queried_media is None:
-                coresong.props.thumbnail = "generic"
                 return
 
             self._async_queue.queue(
@@ -1248,7 +1247,6 @@ class GrlTrackerWrapper(GObject.GObject):
                 return
 
             if queried_media is None:
-                corealbum.props.thumbnail = "generic"
                 return
 
             self._async_queue.queue(
@@ -1280,7 +1278,6 @@ class GrlTrackerWrapper(GObject.GObject):
                 return
 
             if resolved_media is None:
-                coreartist.props.thumbnail = "generic"
                 return
 
             self._async_queue.queue(
