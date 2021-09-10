@@ -22,7 +22,9 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from __future__ import annotations
 import math
+import typing
 
 from gettext import gettext as _
 from gi.repository import Gdk, GLib, GObject, Gtk
@@ -30,6 +32,8 @@ from gi.repository import Gdk, GLib, GObject, Gtk
 from gnomemusic.widgets.headerbar import HeaderBar
 from gnomemusic.widgets.albumcover import AlbumCover
 from gnomemusic.widgets.albumwidget import AlbumWidget
+if typing.TYPE_CHECKING:
+    from gnomemusic.corealbum import CoreAlbum
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/AlbumsView.ui")
@@ -72,7 +76,7 @@ class AlbumsView(Gtk.Stack):
         self._ctrl_hold = False
 
         model = self._application.props.coremodel.props.albums_sort
-        self._flowbox.bind_model(model, self._create_widget)
+        self._flowbox.bind_model(model, self._create_album_cover)
         self._flowbox.set_hadjustment(self._scrolled_window.get_hadjustment())
         self._flowbox.set_vadjustment(self._scrolled_window.get_vadjustment())
         self._flowbox.connect("child-activated", self._on_child_activated)
@@ -167,27 +171,27 @@ class AlbumsView(Gtk.Stack):
                 and self.get_visible_child_name() == "widget"):
             self._set_album_headerbar(self._album_widget.props.corealbum)
 
-    def _create_widget(self, corealbum):
-        album_widget = AlbumCover(corealbum)
+    def _create_album_cover(self, corealbum: CoreAlbum) -> AlbumCover:
+        album_cover = AlbumCover(corealbum)
 
         self.bind_property(
-            "selection-mode", album_widget, "selection-mode",
+            "selection-mode", album_cover, "selection-mode",
             GObject.BindingFlags.SYNC_CREATE
             | GObject.BindingFlags.BIDIRECTIONAL)
 
         # NOTE: Adding SYNC_CREATE here will trigger all the nested
         # models to be created. This will slow down initial start,
         # but will improve initial 'select all' speed.
-        album_widget.bind_property(
+        album_cover.bind_property(
             "selected", corealbum, "selected",
             GObject.BindingFlags.BIDIRECTIONAL)
 
         GLib.timeout_add(
-            self._widget_counter * 250, album_widget.retrieve,
+            self._widget_counter * 250, album_cover.retrieve,
             priority=GLib.PRIORITY_LOW)
         self._widget_counter = self._widget_counter + 1
 
-        return album_widget
+        return album_cover
 
     def _back_button_clicked(self, widget, data=None):
         self._headerbar.state = HeaderBar.State.MAIN
