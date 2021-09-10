@@ -193,6 +193,8 @@ class AlbumWidget(Handy.Clamp):
         disc_box = DiscBox(self._application, self._corealbum, disc)
         disc_box.connect('song-activated', self._song_activated)
 
+        self._corealbum.bind_property(
+            "selected", disc, "selected", GObject.BindingFlags.SYNC_CREATE)
         self._disc_list_box.bind_property(
             "selection-mode", disc_box, "selection-mode",
             GObject.BindingFlags.BIDIRECTIONAL
@@ -265,10 +267,14 @@ class AlbumWidget(Handy.Clamp):
         self._play(song_widget.props.coresong)
 
     def select_all(self) -> None:
-        self._disc_list_box.select_all()
+        if self._album_model:
+            for coredisc in self._album_model:
+                coredisc.props.selected = True
 
     def deselect_all(self) -> None:
-        self._disc_list_box.deselect_all()
+        if self._album_model:
+            for coredisc in self._album_model:
+                coredisc.props.selected = False
 
     def _on_selection_mode_changed(
             self, widget: Gtk.Widget, value: GObject.ParamSpecBoolean) -> None:

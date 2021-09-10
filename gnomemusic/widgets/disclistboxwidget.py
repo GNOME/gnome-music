@@ -69,6 +69,7 @@ class DiscBox(Gtk.ListBoxRow):
 
         self._application = application
         self._corealbum = corealbum
+        self._coredisc = coredisc
         self._model: Gio.ListModel = coredisc.props.model
 
         disc_nr: int = coredisc.props.disc_nr
@@ -82,23 +83,21 @@ class DiscBox(Gtk.ListBoxRow):
 
     def select_all(self):
         """Select all songs"""
-        def child_select_all(child):
-            child.props.coresong.props.selected = True
-
-        self._list_box.foreach(child_select_all)
+        for coresong in self._model:
+            coresong.props.selected = True
 
     def deselect_all(self):
         """Deselect all songs"""
-        def child_deselect_all(child):
-            child.props.coresong.props.selected = False
-
-        self._list_box.foreach(child_deselect_all)
+        for coresong in self._model:
+            coresong.props.selected = False
 
     def _create_widget(self, coresong):
         song_widget = SongWidget(coresong)
         song_widget.props.menu = SongWidgetMenu(
             self._application, song_widget, self._corealbum)
 
+        self._coredisc.bind_property(
+            "selected", coresong, "selected", GObject.BindingFlags.SYNC_CREATE)
         self.bind_property(
             "selection-mode", song_widget, "selection-mode",
             GObject.BindingFlags.BIDIRECTIONAL
