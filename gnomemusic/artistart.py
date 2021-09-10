@@ -54,7 +54,6 @@ class ArtistArt(GObject.GObject):
         success, thumb_file = MediaArt.get_file(self._artist, None, "artist")
 
         if not success:
-            self._coreartist.props.thumbnail = "generic"
             return
 
         def on_file_exists_async_finished(obj, result):

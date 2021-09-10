@@ -59,7 +59,6 @@ class StoreArt(GObject.Object):
 
         if (uri is None
                 or uri == ""):
-            self._coreobject.props.thumbnail = "generic"
             self.emit("finished")
             return
 
@@ -78,7 +77,6 @@ class StoreArt(GObject.Object):
             success = False
 
         if not success:
-            self._coreobject.props.thumbnail = "generic"
             self.emit("finished")
             return
 
@@ -99,7 +97,6 @@ class StoreArt(GObject.Object):
             except GLib.Error as error:
                 self._log.warning(
                     "Error: {}, {}".format(error.domain, error.message))
-                self._coreobject.props.thumbnail = "generic"
                 self.emit("finished")
                 return
 

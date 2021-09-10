@@ -1218,7 +1218,6 @@ class GrlTrackerWrapper(GObject.GObject):
         if (media.get_album() is None
                 and (media.get_album_artist() is None
                      or media.get_artist() is None)):
-            coresong.props.thumbnail = "generic"
             return
 
         def art_retrieved_cb(
@@ -1227,7 +1226,6 @@ class GrlTrackerWrapper(GObject.GObject):
                 error: Optional[GLib.Error]) -> None:
             if error:
                 self._log.warning("Error: {}".format(error))
-                coresong.props.thumbnail = "generic"
                 return
 
             if queried_media is None:
@@ -1256,7 +1254,6 @@ class GrlTrackerWrapper(GObject.GObject):
                 error: Optional[GLib.Error]) -> None:
             if error:
                 self._log.warning("Error: {}".format(error))
-                corealbum.props.thumbnail = "generic"
                 return
 
             if queried_media is None:
@@ -1287,7 +1284,6 @@ class GrlTrackerWrapper(GObject.GObject):
                 error: Optional[GLib.Error]) -> None:
             if error:
                 self._log.warning("Error: {}".format(error))
-                coreartist.props.thumbnail = "generic"
                 return
 
             if resolved_media is None:
