@@ -72,6 +72,7 @@ class AlbumWidget(Handy.Clamp):
         """
         super().__init__()
 
+        self._album_model = None
         self._application = application
         self._corealbum: CoreAlbum
         self._active_coreobject: Union[CoreAlbum, CoreArtist]
