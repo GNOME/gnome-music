@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
-"POT-Creation-Date: 2016-10-30 17:25+0000\n"
-"PO-Revision-Date: 2016-12-21 09:42+0100\n"
+"POT-Creation-Date: 2021-04-10 19:23+0000\n"
+"PO-Revision-Date: 2021-09-10 17:41+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: es <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Gtranslator 2.91.6\n"
+"X-Generator: Poedit 3.0\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -24,7 +24,7 @@ msgid "translator-credits"
 msgstr "Daniel Mustieles <daniel.mustieles@gmail.com>, 2014 - 2016"
 
 #. (itstool) path: credit/name
-#: C/introduction.page:11 C/index.page:11 C/play-music.page:11
+#: C/introduction.page:11 C/index.page:12 C/play-music.page:11
 #: C/playlist-create-albums.page:11 C/playlist-create-songs.page:11
 #: C/playlist-create-artists.page:11 C/playlist-delete.page:11
 #: C/playlist-remove-songs.page:11 C/playlist-repeat.page:11
@@ -33,7 +33,7 @@ msgid "Shobha Tyagi"
 msgstr "Shobha Tyagi"
 
 #. (itstool) path: credit/years
-#: C/introduction.page:13 C/index.page:13 C/play-music.page:13
+#: C/introduction.page:13 C/index.page:14 C/play-music.page:13
 #: C/playlist-create-albums.page:13 C/playlist-create-songs.page:13
 #: C/playlist-create-artists.page:13 C/playlist-delete.page:13
 #: C/playlist-remove-songs.page:13 C/playlist-repeat.page:13
@@ -44,9 +44,6 @@ msgstr "2014"
 #. (itstool) path: info/desc
 #. (itstool) path: page/p
 #: C/introduction.page:18 C/introduction.page:23
-#| msgid ""
-#| "A simple and elegant replacement for using files to show the music "
-#| "directory."
 msgid ""
 "A simple and elegant replacement for using <app>Files</app> to show the "
 "music directory."
@@ -61,18 +58,24 @@ msgstr "Introducción a Música"
 
 #. (itstool) path: info/title
 #: C/index.page:6
-msgctxt "link"
+msgctxt "link:trail"
 msgid "Music"
 msgstr "Música"
 
 #. (itstool) path: info/title
 #: C/index.page:7
+msgctxt "link"
+msgid "Music"
+msgstr "Música"
+
+#. (itstool) path: info/title
+#: C/index.page:8
 msgctxt "text"
 msgid "Music"
 msgstr "Música"
 
 #. (itstool) path: page/title
-#: C/index.page:18
+#: C/index.page:19
 msgid "<_:media-1/> Music"
 msgstr "<_:media-1/> Música"
 
@@ -331,12 +334,12 @@ msgstr "Eliminar una lista de reproducción"
 #: C/playlist-delete.page:24
 msgid "You can remove an old and unwanted playlist."
 msgstr ""
-"Puede quitar una canción antigua o una lista de reproducción que no quiera"
+"Puede quitar una canción antigua o una lista de reproducción que no quiera."
 
 #. (itstool) path: item/p
 #: C/playlist-delete.page:29
 msgid "Select the playlist which you want to delete."
-msgstr "Seleccione la lista de reproducción que quiere eliminar"
+msgstr "Seleccione la lista de reproducción que quiere eliminar."
 
 #. (itstool) path: item/p
 #: C/playlist-delete.page:35
