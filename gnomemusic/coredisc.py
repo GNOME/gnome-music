@@ -29,6 +29,8 @@ import gnomemusic.utils as utils
 
 class CoreDisc(GObject.GObject):
 
+    __gtype_name__ = "CoreDisc"
+
     disc_nr = GObject.Property(type=int, default=0)
     duration = GObject.Property(type=int, default=None)
     media = GObject.Property(type=Grl.Media, default=None)
@@ -109,12 +111,15 @@ class CoreDisc(GObject.GObject):
         self._coregrilo.populate_album_disc_songs(media, discnr, _callback)
 
     @GObject.Property(
-        type=bool, default=False, flags=GObject.BindingFlags.SYNC_CREATE)
+        type=bool, default=False, flags=GObject.ParamFlags.READWRITE)
     def selected(self):
         return self._selected
 
     @selected.setter  # type: ignore
     def selected(self, value):
+        if value == self._selected:
+            return
+
         self._selected = value
 
         # The model is loaded on-demand, so the first time the model is
