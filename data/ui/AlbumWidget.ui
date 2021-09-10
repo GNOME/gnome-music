@@ -136,7 +136,7 @@
           </object>
         </child>
         <child>
-          <object class="DiscListBox" id="_disc_list_box">
+          <object class="GtkListBox" id="_disc_list_box">
             <property name="can_focus">False</property>
             <property name="margin-top">48</property>
             <property name="selection_mode">0</property>

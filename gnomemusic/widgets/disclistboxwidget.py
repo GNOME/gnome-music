@@ -151,18 +151,3 @@ class DiscBox(Gtk.ListBoxRow):
         song_context_menu.props.relative_to = self._list_box
         song_context_menu.props.pointing_to = rect
         song_context_menu.popup()
-
-
-class DiscListBox(Gtk.ListBox):
-    """A ListBox widget containing all discs of a particular
-    album
-    """
-    __gtype_name__ = 'DiscListBox'
-
-    selection_mode = GObject.Property(type=bool, default=False)
-
-    def __init__(self):
-        """Initialize"""
-        super().__init__()
-
-        self.props.valign = Gtk.Align.START

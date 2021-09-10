@@ -38,7 +38,7 @@ from gnomemusic.widgets.starimage import StarImage  # noqa: F401
 
 @Gtk.Template(resource_path='/org/gnome/Music/ui/SongWidget.ui')
 class SongWidget(Gtk.ListBoxRow):
-    """The single song widget used in DiscListBox
+    """The single song widget used in DiscBox
 
     Contains
      * play icon (depending on state)

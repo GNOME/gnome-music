@@ -33,7 +33,6 @@ from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.defaulticon import DefaultIcon
 from gnomemusic.utils import ArtSize
 from gnomemusic.widgets.disclistboxwidget import DiscBox
-from gnomemusic.widgets.disclistboxwidget import DiscListBox  # noqa: F401
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
 if typing.TYPE_CHECKING:
     from gnomemusic.application import Application
@@ -195,7 +194,7 @@ class AlbumWidget(Handy.Clamp):
 
         self._corealbum.bind_property(
             "selected", disc, "selected", GObject.BindingFlags.SYNC_CREATE)
-        self._disc_list_box.bind_property(
+        self.bind_property(
             "selection-mode", disc_box, "selection-mode",
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
