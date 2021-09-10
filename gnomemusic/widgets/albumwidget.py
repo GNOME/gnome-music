@@ -32,7 +32,7 @@ from gi.repository import Gfm, Gio, GLib, GObject, Gtk, Handy
 from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.defaulticon import DefaultIcon
 from gnomemusic.utils import ArtSize
-from gnomemusic.widgets.disclistboxwidget import DiscBox
+from gnomemusic.widgets.discbox import DiscBox
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
 if typing.TYPE_CHECKING:
     from gnomemusic.application import Application

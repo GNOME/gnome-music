@@ -1,4 +1,4 @@
-# Copyright (c) 2016 The GNOME Music Developers
+# Copyright (c) 2021 The GNOME Music Developers
 #
 # GNOME Music is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -41,7 +41,7 @@ class DiscBox(Gtk.ListBoxRow):
     """A widget which compromises one disc
 
     DiscBox contains a disc label for the disc number on top
-    with a DiscSongsFlowBox beneath.
+    with a GtkListBox beneath.
     """
     __gtype_name__ = 'DiscBox'
 
