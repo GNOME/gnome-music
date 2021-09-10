@@ -166,17 +166,3 @@ class DiscListBox(Gtk.ListBox):
         super().__init__()
 
         self.props.valign = Gtk.Align.START
-
-    def select_all(self):
-        """Select all songs"""
-        def child_select_all(child):
-            child.select_all()
-
-        self.foreach(child_select_all)
-
-    def deselect_all(self):
-        """Deselect all songs"""
-        def child_deselect_all(child):
-            child.deselect_all()
-
-        self.foreach(child_deselect_all)
