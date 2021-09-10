@@ -40,6 +40,7 @@ from gnomemusic.widgets.songwidget import SongWidget
 from gnomemusic.widgets.songwidgetmenu import SongWidgetMenu
 if typing.TYPE_CHECKING:
     from gnomemusic.application import Application
+    from gnomemusic.corealbum import CoreAlbum
     from gnomemusic.coresong import CoreSong
 
 
@@ -112,7 +113,7 @@ class SearchView(Gtk.Stack):
         self._album_filter.connect_after(
             "items-changed", self._on_album_model_items_changed)
         self._album_flowbox.bind_model(
-            self._album_filter, self._create_album_widget)
+            self._album_filter, self._create_album_cover)
         self._album_flowbox.connect(
             "size-allocate", self._on_album_flowbox_size_allocate)
         self._on_album_model_items_changed(self._album_filter, 0, 0, 0)
@@ -169,23 +170,23 @@ class SearchView(Gtk.Stack):
 
         return song_widget
 
-    def _create_album_widget(self, corealbum):
-        album_widget = AlbumCover(corealbum)
-        album_widget.retrieve()
+    def _create_album_cover(self, corealbum: CoreAlbum) -> AlbumCover:
+        album_cover = AlbumCover(corealbum)
+        album_cover.retrieve()
 
         self.bind_property(
-            "selection-mode", album_widget, "selection-mode",
+            "selection-mode", album_cover, "selection-mode",
             GObject.BindingFlags.SYNC_CREATE
             | GObject.BindingFlags.BIDIRECTIONAL)
 
         # NOTE: Adding SYNC_CREATE here will trigger all the nested
         # models to be created. This will slow down initial start,
         # but will improve initial 'select all' speed.
-        album_widget.bind_property(
+        album_cover.bind_property(
             "selected", corealbum, "selected",
             GObject.BindingFlags.BIDIRECTIONAL)
 
-        return album_widget
+        return album_cover
 
     def _create_artist_widget(self, coreartist):
         artist_tile = ArtistSearchTile(coreartist)
@@ -438,7 +439,7 @@ class SearchView(Gtk.Stack):
         self._artist_all_flowbox.props.visible = False
         self._album_all_flowbox.props.visible = True
         self._album_all_flowbox.bind_model(
-            self._album_model, self._create_album_widget)
+            self._album_model, self._create_album_cover)
 
         self.props.visible_child = self._all_search_results
         self.props.search_mode_active = False
