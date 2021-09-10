@@ -29,6 +29,9 @@
           </object>
         </child>
       </object>
+      <packing>
+        <property name="name">grid</property>
+      </packing>
     </child>
     <child>
       <object class="GtkScrolledWindow" id="_album_scrolled_window">
@@ -38,6 +41,9 @@
         <property name="vexpand">True</property>
         <property name="hscrollbar_policy">never</property>
       </object>
+      <packing>
+        <property name="name">widget</property>
+      </packing>
     </child>
   </template>
   <object class="GtkGestureLongPress" id="_flowbox_long_press">

@@ -164,7 +164,7 @@ class AlbumsView(Gtk.Stack):
     def _on_search_mode_changed(self, klass, param):
         if (not self.props.search_mode_active
                 and self._headerbar.props.stack.props.visible_child == self
-                and self.get_visible_child() == self._album_widget):
+                and self.get_visible_child_name() == "widget"):
             self._set_album_headerbar(self._album_widget.props.corealbum)
 
     def _create_widget(self, corealbum):
@@ -202,7 +202,7 @@ class AlbumsView(Gtk.Stack):
         self._album_widget.props.corealbum = corealbum
 
         self._set_album_headerbar(corealbum)
-        self.set_visible_child(self._album_scrolled_window)
+        self.set_visible_child_name("widget")
 
     def _set_album_headerbar(self, corealbum):
         self._headerbar.props.state = HeaderBar.State.CHILD
@@ -251,7 +251,7 @@ class AlbumsView(Gtk.Stack):
         """Selects or deselects all items.
         """
         with self._application.props.coreselection.freeze_notify():
-            if self.get_visible_child() == self._album_widget:
+            if self.get_visible_child_name() == "widget":
                 if selected is True:
                     self._album_widget.select_all()
                 else:
