@@ -443,24 +443,23 @@ class SearchView(Gtk.Stack):
         self.props.visible_child = self._all_search_results
         self.props.search_mode_active = False
 
-    def _select_all(self, value):
-        def child_select(child):
-            child.props.selected = value
-
+    def _select_all(self, value: bool) -> None:
         if self.props.state == SearchView.State.MAIN:
             with self._model.freeze_notify():
-                def song_select(child):
-                    child.props.coresong.props.selected = value
-
-                self._songs_listbox.foreach(song_select)
-                self._album_flowbox.foreach(child_select)
-                self._artist_flowbox.foreach(child_select)
+                for coresong in self._model:
+                    coresong.props.selected = value
+                for corealbum in self._album_model:
+                    corealbum.props.selected = value
+                for coreartist in self._artist_model:
+                    coreartist.props.selected = value
         elif self.props.state == SearchView.State.ALL_ALBUMS:
             with self._model.freeze_notify():
-                self._album_all_flowbox.foreach(child_select)
+                for corealbum in self._album_model:
+                    corealbum.props.selected = value
         elif self.props.state == SearchView.State.ALL_ARTISTS:
             with self._model.freeze_notify():
-                self._artist_all_flowbox.foreach(child_select)
+                for corealbum in self._album_model:
+                    corealbum.props.selected = value
         elif self.props.state == SearchView.State.ALBUM:
             view = self._album_widget
             if value is True:
