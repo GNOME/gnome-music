@@ -75,6 +75,9 @@ class ArtistAlbumsWidget(Handy.Clamp):
         widget.props.active_coreobject = self._artist
         widget.props.show_artist_label = False
 
+        self._artist.bind_property(
+            "selected", corealbum, "selected",
+            GObject.BindingFlags.SYNC_CREATE)
         self.bind_property(
             'selection-mode', widget, 'selection-mode',
             GObject.BindingFlags.BIDIRECTIONAL
@@ -86,17 +89,13 @@ class ArtistAlbumsWidget(Handy.Clamp):
 
     def select_all(self) -> None:
         """Select all items"""
-        def toggle_selection(row: Gtk.ListBoxRow) -> None:
-            row.get_child().select_all()
-
-        self._listbox.foreach(toggle_selection)
+        for corealbum in self._model:
+            corealbum.props.selected = True
 
     def deselect_all(self) -> None:
         """Deselect all items"""
-        def toggle_selection(row: Gtk.ListBoxRow) -> None:
-            row.get_child().deselect_all()
-
-        self._listbox.foreach(toggle_selection)
+        for corealbum in self._model:
+            corealbum.props.selected = False
 
     @GObject.Property(type=str, flags=GObject.ParamFlags.READABLE)
     def artist(self) -> str:
