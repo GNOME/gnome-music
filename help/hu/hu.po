@@ -1,33 +1,33 @@
 # Hungarian translation for gnome-music.
-# Copyright (C) 2014, 2015, 2017, 2019 Free Software Foundation, Inc.
+# Copyright (C) 2014, 2015, 2017, 2019, 2021 Free Software Foundation, Inc.
 # This file is distributed under the same license as the gnome-music package.
 #
-# Balázs Úr <urbalazs at gmail dot com>, 2014, 2019.
+# Balázs Úr <ur.balazs at fsf dot hu>, 2014, 2019, 2021.
 # Gabor Kelemen <kelemeng at gnome dot hu>, 2014, 2015, 2017.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
-"POT-Creation-Date: 2018-08-16 16:32+0000\n"
-"PO-Revision-Date: 2019-02-07 17:00+0100\n"
-"Last-Translator: Balázs Úr <balazs at urbalazs dot hu>\n"
+"POT-Creation-Date: 2021-04-10 19:23+0000\n"
+"PO-Revision-Date: 2021-09-12 08:48+0200\n"
+"Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
 "Language-Team: Hungarian <gnome-hu-list at gnome dot org>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Lokalize 19.12.3\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
 msgstr ""
 "Kelemen Gábor <kelemeng at gnome dot hu>, 2014.\n"
-"Úr Balázs <urbalazs at gmail dot com>, 2014.\n"
+"Úr Balázs <ur.balazs at fsf dot hu>, 2014.\n"
 "Hammer Attila <hammera at pickup dot hu>, 2014."
 
 #. (itstool) path: credit/name
-#: C/introduction.page:11 C/index.page:11 C/play-music.page:11
+#: C/introduction.page:11 C/index.page:12 C/play-music.page:11
 #: C/playlist-create-albums.page:11 C/playlist-create-songs.page:11
 #: C/playlist-create-artists.page:11 C/playlist-delete.page:11
 #: C/playlist-remove-songs.page:11 C/playlist-repeat.page:11
@@ -36,7 +36,7 @@ msgid "Shobha Tyagi"
 msgstr "Shobha Tyagi"
 
 #. (itstool) path: credit/years
-#: C/introduction.page:13 C/index.page:13 C/play-music.page:13
+#: C/introduction.page:13 C/index.page:14 C/play-music.page:13
 #: C/playlist-create-albums.page:13 C/playlist-create-songs.page:13
 #: C/playlist-create-artists.page:13 C/playlist-delete.page:13
 #: C/playlist-remove-songs.page:13 C/playlist-repeat.page:13
@@ -51,8 +51,8 @@ msgid ""
 "A simple and elegant replacement for using <app>Files</app> to show the "
 "music directory."
 msgstr ""
-"Egyszerű és elegáns eszköz a zenegyűjtemény megjelenítésére a <app>Fájlok<"
-"/app> alkalmazással."
+"Egyszerű és elegáns eszköz a zenegyűjtemény megjelenítésére a <app>Fájlok</"
+"app> alkalmazással."
 
 #. (itstool) path: page/title
 #: C/introduction.page:22
@@ -61,18 +61,26 @@ msgstr "A Zene bemutatása"
 
 #. (itstool) path: info/title
 #: C/index.page:6
-msgctxt "link"
+#| msgctxt "link"
+#| msgid "Music"
+msgctxt "link:trail"
 msgid "Music"
 msgstr "Zene"
 
 #. (itstool) path: info/title
 #: C/index.page:7
+msgctxt "link"
+msgid "Music"
+msgstr "Zene"
+
+#. (itstool) path: info/title
+#: C/index.page:8
 msgctxt "text"
 msgid "Music"
 msgstr "Zene"
 
 #. (itstool) path: page/title
-#: C/index.page:18
+#: C/index.page:19
 msgid "<_:media-1/> Music"
 msgstr "<_:media-1/> Zene"
 
