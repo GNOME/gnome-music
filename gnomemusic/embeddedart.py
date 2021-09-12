@@ -163,10 +163,11 @@ class EmbeddedArt(GObject.GObject):
             self._lookup_cover_in_directory()
         else:
             self._file.create_async(
-                Gio.FileCreateFlags.NONE, GLib.PRIORITY_LOW, None,
+                Gio.FileCreateFlags.NONE, GLib.PRIORITY_DEFAULT, None,
                 self._output_stream_created, pixbuf)
         finally:
-            stream.close_async(GLib.PRIORITY_LOW, None, self._stream_closed)
+            stream.close_async(
+                GLib.PRIORITY_DEFAULT, None, self._stream_closed)
 
     def _output_stream_created(
             self, stream: Gio.FileOutputStream, result: Gio.AsyncResult,
@@ -193,7 +194,7 @@ class EmbeddedArt(GObject.GObject):
             self.emit("art-found", True)
         finally:
             output_stream.close_async(
-                GLib.PRIORITY_LOW, None, self._stream_closed)
+                GLib.PRIORITY_DEFAULT, None, self._stream_closed)
 
     def _stream_closed(
             self, stream: Gio.OutputStream, result: Gio.AsyncResult) -> None:
@@ -207,7 +208,7 @@ class EmbeddedArt(GObject.GObject):
         self._media_art.uri_async(
             MediaArt.Type.ALBUM, MediaArt.ProcessFlags.NONE,
             self._coreobject.props.url, self._artist, self._album,
-            GLib.PRIORITY_LOW, None, self._uri_async_cb, None)
+            GLib.PRIORITY_DEFAULT, None, self._uri_async_cb, None)
 
     def _uri_async_cb(self, src, result, data):
         try:

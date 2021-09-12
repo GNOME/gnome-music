@@ -85,7 +85,7 @@ class StoreArt(GObject.Object):
         cache_dir_file = Gio.File.new_for_path(cache_dir)
         cache_dir_file.query_info_async(
             Gio.FILE_ATTRIBUTE_ACCESS_CAN_READ, Gio.FileQueryInfoFlags.NONE,
-            GLib.PRIORITY_LOW, None, self._cache_dir_info_read, uri)
+            GLib.PRIORITY_DEFAULT, None, self._cache_dir_info_read, uri)
 
     def _cache_dir_info_read(self, cache_dir_file, res, uri):
         try:
@@ -126,10 +126,11 @@ class StoreArt(GObject.Object):
             self.emit("finished")
         else:
             self._file.create_async(
-                Gio.FileCreateFlags.NONE, GLib.PRIORITY_LOW, None,
+                Gio.FileCreateFlags.NONE, GLib.PRIORITY_DEFAULT, None,
                 self._output_stream_created, pixbuf)
         finally:
-            stream.close_async(GLib.PRIORITY_LOW, None, self._stream_closed)
+            stream.close_async(
+                GLib.PRIORITY_DEFAULT, None, self._stream_closed)
 
     def _output_stream_created(
             self, stream: Gio.FileOutputStream, result: Gio.AsyncResult,
@@ -156,7 +157,7 @@ class StoreArt(GObject.Object):
         finally:
             self.emit("finished")
             output_stream.close_async(
-                GLib.PRIORITY_LOW, None, self._stream_closed)
+                GLib.PRIORITY_DEFAULT, None, self._stream_closed)
 
     def _stream_closed(
             self, stream: Gio.OutputStream, result: Gio.AsyncResult) -> None:
