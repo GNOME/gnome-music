@@ -140,7 +140,7 @@ Cheng Lu
 Cheng-Chia Tseng
 Danial Behzadi
 Daniel Korostil
-Daniel Mustieles
+Daniel Mustieles García
 Daniel Șerbănescu
 David King
 Dušan Kazik
@@ -180,8 +180,11 @@ Mpho Jele
 Nathan Follens
 Osman Karagöz
 Petr Kovář
+Philipp Kiemle
 Piotr Drąg
+Quentin Pagès
 Rafael Fontenelle
+Rodrigo Lledó Milanca
 Ryuta Fujii
 Rūdolfs Mazurs
 Sabri Ünal
@@ -196,12 +199,14 @@ Tom Tryfonidis
 Trần Ngọc Quân
 Vinzenz Vietzke
 Xavi Ivars
+Yaron Shahrabani
 Yi-Jyun Pan
 Yosef Or Boczko
 Yuras Shumovich
 Yuri Chornoivan
 Yuri Myasoedov
 Zander Brown
+Zmicer Turok
     </property>
     <property name="logo_icon_name">@APPID@</property>
     <property name="wrap_license">True</property>

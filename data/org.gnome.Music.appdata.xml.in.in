@@ -28,6 +28,15 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="41.0" date="2021-09-18">
+      <description>
+        <p>
+          This version brings an updated design with even more focus on the
+          content. Under the hood there have been improvements to the
+          responsiveness, especially during application start.
+        </p>
+      </description>
+    </release>
     <release version="40.0" date="2021-03-21">
       <description>
         <p>
