@@ -1240,7 +1240,7 @@ class GrlTrackerWrapper(GObject.GObject):
         query: str = self._get_album_for_media_id_query(song_id)
 
         self.props.source.query(
-            query, self._METADATA_THUMBNAIL_KEYS, self._full_options,
+            query, self._METADATA_THUMBNAIL_KEYS, self._full_options_lprio,
             art_retrieved_cb)
 
     def get_album_art(self, corealbum: CoreAlbum) -> None:
@@ -1269,7 +1269,7 @@ class GrlTrackerWrapper(GObject.GObject):
         query: str = self._get_album_for_media_id_query(album_id, False)
 
         self.props.source.query(
-            query, self._METADATA_THUMBNAIL_KEYS, self._full_options,
+            query, self._METADATA_THUMBNAIL_KEYS, self._full_options_lprio,
             art_retrieved_cb)
 
     def get_artist_art(self, coreartist: CoreArtist) -> None:
@@ -1297,7 +1297,7 @@ class GrlTrackerWrapper(GObject.GObject):
                 StoreArt(), coreartist, resolved_media.get_thumbnail())
 
         self.props.source.resolve(
-            media, [Grl.METADATA_KEY_THUMBNAIL], self._full_options,
+            media, [Grl.METADATA_KEY_THUMBNAIL], self._full_options_lprio,
             art_resolved_cb)
 
     def stage_playlist_deletion(self, playlist: Optional[Playlist]) -> None:
