@@ -142,9 +142,11 @@ class GrlTrackerWrapper(GObject.GObject):
         cm.props.artists_search_proxy.append(self._artists_search)
 
         self._fast_options: Grl.OperationOptions = Grl.OperationOptions()
+        self._fast_options.set_type_filter(Grl.TypeFilter.AUDIO)
         self._fast_options.set_resolution_flags(
             Grl.ResolutionFlags.FAST_ONLY)
         self._full_options: Grl.OperationOptions = Grl.OperationOptions()
+        self._full_options.set_type_filter(Grl.TypeFilter.AUDIO)
         self._full_options.set_resolution_flags(
             Grl.ResolutionFlags.FULL)
 
