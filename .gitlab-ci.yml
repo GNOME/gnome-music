@@ -6,7 +6,7 @@ stages:
   - deploy
 
 variables:
-  BUNDLE: "gnome-music-dev.flatpak"
+  BUNDLE: "gnome-music-41-dev.flatpak"
   GIT_SUBMODULE_STRATEGY: normal
 
 flatpak:
