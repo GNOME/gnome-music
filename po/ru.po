@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2021-08-06 09:35+0000\n"
-"PO-Revision-Date: 2021-08-06 13:37+0300\n"
+"POT-Creation-Date: 2021-08-27 21:42+0000\n"
+"PO-Revision-Date: 2021-09-24 17:55+0300\n"
 "Last-Translator: Alexey Rubtsov <rushills@gmail.com>\n"
 "Language-Team: Русский <gnome-cyr@gnome.org>\n"
 "Language: ru\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 2.4.3\n"
+"X-Generator: Poedit 3.0\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
 msgid "GNOME Music"
@@ -34,20 +34,16 @@ msgid "Play and organize your music collection"
 msgstr "Воспроизведение и управление музыкальной коллекцией"
 
 #: data/org.gnome.Music.appdata.xml.in.in:9
-msgid ""
-"An easy way to play your music. Automatically discover music on your "
-"computer, the local network and internet services."
-msgstr ""
-"Удобный способ воспроизводить свою музыку. Автоматическое обнаружение музыки "
-"на вашем компьютере, в локальной сети и интернет-сервисах."
+msgid "An easy and pleasant way to play your music."
+msgstr "Лёгкий и приятный способ послушать вашу музыку."
 
 #: data/org.gnome.Music.appdata.xml.in.in:12
 msgid ""
-"Find tracks in your local collection, get music from DLNA servers or try "
-"something new with the Jamendo and Magnatune services."
+"Find tracks in your local collection, use automatically generated playlists "
+"or curate a fresh one."
 msgstr ""
-"Находите треки в своей локальной коллекции, получайте музыку с серверов DLNA "
-"или попробуйте что-то новое с помощью сервисов Jamendo и Magnatune."
+"Ищите треки в вашей коллекции, пользуйтесь автоматическими списками "
+"воспроизведения или соберите свой свежий."
 
 #: data/org.gnome.Music.appdata.xml.in.in:140
 msgid "The GNOME Music developers"
@@ -119,28 +115,20 @@ msgid "Enables or disables ReplayGain for albums"
 msgstr "Включает или выключает функцию ReplayGain для альбомов"
 
 #: data/org.gnome.Music.gschema.xml:38
-msgid "Inital state has been displayed"
-msgstr "Было отображено исходное состояние"
-
-#: data/org.gnome.Music.gschema.xml:39
-msgid "Set to true when initial state has been displayed"
-msgstr "Установлено значение «true», когда было отображено исходное состояние"
-
-#: data/org.gnome.Music.gschema.xml:43
 msgid "Inhibit system suspend"
 msgstr "Запретить переход системы в режим ожидания"
 
-#: data/org.gnome.Music.gschema.xml:44
+#: data/org.gnome.Music.gschema.xml:39
 msgid "Enables or disables inhibiting system suspend while playing music"
 msgstr ""
 "Включает или выключает запрет перехода системы в режим ожидания при "
 "воспроизведении музыки"
 
-#: data/org.gnome.Music.gschema.xml:48
+#: data/org.gnome.Music.gschema.xml:43
 msgid "Report music history to Last.fm"
 msgstr "Отправлять историю прослушивания на Last.fm"
 
-#: data/org.gnome.Music.gschema.xml:49
+#: data/org.gnome.Music.gschema.xml:44
 msgid ""
 "Enables or disables sending scrobbles and the “currently playing” info to "
 "Last.fm."
@@ -182,10 +170,7 @@ msgid ""
 "the GPL license by which GNOME Music is covered.  If you modify this code, "
 "you may extend this exception to your version of the code, but you are not "
 "obligated to do so.  If you do not wish to do so, delete this exception "
-"statement from your version.\n"
-"\n"
-"“Magic of the vinyl” by Sami Pyylampi image is licensed by CC-BY-SA 2.0 "
-"https://www.flickr.com/photos/_spy_/12270839403"
+"statement from your version."
 msgstr ""
 "Приложение «Музыка GNOME» является свободным программным обеспечением, вы "
 "можете распространять и/или изменять его в соответствии с условиями GNU "
@@ -208,26 +193,23 @@ msgstr ""
 "этого кода, вы можете распространить данное исключение на вашу версию кода, "
 "но вы не обязаны это делать. Если вы не хотите распространить данное "
 "исключение на вашу версию кода, просто удалите данное заявление об "
-"исключении из вашей версии кода.\n"
-"\n"
-"Изображение «Magic of the vinyl» Sami Pyylampi лицензировано под CC-BY-SA "
-"2.0 https://www.flickr.com/photos/_spy_/12270839403"
+"исключении из вашей версии кода."
 
-#: data/ui/AlbumWidget.ui:114 data/ui/PlayerToolbar.ui:128
-#: data/ui/PlaylistControls.ui:123 data/ui/SongWidgetMenu.ui:18
-#: gnomemusic/widgets/playertoolbar.py:175
+#: data/ui/AlbumWidget.ui:104 data/ui/PlayerToolbar.ui:122
+#: data/ui/PlaylistControls.ui:121 data/ui/SongWidgetMenu.ui:19
+#: gnomemusic/widgets/playertoolbar.py:177
 msgid "Play"
 msgstr "Воспроизвести"
 
-#: data/ui/AlbumWidget.ui:175 data/ui/PlaylistControls.ui:6
+#: data/ui/AlbumWidget.ui:163 data/ui/PlaylistControls.ui:6
 msgid "_Play"
 msgstr "_Воспроизвести"
 
-#: data/ui/AlbumWidget.ui:179
+#: data/ui/AlbumWidget.ui:167
 msgid "Add to _Favorite Songs"
 msgstr "Добавить в _избранные песни"
 
-#: data/ui/AlbumWidget.ui:183
+#: data/ui/AlbumWidget.ui:171
 msgid "_Add to Playlist…"
 msgstr "_Добавить в список воспроизведения…"
 
@@ -250,6 +232,10 @@ msgstr "_Справка"
 #: data/ui/AppMenu.ui:85
 msgid "_About Music"
 msgstr "_О приложении"
+
+#: data/ui/EmptyView.ui:35
+msgid "Welcome to Music"
+msgstr "Добро пожаловать в Музыку"
 
 #: data/ui/HeaderBar.ui:16
 msgid "Menu"
@@ -384,12 +370,12 @@ msgid "Loading"
 msgstr "Загрузка"
 
 # Предыдущая композиция
-#: data/ui/PlayerToolbar.ui:111
+#: data/ui/PlayerToolbar.ui:105
 msgid "Previous"
 msgstr "Предыдущая"
 
 # Следующая композиция
-#: data/ui/PlayerToolbar.ui:145
+#: data/ui/PlayerToolbar.ui:139
 msgid "Next"
 msgstr "Следующая"
 
@@ -401,11 +387,11 @@ msgstr "_Удалить"
 msgid "_Rename…"
 msgstr "_Переименовать…"
 
-#: data/ui/PlaylistControls.ui:49
+#: data/ui/PlaylistControls.ui:44
 msgid "Playlist Name"
 msgstr "Имя списка воспроизведения"
 
-#: data/ui/PlaylistControls.ui:81
+#: data/ui/PlaylistControls.ui:77
 msgid "_Done"
 msgstr "_Готово"
 
@@ -437,15 +423,15 @@ msgstr "_Добавить"
 msgid "_Undo"
 msgstr "_Отменить"
 
-#: data/ui/SearchView.ui:43 gnomemusic/views/artistsview.py:46
+#: data/ui/SearchView.ui:47 gnomemusic/views/artistsview.py:46
 msgid "Artists"
 msgstr "Исполнители"
 
-#: data/ui/SearchView.ui:53 data/ui/SearchView.ui:106
+#: data/ui/SearchView.ui:57 data/ui/SearchView.ui:108
 msgid "View All"
 msgstr "Посмотреть все"
 
-#: data/ui/SearchView.ui:96 gnomemusic/views/albumsview.py:50
+#: data/ui/SearchView.ui:98 gnomemusic/views/albumsview.py:50
 msgid "Albums"
 msgstr "Альбомы"
 
@@ -469,36 +455,36 @@ msgstr "Нажмите, чтобы выбрать"
 msgid "_Add to Playlist"
 msgstr "_Добавить в список воспроизведения"
 
-#: data/ui/SongWidgetMenu.ui:28
+#: data/ui/SongWidgetMenu.ui:29
 msgid "Add to Playlist…"
 msgstr "Добавить в список воспроизведения…"
 
-#: data/ui/SongWidgetMenu.ui:38
+#: data/ui/SongWidgetMenu.ui:39
 msgid "Remove From Playlist"
 msgstr "Удалить из списка воспроизведения"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:897
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:898
 msgid "Most Played"
 msgstr "Самый популярный"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:950
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:952
 msgid "Never Played"
 msgstr "Никогда не воспроизводилось"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1002
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1005
 msgid "Recently Played"
 msgstr "Недавно воспроизводилось"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1064
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1068
 msgid "Recently Added"
 msgstr "Недавно добавлено"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1126
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1131
 msgid "Favorite Songs"
 msgstr "Избранные песни"
 
@@ -548,55 +534,51 @@ msgstr "Повторять все"
 msgid "Shuffle/Repeat Off"
 msgstr "Случайный порядок/Повтор выключены"
 
-#: gnomemusic/utils.py:79
+#: gnomemusic/utils.py:80
 msgid "Unknown album"
 msgstr "Неизвестный альбом"
 
-#: gnomemusic/utils.py:100
+#: gnomemusic/utils.py:101
 msgid "Unknown Artist"
 msgstr "Неизвестный исполнитель"
 
-#: gnomemusic/views/emptyview.py:63
+#: gnomemusic/views/emptyview.py:65
 msgid "Your XDG Music directory is not set."
 msgstr "Переменная директории XDG Музыки не установлена."
 
-#: gnomemusic/views/emptyview.py:70
+#: gnomemusic/views/emptyview.py:72
 msgid "Music Folder"
 msgstr "Папка с музыкой"
 
 #. TRANSLATORS: This is a label to display a link to open user's music
 #. folder. {} will be replaced with the translated text 'Music folder'
-#: gnomemusic/views/emptyview.py:74
+#: gnomemusic/views/emptyview.py:76
 msgid "The contents of your {} will appear here."
 msgstr "Содержимое {} появится здесь."
 
-#: gnomemusic/views/emptyview.py:107
-msgid "Hey DJ"
-msgstr "Эй DJ"
-
-#: gnomemusic/views/emptyview.py:113 gnomemusic/views/emptyview.py:117
+#: gnomemusic/views/emptyview.py:124
 msgid "No Music Found"
 msgstr "Музыка не найдена"
 
-#: gnomemusic/views/emptyview.py:118
+#: gnomemusic/views/emptyview.py:125
 msgid "Try a Different Search"
 msgstr "Попробуйте изменить параметры поиска"
 
-#: gnomemusic/views/emptyview.py:122
+#: gnomemusic/views/emptyview.py:129
 msgid "GNOME Music could not connect to Tracker."
 msgstr "Музыке GNOME не удалось подключиться к Tracker."
 
-#: gnomemusic/views/emptyview.py:124
+#: gnomemusic/views/emptyview.py:131
 msgid "Your music files cannot be indexed without Tracker running."
 msgstr ""
 "Ваши музыкальные файлы не могут быть проиндексированы без запущенного "
 "Tracker."
 
-#: gnomemusic/views/emptyview.py:130
+#: gnomemusic/views/emptyview.py:137
 msgid "Your system Tracker version seems outdated."
 msgstr "Версия вашей системы Tracker кажется устаревшей."
 
-#: gnomemusic/views/emptyview.py:132
+#: gnomemusic/views/emptyview.py:139
 msgid "Music needs Tracker version 3.0.0 or higher."
 msgstr "Для Музыки необходим Tracker версии 3.0.0 или выше."
 
@@ -604,22 +586,22 @@ msgstr "Для Музыки необходим Tracker версии 3.0.0 или
 msgid "Playlists"
 msgstr "Списки воспроизведения"
 
-#: gnomemusic/views/searchview.py:401
+#: gnomemusic/views/searchview.py:420
 msgid "Artists Results"
 msgstr "Результаты по исполнителям"
 
-#: gnomemusic/views/searchview.py:416
+#: gnomemusic/views/searchview.py:435
 msgid "Albums Results"
 msgstr "Результаты по альбомам"
 
-#: gnomemusic/widgets/albumwidget.py:202
-msgid "{}, {} minute"
-msgid_plural "{}, {} minutes"
-msgstr[0] "{}, {} минута"
-msgstr[1] "{}, {} минуты"
-msgstr[2] "{}, {} минут"
+#: gnomemusic/widgets/albumwidget.py:237
+msgid "{} minute"
+msgid_plural "{} minutes"
+msgstr[0] "{} минута"
+msgstr[1] "{} минуты"
+msgstr[2] "{} минут"
 
-#: gnomemusic/widgets/disclistboxwidget.py:74
+#: gnomemusic/widgets/disclistboxwidget.py:75
 msgid "Disc {}"
 msgstr "Диск {}"
 
@@ -655,7 +637,7 @@ msgstr "Список воспроизведения {} удалён"
 msgid "{} removed from {}"
 msgstr "{} удалено из {}"
 
-#: gnomemusic/widgets/playertoolbar.py:172
+#: gnomemusic/widgets/playertoolbar.py:174
 msgid "Pause"
 msgstr "Приостановить"
 
@@ -665,6 +647,30 @@ msgid_plural "{} Songs"
 msgstr[0] "{} композиция"
 msgstr[1] "{} композиции"
 msgstr[2] "{} композиций"
+
+#~ msgid ""
+#~ "An easy way to play your music. Automatically discover music on your "
+#~ "computer, the local network and internet services."
+#~ msgstr ""
+#~ "Удобный способ воспроизводить свою музыку. Автоматическое обнаружение "
+#~ "музыки на вашем компьютере, в локальной сети и интернет-сервисах."
+
+#~ msgid ""
+#~ "Find tracks in your local collection, get music from DLNA servers or try "
+#~ "something new with the Jamendo and Magnatune services."
+#~ msgstr ""
+#~ "Находите треки в своей локальной коллекции, получайте музыку с серверов "
+#~ "DLNA или попробуйте что-то новое с помощью сервисов Jamendo и Magnatune."
+
+#~ msgid "Inital state has been displayed"
+#~ msgstr "Было отображено исходное состояние"
+
+#~ msgid "Set to true when initial state has been displayed"
+#~ msgstr ""
+#~ "Установлено значение «true», когда было отображено исходное состояние"
+
+#~ msgid "Hey DJ"
+#~ msgstr "Эй DJ"
 
 #~ msgid "Released"
 #~ msgstr "Дата выпуска"
