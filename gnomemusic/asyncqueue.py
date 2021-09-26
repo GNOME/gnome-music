@@ -82,10 +82,11 @@ class AsyncQueue(GObject.GObject):
     def _dispatch(self) -> bool:
         tick = time.time()
 
-        if len(self._async_pool) == 0:
-            self._timeout_id = 0
-            return GLib.SOURCE_REMOVE
-        elif len(self._async_active_pool) < self._max_async:
+        while len(self._async_active_pool) < self._max_async:
+            if len(self._async_pool) == 0:
+                self._timeout_id = 0
+                return GLib.SOURCE_REMOVE
+
             async_obj_id = list(self._async_pool.keys())[0]
             async_task_args = self._async_pool.pop(async_obj_id)
             async_obj = async_task_args[0]
