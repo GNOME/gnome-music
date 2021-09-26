@@ -56,6 +56,7 @@ class AsyncQueue(GObject.GObject):
 
         self._async_pool: Dict[int, Tuple] = {}
         self._async_active_pool: Dict[int, Tuple] = {}
+        self._async_data: Dict[object, Tuple[int, float]] = {}
         self._log = MusicLogger()
         self._max_async = 4
         self._queue_name = queue_name if queue_name else self
@@ -79,20 +80,7 @@ class AsyncQueue(GObject.GObject):
             self._timeout_id = GLib.timeout_add(100, self._dispatch)
 
     def _dispatch(self) -> bool:
-        result_id = 0
         tick = time.time()
-
-        def on_async_finished(obj, *signal_args):
-            t = (time.time() - tick) * 1000
-            self._log.debug(f"{self._queue_name}: {t:.2f} ms task")
-
-            a = len(self._async_active_pool)
-            self._log.debug(
-                f"{self._queue_name}: "
-                f"{a} active task(s) of {len(self._async_pool) + a}")
-
-            obj.disconnect(result_id)
-            self._async_active_pool.pop(id(obj))
 
         if len(self._async_pool) == 0:
             self._timeout_id = 0
@@ -103,7 +91,23 @@ class AsyncQueue(GObject.GObject):
             async_obj = async_task_args[0]
             self._async_active_pool[async_obj_id] = async_task_args
 
-            result_id = async_obj.connect("finished", on_async_finished)
+            self._async_data[async_obj] = (
+                async_obj.connect("finished", self._on_async_finished),
+                tick)
             async_obj.start(*async_task_args[1:])
 
         return GLib.SOURCE_CONTINUE
+
+    def _on_async_finished(
+            self, obj: Any, *signal_args: Any) -> None:
+        handler_id, tick = self._async_data.pop(obj)
+        t = (time.time() - tick) * 1000
+        self._log.debug(f"{self._queue_name}: {t:.2f} ms task")
+
+        a = len(self._async_active_pool)
+        self._log.debug(
+            f"{self._queue_name}: "
+            f"{a} active task(s) of {len(self._async_pool) + a}")
+
+        obj.disconnect(handler_id)
+        self._async_active_pool.pop(id(obj))
