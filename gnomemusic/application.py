@@ -33,7 +33,7 @@
 from typing import Optional
 from gettext import gettext as _
 
-from gi.repository import Gtk, Gio, GLib, Gdk, GObject
+from gi.repository import Gtk, Gio, GLib, Gdk, GObject, Handy
 
 from gnomemusic.coregrilo import CoreGrilo
 from gnomemusic.coremodel import CoreModel
@@ -234,6 +234,8 @@ class Application(Gtk.Application):
 
     def do_startup(self):
         Gtk.Application.do_startup(self)
+        Handy.StyleManager.get_default().set_color_scheme(
+            Handy.ColorScheme.PREFER_LIGHT)
         self._set_actions()
 
     def _quit(self, action=None, param=None):
