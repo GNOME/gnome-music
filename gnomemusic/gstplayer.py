@@ -59,6 +59,8 @@ class GstPlayer(GObject.GObject):
         "stream-start": (GObject.SignalFlags.RUN_FIRST, None, ())
     }
 
+    mute = GObject.Property(
+        type=bool, flags=GObject.ParamFlags.READWRITE, default=False)
     volume = GObject.Property(type=float, flags=GObject.ParamFlags.READWRITE)
 
     def __init__(self, application: Application) -> None:
@@ -103,6 +105,9 @@ class GstPlayer(GObject.GObject):
         self._player.connect("about-to-finish", self._on_about_to_finish)
         self._player.bind_property(
             "volume", self, "volume", GObject.BindingFlags.BIDIRECTIONAL
+            | GObject.BindingFlags.SYNC_CREATE)
+        self._player.bind_property(
+            "mute", self, "mute", GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
 
         self._state = Playback.STOPPED

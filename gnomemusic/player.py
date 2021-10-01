@@ -364,6 +364,7 @@ class Player(GObject.GObject):
 
     state = GObject.Property(type=int, default=Playback.STOPPED)
     duration = GObject.Property(type=float, default=-1.)
+    mute = GObject.Property(type=bool, default=False)
     volume = GObject.Property(type=float, default=1.)
 
     def __init__(self, application):
@@ -412,6 +413,10 @@ class Player(GObject.GObject):
 
         self._gst_player.bind_property(
             "volume", self, "volume",
+            GObject.BindingFlags.BIDIRECTIONAL
+            | GObject.BindingFlags.SYNC_CREATE)
+        self._gst_player.bind_property(
+            "mute", self, "mute",
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
 
