@@ -24,6 +24,7 @@
 
 from gettext import gettext as _
 from math import isclose
+from typing import Optional
 
 import gi
 gi.require_version("GstAudio", "1.0")
@@ -67,6 +68,7 @@ class PlayerToolbar(Gtk.ActionBar):
         super().__init__()
 
         self._player = None
+        self._volume_button_id = 0
 
         self._cover_image.set_size_request(
             ArtSize.SMALL.width, ArtSize.SMALL.height)
@@ -129,8 +131,9 @@ class PlayerToolbar(Gtk.ActionBar):
         self._sync_repeat_image()
 
         self._player.connect("notify::volume", self._player_volume_changed)
-        self._volume_button.connect(
+        self._volume_button_id = self._volume_button.connect(
             "notify::value", self._volume_button_changed)
+        self._player.connect("notify::mute", self._player_mute_changed)
 
     def _volume_button_changed(
             self, widget: Gtk.VolumeButton,
@@ -145,11 +148,21 @@ class PlayerToolbar(Gtk.ActionBar):
         self._player.props.volume = value_linear
 
     def _player_volume_changed(
-            self, player: Player, val: GObject.ParamSpecDouble) -> None:
+            self, player: Player,
+            val: Optional[GObject.ParamSpecDouble]) -> None:
         volume_cubic = GstAudio.StreamVolume.convert_volume(
             GstAudio.StreamVolumeFormat.LINEAR,
             GstAudio.StreamVolumeFormat.CUBIC, self._player.props.volume)
         self._volume_button.props.value = volume_cubic
+
+    def _player_mute_changed(
+            self, player: Player, val: GObject.ParamSpecBoolean) -> None:
+        muted = self._player.props.mute
+        if muted:
+            with self._volume_button.handler_block(self._volume_button_id):
+                self._volume_button.props.value = 0.0
+        else:
+            self._player_volume_changed(self._player, None)
 
     def _repeat_menu_changed(
             self, action: Gio.SimpleAction, new_state: GLib.Variant) -> None:
