@@ -59,6 +59,8 @@ class GstPlayer(GObject.GObject):
         "stream-start": (GObject.SignalFlags.RUN_FIRST, None, ())
     }
 
+    volume = GObject.Property(type=float, flags=GObject.ParamFlags.READWRITE)
+
     def __init__(self, application: Application) -> None:
         """Initialize the GStreamer player
 
@@ -99,6 +101,9 @@ class GstPlayer(GObject.GObject):
         self._bus.connect("message::stream-start", self._on_bus_stream_start)
 
         self._player.connect("about-to-finish", self._on_about_to_finish)
+        self._player.bind_property(
+            "volume", self, "volume", GObject.BindingFlags.BIDIRECTIONAL
+            | GObject.BindingFlags.SYNC_CREATE)
 
         self._state = Playback.STOPPED
 

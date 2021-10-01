@@ -364,6 +364,7 @@ class Player(GObject.GObject):
 
     state = GObject.Property(type=int, default=Playback.STOPPED)
     duration = GObject.Property(type=float, default=-1.)
+    volume = GObject.Property(type=float, default=1.)
 
     def __init__(self, application):
         """Initialize the player
@@ -408,6 +409,11 @@ class Player(GObject.GObject):
             'state', self, 'state', GObject.BindingFlags.SYNC_CREATE)
 
         self._lastfm = application.props.lastfm_scrobbler
+
+        self._gst_player.bind_property(
+            "volume", self, "volume",
+            GObject.BindingFlags.BIDIRECTIONAL
+            | GObject.BindingFlags.SYNC_CREATE)
 
     @GObject.Property(
         type=bool, default=False, flags=GObject.ParamFlags.READABLE)
