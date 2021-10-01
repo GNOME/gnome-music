@@ -23,7 +23,11 @@
 # delete this exception statement from your version.
 
 from gettext import gettext as _
-from gi.repository import Gio, GLib, GObject, Gtk
+from math import isclose
+
+import gi
+gi.require_version("GstAudio", "1.0")
+from gi.repository import Gio, GLib, GObject, GstAudio, Gtk
 
 from gnomemusic.coverpaintable import CoverPaintable
 from gnomemusic.gstplayer import Playback
@@ -56,6 +60,8 @@ class PlayerToolbar(Gtk.ActionBar):
     _repeat_image = Gtk.Template.Child()
     _song_info_box = Gtk.Template.Child()
     _title_label = Gtk.Template.Child()
+    # _volume_adjustment = Gtk.Template.Child()
+    _volume_button = Gtk.Template.Child()
 
     def __init__(self):
         super().__init__()
@@ -121,6 +127,29 @@ class PlayerToolbar(Gtk.ActionBar):
         self._repeat_action.connect("activate", self._repeat_menu_changed)
 
         self._sync_repeat_image()
+
+        self._player.connect("notify::volume", self._player_volume_changed)
+        self._volume_button.connect(
+            "notify::value", self._volume_button_changed)
+
+    def _volume_button_changed(
+            self, widget: Gtk.VolumeButton,
+            val: GObject.ParamSpecDouble) -> None:
+        value_linear = GstAudio.StreamVolume.convert_volume(
+            GstAudio.StreamVolumeFormat.CUBIC,
+            GstAudio.StreamVolumeFormat.LINEAR,
+            self._volume_button.props.value)
+        if isclose(value_linear, self._player.props.volume):
+            return
+
+        self._player.props.volume = value_linear
+
+    def _player_volume_changed(
+            self, player: Player, val: GObject.ParamSpecDouble) -> None:
+        volume_cubic = GstAudio.StreamVolume.convert_volume(
+            GstAudio.StreamVolumeFormat.LINEAR,
+            GstAudio.StreamVolumeFormat.CUBIC, self._player.props.volume)
+        self._volume_button.props.value = volume_cubic
 
     def _repeat_menu_changed(
             self, action: Gio.SimpleAction, new_state: GLib.Variant) -> None:

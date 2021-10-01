@@ -197,7 +197,20 @@
             </child>
           </object>
         </child>
+        <child>
+          <object class="GtkVolumeButton" id="_volume_button">
+            <property name="focusable">True</property>
+            <!-- <property name="adjustment">_volume_adjustment</property> -->
+          </object>
+        </child>
       </object>
     </child>
   </template>
+  <!-- <object class="GtkAdjustment" id="_volume_adjustment"> -->
+  <!--   <property name="upper">1</property> -->
+  <!--   <property name="step-increment">0.1</property> -->
+  <!--   <property name="page-increment">1</property> -->
+  <!--   <property name="value">1</property> -->
+  <!--   <signal name="value-changed" handler="_volume_adjustment_changed" swapped="no"/> -->
+  <!-- </object> -->
 </interface>
