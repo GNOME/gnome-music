@@ -24,7 +24,7 @@
 
 import re
 
-from gi.repository import Gio, GLib
+from gi.repository import Gio, GLib, GstAudio
 
 from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
 from gnomemusic.gstplayer import Playback
@@ -213,6 +213,7 @@ class MPRIS(DBusInterface):
             <property name='Shuffle' type='b' access='readwrite'/>
             <property name='Metadata' type='a{sv}' access='read'>
             </property>
+            <property name='Volume' type='d' access='readwrite'/>
             <property name='Position' type='x' access='read'/>
             <property name='MinimumRate' type='d' access='read'/>
             <property name='MaximumRate' type='d' access='read'/>
@@ -288,6 +289,7 @@ class MPRIS(DBusInterface):
         self._player.connect('notify::state', self._on_player_state_changed)
         self._player.connect(
             'notify::repeat-mode', self._on_repeat_mode_changed)
+        self._player.connect("notify::volume", self._on_volume_changed)
         self._player.connect('seek-finished', self._on_seek_finished)
 
         self._coremodel = app.props.coremodel
@@ -318,6 +320,7 @@ class MPRIS(DBusInterface):
         self._previous_loop_status = ""
         self._previous_mpris_playlist = self._get_active_playlist()
         self._previous_playback_status = "Stopped"
+        self._previous_volume_linear = 1.0
 
     def _get_playback_status(self):
         state = self._player.props.state
@@ -528,6 +531,14 @@ class MPRIS(DBusInterface):
 
         if not properties:
             return
+        self._properties_changed(
+            MPRIS.MEDIA_PLAYER2_PLAYER_IFACE, properties, [])
+
+    def _on_volume_changed(self, player, data=None):
+        volume_cubic = GstAudio.StreamVolume.convert_volume(
+            GstAudio.StreamVolumeFormat.LINEAR,
+            GstAudio.StreamVolumeFormat.CUBIC, self._player.props.volume)
+        properties = {"Volume": GLib.Variant("d", volume_cubic), }
         self._properties_changed(
             MPRIS.MEDIA_PLAYER2_PLAYER_IFACE, properties, [])
 
@@ -803,6 +814,9 @@ class MPRIS(DBusInterface):
             is_shuffle = (self._player.props.repeat_mode == RepeatMode.SHUFFLE)
             can_play = (self._player.props.current_song is not None)
             has_previous = (self._player.props.has_previous)
+            volume_cubic = GstAudio.StreamVolume.convert_volume(
+                GstAudio.StreamVolumeFormat.LINEAR,
+                GstAudio.StreamVolumeFormat.CUBIC, self._player.props.volume)
             return {
                 'PlaybackStatus': GLib.Variant('s', playback_status),
                 'LoopStatus': GLib.Variant('s', self._get_loop_status()),
@@ -818,6 +832,7 @@ class MPRIS(DBusInterface):
                 'CanPause': GLib.Variant('b', can_play),
                 'CanSeek': GLib.Variant('b', True),
                 'CanControl': GLib.Variant('b', True),
+                "Volume": GLib.Variant("d", volume_cubic),
             }
         elif interface_name == MPRIS.MEDIA_PLAYER2_TRACKLIST_IFACE:
             return {
@@ -845,7 +860,7 @@ class MPRIS(DBusInterface):
             if property_name == 'Fullscreen':
                 pass
         elif interface_name == MPRIS.MEDIA_PLAYER2_PLAYER_IFACE:
-            if property_name in ['Rate', 'Volume']:
+            if property_name == "Rate":
                 pass
             elif property_name == 'LoopStatus':
                 if new_value == 'None':
@@ -859,6 +874,11 @@ class MPRIS(DBusInterface):
                     self._player.props.repeat_mode = RepeatMode.SHUFFLE
                 else:
                     self._player.props.repeat_mode = RepeatMode.NONE
+            elif property_name == "Volume":
+                volume_linear = GstAudio.StreamVolume.convert_volume(
+                    GstAudio.StreamVolumeFormat.CUBIC,
+                    GstAudio.StreamVolumeFormat.LINEAR, new_value)
+                self._player.props.volume = volume_linear
         else:
             self._log.warning(
                 "MPRIS does not implement {} interface".format(interface_name))
