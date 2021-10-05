@@ -1,62 +1,59 @@
-# Frisian translation for gnome-music.
-# Copyright (C) 2021 gnome-music's COPYRIGHT HOLDER
-# This file is distributed under the same license as the gnome-music package.
-# vancha <tjipke@tutanota.com>, 2021.
-# Tjipke van der Heide <tjipke@tutanota.com>, 2021.
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2021-08-27 21:42+0000\n"
-"PO-Revision-Date: 2021-08-31 16:25+0200\n"
+"POT-Creation-Date: 2021-08-31 14:27+0000\n"
+"PO-Revision-Date: 2021-10-05 09:48+0000\n"
 "Last-Translator: Tjipke van der Heide <tjipke@tutanota.com>\n"
-"Language-Team: Western Frisian <tjipke@tutanota.com>\n"
+"Language-Team: Western Frisian\n"
 "Language: fy\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"X-Generator: Gtranslator 40.0\n"
+"X-Loco-Source-Locale: fy_NL\n"
+"X-Generator: Loco https://localise.biz/\n"
 "X-DL-Team: fy\n"
 "X-DL-Module: gnome-music\n"
 "X-DL-Branch: master\n"
 "X-DL-Domain: po\n"
 "X-DL-State: Translating\n"
+"\n"
+"X-Loco-Parser: loco_parse_po"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
 msgid "GNOME Music"
 msgstr "GNOME Music"
 
-#: data/org.gnome.Music.appdata.xml.in.in:7
+#: data/org.gnome.Music.appdata.xml.in.in:7 
 #: data/org.gnome.Music.desktop.in.in:5
 msgid "Play and organize your music collection"
-msgstr "Spylje jo muzyk samling ôf en organisearje it"
+msgstr "Spylje jo muzyksamling ôf en organisearje it"
 
 #: data/org.gnome.Music.appdata.xml.in.in:9
 msgid "An easy and pleasant way to play your music."
-msgstr "In maklik en noflik te brûken wize om jo muzyk ôf te spiljen."
+msgstr "In maklik en noflik te brûken wize om jo muzyk ôf te spyljen."
 
 #: data/org.gnome.Music.appdata.xml.in.in:12
 msgid ""
 "Find tracks in your local collection, use automatically generated playlists "
 "or curate a fresh one."
 msgstr ""
-"Fynt ferskes yn jo lokale samling, brûk automatysk oanmakke ôfspyllistten as "
-"meitsje sels jo eigen."
+"Fynt ferskes yn jo lokale samling, brûk automatysk oanmakke ôfspyllisten of "
+"meitsje jo eigen."
 
 #: data/org.gnome.Music.appdata.xml.in.in:140
 msgid "The GNOME Music developers"
-msgstr "De GNOME Music ûntwikkelders"
+msgstr "De GNOME Music-ûntwikkelers"
 
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:60
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:60 
 #: gnomemusic/window.py:71
 msgid "Music"
-msgstr "Music"
+msgstr "Muzyk"
 
 #: data/org.gnome.Music.desktop.in.in:4
 msgid "Music Player"
-msgstr "Muzyk Spiler"
+msgstr "Muzykspiler"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.Music.desktop.in.in:13
@@ -65,19 +62,19 @@ msgstr "Muzyk;Spiler;"
 
 #: data/org.gnome.Music.gschema.xml:12
 msgid "Window size"
-msgstr "Finster grutte"
+msgstr "Finstergrutte"
 
 #: data/org.gnome.Music.gschema.xml:13
 msgid "Window size (width and height)."
-msgstr "Finster grutte (breedte en hichte)."
+msgstr "Finstergrutte (breedte en hichte)."
 
 #: data/org.gnome.Music.gschema.xml:17
 msgid "Window position"
-msgstr "Finster posysje"
+msgstr "Finsterposysje"
 
 #: data/org.gnome.Music.gschema.xml:18
 msgid "Window position (x and y)."
-msgstr "Finster posysje (x en y)."
+msgstr "Finsterposysje (x en y)."
 
 #: data/org.gnome.Music.gschema.xml:22
 msgid "Window maximized"
@@ -85,66 +82,66 @@ msgstr "Finster maksimalisearre"
 
 #: data/org.gnome.Music.gschema.xml:23
 msgid "Window maximized state."
-msgstr "Finster maksimalisearje"
+msgstr "Finster maksimalisearresteat."
 
 #: data/org.gnome.Music.gschema.xml:27
 msgid "Playback repeat mode"
-msgstr "Opnij ôfspilje modus"
+msgstr "Opnij ôfspyljemodus"
 
 #. Translators: Don't translate allowed values, just the description in the brackets
 #: data/org.gnome.Music.gschema.xml:29
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
-"collection. Allowed values are: “none” (repeat and shuffle are off), "
-"“song” (repeat current song), “all” (repeat playlist, no shuffle), "
-"“shuffle” (shuffle playlist, presumes repeat all)."
+"collection. Allowed values are: “none” (repeat and shuffle are off), “song” "
+"(repeat current song), “all” (repeat playlist, no shuffle), “shuffle” "
+"(shuffle playlist, presumes repeat all)."
 msgstr ""
-"Wearde jout oan as de samling opnij ôfspile of mingt wurde moat. Jildiche "
-"weardes binne: “gjin” (opnij ôfspyljen en mingen binne útskeakele), "
-"“ferske” (aktuele ferske opnij ôfspylje),“Alles” (ôfspyllist opnij ofspylje, "
-"net minge), “minge” (ôfspyllist minge, giet der fan út dat alles opnij "
-"ôfspile wurd)"
+"Wearde jout oan as de samling opnij ôfspile of mingd wurde moat. Jildige "
+"wearden binne: ‘gjin’ (opnij ôfspyljen en mingen binne útskeakele), ‘ferske’ "
+"(aktuele ferske opnij ôfspylje), ‘Alles’ (ôfspyllist opnij ôfspylje, net "
+"minge), ‘minge’ (ôfspyllist minge, giet der fan út dat alles opnij ôfspile "
+"wurdt)."
 
 #: data/org.gnome.Music.gschema.xml:33
 msgid "Enable ReplayGain"
-msgstr "ReplayGain Ynskeakelje"
+msgstr "ReplayGain ynskeakelje"
 
 #: data/org.gnome.Music.gschema.xml:34
 msgid "Enables or disables ReplayGain for albums"
-msgstr "Skeakelt ReplayGain foar albums of út"
+msgstr "Skeakelet ReplayGain foar albums yn of út"
 
 #: data/org.gnome.Music.gschema.xml:38
 msgid "Inhibit system suspend"
-msgstr "Foarkomme dat de kompûter yn skoftmodus giet"
+msgstr "Foarkomme dat de kompjûter yn skoftmodus giet"
 
 #: data/org.gnome.Music.gschema.xml:39
 msgid "Enables or disables inhibiting system suspend while playing music"
 msgstr ""
-"Skeakelt it foarkommen fan dat it systeem yn de skoft stân giet yn of út."
+"Skeakelet it foarkommen fan dat it systeem yn de skoftstân giet yn of út."
 
 #: data/org.gnome.Music.gschema.xml:43
 msgid "Report music history to Last.fm"
-msgstr "Muzyk skiednis nei Last.fm ferstjoere"
+msgstr "Muzykskiednis nei Last.fm ferstjoere"
 
 #: data/org.gnome.Music.gschema.xml:44
 msgid ""
 "Enables or disables sending scrobbles and the “currently playing” info to "
 "Last.fm."
 msgstr ""
-"Skeakelt it ferstjoeren fan \"scrobbles\" en \"No oan it ôfspyljen\" "
+"Skeakelet it ferstjoeren fan \"scrobbles\" en ‘No oan it ôfspyljen’ "
 "ynformaasje nei Last.fm yn of út."
 
 #: data/ui/AboutDialog.ui.in:9
 msgid "Copyright © 2018 GNOME Music Developers"
-msgstr "Copyright © 2018 GNOME Music Ûntwikkelders"
+msgstr "Copyright © 2018 GNOME Music-ûntwikkelers"
 
 #: data/ui/AboutDialog.ui.in:10
 msgid "A music player and management application for GNOME."
-msgstr "In muzykspiler en behear applikaasje foar GNOME."
+msgstr "In muzykspiler en behearapplikaasje foar GNOME."
 
 #: data/ui/AboutDialog.ui.in:12
 msgid "Visit GNOME Music website"
-msgstr "De GNOME Music website besykje"
+msgstr "De GNOME Music-website besykje"
 
 #: data/ui/AboutDialog.ui.in:13
 msgid ""
@@ -170,42 +167,40 @@ msgid ""
 "obligated to do so.  If you do not wish to do so, delete this exception "
 "statement from your version."
 msgstr ""
-"GNOME Music is frije software; jo meie it fierder stjoere en/of oanpasse "
-"ûnder de betingsten fan de GNU General Public License sa as útjûn troch de "
-"Free Software Foundation; Ferzje 2 fan de lisinsje, of as jo dat wolle, elke "
-"nijere ferzje."
+"GNOME Music is frije software; jo meie it fierder distribuearje en/of "
+"oanpasse ûnder de betingsten fan de GNU General Public License sa as útjûn "
+"troch de Free Software Foundation; ferzje 2 fan de lisinsje, of as jo dat "
+"wolle, elke nijere ferzje."
 
-#: data/ui/AlbumWidget.ui:104 data/ui/PlayerToolbar.ui:122
-#: data/ui/PlaylistControls.ui:121 data/ui/SongWidgetMenu.ui:19
+#: data/ui/AlbumWidget.ui:104 data/ui/PlayerToolbar.ui:122 
+#: data/ui/PlaylistControls.ui:121 data/ui/SongWidgetMenu.ui:19 
 #: gnomemusic/widgets/playertoolbar.py:177
 msgid "Play"
-msgstr "Ôfspylje"
+msgstr "Ofspylje"
 
 #: data/ui/AlbumWidget.ui:163 data/ui/PlaylistControls.ui:6
 msgid "_Play"
-msgstr "Ôfs_Pylje"
+msgstr "_Ofspylje"
 
 #: data/ui/AlbumWidget.ui:167
-#| msgid "Favorite Songs"
 msgid "Add to _Favorite Songs"
-msgstr "Oan _Favoryte Ferskes Tafoegje"
+msgstr "Oan _favorite ferskes tafoegje"
 
 #: data/ui/AlbumWidget.ui:171
-#| msgid "Add to Playlist…"
 msgid "_Add to Playlist…"
-msgstr "o_An Ôfspyllist tafoegje…"
+msgstr "_Oan ôfspyllist tafoegje…"
 
 #: data/ui/AppMenu.ui:23 data/ui/LastfmDialog.ui:8
 msgid "Last.fm Account"
-msgstr "Last.fm Account"
+msgstr "Last.fm-account"
 
 #: data/ui/AppMenu.ui:38
 msgid "Report Music Listening"
-msgstr "Muzyk lústerjen Opstjoere"
+msgstr "Muzyk lústerje ferstjoere"
 
 #: data/ui/AppMenu.ui:63
 msgid "_Keyboard Shortcuts"
-msgstr "Toetseboerd _Koartkaaien"
+msgstr "_Fluchtoetsen"
 
 #: data/ui/AppMenu.ui:74
 msgid "_Help"
@@ -213,7 +208,7 @@ msgstr "_Help"
 
 #: data/ui/AppMenu.ui:85
 msgid "_About Music"
-msgstr "Oange_Ande Music"
+msgstr "_Oer Music"
 
 #: data/ui/EmptyView.ui:35
 msgid "Welcome to Music"
@@ -227,10 +222,10 @@ msgstr "Menu"
 msgid "Select"
 msgstr "Selektearje"
 
-#: data/ui/HeaderBar.ui:60 data/ui/PlaylistDialog.ui:211
+#: data/ui/HeaderBar.ui:60 data/ui/PlaylistDialog.ui:211 
 #: data/ui/SearchHeaderBar.ui:37
 msgid "_Cancel"
-msgstr "_Ofbrekke"
+msgstr "_Annulearje"
 
 #: data/ui/HeaderBar.ui:79 data/ui/SearchHeaderBar.ui:56
 msgid "Search"
@@ -238,7 +233,7 @@ msgstr "Sykje"
 
 #: data/ui/HeaderBar.ui:102
 msgid "Back"
-msgstr "Werom"
+msgstr "Tebek"
 
 #: data/ui/help-overlay.ui:13
 msgctxt "shortcut window"
@@ -248,7 +243,7 @@ msgstr "Algemien"
 #: data/ui/help-overlay.ui:17
 msgctxt "shortcut window"
 msgid "Close window"
-msgstr "Finster slúte"
+msgstr "Finster slute"
 
 #: data/ui/help-overlay.ui:24
 msgctxt "shortcut window"
@@ -263,22 +258,22 @@ msgstr "Help"
 #: data/ui/help-overlay.ui:38
 msgctxt "shortcut window"
 msgid "Shortcuts"
-msgstr "Koartkaaien"
+msgstr "Fluchtoetsen"
 
 #: data/ui/help-overlay.ui:47
 msgctxt "shortcut window"
 msgid "Playback"
-msgstr "Ôfspylje"
+msgstr "Ofspylje"
 
 #: data/ui/help-overlay.ui:51
 msgctxt "shortcut window"
 msgid "Play/Pause"
-msgstr "Ôfspylje/Skoftsje"
+msgstr "Ofspylje/Skoft"
 
 #: data/ui/help-overlay.ui:58
 msgctxt "shortcut window"
 msgid "Next song"
-msgstr "Folgende ferske"
+msgstr "Folgjende ferske"
 
 #: data/ui/help-overlay.ui:65
 msgctxt "shortcut window"
@@ -288,12 +283,12 @@ msgstr "Foarige ferske"
 #: data/ui/help-overlay.ui:72
 msgctxt "shortcut window"
 msgid "Toggle repeat"
-msgstr "Opnij ôfspylje oan as út sette"
+msgstr "Opnij ôfspylje yn- of útskeakelje"
 
 #: data/ui/help-overlay.ui:79
 msgctxt "shortcut window"
 msgid "Toggle shuffle"
-msgstr "Minge oan as út sette"
+msgstr "Minge yn- of útskeakelje"
 
 #: data/ui/help-overlay.ui:88
 msgctxt "shortcut window"
@@ -318,37 +313,38 @@ msgstr "Gean nei Ferskes"
 #: data/ui/help-overlay.ui:113
 msgctxt "shortcut window"
 msgid "Go to Playlists"
-msgstr "Gean nei Ôfspyllisten"
+msgstr "Gean nei Ofspyllisten"
 
 #: data/ui/help-overlay.ui:120
 msgctxt "shortcut window"
 msgid "Go back"
-msgstr "Gean werom"
+msgstr "Gean tebek"
 
 #: data/ui/LastfmDialog.ui:24
 msgid ""
 "Last.fm is a music discovery service that gives you personalised "
 "recommendations based on the music you listen to."
 msgstr ""
-"Last.fm is in muzyk ûntdekkings tsjinst dy jo persoanlike rekommendaasjes "
-"jout oan de hân fan de muzyk wer jo nei lústerje."
+"Last.fm is in muzykûntdekkingstsjinst dy't jo persoanlike oanrekommandaasjes "
+"jout oan de hân fan de muzyk dêr't jo nei lústerje."
 
 #: data/ui/LastfmDialog.ui:35 gnomemusic/widgets/lastfmdialog.py:58
 msgid "Music Reporting Not Setup"
-msgstr "Muzyk Opstjoere Net Ynsteld"
+msgstr "Muzyk opstjoere net ynsteld"
 
 #: data/ui/LastfmDialog.ui:49 gnomemusic/widgets/lastfmdialog.py:61
 msgid "Login to your Last.fm account to report your music listening."
 msgstr ""
-"Log yn op jo Last.fm account om de muzyk wêr jo nei lústerje op te stjoeren."
+"Meld oan op jo Last.fm-account om de muzyk dêr't jo nei lústerje op te "
+"stjoeren."
 
 #: data/ui/LastfmDialog.ui:60 gnomemusic/widgets/lastfmdialog.py:59
 msgid "Login"
-msgstr "Ynlogge"
+msgstr "Oanmelde"
 
 #: data/ui/LoadingNotification.ui:16
 msgid "Loading"
-msgstr "Laden"
+msgstr "Lade"
 
 #: data/ui/PlayerToolbar.ui:105
 msgid "Previous"
@@ -364,11 +360,11 @@ msgstr "_Fuortsmite"
 
 #: data/ui/PlaylistControls.ui:14
 msgid "_Rename…"
-msgstr "_Werneame…"
+msgstr "_Omneame…"
 
 #: data/ui/PlaylistControls.ui:44
 msgid "Playlist Name"
-msgstr "Namme fan de Ôfspyllist"
+msgstr "Namme fan de ôfspyllist"
 
 #: data/ui/PlaylistControls.ui:77
 msgid "_Done"
@@ -384,7 +380,7 @@ msgstr "_Oanmeitsje"
 
 #: data/ui/PlaylistDialog.ui:156
 msgid "New Playlist…"
-msgstr "Nije Ôfspyllist…"
+msgstr "Nije ôfspyllist…"
 
 #: data/ui/PlaylistDialog.ui:167
 msgid "Add"
@@ -392,7 +388,7 @@ msgstr "Tafoegje"
 
 #: data/ui/PlaylistDialog.ui:208
 msgid "Add to Playlist"
-msgstr "Tafoegje oan ôfspyllist"
+msgstr "Oan ôfspyllist tafoegje"
 
 #: data/ui/PlaylistDialog.ui:224
 msgid "_Add"
@@ -408,7 +404,7 @@ msgstr "Artysten"
 
 #: data/ui/SearchView.ui:57 data/ui/SearchView.ui:108
 msgid "View All"
-msgstr "Alles Besjen"
+msgstr "Alles besjen"
 
 #: data/ui/SearchView.ui:98 gnomemusic/views/albumsview.py:50
 msgid "Albums"
@@ -420,11 +416,11 @@ msgstr "Ferskes"
 
 #: data/ui/SelectionBarMenuButton.ui:7
 msgid "Select All"
-msgstr "Alles Selektearje"
+msgstr "Alles selektearje"
 
 #: data/ui/SelectionBarMenuButton.ui:11
 msgid "Select None"
-msgstr "Neat Selectearje"
+msgstr "Neat Selektearje"
 
 #: data/ui/SelectionBarMenuButton.ui:30 gnomemusic/widgets/headerbar.py:71
 msgid "Click on items to select them"
@@ -432,40 +428,40 @@ msgstr "Klik op items om se te selektearjen"
 
 #: data/ui/SelectionToolbar.ui:9
 msgid "_Add to Playlist"
-msgstr "T_Afoegje oan Ôfspyllist"
+msgstr "_Oan ôfspyllist tafoegje"
 
 #: data/ui/SongWidgetMenu.ui:29
 msgid "Add to Playlist…"
-msgstr "Oan Ôfspyllist tafoegje…"
+msgstr "Oan ôfspyllist tafoegje…"
 
 #: data/ui/SongWidgetMenu.ui:39
 msgid "Remove From Playlist"
-msgstr "Út Ôfspyllist wei smite"
+msgstr "Ut ôfspyllist fuortsmite"
 
 #. TRANSLATORS: this is a playlist name
 #: gnomemusic/grilowrappers/grltrackerplaylists.py:898
 msgid "Most Played"
-msgstr "Faakst ôfspile"
+msgstr "Meast ôfspile"
 
 #. TRANSLATORS: this is a playlist name
 #: gnomemusic/grilowrappers/grltrackerplaylists.py:952
 msgid "Never Played"
-msgstr "Nea Ôfspile"
+msgstr "Nea ôfspile"
 
 #. TRANSLATORS: this is a playlist name
 #: gnomemusic/grilowrappers/grltrackerplaylists.py:1005
 msgid "Recently Played"
-msgstr "Koartlyn Ôfspile"
+msgstr "Koartlyn ôfspile"
 
 #. TRANSLATORS: this is a playlist name
 #: gnomemusic/grilowrappers/grltrackerplaylists.py:1068
 msgid "Recently Added"
-msgstr "Koartlyn Tafoege"
+msgstr "Koartlyn tafoege"
 
 #. TRANSLATORS: this is a playlist name
 #: gnomemusic/grilowrappers/grltrackerplaylists.py:1131
 msgid "Favorite Songs"
-msgstr "Favorite Ferskes"
+msgstr "Favorite ferskes"
 
 #: gnomemusic/gstplayer.py:408
 msgid "Unable to play the file"
@@ -473,7 +469,7 @@ msgstr "Kin it bestân net ôfspylje"
 
 #: gnomemusic/gstplayer.py:414
 msgid "_Find in {}"
-msgstr "_Fine yn {}"
+msgstr "_Sykje yn {}"
 
 #. TRANSLATORS: separator for two codecs
 #: gnomemusic/gstplayer.py:424
@@ -512,23 +508,23 @@ msgstr "Alles opnij ôfspylje"
 
 #: gnomemusic/player.py:48
 msgid "Shuffle/Repeat Off"
-msgstr "Minge/Opnij ôfspylje Út"
+msgstr "Minge/Opnij ôfspylje út"
 
 #: gnomemusic/utils.py:80
 msgid "Unknown album"
-msgstr "Ûnbekend album"
+msgstr "Unbekend album"
 
 #: gnomemusic/utils.py:101
 msgid "Unknown Artist"
-msgstr "Ûnbekende Artyst"
+msgstr "Unbekende artyst"
 
 #: gnomemusic/views/emptyview.py:65
 msgid "Your XDG Music directory is not set."
-msgstr "Jo XDG Muzyk triemtafel is net ynsteld."
+msgstr "Jo XDG Muzyk-map is net ynsteld."
 
 #: gnomemusic/views/emptyview.py:72
 msgid "Music Folder"
-msgstr "Muzyk Folder"
+msgstr "Muzykmap"
 
 #. TRANSLATORS: This is a label to display a link to open user's music
 #. folder. {} will be replaced with the translated text 'Music folder'
@@ -538,11 +534,11 @@ msgstr "De ynhâld fan jo {} sil hjir sichtber wurde."
 
 #: gnomemusic/views/emptyview.py:124
 msgid "No Music Found"
-msgstr "Gjin Muzyk Fûn"
+msgstr "Gjin muzyk fûn"
 
 #: gnomemusic/views/emptyview.py:125
 msgid "Try a Different Search"
-msgstr "Probearje ris om wot oars te Sykjen"
+msgstr "Probearje om wat oars te sykjen"
 
 #: gnomemusic/views/emptyview.py:129
 msgid "GNOME Music could not connect to Tracker."
@@ -551,7 +547,8 @@ msgstr "GNOME Music koe net mei Tracker ferbine."
 #: gnomemusic/views/emptyview.py:131
 msgid "Your music files cannot be indexed without Tracker running."
 msgstr ""
-"Jo muzyk bestannen kin net yndeksearre wurde sûnder dat Tracker útfierd wurd."
+"Jo muzykbestannen kinne net yndeksearre wurde sûnder dat Tracker útfierd "
+"wurdt."
 
 #: gnomemusic/views/emptyview.py:137
 msgid "Your system Tracker version seems outdated."
@@ -563,15 +560,15 @@ msgstr "Muzyk hat Tracker ferzje 3.0.0 of heger nedich."
 
 #: gnomemusic/views/playlistsview.py:45
 msgid "Playlists"
-msgstr "Ôfspyllisten"
+msgstr "Ofspyllisten"
 
 #: gnomemusic/views/searchview.py:420
 msgid "Artists Results"
-msgstr "Artysten Resultaten"
+msgstr "Artystresultaten"
 
 #: gnomemusic/views/searchview.py:435
 msgid "Albums Results"
-msgstr "Albums Resultaten"
+msgstr "Albumresultaten"
 
 #: gnomemusic/widgets/albumwidget.py:237
 msgid "{} minute"
@@ -591,16 +588,16 @@ msgstr[1] "No {} ferskes selektearre"
 
 #: gnomemusic/widgets/lastfmdialog.py:65
 msgid "Your music listening is reported to Last.fm."
-msgstr "De muzyk wêr jo nei lústerje wurd ferstjoerd nei Last.fm."
+msgstr "De muzyk dêr't jo nei lústerje wurd nei Last.fm ferstjoerd."
 
 #: gnomemusic/widgets/lastfmdialog.py:67
 msgid "Your music listening is not reported to Last.fm."
-msgstr "De muzyk wêr jo nei lústerje wurd net ferstjoerd nei Last.fm."
+msgstr "De muzyk dêr't jo nei lústerje, wurdt net nei Last.fm ferstjoerd."
 
 #. TRANSLATORS: displays the username of the Last.fm account
 #: gnomemusic/widgets/lastfmdialog.py:71
 msgid "Logged in as {}"
-msgstr "Ynlogd as {}"
+msgstr "Oanmeld as {}"
 
 #: gnomemusic/widgets/lastfmdialog.py:72
 msgid "Configure"
@@ -608,54 +605,18 @@ msgstr "Ynstelle"
 
 #: gnomemusic/widgets/notificationspopup.py:216
 msgid "Playlist {} removed"
-msgstr "Ôfspyllist {} fuortsmiten"
+msgstr "Ofspyllist {} fuortsmiten"
 
 #: gnomemusic/widgets/notificationspopup.py:220
 msgid "{} removed from {}"
-msgstr "{} út {} wei smiten"
+msgstr "{} út {} fuortsmiten"
 
 #: gnomemusic/widgets/playertoolbar.py:174
 msgid "Pause"
-msgstr "Skoftsje"
+msgstr "Skoft"
 
 #: gnomemusic/widgets/playlistcontrols.py:132
 msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} Ferske"
 msgstr[1] "{} Ferskes"
-
-#~ msgid ""
-#~ "An easy way to play your music. Automatically discover music on your "
-#~ "computer, the local network and internet services."
-#~ msgstr ""
-#~ "In maklike manier om jo muzyk ôf te spyljen. Ûntdek automatysk muzyk op "
-#~ "jo kompûter, it lokale netwurk en internet tsjinsten."
-
-#~ msgid ""
-#~ "Find tracks in your local collection, get music from DLNA servers or try "
-#~ "something new with the Jamendo and Magnatune services."
-#~ msgstr ""
-#~ "Fyn ferskes yn jo lokale samling, helje muzyk fan DLNA tsjinners of "
-#~ "probearje wot nijs mei de Jamendo en Magnatune tsjinsten."
-
-#~ msgid "Inital state has been displayed"
-#~ msgstr "Inisjele steat is sjen litten"
-
-#~ msgid "Set to true when initial state has been displayed"
-#~ msgstr "Wurd op wier set as de inisjele steat sjen litten is"
-
-#~ msgid "Released"
-#~ msgstr "Útjûn"
-
-#~ msgid "Running Length"
-#~ msgstr "Totale Lingte"
-
-#~ msgid "Composer"
-#~ msgstr "Komponist"
-
-#~ msgctxt "context menu item"
-#~ msgid "Play"
-#~ msgstr "Ôfspylje"
-
-#~ msgid "Hey DJ"
-#~ msgstr "Ah Goeie DJ"
