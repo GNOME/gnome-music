@@ -27,7 +27,7 @@ from math import pi
 from typing import Dict, Tuple
 
 import cairo
-from gi.repository import Gtk, GObject
+from gi.repository import Gtk, GObject, Gdk, Handy
 
 from gnomemusic.utils import ArtSize
 
@@ -76,10 +76,18 @@ def make_icon_frame(
         ctx.arc(radius, h - radius, radius, 90 * degrees, 180 * degrees)
         ctx.arc(radius, radius, radius, 180 * degrees, 270 * degrees)
 
+    fill_color = Gdk.RGBA(1.0, 1.0, 1.0, 1.0)
+    icon_color = Gdk.RGBA(0.0, 0.0, 0.0, 0.3)
+    if Handy.StyleManager.get_default().props.dark:
+        fill_color = Gdk.RGBA(0.28, 0.28, 0.28, 1.0)
+        icon_color = Gdk.RGBA(1.0, 1.0, 1.0, 0.5)
+
     if default_icon:
-        ctx.set_source_rgb(1, 1, 1)
+        ctx.set_source_rgb(fill_color.red, fill_color.green, fill_color.blue)
         ctx.fill()
-        ctx.set_source_rgba(0, 0, 0, 0.3)
+        ctx.set_source_rgba(
+            icon_color.red, icon_color.green, icon_color.blue,
+            icon_color.alpha)
         ctx.mask_surface(icon_surface, w / 3, h / 3)
         ctx.fill()
     else:
