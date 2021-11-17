@@ -171,8 +171,8 @@ class AlbumWidget(Handy.Clamp):
         already the corealbum. In the later case, the active_coreobject is
         an artist. It needs to be set.
 
-        :returns: The current CoreAlbum
-        :rtype: CoreAlbum or None
+        :returns: The current CoreObject
+        :rtype: Union[CoreAlbum, CoreArtist]
         """
         try:
             return self._active_coreobject
