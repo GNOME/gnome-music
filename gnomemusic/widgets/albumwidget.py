@@ -309,4 +309,12 @@ class AlbumWidget(Handy.Clamp):
 
     @Gtk.Template.Callback()
     def _on_play_button_clicked(self, button: Gtk.Button) -> None:
-        self._play()
+        # When the coreobject is an artist, the first song of the album
+        # needs to be loaded. Otherwise, the first album of the artist
+        # is played.
+        coresong: Optional[CoreSong] = None
+        if self.props.active_coreobject != self.props.corealbum:
+            coredisc = self.props.corealbum.props.model[0]
+            coresong = coredisc.props.model[0]
+
+        self._play(coresong)
