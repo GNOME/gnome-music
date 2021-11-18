@@ -47,7 +47,6 @@ appdata_conf.set('appid', APPLICATION_ID)
 appdata_conf.set('package_url', PACKAGE_URL)
 appdata_conf.set('package_url_bug', PACKAGE_URL_BUG)
 i18n.merge_file(
-  'appdata',
   input: configure_file(
     output: PROJECT_RDNN_NAME + '.appdata.xml.in',
     input: PROJECT_RDNN_NAME + '.appdata.xml.in.in',
