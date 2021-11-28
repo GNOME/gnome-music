@@ -22,6 +22,8 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from __future__ import annotations
+
 from enum import Enum
 from math import pi
 from typing import Dict, Tuple
@@ -34,7 +36,7 @@ from gnomemusic.utils import ArtSize
 
 def make_icon_frame(
         icon_surface, art_size=None, scale=1, default_icon=False,
-        round_shape=False):
+        round_shape=False, dark=False):
     """Create an Art frame, square or round.
 
     :param cairo.Surface icon_surface: The surface to use
@@ -42,6 +44,7 @@ def make_icon_frame(
     :param int scale: The scale of the art
     :param bool default_icon: Indicates of this is a default icon
     :param bool round_shape: Square or round indicator
+    :param bool dark: Theme dark mode
 
     :return: The framed surface
     :rtype: cairo.Surface
@@ -76,11 +79,12 @@ def make_icon_frame(
         ctx.arc(radius, h - radius, radius, 90 * degrees, 180 * degrees)
         ctx.arc(radius, radius, radius, 180 * degrees, 270 * degrees)
 
-    fill_color = Gdk.RGBA(1.0, 1.0, 1.0, 1.0)
-    icon_color = Gdk.RGBA(0.0, 0.0, 0.0, 0.3)
-    if Handy.StyleManager.get_default().props.dark:
+    if dark:
         fill_color = Gdk.RGBA(0.28, 0.28, 0.28, 1.0)
         icon_color = Gdk.RGBA(1.0, 1.0, 1.0, 0.5)
+    else:
+        fill_color = Gdk.RGBA(1.0, 1.0, 1.0, 1.0)
+        icon_color = Gdk.RGBA(0.0, 0.0, 0.0, 0.3)
 
     if default_icon:
         ctx.set_source_rgb(fill_color.red, fill_color.green, fill_color.blue)
@@ -106,20 +110,22 @@ class DefaultIcon(GObject.GObject):
         ARTIST = "avatar-default-symbolic"
 
     _cache: Dict[
-        Tuple["DefaultIcon.Type", ArtSize, int, bool], cairo.Surface] = {}
+        Tuple[DefaultIcon.Type, ArtSize, int, bool, bool], cairo.Surface] = {}
 
     _default_theme = Gtk.IconTheme.get_default()
 
     def __init__(self):
         super().__init__()
 
-    def _make_default_icon(self, icon_type, art_size, scale, round_shape):
+    def _make_default_icon(
+            self, icon_type: DefaultIcon.Type, art_size: ArtSize, scale: int,
+            round_shape: bool, dark: bool) -> cairo.Surface:
         icon_info = self._default_theme.lookup_icon_for_scale(
             icon_type.value, art_size.width / 3, scale, 0)
         icon = icon_info.load_surface()
 
         icon_surface = make_icon_frame(
-            icon, art_size, scale, True, round_shape=round_shape)
+            icon, art_size, scale, True, round_shape, dark)
 
         return icon_surface
 
@@ -141,9 +147,13 @@ class DefaultIcon(GObject.GObject):
         else:
             round_shape = True
 
-        if (icon_type, art_size, scale, round_shape) not in self._cache.keys():
-            new_icon = self._make_default_icon(
-                icon_type, art_size, scale, round_shape)
-            self._cache[(icon_type, art_size, scale, round_shape)] = new_icon
+        dark = Handy.StyleManager.get_default().props.dark
 
-        return self._cache[(icon_type, art_size, scale, round_shape)]
+        if (icon_type, art_size,
+                scale, round_shape, dark) not in self._cache.keys():
+            new_icon = self._make_default_icon(
+                icon_type, art_size, scale, round_shape, dark)
+            self._cache[
+                (icon_type, art_size, scale, round_shape, dark)] = new_icon
+
+        return self._cache[(icon_type, art_size, scale, round_shape, dark)]
