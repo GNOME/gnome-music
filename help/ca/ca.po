@@ -99,14 +99,14 @@ msgid ""
 "You can play your favorite music by creating a playlist or by simply "
 "clicking on the song of your choice from any view."
 msgstr ""
-"Podeu reproduir la teva música preferida creant una llista de reproducció o "
+"Podeu reproduir la vostra música preferida creant una llista de reproducció o "
 "simplement fent clic sobre la cançó escollida des de qualsevol vista."
 
 #. (itstool) path: steps/title
 #: C/play-music.page:28 C/playlist-delete.page:27
 #: C/playlist-remove-songs.page:27
 msgid "While in <em>Playlists</em>:"
-msgstr "Mentre s'estigui a la <em>llista de reproducció</em>:"
+msgstr "Mentre s'estigui a les <em>llistes de reproducció</em>:"
 
 #. (itstool) path: item/p
 #: C/play-music.page:30
@@ -171,7 +171,7 @@ msgstr ""
 #: C/playlist-create-artists.page:40
 msgid "Click on <gui>New Playlist</gui> and type a name for your playlist."
 msgstr ""
-"Feu clic a <gui>Llista nova de reproducció</gui> i escriviu un nom per a la "
+"Feu clic a <gui>Llista de reproducció nova</gui> i escriviu un nom per a la "
 "llista."
 
 #. (itstool) path: item/p
@@ -267,7 +267,7 @@ msgid ""
 "Click on <gui style=\"button\">New Playlist</gui> and type a name for your "
 "playlist."
 msgstr ""
-"Feu clic a <gui style=\"button\">Nova llista de reproducció</gui> i escriure "
+"Feu clic a <gui style=\"button\">Llista de reproducció nova</gui> i escriure "
 "el nom de la llista."
 
 #. (itstool) path: info/desc
