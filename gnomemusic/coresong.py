@@ -84,6 +84,7 @@ class CoreSong(GObject.GObject):
 
         self.props.grlid = media.get_source() + media.get_id()
         self._is_tracker: bool = media.get_source() == "grl-tracker3-source"
+        self._is_filesystem: bool = media.get_source() == "grl-filesystem"
         self.props.validation = CoreSong.Validation.PENDING
         self.update(media)
         self.update_shuffle_pos()
@@ -96,6 +97,17 @@ class CoreSong(GObject.GObject):
         type=bool, default=False, flags=GObject.ParamFlags.READABLE)
     def is_tracker(self) -> bool:
         return self._is_tracker
+
+    @GObject.Property(
+        type=bool, default=False, flags=GObject.ParamFlags.READABLE)
+    def is_filesystem(self) -> bool:
+        """This property checks if the coresong has been loaded
+        by the Grilo filesystem plugin.
+
+        :returns: True is the song comes from the Grilo filesystem
+                  plugin
+        """
+        return self._is_filesystem
 
     @GObject.Property(type=bool, default=False)
     def favorite(self) -> bool:
