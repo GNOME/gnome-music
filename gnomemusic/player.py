@@ -75,6 +75,7 @@ class PlayerPlaylist(GObject.GObject):
         ARTIST = 2
         PLAYLIST = 3
         SEARCH_RESULT = 4
+        FILES = 5
 
     repeat_mode = GObject.Property(type=object)
 

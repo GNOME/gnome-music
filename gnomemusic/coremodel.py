@@ -168,6 +168,8 @@ class CoreModel(GObject.GObject):
         user_playlists_sorter.set_sort_func(self._playlists_sort)
         self._user_playlists_model_sort.set_sorter(user_playlists_sorter)
 
+        self._files_model: Gio.ListStore = Gio.ListStore(item_type=CoreSong)
+
         self._search: Search = application.props.search
 
         self._songs_model.connect(
@@ -321,6 +323,12 @@ class CoreModel(GObject.GObject):
             for song in self._songs_search_flatten:
                 songs_added.append(song)
 
+        elif playlist_type == PlayerPlaylist.Type.FILES:
+            self._current_playlist_model = model
+
+            for song in model:
+                songs_added.append(song)
+
         elif playlist_type == PlayerPlaylist.Type.PLAYLIST:
             self._current_playlist_model = model
 
@@ -372,6 +380,9 @@ class CoreModel(GObject.GObject):
         elif self._search.props.search_mode_active:
             playlist_type = PlayerPlaylist.Type.SEARCH_RESULT
             model = self._songs_search_flatten
+        elif self._active_core_object.props.is_filesystem:
+            playlist_type = PlayerPlaylist.Type.FILES
+            model = self._files_model
         else:
             playlist_type = PlayerPlaylist.Type.SONGS
             model = self._songs_model
@@ -520,3 +531,8 @@ class CoreModel(GObject.GObject):
         flags=GObject.ParamFlags.READABLE)
     def user_playlists_filter(self):
         return self._user_playlists_model_filter
+
+    @GObject.Property(
+        type=Gio.ListStore, default=None, flags=GObject.ParamFlags.READABLE)
+    def files(self):
+        return self._files_model
