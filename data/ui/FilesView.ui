@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="FilesView" parent="GtkScrolledWindow">
+    <property name="hexpand">True</property>
+    <property name="vexpand">True</property>
+    <property name="visible">False</property>
+    <child>
+      <object class="AdwClamp">
+        <property name="maximum-size">1000</property>
+        <child>
+          <object class="GtkListBox" id="_list_box">
+            <property name="valign">start</property>
+            <property name="selection_mode">none</property>
+            <property name="margin-bottom">48</property>
+            <property name="margin-top">48</property>
+            <signal name="row-activated" handler="_song_activated" swapped="no"/>
+            <style>
+              <class name="boxed-list"/>
+            </style>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

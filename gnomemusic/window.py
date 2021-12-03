@@ -35,6 +35,7 @@ from gnomemusic.utils import View
 from gnomemusic.views.albumsview import AlbumsView
 from gnomemusic.views.artistsview import ArtistsView
 from gnomemusic.views.emptyview import EmptyView
+from gnomemusic.views.filesview import FilesView
 from gnomemusic.views.searchview import SearchView
 from gnomemusic.views.songsview import SongsView
 from gnomemusic.views.playlistsview import PlaylistsView
@@ -242,6 +243,7 @@ class Window(Adw.ApplicationWindow):
         self.views[View.SONG] = SongsView(self._app)
         self.views[View.PLAYLIST] = PlaylistsView(self._app)
         self.views[View.SEARCH] = SearchView(self._app)
+        self.views[View.FILES] = FilesView(self._app)
 
         # empty view has already been created in self._setup_view starting at
         # View.ALBUM

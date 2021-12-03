@@ -72,6 +72,7 @@ class View(IntEnum):
     SONG = 3
     PLAYLIST = 4
     SEARCH = 5
+    FILES = 6
 
 
 def get_album_title(item):
