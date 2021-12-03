@@ -32,6 +32,7 @@
 
 from typing import Optional
 from gettext import gettext as _
+from typing import List
 
 from gi.repository import Adw, Gtk, Gio, GLib, Gdk, GObject
 
@@ -56,7 +57,7 @@ class Application(Adw.Application):
     def __init__(self, application_id):
         super().__init__(
             application_id=application_id,
-            flags=Gio.ApplicationFlags.FLAGS_NONE)
+            flags=Gio.ApplicationFlags.HANDLES_OPEN)
         self.props.resource_base_path = "/org/gnome/Music"
         GLib.set_application_name(_("Music"))
         GLib.set_prgname(application_id)
@@ -228,6 +229,10 @@ class Application(Adw.Application):
         about = AboutDialog()
         about.props.transient_for = self._window
         about.present()
+
+    def do_open(self, files: List[Gio.File], n_files: int, hint: str) -> None:
+        self.props.coregrilo.load_files(files)
+        self.do_activate()
 
     def do_startup(self):
         Adw.Application.do_startup(self)

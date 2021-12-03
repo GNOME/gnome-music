@@ -4,10 +4,11 @@ GenericName=Music Player
 Comment=Play and organize your music collection
 # Translators: Do NOT translate or transliterate this text (this is an icon file name)!
 Icon=@icon@
-Exec=gnome-music
+Exec=gnome-music %U
 Terminal=false
 Type=Application
 Categories=GNOME;GTK;AudioVideo;Player;Audio;
 # Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 Keywords=Music;Player;
 StartupNotify=true
+MimeType=application/ogg;application/x-ogg;application/x-ogm-audio;audio/aac;audio/mp4;audio/mpeg;audio/mpegurl;audio/ogg;audio/vnd.rn-realaudio;audio/vorbis;audio/x-flac;audio/x-mp3;audio/x-mpeg;audio/x-mpegurl;audio/x-ms-wma;audio/x-musepack;audio/x-oggflac;audio/x-pn-realaudio;audio/x-scpls;audio/x-speex;audio/x-vorbis;audio/x-vorbis+ogg;audio/x-wav;x-content/audio-player;audio/x-aac;audio/m4a;audio/x-m4a;audio/mp3;audio/ac3;audio/flac;application/xspf+xml;audio/x-opus+ogg;application/vnd.apple.mpegurl
