@@ -22,12 +22,14 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from typing import List
 import weakref
 
 import gi
 gi.require_version("Grl", "0.3")
-from gi.repository import Grl, GLib, GObject, Gtk
+from gi.repository import Grl, Gio, GLib, GObject, Gtk
 
+from gnomemusic.grilowrappers.grlfilesystemwrapper import GrlFileSystemWrapper
 from gnomemusic.grilowrappers.grlsearchwrapper import GrlSearchWrapper
 from gnomemusic.grilowrappers.grltrackerwrapper import GrlTrackerWrapper
 from gnomemusic.trackerwrapper import TrackerState, TrackerWrapper
@@ -37,7 +39,6 @@ class CoreGrilo(GObject.GObject):
 
     _blocklist = [
         'grl-bookmarks',
-        'grl-filesystem',
         'grl-itunes-podcast',
         'grl-metadata-store',
         'grl-podcasts'
@@ -157,6 +158,11 @@ class CoreGrilo(GObject.GObject):
             music_dir = GLib.get_user_special_dir(
                 GLib.UserDirectory.DIRECTORY_MUSIC)
             self._log.debug("XDG Music dir is: {}".format(music_dir))
+        elif source.props.source_id == "grl-filesystem":
+            new_wrapper = GrlFileSystemWrapper(
+                source, self._application)
+            self._wrappers[source.props.source_id] = new_wrapper
+            self._log.debug(f"Adding file system source {source}")
         elif (source.props.source_id not in self._search_wrappers.keys()
                 and source.props.source_id not in self._wrappers.keys()
                 and source.props.source_id != "grl-tracker3-source"
@@ -300,3 +306,12 @@ class CoreGrilo(GObject.GObject):
         if "grl-tracker3-source" in self._wrappers:
             self._wrappers["grl-tracker3-source"].create_playlist(
                 playlist_title, callback)
+
+    def load_files(self, files: List[Gio.File]) -> None:
+        """Use the filesystem plugin to load audio files
+
+        :param list files: list of files
+        """
+        if "grl-filesystem" in self._wrappers:
+            for file in files:
+                self._wrappers["grl-filesystem"].load_file(file)
