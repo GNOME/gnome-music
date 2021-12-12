@@ -22,12 +22,23 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from typing import Optional, Union
+import typing
+
 from gi.repository import GObject, Gtk
 
 from gnomemusic.asyncqueue import AsyncQueue
 from gnomemusic.artcache import ArtCache
 from gnomemusic.defaulticon import DefaultIcon
 from gnomemusic.utils import ArtSize
+if typing.TYPE_CHECKING:
+    from gnomemusic.corealbum import CoreAlbum
+    from gnomemusic.coreartist import CoreArtist
+    from gnomemusic.coresong import CoreSong
+
+
+if typing.TYPE_CHECKING:
+    CoreObject = Union[CoreAlbum, CoreArtist, CoreSong]
 
 
 class ArtStack(Gtk.Stack):
@@ -51,7 +62,7 @@ class ArtStack(Gtk.Stack):
 
         self._art_type = DefaultIcon.Type.ALBUM
         self._cache = ArtCache()
-        self._coreobject = None
+        self._coreobject: Optional[CoreObject] = None
         self._handler_id = 0
         self._size = size
         self._thumbnail_id = 0
