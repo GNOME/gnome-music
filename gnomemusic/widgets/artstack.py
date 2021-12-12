@@ -22,10 +22,14 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from __future__ import annotations
 from typing import Optional, Union
 import typing
 
 from gi.repository import GObject, Gtk
+if typing.TYPE_CHECKING:
+    from cairo import ImageSurface
+
 
 from gnomemusic.asyncqueue import AsyncQueue
 from gnomemusic.artcache import ArtCache
@@ -82,7 +86,7 @@ class ArtStack(Gtk.Stack):
         self.connect("destroy", self._on_destroy)
 
     @GObject.Property(type=object, flags=GObject.ParamFlags.READWRITE)
-    def size(self):
+    def size(self) -> ArtSize:
         """Size of the cover
 
         :returns: The size used
@@ -91,7 +95,7 @@ class ArtStack(Gtk.Stack):
         return self._size
 
     @size.setter  # type: ignore
-    def size(self, value):
+    def size(self, value: ArtSize) -> None:
         """Set the cover size
 
         :param ArtSize value: The size to use for the cover
@@ -123,11 +127,11 @@ class ArtStack(Gtk.Stack):
         self._on_cache_result(None, default_icon)
 
     @GObject.Property(type=object, default=None)
-    def coreobject(self):
+    def coreobject(self) -> Optional[CoreObject]:
         return self._coreobject
 
     @coreobject.setter  # type: ignore
-    def coreobject(self, coreobject):
+    def coreobject(self, coreobject: CoreObject) -> None:
         if self._thumbnail_id != 0:
             self._coreobject.disconnect(self._thumbnail_id)
             self._thumbnail_id = 0
@@ -139,7 +143,9 @@ class ArtStack(Gtk.Stack):
         if self._coreobject.props.thumbnail is not None:
             self._on_thumbnail_changed(self._coreobject, None)
 
-    def _on_thumbnail_changed(self, coreobject, uri):
+    def _on_thumbnail_changed(
+            self, coreobject: CoreObject,
+            uri: Optional[GObject.ParamSpecString]) -> None:
         self._disconnect_cache()
 
         self._handler_id = self._cache.connect(
@@ -148,7 +154,7 @@ class ArtStack(Gtk.Stack):
         self._async_queue.queue(
             self._cache, coreobject, self._size, self.props.scale_factor)
 
-    def _on_cache_result(self, cache, surface):
+    def _on_cache_result(self, cache: ArtCache, surface: ImageSurface) -> None:
         if self.props.visible_child_name == "B":
             self._cover_a.props.surface = surface
             self.props.visible_child_name = "A"
@@ -156,13 +162,13 @@ class ArtStack(Gtk.Stack):
             self._cover_b.props.surface = surface
             self.props.visible_child_name = "B"
 
-    def _on_destroy(self, widget):
+    def _on_destroy(self, widget: ArtStack) -> None:
         # If the stack is destroyed while the art is updated, an error
         # can occur once the art is retrieved because the ArtStack does
         # not have children anymore.
         self._disconnect_cache()
 
-    def _disconnect_cache(self):
+    def _disconnect_cache(self) -> None:
         if self._handler_id != 0:
             self._cache.disconnect(self._handler_id)
             self._handler_id = 0
