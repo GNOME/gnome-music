@@ -53,17 +53,6 @@ LOCALE_DIR = '@localedir@'
 PKGDATA_DIR = '@pkgdatadir@'
 
 
-def set_gfm():
-    """Configures application to use gfm."""
-    gfm_libdir = '@gfmlibdir@'
-    if _LOCAL:
-        gfm_typelibdir = '@gfmlibdir@'
-    else:
-        gfm_typelibdir = '@gfmlibdir@/girepository-1.0'
-
-    GIRepository.Repository.prepend_search_path(gfm_typelibdir)
-    GIRepository.Repository.prepend_library_path(gfm_libdir)
-
 def set_exception_hook():
     """Configures sys.excepthook to enforce Gtk application exiting."""
 
@@ -110,7 +99,6 @@ def run_application():
 
 def main():
     """Sets environment and runs GNOME Music."""
-    set_gfm()
     # set_exception_hook()
     set_internationalization()
     set_resources()
