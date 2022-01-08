@@ -111,7 +111,7 @@ def run_application():
 def main():
     """Sets environment and runs GNOME Music."""
     set_gfm()
-    set_exception_hook()
+    # set_exception_hook()
     set_internationalization()
     set_resources()
     return run_application()
