@@ -123,7 +123,6 @@
                             <property name="focus_on_click">False</property>
                             <property name="menu-model">album_menu</property>
                             <property name="direction">none</property>
-                            <property name="use_popover">True</property>
                             <property name="icon_name">view-more-symbolic</property>
                             <style>
                               <class name="image-button"/>
