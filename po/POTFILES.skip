@@ -2,4 +2,3 @@
 # Please keep this file sorted alphabetically.
 data/ui/AboutDialog.ui
 data/org.gnome.Music.appdata.xml
-subprojects/gfm
