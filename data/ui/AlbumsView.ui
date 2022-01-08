@@ -4,53 +4,57 @@
   <template class="AlbumsView" parent="GtkStack">
     <property name="visible">True</property>
     <child>
-      <object class="GtkScrolledWindow" id="_scrolled_window">
-        <property name="visible">True</property>
-        <child>
-          <object class="GtkFlowBox" id="_flowbox">
-            <property name="column_spacing">20</property>
-            <property name="halign">fill</property>
-            <property name="hexpand">True</property>
-            <property name="homogeneous">True</property>
-            <property name="margin-bottom">18</property>
-            <property name="margin-end">18</property>
-            <property name="margin-start">18</property>
-            <property name="margin-top">18</property>
-            <property name="max-children-per-line">20</property>
-            <property name="min-children-per-line">1</property>
-            <property name="row_spacing">12</property>
-            <property name="selection-mode">none</property>
-            <property name="valign">start</property>
+      <object class="GtkStackPage">
+        <property name="name">grid</property>
+        <property name="child">
+          <object class="GtkScrolledWindow" id="_scrolled_window">
             <property name="visible">True</property>
-            <signal name="selected-children-changed" handler="_on_selected_children_changed" swapped="no"/>
-            <style>
-              <class name="content-view"/>
-            </style>
             <child>
-              <object class="GtkGestureLongPress" id="_flowbox_long_press">
-                <property name="propagation-phase">capture</property>
-                <signal name="begin" handler="_on_flowbox_press_begin" swapped="no"/>
-                <signal name="cancel" handler="_on_flowbox_press_cancel" swapped="no"/>
+              <object class="GtkFlowBox" id="_flowbox">
+                <property name="column_spacing">20</property>
+                <property name="halign">fill</property>
+                <property name="hexpand">True</property>
+                <property name="homogeneous">True</property>
+                <property name="margin-bottom">18</property>
+                <property name="margin-end">18</property>
+                <property name="margin-start">18</property>
+                <property name="margin-top">18</property>
+                <property name="max-children-per-line">20</property>
+                <property name="min-children-per-line">1</property>
+                <property name="row_spacing">12</property>
+                <property name="selection-mode">none</property>
+                <property name="valign">start</property>
+                <property name="visible">True</property>
+                <signal name="selected-children-changed" handler="_on_selected_children_changed" swapped="no"/>
+                <style>
+                  <class name="content-view"/>
+                </style>
+                <child>
+                  <object class="GtkGestureLongPress" id="_flowbox_long_press">
+                    <property name="propagation-phase">capture</property>
+                    <signal name="begin" handler="_on_flowbox_press_begin" swapped="no"/>
+                    <signal name="cancel" handler="_on_flowbox_press_cancel" swapped="no"/>
+                  </object>
+                </child>
               </object>
             </child>
           </object>
-        </child>
+        </property>
       </object>
-      <packing>
-        <property name="name">grid</property>
-      </packing>
     </child>
     <child>
-      <object class="GtkScrolledWindow" id="_album_scrolled_window">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="hexpand">True</property>
-        <property name="vexpand">True</property>
-        <property name="hscrollbar_policy">never</property>
-      </object>
-      <packing>
+      <object class="GtkStackPage">
         <property name="name">widget</property>
-      </packing>
+        <property name="child">
+          <object class="GtkScrolledWindow" id="_album_scrolled_window">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="hexpand">True</property>
+            <property name="vexpand">True</property>
+            <property name="hscrollbar_policy">never</property>
+          </object>
+        </property>
+      </object>
     </child>
   </template>
 </interface>
