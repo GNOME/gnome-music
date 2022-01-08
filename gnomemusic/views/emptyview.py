@@ -81,7 +81,7 @@ class EmptyView(Gtk.Stack):
         # child_of_child = self._status_page.get_child().get_child()
         # self._adw_clamp = child_of_child.get_child().get_children()[0]
 
-        self._status_page.add(self._initial_state)
+        self._status_page.set_child(self._initial_state)
 
         self._state = EmptyView.State.EMPTY
 
