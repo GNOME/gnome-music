@@ -43,6 +43,8 @@ class CoreSong(GObject.GObject):
     """Exposes a Grl.Media with relevant data as properties
     """
 
+    __gtype_name__ = "CoreSong"
+
     album = GObject.Property(type=str)
     album_disc_number = GObject.Property(type=int)
     artist = GObject.Property(type=str)
