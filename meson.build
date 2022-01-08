@@ -56,12 +56,6 @@ dependency('py3cairo', version: '>= 1.14.0')
 dependency('grilo-0.3', version: '>= 0.3.13', fallback: ['grilo', 'libgrl_dep'])
 dependency('grilo-plugins-0.3', version: '>= 0.3.12', fallback: ['grilo-plugins', 'grilo_plugins_dep'])
 
-subproject('gfm',
-    default_options: [
-        'pkgdatadir=' + PKGDATA_DIR,
-        'pkglibdir=' + PKGLIB_DIR
-    ])
-
 subdir('data/ui')
 subdir('data')
 subdir('help')
@@ -80,8 +74,6 @@ bin_config.set('pkgdatadir', PKGDATA_DIR)
 bin_config.set('localedir', join_paths(get_option('prefix'), get_option('datadir'), 'locale'))
 bin_config.set('pythondir', PYTHON_DIR)
 bin_config.set('schemasdir', PKGDATA_DIR)
-# Used for gfm
-bin_config.set('gfmlibdir', PKGLIB_DIR)
 
 bin_config.set('local_build', 'False')
 
@@ -100,8 +92,6 @@ local_config.set('pkgdatadir', join_paths(meson.current_build_dir(), 'data'))
 local_config.set('localedir', join_paths(get_option('prefix'), get_option('datadir'), 'locale'))
 local_config.set('pythondir', meson.current_source_dir())
 local_config.set('schemasdir', join_paths(meson.current_build_dir(), 'data'))
-# Used for gfm
-local_config.set('gfmlibdir', join_paths(meson.current_build_dir(), 'subprojects', 'gfm'))
 
 local_config.set('local_build', 'True')
 
