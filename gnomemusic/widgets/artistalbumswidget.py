@@ -25,7 +25,7 @@
 from __future__ import annotations
 import typing
 
-from gi.repository import Adw, GObject, Gtk
+from gi.repository import GObject, Gtk
 
 from gnomemusic.widgets.albumwidget import AlbumWidget
 if typing.TYPE_CHECKING:
@@ -34,7 +34,7 @@ if typing.TYPE_CHECKING:
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/ArtistAlbumsWidget.ui")
-class ArtistAlbumsWidget(Adw.Clamp):
+class ArtistAlbumsWidget(Gtk.Box):
     """Widget containing all albums by an artist
 
     A vertical list of AlbumWidget, containing all the albums

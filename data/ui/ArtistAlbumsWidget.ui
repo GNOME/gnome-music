@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk+" version="3.18"/>
-  <template class="ArtistAlbumsWidget" parent="AdwClamp">
-    <property name="maximum-size">1000</property>
-    <property name="orientation">horizontal</property>
-    <property name="visible">True</property>
+  <template class="ArtistAlbumsWidget" parent="GtkBox">
+    <property name="orientation">vertical</property>
     <child>
-      <object class="GtkListBox" id="_listbox">
+      <object class="AdwClamp">
+        <property name="maximum-size">1000</property>
+        <property name="orientation">horizontal</property>
         <property name="visible">True</property>
+        <child>
+          <object class="GtkListBox" id="_listbox">
+            <property name="visible">True</property>
+          </object>
+        </child>
       </object>
     </child>
   </template>
