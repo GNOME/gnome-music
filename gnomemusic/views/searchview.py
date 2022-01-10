@@ -360,8 +360,8 @@ class SearchView(Gtk.Stack):
 
         self.props.state = SearchView.State.ALBUM
         self._headerbar.props.state = HeaderBar.State.SEARCH
-        self._headerbar.props.title = corealbum.props.title
-        self._headerbar.props.subtitle = corealbum.props.artist
+        self._headerbar.set_label_title(
+            corealbum.props.title, corealbum.props.artist)
 
         self.set_visible_child(self._scrolled_album_widget)
         self.props.search_mode_active = False
@@ -389,8 +389,7 @@ class SearchView(Gtk.Stack):
 
         self.props.state = SearchView.State.ARTIST
         self._headerbar.props.state = HeaderBar.State.SEARCH
-        self._headerbar.props.title = coreartist.props.artist
-        self._headerbar.props.subtitle = None
+        self._headerbar.props.set_label_title(coreartist.props.artist, "")
 
         self.set_visible_child(self._scrolled_artist_window)
         self.props.search_mode_active = False
@@ -399,8 +398,7 @@ class SearchView(Gtk.Stack):
     def _on_all_artists_clicked(self, widget, event, user_data=None):
         self.props.state = SearchView.State.ALL_ARTISTS
         self._headerbar.props.state = HeaderBar.State.SEARCH
-        self._headerbar.props.title = _("Artists Results")
-        self._headerbar.props.subtitle = None
+        self._headerbar.props.set_label_title(_("Artists Results"), "")
 
         self._artist_all_flowbox.props.visible = True
         self._album_all_flowbox.props.visible = False
@@ -414,8 +412,7 @@ class SearchView(Gtk.Stack):
     def _on_all_albums_clicked(self, widget, event, user_data=None):
         self.props.state = SearchView.State.ALL_ALBUMS
         self._headerbar.props.state = HeaderBar.State.SEARCH
-        self._headerbar.props.title = _("Albums Results")
-        self._headerbar.props.subtitle = None
+        self._headerbar.props.set_label_title(_("Albums Results"), "")
 
         self._artist_all_flowbox.props.visible = False
         self._album_all_flowbox.props.visible = True

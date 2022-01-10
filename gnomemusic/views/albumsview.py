@@ -229,10 +229,10 @@ class AlbumsView(Gtk.Stack):
         self._set_album_headerbar(corealbum)
         self.set_visible_child_name("widget")
 
-    def _set_album_headerbar(self, corealbum):
+    def _set_album_headerbar(self, corealbum: CoreAlbum) -> None:
         self._headerbar.props.state = HeaderBar.State.CHILD
-        # self._headerbar.props.title = corealbum.props.title
-        # self._headerbar.props.subtitle = corealbum.props.artist
+        self._headerbar.set_label_title(
+            corealbum.props.title, corealbum.props.artist)
 
     # @Gtk.Template.Callback()
     # def _on_flowbox_press_begin(self, gesture, sequence):
