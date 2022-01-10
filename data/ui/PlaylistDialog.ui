@@ -204,7 +204,17 @@
   <object class="GtkHeaderBar" id="_title_bar">
     <property name="visible">True</property>
     <property name="focusable">False</property>
-    <property name="title" translatable="yes">Add to Playlist</property>
+    <property name="title-widget">
+      <object class="GtkLabel">
+        <property name="label" translatable="yes">Add to Playlist</property>
+        <property name="single-line-mode">True</property>
+        <property name="ellipsize">end</property>
+        <property name="width-chars">5</property>
+        <style>
+          <class name="title"/>
+        </style>
+      </object>
+    </property>
     <child>
       <object class="GtkButton" id="_cancel_button">
         <property name="label" translatable="yes">_Cancel</property>
