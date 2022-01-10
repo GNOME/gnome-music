@@ -93,6 +93,9 @@ class HeaderBar(Adw.Bin):
     _cancel_button = Gtk.Template.Child()
     _back_button = Gtk.Template.Child()
     _headerbar = Gtk.Template.Child()
+    _label_title_box = Gtk.Template.Child()
+    _label_title = Gtk.Template.Child()
+    _label_subtitle = Gtk.Template.Child()
     _menu_button = Gtk.Template.Child()
 
     search_mode_active = GObject.Property(type=bool, default=False)
@@ -204,6 +207,18 @@ class HeaderBar(Adw.Bin):
             self._search_button.props.sensitive = True
             self._select_button.props.sensitive = True
             self._stack_switcher.show()
+
+    def set_label_title(self, title: str, subtitle: str) -> None:
+        """Set the headerbar title-widget as two labels:
+        a title and a subtitle
+
+        :param str title: headerbar title
+        :param str subtitle: headerbar subtitle
+        :returns:
+        """
+        self._headerbar.props.title_widget = self._label_title_box
+        self._label_title.props.label = title
+        self._label_subtitle.props.label = subtitle
 
     @Gtk.Template.Callback()
     def _on_back_button_clicked(self, widget=None):
