@@ -132,5 +132,6 @@ class PlaylistDialog(Gtk.Dialog):
             self._add_playlist_button.props.sensitive = False
 
     @Gtk.Template.Callback()
-    def _on_add_playlist_entry_focused(self, editable, data=None):
+    def _on_add_playlist_entry_focused(
+            self, controller: Gtk.EventControllerFocus) -> None:
         self._listbox.unselect_all()

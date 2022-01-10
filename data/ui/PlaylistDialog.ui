@@ -70,7 +70,11 @@
                         <property name="margin-top">18</property>
                         <signal name="activate" handler="_on_editing_done" swapped="no"/>
                         <signal name="changed" handler="_on_add_playlist_entry_changed" swapped="no"/>
-                        <signal name="focus-in-event" handler="_on_add_playlist_entry_focused" swapped="no"/>
+                        <child>
+                          <object class="GtkEventControllerFocus">
+                            <signal name="enter" handler="_on_add_playlist_entry_focused" swapped="no"/>
+                          </object>
+                        </child>
                       </object>
                     </child>
                     <child>
@@ -149,10 +153,14 @@
                             <property name="placeholder_text" translatable="yes">New Playlist…</property>
                             <signal name="activate" handler="_on_editing_done" swapped="no"/>
                             <signal name="changed" handler="_on_add_playlist_entry_changed" swapped="no"/>
-                            <signal name="focus-in-event" handler="_on_add_playlist_entry_focused" swapped="no"/>
                             <style>
                               <class name="linked"/>
                             </style>
+                            <child>
+                              <object class="GtkEventControllerFocus">
+                                <signal name="enter" handler="_on_add_playlist_entry_focused" swapped="no"/>
+                              </object>
+                            </child>
                           </object>
                         </child>
                         <child>
