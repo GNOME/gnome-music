@@ -22,6 +22,8 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from typing import Optional
+
 from gi.repository import Gtk, Gdk, Gio, GLib, GObject, Handy
 from gettext import gettext as _
 
@@ -88,6 +90,8 @@ class Window(Handy.ApplicationWindow):
 
         self._current_view = None
         self._view_before_search = None
+
+        self._playlist_dialog: Optional[PlaylistDialog] = None
 
         self._player = app.props.player
         self._search = app.props.search
@@ -441,7 +445,20 @@ class Window(Handy.ApplicationWindow):
                 and self._player.state == Playback.STOPPED):
             self._player_toolbar.hide()
 
-    def _on_add_to_playlist(self, widget):
+    def _on_add_to_playlist(self, widget: SelectionToolbar) -> None:
+
+        def on_response(dialog: PlaylistDialog, response_id: int) -> None:
+            if not self._playlist_dialog:
+                return
+
+            if response_id == Gtk.ResponseType.ACCEPT:
+                playlist = self._playlist_dialog.props.selected_playlist
+                playlist.add_songs(selected_songs)
+
+            self.props.selection_mode = False
+            self._playlist_dialog.destroy()
+            self._playlist_dialog = None
+
         if self.props.active_view == self.views[View.PLAYLIST]:
             return
 
@@ -450,14 +467,10 @@ class Window(Handy.ApplicationWindow):
         if len(selected_songs) < 1:
             return
 
-        playlist_dialog = PlaylistDialog(self._app)
-        playlist_dialog.props.transient_for = self
-        if playlist_dialog.run() == Gtk.ResponseType.ACCEPT:
-            playlist = playlist_dialog.props.selected_playlist
-            playlist.add_songs(selected_songs)
-
-        self.props.selection_mode = False
-        playlist_dialog.destroy()
+        self._playlist_dialog = PlaylistDialog(self._app)
+        self._playlist_dialog.props.transient_for = self
+        self._playlist_dialog.connect("response", on_response)
+        self._playlist_dialog.present()
 
     def set_player_visible(self, visible):
         """Set PlayWidget action visibility

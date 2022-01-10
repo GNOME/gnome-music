@@ -80,6 +80,8 @@ class AlbumWidget(Handy.Clamp):
         self._year_signal_id = 0
         self._model_signal_id = 0
 
+        self._playlist_dialog: Optional[PlaylistDialog] = None
+
         self._art_stack.props.size = ArtSize.LARGE
         self._art_stack.props.art_type = DefaultIcon.Type.ALBUM
         self._player = self._application.props.player
@@ -292,21 +294,30 @@ class AlbumWidget(Handy.Clamp):
     def _on_add_playlist_action(
             self, action: Gio.SimpleAction,
             data: Optional[GLib.Variant]) -> None:
+
+        def on_response(dialog: PlaylistDialog, response_id: int) -> None:
+            if not self._playlist_dialog:
+                return
+
+            if response_id == Gtk.ResponseType.ACCEPT:
+                playlist = self._playlist_dialog.props.selected_playlist
+                coresongs = [
+                    song
+                    for disc in self._corealbum.props.model
+                    for song in disc.props.model]
+                playlist.add_songs(coresongs)
+
+            self._playlist_dialog.destroy()
+            self._playlist_dialog = None
+
         if not self._corealbum:
             return
 
-        playlist_dialog = PlaylistDialog(self._application)
+        self._playlist_dialog = PlaylistDialog(self._application)
         active_window = self._application.props.active_window
-        playlist_dialog.props.transient_for = active_window
-        if playlist_dialog.run() == Gtk.ResponseType.ACCEPT:
-            playlist = playlist_dialog.props.selected_playlist
-            coresongs = [
-                song
-                for disc in self._corealbum.props.model
-                for song in disc.props.model]
-            playlist.add_songs(coresongs)
-
-        playlist_dialog.destroy()
+        self._playlist_dialog.props.transient_for = active_window
+        self._playlist_dialog.connect("response", on_response)
+        self._playlist_dialog.present()
 
     def _on_play_action(
             self, action: Gio.SimpleAction,

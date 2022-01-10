@@ -23,7 +23,7 @@
 # delete this exception statement from your version.
 
 from __future__ import annotations
-from typing import Union
+from typing import Optional, Union
 import typing
 
 from gi.repository import Gtk
@@ -66,6 +66,8 @@ class SongWidgetMenu(Gtk.PopoverMenu):
         self._song_widget = song_widget
         self._coresong = song_widget.props.coresong
 
+        self._playlist_dialog: Optional[PlaylistDialog] = None
+
         if isinstance(self._coreobject, Playlist):
             self._remove_from_playlist_button.props.visible = True
             self._remove_from_playlist_button.props.sensitive = (
@@ -88,14 +90,23 @@ class SongWidgetMenu(Gtk.PopoverMenu):
 
     @Gtk.Template.Callback()
     def _on_add_to_playlist_clicked(self, widget: Gtk.Button) -> None:
-        self.popdown()
-        playlist_dialog = PlaylistDialog(self._application)
-        playlist_dialog.props.transient_for = self._window
-        if playlist_dialog.run() == Gtk.ResponseType.ACCEPT:
-            playlist = playlist_dialog.props.selected_playlist
-            playlist.add_songs([self._coresong])
 
-        playlist_dialog.destroy()
+        def on_response(dialog: PlaylistDialog, response_id: int) -> None:
+            if not self._playlist_dialog:
+                return
+
+            if response_id == Gtk.ResponseType.ACCEPT:
+                playlist = self._playlist_dialog.props.selected_playlist
+                playlist.add_songs([self._coresong])
+
+            self._playlist_dialog.destroy()
+            self._playlist_dialog = None
+
+        self.popdown()
+        self._playlist_dialog = PlaylistDialog(self._application)
+        self._playlist_dialog.props.transient_for = self._window
+        self._playlist_dialog.connect("response", on_response)
+        self._playlist_dialog.present()
 
     @Gtk.Template.Callback()
     def _on_remove_from_playlist_clicked(self, widget: Gtk.Button) -> None:
