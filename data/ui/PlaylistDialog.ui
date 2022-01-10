@@ -1,25 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.20.0 -->
 <interface>
-  <requires lib="gtk+" version="3.10"/>
+  <requires lib="gtk" version="4.0"/>
   <template class="PlaylistDialog" parent="GtkDialog">
     <property name="width_request">400</property>
     <property name="height_request">500</property>
     <property name="can_focus">False</property>
     <property name="modal">True</property>
     <property name="destroy_with_parent">True</property>
-    <child internal-child="vbox">
+    <child internal-child="content_area">
       <object class="GtkBox" id="dialog-vbox">
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
-        <child internal-child="action_area">
-          <object class="GtkButtonBox">
-            <property name="can_focus">False</property>
-          </object>
-          <packing>
-            <property name="position">0</property>
-          </packing>
-        </child>
         <child>
           <object class="GtkStack" id="_add_playlist_stack">
             <property name="visible">True</property>
@@ -184,23 +175,21 @@
                       </object>
                     </child>
                   </object>
-                  <packing>
-                    <property name="pack_type">end</property>
-                    <property name="position">0</property>
-                  </packing>
                 </child>
                 <child>
                   <object class="GtkButtonBox">
                     <property name="can_focus">False</property>
                   </object>
-                  <packing>
-                    <property name="position">2</property>
-                  </packing>
                 </child>
               </object>
             </child>
           </object>
         </child>
+      </object>
+    </child>
+    <child internal-child="action_area">
+      <object class="GtkButtonBox">
+        <property name="can_focus">False</property>
       </object>
     </child>
   </template>
@@ -221,7 +210,7 @@
         </style>
       </object>
     </child>
-    <child>
+    <child type="end">
       <object class="GtkButton" id="_select_button">
         <property name="label" translatable="yes">_Add</property>
         <property name="sensitive">False</property>
@@ -235,9 +224,6 @@
           <class name="text-button"/>
         </style>
       </object>
-      <packing>
-        <property name="pack_type">end</property>
-      </packing>
     </child>
   </object>
 </interface>
