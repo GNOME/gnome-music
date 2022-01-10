@@ -30,6 +30,7 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from typing import Optional
 from gettext import gettext as _
 
 from gi.repository import Gtk, Gio, GLib, Gdk, GObject
@@ -77,6 +78,8 @@ class Application(Gtk.Application):
         self._settings = Gio.Settings.new('org.gnome.Music')
         self._lastfm_scrobbler = LastFmScrobbler(self)
         self._player = Player(self)
+
+        self._lastfm_dialog: Optional[LastfmDialog] = None
 
         InhibitSuspend(self)
         PauseOnSuspend(self._player)
@@ -208,10 +211,21 @@ class Application(Gtk.Application):
         except GLib.Error:
             self._log.message("Help handler not available.")
 
-    def _lastfm_account(self, action, param):
-        lastfm_dialog = LastfmDialog(self._window, self._lastfm_scrobbler)
-        lastfm_dialog.run()
-        lastfm_dialog.destroy()
+    def _lastfm_account(
+            self, action: Gio.SimpleAction,
+            param: Optional[GLib.Variant]) -> None:
+
+        def on_response(dialog: LastfmDialog, response_id: int) -> None:
+            if not self._lastfm_dialog:
+                return
+
+            self._lastfm_dialog.destroy()
+            self._lastfm_dialog = None
+
+        self._lastfm_dialog = LastfmDialog(
+            self._window, self._lastfm_scrobbler)
+        self._lastfm_dialog.connect("response", on_response)
+        self._lastfm_dialog.present()
 
     def _about(self, action, param):
         about = AboutDialog()
