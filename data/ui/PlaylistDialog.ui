@@ -99,7 +99,7 @@
                   </object>
                 </child>
                 <child>
-                  <object class="GtkButtonBox">
+                  <object class="GtkBox">
                     <property name="focusable">False</property>
                   </object>
                 </child>
@@ -185,7 +185,7 @@
                   </object>
                 </child>
                 <child>
-                  <object class="GtkButtonBox">
+                  <object class="GtkBox">
                     <property name="focusable">False</property>
                   </object>
                 </child>
@@ -196,7 +196,7 @@
       </object>
     </child>
     <child internal-child="action_area">
-      <object class="GtkButtonBox">
+      <object class="GtkBox">
         <property name="focusable">False</property>
       </object>
     </child>
