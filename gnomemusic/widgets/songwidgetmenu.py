@@ -23,10 +23,10 @@
 # delete this exception statement from your version.
 
 from __future__ import annotations
-from typing import Optional, Union
+from typing import Any, Optional, Union
 import typing
 
-from gi.repository import Gtk
+from gi.repository import Gio, Gtk
 
 from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
 from gnomemusic.widgets.notificationspopup import PlaylistNotification
@@ -42,8 +42,6 @@ if typing.TYPE_CHECKING:
 class SongWidgetMenu(Gtk.PopoverMenu):
 
     __gtype_name__ = "SongWidgetMenu"
-
-    _remove_from_playlist_button = Gtk.Template.Child()
 
     def __init__(
             self, application: Application, song_widget: SongWidget,
@@ -68,15 +66,26 @@ class SongWidgetMenu(Gtk.PopoverMenu):
 
         self._playlist_dialog: Optional[PlaylistDialog] = None
 
-        if isinstance(self._coreobject, Playlist):
-            self._remove_from_playlist_button.props.visible = True
-            self._remove_from_playlist_button.props.sensitive = (
-                not self._coreobject.props.is_smart)
-        else:
-            self._remove_from_playlist_button.props.visible = False
+        action_group = Gio.SimpleActionGroup()
+        action_entries = [
+            ("play", self._play_song),
+            ("add_playlist", self._add_to_playlist)
+        ]
+        if (isinstance(self._coreobject, Playlist)
+                and not self._coreobject.props.is_smart):
+            action_entries.append(
+                ("remove_playlist", self._remove_from_playlist))
+        elif not isinstance(self._coreobject, Playlist):
+            self.props.menu_model.remove(2)
 
-    @Gtk.Template.Callback()
-    def _on_play_clicked(self, widget: Gtk.Button) -> None:
+        for name, callback in action_entries:
+            action = Gio.SimpleAction.new(name, None)
+            action.connect("activate", callback)
+            action_group.add_action(action)
+
+        self.insert_action_group("songwidget", action_group)
+
+    def _play_song(self, action: Gio.Simple, param: Any) -> None:
         self.popdown()
         signal_id = 0
 
@@ -88,8 +97,7 @@ class SongWidgetMenu(Gtk.PopoverMenu):
             "playlist-loaded", _on_playlist_loaded)
         self._coremodel.props.active_core_object = self._coreobject
 
-    @Gtk.Template.Callback()
-    def _on_add_to_playlist_clicked(self, widget: Gtk.Button) -> None:
+    def _add_to_playlist(self, action: Gio.Simple, param: Any) -> None:
 
         def on_response(dialog: PlaylistDialog, response_id: int) -> None:
             if not self._playlist_dialog:
@@ -108,8 +116,7 @@ class SongWidgetMenu(Gtk.PopoverMenu):
         self._playlist_dialog.connect("response", on_response)
         self._playlist_dialog.present()
 
-    @Gtk.Template.Callback()
-    def _on_remove_from_playlist_clicked(self, widget: Gtk.Button) -> None:
+    def _remove_from_playlist(self, action: Gio.Simple, param: Any) -> None:
         self.popdown()
         position = self._song_widget.get_index()
         notification = PlaylistNotification(  # noqa: F841
