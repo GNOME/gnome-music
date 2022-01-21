@@ -34,7 +34,7 @@ if typing.TYPE_CHECKING:
     from gnomemusic.application import Application
     from gnomemusic.coresong import CoreSong
     from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
-    from gnomemusic.view.playlistsview import PlaylistsView
+    from gnomemusic.views.playlistsview import PlaylistsView
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/PlaylistsWidget.ui")
