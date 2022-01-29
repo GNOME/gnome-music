@@ -1,16 +1,16 @@
 # Swedish translation for gnome-music.
-# Copyright © 2016, 2021 gnome-music's COPYRIGHT HOLDER
+# Copyright © 2016-2022 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-music package.
 # Sebastian Rasmussen <sebras@gmail.com>, 2016.
-# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2021.
+# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2021, 2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=user%20docs\n"
-"POT-Creation-Date: 2021-04-10 19:23+0000\n"
-"PO-Revision-Date: 2021-06-03 13:25+0200\n"
+"POT-Creation-Date: 2021-08-13 21:49+0000\n"
+"PO-Revision-Date: 2022-01-29 22:58+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.4.2\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -382,7 +382,7 @@ msgstr "Hur spelar jag låtar upprepade gånger?"
 #. (itstool) path: list/title
 #: C/playlist-repeat.page:25
 msgid "In the taskbar, click on the button on the right side:"
-msgstr "I verktygsraden, klicka på knappen på höger sida:"
+msgstr "Klicka i verktygsfältet på knappen på höger sida:"
 
 #. (itstool) path: item/p
 #: C/playlist-repeat.page:27
