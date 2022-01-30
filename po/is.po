@@ -1,15 +1,15 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Sveinn í Felli <sv1@fellsnet.is>, 2015, 2017, 2018, 2019, 2021.
+# Sveinn í Felli <sv1@fellsnet.is>, 2015, 2017, 2018, 2019, 2021, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2021-08-27 21:42+0000\n"
-"PO-Revision-Date: 2021-11-04 21:46+0000\n"
+"POT-Creation-Date: 2021-11-04 21:48+0000\n"
+"PO-Revision-Date: 2022-01-30 10:39+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
-"Language-Team: Icelandic\n"
+"Language-Team: Icelandic <translation-team-is@lists.sourceforge.org>\n"
 "Language: is\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,9 +35,10 @@ msgid ""
 "Find tracks in your local collection, use automatically generated playlists "
 "or curate a fresh one."
 msgstr ""
+"Finnur lög í safninu þínu á tölvunni, notar sjálfvirkt útbúna spilunarlista"
+" eða útbýr nýja."
 
-#: data/org.gnome.Music.appdata.xml.in.in:140
-#| msgid "Copyright © 2018 GNOME Music Developers"
+#: data/org.gnome.Music.appdata.xml.in.in:149
 msgid "The GNOME Music developers"
 msgstr "GNOME Music forritararnir"
 
@@ -103,7 +104,7 @@ msgstr "Virkja ReplayGain styrkjöfnun"
 
 #: data/org.gnome.Music.gschema.xml:34
 msgid "Enables or disables ReplayGain for albums"
-msgstr "Virkjar eða gerir óvirka ReplayGain-styrkjöfnun fyrir albúm"
+msgstr "Virkjar eða gerir óvirka ReplayGain-styrkjöfnun fyrir hljómplötur"
 
 #: data/org.gnome.Music.gschema.xml:38
 msgid "Inhibit system suspend"
@@ -116,13 +117,15 @@ msgstr ""
 
 #: data/org.gnome.Music.gschema.xml:43
 msgid "Report music history to Last.fm"
-msgstr ""
+msgstr "Tilkynna tónlistarspilun ti Last.fm"
 
 #: data/org.gnome.Music.gschema.xml:44
 msgid ""
 "Enables or disables sending scrobbles and the “currently playing” info to "
 "Last.fm."
 msgstr ""
+"Virkjar eða gerir óvirkt að senda til Last.fm upplýsingar um tónlistarspilun"
+" (scrobbling) og upplýsingar um \"í spilun núna\"."
 
 #: data/ui/AboutDialog.ui.in:9
 msgid "Copyright © 2018 GNOME Music Developers"
@@ -137,31 +140,6 @@ msgid "Visit GNOME Music website"
 msgstr "Fara á heimasíðu GNOME tónlistarspilarans"
 
 #: data/ui/AboutDialog.ui.in:13
-#| msgid ""
-#| "GNOME Music is free software; you can redistribute it and/or modify it "
-#| "under the terms of the GNU General Public License as published by the "
-#| "Free Software Foundation; either version 2 of the License, or (at your "
-#| "option) any later version.\n"
-#| "\n"
-#| "GNOME Music is distributed in the hope that it will be useful, but "
-#| "WITHOUT ANY WARRANTY; without even the implied warranty of "
-#| "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General "
-#| "Public License for more details.\n"
-#| "\n"
-#| "You should have received a copy of the GNU General Public License along "
-#| "with GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
-#| "Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
-#| "\n"
-#| "The GNOME Music authors hereby grant permission for non-GPL compatible "
-#| "GStreamer plugins to be used and distributed together with GStreamer and "
-#| "GNOME Music.  This permission is above and beyond the permissions granted "
-#| "by the GPL license by which GNOME Music is covered.  If you modify this "
-#| "code, you may extend this exception to your version of the code, but you "
-#| "are not obligated to do so.  If you do not wish to do so, delete this "
-#| "exception statement from your version.\n"
-#| "\n"
-#| "“Magic of the vinyl” by Sami Pyylampi image is licensed by CC-BY-SA 2.0 "
-#| "https://www.flickr.com/photos/_spy_/12270839403"
 msgid ""
 "GNOME Music is free software; you can redistribute it and/or modify it under "
 "the terms of the GNU General Public License as published by the Free "
@@ -219,12 +197,10 @@ msgid "_Play"
 msgstr "S_pila"
 
 #: data/ui/AlbumWidget.ui:167
-#| msgid "Favorite Songs"
 msgid "Add to _Favorite Songs"
 msgstr "Bæta við í U_ppáhaldslög"
 
 #: data/ui/AlbumWidget.ui:171
-#| msgid "Add to Playlist…"
 msgid "_Add to Playlist…"
 msgstr "Bæt_a við spilunarlista…"
 
@@ -234,7 +210,7 @@ msgstr "Last.fm notandaaðgangur"
 
 #: data/ui/AppMenu.ui:38
 msgid "Report Music Listening"
-msgstr ""
+msgstr "Tilkynna tónlistarspilun"
 
 #: data/ui/AppMenu.ui:63
 msgid "_Keyboard Shortcuts"
@@ -250,7 +226,7 @@ msgstr "_Um Music tónlistarhugbúnaðinn"
 
 #: data/ui/EmptyView.ui:35
 msgid "Welcome to Music"
-msgstr "Velkomin í tónlist"
+msgstr "Velkomin í Music-tónlistarspilarann"
 
 #: data/ui/HeaderBar.ui:16
 msgid "Menu"
@@ -336,7 +312,7 @@ msgstr "Flakk"
 #: data/ui/help-overlay.ui:92
 msgctxt "shortcut window"
 msgid "Go to Albums"
-msgstr "Fara í Albúm"
+msgstr "Fara í Hljómplötur"
 
 #: data/ui/help-overlay.ui:99
 msgctxt "shortcut window"
@@ -363,14 +339,18 @@ msgid ""
 "Last.fm is a music discovery service that gives you personalised "
 "recommendations based on the music you listen to."
 msgstr ""
+"Last.fm er tónlistarveita sem gefur þér perónulegar ráðleggingar byggðar á"
+" þeirri tónlist sem þú hlustar á."
 
 #: data/ui/LastfmDialog.ui:35 gnomemusic/widgets/lastfmdialog.py:58
 msgid "Music Reporting Not Setup"
-msgstr ""
+msgstr "Ekki búið að setja upp tilkynningar um tónlistarspilun"
 
 #: data/ui/LastfmDialog.ui:49 gnomemusic/widgets/lastfmdialog.py:61
 msgid "Login to your Last.fm account to report your music listening."
 msgstr ""
+"Skráðu þig inn á Last.fm aðganginn þinn til að tilkynna tónlistarspilunina"
+" þína."
 
 #: data/ui/LastfmDialog.ui:60 gnomemusic/widgets/lastfmdialog.py:59
 msgid "Login"
@@ -442,7 +422,7 @@ msgstr "Skoða allt"
 
 #: data/ui/SearchView.ui:98 gnomemusic/views/albumsview.py:50
 msgid "Albums"
-msgstr "Albúm"
+msgstr "Hljómplötur"
 
 #: data/ui/SearchView.ui:149 gnomemusic/views/songsview.py:47
 msgid "Songs"
@@ -473,27 +453,27 @@ msgid "Remove From Playlist"
 msgstr "Fjarlægja af spilunarlista"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:898
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:884
 msgid "Most Played"
 msgstr "Mest spilað"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:952
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:938
 msgid "Never Played"
 msgstr "Aldrei spilað"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1005
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:991
 msgid "Recently Played"
 msgstr "Nýlega spilað"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1068
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1054
 msgid "Recently Added"
 msgstr "Nýlega bætt við"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1131
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1117
 msgid "Favorite Songs"
 msgstr "Uppáhaldslög"
 
@@ -543,7 +523,6 @@ msgid "Shuffle/Repeat Off"
 msgstr "Stokkun/Endurtekning af"
 
 #: gnomemusic/utils.py:80
-#| msgid "Unknown Album"
 msgid "Unknown album"
 msgstr "Óþekkt hljómplata"
 
@@ -553,10 +532,9 @@ msgstr "Óþekktur flytjandi"
 
 #: gnomemusic/views/emptyview.py:65
 msgid "Your XDG Music directory is not set."
-msgstr ""
+msgstr "XDG-tónlistarmappa hefur ekki verið skilgreind."
 
 #: gnomemusic/views/emptyview.py:72
-#| msgid "Music folder"
 msgid "Music Folder"
 msgstr "Tónlistarmappa"
 
@@ -567,45 +545,40 @@ msgid "The contents of your {} will appear here."
 msgstr "Innihald {} birtist hér."
 
 #: gnomemusic/views/emptyview.py:124
-#| msgid "No music found"
 msgid "No Music Found"
 msgstr "Engin tónlist fannst"
 
 #: gnomemusic/views/emptyview.py:125
-#| msgid "Try a different search"
 msgid "Try a Different Search"
 msgstr "Reyna aðra leit"
 
 #: gnomemusic/views/emptyview.py:129
-#| msgid "GNOME Music could not connect to Tracker"
 msgid "GNOME Music could not connect to Tracker."
 msgstr "GNOME tónlistarspilarinn gat ekki tengst Tracker-kerfinu."
 
 #: gnomemusic/views/emptyview.py:131
-#| msgid "Your music files cannot be indexed without Tracker running"
 msgid "Your music files cannot be indexed without Tracker running."
 msgstr ""
-"Ekki er hægt að gera yfirlitsskrá yfir tónlistarskrár nema Tracker sé í gangi."
+"Ekki er hægt að gera yfirlitsskrá yfir tónlistarskrár nema Tracker sé í "
+"gangi."
 
 #: gnomemusic/views/emptyview.py:137
 msgid "Your system Tracker version seems outdated."
-msgstr ""
+msgstr "Tracker-útgáfa kerfisins þíns lítur út fyrir að vera úrelt."
 
 #: gnomemusic/views/emptyview.py:139
 msgid "Music needs Tracker version 3.0.0 or higher."
-msgstr ""
+msgstr "Tónlistarspilarinn þarf Tracker útgáfu 3.0.0 eða hærri."
 
 #: gnomemusic/views/playlistsview.py:45
 msgid "Playlists"
 msgstr "Spilunarlistar"
 
 #: gnomemusic/views/searchview.py:420
-#| msgid "Artists"
 msgid "Artists Results"
 msgstr "Niðurstöður um flytjendur"
 
 #: gnomemusic/views/searchview.py:435
-#| msgid "Albums"
 msgid "Albums Results"
 msgstr "Niðurstöður um hljómplötur"
 
@@ -620,8 +593,6 @@ msgid "Disc {}"
 msgstr "Diskur {}"
 
 #: gnomemusic/widgets/headerbar.py:68
-#| msgid "Selected {} item"
-#| msgid_plural "Selected {} items"
 msgid "Selected {} song"
 msgid_plural "Selected {} songs"
 msgstr[0] "Valdi {} lag"
@@ -629,11 +600,11 @@ msgstr[1] "Valdi {} lög"
 
 #: gnomemusic/widgets/lastfmdialog.py:65
 msgid "Your music listening is reported to Last.fm."
-msgstr ""
+msgstr "Tónlistarspilun þín er tilkynnt til Last.fm."
 
 #: gnomemusic/widgets/lastfmdialog.py:67
 msgid "Your music listening is not reported to Last.fm."
-msgstr ""
+msgstr "Tónlistarspilun þín er ekki tilkynnt til Last.fm."
 
 #. TRANSLATORS: displays the username of the Last.fm account
 #: gnomemusic/widgets/lastfmdialog.py:71
