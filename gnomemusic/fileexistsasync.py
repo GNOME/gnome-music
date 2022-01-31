@@ -47,7 +47,7 @@ class FileExistsAsync(GObject.GObject):
         """
         thumb_file.query_info_async(
             Gio.FILE_ATTRIBUTE_STANDARD_TYPE, Gio.FileQueryInfoFlags.NONE,
-            GLib.PRIORITY_DEFAULT, None, self._on_query_info_finished)
+            GLib.PRIORITY_DEFAULT_IDLE, None, self._on_query_info_finished)
 
     def _on_query_info_finished(
             self, thumb_file: Gio.File, res: Gio.AsyncResult) -> None:

@@ -84,7 +84,7 @@ class ArtCache(GObject.GObject):
         thumb_file = Gio.File.new_for_uri(thumbnail_uri)
         if thumb_file:
             thumb_file.read_async(
-                GLib.PRIORITY_DEFAULT, None, self._open_stream, None)
+                GLib.PRIORITY_DEFAULT_IDLE, None, self._open_stream, None)
             return
 
         self.emit("finished", self._default_icon)
@@ -111,7 +111,7 @@ class ArtCache(GObject.GObject):
             return
 
         stream.close_async(
-            GLib.PRIORITY_DEFAULT, None, self._close_stream, None)
+            GLib.PRIORITY_DEFAULT_IDLE, None, self._close_stream, None)
 
         surface = Gdk.cairo_surface_create_from_pixbuf(
             pixbuf, self._scale, None)
