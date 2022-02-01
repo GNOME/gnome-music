@@ -22,12 +22,13 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from typing import Any, Dict, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 import time
 
 from gi.repository import GObject, GLib
 
 from gnomemusic.musiclogger import MusicLogger
+from gnomemusic.prioritypool import PriorityPool
 
 
 class AsyncQueue(GObject.GObject):
@@ -60,6 +61,7 @@ class AsyncQueue(GObject.GObject):
         self._async_data: Dict[object, Tuple[int, float]] = {}
         self._log = MusicLogger()
         self._max_async = 4
+        self._priority_pool = PriorityPool()
         self._queue_name = queue_name if queue_name else self
         self._timeout_id = 0
 
@@ -83,15 +85,27 @@ class AsyncQueue(GObject.GObject):
 
     def _dispatch(self) -> bool:
         tick = time.time()
+        common_ids = self._common_ids()
 
         while len(self._async_active_pool) < self._max_async:
             if len(self._async_pool) == 0:
                 self._timeout_id = 0
                 return GLib.SOURCE_REMOVE
 
-            async_obj_id = list(self._async_pool.keys())[0]
-            async_task_args = self._async_pool.pop(async_obj_id)
-            self._async_pool_coreobject_hash.pop(async_obj_id)
+            if common_ids:
+                async_obj_id = common_ids.pop()
+            else:
+                async_obj_id = list(self._async_pool.keys())[0]
+
+            # IDs may not match the ones in the async pool as
+            # PriorityPool can contain any kind of coreobject.
+            try:
+                async_task_args = self._async_pool.pop(async_obj_id)
+            except KeyError:
+                continue
+            else:
+                self._async_pool_coreobject_hash.pop(async_obj_id)
+
             async_obj = async_task_args[0]
             self._async_active_pool[async_obj_id] = async_task_args
 
@@ -115,3 +129,7 @@ class AsyncQueue(GObject.GObject):
 
         obj.disconnect(handler_id)
         self._async_active_pool.pop(id(obj))
+
+    def _common_ids(self) -> List[int]:
+        return list(set(self._priority_pool.props.pool).intersection(
+            self._async_pool_coreobject_hash.values()))
