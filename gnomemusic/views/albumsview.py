@@ -27,6 +27,7 @@ import math
 from gettext import gettext as _
 from gi.repository import Gdk, GLib, GObject, Gtk
 
+from gnomemusic.prioritypool import PriorityPool
 from gnomemusic.widgets.headerbar import HeaderBar
 from gnomemusic.widgets.albumcover import AlbumCover
 from gnomemusic.widgets.albumwidget import AlbumWidget
@@ -67,6 +68,7 @@ class AlbumsView(Gtk.Stack):
         self._window = application.props.window
         self._headerbar = self._window._headerbar
         self._adjustment_timeout_id = 0
+        self._priority_pool = PriorityPool()
         self._viewport = self._scrolled_window.get_child()
         self._widget_counter = 1
         self._ctrl_hold = False
@@ -142,6 +144,9 @@ class AlbumsView(Gtk.Stack):
                 retrieve_covers = covers_row * covers_col
                 retrieve_list = children[i:i + retrieve_covers]
                 break
+
+        corealbums = [cover.props.corealbum for cover in retrieve_list]
+        self._priority_pool.add(corealbums, True)
 
         for albumcover in retrieve_list:
             albumcover.retrieve()
