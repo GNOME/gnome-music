@@ -84,7 +84,6 @@ class AsyncQueue(GObject.GObject):
             self._timeout_id = GLib.timeout_add(100, self._dispatch)
 
     def _dispatch(self) -> bool:
-        tick = time.time()
         common_ids = self._common_ids()
 
         while len(self._async_active_pool) < self._max_async:
@@ -111,7 +110,7 @@ class AsyncQueue(GObject.GObject):
 
             self._async_data[async_obj] = (
                 async_obj.connect("finished", self._on_async_finished),
-                tick)
+                time.time())
             async_obj.start(*async_task_args[1:])
 
         return GLib.SOURCE_CONTINUE
