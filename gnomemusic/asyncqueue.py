@@ -55,6 +55,7 @@ class AsyncQueue(GObject.GObject):
         super().__init__()
 
         self._async_pool: Dict[int, Tuple] = {}
+        self._async_pool_coreobject_hash: Dict = {}
         self._async_active_pool: Dict[int, Tuple] = {}
         self._async_data: Dict[object, Tuple[int, float]] = {}
         self._log = MusicLogger()
@@ -75,6 +76,7 @@ class AsyncQueue(GObject.GObject):
         if (async_obj_id not in self._async_pool
                 and async_obj_id not in self._async_active_pool):
             self._async_pool[async_obj_id] = (args)
+            self._async_pool_coreobject_hash[async_obj_id] = id(args[1])
 
         if self._timeout_id == 0:
             self._timeout_id = GLib.timeout_add(100, self._dispatch)
@@ -89,6 +91,7 @@ class AsyncQueue(GObject.GObject):
 
             async_obj_id = list(self._async_pool.keys())[0]
             async_task_args = self._async_pool.pop(async_obj_id)
+            self._async_pool_coreobject_hash.pop(async_obj_id)
             async_obj = async_task_args[0]
             self._async_active_pool[async_obj_id] = async_task_args
 
