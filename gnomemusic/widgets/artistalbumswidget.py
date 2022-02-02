@@ -89,13 +89,11 @@ class ArtistAlbumsWidget(Handy.Clamp):
 
     def select_all(self) -> None:
         """Select all items"""
-        for corealbum in self._model:
-            corealbum.props.selected = True
+        self._artist.props.selected = True
 
     def deselect_all(self) -> None:
         """Deselect all items"""
-        for corealbum in self._model:
-            corealbum.props.selected = False
+        self._artist.props.selected = False
 
     @GObject.Property(type=str, flags=GObject.ParamFlags.READABLE)
     def artist(self) -> str:
