@@ -4,14 +4,12 @@
   <template class="HeaderBar" parent="AdwBin">
     <child>
       <object class="AdwHeaderBar" id="_headerbar">
-        <property name="visible">True</property>
         <property name="vexpand">False</property>
         <style>
           <class name="titlebar"/>
         </style>
         <child type="end">
           <object class="GtkMenuButton" id="_menu_button">
-            <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="valign">center</property>
             <property name="sensitive">True</property>
@@ -21,7 +19,6 @@
             </style>
             <child>
               <object class="GtkImage" id="_menu_button_image">
-                <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="icon-name">open-menu-symbolic</property>
                 <property name="icon-size">1</property>
@@ -31,7 +28,6 @@
         </child>
         <child type="end">
           <object class="GtkToggleButton" id="_select_button">
-            <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="valign">center</property>
             <property name="sensitive">True</property>
@@ -41,7 +37,6 @@
             </style>
             <child>
               <object class="GtkImage" id="_select_button_image">
-                <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="icon-name">object-select-symbolic</property>
                 <property name="icon-size">1</property>
@@ -65,7 +60,6 @@
         </child>
         <child type="end">
           <object class="GtkToggleButton" id="_search_button">
-            <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="valign">center</property>
             <property name="sensitive">True</property>
@@ -75,7 +69,6 @@
             </style>
             <child>
               <object class="GtkImage" id="_search_button_image">
-                <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="icon-name">edit-find-symbolic</property>
                 <property name="icon-size">1</property>
@@ -85,7 +78,6 @@
         </child>
         <child type="start">
           <object class="GtkButton" id="_back_button">
-            <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="valign">center</property>
             <property name="sensitive">True</property>
@@ -96,7 +88,6 @@
             </style>
             <child>
               <object class="GtkImage" id="_back_button_image">
-                <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="icon-name">go-previous-symbolic</property>
                 <property name="icon-size">1</property>
