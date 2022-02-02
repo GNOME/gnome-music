@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <template class="AppMenu" parent="GtkPopoverMenu">
+  <template class="AppMenu" parent="GtkPopover">
     <property name="focusable">False</property>
+    <style>
+      <class name="menu"/>
+    </style>
     <child>
       <object class="GtkBox">
         <property name="focusable">False</property>
@@ -9,6 +12,7 @@
         <property name="margin-end">6</property>
         <property name="margin-start">6</property>
         <property name="margin-top">6</property>
+        <property name="spacing">6</property>
         <property name="orientation">vertical</property>
         <child>
           <object class="GtkModelButton" id="lastfm_account_button">
@@ -22,7 +26,6 @@
         <child>
           <object class="GtkBox" id="_lastfm_box">
             <property name="margin-end">5</property>
-            <property name="margin-start">5</property>
             <property name="visible">False</property>
             <child>
               <object class="GtkLabel">
