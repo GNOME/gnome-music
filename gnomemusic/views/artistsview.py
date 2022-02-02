@@ -70,11 +70,16 @@ class ArtistsView(Gtk.Paned):
         self._coremodel = application.props.coremodel
         self._model = self._coremodel.props.artists_sort
 
-        self._sidebar.bind_model(self._model, self._create_widget)
+        self._selection_model = Gtk.SingleSelection.new(self._model)
+        self._sidebar.props.model = self._selection_model
+        artist_item_factory = Gtk.SignalListItemFactory()
+        artist_item_factory.connect("setup", self._on_list_view_setup)
+        artist_item_factory.connect("bind", self._on_list_view_bind)
+        self._sidebar.props.factory = artist_item_factory
 
-        self._model.connect_after(
+        self._selection_model.connect_after(
             "items-changed", self._on_model_items_changed)
-        self._on_model_items_changed(self._model, 0, 0, 0)
+        self._on_model_items_changed(self._selection_model, 0, 0, 0)
 
         self._selection_mode = False
 
@@ -82,28 +87,38 @@ class ArtistsView(Gtk.Paned):
             "selection-mode", self, "selection-mode",
             GObject.BindingFlags.BIDIRECTIONAL)
 
-    def _create_widget(self, coreartist):
-        row = ArtistTile(coreartist)
-        row.props.text = coreartist.props.artist
+    def _on_list_view_setup(
+            self, factory: Gtk.SignalListItemFactory,
+            list_item: Gtk.ListItem) -> None:
+        list_item.props.child = ArtistTile()
+
+    def _on_list_view_bind(
+            self, factory: Gtk.SignalListItemFactory,
+            list_item: Gtk.ListItem) -> None:
+        coreartist = list_item.props.item
+        artist_tile = list_item.props.child
+
+        artist_tile.props.coreartist = coreartist
+        artist_tile.props.text = coreartist.props.artist
 
         GLib.timeout_add(
-            self._widget_counter * 300, row.retrieve,
+            self._widget_counter * 300, artist_tile.retrieve,
             priority=GLib.PRIORITY_LOW)
         self._widget_counter = self._widget_counter + 1
 
-        return row
-
-    def _on_model_items_changed(self, model, position, removed, added):
+    def _on_model_items_changed(
+            self, model: Gtk.SingleSelection, position: int, removed: int,
+            added: int) -> None:
         if model.get_n_items() == 0:
             self._untouched_list = True
             return
         elif self._untouched_list is True:
-            first_row = self._sidebar.get_row_at_index(0)
-            if first_row is None:
+            first_artist = model.get_item(0)
+            if first_artist is None:
                 return
 
-            self._sidebar.select_row(first_row)
-            self._on_artist_activated(self._sidebar, first_row, True)
+            model.props.selected = 0
+            self._on_artist_activated(self._sidebar, 0, True)
             return
 
         if removed == 0:
@@ -121,18 +136,19 @@ class ArtistsView(Gtk.Paned):
 
         self._loaded_artists.remove(removed_artist)
         if self._artist_view.get_visible_child_name() == removed_artist:
-            row_next = (self._sidebar.get_row_at_index(position)
-                        or self._sidebar.get_row_at_index(position - 1))
-            if row_next:
-                self._sidebar.select_row(row_next)
-                self._on_artist_activated(self._sidebar, row_next, True)
+            new_position = min(position, model.get_n_items() - 1)
+            if new_position >= 0:
+                model.props.selected = new_position
+                self._on_artist_activated(self._sidebar, new_position, True)
 
         removed_artist_page = self._artist_view.get_child_by_name(
             removed_artist)
         self._artist_view.remove(removed_artist_page)
 
     @Gtk.Template.Callback()
-    def _on_artist_activated(self, sidebar, row, data=None, untouched=False):
+    def _on_artist_activated(
+            self, sidebar: Gtk.ListView, position: int,
+            untouched: bool = False) -> None:
         """Initializes new artist album widgets"""
         # On application start the first row of ArtistView is activated
         # to show an intial artist. When this happens while any of the
@@ -147,8 +163,9 @@ class ArtistsView(Gtk.Paned):
         if untouched is False:
             self._untouched_list = False
 
+        coreartist = sidebar.get_model().get_item(position)
+
         # Prepare a new artist_albums_widget here
-        coreartist = row.props.coreartist
         if coreartist.props.artist in self._loaded_artists:
             scroll_vadjustment = self._artist_container.props.vadjustment
             scroll_vadjustment.props.value = 0.
@@ -195,12 +212,12 @@ class ArtistsView(Gtk.Paned):
 
     def select_all(self) -> None:
         """Select all items"""
-        artist_tile = self._sidebar.get_selected_row()
-        if artist_tile:
-            artist_tile.props.coreartist.props.selected = True
+        coreartist = self._selection_model.get_selected_item()
+        if coreartist:
+            coreartist.props.selected = True
 
     def deselect_all(self) -> None:
         """Deselect all items"""
-        artist_tile = self._sidebar.get_selected_row()
-        if artist_tile:
-            artist_tile.props.coreartist.props.selected = False
+        coreartist = self._selection_model.get_selected_item()
+        if coreartist:
+            coreartist.props.selected = False

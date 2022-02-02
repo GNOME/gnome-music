@@ -10,9 +10,9 @@
           <class name="sidebar"/>
         </style>
         <child>
-          <object class="GtkListBox" id="_sidebar">
-            <property name="selection_mode">single</property>
-            <signal name="row-activated" handler="_on_artist_activated" swapped="no"/>
+          <object class="GtkListView" id="_sidebar">
+            <property name="single-click-activate">True</property>
+            <signal name="activate" handler="_on_artist_activated" swapped="no"/>
           </object>
         </child>
       </object>
