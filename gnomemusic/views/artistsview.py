@@ -59,7 +59,6 @@ class ArtistsView(Gtk.Paned):
         self.props.name = "artists"
 
         self._application = application
-        self._artists = {}
         self._loaded_artists = []
         self._widget_counter = 1
 
