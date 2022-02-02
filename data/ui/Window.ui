@@ -24,12 +24,10 @@
             <property name="vexpand">True</property>
             <property name="visible">True</property>
             <child>
-              <object class="GtkStack" id="_stack">
-                <property name="can-focus">False</property>
+              <object class="AdwViewStack" id="_stack">
+                <property name="focusable">False</property>
                 <property name="hhomogeneous">False</property>
                 <property name="vhomogeneous">False</property>
-                <property name="transition-duration">100</property>
-                <property name="transition-type">crossfade</property>
                 <property name="visible">True</property>
               </object>
             </child>

@@ -52,7 +52,7 @@ class SearchHeaderBar(Adw.Bin):
     search_state = GObject.Property(type=int, default=Search.State.NONE)
     selected_songs_count = GObject.Property(type=int, default=0, minimum=0)
     selection_mode_allowed = GObject.Property(type=bool, default=True)
-    stack = GObject.Property(type=Gtk.Stack)
+    stack = GObject.Property(type=Adw.ViewStack)
 
     def __init__(self, application):
         super().__init__()
