@@ -101,7 +101,7 @@ class HeaderBar(Adw.Bin):
     search_mode_active = GObject.Property(type=bool, default=False)
     selected_songs_count = GObject.Property(type=int, default=0, minimum=0)
     selection_mode_allowed = GObject.Property(type=bool, default=True)
-    stack = GObject.Property(type=Gtk.Stack)
+    stack = GObject.Property(type=Adw.ViewStack)
 
     def __init__(self, application):
         """Initialize Headerbar
