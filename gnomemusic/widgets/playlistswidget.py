@@ -25,7 +25,7 @@
 from __future__ import annotations
 import typing
 
-from gi.repository import Gdk, GObject, Gtk
+from gi.repository import GObject, Gtk
 
 from gnomemusic.widgets.playlistcontrols import PlaylistControls  # noqa: F401
 from gnomemusic.widgets.songwidget import SongWidget
@@ -45,7 +45,6 @@ class PlaylistsWidget(Gtk.Box):
 
     _pl_ctrls = Gtk.Template.Child()
     _songs_list = Gtk.Template.Child()
-    _songs_list_ctrlr = Gtk.Template.Child()
 
     def __init__(
             self, application: Application,
@@ -127,23 +126,6 @@ class PlaylistsWidget(Gtk.Box):
         if (current_playlist is not None
                 and current_playlist.props.is_smart):
             current_playlist.update()
-
-    @Gtk.Template.Callback()
-    def _songs_list_right_click(self, gesture, n_press, x, y):
-        song_widget = self._songs_list.get_row_at_y(y)
-
-        _, y0 = song_widget.translate_coordinates(self._songs_list, 0, 0)
-        row_height = song_widget.get_allocated_height()
-        rect = Gdk.Rectangle()
-        rect.x = x
-        rect.y = y0 + 0.5 * row_height
-
-        current_playlist = self._playlists_view.props.current_playlist
-        song_context_menu = SongWidgetMenu(
-            self._application, song_widget, current_playlist)
-        song_context_menu.props.relative_to = self._songs_list
-        song_context_menu.props.pointing_to = rect
-        song_context_menu.popup()
 
     def _on_play_playlist(self, menuitem, data=None):
         self._play()
