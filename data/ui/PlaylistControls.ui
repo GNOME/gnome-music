@@ -18,7 +18,7 @@
   <template class="PlaylistControls" parent="GtkBox">
     <property name="orientation">vertical</property>
     <property name="visible">True</property>
-    <property name="can_focus">False</property>
+    <property name="focusable">False</property>
     <property name="margin-top">30</property>
     <child>
       <object class="GtkStack" id="_name_stack">
@@ -26,7 +26,7 @@
         <child>
           <object class="GtkLabel" id="_name_label">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="focusable">False</property>
             <property name="hexpand">True</property>
             <property name="xalign">0</property>
             <property name="label" translatable="yes">Playlist Name</property>
@@ -54,7 +54,7 @@
                       </object>
                     </child>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
+                    <property name="focusable">True</property>
                     <property name="receives_default">True</property>
                     <signal name="activate" handler="_on_playlist_renamed" swapped="no"/>
                     <signal name="changed" handler="_on_rename_entry_changed" swapped="no"/>
@@ -63,7 +63,7 @@
                 <child>
                   <object class="GtkButton" id="_rename_done_button">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
+                    <property name="focusable">True</property>
                     <property name="receives_default">True</property>
                     <property name="label" translatable="yes">_Done</property>
                     <property name="use_underline">True</property>
@@ -83,7 +83,7 @@
     <child>
       <object class="GtkLabel" id="_songs_count_label">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="focusable">False</property>
         <property name="halign">start</property>
         <property name="label"></property>
         <property name="margin-bottom">4</property>
@@ -104,7 +104,7 @@
             <property name="height-request">44</property>
             <property name="width-request">44</property>
             <property name="visible">True</property>
-            <property name="can-focus">True</property>
+            <property name="focusable">True</property>
             <property name="receives-default">True</property>
             <property name="icon_name">media-playback-start-symbolic</property>
             <property name="tooltip-text" translatable="yes">Play</property>
@@ -120,7 +120,7 @@
             <property name="height-request">44</property>
             <property name="width-request">44</property>
             <property name="visible">True</property>
-            <property name="can_focus">True</property>
+            <property name="focusable">True</property>
             <property name="receives_default">True</property>
             <property name="halign">start</property>
             <property name="valign">center</property>
