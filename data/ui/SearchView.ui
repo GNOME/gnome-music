@@ -45,7 +45,7 @@
                         <property name="label" translatable="yes">View All</property>
                         <property name="icon-name">go-next-symbolic</property>
                         <property name="visible">True</property>
-                        <signal name="button-release-event" handler="_on_all_artists_clicked" swapped="no"/>
+                        <signal name="clicked" handler="_on_all_artists_clicked" swapped="no"/>
                       </object>
                     </child>
                   </object>
@@ -94,7 +94,7 @@
                         <property name="label" translatable="yes">View All</property>
                         <property name="icon_name">go-next-symbolic</property>
                         <property name="visible">True</property>
-                        <signal name="button-release-event" handler="_on_all_albums_clicked" swapped="no"/>
+                        <signal name="clicked" handler="_on_all_albums_clicked" swapped="no"/>
                       </object>
                     </child>
                   </object>
