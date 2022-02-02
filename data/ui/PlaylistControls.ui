@@ -17,15 +17,12 @@
   </menu>
   <template class="PlaylistControls" parent="GtkBox">
     <property name="orientation">vertical</property>
-    <property name="visible">True</property>
     <property name="focusable">False</property>
     <property name="margin-top">30</property>
     <child>
       <object class="GtkStack" id="_name_stack">
-        <property name="visible">True</property>
         <child>
           <object class="GtkLabel" id="_name_label">
-            <property name="visible">True</property>
             <property name="focusable">False</property>
             <property name="hexpand">True</property>
             <property name="xalign">0</property>
@@ -53,7 +50,6 @@
                         <signal name="key-pressed" handler="_on_rename_entry_key_pressed" swapped="no"/>
                       </object>
                     </child>
-                    <property name="visible">True</property>
                     <property name="focusable">True</property>
                     <property name="receives_default">True</property>
                     <signal name="activate" handler="_on_playlist_renamed" swapped="no"/>
@@ -62,7 +58,6 @@
                 </child>
                 <child>
                   <object class="GtkButton" id="_rename_done_button">
-                    <property name="visible">True</property>
                     <property name="focusable">True</property>
                     <property name="receives_default">True</property>
                     <property name="label" translatable="yes">_Done</property>
@@ -82,7 +77,6 @@
     </child>
     <child>
       <object class="GtkLabel" id="_songs_count_label">
-        <property name="visible">True</property>
         <property name="focusable">False</property>
         <property name="halign">start</property>
         <property name="label"></property>
@@ -95,7 +89,6 @@
     <child>
       <object class="GtkBox">
         <property name="orientation">horizontal</property>
-        <property name="visible">True</property>
         <property name="spacing">12</property>
         <property name="margin-top">18</property>
         <property name="margin-bottom">8</property>
@@ -103,7 +96,6 @@
           <object class="GtkButton" id="_play_button">
             <property name="height-request">44</property>
             <property name="width-request">44</property>
-            <property name="visible">True</property>
             <property name="focusable">True</property>
             <property name="receives-default">True</property>
             <property name="icon_name">media-playback-start-symbolic</property>
@@ -119,7 +111,6 @@
           <object class="GtkMenuButton" id="_menubutton">
             <property name="height-request">44</property>
             <property name="width-request">44</property>
-            <property name="visible">True</property>
             <property name="focusable">True</property>
             <property name="receives_default">True</property>
             <property name="halign">start</property>
