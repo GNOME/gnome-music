@@ -33,11 +33,11 @@ from gnomemusic.search import Search
 from gnomemusic.trackerwrapper import TrackerState
 from gnomemusic.utils import View
 from gnomemusic.views.albumsview import AlbumsView
-# from gnomemusic.views.artistsview import ArtistsView
+from gnomemusic.views.artistsview import ArtistsView
 from gnomemusic.views.emptyview import EmptyView
-# from gnomemusic.views.searchview import SearchView
-# from gnomemusic.views.songsview import SongsView
-# from gnomemusic.views.playlistsview import PlaylistsView
+from gnomemusic.views.searchview import SearchView
+from gnomemusic.views.songsview import SongsView
+from gnomemusic.views.playlistsview import PlaylistsView
 from gnomemusic.widgets.headerbar import HeaderBar
 from gnomemusic.widgets.notificationspopup import NotificationsPopup  # noqa
 from gnomemusic.widgets.playertoolbar import PlayerToolbar  # noqa: F401
@@ -238,18 +238,16 @@ class Window(Adw.ApplicationWindow):
 
         self._headerbar.props.state = HeaderBar.State.MAIN
         self.views[View.ALBUM] = AlbumsView(self._app)
-        self.views[View.ARTIST] = Gtk.Box()  # ArtistsView(self._app)
-        self.views[View.SONG] = Gtk.Box()  # SongsView(self._app)
-        self.views[View.PLAYLIST] = Gtk.Box()  # PlaylistsView(self._app)
-        self.views[View.SEARCH] = Gtk.Box()  # SearchView(self._app)
+        self.views[View.ARTIST] = ArtistsView(self._app)
+        self.views[View.SONG] = SongsView(self._app)
+        self.views[View.PLAYLIST] = PlaylistsView(self._app)
+        self.views[View.SEARCH] = SearchView(self._app)
 
         # empty view has already been created in self._setup_view starting at
         # View.ALBUM
         # empty view state is changed once album view is visible to prevent it
         # from being displayed during startup
         for i in self.views[View.ALBUM:]:
-            if isinstance(i, Gtk.Box):
-                continue
             if i.props.title:
                 stackpage = self._stack.add_titled(
                     i, i.props.name, i.props.title)
@@ -262,15 +260,15 @@ class Window(Adw.ApplicationWindow):
         self._stack.props.visible_child = self.views[View.ALBUM]
         self._stack.notify("visible-child")
 
-        # self.views[View.SEARCH].bind_property(
-        #     "search-state", self._search, "state",
-        #     GObject.BindingFlags.SYNC_CREATE)
-        # self._search.bind_property(
-        #     "search-mode-active", self.views[View.SEARCH],
-        #     "search-mode-active", GObject.BindingFlags.BIDIRECTIONAL)
-        # self._search.bind_property(
-        #     "search-mode-active", self.views[View.ALBUM],
-        #     "search-mode-active", GObject.BindingFlags.SYNC_CREATE)
+        self.views[View.SEARCH].bind_property(
+            "search-state", self._search, "state",
+            GObject.BindingFlags.SYNC_CREATE)
+        self._search.bind_property(
+            "search-mode-active", self.views[View.SEARCH],
+            "search-mode-active", GObject.BindingFlags.BIDIRECTIONAL)
+        self._search.bind_property(
+            "search-mode-active", self.views[View.ALBUM],
+            "search-mode-active", GObject.BindingFlags.SYNC_CREATE)
 
     def _select_all(self, action=None, param=None):
         if not self.props.selection_mode:
