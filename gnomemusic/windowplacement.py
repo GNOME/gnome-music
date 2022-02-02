@@ -58,28 +58,18 @@ class WindowPlacement(GObject.GObject):
                 and isinstance(size_setting[1], int)):
             self._window.resize(size_setting[0], size_setting[1])
 
-        position_setting = self._settings.get_value('window-position')
-        if (len(position_setting) == 2
-                and isinstance(position_setting[0], int)
-                and isinstance(position_setting[1], int)):
-            self._window.move(position_setting[0], position_setting[1])
-
         if self._settings.get_value('window-maximized'):
             self._window.maximize()
 
     def _on_configure_event(self, widget, event):
         if self._window_placement_update_timeout is None:
             self._window_placement_update_timeout = GLib.timeout_add(
-                500, self._store_size_and_position, widget)
+                500, self._store_size, widget)
 
-    def _store_size_and_position(self, widget):
+    def _store_size(self, widget):
         size = widget.get_size()
         self._settings.set_value(
             'window-size', GLib.Variant('ai', [size[0], size[1]]))
-
-        position = widget.get_position()
-        self._settings.set_value(
-            'window-position', GLib.Variant('ai', [position[0], position[1]]))
 
         GLib.source_remove(self._window_placement_update_timeout)
         self._window_placement_update_timeout = None
