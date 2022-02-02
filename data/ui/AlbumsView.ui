@@ -2,13 +2,11 @@
 <interface>
   <requires lib="gtk+" version="3.18"/>
   <template class="AlbumsView" parent="GtkStack">
-    <property name="visible">True</property>
     <child>
       <object class="GtkStackPage">
         <property name="name">grid</property>
         <property name="child">
           <object class="GtkScrolledWindow" id="_scrolled_window">
-            <property name="visible">True</property>
             <child>
               <object class="GtkFlowBox" id="_flowbox">
                 <property name="column_spacing">20</property>
@@ -24,7 +22,6 @@
                 <property name="row_spacing">12</property>
                 <property name="selection-mode">none</property>
                 <property name="valign">start</property>
-                <property name="visible">True</property>
                 <signal name="selected-children-changed" handler="_on_selected_children_changed" swapped="no"/>
                 <style>
                   <class name="content-view"/>
@@ -47,7 +44,6 @@
         <property name="name">widget</property>
         <property name="child">
           <object class="GtkScrolledWindow" id="_album_scrolled_window">
-            <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="hexpand">True</property>
             <property name="vexpand">True</property>
