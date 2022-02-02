@@ -185,7 +185,7 @@ class ArtistsView(Gtk.Paned):
         :param bool value: Activate selection mode
         """
         if (value == self._selection_mode
-                or self.get_parent().get_visible_child() != self):
+                or self._window.props.active_view is not self):
             return
 
         self._selection_mode = value
