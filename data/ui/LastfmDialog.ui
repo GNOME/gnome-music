@@ -15,13 +15,11 @@
         <property name="margin-top">16</property>
         <property name="orientation">vertical</property>
         <property name="valign">start</property>
-        <property name="visible">True</property>
         <child>
           <object class="GtkLabel" id="introduction_label">
             <property name="halign">start</property>
             <property name="label" translatable="yes">Last.fm is a music discovery service that gives you personalised recommendations based on the music you listen to.</property>
             <property name="margin-bottom">16</property>
-            <property name="visible">True</property>
             <property name="max_width_chars">60</property>
             <property name="wrap">True</property>
             <property name="xalign">0</property>
@@ -32,7 +30,6 @@
             <property name="halign">start</property>
             <property name="label" translatable="yes">Music Reporting Not Setup</property>
             <property name="margin-bottom">8</property>
-            <property name="visible">True</property>
             <property name="max_width_chars">60</property>
             <property name="wrap">True</property>
             <property name="xalign">0</property>
@@ -46,7 +43,6 @@
             <property name="halign">start</property>
             <property name="label" translatable="yes">Login to your Last.fm account to report your music listening.</property>
             <property name="margin-bottom">12</property>
-            <property name="visible">True</property>
             <property name="max_width_chars">60</property>
             <property name="wrap">True</property>
             <property name="xalign">0</property>
@@ -62,7 +58,6 @@
             <property name="halign">start</property>
             <property name="label" translatable="yes">Login</property>
             <property name="margin-bottom">8</property>
-            <property name="visible">True</property>
           </object>
         </child>
       </object>
