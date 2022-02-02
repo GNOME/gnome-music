@@ -56,7 +56,7 @@ class WindowPlacement(GObject.GObject):
         if (len(size_setting) == 2
                 and isinstance(size_setting[0], int)
                 and isinstance(size_setting[1], int)):
-            self._window.resize(size_setting[0], size_setting[1])
+            self._window.set_default_size(size_setting[0], size_setting[1])
 
         if self._settings.get_value('window-maximized'):
             self._window.maximize()
