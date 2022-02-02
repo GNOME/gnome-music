@@ -194,12 +194,14 @@ class ArtistsView(Gtk.Paned):
         if not self._selection_mode:
             self.deselect_all()
 
-    def select_all(self):
-        artist_albums = self._artist_view.get_visible_child().get_child()
-        for row in artist_albums:
-            row.get_child().select_all()
+    def select_all(self) -> None:
+        """Select all items"""
+        artist_tile = self._sidebar.get_selected_row()
+        if artist_tile:
+            artist_tile.props.coreartist.props.selected = True
 
-    def deselect_all(self):
-        artist_albums = self._artist_view.get_visible_child().get_child()
-        for row in artist_albums:
-            row.get_child().deselect_all()
+    def deselect_all(self) -> None:
+        """Deselect all items"""
+        artist_tile = self._sidebar.get_selected_row()
+        if artist_tile:
+            artist_tile.props.coreartist.props.selected = False
