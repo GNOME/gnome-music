@@ -13,7 +13,6 @@
         <property name="orientation">vertical</property>
         <child>
           <object class="GtkStack" id="_add_playlist_stack">
-            <property name="visible">True</property>
             <property name="focusable">False</property>
             <property name="hexpand">True</property>
             <property name="vexpand">True</property>
@@ -25,7 +24,6 @@
                 <property name="orientation">vertical</property>
                 <child>
                   <object class="GtkBox">
-                    <property name="visible">True</property>
                     <property name="focusable">False</property>
                     <property name="orientation">vertical</property>
                     <property name="valign">fill</property>
@@ -36,7 +34,6 @@
                     <property name="margin-top">18</property>
                     <child>
                       <object class="GtkImage" id="image">
-                        <property name="visible">True</property>
                         <property name="focusable">False</property>
                         <property name="valign">center</property>
                         <property name="pixel_size">100</property>
@@ -51,7 +48,6 @@
                     </child>
                     <child>
                       <object class="GtkLabel" id="label">
-                        <property name="visible">True</property>
                         <property name="focusable">False</property>
                         <property name="label" translatable="yes">Enter a name for your first playlist</property>
                         <property name="valign">end</property>
@@ -61,7 +57,6 @@
                       <object class="GtkEntry" id="_first_playlist_entry">
                         <property name="width_request">300</property>
                         <property name="height_request">10</property>
-                        <property name="visible">True</property>
                         <property name="focusable">True</property>
                         <property name="halign">center</property>
                         <property name="margin-bottom">16</property>
@@ -83,7 +78,6 @@
                         <property name="use_underline">True</property>
                         <property name="width_request">120</property>
                         <property name="height_request">25</property>
-                        <property name="visible">True</property>
                         <property name="sensitive">False</property>
                         <property name="focusable">True</property>
                         <property name="receives_default">True</property>
@@ -112,12 +106,10 @@
                 <property name="orientation">vertical</property>
                 <child>
                   <object class="GtkScrolledWindow" id="scrolledwindow">
-                    <property name="visible">True</property>
                     <property name="focusable">True</property>
                     <property name="vexpand">True</property>
                     <child>
                       <object class="GtkListBox" id="_listbox">
-                        <property name="visible">True</property>
                         <property name="focusable">True</property>
                         <property name="selection_mode">single</property>
                         <property name="valign">start</property>
@@ -128,18 +120,15 @@
                 </child>
                 <child>
                   <object class="GtkBox">
-                    <property name="visible">True</property>
                     <property name="focusable">False</property>
                     <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkSeparator">
-                        <property name="visible">True</property>
                         <property name="focusable">False</property>
                       </object>
                     </child>
                     <child>
                       <object class="GtkBox" id="new-playlist-hbox">
-                        <property name="visible">True</property>
                         <property name="focusable">False</property>
                         <property name="margin-bottom">6</property>
                         <property name="margin-end">6</property>
@@ -147,7 +136,6 @@
                         <property name="margin-top">6</property>
                         <child>
                           <object class="GtkEntry" id="_new_playlist_entry">
-                            <property name="visible">True</property>
                             <property name="focusable">True</property>
                             <property name="hexpand">True</property>
                             <property name="placeholder_text" translatable="yes">New Playlist…</property>
@@ -166,7 +154,6 @@
                         <child>
                           <object class="GtkButton" id="_new_playlist_button">
                             <property name="label" translatable="yes">Add</property>
-                            <property name="visible">True</property>
                             <property name="sensitive">False</property>
                             <property name="focusable">True</property>
                             <property name="receives_default">False</property>
@@ -202,7 +189,6 @@
     </child>
   </template>
   <object class="GtkHeaderBar" id="_title_bar">
-    <property name="visible">True</property>
     <property name="focusable">False</property>
     <property name="title-widget">
       <object class="GtkLabel">
@@ -219,7 +205,6 @@
       <object class="GtkButton" id="_cancel_button">
         <property name="label" translatable="yes">_Cancel</property>
         <property name="use_underline">True</property>
-        <property name="visible">True</property>
         <property name="focusable">False</property>
         <property name="receives_default">False</property>
         <signal name="clicked" handler="_on_cancel_button_clicked" swapped="no"/>
@@ -233,7 +218,6 @@
         <property name="label" translatable="yes">_Add</property>
         <property name="sensitive">False</property>
         <property name="use_underline">True</property>
-        <property name="visible">True</property>
         <property name="focusable">False</property>
         <property name="receives_default">False</property>
         <signal name="clicked" handler="_on_selection" swapped="no"/>
