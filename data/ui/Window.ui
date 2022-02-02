@@ -12,23 +12,19 @@
     <child>
       <object class="GtkBox">
         <property name="orientation">vertical</property>
-        <property name="visible">True</property>
         <child>
           <object class="GtkStack" id="_headerbar_stack">
             <property name="transition-type">crossfade</property>
-            <property name="visible">True</property>
           </object>
         </child>
         <child>
           <object class="GtkOverlay" id="_overlay">
             <property name="vexpand">True</property>
-            <property name="visible">True</property>
             <child>
               <object class="AdwViewStack" id="_stack">
                 <property name="focusable">False</property>
                 <property name="hhomogeneous">False</property>
                 <property name="vhomogeneous">False</property>
-                <property name="visible">True</property>
               </object>
             </child>
             <child type="overlay">
