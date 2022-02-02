@@ -7,7 +7,7 @@
     <property name="resizable">False</property>
     <property name="title" translatable="yes">Last.fm Account</property>
     <property name="valign">start</property>
-    <child internal-child="vbox">
+    <child internal-child="content_area">
       <object class="GtkBox">
         <property name="margin-bottom">16</property>
         <property name="margin-end">16</property>
