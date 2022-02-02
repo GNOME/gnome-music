@@ -147,7 +147,10 @@
                       <object class="GtkBox" id="new-playlist-hbox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="border_width">6</property>
+                        <property name="margin-bottom">6</property>
+                        <property name="margin-end">6</property>
+                        <property name="margin-start">6</property>
+                        <property name="margin-top">6</property>
                         <child>
                           <object class="GtkEntry" id="_new_playlist_entry">
                             <property name="visible">True</property>
