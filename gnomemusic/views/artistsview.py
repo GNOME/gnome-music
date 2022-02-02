@@ -60,10 +60,8 @@ class ArtistsView(Gtk.Paned):
 
         self._application = application
         self._artists = {}
-        self._widget_counter = 1
-
-        self._selected_artist = None
         self._loaded_artists = []
+        self._widget_counter = 1
 
         # This indicates if the current list has been empty and has
         # had no user interaction since.
@@ -150,9 +148,6 @@ class ArtistsView(Gtk.Paned):
         if untouched is False:
             self._untouched_list = False
 
-        selected_row = self._sidebar.get_selected_row()
-        self._selected_artist = selected_row.props.coreartist
-
         # Prepare a new artist_albums_widget here
         coreartist = row.props.coreartist
         if coreartist.props.artist in self._loaded_artists:
@@ -196,23 +191,8 @@ class ArtistsView(Gtk.Paned):
 
         self._selection_mode = value
         self._sidebar.props.sensitive = not self._selection_mode
-        if self._selection_mode:
-            self._sidebar.props.selection_mode = Gtk.SelectionMode.NONE
-        else:
+        if not self._selection_mode:
             self.deselect_all()
-            self._sidebar.props.selection_mode = Gtk.SelectionMode.SINGLE
-            selected_row = self._sidebar.get_row_at_index(0)
-            if selected_row is None:
-                self._selected_artist = None
-                return
-
-            for row in self._sidebar:
-                if row.props.coreartist == self._selected_artist:
-                    selected_row = row
-                    break
-
-            self._sidebar.select_row(selected_row)
-            self._selected_artist = None
 
     def select_all(self):
         artist_albums = self._artist_view.get_visible_child().get_child()
