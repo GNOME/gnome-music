@@ -28,7 +28,7 @@ from gnomemusic.scrobbler import GoaLastFM
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/AppMenu.ui")
-class AppMenu(Gtk.PopoverMenu):
+class AppMenu(Gtk.Popover):
     """AppMenu shown from the HeaderBar within the main view"""
 
     __gtype_name__ = "AppMenu"
