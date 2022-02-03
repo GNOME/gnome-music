@@ -68,29 +68,26 @@
             <property name="spacing">4</property>
             <child>
               <object class="GtkButton" id="_prev_button">
-                <property name="width_request">42</property>
                 <property name="sensitive">False</property>
                 <property name="focusable">True</property>
                 <property name="receives_default">True</property>
                 <property name="icon_name">media-skip-backward-symbolic</property>
                 <property name="tooltip_text" translatable="yes">Previous</property>
+                <property name="valign">center</property>
                 <signal name="clicked" handler="_on_prev_button_clicked" swapped="no"/>
                 <style>
-                  <class name="flat"/>
-                  <class name="semi-circular"/>
+                  <class name="circular"/>
                 </style>
               </object>
             </child>
             <child>
               <object class="GtkButton" id="_play_button">
-                <property name="width_request">80</property>
                 <property name="sensitive">False</property>
                 <property name="focusable">True</property>
                 <property name="receives_default">True</property>
                 <property name="tooltip_text" translatable="yes">Play</property>
                 <signal name="clicked" handler="_on_play_button_clicked" swapped="no"/>
                 <style>
-                  <class name="border-solid"/>
                   <class name="pill"/>
                 </style>
                 <child>
@@ -103,16 +100,15 @@
             </child>
             <child>
               <object class="GtkButton" id="_next_button">
-                <property name="width_request">42</property>
                 <property name="sensitive">False</property>
                 <property name="focusable">True</property>
                 <property name="receives_default">True</property>
                 <property name="icon_name">media-skip-forward-symbolic</property>
                 <property name="tooltip_text" translatable="yes">Next</property>
+                <property name="valign">center</property>
                 <signal name="clicked" handler="_on_next_button_clicked" swapped="no"/>
                 <style>
-                  <class name="flat"/>
-                  <class name="semi-circular"/>
+                  <class name="circular"/>
                 </style>
               </object>
             </child>
