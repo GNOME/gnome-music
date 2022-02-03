@@ -25,20 +25,6 @@
 }
 
 /* PlayerToolbar */
-.border-solid {
-    border-style: solid;
-}
-
-.semi-circular {
-    border-radius: 20px;
-}
-
-.semi-circular:hover {
-    border-top-width: 0px;
-    border-bottom-width: 0px;
-    border-left-width: 0px;
-    border-right-width: 0px;
-}
 
 .smooth-scale {
     padding-top: 0px;
