@@ -5,12 +5,10 @@
     <child>
       <object class="GtkSpinner">
         <property name="spinning">True</property>
-        <property name="visible">True</property>
       </object>
     </child>
     <child>
       <object class="GtkLabel">
-        <property name="visible">True</property>
         <property name="halign">start</property>
         <property name="hexpand">True</property>
         <property name="label" translatable="yes">Loading</property>
