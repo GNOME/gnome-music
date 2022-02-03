@@ -14,13 +14,11 @@
             <property name="orientation">vertical</property>
             <child>
               <object class="GtkBox" id="albumInfo">
-                <property name="focusable">False</property>
                 <property name="halign">fill</property>
                 <property name="hexpand">True</property>
                 <property name="spacing">32</property>
                 <child>
                   <object class="ArtStack" id="_art_stack">
-                    <property name="focusable">False</property>
                     <property name="halign">center</property>
                     <property name="valign">start</property>
                     <property name="hhomogeneous">False</property>
@@ -29,7 +27,6 @@
                 </child>
                 <child>
                   <object class="GtkBox" id="albumDetails">
-                    <property name="focusable">False</property>
                     <property name="halign">center</property>
                     <property name="valign">start</property>
                     <property name="orientation">vertical</property>
@@ -87,7 +84,6 @@
                           <object class="GtkButton" id="_play_button">
                             <property name="width-request">44</property>
                             <property name="height-request">44</property>
-                            <property name="focusable">True</property>
                             <property name="receives-default">True</property>
                             <property name="icon-name">media-playback-start-symbolic</property>
                             <property name="tooltip-text" translatable="yes">Play</property>
@@ -102,7 +98,6 @@
                           <object class="GtkMenuButton" id="_menu_button">
                             <property name="width-request">44</property>
                             <property name="height-request">44</property>
-                            <property name="focusable">True</property>
                             <property name="receives_default">True</property>
                             <property name="halign">start</property>
                             <property name="valign">center</property>
