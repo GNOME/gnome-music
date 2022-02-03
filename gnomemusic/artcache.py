@@ -22,7 +22,7 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from gi.repository import Gdk, GdkPixbuf, Gio, GLib, GObject
+from gi.repository import Gdk, GdkPixbuf, Gio, Gtk, GLib, GObject
 
 from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.coreartist import CoreArtist
@@ -47,34 +47,37 @@ class ArtCache(GObject.GObject):
 
     _log = MusicLogger()
 
-    def __init__(self):
+    def __init__(self, widget: Gtk.Widget) -> None:
+        """Intialize ArtCache
+
+        :param Gtk.Widget widget: The widget of this cache
+        """
         super().__init__()
 
         self._size = ArtSize.SMALL
-        self._scale = 1
+        self._widget = widget
 
         self._coreobject = None
         self._default_icon = None
         self._surface = None
 
-    def start(self, coreobject, size, scale):
+    def start(self, coreobject, size):
         """Start the cache query
 
         :param coreobject: The object to search art for
         :param ArtSize size: The desired size
-        :param int scale: The scaling factor
         """
         self._coreobject = coreobject
-        self._scale = scale
         self._size = size
+        scale = self._widget.props.scale_factor
 
         if isinstance(coreobject, CoreArtist):
             self._default_icon = DefaultIcon().get(
-                DefaultIcon.Type.ARTIST, self._size, self._scale)
+                DefaultIcon.Type.ARTIST, self._size, scale)
         elif (isinstance(coreobject, CoreAlbum)
                 or isinstance(coreobject, CoreSong)):
             self._default_icon = DefaultIcon().get(
-                DefaultIcon.Type.ALBUM, self._size, self._scale)
+                DefaultIcon.Type.ALBUM, self._size, scale)
 
         thumbnail_uri = coreobject.props.thumbnail
         if thumbnail_uri == "generic":
@@ -113,14 +116,14 @@ class ArtCache(GObject.GObject):
         stream.close_async(
             GLib.PRIORITY_DEFAULT_IDLE, None, self._close_stream, None)
 
-        surface = Gdk.cairo_surface_create_from_pixbuf(
-            pixbuf, self._scale, None)
+        scale = self._widget.props.scale_factor
+        surface = Gdk.cairo_surface_create_from_pixbuf(pixbuf, scale, None)
         if isinstance(self._coreobject, CoreArtist):
             surface = make_icon_frame(
-                surface, self._size, self._scale, round_shape=True)
+                surface, self._size, scale, round_shape=True)
         elif (isinstance(self._coreobject, CoreAlbum)
                 or isinstance(self._coreobject, CoreSong)):
-            surface = make_icon_frame(surface, self._size, self._scale)
+            surface = make_icon_frame(surface, self._size, scale)
 
         self._surface = surface
 

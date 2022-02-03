@@ -65,7 +65,7 @@ class ArtStack(Gtk.Stack):
         super().__init__()
 
         self._art_type = DefaultIcon.Type.ALBUM
-        self._cache = ArtCache()
+        self._cache = ArtCache(self)
         self._coreobject: Optional[CoreObject] = None
         self._handler_id = 0
         self._size = size
@@ -163,8 +163,7 @@ class ArtStack(Gtk.Stack):
         self._handler_id = self._cache.connect(
             "finished", self._on_cache_result)
 
-        self._async_queue.queue(
-            self._cache, coreobject, self._size, self.props.scale_factor)
+        self._async_queue.queue(self._cache, coreobject, self._size)
 
     def _swap_thumbnails(self, surface: ImageSurface, animate: bool) -> None:
         if self.props.visible_child_name == "B":
