@@ -19,20 +19,15 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
         h = height
 
         if self._texture is not None:
-            snapshot.translate(Graphene.Point().init(width / 2, height / 2))
-
-            rect = Graphene.Rect().init(-(w / 2), -(h / 2), w, h)
-            rect2 = Graphene.Rect().init(-50, -50, 100, 100)
-
             # Anything Gsk related seems to be failing, no rounded
             # clips for now. Related: pygobject#471
             #
             # gskrr = Gsk.RoundedRect().init_from_rect(rect2, 10)
             # snapshot.push_rounded_clip(gskrr)
-
-            snapshot.push_clip(rect2)
+            snapshot.translate(Graphene.Point().init(width / 2, height / 2))
+            rect = Graphene.Rect().init(-(w / 2), -(h / 2), w, h)
             snapshot.append_texture(self._texture, rect)
-            snapshot.pop()
+            # snapshot.pop()
         else:
             snapshot.append_color(
                 Gdk.RGBA(1, 1, 1, 1), Graphene.Rect().init(0, 0, w, h))
