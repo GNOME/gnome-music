@@ -121,14 +121,11 @@ class DiscBox(Gtk.ListBoxRow):
             song_widget.props.coresong.props.selected = True
             return True
 
-        (_, button) = event.get_button()
-        if (button == Gdk.BUTTON_PRIMARY
-                and not self.props.selection_mode):
-            self.emit("song-activated", song_widget)
-
         if self.props.selection_mode:
             song_widget.props.select_click = True
             selection_state = song_widget.props.coresong.props.selected
             song_widget.props.coresong.props.selected = not selection_state
+        else:
+            self.emit("song-activated", song_widget)
 
         return True
