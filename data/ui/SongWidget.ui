@@ -134,7 +134,13 @@
                     <property name="focusable">0</property>
                     <property name="halign">end</property>
                     <property name="valign">center</property>
-                    <!-- <signal name="button-release-event" handler="_on_star_toggle" swapped="no"/> -->
+                    <child>
+                      <object class="GtkGestureClick">
+                        <property name="button">1</property>
+                        <property name="propagation-phase">capture</property>
+                        <signal name="released" handler="_on_star_toggle" swapped="no"/>
+                      </object>
+                    </child>
                     <child>
                       <object class="GtkEventControllerMotion">
                         <signal name="enter" handler="_on_star_hover" swapped="no"/>
