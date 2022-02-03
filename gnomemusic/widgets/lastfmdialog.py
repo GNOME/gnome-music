@@ -24,7 +24,7 @@
 
 from gettext import gettext as _
 
-from gi.repository import Gtk
+from gi.repository import Gdk, Gtk
 
 from gnomemusic.scrobbler import GoaLastFM
 
@@ -72,5 +72,6 @@ class LastfmDialog(Gtk.Dialog):
         self._action_label.props.label = action
 
     @Gtk.Template.Callback()
-    def _on_action_button_clicked(self, widget, n_press, x, y):
+    def _on_action_button_clicked(self, btn: Gtk.Button) -> bool:
         self._lastfm_scrobbler.configure()
+        return Gdk.EVENT_STOP
