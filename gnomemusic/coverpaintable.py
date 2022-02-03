@@ -34,10 +34,17 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
             snapshot.append_texture(self._texture, rect)
             snapshot.pop()
         else:
+            snapshot.append_color(
+                Gdk.RGBA(1, 1, 1, 1), Graphene.Rect().init(0, 0, w, h))
+
+            snapshot.translate(
+                Graphene.Point().init((w / 2) - (w / 6), (h / 2) - (h / 6)))
             theme = Gtk.IconTheme.new()
             icon_pt = theme.lookup_icon(
-                "folder-music-symbolic", None, w, 1, 0, 0)
-            icon_pt.snapshot(snapshot, w, h)
+                "folder-music-symbolic", None, w / 3, 1, 0, 0)
+            snapshot.push_opacity(0.7)
+            icon_pt.snapshot(snapshot, w / 3, h / 3)
+            snapshot.pop()
 
     def do_get_flags(self):
         return Gdk.PaintableFlags.SIZE | Gdk.PaintableFlags.CONTENTS
