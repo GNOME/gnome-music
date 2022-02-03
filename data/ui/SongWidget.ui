@@ -3,13 +3,11 @@
 <interface>
   <requires lib="gtk+" version="3.10"/>
   <template class="SongWidget" parent="GtkListBoxRow">
-    <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="selectable">False</property>
     <!-- <signal name="drag_data_received" handler="_on_drag_data_received"/> -->
     <child>
       <object class="GtkBox" id="box1">
-        <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="spacing">6</property>
         <child>
@@ -20,7 +18,6 @@
             <!-- <signal name="drag_data_get" handler="_on_drag_data_get"/> -->
             <child>
               <object class="GtkImage">
-                <property name="visible">True</property>
                 <property name="icon-name">list-drag-handle-symbolic</property>
                 <style>
                   <class name="drag-handle"/>
@@ -32,7 +29,6 @@
         <child>
           <object class="GtkBox" id="box3">
             <property name="width_request">48</property>
-            <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="homogeneous">True</property>
             <child>
@@ -43,7 +39,6 @@
             </child>
             <child>
               <object class="GtkCheckButton" id="_select_button">
-                <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="receives_default">False</property>
                 <signal name="toggled" handler="_on_select_button_toggled"/>
@@ -51,7 +46,6 @@
             </child>
             <child>
               <object class="GtkLabel" id="_number_label">
-                <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="halign">end</property>
                 <property name="justify">right</property>
@@ -64,12 +58,10 @@
         </child>
         <child>
           <object class="GtkBox" id="title_box">
-            <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="hexpand">True</property>
             <child>
               <object class="GtkLabel" id="_title_label">
-                <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0</property>
                 <property name="halign">start</property>
@@ -89,7 +81,6 @@
             <property name="hexpand">True</property>
             <child>
               <object class="GtkLabel" id="_artist_label">
-                <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0</property>
                 <property name="halign">start</property>
@@ -104,7 +95,6 @@
         </child>
         <child>
           <object class="GtkBox" id="_album_duration_box">
-            <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="hexpand">True</property>
             <property name="spacing">6</property>
@@ -122,7 +112,6 @@
             </child>
             <child>
               <object class="GtkLabel" id="_duration_label">
-                <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="halign">end</property>
                 <property name="hexpand">True</property>
@@ -137,7 +126,6 @@
         <child>
           <object class="GtkStack" id="_star_stack">
             <property name="can-focus">False</property>
-            <property name="visible">True</property>
             <child>
               <object class="GtkStackPage">
                 <property name="name">star</property>
@@ -155,7 +143,6 @@
                     </child>
                     <child>
                       <object class="StarImage" id="_star_image">
-                        <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="valign">center</property>
                         <property name="margin-end">12</property>
@@ -185,7 +172,6 @@
             </style>
             <child>
               <object class="GtkImage">
-                <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="icon-name">view-more-symbolic</property>
               </object>
