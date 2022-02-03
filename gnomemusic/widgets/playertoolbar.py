@@ -88,6 +88,10 @@ class PlayerToolbar(Gtk.ActionBar):
         self._repeat_action: Gio.SimpleAction = Gio.SimpleAction.new_stateful(
             "repeat", GLib.VariantType.new("s"), GLib.Variant("s", ""))
 
+        action_group = Gio.SimpleActionGroup()
+        action_group.add_action(self._repeat_action)
+        self.insert_action_group("playertoolbar", action_group)
+
     # FIXME: This is a workaround for not being able to pass the player
     # object via init when using Gtk.Builder.
     @GObject.Property(type=Player, default=None)
@@ -122,9 +126,6 @@ class PlayerToolbar(Gtk.ActionBar):
         self._repeat_action.set_state(
             GLib.Variant("s", str(repeat_mode.value)))
         self._repeat_action.connect("activate", self._repeat_menu_changed)
-        action_group = Gio.SimpleActionGroup()
-        action_group.add_action(self._repeat_action)
-        self.insert_action_group("playertoolbar", action_group)
 
         self._sync_repeat_image()
 
