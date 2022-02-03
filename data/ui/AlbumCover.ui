@@ -4,18 +4,18 @@
   <template class="AlbumCover" parent="GtkFlowBoxChild">
     <child>
       <object class="GtkBox">
-        <property name="can_focus">False</property>
+        <property name="focusable">False</property>
         <property name="has_tooltip">True</property>
         <property name="valign">start</property>
         <property name="orientation">vertical</property>
         <signal name="query-tooltip" handler="_on_tooltip_query"/>
         <child>
           <object class="GtkOverlay">
-            <property name="can_focus">False</property>
+            <property name="focusable">False</property>
             <property name="margin-bottom">4</property>
             <child>
               <object class="ArtStack" id="_art_stack">
-                <property name="can_focus">False</property>
+                <property name="focusable">False</property>
                 <property name="vexpand">True</property>
                 <property name="valign">end</property>
                 <property name="halign">center</property>
@@ -23,7 +23,7 @@
             </child>
             <child type="overlay">
               <object class="GtkCheckButton" id="_check">
-                <property name="can_focus">True</property>
+                <property name="focusable">True</property>
                 <property name="receives_default">False</property>
                 <property name="halign">end</property>
                 <property name="valign">end</property>
@@ -34,7 +34,7 @@
         </child>
         <child>
           <object class="GtkLabel" id="_title_label">
-            <property name="can_focus">False</property>
+            <property name="focusable">False</property>
             <property name="justify">center</property>
             <property name="wrap">True</property>
             <property name="ellipsize">middle</property>
@@ -44,7 +44,7 @@
         </child>
         <child>
           <object class="GtkLabel" id="_artist_label">
-            <property name="can_focus">False</property>
+            <property name="focusable">False</property>
             <property name="ellipsize">middle</property>
             <property name="max_width_chars">20</property>
             <style>
