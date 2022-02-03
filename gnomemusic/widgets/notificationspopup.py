@@ -62,10 +62,10 @@ class NotificationsPopup(Gtk.Revealer):
         deletion is in progress.
         """
         loading_finished = self._loading_notification._counter == 0
-        # no_other_notif = (len(self._box.get_children()) == 1
-        #                   or (len(self._box.get_children()) == 2
-        #                   and notification != self._loading_notification))
-        no_other_notif = True
+        box_children = [child for child in self._box]
+        no_other_notif = (len(box_children) == 1
+                          or (len(box_children) == 2
+                              and notification != self._loading_notification))
         invisible = loading_finished and no_other_notif
 
         if not invisible:
