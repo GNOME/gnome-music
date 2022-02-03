@@ -282,7 +282,7 @@ class Playlist(GObject.GObject):
 
     count = GObject.Property(type=int, default=0)
     creation_date = GObject.Property(type=GLib.DateTime, default=None)
-    icon_name = GObject.Property(type=str, default="playlist2-symbolic")
+    icon_name = GObject.Property(type=str, default="music-playlist-symbolic")
     is_smart = GObject.Property(type=bool, default=False)
     pl_id = GObject.Property(type=str, default=None)
     query = GObject.Property(type=str, default=None)

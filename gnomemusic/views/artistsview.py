@@ -40,7 +40,7 @@ class ArtistsView(Gtk.Paned):
     __gtype_name__ = "ArtistsView"
 
     icon_name = GObject.Property(
-        type=str, default="system-users-symbolic",
+        type=str, default="music-artist-symbolic",
         flags=GObject.ParamFlags.READABLE)
     title = GObject.Property(
         type=str, default=_("Artists"), flags=GObject.ParamFlags.READABLE)
