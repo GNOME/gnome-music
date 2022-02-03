@@ -7,10 +7,8 @@
       <object class="AdwClamp">
         <property name="maximum-size">1000</property>
         <property name="orientation">horizontal</property>
-        <property name="visible">True</property>
         <child>
           <object class="GtkListBox" id="_listbox">
-            <property name="visible">True</property>
           </object>
         </child>
       </object>
