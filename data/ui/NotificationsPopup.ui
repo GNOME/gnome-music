@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <template class="NotificationsPopup" parent="GtkRevealer">
-    <property name="visible">True</property>
     <property name="halign">center</property>
     <property name="valign">start</property>
     <child>
       <object class="GtkFrame">
-        <property name="visible">True</property>
         <child>
           <object class="GtkBox" id="_box">
-            <property name="visible">True</property>
             <property name="orientation">vertical</property>
             <property name="spacing">6</property>
           </object>
