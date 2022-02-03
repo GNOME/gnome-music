@@ -125,7 +125,7 @@
         </child>
         <child>
           <object class="GtkStack" id="_star_stack">
-            <property name="can-focus">False</property>
+            <property name="focusable">False</property>
             <child>
               <object class="GtkStackPage">
                 <property name="name">star</property>
@@ -172,13 +172,13 @@
         <child>
           <object class="GtkMenuButton" id="_menu_button">
             <property name="visible">False</property>
-            <property name="can-focus">True</property>
+            <property name="focusable">True</property>
             <style>
               <class name="flat"/>
             </style>
             <child>
               <object class="GtkImage">
-                <property name="can-focus">False</property>
+                <property name="focusable">False</property>
                 <property name="icon-name">view-more-symbolic</property>
               </object>
             </child>
