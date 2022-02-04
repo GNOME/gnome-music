@@ -7,6 +7,8 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
 
     __gtype_name__ = "CoverPaintable"
 
+    _icon_theme = Gtk.IconTheme.new()
+
     def __init__(self, art_size, texture=None):
         super().__init__()
 
@@ -25,8 +27,7 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
             snapshot.append_texture(self._texture, rect)
         else:
             i_s = 1 / 3  # Icon scale
-            theme = Gtk.IconTheme.new()
-            icon_pt = theme.lookup_icon(
+            icon_pt = self._icon_theme.lookup_icon(
                 "folder-music-symbolic", None, w * i_s, 1, 0, 0)
 
             snapshot.append_color(
