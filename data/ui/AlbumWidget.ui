@@ -86,7 +86,6 @@
                           <object class="GtkButton" id="_play_button">
                             <property name="width-request">44</property>
                             <property name="height-request">44</property>
-                            <property name="receives-default">True</property>
                             <property name="icon-name">media-playback-start-symbolic</property>
                             <property name="tooltip-text" translatable="yes">Play</property>
                             <property name="valign">center</property>
@@ -100,7 +99,6 @@
                           <object class="GtkMenuButton" id="_menu_button">
                             <property name="width-request">44</property>
                             <property name="height-request">44</property>
-                            <property name="receives_default">True</property>
                             <property name="halign">start</property>
                             <property name="valign">center</property>
                             <property name="focus_on_click">False</property>
