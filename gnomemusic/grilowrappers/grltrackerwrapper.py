@@ -417,7 +417,7 @@ class GrlTrackerWrapper(GObject.GObject):
         if ids is None:
             songs_filter = ""
         else:
-            media_ids = str(ids)[1:-1].replace("'", "")
+            media_ids = ", ".join([f"<{media_id}>" for media_id in ids])
             songs_filter = f"FILTER ( ?song in ( {media_ids} ) )"
 
         location_filter = self._tracker_wrapper.location_filter()
