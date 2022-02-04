@@ -23,19 +23,19 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
             snapshot.translate(Graphene.Point().init(w / 2, h / 2))
             rect = Graphene.Rect().init(-(w / 2), -(h / 2), w, h)
             snapshot.append_texture(self._texture, rect)
-
         else:
+            i_s = 1 / 3  # Icon scale
+            theme = Gtk.IconTheme.new()
+            icon_pt = theme.lookup_icon(
+                "folder-music-symbolic", None, w * i_s, 1, 0, 0)
+
             snapshot.append_color(
                 Gdk.RGBA(1, 1, 1, 1), Graphene.Rect().init(0, 0, w, h))
             snapshot.translate(
-                Graphene.Point().init((w / 2) - (w / 6), (h / 2) - (h / 6)))
-
-            theme = Gtk.IconTheme.new()
-            icon_pt = theme.lookup_icon(
-                "folder-music-symbolic", None, w / 3, 1, 0, 0)
-
+                Graphene.Point().init(
+                    (w / 2) - (w * (i_s / 2)), (h / 2) - (h * (i_s / 2))))
             snapshot.push_opacity(0.7)
-            icon_pt.snapshot(snapshot, w / 3, h / 3)
+            icon_pt.snapshot(snapshot, w * i_s, h * i_s)
             snapshot.pop()
 
         snapshot.pop()
