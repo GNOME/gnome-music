@@ -130,7 +130,7 @@
                     <property name="margin-top">20</property>
                     <signal name="row-activated" handler="_song_activated" swapped="no"/>
                     <style>
-                      <class name="content"/>
+                      <class name="boxed-list"/>
                     </style>
                   </object>
                 </child>
