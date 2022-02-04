@@ -110,16 +110,23 @@ class DefaultIcon(GObject.GObject):
         ARTIST = "avatar-default-symbolic"
 
     _cache: Dict[
-        Tuple[DefaultIcon.Type, ArtSize, int, bool, bool], cairo.Surface] = {}
+        Tuple[DefaultIcon.Type, ArtSize, int, bool, bool],
+        cairo.ImageSurface] = {}
 
     _default_theme = Gtk.IconTheme.get_default()
 
-    def __init__(self):
+    def __init__(self, widget: Gtk.Widget) -> None:
+        """Initialize DefaultIcon
+
+        :param Gtk.Widget widget: The widget of the icon
+        """
         super().__init__()
+
+        self._widget = widget
 
     def _make_default_icon(
             self, icon_type: DefaultIcon.Type, art_size: ArtSize, scale: int,
-            round_shape: bool, dark: bool) -> cairo.Surface:
+            round_shape: bool, dark: bool) -> cairo.ImageSurface:
         icon_info = self._default_theme.lookup_icon_for_scale(
             icon_type.value, art_size.width / 3, scale, 0)
         icon = icon_info.load_surface()
@@ -129,7 +136,8 @@ class DefaultIcon(GObject.GObject):
 
         return icon_surface
 
-    def get(self, icon_type, art_size, scale=1):
+    def get(self, icon_type: DefaultIcon.Type,
+            art_size: ArtSize) -> cairo.ImageSurface:
         """Returns the requested symbolic icon
 
         Returns a cairo surface of the requested symbolic icon in the
@@ -137,10 +145,9 @@ class DefaultIcon(GObject.GObject):
 
         :param enum icon_type: The DefaultIcon.Type of the icon
         :param enum art_size: The ArtSize requested
-        :param int scale: The scale
 
         :return: The symbolic icon
-        :rtype: cairo.Surface
+        :rtype: cairo.ImageSurface
         """
         if icon_type == DefaultIcon.Type.ALBUM:
             round_shape = False
@@ -148,6 +155,7 @@ class DefaultIcon(GObject.GObject):
             round_shape = True
 
         dark = Handy.StyleManager.get_default().props.dark
+        scale = self._widget.props.scale_factor
 
         if (icon_type, art_size,
                 scale, round_shape, dark) not in self._cache.keys():

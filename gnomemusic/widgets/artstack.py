@@ -121,8 +121,7 @@ class ArtStack(Gtk.Stack):
         """
         self._art_type = value
 
-        default_icon = DefaultIcon().get(
-            self._art_type, self._size, self.props.scale_factor)
+        default_icon = DefaultIcon(self).get(self._art_type, self._size)
 
         self._swap_thumbnails(default_icon, False)
 
@@ -146,8 +145,7 @@ class ArtStack(Gtk.Stack):
     def _on_dark_changed(
             self, style_manager: Handy.StyleManager,
             pspec: GObject.ParamSpecBoolean) -> None:
-        default_icon = DefaultIcon().get(
-            self._art_type, self._size, self.props.scale_factor)
+        default_icon = DefaultIcon(self).get(self._art_type, self._size)
 
         if self._coreobject:
             if self._coreobject.props.thumbnail == "generic":

@@ -69,15 +69,14 @@ class ArtCache(GObject.GObject):
         """
         self._coreobject = coreobject
         self._size = size
-        scale = self._widget.props.scale_factor
 
         if isinstance(coreobject, CoreArtist):
-            self._default_icon = DefaultIcon().get(
-                DefaultIcon.Type.ARTIST, self._size, scale)
+            self._default_icon = DefaultIcon(self._widget).get(
+                DefaultIcon.Type.ARTIST, self._size)
         elif (isinstance(coreobject, CoreAlbum)
                 or isinstance(coreobject, CoreSong)):
-            self._default_icon = DefaultIcon().get(
-                DefaultIcon.Type.ALBUM, self._size, scale)
+            self._default_icon = DefaultIcon(self._widget).get(
+                DefaultIcon.Type.ALBUM, self._size)
 
         thumbnail_uri = coreobject.props.thumbnail
         if thumbnail_uri == "generic":
