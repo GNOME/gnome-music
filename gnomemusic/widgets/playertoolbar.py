@@ -25,9 +25,8 @@
 from gettext import gettext as _
 from gi.repository import Gio, GLib, GObject, Gtk
 
-from gnomemusic.defaulticon import DefaultIcon
 from gnomemusic.gstplayer import Playback
-from gnomemusic.utils import ArtSize
+from gnomemusic.utils import ArtSize, DefaultIconType
 from gnomemusic.player import Player, RepeatMode
 from gnomemusic.widgets.smoothscale import SmoothScale  # noqa: F401
 from gnomemusic.widgets.twolinetip import TwoLineTip
@@ -65,7 +64,7 @@ class PlayerToolbar(Gtk.ActionBar):
         self._player = None
 
         self._art_stack.props.size = ArtSize.SMALL
-        self._art_stack.props.art_type = DefaultIcon.Type.ALBUM
+        self._art_stack.props.art_type = DefaultIconType.ALBUM
 
         self._tooltip = TwoLineTip()
 

@@ -25,8 +25,7 @@
 from gi.repository import GObject, Gtk
 
 from gnomemusic.coreartist import CoreArtist
-from gnomemusic.defaulticon import DefaultIcon
-from gnomemusic.utils import ArtSize
+from gnomemusic.utils import ArtSize, DefaultIconType
 
 
 @Gtk.Template(resource_path='/org/gnome/Music/ui/ArtistTile.ui')
@@ -50,7 +49,7 @@ class ArtistTile(Gtk.ListBoxRow):
         self.props.coreartist = coreartist
 
         self._art_stack.props.size = ArtSize.XSMALL
-        self._art_stack.props.art_type = DefaultIcon.Type.ARTIST
+        self._art_stack.props.art_type = DefaultIconType.ARTIST
 
         self.bind_property('text', self._label, 'label')
         self.bind_property('text', self._label, 'tooltip-text')

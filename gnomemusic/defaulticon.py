@@ -24,14 +24,13 @@
 
 from __future__ import annotations
 
-from enum import Enum
 from math import pi
 from typing import Dict, Tuple
 
 import cairo
 from gi.repository import Gtk, GObject, Gdk, Handy
 
-from gnomemusic.utils import ArtSize
+from gnomemusic.utils import ArtSize, DefaultIconType
 
 
 def make_icon_frame(
@@ -104,14 +103,8 @@ def make_icon_frame(
 
 class DefaultIcon(GObject.GObject):
     """Provides the symbolic fallback icons."""
-
-    class Type(Enum):
-        ALBUM = "folder-music-symbolic"
-        ARTIST = "avatar-default-symbolic"
-
     _cache: Dict[
-        Tuple[DefaultIcon.Type, ArtSize, int, bool, bool],
-        cairo.ImageSurface] = {}
+        Tuple[DefaultIconType, ArtSize, int, bool], cairo.ImageSurface] = {}
 
     _default_theme = Gtk.IconTheme.get_default()
 
@@ -125,27 +118,27 @@ class DefaultIcon(GObject.GObject):
         self._widget = widget
 
     def _make_default_icon(
-            self, icon_type: DefaultIcon.Type, art_size: ArtSize, scale: int,
+            self, icon_type: DefaultIconType, art_size: ArtSize, scale: int,
             dark: bool) -> cairo.ImageSurface:
         icon_info = self._default_theme.lookup_icon_for_scale(
             icon_type.value, art_size.width / 3, scale, 0)
         icon = icon_info.load_surface()
 
-        round_shape = icon_type == DefaultIcon.Type.ARTIST
+        round_shape = icon_type == DefaultIconType.ARTIST
         icon_surface = make_icon_frame(
             icon, art_size, scale, True, round_shape, dark)
 
         return icon_surface
 
-    def get(self, icon_type: DefaultIcon.Type,
+    def get(self, icon_type: DefaultIconType,
             art_size: ArtSize) -> cairo.ImageSurface:
         """Returns the requested symbolic icon
 
         Returns a cairo surface of the requested symbolic icon in the
         given size and shape.
 
-        :param enum icon_type: The DefaultIcon.Type of the icon
-        :param enum art_size: The ArtSize requested
+        :param DefaultIconType icon_type: The type of icon
+        :param ArtSize art_size: The size requested
 
         :return: The symbolic icon
         :rtype: cairo.ImageSurface
@@ -153,7 +146,7 @@ class DefaultIcon(GObject.GObject):
         dark = Handy.StyleManager.get_default().props.dark
         scale = self._widget.props.scale_factor
 
-        if (icon_type, art_size,scale, dark) not in self._cache.keys():
+        if (icon_type, art_size, scale, dark) not in self._cache.keys():
             new_icon = self._make_default_icon(
                 icon_type, art_size, scale, dark)
             self._cache[(icon_type, art_size, scale, dark)] = new_icon

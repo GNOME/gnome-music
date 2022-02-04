@@ -25,8 +25,7 @@
 from gi.repository import Gdk, GObject, Gtk
 
 from gnomemusic.coreartist import CoreArtist
-from gnomemusic.defaulticon import DefaultIcon
-from gnomemusic.utils import ArtSize
+from gnomemusic.utils import ArtSize, DefaultIconType
 from gnomemusic.widgets.artstack import ArtStack  # noqa: F401
 from gnomemusic.widgets.twolinetip import TwoLineTip
 
@@ -62,7 +61,7 @@ class ArtistSearchTile(Gtk.FlowBoxChild):
         self.props.coreartist = coreartist
 
         self._art_stack.props.size = ArtSize.MEDIUM
-        self._art_stack.props.art_type = DefaultIcon.Type.ARTIST
+        self._art_stack.props.art_type = DefaultIconType.ARTIST
         self._art_stack.props.coreobject = self.props.coreartist
 
         self._tooltip = TwoLineTip()

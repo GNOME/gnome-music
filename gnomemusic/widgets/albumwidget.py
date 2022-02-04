@@ -30,8 +30,7 @@ import typing
 from gi.repository import Gfm, Gio, GLib, GObject, Gtk, Handy
 
 from gnomemusic.corealbum import CoreAlbum
-from gnomemusic.defaulticon import DefaultIcon
-from gnomemusic.utils import ArtSize
+from gnomemusic.utils import ArtSize, DefaultIconType
 from gnomemusic.widgets.discbox import DiscBox
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
 if typing.TYPE_CHECKING:
@@ -83,7 +82,7 @@ class AlbumWidget(Handy.Clamp):
         self._playlist_dialog: Optional[PlaylistDialog] = None
 
         self._art_stack.props.size = ArtSize.LARGE
-        self._art_stack.props.art_type = DefaultIcon.Type.ALBUM
+        self._art_stack.props.art_type = DefaultIconType.ALBUM
         self._player = self._application.props.player
 
         self.bind_property(

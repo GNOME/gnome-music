@@ -34,7 +34,7 @@ if typing.TYPE_CHECKING:
 from gnomemusic.asyncqueue import AsyncQueue
 from gnomemusic.artcache import ArtCache
 from gnomemusic.defaulticon import DefaultIcon
-from gnomemusic.utils import ArtSize
+from gnomemusic.utils import ArtSize, DefaultIconType
 if typing.TYPE_CHECKING:
     from gnomemusic.corealbum import CoreAlbum
     from gnomemusic.coreartist import CoreArtist
@@ -64,7 +64,7 @@ class ArtStack(Gtk.Stack):
         """
         super().__init__()
 
-        self._art_type = DefaultIcon.Type.ALBUM
+        self._art_type = DefaultIconType.ALBUM
         self._cache = ArtCache(self)
         self._coreobject: Optional[CoreObject] = None
         self._handler_id = 0
@@ -104,19 +104,19 @@ class ArtStack(Gtk.Stack):
         self._size = value
 
     @GObject.Property(type=object, flags=GObject.ParamFlags.READWRITE)
-    def art_type(self) -> DefaultIcon.Type:
+    def art_type(self) -> DefaultIconType:
         """Type of the stack cover
 
         :returns: The type of the default icon
-        :rtype: DefaultIcon.Type
+        :rtype: DefaultIconType
         """
         return self._art_type
 
     @art_type.setter  # type: ignore
-    def art_type(self, value: DefaultIcon.Type) -> None:
+    def art_type(self, value: DefaultIconType) -> None:
         """Set the stack cover type
 
-        :param DefaultIcon.Type value: The default icon type for the
+        :param DefaultIconType value: The default icon type for the
             stack
         """
         self._art_type = value

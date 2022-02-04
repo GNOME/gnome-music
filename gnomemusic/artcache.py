@@ -29,7 +29,7 @@ from gnomemusic.coreartist import CoreArtist
 from gnomemusic.coresong import CoreSong
 from gnomemusic.defaulticon import DefaultIcon, make_icon_frame
 from gnomemusic.musiclogger import MusicLogger
-from gnomemusic.utils import ArtSize
+from gnomemusic.utils import ArtSize, DefaultIconType
 
 
 class ArtCache(GObject.GObject):
@@ -72,11 +72,11 @@ class ArtCache(GObject.GObject):
 
         if isinstance(coreobject, CoreArtist):
             self._default_icon = DefaultIcon(self._widget).get(
-                DefaultIcon.Type.ARTIST, self._size)
+                DefaultIconType.ARTIST, self._size)
         elif (isinstance(coreobject, CoreAlbum)
                 or isinstance(coreobject, CoreSong)):
             self._default_icon = DefaultIcon(self._widget).get(
-                DefaultIcon.Type.ALBUM, self._size)
+                DefaultIconType.ALBUM, self._size)
 
         thumbnail_uri = coreobject.props.thumbnail
         if thumbnail_uri == "generic":

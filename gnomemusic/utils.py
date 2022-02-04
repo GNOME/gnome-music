@@ -46,6 +46,11 @@ class ArtSize(Enum):
         self.height = height
 
 
+class DefaultIconType(Enum):
+    ALBUM = "folder-music-symbolic"
+    ARTIST = "avatar-default-symbolic"
+
+
 class SongStateIcon(Enum):
     """Enum for icons used in song playing and validation"""
     ERROR = "dialog-error-symbolic"
