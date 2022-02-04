@@ -106,7 +106,6 @@
                             <property name="direction">none</property>
                             <property name="icon_name">view-more-symbolic</property>
                             <style>
-                              <class name="image-button"/>
                               <class name="circular"/>
                             </style>
                           </object>
