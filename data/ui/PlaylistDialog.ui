@@ -208,9 +208,6 @@
         <property name="focusable">False</property>
         <property name="receives_default">False</property>
         <signal name="clicked" handler="_on_cancel_button_clicked" swapped="no"/>
-        <style>
-          <class name="text-button"/>
-        </style>
       </object>
     </child>
     <child type="end">
@@ -223,7 +220,6 @@
         <signal name="clicked" handler="_on_selection" swapped="no"/>
         <style>
           <class name="suggested-action"/>
-          <class name="text-button"/>
         </style>
       </object>
     </child>
