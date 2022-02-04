@@ -410,7 +410,7 @@ class GrlTrackerWrapper(GObject.GObject):
                     break
 
     def _song_media_query(self, ids: List[str]) -> str:
-        media_ids: str = str(ids)[1:-1].replace("'", "")
+        media_ids = ", ".join([f"<{media_id}>" for media_id in ids])
 
         query = """
         SELECT
