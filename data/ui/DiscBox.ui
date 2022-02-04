@@ -26,7 +26,7 @@
             <property name="selection_mode">none</property>
             <signal name="row-activated" handler="_song_activated" swapped="no"/>
             <style>
-              <class name="content"/>
+              <class name="boxed-list"/>
             </style>
           </object>
         </child>
