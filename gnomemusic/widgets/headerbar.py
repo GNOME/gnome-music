@@ -119,10 +119,10 @@ class HeaderBar(Adw.Bin):
 
         self._menu_button.set_popover(AppMenu(application))
 
-        # self.bind_property(
-        #     "selection-mode", self, "show-close-button",
-        #     GObject.BindingFlags.INVERT_BOOLEAN
-        #     | GObject.BindingFlags.SYNC_CREATE)
+        self.bind_property(
+            "selection-mode", self._headerbar, "show-end-title-buttons",
+            GObject.BindingFlags.INVERT_BOOLEAN
+            | GObject.BindingFlags.SYNC_CREATE)
         self.bind_property(
             "selection-mode", self._cancel_button, "visible")
         self.bind_property(
