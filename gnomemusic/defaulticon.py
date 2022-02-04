@@ -126,11 +126,12 @@ class DefaultIcon(GObject.GObject):
 
     def _make_default_icon(
             self, icon_type: DefaultIcon.Type, art_size: ArtSize, scale: int,
-            round_shape: bool, dark: bool) -> cairo.ImageSurface:
+            dark: bool) -> cairo.ImageSurface:
         icon_info = self._default_theme.lookup_icon_for_scale(
             icon_type.value, art_size.width / 3, scale, 0)
         icon = icon_info.load_surface()
 
+        round_shape = icon_type == DefaultIcon.Type.ARTIST
         icon_surface = make_icon_frame(
             icon, art_size, scale, True, round_shape, dark)
 
@@ -149,19 +150,12 @@ class DefaultIcon(GObject.GObject):
         :return: The symbolic icon
         :rtype: cairo.ImageSurface
         """
-        if icon_type == DefaultIcon.Type.ALBUM:
-            round_shape = False
-        else:
-            round_shape = True
-
         dark = Handy.StyleManager.get_default().props.dark
         scale = self._widget.props.scale_factor
 
-        if (icon_type, art_size,
-                scale, round_shape, dark) not in self._cache.keys():
+        if (icon_type, art_size,scale, dark) not in self._cache.keys():
             new_icon = self._make_default_icon(
-                icon_type, art_size, scale, round_shape, dark)
-            self._cache[
-                (icon_type, art_size, scale, round_shape, dark)] = new_icon
+                icon_type, art_size, scale, dark)
+            self._cache[(icon_type, art_size, scale, dark)] = new_icon
 
-        return self._cache[(icon_type, art_size, scale, round_shape, dark)]
+        return self._cache[(icon_type, art_size, scale, dark)]
