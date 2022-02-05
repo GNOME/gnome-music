@@ -116,19 +116,11 @@ class ArtCache(GObject.GObject):
         stream.close_async(
             GLib.PRIORITY_DEFAULT_IDLE, None, self._close_stream, None)
 
-        # scale = self._widget.props.scale_factor
-        # surface = Gdk.cairo_surface_create_from_pixbuf(pixbuf, scale, None)
         texture = Gdk.Texture.new_for_pixbuf(pixbuf)
         if (texture
                 and (isinstance(self._coreobject, CoreAlbum)
                      or isinstance(self._coreobject, CoreSong))):
             paintable = CoverPaintable(self._size, texture)
-        # if isinstance(self._coreobject, CoreArtist):
-        #     surface = make_icon_frame(
-        #         surface, self._size, scale, round_shape=True)
-        # elif (isinstance(self._coreobject, CoreAlbum)
-        #         or isinstance(self._coreobject, CoreSong)):
-        #     surface = make_icon_frame(surface, self._size, scale)
         else:
             paintable = CoverPaintable(self._size)
 
