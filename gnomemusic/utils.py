@@ -48,7 +48,7 @@ class ArtSize(Enum):
 
 class DefaultIconType(Enum):
     ALBUM = "folder-music-symbolic"
-    ARTIST = "avatar-default-symbolic"
+    ARTIST = "music-artist-symbolic"
 
 
 class SongStateIcon(Enum):
