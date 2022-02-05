@@ -49,7 +49,7 @@ class DefaultIcon(GObject.GObject):
     def _make_default_icon(
             self, icon_type: DefaultIconType, art_size: ArtSize, scale: int,
             dark: bool) -> cairo.ImageSurface:
-        paintable = CoverPaintable(art_size, self._widget)
+        paintable = CoverPaintable(art_size, self._widget, icon_type=icon_type)
 
         return paintable
 
