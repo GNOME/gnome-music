@@ -11,10 +11,11 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
 
     def __init__(
             self, art_size, widget, icon_type=DefaultIconType.ALBUM,
-            texture=None):
+            texture=None, dark=False):
         super().__init__()
 
         self._art_size = art_size
+        self._dark = dark
         self._icon_theme = Gtk.IconTheme.new().get_for_display(
             widget.get_display())
         self._icon_type = icon_type
@@ -44,8 +45,11 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
                 self._icon_type.value, None, w * i_s,
                 self._widget.props.scale_factor, 0, 0)
 
-            snapshot.append_color(
-                Gdk.RGBA(1, 1, 1, 1), Graphene.Rect().init(0, 0, w, h))
+            bg_color = Gdk.RGBA(1, 1, 1, 1)
+            if self._dark:
+                bg_color = Gdk.RGBA(0.3, 0.3, 0.3, 1)
+
+            snapshot.append_color(bg_color, Graphene.Rect().init(0, 0, w, h))
             snapshot.translate(
                 Graphene.Point().init(
                     (w / 2) - (w * (i_s / 2)), (h / 2) - (h * (i_s / 2))))
