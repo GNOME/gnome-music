@@ -35,7 +35,7 @@ class ArtCache(GObject.GObject):
     """Handles retrieval of MediaArt cache art
 
     Uses signals to indicate success or failure and always returns a
-    Cairo.Surface.
+    CoverPaintable.
     """
 
     __gtype_name__ = "ArtCache"
@@ -57,9 +57,8 @@ class ArtCache(GObject.GObject):
         self._widget = widget
 
         self._coreobject = None
-        self._default_icon = None
         self._icon_type = DefaultIconType.ALBUM
-        self._surface = None
+        self._paintable = None
 
     def start(self, coreobject, size):
         """Start the cache query
@@ -73,12 +72,12 @@ class ArtCache(GObject.GObject):
         if isinstance(coreobject, CoreArtist):
             self._icon_type = DefaultIconType.ARTIST
 
-        self._default_icon = DefaultIcon(self._widget).get(
+        self._paintable = DefaultIcon(self._widget).get(
             self._icon_type, self._size)
 
         thumbnail_uri = coreobject.props.thumbnail
         if thumbnail_uri == "generic":
-            self.emit("finished", self._default_icon)
+            self.emit("finished", self._paintable)
             return
 
         thumb_file = Gio.File.new_for_uri(thumbnail_uri)
@@ -87,7 +86,7 @@ class ArtCache(GObject.GObject):
                 GLib.PRIORITY_DEFAULT_IDLE, None, self._open_stream, None)
             return
 
-        self.emit("finished", self._default_icon)
+        self.emit("finished", self._paintable)
 
     def _open_stream(self, thumb_file, result, arguments):
         try:
@@ -95,7 +94,7 @@ class ArtCache(GObject.GObject):
         except GLib.Error as error:
             self._log.warning(
                 "Error: {}, {}".format(error.domain, error.message))
-            self.emit("finished", self._default_icon)
+            self.emit("finished", self._paintable)
             return
 
         GdkPixbuf.Pixbuf.new_from_stream_async(
@@ -107,7 +106,7 @@ class ArtCache(GObject.GObject):
         except GLib.Error as error:
             self._log.warning(
                 "Error: {}, {}".format(error.domain, error.message))
-            self.emit("finished", self._default_icon)
+            self.emit("finished", self._paintable)
             return
 
         stream.close_async(
@@ -115,13 +114,9 @@ class ArtCache(GObject.GObject):
 
         texture = Gdk.Texture.new_for_pixbuf(pixbuf)
         if texture:
-            paintable = CoverPaintable(
+            self._paintable = CoverPaintable(
                 self._size, self._widget, icon_type=self._icon_type,
                 texture=texture)
-        else:
-            paintable = self._default_icon
-
-        self._surface = paintable
 
     def _close_stream(self, stream, result, data):
         try:
@@ -130,4 +125,4 @@ class ArtCache(GObject.GObject):
             self._log.warning(
                 "Error: {}, {}".format(error.domain, error.message))
 
-        self.emit("finished", self._surface)
+        self.emit("finished", self._paintable)
