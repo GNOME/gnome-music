@@ -35,7 +35,7 @@ from gnomemusic.utils import ArtSize, DefaultIconType
 class DefaultIcon(GObject.GObject):
     """Provides the symbolic fallback icons."""
     _cache: Dict[
-        Tuple[DefaultIconType, ArtSize, int, bool], cairo.ImageSurface] = {}
+        Tuple[DefaultIconType, ArtSize, int, bool], CoverPaintable] = {}
 
     def __init__(self, widget: Gtk.Widget) -> None:
         """Initialize DefaultIcon
@@ -48,23 +48,23 @@ class DefaultIcon(GObject.GObject):
 
     def _make_default_icon(
             self, icon_type: DefaultIconType, art_size: ArtSize, scale: int,
-            dark: bool) -> cairo.ImageSurface:
+            dark: bool) -> CoverPaintable:
         paintable = CoverPaintable(art_size, self._widget, icon_type=icon_type)
 
         return paintable
 
     def get(self, icon_type: DefaultIconType,
-            art_size: ArtSize) -> cairo.ImageSurface:
+            art_size: ArtSize) -> CoverPaintable:
         """Returns the requested symbolic icon
 
-        Returns a cairo surface of the requested symbolic icon in the
-        given size and shape.
+        Returns a paintable of the requested symbolic icon in the
+        given size, shape and color.
 
         :param DefaultIconType icon_type: The type of icon
         :param ArtSize art_size: The size requested
 
         :return: The symbolic icon
-        :rtype: cairo.ImageSurface
+        :rtype: CoverPaintable
         """
         dark = Adw.StyleManager.get_default().props.dark
         scale = self._widget.props.scale_factor
