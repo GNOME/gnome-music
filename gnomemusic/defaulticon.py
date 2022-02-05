@@ -47,7 +47,7 @@ class DefaultIcon(GObject.GObject):
         self._widget = widget
 
     def _make_default_icon(
-            self, icon_type: DefaultIconType, art_size: ArtSize, scale: int,
+            self, icon_type: DefaultIconType, art_size: ArtSize,
             dark: bool) -> CoverPaintable:
         paintable = CoverPaintable(art_size, self._widget, icon_type=icon_type)
 
@@ -70,8 +70,7 @@ class DefaultIcon(GObject.GObject):
         scale = self._widget.props.scale_factor
 
         if (icon_type, art_size, scale, dark) not in self._cache.keys():
-            new_icon = self._make_default_icon(
-                icon_type, art_size, scale, dark)
+            new_icon = self._make_default_icon(icon_type, art_size, dark)
             self._cache[(icon_type, art_size, scale, dark)] = new_icon
 
         return self._cache[(icon_type, art_size, scale, dark)]
