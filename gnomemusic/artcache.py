@@ -120,9 +120,9 @@ class ArtCache(GObject.GObject):
         if (texture
                 and (isinstance(self._coreobject, CoreAlbum)
                      or isinstance(self._coreobject, CoreSong))):
-            paintable = CoverPaintable(self._size, texture)
+            paintable = CoverPaintable(self._size, self._widget, texture)
         else:
-            paintable = CoverPaintable(self._size)
+            paintable = CoverPaintable(self._size, self._widget)
 
         self._surface = paintable
 

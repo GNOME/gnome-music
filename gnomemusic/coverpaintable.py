@@ -9,11 +9,12 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
 
     _icon_theme = Gtk.IconTheme.new()
 
-    def __init__(self, art_size, texture=None):
+    def __init__(self, art_size, widget, texture=None):
         super().__init__()
 
-        self._texture = texture
         self._art_size = art_size
+        self._texture = texture
+        self._widget = widget
 
     def do_snapshot(self, snapshot, w, h):
         rect = Graphene.Rect().init(0, 0, w, h)
@@ -28,7 +29,8 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
         else:
             i_s = 1 / 3  # Icon scale
             icon_pt = self._icon_theme.lookup_icon(
-                "folder-music-symbolic", None, w * i_s, 1, 0, 0)
+                "folder-music-symbolic", None, w * i_s,
+                self._widget.props.scale_factor, 0, 0)
 
             snapshot.append_color(
                 Gdk.RGBA(1, 1, 1, 1), Graphene.Rect().init(0, 0, w, h))
