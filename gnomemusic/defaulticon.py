@@ -49,7 +49,8 @@ class DefaultIcon(GObject.GObject):
     def _make_default_icon(
             self, icon_type: DefaultIconType, art_size: ArtSize,
             dark: bool) -> CoverPaintable:
-        paintable = CoverPaintable(art_size, self._widget, icon_type=icon_type)
+        paintable = CoverPaintable(
+            art_size, self._widget, icon_type=icon_type, dark=dark)
 
         return paintable
 
