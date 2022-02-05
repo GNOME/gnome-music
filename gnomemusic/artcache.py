@@ -24,9 +24,7 @@
 
 from gi.repository import Gdk, GdkPixbuf, Gio, Gtk, GLib, GObject
 
-from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.coreartist import CoreArtist
-from gnomemusic.coresong import CoreSong
 from gnomemusic.coverpaintable import CoverPaintable
 from gnomemusic.defaulticon import DefaultIcon
 from gnomemusic.musiclogger import MusicLogger
@@ -60,6 +58,7 @@ class ArtCache(GObject.GObject):
 
         self._coreobject = None
         self._default_icon = None
+        self._icon_type = DefaultIconType.ALBUM
         self._surface = None
 
     def start(self, coreobject, size):
@@ -72,12 +71,10 @@ class ArtCache(GObject.GObject):
         self._size = size
 
         if isinstance(coreobject, CoreArtist):
-            self._default_icon = DefaultIcon(self._widget).get(
-                DefaultIconType.ARTIST, self._size)
-        elif (isinstance(coreobject, CoreAlbum)
-                or isinstance(coreobject, CoreSong)):
-            self._default_icon = DefaultIcon(self._widget).get(
-                DefaultIconType.ALBUM, self._size)
+            self._icon_type = DefaultIconType.ARTIST
+
+        self._default_icon = DefaultIcon(self._widget).get(
+            self._icon_type, self._size)
 
         thumbnail_uri = coreobject.props.thumbnail
         if thumbnail_uri == "generic":
@@ -117,12 +114,12 @@ class ArtCache(GObject.GObject):
             GLib.PRIORITY_DEFAULT_IDLE, None, self._close_stream, None)
 
         texture = Gdk.Texture.new_for_pixbuf(pixbuf)
-        if (texture
-                and (isinstance(self._coreobject, CoreAlbum)
-                     or isinstance(self._coreobject, CoreSong))):
-            paintable = CoverPaintable(self._size, self._widget, texture)
+        if texture:
+            paintable = CoverPaintable(
+                self._size, self._widget, icon_type=self._icon_type,
+                texture=texture)
         else:
-            paintable = CoverPaintable(self._size, self._widget)
+            paintable = self._default_icon
 
         self._surface = paintable
 

@@ -2,6 +2,8 @@ import gi
 gi.require_versions({"Gdk": "4.0", "Gtk": "4.0", "Gsk": "4.0"})
 from gi.repository import Gsk, Gtk, GObject, Graphene, Gdk
 
+from gnomemusic.utils import ArtSize, DefaultIconType
+
 
 class CoverPaintable(GObject.GObject, Gdk.Paintable):
 
@@ -9,17 +11,27 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
 
     _icon_theme = Gtk.IconTheme.new()
 
-    def __init__(self, art_size, widget, texture=None):
+    def __init__(
+            self, art_size, widget, icon_type=DefaultIconType.ALBUM,
+            texture=None):
         super().__init__()
 
         self._art_size = art_size
+        self._icon_type = icon_type
         self._texture = texture
         self._widget = widget
 
     def do_snapshot(self, snapshot, w, h):
+        if self._icon_type == DefaultIconType.ARTIST:
+            radius = 90
+        elif self._art_size == ArtSize.SMALL:
+            radius = 4.5
+        else:
+            radius = 9
+
         rect = Graphene.Rect().init(0, 0, w, h)
         rounded_rect = Gsk.RoundedRect()
-        rounded_rect.init_from_rect(rect, 9)
+        rounded_rect.init_from_rect(rect, radius)
         snapshot.push_rounded_clip(rounded_rect)
 
         if self._texture is not None:
@@ -29,7 +41,7 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
         else:
             i_s = 1 / 3  # Icon scale
             icon_pt = self._icon_theme.lookup_icon(
-                "folder-music-symbolic", None, w * i_s,
+                self._icon_type.value, None, w * i_s,
                 self._widget.props.scale_factor, 0, 0)
 
             snapshot.append_color(
