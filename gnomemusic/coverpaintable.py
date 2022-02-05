@@ -9,14 +9,14 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
 
     __gtype_name__ = "CoverPaintable"
 
-    _icon_theme = Gtk.IconTheme.new()
-
     def __init__(
             self, art_size, widget, icon_type=DefaultIconType.ALBUM,
             texture=None):
         super().__init__()
 
         self._art_size = art_size
+        self._icon_theme = Gtk.IconTheme.new().get_for_display(
+            widget.get_display())
         self._icon_type = icon_type
         self._texture = texture
         self._widget = widget
