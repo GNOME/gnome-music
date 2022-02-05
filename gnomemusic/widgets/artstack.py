@@ -27,9 +27,6 @@ from typing import Optional, Union
 import typing
 
 from gi.repository import Adw, GObject, Gtk
-if typing.TYPE_CHECKING:
-    from cairo import ImageSurface
-
 
 from gnomemusic.asyncqueue import AsyncQueue
 from gnomemusic.artcache import ArtCache
@@ -163,7 +160,8 @@ class ArtStack(Gtk.Stack):
 
         self._async_queue.queue(self._cache, coreobject, self._size)
 
-    def _swap_thumbnails(self, paintable: Paintable, animate: bool) -> None:
+    def _swap_thumbnails(
+            self, paintable: Gtk.Paintable, animate: bool) -> None:
         if self.props.visible_child_name == "B":
             self._cover_a.props.paintable = paintable
             if animate:
@@ -179,7 +177,8 @@ class ArtStack(Gtk.Stack):
             else:
                 self.props.visible_child_name = "B"
 
-    def _on_cache_result(self, cache: ArtCache, paintable: Gdk.Paintable) -> None:
+    def _on_cache_result(
+            self, cache: ArtCache, paintable: Gtk.Paintable) -> None:
         self._swap_thumbnails(paintable, True)
 
     def _on_destroy(self, widget: ArtStack) -> None:
