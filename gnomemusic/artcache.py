@@ -109,14 +109,14 @@ class ArtCache(GObject.GObject):
             self.emit("finished", self._paintable)
             return
 
-        stream.close_async(
-            GLib.PRIORITY_DEFAULT_IDLE, None, self._close_stream, None)
-
         texture = Gdk.Texture.new_for_pixbuf(pixbuf)
         if texture:
             self._paintable = CoverPaintable(
                 self._size, self._widget, icon_type=self._icon_type,
                 texture=texture)
+
+        stream.close_async(
+            GLib.PRIORITY_DEFAULT_IDLE, None, self._close_stream, None)
 
     def _close_stream(self, stream, result, data):
         try:
