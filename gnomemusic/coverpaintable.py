@@ -22,6 +22,8 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from __future__ import annotations
+
 import gi
 gi.require_versions({"Gdk": "4.0", "Gtk": "4.0", "Gsk": "4.0"})
 from gi.repository import Gsk, Gtk, GObject, Graphene, Gdk
@@ -39,8 +41,9 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
     __gtype_name__ = "CoverPaintable"
 
     def __init__(
-            self, art_size, widget, icon_type=DefaultIconType.ALBUM,
-            texture=None, dark=False):
+            self, art_size: ArtSize, widget: Gtk.Widget,
+            icon_type: DefaultIconType = DefaultIconType.ALBUM,
+            texture: Gdk.Texture = None, dark: bool = False) -> None:
         """Initiliaze CoverPaintable
 
         :param ArtSize art_size: Size of the cover
@@ -60,13 +63,13 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
         self._texture = texture
         self._widget = widget
 
-    def do_snapshot(self, snapshot, w, h):
+    def do_snapshot(self, snapshot: Gtk.Snapshot, w: int, h: int) -> None:
         if self._icon_type == DefaultIconType.ARTIST:
-            radius = 90
+            radius = 90.0
         elif self._art_size == ArtSize.SMALL:
             radius = 4.5
         else:
-            radius = 9
+            radius = 9.0
 
         rect = Graphene.Rect().init(0, 0, w, h)
         rounded_rect = Gsk.RoundedRect()
@@ -97,11 +100,11 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
 
         snapshot.pop()
 
-    def do_get_flags(self):
+    def do_get_flags(self) -> Gdk.PaintableFlags:
         return Gdk.PaintableFlags.SIZE | Gdk.PaintableFlags.CONTENTS
 
-    def do_get_intrinsic_height(self):
+    def do_get_intrinsic_height(self) -> int:
         return self._art_size.height
 
-    def do_get_intrinsic_width(self):
+    def do_get_intrinsic_width(self) -> int:
         return self._art_size.width
