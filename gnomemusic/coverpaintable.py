@@ -71,14 +71,22 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
         else:
             radius = 9.0
 
-        rect = Graphene.Rect().init(0, 0, w, h)
+        w_s = w
+        h_s = h
+        if self._texture is not None:
+            ratio = self._texture.get_height() / self._texture.get_width()
+            # Scale down the image according to the biggest axis
+            if ratio > 1:
+                w = int(w / ratio)
+            else:
+                h = int(h * ratio)
+
+        rect = Graphene.Rect().init((w_s - w) / 2, (h_s - h) / 2, w, h)
         rounded_rect = Gsk.RoundedRect()
         rounded_rect.init_from_rect(rect, radius)
         snapshot.push_rounded_clip(rounded_rect)
 
         if self._texture is not None:
-            snapshot.translate(Graphene.Point().init(w / 2, h / 2))
-            rect = Graphene.Rect().init(-(w / 2), -(h / 2), w, h)
             snapshot.append_texture(self._texture, rect)
         else:
             i_s = 1 / 3  # Icon scale
