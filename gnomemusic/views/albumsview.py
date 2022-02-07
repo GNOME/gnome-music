@@ -71,7 +71,6 @@ class AlbumsView(Gtk.Stack):
         self._window = application.props.window
         self._headerbar = self._window._headerbar
         self._adjustment_timeout_id = 0
-        # self._viewport = self._scrolled_window.get_child()
         self._widget_counter = 1
         self._ctrl_hold = False
 
@@ -86,11 +85,6 @@ class AlbumsView(Gtk.Stack):
         self._gridview.props.model = multi_select_model
 
         self._gridview.connect("activate", self._on_album_activated)
-
-        # self._flowbox.bind_model(model, self._create_widget)
-        # self._flowbox.set_hadjustment(self._scrolled_window.get_hadjustment())
-        # self._flowbox.set_vadjustment(self._scrolled_window.get_vadjustment())
-        # self._flowbox.connect("child-activated", self._on_child_activated)
 
         # self.bind_property(
         #     "selection-mode", self._window, "selection-mode",
@@ -109,65 +103,6 @@ class AlbumsView(Gtk.Stack):
         # self.connect(
         #     "notify::search-mode-active", self._on_search_mode_changed)
 
-        # self._scrolled_window.props.vadjustment.connect(
-        #     "value-changed", self._on_vadjustment_changed)
-        # self._scrolled_window.props.vadjustment.connect(
-        #     "changed", self._on_vadjustment_changed)
-
-    def _on_vadjustment_changed(self, adjustment):
-        if self._adjustment_timeout_id != 0:
-            GLib.source_remove(self._adjustment_timeout_id)
-            self._adjustment_timeout_id = 0
-
-        self._adjustment_timeout_id = GLib.timeout_add(
-            200, self._retrieve_covers, adjustment.props.value,
-            priority=GLib.PRIORITY_DEFAULT - 10)
-
-    def _retrieve_covers(self, old_adjustment):
-        adjustment = self._scrolled_window.props.vadjustment.props.value
-
-        if old_adjustment != adjustment:
-            return GLib.SOURCE_CONTINUE
-
-        first_cover = self._flowbox.get_child_at_index(0)
-        if first_cover is None:
-            return GLib.SOURCE_REMOVE
-
-        cover_w = first_cover.get_allocated_width()
-        cover_h = first_cover.get_allocated_height()
-
-        if cover_w == 0 or cover_h == 0:
-            return GLib.SOURCE_REMOVE
-
-        viewport_w = self._viewport.get_allocated_width()
-        viewport_h = self._viewport.get_allocated_height()
-
-        h_space = self._flowbox.get_column_spacing()
-        v_space = self._flowbox.get_row_spacing()
-        nr_cols = (
-            (viewport_w + h_space) // (cover_w + h_space))
-
-        top_left_cover = self._flowbox.get_child_at_index(
-            nr_cols * (adjustment // (cover_h + v_space)))
-
-        covers_col = math.ceil(viewport_w / cover_w)
-        covers_row = math.ceil(viewport_h / cover_h)
-
-        children = [child for child in self._flowbox]
-        retrieve_list = []
-        for i, albumcover in enumerate(children):
-            if top_left_cover == albumcover:
-                retrieve_covers = covers_row * covers_col
-                retrieve_list = children[i:i + retrieve_covers]
-                break
-
-        for albumcover in retrieve_list:
-            albumcover.retrieve()
-
-        self._adjustment_timeout_id = 0
-
-        return GLib.SOURCE_REMOVE
-
     def _on_selection_mode_changed(self, widget, data=None):
         selection_mode = self._window.props.selection_mode
         if (selection_mode == self.props.selection_mode
@@ -184,28 +119,6 @@ class AlbumsView(Gtk.Stack):
                 and self._headerbar.props.stack.props.visible_child == self
                 and self.get_visible_child_name() == "widget"):
             self._set_album_headerbar(self._album_widget.props.corealbum)
-
-    def _create_album_cover(self, corealbum: CoreAlbum) -> AlbumCover:
-        album_cover = AlbumCover(corealbum)
-
-        self.bind_property(
-            "selection-mode", album_cover, "selection-mode",
-            GObject.BindingFlags.SYNC_CREATE
-            | GObject.BindingFlags.BIDIRECTIONAL)
-
-        # NOTE: Adding SYNC_CREATE here will trigger all the nested
-        # models to be created. This will slow down initial start,
-        # but will improve initial 'select all' speed.
-        album_cover.bind_property(
-            "selected", corealbum, "selected",
-            GObject.BindingFlags.BIDIRECTIONAL)
-
-        GLib.timeout_add(
-            self._widget_counter * 250, album_cover.retrieve,
-            priority=GLib.PRIORITY_LOW)
-        self._widget_counter = self._widget_counter + 1
-
-        return album_cover
 
     def _back_button_clicked(self, widget, data=None):
         self._headerbar.state = HeaderBar.State.MAIN
@@ -233,43 +146,6 @@ class AlbumsView(Gtk.Stack):
         self._headerbar.props.state = HeaderBar.State.CHILD
         self._headerbar.set_label_title(
             corealbum.props.title, corealbum.props.artist)
-
-    # @Gtk.Template.Callback()
-    # def _on_flowbox_press_begin(self, gesture, sequence):
-    #     state = gesture.get_current_event_state()
-    #     if ((state
-    #          and state == Gdk.ModifierType.CONTROL_MASK)
-    #             or self.props.selection_mode is True):
-    #         self._flowbox.props.selection_mode = Gtk.SelectionMode.MULTIPLE
-    #         if state == Gdk.ModifierType.CONTROL_MASK:
-    #             self._ctrl_hold = True
-
-    # @Gtk.Template.Callback()
-    # def _on_flowbox_press_cancel(self, gesture, sequence):
-    #     self._flowbox.props.selection_mode = Gtk.SelectionMode.NONE
-
-    # @Gtk.Template.Callback()
-    # def _on_selected_children_changed(self, flowbox):
-    #     if self._flowbox.props.selection_mode == Gtk.SelectionMode.NONE:
-    #         return
-
-    #     if self.props.selection_mode is False:
-    #         self.props.selection_mode = True
-
-    #     rubberband_selection = len(self._flowbox.get_selected_children()) > 1
-    #     with self._application.props.coreselection.freeze_notify():
-    #         if (rubberband_selection
-    #                 and not self._ctrl_hold):
-    #             self.deselect_all()
-    #         for child in self._flowbox.get_selected_children():
-    #             if (self._ctrl_hold is True
-    #                     or not rubberband_selection):
-    #                 child.props.selected = not child.props.selected
-    #             else:
-    #                 child.props.selected = True
-
-    #     self._ctrl_hold = False
-    #     self._flowbox.props.selection_mode = Gtk.SelectionMode.NONE
 
     def _toggle_all_selection(self, selected):
         """Selects or deselects all items.
