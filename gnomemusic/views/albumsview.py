@@ -56,7 +56,6 @@ class AlbumsView(Gtk.Stack):
     _album_scrolled_window = Gtk.Template.Child()
     _scrolled_window = Gtk.Template.Child()
     _gridview = Gtk.Template.Child()
-    # _flowbox_long_press = Gtk.Template.Child()
 
     def __init__(self, application):
         """Initialize AlbumsView
@@ -70,28 +69,32 @@ class AlbumsView(Gtk.Stack):
         self._application = application
         self._window = application.props.window
         self._headerbar = self._window._headerbar
-        self._adjustment_timeout_id = 0
-        self._widget_counter = 1
-        self._ctrl_hold = False
 
-        self._gridview.props.single_click_activate = True
+        list_item_factory = Gtk.SignalListItemFactory()
+        list_item_factory.connect("setup", self._setup_list_item)
+        list_item_factory.connect("bind", self._bind_list_item)
 
-        list_item_factory = Gtk.BuilderListItemFactory(
-            resource="/org/gnome/Music/ui/AlbumCoverListItem.ui")
         self._gridview.props.factory = list_item_factory
 
-        multi_select_model = Gtk.MultiSelection.new(
+        self._selection_model = Gtk.MultiSelection.new(
             self._application.props.coremodel.props.albums_sort)
-        self._gridview.props.model = multi_select_model
+        self._gridview.props.model = self._selection_model
 
         self._gridview.connect("activate", self._on_album_activated)
 
-        # self.bind_property(
-        #     "selection-mode", self._window, "selection-mode",
-        #     GObject.BindingFlags.DEFAULT)
+        self.bind_property(
+            "selection-mode", self._gridview, "single-click-activate",
+            GObject.BindingFlags.SYNC_CREATE |
+                GObject.BindingFlags.INVERT_BOOLEAN)
+        self.bind_property(
+            "selection-mode", self._gridview, "enable-rubberband",
+            GObject.BindingFlags.SYNC_CREATE)
+        self.bind_property(
+            "selection-mode", self._window, "selection-mode",
+            GObject.BindingFlags.DEFAULT)
 
-        # self._window.connect(
-        #     "notify::selection-mode", self._on_selection_mode_changed)
+        self._window.connect(
+            "notify::selection-mode", self._on_selection_mode_changed)
 
         self._album_widget = AlbumWidget(self._application)
         self._album_widget.bind_property(
@@ -112,7 +115,6 @@ class AlbumsView(Gtk.Stack):
         self.props.selection_mode = selection_mode
         if not self.props.selection_mode:
             self.deselect_all()
-            self._flowbox.props.selection_mode = Gtk.SelectionMode.NONE
 
     def _on_search_mode_changed(self, klass, param):
         if (not self.props.search_mode_active
@@ -157,11 +159,57 @@ class AlbumsView(Gtk.Stack):
                 else:
                     self._album_widget.deselect_all()
             else:
-                for child in self._flowbox.get_children():
-                    child.props.selected = selected
+                if selected:
+                    self._selection_model.select_all()
+                else:
+                    self._selection_model.unselect_all()
+                # for album in self._gridview.props.model:
+                #     album.props.selected = selected
 
     def select_all(self):
         self._toggle_all_selection(True)
 
     def deselect_all(self):
         self._toggle_all_selection(False)
+
+    def _setup_list_item(self, factory, listitem):
+        builder = Gtk.Builder.new_from_resource(
+            "/org/gnome/Music/ui/AlbumCoverListItem.ui")
+        listitem.set_child(builder.get_object("_album_cover"))
+
+        self.bind_property(
+            "selection-mode", listitem, "selectable",
+            GObject.BindingFlags.SYNC_CREATE)
+        self.bind_property(
+            "selection-mode", listitem, "activatable",
+            GObject.BindingFlags.SYNC_CREATE |
+                GObject.BindingFlags.INVERT_BOOLEAN)
+
+    def _bind_list_item(self, factory, listitem):
+        widget = listitem.get_child()
+
+        art_stack = widget.get_first_child().get_first_child()
+        check = art_stack.get_next_sibling()
+        album_label = widget.get_first_child().get_next_sibling()
+        artist_label = album_label.get_next_sibling()
+
+        listitem.props.item.bind_property(
+            "corealbum", art_stack, "coreobject",
+            GObject.BindingFlags.SYNC_CREATE)
+        listitem.props.item.bind_property(
+            "title", album_label, "label",
+            GObject.BindingFlags.SYNC_CREATE)
+        listitem.props.item.bind_property(
+            "artist", artist_label, "label",
+            GObject.BindingFlags.SYNC_CREATE)
+        listitem.bind_property(
+            "selected", listitem.props.item, "selected",
+            GObject.BindingFlags.SYNC_CREATE)
+
+        self.bind_property(
+            "selection-mode", check, "visible",
+            GObject.BindingFlags.SYNC_CREATE)
+        check.bind_property(
+            "active", listitem.props.item, "selected",
+            GObject.BindingFlags.SYNC_CREATE
+                | GObject.BindingFlags.BIDIRECTIONAL)
