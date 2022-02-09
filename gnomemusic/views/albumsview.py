@@ -23,7 +23,6 @@
 # delete this exception statement from your version.
 
 from __future__ import annotations
-import math
 import typing
 
 from gettext import gettext as _
