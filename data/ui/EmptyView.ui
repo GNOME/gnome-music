@@ -6,50 +6,50 @@
     <property name="visible">False</property>
     <child>
       <object class="AdwStatusPage" id="_status_page">
-        <property name="visible">True</property>
-        <property name="hexpand">True</property>
-        <property name="vexpand">True</property>
-        <property name="icon_name">emblem-music-symbolic</property>
+        <!-- <property name="visible">True</property> -->
+        <!-- <property name="hexpand">True</property> -->
+        <!-- <property name="vexpand">True</property> -->
+        <!-- <property name="icon_name">emblem-music-symbolic</property> -->
       </object>
     </child>
   </template>
-  <object class="GtkBox" id="_initial_state">
-    <property name="visible">False</property>
-    <property name="can_focus">False</property>
-    <property name="valign">start</property>
-    <property name="orientation">vertical</property>
-    <child>
-      <object class="GtkImage">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="resource">/org/gnome/Music/icons/welcome-music.svg</property>
-        <property name="height-request">600</property>
-        <property name="width-request">800</property>
-      </object>
-    </child>
-    <child>
-      <object class="GtkLabel" id="_title_label">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="justify">center</property>
-        <property name="label" translatable="yes">Welcome to Music</property>
-        <style>
-          <class name="title"/>
-          <class name="large-title"/>
-        </style>
-      </object>
-    </child>
-    <child>
-      <object class="GtkLabel" id="_description_label">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="justify">center</property>
-        <property name="use-markup">True</property>
-        <style>
-          <class name="description"/>
-          <class name="body"/>
-        </style>
-      </object>
-    </child>
-  </object>
+  <!-- <object class="GtkBox" id="_initial_state"> -->
+  <!--   <property name="visible">False</property> -->
+  <!--   <property name="can_focus">False</property> -->
+  <!--   <property name="valign">start</property> -->
+  <!--   <property name="orientation">vertical</property> -->
+  <!--   <child> -->
+  <!--     <object class="GtkImage"> -->
+  <!--       <property name="visible">True</property> -->
+  <!--       <property name="can_focus">False</property> -->
+  <!--       <property name="resource">/org/gnome/Music/icons/welcome-music.svg</property> -->
+  <!--       <property name="height-request">600</property> -->
+  <!--       <property name="width-request">800</property> -->
+  <!--     </object> -->
+  <!--   </child> -->
+  <!--   <child> -->
+  <!--     <object class="GtkLabel" id="_title_label"> -->
+  <!--       <property name="visible">True</property> -->
+  <!--       <property name="can_focus">False</property> -->
+  <!--       <property name="justify">center</property> -->
+  <!--       <property name="label" translatable="yes">Welcome to Music</property> -->
+  <!--       <style> -->
+  <!--         <class name="title"/> -->
+  <!--         <class name="large-title"/> -->
+  <!--       </style> -->
+  <!--     </object> -->
+  <!--   </child> -->
+  <!--   <child> -->
+  <!--     <object class="GtkLabel" id="_description_label"> -->
+  <!--       <property name="visible">True</property> -->
+  <!--       <property name="can_focus">False</property> -->
+  <!--       <property name="justify">center</property> -->
+  <!--       <property name="use-markup">True</property> -->
+  <!--       <style> -->
+  <!--         <class name="description"/> -->
+  <!--         <class name="body"/> -->
+  <!--       </style> -->
+  <!--     </object> -->
+  <!--   </child> -->
+  <!-- </object> -->
 </interface>

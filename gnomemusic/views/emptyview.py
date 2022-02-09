@@ -27,6 +27,7 @@ from enum import IntEnum
 from gettext import gettext as _
 from gi.repository import GLib, GObject, Gtk, Tracker
 
+from gnomemusic.svgpaintable import SVGPaintable
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/EmptyView.ui")
 class EmptyView(Gtk.Stack):
@@ -81,7 +82,20 @@ class EmptyView(Gtk.Stack):
         # child_of_child = self._status_page.get_child().get_child()
         # self._adw_clamp = child_of_child.get_child().get_children()[0]
 
-        self._status_page.set_child(self._initial_state)
+        paintable = SVGPaintable(None)
+        # self._status_page.set_child(self._initial_state)
+        #picture = Gtk.Picture()
+        #picture.props.can_shrink = True
+        # picture.props.paintable = paintable
+        picture = Gtk.Picture.new_for_paintable(paintable)
+
+        self._status_page.props.paintable = paintable
+
+        self._status_page.props.description = self._content_text
+        self._status_page.props.title = _("Welcome to Music")
+
+        picture.props.can_shrink = True
+        self._status_page.set_child(picture)
 
         self._state = EmptyView.State.EMPTY
 
@@ -103,7 +117,7 @@ class EmptyView(Gtk.Stack):
         self._state = value
 
         # self._adw_clamp.props.visible = True
-        self._initial_state.props.visible = False
+        # self._initial_state.props.visible = False
 
         if self._state == EmptyView.State.EMPTY:
             self._set_empty_state()
@@ -115,8 +129,9 @@ class EmptyView(Gtk.Stack):
             self._set_tracker_outdated_state()
 
     def _set_empty_state(self):
+        return
         # self._adw_clamp.props.visible = False
-        self._initial_state.props.visible = True
+        # self._initial_state.props.visible = True
 
         self._description_label.props.label = self._content_text
 
