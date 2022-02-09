@@ -163,8 +163,6 @@ class AlbumsView(Gtk.Stack):
                     self._selection_model.select_all()
                 else:
                     self._selection_model.unselect_all()
-                # for album in self._gridview.props.model:
-                #     album.props.selected = selected
 
     def select_all(self):
         self._toggle_all_selection(True)
