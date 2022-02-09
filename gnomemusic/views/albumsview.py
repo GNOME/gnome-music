@@ -202,10 +202,10 @@ class AlbumsView(Gtk.Stack):
         listitem.props.item.bind_property(
             "artist", artist_label, "label",
             GObject.BindingFlags.SYNC_CREATE)
+
         listitem.bind_property(
             "selected", listitem.props.item, "selected",
             GObject.BindingFlags.SYNC_CREATE)
-
         self.bind_property(
             "selection-mode", check, "visible",
             GObject.BindingFlags.SYNC_CREATE)
