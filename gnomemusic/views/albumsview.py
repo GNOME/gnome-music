@@ -213,3 +213,13 @@ class AlbumsView(Gtk.Stack):
             "active", listitem.props.item, "selected",
             GObject.BindingFlags.SYNC_CREATE
                 | GObject.BindingFlags.BIDIRECTIONAL)
+
+        def on_activated(widget, value):
+            if check.props.active:
+                self._selection_model.select_item(
+                    listitem.get_position(), False)
+            else:
+                self._selection_model.unselect_item(
+                    listitem.get_position())
+
+        check.connect("notify::active", on_activated)
