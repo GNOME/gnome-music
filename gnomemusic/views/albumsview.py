@@ -169,54 +169,63 @@ class AlbumsView(Gtk.Stack):
     def deselect_all(self):
         self._toggle_all_selection(False)
 
-    def _setup_list_item(self, factory, listitem):
+    def _setup_list_item(
+            self, factory: Gtk.SignalListItemFactory,
+            list_item: Gtk.ListItem) -> None:
         builder = Gtk.Builder.new_from_resource(
             "/org/gnome/Music/ui/AlbumCoverListItem.ui")
-        listitem.set_child(builder.get_object("_album_cover"))
+        list_item.props.child = builder.get_object("_album_cover")
 
         self.bind_property(
-            "selection-mode", listitem, "selectable",
+            "selection-mode", list_item, "selectable",
             GObject.BindingFlags.SYNC_CREATE)
         self.bind_property(
-            "selection-mode", listitem, "activatable",
-            GObject.BindingFlags.SYNC_CREATE |
-                GObject.BindingFlags.INVERT_BOOLEAN)
+            "selection-mode", list_item, "activatable",
+            GObject.BindingFlags.SYNC_CREATE
+            | GObject.BindingFlags.INVERT_BOOLEAN)
 
-    def _bind_list_item(self, factory, listitem):
-        widget = listitem.get_child()
+    def _bind_list_item(
+            self, factory: Gtk.SignalListItemFactory,
+            list_item: Gtk.ListItem) -> None:
+        album_cover = list_item.props.child
+        corealbum = list_item.props.item
 
-        art_stack = widget.get_first_child().get_first_child()
+        art_stack = album_cover.get_first_child().get_first_child()
         check = art_stack.get_next_sibling()
-        album_label = widget.get_first_child().get_next_sibling()
+        album_label = album_cover.get_first_child().get_next_sibling()
         artist_label = album_label.get_next_sibling()
 
-        listitem.props.item.bind_property(
+        corealbum.bind_property(
             "corealbum", art_stack, "coreobject",
             GObject.BindingFlags.SYNC_CREATE)
-        listitem.props.item.bind_property(
+        corealbum.bind_property(
             "title", album_label, "label",
             GObject.BindingFlags.SYNC_CREATE)
-        listitem.props.item.bind_property(
+        corealbum.bind_property(
             "artist", artist_label, "label",
             GObject.BindingFlags.SYNC_CREATE)
 
-        listitem.bind_property(
-            "selected", listitem.props.item, "selected",
+        list_item.bind_property(
+            "selected", corealbum, "selected",
             GObject.BindingFlags.SYNC_CREATE)
         self.bind_property(
             "selection-mode", check, "visible",
             GObject.BindingFlags.SYNC_CREATE)
         check.bind_property(
-            "active", listitem.props.item, "selected",
+            "active", corealbum, "selected",
             GObject.BindingFlags.SYNC_CREATE
-                | GObject.BindingFlags.BIDIRECTIONAL)
+            | GObject.BindingFlags.BIDIRECTIONAL)
 
         def on_activated(widget, value):
             if check.props.active:
                 self._selection_model.select_item(
-                    listitem.get_position(), False)
+                    list_item.get_position(), False)
             else:
                 self._selection_model.unselect_item(
-                    listitem.get_position())
+                    list_item.get_position())
 
+        # the listitem selected property is read-only.
+        # It cannot be bound from the check active property.
+        # It is necessary to update the selection model in order
+        # to update it.
         check.connect("notify::active", on_activated)
