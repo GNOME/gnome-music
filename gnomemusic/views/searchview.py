@@ -159,6 +159,10 @@ class SearchView(Gtk.Stack):
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
 
+        ctrl = Gtk.GestureClick()
+        song_widget.add_controller(ctrl)
+        ctrl.connect("released", self._on_song_widget_click)
+
         return song_widget
 
     def _create_album_cover(self, corealbum: CoreAlbum) -> AlbumCover:
@@ -229,35 +233,24 @@ class SearchView(Gtk.Stack):
     @Gtk.Template.Callback()
     def _song_activated(
             self, list_box: Gtk.ListBox, song_widget: SongWidget) -> bool:
-        if song_widget.props.select_click:
-            song_widget.props.select_click = False
-            return True
-
-        event = Gtk.get_current_event()
-        (_, state) = event.get_state()
-        mod_mask = Gtk.accelerator_get_default_mod_mask()
-        if ((state & mod_mask) == Gdk.ModifierType.CONTROL_MASK
-                and not self.props.selection_mode):
-            self.props.selection_mode = True
-            song_widget.props.select_click = True
-            song_widget.props.coresong.props.selected = True
-            return True
-
+        coresong = song_widget.props.coresong
         if self.props.selection_mode:
-            song_widget.props.select_click = True
-            selection_state = song_widget.props.selected
+            selection_state = coresong.props.selected
             song_widget.props.selected = not selection_state
-            song_widget.props.coresong.props.selected = not selection_state
+            coresong.props.selected = not selection_state
             return True
 
-        (_, button) = event.get_button()
-        if (button == Gdk.BUTTON_PRIMARY
-                and not self.props.selection_mode):
-            coresong = song_widget.props.coresong
-            self._coremodel.props.active_core_object = coresong
-            self._player.play(coresong)
+        self._coremodel.props.active_core_object = coresong
+        self._player.play(coresong)
 
         return True
+
+    def _on_song_widget_click(self, gesture_click, n_click, x, y):
+        state = gesture_click.get_current_event_state()
+        modifiers = Gtk.accelerator_get_default_mod_mask()
+        if (state & modifiers == Gdk.ModifierType.CONTROL_MASK
+                and not self.props.selection_mode):
+            self.props.selection_mode = True
 
     def _on_window_width_change(self, widget, value):
         allocation = self._album_flowbox.get_allocation()
@@ -315,7 +308,7 @@ class SearchView(Gtk.Stack):
         self.props.search_mode_active = False
 
     @Gtk.Template.Callback()
-    def _on_all_artists_clicked(self, widget, event, user_data=None):
+    def _on_all_artists_clicked(self, widget, user_data=None):
         self.props.state = SearchView.State.ALL_ARTISTS
         self._headerbar.props.state = HeaderBar.State.SEARCH
         self._headerbar.set_label_title(_("Artists Results"), "")
@@ -329,7 +322,7 @@ class SearchView(Gtk.Stack):
         self.props.search_mode_active = False
 
     @Gtk.Template.Callback()
-    def _on_all_albums_clicked(self, widget, event, user_data=None):
+    def _on_all_albums_clicked(self, widget, user_data=None):
         self.props.state = SearchView.State.ALL_ALBUMS
         self._headerbar.props.state = HeaderBar.State.SEARCH
         self._headerbar.set_label_title(_("Albums Results"), "")
