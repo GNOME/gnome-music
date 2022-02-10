@@ -83,14 +83,11 @@ class ArtistSearchTile(Gtk.FlowBoxChild):
             "selection-mode", self._check, "visible",
             GObject.BindingFlags.BIDIRECTIONAL)
 
-        # self._events.add_events(Gdk.EventMask.TOUCH_MASK)
-
-        self.show()
-
     @Gtk.Template.Callback()
-    def _on_artist_event(self, evbox, event, data=None):
+    def _on_artist_event(self, gesture_click, n_press, x, y):
+        state = gesture_click.get_current_event_state()
         modifiers = Gtk.accelerator_get_default_mod_mask()
-        if ((event.get_state() & modifiers) == Gdk.ModifierType.CONTROL_MASK
+        if (state & modifiers == Gdk.ModifierType.CONTROL_MASK
                 and not self.props.selection_mode):
             self.props.selection_mode = True
 
