@@ -78,8 +78,8 @@ class EmptyView(Gtk.Stack):
 
         # Hack to get to AdwClamp, so it can be hidden for the
         # initial state.
-        # child_of_child = self._status_page.get_child().get_child()
-        # self._adw_clamp = child_of_child.get_child().get_children()[0]
+        child_of_child = self._status_page.get_first_child().get_first_child()
+        self._adw_clamp = child_of_child.get_first_child().get_first_child()
 
         self._status_page.set_child(self._initial_state)
 
@@ -102,7 +102,7 @@ class EmptyView(Gtk.Stack):
         """
         self._state = value
 
-        # self._adw_clamp.props.visible = True
+        self._adw_clamp.props.visible = True
         self._initial_state.props.visible = False
 
         if self._state == EmptyView.State.EMPTY:
@@ -115,7 +115,7 @@ class EmptyView(Gtk.Stack):
             self._set_tracker_outdated_state()
 
     def _set_empty_state(self):
-        # self._adw_clamp.props.visible = False
+        self._adw_clamp.props.visible = False
         self._initial_state.props.visible = True
 
         self._description_label.props.label = self._content_text
