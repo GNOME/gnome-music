@@ -298,9 +298,9 @@ class SearchView(Gtk.Stack):
         # in AlbumsView: one view created and an update function.
         # Settle on one design.
         self._scrolled_artist_window = Gtk.ScrolledWindow()
-        self._scrolled_artist_window.add(artist_albums_widget)
+        self._scrolled_artist_window.props.child = artist_albums_widget
         self._scrolled_artist_window.props.visible = True
-        self.add(self._scrolled_artist_window)
+        self.add_child(self._scrolled_artist_window)
         artist_albums_widget.show()
 
         self.bind_property(
@@ -309,7 +309,7 @@ class SearchView(Gtk.Stack):
 
         self.props.state = SearchView.State.ARTIST
         self._headerbar.props.state = HeaderBar.State.SEARCH
-        self._headerbar.props.set_label_title(coreartist.props.artist, "")
+        self._headerbar.set_label_title(coreartist.props.artist, "")
 
         self.set_visible_child(self._scrolled_artist_window)
         self.props.search_mode_active = False
@@ -318,7 +318,7 @@ class SearchView(Gtk.Stack):
     def _on_all_artists_clicked(self, widget, event, user_data=None):
         self.props.state = SearchView.State.ALL_ARTISTS
         self._headerbar.props.state = HeaderBar.State.SEARCH
-        self._headerbar.props.set_label_title(_("Artists Results"), "")
+        self._headerbar.set_label_title(_("Artists Results"), "")
 
         self._artist_all_flowbox.props.visible = True
         self._album_all_flowbox.props.visible = False
@@ -332,7 +332,7 @@ class SearchView(Gtk.Stack):
     def _on_all_albums_clicked(self, widget, event, user_data=None):
         self.props.state = SearchView.State.ALL_ALBUMS
         self._headerbar.props.state = HeaderBar.State.SEARCH
-        self._headerbar.props.set_label_title(_("Albums Results"), "")
+        self._headerbar.set_label_title(_("Albums Results"), "")
 
         self._artist_all_flowbox.props.visible = False
         self._album_all_flowbox.props.visible = True
@@ -383,8 +383,6 @@ class SearchView(Gtk.Stack):
             return
         elif self.get_visible_child() == self._scrolled_artist_window:
             self.remove(self._scrolled_artist_window)
-            self._scrolled_artist_window.destroy()
-            self._scrolled_artist_window = None
 
         self.set_visible_child(self._search_results)
         self.props.search_mode_active = True
