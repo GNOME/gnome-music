@@ -60,10 +60,14 @@ class SongsView(Gtk.Box):
 
         self._coremodel = application.props.coremodel
         self._coreselection = application.props.coreselection
+        self._player = application.props.player
         self._window = application.props.window
 
-        self._playlist_model = self._coremodel.props.playlist_sort
-        self._model = self._coremodel.props.songs
+        self._model = Gtk.SortListModel.new(self._coremodel.props.songs)
+        sorter = Gtk.CustomSorter()
+        sorter.set_sort_func(self._songs_sort)
+        self._model.set_sorter(sorter)
+
         self._selection_model = Gtk.MultiSelection.new(self._model)
 
         list_item_factory = Gtk.SignalListItemFactory()
@@ -73,8 +77,7 @@ class SongsView(Gtk.Box):
         self._listview.props.factory = list_item_factory
         self._listview.props.model = self._selection_model
 
-        self._player = application.props.player
-        # self._player.connect('song-changed', self._update_model)
+        self._listview.connect("activate", self._on_song_activated)
 
         self._selection_mode = False
 
@@ -88,6 +91,29 @@ class SongsView(Gtk.Box):
         self._window.bind_property(
             "selection-mode", self, "selection-mode",
             GObject.BindingFlags.BIDIRECTIONAL)
+
+    def _songs_sort(self, song_a, song_b, data=None):
+        title_a = song_a.props.title
+        title_b = song_b.props.title
+        song_cmp = (utils.normalize_caseless(title_a)
+                    == utils.normalize_caseless(title_b))
+        if not song_cmp:
+            return utils.natural_sort_names(title_a, title_b)
+
+        artist_a = song_a.props.artist
+        artist_b = song_b.props.artist
+        artist_cmp = (utils.normalize_caseless(artist_a)
+                      == utils.normalize_caseless(artist_b))
+        if not artist_cmp:
+            return utils.natural_sort_names(artist_a, artist_b)
+
+        return utils.natural_sort_names(song_a.props.album, song_b.props.album)
+
+    def _on_song_activated(self, widget, position):
+        coresong = widget.props.model[position]
+
+        self._coremodel.props.active_core_object = coresong
+        self._player.play(coresong)
 
     def _setup_list_item(
             self, factory: Gtk.SignalListItemFactory,
