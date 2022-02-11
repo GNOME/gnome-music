@@ -101,8 +101,8 @@ class AlbumsView(Gtk.Stack):
 
         self._album_scrolled_window.set_child(self._album_widget)
 
-        # self.connect(
-        #     "notify::search-mode-active", self._on_search_mode_changed)
+        self.connect(
+            "notify::search-mode-active", self._on_search_mode_changed)
 
     def _on_selection_mode_changed(self, widget, data=None):
         selection_mode = self._window.props.selection_mode
