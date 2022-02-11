@@ -22,6 +22,8 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from __future__ import annotations
+
 import gi
 gi.require_versions({"Grl": "0.3"})
 from gi.repository import Gio, Grl, Gtk, GObject
@@ -44,7 +46,6 @@ class CoreAlbum(GObject.GObject):
     title = GObject.Property(type=str)
     url = GObject.Property(type=str)
     year = GObject.Property(type=str, default="----")
-    corealbum = GObject.Property(type=object, default=None)
 
     def __init__(self, application, media):
         """Initiate the CoreAlbum object
@@ -54,7 +55,6 @@ class CoreAlbum(GObject.GObject):
         """
         super().__init__()
 
-        self.props.corealbum = self
         self._application = application
         self._coregrilo = application.props.coregrilo
         self._model = None
@@ -162,6 +162,6 @@ class CoreAlbum(GObject.GObject):
         if self._thumbnail != "generic":
             self.props.media.set_thumbnail(self._thumbnail)
 
-    @GObject.Property()
-    def corealbum(self):
+    @GObject.Property(type=object, flags=GObject.ParamFlags.READABLE)
+    def corealbum(self) -> CoreAlbum:
         return self
