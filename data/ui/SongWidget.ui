@@ -1,29 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.20.0 -->
 <interface>
-  <requires lib="gtk+" version="3.10"/>
+  <requires lib="gtk" version="4.0"/>
   <template class="SongWidget" parent="GtkListBoxRow">
     <property name="focusable">False</property>
     <property name="selectable">False</property>
-    <!-- <signal name="drag_data_received" handler="_on_drag_data_received"/> -->
     <child>
       <object class="GtkBox" id="box1">
         <property name="focusable">False</property>
         <property name="spacing">6</property>
         <child>
-          <object class="GtkBox" id="_dnd_eventbox">
+          <object class="GtkImage" id="_dnd_icon">
             <property name="visible">False</property>
-            <!-- <signal name="drag-begin" handler="_on_drag_begin"/> -->
-            <!-- <signal name="drag-end" handler="_on_drag_end"/> -->
-            <!-- <signal name="drag_data_get" handler="_on_drag_data_get"/> -->
-            <child>
-              <object class="GtkImage">
-                <property name="icon-name">list-drag-handle-symbolic</property>
-                <style>
-                  <class name="drag-handle"/>
-                </style>
-              </object>
-            </child>
+            <property name="icon-name">list-drag-handle-symbolic</property>
+            <style>
+              <class name="drag-handle"/>
+            </style>
           </object>
         </child>
         <child>
@@ -189,6 +180,22 @@
       <object class="GtkGestureClick">
         <property name="button">1</property>
         <signal name="released" handler="_on_click" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkDragSource" id="_drag_source">
+        <property name="actions">move</property>
+        <property name="propagation-phase">none</property>
+        <signal name="prepare" handler="_on_drag_prepare" swapped="no"/>
+        <signal name="drag-begin" handler="_on_drag_begin" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkDropTarget">
+        <property name="actions">move</property>
+        <property name="formats">SongWidget</property>
+        <property name="preload">True</property>
+        <signal name="drop" handler="_on_drop" swapped="no"/>
       </object>
     </child>
     <style>
