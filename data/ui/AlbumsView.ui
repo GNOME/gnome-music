@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <requires lib="gtk+" version="3.18"/>
+  <requires lib="gtk" version="4.0"/>
   <template class="AlbumsView" parent="GtkStack">
     <child>
       <object class="GtkStackPage">
@@ -10,20 +10,9 @@
             <child>
               <object class="GtkGridView" id="_gridview">
                 <property name="max-columns">20</property>
-                <!-- <property name="halign">fill</property> -->
-                <!-- <property name="hexpand">True</property> -->
-                <!-- <property name="valign">start</property> -->
-                <!-- <signal name="selected-children-changed" handler="_on_selected_children_changed" swapped="no"/> -->
                 <style>
                   <class name="content-view"/>
                 </style>
-                <!-- <child> -->
-                <!--   <object class="GtkGestureLongPress" id="_flowbox_long_press"> -->
-                <!--     <property name="propagation-phase">capture</property> -->
-                <!--     <signal name="begin" handler="_on_flowbox_press_begin" swapped="no"/> -->
-                <!--     <signal name="cancel" handler="_on_flowbox_press_cancel" swapped="no"/> -->
-                <!--   </object> -->
-                <!-- </child> -->
               </object>
             </child>
           </object>
