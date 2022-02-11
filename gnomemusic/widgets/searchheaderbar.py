@@ -24,7 +24,7 @@
 
 from enum import IntEnum
 
-from gi.repository import Adw, GLib, GObject, Gtk
+from gi.repository import Adw, GObject, Gtk
 
 from gnomemusic.search import Search
 from gnomemusic.widgets.headerbar import HeaderBar, SelectionBarMenuButton
@@ -59,7 +59,6 @@ class SearchHeaderBar(Adw.Bin):
 
         self._coregrilo = application.props.coregrilo
         self._selection_mode = False
-        self._timeout = None
 
         self._entry = Gtk.SearchEntry()
         self._entry.props.halign = Gtk.Align.CENTER
@@ -100,7 +99,7 @@ class SearchHeaderBar(Adw.Bin):
             "notify::search-mode-active", self._on_search_mode_changed)
         self.connect("notify::search-state", self._search_state_changed)
 
-        self._entry.connect("changed", self._search_entry_timeout)
+        self._entry.connect("search-changed", self._search_entry_changed)
 
     @GObject.Property(type=bool, default=False)
     def selection_mode(self):
@@ -175,16 +174,7 @@ class SearchHeaderBar(Adw.Bin):
         else:
             self._select_button.props.sensitive = False
 
-    def _search_entry_timeout(self, widget):
-        if self._timeout:
-            GLib.source_remove(self._timeout)
-
-        self._timeout = GLib.timeout_add(
-            500, self._search_entry_changed, widget)
-
-    def _search_entry_changed(self, widget):
-        self._timeout = None
-
+    def _search_entry_changed(self, widget: Gtk.SearchEntry) -> bool:
         search_term = self._entry.get_text()
         if search_term != "":
             self.props.stack.set_visible_child_name("search")
