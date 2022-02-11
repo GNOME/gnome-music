@@ -219,6 +219,12 @@ class HeaderBar(Adw.Bin):
         self._headerbar.props.title_widget = self._label_title_box
         self._label_title.props.label = title
         self._label_subtitle.props.label = subtitle
+        if not subtitle:
+            self._label_title.props.valign = Gtk.Align.CENTER
+            self._label_subtitle.props.visible = False
+        else:
+            self._label_title.props.valign = Gtk.Align.FILL
+            self._label_subtitle.props.visible = True
 
     @Gtk.Template.Callback()
     def _on_back_button_clicked(self, widget=None):
