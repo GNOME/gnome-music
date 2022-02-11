@@ -53,7 +53,6 @@ class SongWidget(Gtk.ListBoxRow):
     }
 
     coresong = GObject.Property(type=CoreSong, default=None)
-    select_click = GObject.Property(type=bool, default=False)
     selected = GObject.Property(type=bool, default=False)
     show_song_number = GObject.Property(type=bool, default=True)
 
@@ -194,12 +193,6 @@ class SongWidget(Gtk.ListBoxRow):
     #         return
 
     #     self.emit("widget-moved", source_position)
-
-    @Gtk.Template.Callback()
-    def _on_select_button_toggled(self, widget):
-        # This property is used to ignore the second click event
-        # (one event in SongWidget and the other one in select_button).
-        self.props.select_click = not self.props.select_click
 
     @Gtk.Template.Callback()
     def _on_click(
