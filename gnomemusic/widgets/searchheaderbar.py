@@ -22,10 +22,15 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from __future__ import annotations
+import typing
+
 from gettext import gettext as _
 from gi.repository import Adw, GObject, Gtk
 
 from gnomemusic.search import Search
+if typing.TYPE_CHECKING:
+    from gnomemusic.application import Application
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/SearchHeaderBar.ui")
@@ -65,9 +70,19 @@ class SearchHeaderBar(Adw.Bin):
 
         self._entry.connect("search-changed", self._search_entry_changed)
 
+        self._win_id = application.connect(
+            "notify::window", self._on_window_ready)
+
     def clear_entry(self) -> None:
         """Empty the search entry"""
         self._entry.props.text = ""
+
+    def _on_window_ready(
+            self, application: Application,
+            value: GObject.ParamSpecObject) -> None:
+        self._entry.set_key_capture_widget(application.props.window)
+        application.disconnect(self._win_id)
+        self._win_id = 0
 
     def _search_entry_changed(self, widget: Gtk.SearchEntry) -> bool:
         search_term = self._entry.get_text()
