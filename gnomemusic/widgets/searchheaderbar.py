@@ -186,7 +186,6 @@ class SearchHeaderBar(Adw.Bin):
 
     def _on_search_mode_changed(self, klass, data):
         if self.props.search_mode_active:
-            # self._search_entry.realize()
             self._entry.grab_focus()
 
     def _search_state_changed(self, klass, data):
