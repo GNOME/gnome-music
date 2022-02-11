@@ -28,7 +28,7 @@ from gettext import gettext as _
 from typing import Optional
 import typing
 
-from gi.repository import Gdk, GObject, Gtk
+from gi.repository import GObject, Gtk
 
 from gnomemusic.search import Search
 from gnomemusic.utils import ArtSize
@@ -159,10 +159,6 @@ class SearchView(Gtk.Stack):
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
 
-        ctrl = Gtk.GestureClick()
-        song_widget.add_controller(ctrl)
-        ctrl.connect("released", self._on_song_widget_click)
-
         return song_widget
 
     def _create_album_cover(self, corealbum: CoreAlbum) -> AlbumCover:
@@ -244,13 +240,6 @@ class SearchView(Gtk.Stack):
         self._player.play(coresong)
 
         return True
-
-    def _on_song_widget_click(self, gesture_click, n_click, x, y):
-        state = gesture_click.get_current_event_state()
-        modifiers = Gtk.accelerator_get_default_mod_mask()
-        if (state & modifiers == Gdk.ModifierType.CONTROL_MASK
-                and not self.props.selection_mode):
-            self.props.selection_mode = True
 
     def _on_window_width_change(self, widget, value):
         allocation = self._album_flowbox.get_allocation()

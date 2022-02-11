@@ -202,6 +202,18 @@ class SongWidget(Gtk.ListBoxRow):
         self.props.select_click = not self.props.select_click
 
     @Gtk.Template.Callback()
+    def _on_click(
+            self, gesture_click: Gtk.GestureClick, n_click: int, x: int,
+            y: int) -> bool:
+        state = gesture_click.get_current_event_state()
+        modifiers = Gtk.accelerator_get_default_mod_mask()
+        if (state & modifiers == Gdk.ModifierType.CONTROL_MASK
+                and not self.props.selection_mode):
+            self.props.selection_mode = True
+
+        return Gdk.EVENT_STOP
+
+    @Gtk.Template.Callback()
     def _on_star_toggle(
             self, controller: Gtk.GestureClick, n_press: int, x: float,
             y: float) -> bool:

@@ -186,6 +186,12 @@
         </child>
       </object>
     </child>
+    <child>
+      <object class="GtkGestureClick">
+        <property name="button">1</property>
+        <signal name="released" handler="_on_click" swapped="no"/>
+      </object>
+    </child>
     <style>
       <class name="songwidget"/>
     </style>
