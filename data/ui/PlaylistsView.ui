@@ -9,9 +9,14 @@
           <class name="sidebar"/>
         </style>
         <child>
-          <object class="GtkListBox" id="_sidebar">
-            <property name="selection-mode">single</property>
-            <signal name="row-activated" handler="_on_playlist_activated" swapped="no"/>
+          <object class="GtkViewport">
+            <property name="scroll-to-focus">True</property>
+            <child>
+              <object class="GtkListBox" id="_sidebar">
+                <property name="selection-mode">single</property>
+                <signal name="row-activated" handler="_on_playlist_activated" swapped="no"/>
+              </object>
+            </child>
           </object>
         </child>
       </object>
