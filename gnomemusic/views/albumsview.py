@@ -99,7 +99,8 @@ class AlbumsView(Gtk.Stack):
             "selection-mode", self, "selection-mode",
             GObject.BindingFlags.BIDIRECTIONAL)
 
-        self._album_scrolled_window.set_child(self._album_widget)
+        viewport = self._album_scrolled_window.get_first_child()
+        viewport.set_child(self._album_widget)
 
         self.connect(
             "notify::search-mode-active", self._on_search_mode_changed)
