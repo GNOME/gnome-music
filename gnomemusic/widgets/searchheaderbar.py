@@ -22,12 +22,16 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from __future__ import annotations
 from enum import IntEnum
+import typing
 
 from gi.repository import Adw, GObject, Gtk
 
 from gnomemusic.search import Search
 from gnomemusic.widgets.headerbar import HeaderBar, SelectionBarMenuButton
+if typing.TYPE_CHECKING:
+    from gnomemusic.application import Application
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/SearchHeaderBar.ui")
@@ -100,6 +104,16 @@ class SearchHeaderBar(Adw.Bin):
         self.connect("notify::search-state", self._search_state_changed)
 
         self._entry.connect("search-changed", self._search_entry_changed)
+
+        self._win_id = application.connect(
+            "notify::window", self._on_window_ready)
+
+    def _on_window_ready(
+            self, application: Application,
+            value: GObject.ParamSpecObject) -> None:
+        self._entry.set_key_capture_widget(application.props.window)
+        application.disconnect(self._win_id)
+        self._win_id = 0
 
     @GObject.Property(type=bool, default=False)
     def selection_mode(self):
