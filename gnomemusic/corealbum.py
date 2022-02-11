@@ -35,6 +35,8 @@ class CoreAlbum(GObject.GObject):
     """Exposes a Grl.Media with relevant data as properties
     """
 
+    __gtype_name__ = "CoreAlbum"
+
     artist = GObject.Property(type=str)
     composer = GObject.Property(type=str, default=None)
     duration = GObject.Property(type=int, default=0)
