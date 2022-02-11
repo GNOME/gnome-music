@@ -26,10 +26,9 @@ from __future__ import annotations
 import typing
 
 from gettext import gettext as _
-from gi.repository import GLib, GObject, Gtk
+from gi.repository import GObject, Gtk
 
 from gnomemusic.widgets.headerbar import HeaderBar
-from gnomemusic.widgets.albumcover import AlbumCover
 from gnomemusic.widgets.albumwidget import AlbumWidget
 if typing.TYPE_CHECKING:
     from gnomemusic.corealbum import CoreAlbum
