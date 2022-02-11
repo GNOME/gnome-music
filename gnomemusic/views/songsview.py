@@ -23,7 +23,7 @@
 # delete this exception statement from your version.
 
 from gettext import gettext as _
-from gi.repository import Adw, GObject, Gtk
+from gi.repository import Adw, GObject, Gdk, Gtk
 
 from gnomemusic.coresong import CoreSong
 from gnomemusic.utils import SongStateIcon
@@ -111,9 +111,35 @@ class SongsView(Gtk.Box):
 
         check = list_row.get_first_child()
         info_box = check.get_next_sibling()
+        star_image = info_box.get_next_sibling().get_first_child()
         title_label = info_box.get_first_child()
         album_label = title_label.get_next_sibling()
         artist_label = album_label.get_next_sibling()
+
+        def _on_star_toggle(
+                controller: Gtk.GestureClick, n_press: int, x: float,
+                y: float) -> None:
+            controller.set_state(Gtk.EventSequenceState.CLAIMED)
+            coresong.props.favorite = not coresong.props.favorite
+            star_image.props.favorite = coresong.props.favorite
+
+        star_click = Gtk.GestureClick()
+        star_click.props.button = 1
+        star_click.connect("released", _on_star_toggle)
+        star_image.add_controller(star_click)
+
+        def _on_star_enter(
+                controller: Gtk.EventControllerMotion, x: float,
+                y: float) -> None:
+            star_image.props.hover = True
+
+        def _on_star_leave(controller: Gtk.EventControllerMotion) -> None:
+            star_image.props.hover = False
+
+        star_hover = Gtk.EventControllerMotion()
+        star_hover.connect("enter", _on_star_enter)
+        star_hover.connect("leave", _on_star_leave)
+        star_image.add_controller(star_hover)
 
         coresong.bind_property(
             "title", title_label, "label",
@@ -124,6 +150,9 @@ class SongsView(Gtk.Box):
         coresong.bind_property(
             "artist", artist_label, "label",
             GObject.BindingFlags.SYNC_CREATE)
+
+        coresong.bind_property(
+            "favorite", star_image, "favorite")
 
         list_item.bind_property(
             "selected", coresong, "selected",
