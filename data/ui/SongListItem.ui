@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk+" version="4.0"/>
+  <object class="GtkBox" id="_song_box">
+    <property name="focusable">False</property>
+    <property name="valign">start</property>
+    <child>
+      <object class="GtkCheckButton" id="_check">
+        <property name="visible">False</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkBox">
+        <property name="homogeneous">True</property>
+          <child>
+            <object class="GtkLabel" id="_title_label">
+            <property name="halign">start</property>
+              <property name="hexpand">True</property>
+              <property name="ellipsize">end</property>
+            </object>
+          </child>
+          <child>
+            <object class="GtkLabel" id="_album_label">
+              <property name="ellipsize">end</property>
+              <property name="halign">start</property>
+            </object>
+          </child>
+          <child>
+            <object class="GtkLabel" id="_artist_label">
+              <property name="ellipsize">end</property>
+              <property name="halign">start</property>
+            </object>
+          </child>
+      </object>
+    </child>
+  </object>
+</interface>
