@@ -6,132 +6,137 @@
         <property name="hexpand">True</property>
         <property name="vexpand">True</property>
         <child>
-          <object class="AdwClamp">
-            <property name="maximum-size">1600</property>
+          <object class="GtkViewport">
+            <property name="scroll-to-focus">True</property>
             <child>
-              <object class="GtkBox" id="container">
-                <property name="halign">fill</property>
-                <property name="hexpand">True</property>
-                <property name="margin-bottom">20</property>
-                <property name="margin-end">120</property>
-                <property name="margin-start">120</property>
-                <property name="margin-top">20</property>
-                <property name="orientation">vertical</property>
+              <object class="AdwClamp">
+                <property name="maximum-size">1600</property>
                 <child>
-                  <object class="GtkBox" id="_artist_header">
+                  <object class="GtkBox" id="container">
                     <property name="halign">fill</property>
                     <property name="hexpand">True</property>
-                    <property name="homogeneous">True</property>
-                    <property name="orientation">horizontal</property>
-                    <child>
-                      <object class="GtkLabel">
-                        <property name="focusable">False</property>
-                        <property name="halign">start</property>
-                        <property name="label" translatable="yes">Artists</property>
-                        <style>
-                          <class name="search-header"/>
-                        </style>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkButton" id="_view_all_artists">
-                        <property name="halign">end</property>
-                        <property name="label" translatable="yes">View All</property>
-                        <property name="icon-name">go-next-symbolic</property>
-                        <signal name="clicked" handler="_on_all_artists_clicked" swapped="no"/>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkFlowBox" id="_artist_flowbox">
-                    <property name="column_spacing">6</property>
-                    <property name="halign">fill</property>
-                    <property name="hexpand">True</property>
-                    <property name="homogeneous">True</property>
-                    <property name="margin-bottom">18</property>
-                    <property name="margin-top">18</property>
-                    <property name="max-children-per-line">6</property>
-                    <property name="min-children-per-line">1</property>
-                    <property name="row_spacing">12</property>
-                    <property name="selection-mode">none</property>
-                    <property name="valign">start</property>
-                    <signal name="child-activated" handler="_on_artist_activated" swapped="no"/>
-                    <style>
-                      <class name="content-view"/>
-                    </style>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkBox" id="_album_header">
-                    <property name="halign">fill</property>
-                    <property name="hexpand">True</property>
-                    <property name="homogeneous">True</property>
-                    <property name="orientation">horizontal</property>
-                    <child>
-                      <object class="GtkLabel">
-                        <property name="focusable">False</property>
-                        <property name="halign">start</property>
-                        <property name="label" translatable="yes">Albums</property>
-                        <style>
-                          <class name="search-header"/>
-                        </style>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkButton" id="_view_all_albums">
-                        <property name="halign">end</property>
-                        <property name="label" translatable="yes">View All</property>
-                        <property name="icon_name">go-next-symbolic</property>
-                        <signal name="clicked" handler="_on_all_albums_clicked" swapped="no"/>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkFlowBox" id="_album_flowbox">
-                    <property name="halign">fill</property>
-                    <property name="hexpand">True</property>
-                    <property name="valign">start</property>
-                    <property name="homogeneous">True</property>
-                    <property name="min_children_per_line">1</property>
-                    <property name="max_children_per_line">6</property>
-                    <property name="margin-bottom">18</property>
-                    <property name="margin-top">18</property>
-                    <property name="row_spacing">12</property>
-                    <property name="column_spacing">6</property>
-                    <property name="selection_mode">none</property>
-                    <signal name="child-activated" handler="_on_album_activated" swapped="no"/>
-                    <style>
-                      <class name="content-view"/>
-                    </style>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkBox" id="_songs_header">
-                    <property name="halign">fill</property>
-                    <property name="hexpand">True</property>
-                    <property name="homogeneous">True</property>
-                    <property name="orientation">horizontal</property>
-                    <child>
-                      <object class="GtkLabel">
-                        <property name="focusable">False</property>
-                        <property name="halign">start</property>
-                        <property name="label" translatable="yes">Songs</property>
-                        <style>
-                          <class name="search-header"/>
-                        </style>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkListBox" id="_songs_listbox">
+                    <property name="margin-bottom">20</property>
+                    <property name="margin-end">120</property>
+                    <property name="margin-start">120</property>
                     <property name="margin-top">20</property>
-                    <signal name="row-activated" handler="_song_activated" swapped="no"/>
-                    <style>
-                      <class name="boxed-list"/>
-                    </style>
+                    <property name="orientation">vertical</property>
+                    <child>
+                      <object class="GtkBox" id="_artist_header">
+                        <property name="halign">fill</property>
+                        <property name="hexpand">True</property>
+                        <property name="homogeneous">True</property>
+                        <property name="orientation">horizontal</property>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="focusable">False</property>
+                            <property name="halign">start</property>
+                            <property name="label" translatable="yes">Artists</property>
+                            <style>
+                              <class name="search-header"/>
+                            </style>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="_view_all_artists">
+                            <property name="halign">end</property>
+                            <property name="label" translatable="yes">View All</property>
+                            <property name="icon-name">go-next-symbolic</property>
+                            <signal name="clicked" handler="_on_all_artists_clicked" swapped="no"/>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFlowBox" id="_artist_flowbox">
+                        <property name="column_spacing">6</property>
+                        <property name="halign">fill</property>
+                        <property name="hexpand">True</property>
+                        <property name="homogeneous">True</property>
+                        <property name="margin-bottom">18</property>
+                        <property name="margin-top">18</property>
+                        <property name="max-children-per-line">6</property>
+                        <property name="min-children-per-line">1</property>
+                        <property name="row_spacing">12</property>
+                        <property name="selection-mode">none</property>
+                        <property name="valign">start</property>
+                        <signal name="child-activated" handler="_on_artist_activated" swapped="no"/>
+                        <style>
+                          <class name="content-view"/>
+                        </style>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkBox" id="_album_header">
+                        <property name="halign">fill</property>
+                        <property name="hexpand">True</property>
+                        <property name="homogeneous">True</property>
+                        <property name="orientation">horizontal</property>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="focusable">False</property>
+                            <property name="halign">start</property>
+                            <property name="label" translatable="yes">Albums</property>
+                            <style>
+                              <class name="search-header"/>
+                            </style>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="_view_all_albums">
+                            <property name="halign">end</property>
+                            <property name="label" translatable="yes">View All</property>
+                            <property name="icon_name">go-next-symbolic</property>
+                            <signal name="clicked" handler="_on_all_albums_clicked" swapped="no"/>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFlowBox" id="_album_flowbox">
+                        <property name="halign">fill</property>
+                        <property name="hexpand">True</property>
+                        <property name="valign">start</property>
+                        <property name="homogeneous">True</property>
+                        <property name="min_children_per_line">1</property>
+                        <property name="max_children_per_line">6</property>
+                        <property name="margin-bottom">18</property>
+                        <property name="margin-top">18</property>
+                        <property name="row_spacing">12</property>
+                        <property name="column_spacing">6</property>
+                        <property name="selection_mode">none</property>
+                        <signal name="child-activated" handler="_on_album_activated" swapped="no"/>
+                        <style>
+                          <class name="content-view"/>
+                        </style>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkBox" id="_songs_header">
+                        <property name="halign">fill</property>
+                        <property name="hexpand">True</property>
+                        <property name="homogeneous">True</property>
+                        <property name="orientation">horizontal</property>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="focusable">False</property>
+                            <property name="halign">start</property>
+                            <property name="label" translatable="yes">Songs</property>
+                            <style>
+                              <class name="search-header"/>
+                            </style>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkListBox" id="_songs_listbox">
+                        <property name="margin-top">20</property>
+                        <signal name="row-activated" handler="_song_activated" swapped="no"/>
+                        <style>
+                          <class name="boxed-list"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
                 </child>
               </object>
@@ -145,53 +150,58 @@
         <property name="hexpand">True</property>
         <property name="vexpand">True</property>
         <child>
-          <object class="AdwClamp">
-            <property name="maximum-size">1600</property>
+          <object class="GtkViewport">
+            <property name="scroll-to-focus">True</property>
             <child>
-              <object class="GtkBox">
-                <property name="halign">fill</property>
-                <property name="hexpand">True</property>
-                <property name="margin-bottom">20</property>
-                <property name="margin-end">120</property>
-                <property name="margin-start">120</property>
-                <property name="margin-top">20</property>
-                <property name="orientation">vertical</property>
+              <object class="AdwClamp">
+                <property name="maximum-size">1600</property>
                 <child>
-                  <object class="GtkFlowBox" id="_artist_all_flowbox">
-                    <property name="column_spacing">6</property>
+                  <object class="GtkBox">
                     <property name="halign">fill</property>
                     <property name="hexpand">True</property>
-                    <property name="homogeneous">True</property>
-                    <property name="margin-bottom">18</property>
-                    <property name="margin-top">18</property>
-                    <property name="max-children-per-line">6</property>
-                    <property name="min-children-per-line">1</property>
-                    <property name="row_spacing">12</property>
-                    <property name="selection-mode">none</property>
-                    <property name="valign">start</property>
-                    <signal name="child-activated" handler="_on_artist_activated" swapped="no"/>
-                    <style>
-                      <class name="content-view"/>
-                    </style>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkFlowBox" id="_album_all_flowbox">
-                    <property name="halign">fill</property>
-                    <property name="hexpand">True</property>
-                    <property name="valign">start</property>
-                    <property name="homogeneous">True</property>
-                    <property name="min_children_per_line">1</property>
-                    <property name="max_children_per_line">6</property>
-                    <property name="margin-bottom">18</property>
-                    <property name="margin-top">18</property>
-                    <property name="row_spacing">12</property>
-                    <property name="column_spacing">6</property>
-                    <property name="selection_mode">none</property>
-                    <signal name="child-activated" handler="_on_album_activated" swapped="no"/>
-                    <style>
-                      <class name="content-view"/>
-                    </style>
+                    <property name="margin-bottom">20</property>
+                    <property name="margin-end">120</property>
+                    <property name="margin-start">120</property>
+                    <property name="margin-top">20</property>
+                    <property name="orientation">vertical</property>
+                    <child>
+                      <object class="GtkFlowBox" id="_artist_all_flowbox">
+                        <property name="column_spacing">6</property>
+                        <property name="halign">fill</property>
+                        <property name="hexpand">True</property>
+                        <property name="homogeneous">True</property>
+                        <property name="margin-bottom">18</property>
+                        <property name="margin-top">18</property>
+                        <property name="max-children-per-line">6</property>
+                        <property name="min-children-per-line">1</property>
+                        <property name="row_spacing">12</property>
+                        <property name="selection-mode">none</property>
+                        <property name="valign">start</property>
+                        <signal name="child-activated" handler="_on_artist_activated" swapped="no"/>
+                        <style>
+                          <class name="content-view"/>
+                        </style>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFlowBox" id="_album_all_flowbox">
+                        <property name="halign">fill</property>
+                        <property name="hexpand">True</property>
+                        <property name="valign">start</property>
+                        <property name="homogeneous">True</property>
+                        <property name="min_children_per_line">1</property>
+                        <property name="max_children_per_line">6</property>
+                        <property name="margin-bottom">18</property>
+                        <property name="margin-top">18</property>
+                        <property name="row_spacing">12</property>
+                        <property name="column_spacing">6</property>
+                        <property name="selection_mode">none</property>
+                        <signal name="child-activated" handler="_on_album_activated" swapped="no"/>
+                        <style>
+                          <class name="content-view"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
                 </child>
               </object>
@@ -203,6 +213,11 @@
     <child>
       <object class="GtkScrolledWindow" id="_scrolled_album_widget">
         <property name="hscrollbar_policy">never</property>
+        <child>
+          <object class="GtkViewport">
+            <property name="scroll-to-focus">True</property>
+          </object>
+        </child>
       </object>
     </child>
   </template>

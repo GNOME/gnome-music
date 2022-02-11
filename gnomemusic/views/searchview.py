@@ -132,7 +132,8 @@ class SearchView(Gtk.Stack):
         self._album_widget.bind_property(
             "selection-mode", self, "selection-mode",
             GObject.BindingFlags.BIDIRECTIONAL)
-        self._scrolled_album_widget.set_child(self._album_widget)
+        viewport = self._scrolled_album_widget.get_first_child()
+        viewport.set_child(self._album_widget)
 
         self._scrolled_artist_window: Optional[Gtk.ScrolledWindow] = None
 
