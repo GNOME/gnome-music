@@ -28,6 +28,7 @@ from gi.repository import Adw, GObject, Gdk, Gtk
 from gnomemusic.coresong import CoreSong
 from gnomemusic.utils import SongStateIcon
 from gnomemusic.widgets.starhandlerwidget import StarHandlerWidget
+import gnomemusic.utils as utils
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/SongsView.ui")
@@ -111,7 +112,8 @@ class SongsView(Gtk.Box):
 
         check = list_row.get_first_child()
         info_box = check.get_next_sibling()
-        star_image = info_box.get_next_sibling().get_first_child()
+        duration_label = info_box.get_next_sibling()
+        star_image = duration_label.get_next_sibling().get_first_child()
         title_label = info_box.get_first_child()
         album_label = title_label.get_next_sibling()
         artist_label = album_label.get_next_sibling()
@@ -153,6 +155,9 @@ class SongsView(Gtk.Box):
 
         coresong.bind_property(
             "favorite", star_image, "favorite")
+
+        duration_label.props.label = utils.seconds_to_string(
+            coresong.props.duration)
 
         list_item.bind_property(
             "selected", coresong, "selected",
