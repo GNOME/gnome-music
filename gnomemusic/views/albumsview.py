@@ -82,8 +82,8 @@ class AlbumsView(Gtk.Stack):
 
         self.bind_property(
             "selection-mode", self._gridview, "single-click-activate",
-            GObject.BindingFlags.SYNC_CREATE |
-                GObject.BindingFlags.INVERT_BOOLEAN)
+            GObject.BindingFlags.SYNC_CREATE
+            | GObject.BindingFlags.INVERT_BOOLEAN)
         self.bind_property(
             "selection-mode", self._gridview, "enable-rubberband",
             GObject.BindingFlags.SYNC_CREATE)
