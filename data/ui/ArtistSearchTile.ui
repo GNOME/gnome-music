@@ -11,15 +11,11 @@
           <object class="GtkOverlay">
             <property name="margin-bottom">4</property>
             <child>
-              <object class="GtkBox">
+              <object class="ArtStack" id="_art_stack">
+                <property name="hexpand">True</property>
                 <child>
                   <object class="GtkGestureClick">
                     <signal name="released" handler="_on_artist_event" swapped="no"/>
-                  </object>
-                </child>
-                <child>
-                  <object class="ArtStack" id="_art_stack">
-                    <property name="hexpand">True</property>
                   </object>
                 </child>
               </object>
