@@ -25,6 +25,7 @@
 from gettext import gettext as _
 from gi.repository import GObject, Gtk
 
+from gnomemusic.widgets.songwidgetmenu import SongWidgetMenu
 import gnomemusic.utils as utils
 
 
@@ -55,6 +56,7 @@ class SongsView(Gtk.Box):
 
         self.props.name = "songs"
 
+        self._application = application
         self._coremodel = application.props.coremodel
         self._coreselection = application.props.coreselection
         self._player = application.props.player
@@ -136,10 +138,12 @@ class SongsView(Gtk.Box):
         check = list_row.get_first_child()
         info_box = check.get_next_sibling()
         duration_label = info_box.get_next_sibling()
-        star_image = duration_label.get_next_sibling().get_first_child()
+        star_box = duration_label.get_next_sibling()
+        star_image = star_box.get_first_child()
         title_label = info_box.get_first_child()
         album_label = title_label.get_next_sibling()
         artist_label = album_label.get_next_sibling()
+        menu_button = star_box.get_next_sibling()
 
         def _on_star_toggle(
                 controller: Gtk.GestureClick, n_press: int, x: float,
@@ -165,6 +169,9 @@ class SongsView(Gtk.Box):
         star_hover.connect("enter", _on_star_enter)
         star_hover.connect("leave", _on_star_leave)
         star_image.add_controller(star_hover)
+
+        menu_button.props.popover = SongWidgetMenu(
+            self._application, list_row, coresong)
 
         coresong.bind_property(
             "title", title_label, "label",
