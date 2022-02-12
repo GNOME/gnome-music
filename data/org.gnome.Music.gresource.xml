@@ -3,8 +3,6 @@
   <gresource prefix="/org/gnome/Music">
     <file alias="gtk/help-overlay.ui" preprocess="xml-stripblanks">ui/help-overlay.ui</file>
     <file>org.gnome.Music.css</file>
-    <file>icons/music-playlist-symbolic.svg</file>
-    <file>icons/music-artist-symbolic.svg</file>
     <file>icons/welcome-music.svg</file>
     <file preprocess="xml-stripblanks">ui/AboutDialog.ui</file>
     <file preprocess="xml-stripblanks">ui/AlbumCover.ui</file>
@@ -40,5 +38,9 @@
     <file preprocess="xml-stripblanks">ui/SongWidgetMenu.ui</file>
     <file preprocess="xml-stripblanks">ui/TwoLineTip.ui</file>
     <file preprocess="xml-stripblanks">ui/Window.ui</file>
+  </gresource>
+  <gresource prefix="/org/gnome/Music/icons/scalable/actions">
+    <file alias="music-playlist-symbolic.svg">icons/music-playlist-symbolic.svg</file>
+    <file alias="music-artist-symbolic.svg">icons/music-artist-symbolic.svg</file>
   </gresource>
 </gresources>
