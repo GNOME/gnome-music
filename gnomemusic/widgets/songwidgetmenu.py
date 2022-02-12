@@ -31,11 +31,11 @@ from gi.repository import Gio, Gtk
 from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
 from gnomemusic.widgets.notificationspopup import PlaylistNotification
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
+from gnomemusic.widgets.songwidget import SongWidget
 if typing.TYPE_CHECKING:
     from gnomemusic.application import Application
     from gnomemusic.corealbum import CoreAlbum
     from gnomemusic.coresong import CoreSong
-    from gnomemusic.widgets.songwidget import SongWidget
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/SongWidgetMenu.ui")
@@ -44,7 +44,8 @@ class SongWidgetMenu(Gtk.PopoverMenu):
     __gtype_name__ = "SongWidgetMenu"
 
     def __init__(
-            self, application: Application, song_widget: SongWidget,
+            self, application: Application,
+            song_widget: Union[SongWidget, Gtk.ListItem],
             coreobject: Union[CoreAlbum, CoreSong, Playlist]) -> None:
         """Menu to interact with the song of a SongWidget.
 
@@ -62,7 +63,11 @@ class SongWidgetMenu(Gtk.PopoverMenu):
 
         self._coreobject = coreobject
         self._song_widget = song_widget
-        self._coresong = song_widget.props.coresong
+
+        if isinstance(song_widget, SongWidget):
+            self._coresong = song_widget.props.coresong
+        else:
+            self._coresong = coreobject
 
         self._playlist_dialog: Optional[PlaylistDialog] = None
 

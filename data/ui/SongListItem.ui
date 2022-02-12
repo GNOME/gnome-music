@@ -59,5 +59,14 @@
         </child>
       </object>
     </child>
+    <child>
+      <object class="GtkMenuButton" id="_menu_button">
+        <property name="focusable">True</property>
+        <property name="icon-name">view-more-symbolic</property>
+        <style>
+          <class name="flat"/>
+        </style>
+      </object>
+    </child>
   </object>
 </interface>
