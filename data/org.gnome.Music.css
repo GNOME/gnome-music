@@ -91,8 +91,27 @@
     font-weight: bold;
 }
 
-/* SongWidget */
+/* SongsView */
+/* boxed-list style does not work for
+GtkListView at the moment */
+.songs-list {
+    border-left: 1px solid @borders;
+    border-right: 1px solid @borders;
+    border-top: 1px solid @borders;
+}
 
-.songwidget {
+.songs-list:first-child {
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+.songs-list:last-child {
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
+/* SongWidget and SongsView rows*/
+.songwidget,
+.songs-list row {
   padding: 12px;
 }

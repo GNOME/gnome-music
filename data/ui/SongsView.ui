@@ -2,6 +2,8 @@
 <interface>
   <requires lib="gtk" version="4.0"/>
   <template class="SongsView" parent="GtkBox">
+    <property name="margin-bottom">48</property>
+    <property name="margin-top">48</property>
     <child>
       <object class="AdwClampScrollable" id="_adw_clamp_scrollable">
         <property name="hexpand">True</property>
@@ -12,6 +14,9 @@
             <child>
               <object class="GtkListView" id="_listview">
                 <property name="show-separators">True</property>
+                <style>
+                  <class name="songs-list"/>
+                </style>
               </object>
             </child>
           </object>
