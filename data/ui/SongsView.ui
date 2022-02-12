@@ -11,6 +11,7 @@
           <object class="GtkScrolledWindow">
             <child>
               <object class="GtkListView" id="_listview">
+                <property name="show-separators">True</property>
               </object>
             </child>
           </object>
