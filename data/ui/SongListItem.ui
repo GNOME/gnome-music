@@ -12,25 +12,25 @@
     <child>
       <object class="GtkBox">
         <property name="homogeneous">True</property>
-          <child>
-            <object class="GtkLabel" id="_title_label">
+        <child>
+          <object class="GtkLabel" id="_title_label">
             <property name="halign">start</property>
-              <property name="hexpand">True</property>
-              <property name="ellipsize">end</property>
-            </object>
-          </child>
-          <child>
-            <object class="GtkLabel" id="_album_label">
-              <property name="ellipsize">end</property>
-              <property name="halign">start</property>
-            </object>
-          </child>
-          <child>
-            <object class="GtkLabel" id="_artist_label">
-              <property name="ellipsize">end</property>
-              <property name="halign">start</property>
-            </object>
-          </child>
+            <property name="hexpand">True</property>
+            <property name="ellipsize">end</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkLabel" id="_album_label">
+            <property name="ellipsize">end</property>
+            <property name="halign">start</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkLabel" id="_artist_label">
+            <property name="ellipsize">end</property>
+            <property name="halign">start</property>
+          </object>
+        </child>
       </object>
     </child>
     <child>
