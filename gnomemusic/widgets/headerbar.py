@@ -113,7 +113,8 @@ class HeaderBar(Adw.Bin):
         self._selection_mode = False
 
         self._stack_switcher = Adw.ViewSwitcher(
-            focusable=False, halign="center")
+            focusable=False, halign="center",
+            policy=Adw.ViewSwitcherPolicy.WIDE)
 
         self._selection_menu = SelectionBarMenuButton()
 
