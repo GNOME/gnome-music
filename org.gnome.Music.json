@@ -33,7 +33,7 @@
         "*.a"
     ],
     "modules": [
-        "subprojects/shared-modules/lua5.3/lua-5.3.5.json",
+        "subprojects/shared-modules/lua5.4/lua-5.4.json",
         {
             "name": "libmediaart",
             "buildsystem": "meson",
