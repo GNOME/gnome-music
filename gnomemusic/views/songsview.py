@@ -23,11 +23,8 @@
 # delete this exception statement from your version.
 
 from gettext import gettext as _
-from gi.repository import Adw, GObject, Gdk, Gtk
+from gi.repository import GObject, Gtk
 
-from gnomemusic.coresong import CoreSong
-from gnomemusic.utils import SongStateIcon
-from gnomemusic.widgets.starhandlerwidget import StarHandlerWidget
 import gnomemusic.utils as utils
 
 
@@ -83,8 +80,8 @@ class SongsView(Gtk.Box):
 
         self.bind_property(
             "selection-mode", self._listview, "single-click-activate",
-            GObject.BindingFlags.SYNC_CREATE |
-                GObject.BindingFlags.INVERT_BOOLEAN)
+            GObject.BindingFlags.SYNC_CREATE
+            | GObject.BindingFlags.INVERT_BOOLEAN)
         self.bind_property(
             "selection-mode", self._listview, "enable-rubberband",
             GObject.BindingFlags.SYNC_CREATE)
