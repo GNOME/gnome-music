@@ -60,9 +60,6 @@
                         <property name="selection-mode">none</property>
                         <property name="valign">start</property>
                         <signal name="child-activated" handler="_on_artist_activated" swapped="no"/>
-                        <style>
-                          <class name="content-view"/>
-                        </style>
                       </object>
                     </child>
                     <child>
@@ -105,9 +102,6 @@
                         <property name="column_spacing">6</property>
                         <property name="selection_mode">none</property>
                         <signal name="child-activated" handler="_on_album_activated" swapped="no"/>
-                        <style>
-                          <class name="content-view"/>
-                        </style>
                       </object>
                     </child>
                     <child>
@@ -178,9 +172,6 @@
                         <property name="selection-mode">none</property>
                         <property name="valign">start</property>
                         <signal name="child-activated" handler="_on_artist_activated" swapped="no"/>
-                        <style>
-                          <class name="content-view"/>
-                        </style>
                       </object>
                     </child>
                     <child>
@@ -197,9 +188,6 @@
                         <property name="column_spacing">6</property>
                         <property name="selection_mode">none</property>
                         <signal name="child-activated" handler="_on_album_activated" swapped="no"/>
-                        <style>
-                          <class name="content-view"/>
-                        </style>
                       </object>
                     </child>
                   </object>

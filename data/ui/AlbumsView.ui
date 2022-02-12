@@ -10,9 +10,6 @@
             <child>
               <object class="GtkGridView" id="_gridview">
                 <property name="max-columns">20</property>
-                <style>
-                  <class name="content-view"/>
-                </style>
               </object>
             </child>
           </object>
