@@ -31,17 +31,6 @@
     padding-bottom: 0px;
 }
 
-/* FIXME: Remove once songsview is ported to the new style */
-.songs-list-old {
-    box-shadow: inset 0 -1px shade(@borders, 1.30);
-    background-color: @theme_bg_color;
-}
-
-.songs-list-old:selected {
-    color: @theme_fg_color;
-    border-color: mix(@theme_fg_color, @theme_bg_color, 0.5);
-}
-
 /* We use background-image as a workaround on the StarImage widget to
    enable transitions between the non-starred and starred icons. */
 .star {
