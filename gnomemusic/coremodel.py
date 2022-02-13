@@ -23,7 +23,7 @@
 # delete this exception statement from your version.
 
 from __future__ import annotations
-from typing import Optional, Union
+from typing import Any, Optional, Union
 import typing
 
 from gi.repository import GLib, GObject, Gio, Gtk
@@ -82,6 +82,7 @@ class CoreModel(GObject.GObject):
         """
         super().__init__()
 
+        self._application = application
         self._flatten_model: Optional[Gtk.FlattenListModel] = None
         self._player_signal_id = 0
         self._current_playlist_model: Optional[Union[
@@ -91,11 +92,12 @@ class CoreModel(GObject.GObject):
 
         self._songs_model_proxy: Gio.ListStore = Gio.ListStore.new(
             Gio.ListModel)
-        self._songs_model: Gtk.FlattenListModel = Gtk.FlattenListModel.new(
+        self._flatten_songs_model = Gtk.FlattenListModel.new(
             self._songs_model_proxy)
-        self._songliststore = SongListStore(self._songs_model)
-
-        self._application = application
+        self._songs_model = Gtk.SortListModel.new(self._flatten_songs_model)
+        sorter = Gtk.CustomSorter()
+        sorter.set_sort_func(self._songs_sort)
+        self._songs_model.set_sorter(sorter)
 
         self._albums_model_proxy: Gio.ListStore = Gio.ListStore.new(
             Gio.ListModel)
@@ -181,6 +183,24 @@ class CoreModel(GObject.GObject):
             self.props.songs_available = True
         else:
             self.props.songs_available = False
+
+    def _songs_sort(
+            self, song_a: CoreSong, song_b: CoreSong, data: Any = None) -> int:
+        title_a = song_a.props.title
+        title_b = song_b.props.title
+        song_cmp = (utils.normalize_caseless(title_a)
+                    == utils.normalize_caseless(title_b))
+        if not song_cmp:
+            return utils.natural_sort_names(title_a, title_b)
+
+        artist_a = song_a.props.artist
+        artist_b = song_b.props.artist
+        artist_cmp = (utils.normalize_caseless(artist_a)
+                      == utils.normalize_caseless(artist_b))
+        if not artist_cmp:
+            return utils.natural_sort_names(artist_a, artist_b)
+
+        return utils.natural_sort_names(song_a.props.album, song_b.props.album)
 
     def _filter_selected(self, coresong):
         return coresong.props.selected
