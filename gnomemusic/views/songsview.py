@@ -22,11 +22,17 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from __future__ import annotations
+import typing
+
 from gettext import gettext as _
 from gi.repository import GObject, Gtk
+from typing import Dict, List
 
 from gnomemusic.widgets.songwidgetmenu import SongWidgetMenu
 import gnomemusic.utils as utils
+if typing.TYPE_CHECKING:
+    from gnomemusic.application import Application
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/SongsView.ui")
@@ -47,7 +53,7 @@ class SongsView(Gtk.Box):
 
     _listview = Gtk.Template.Child()
 
-    def __init__(self, application):
+    def __init__(self, application: Application) -> None:
         """Initialize
 
         :param GtkApplication window: The application object
@@ -62,6 +68,11 @@ class SongsView(Gtk.Box):
         self._player = application.props.player
         self._window = application.props.window
 
+        self._list_item_bindings: Dict[
+            Gtk.ListItem, List[GObject.Binding]] = {}
+        self._list_item_star_controllers: Dict[
+            Gtk.ListItem, List[GObject.Binding]] = {}
+
         self._model = Gtk.SortListModel.new(self._coremodel.props.songs)
         sorter = Gtk.CustomSorter()
         sorter.set_sort_func(self._songs_sort)
@@ -72,6 +83,7 @@ class SongsView(Gtk.Box):
         list_item_factory = Gtk.SignalListItemFactory()
         list_item_factory.connect("setup", self._setup_list_item)
         list_item_factory.connect("bind", self._bind_list_item)
+        list_item_factory.connect("unbind", self._unbind_list_item)
 
         self._listview.props.factory = list_item_factory
         self._listview.props.model = self._selection_model
@@ -173,32 +185,26 @@ class SongsView(Gtk.Box):
         menu_button.props.popover = SongWidgetMenu(
             self._application, list_row, coresong)
 
-        coresong.bind_property(
-            "title", title_label, "label",
-            GObject.BindingFlags.SYNC_CREATE)
-        coresong.bind_property(
-            "album", album_label, "label",
-            GObject.BindingFlags.SYNC_CREATE)
-        coresong.bind_property(
-            "artist", artist_label, "label",
-            GObject.BindingFlags.SYNC_CREATE)
+        b1 = coresong.bind_property(
+            "title", title_label, "label", GObject.BindingFlags.SYNC_CREATE)
+        b2 = coresong.bind_property(
+            "album", album_label, "label", GObject.BindingFlags.SYNC_CREATE)
+        b3 = coresong.bind_property(
+            "artist", artist_label, "label", GObject.BindingFlags.SYNC_CREATE)
 
-        coresong.bind_property(
+        b4 = coresong.bind_property(
             "favorite", star_image, "favorite")
 
         duration_label.props.label = utils.seconds_to_string(
             coresong.props.duration)
 
-        list_item.bind_property(
-            "selected", coresong, "selected",
-            GObject.BindingFlags.SYNC_CREATE)
-        self.bind_property(
+        b5 = list_item.bind_property(
+            "selected", coresong, "selected", GObject.BindingFlags.SYNC_CREATE)
+        b6 = list_item.bind_property(
+            "selected", check, "active", GObject.BindingFlags.SYNC_CREATE)
+        b7 = self.bind_property(
             "selection-mode", check, "visible",
             GObject.BindingFlags.SYNC_CREATE)
-        check.bind_property(
-            "active", coresong, "selected",
-            GObject.BindingFlags.SYNC_CREATE
-            | GObject.BindingFlags.BIDIRECTIONAL)
 
         def on_activated(widget, value):
             if check.props.active:
@@ -213,6 +219,32 @@ class SongsView(Gtk.Box):
         # It is necessary to update the selection model in order
         # to update it.
         check.connect("notify::active", on_activated)
+
+        self._list_item_bindings[list_item] = [b1, b2, b3, b4, b5, b6, b7]
+        self._list_item_star_controllers[list_item] = [star_click, star_hover]
+
+    def _unbind_list_item(
+            self, factory: Gtk.SignalListItemFactory,
+            list_item: Gtk.ListItem) -> None:
+        bindings = self._list_item_bindings.pop(list_item)
+        [binding.unbind() for binding in bindings]
+
+        list_row = list_item.props.child
+        check = list_row.get_first_child()
+        info_box = check.get_next_sibling()
+        duration_label = info_box.get_next_sibling()
+        star_box = duration_label.get_next_sibling()
+        star_image = star_box.get_first_child()
+
+        controllers = self._list_item_star_controllers.pop(list_item)
+        [star_image.remove_controller(ctrl) for ctrl in controllers]
+
+        signal_id, detail_id = GObject.signal_parse_name(
+            "notify::active", check, True)
+        handler_id = GObject.signal_handler_find(
+            check, GObject.SignalMatchType.ID, signal_id, detail_id, None, 0,
+            0)
+        check.disconnect(handler_id)
 
     @GObject.Property(type=bool, default=False)
     def selection_mode(self):
