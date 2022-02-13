@@ -27,10 +27,12 @@ import typing
 
 from gettext import gettext as _
 from gi.repository import GObject, Gtk
+from typing import Dict, List
 
 from gnomemusic.widgets.headerbar import HeaderBar
 from gnomemusic.widgets.albumwidget import AlbumWidget
 if typing.TYPE_CHECKING:
+    from gnomemusic.application import Application
     from gnomemusic.corealbum import CoreAlbum
 
 
@@ -55,7 +57,7 @@ class AlbumsView(Gtk.Stack):
     _scrolled_window = Gtk.Template.Child()
     _gridview = Gtk.Template.Child()
 
-    def __init__(self, application):
+    def __init__(self, application: Application) -> None:
         """Initialize AlbumsView
 
         :param application: The Application object
@@ -67,6 +69,11 @@ class AlbumsView(Gtk.Stack):
         self._application = application
         self._window = application.props.window
         self._headerbar = self._window._headerbar
+
+        self._list_item_bindings: Dict[
+            Gtk.ListItem, List[GObject.Binding]] = {}
+        self._list_item_star_controllers: Dict[
+            Gtk.ListItem, List[GObject.Binding]] = {}
 
         list_item_factory = Gtk.SignalListItemFactory()
         list_item_factory.connect("setup", self._setup_list_item)
@@ -195,26 +202,22 @@ class AlbumsView(Gtk.Stack):
         album_label = album_cover.get_first_child().get_next_sibling()
         artist_label = album_label.get_next_sibling()
 
-        corealbum.bind_property(
+        b1 = corealbum.bind_property(
             "corealbum", art_stack, "coreobject",
             GObject.BindingFlags.SYNC_CREATE)
-        corealbum.bind_property(
-            "title", album_label, "label",
-            GObject.BindingFlags.SYNC_CREATE)
-        corealbum.bind_property(
-            "artist", artist_label, "label",
-            GObject.BindingFlags.SYNC_CREATE)
+        b2 = corealbum.bind_property(
+            "title", album_label, "label", GObject.BindingFlags.SYNC_CREATE)
+        b3 = corealbum.bind_property(
+            "artist", artist_label, "label", GObject.BindingFlags.SYNC_CREATE)
 
-        list_item.bind_property(
+        b4 = list_item.bind_property(
             "selected", corealbum, "selected",
             GObject.BindingFlags.SYNC_CREATE)
-        self.bind_property(
+        b5 = list_item.bind_property(
+            "selected", check, "active", GObject.BindingFlags.SYNC_CREATE)
+        b6 = self.bind_property(
             "selection-mode", check, "visible",
             GObject.BindingFlags.SYNC_CREATE)
-        check.bind_property(
-            "active", corealbum, "selected",
-            GObject.BindingFlags.SYNC_CREATE
-            | GObject.BindingFlags.BIDIRECTIONAL)
 
         def on_activated(widget, value):
             if check.props.active:
@@ -229,3 +232,23 @@ class AlbumsView(Gtk.Stack):
         # It is necessary to update the selection model in order
         # to update it.
         check.connect("notify::active", on_activated)
+
+        self._list_item_bindings[list_item] = [b1, b2, b3, b4, b5, b6]
+
+    def _unbind_list_item(
+            self, factory: Gtk.SignalListItemFactory,
+            list_item: Gtk.ListItem) -> None:
+        bindings = self._list_item_bindings.pop(list_item)
+        [binding.unbind() for binding in bindings]
+
+        album_cover = list_item.props.child
+
+        art_stack = album_cover.get_first_child().get_first_child()
+        check = art_stack.get_next_sibling()
+
+        signal_id, detail_id = GObject.signal_parse_name(
+            "notify::active", check, True)
+        handler_id = GObject.signal_handler_find(
+            check, GObject.SignalMatchType.ID, signal_id, detail_id, None, 0,
+            0)
+        check.disconnect(handler_id)
