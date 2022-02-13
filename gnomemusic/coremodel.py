@@ -33,7 +33,6 @@ from gnomemusic.coreartist import CoreArtist
 from gnomemusic.coresong import CoreSong
 from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
 from gnomemusic.player import PlayerPlaylist
-from gnomemusic.songliststore import SongListStore
 from gnomemusic.widgets.songwidget import SongWidget
 if typing.TYPE_CHECKING:
     from gnomemusic.application import Application
@@ -284,9 +283,9 @@ class CoreModel(GObject.GObject):
                 songs_added.append(song)
 
         elif playlist_type == PlayerPlaylist.Type.SONGS:
-            self._current_playlist_model = self._songliststore.props.model
+            self._current_playlist_model = self._songs_model
 
-            for song in self._songliststore.props.model:
+            for song in self._songs_model:
                 songs_added.append(song)
 
                 if song.props.state == SongWidget.State.PLAYING:
@@ -468,11 +467,6 @@ class CoreModel(GObject.GObject):
         type=Gio.ListStore, default=None, flags=GObject.ParamFlags.READABLE)
     def artists_search_proxy(self) -> Gio.ListStore:
         return self._artists_search_proxy
-
-    @GObject.Property(
-        type=Gtk.ListStore, default=None, flags=GObject.ParamFlags.READABLE)
-    def songs_gtkliststore(self):
-        return self._songliststore
 
     @GObject.Property(
         type=Gio.ListStore, default=None, flags=GObject.ParamFlags.READABLE)
