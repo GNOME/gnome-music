@@ -128,6 +128,9 @@ class ArtStack(Gtk.Stack):
 
     @coreobject.setter  # type: ignore
     def coreobject(self, coreobject: CoreObject) -> None:
+        if coreobject is self._coreobject:
+            return
+
         if self._thumbnail_id != 0:
             self._coreobject.disconnect(self._thumbnail_id)
             self._thumbnail_id = 0
