@@ -84,8 +84,6 @@ class AlbumCover(Gtk.FlowBoxChild):
         self._art_stack.props.size = ArtSize.MEDIUM
         self._art_stack.props.art_type = DefaultIconType.ALBUM
 
-        self.show()
-
     def retrieve(self):
         """Start retrieving the actual album cover
 
