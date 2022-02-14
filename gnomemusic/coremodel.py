@@ -202,9 +202,6 @@ class CoreModel(GObject.GObject):
 
         return utils.natural_sort_names(song_a.props.album, song_b.props.album)
 
-    def _filter_selected(self, coresong):
-        return coresong.props.selected
-
     def _albums_sort(self, album_a, album_b, data=None):
         return utils.natural_sort_names(
             album_a.props.title, album_b.props.title)
