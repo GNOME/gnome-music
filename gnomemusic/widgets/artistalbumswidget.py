@@ -23,14 +23,15 @@
 # delete this exception statement from your version.
 
 from __future__ import annotations
+from typing import Optional
 import typing
 
 from gi.repository import GObject, Gtk
 
+from gnomemusic.coreartist import CoreArtist
 from gnomemusic.widgets.albumwidget import AlbumWidget
 if typing.TYPE_CHECKING:
     from gnomemusic.application import Application
-    from gnomemusic.coreartist import CoreArtist
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/ArtistAlbumsWidget.ui")
@@ -48,21 +49,20 @@ class ArtistAlbumsWidget(Gtk.Box):
 
     selection_mode = GObject.Property(type=bool, default=False)
 
-    def __init__(
-            self, coreartist: CoreArtist, application: Application) -> None:
+    def __init__(self, application: Application) -> None:
         """Initialize the ArtistAlbumsWidget
 
-        :param CoreArtist coreartist: The CoreArtist object
         :param Aplication application: The Application object
         """
         super().__init__()
 
         self._application = application
-        self._artist = coreartist
-        self._model = coreartist.props.model
-        self._player = self._application.props.player
+        self._coreartist: Optional[CoreArtist] = None
 
-        self._listbox.bind_model(self._model, self._add_album)
+    def _update_model(self) -> None:
+        if self._coreartist is not None:
+            self._listbox.bind_model(
+                self._coreartist.props.model, self._add_album)
 
     def _add_album(self, corealbum):
         row = Gtk.ListBoxRow()
@@ -72,10 +72,10 @@ class ArtistAlbumsWidget(Gtk.Box):
 
         widget = AlbumWidget(self._application)
         widget.props.corealbum = corealbum
-        widget.props.active_coreobject = self._artist
+        widget.props.active_coreobject = self._coreartist
         widget.props.show_artist_label = False
 
-        self._artist.bind_property(
+        self._coreartist.bind_property(
             "selected", corealbum, "selected",
             GObject.BindingFlags.SYNC_CREATE)
         self.bind_property(
@@ -89,13 +89,31 @@ class ArtistAlbumsWidget(Gtk.Box):
 
     def select_all(self) -> None:
         """Select all items"""
-        self._artist.props.selected = True
+        if self._coreartist is not None:
+            self._coreartist.props.selected = True
 
     def deselect_all(self) -> None:
         """Deselect all items"""
-        self._artist.props.selected = False
+        if self._coreartist is not None:
+            self._coreartist.props.selected = False
 
-    @GObject.Property(type=str, flags=GObject.ParamFlags.READABLE)
-    def artist(self) -> str:
-        """Artist name"""
-        return self._artist.props.artist
+    @GObject.Property(
+        type=CoreArtist, flags=GObject.ParamFlags.READWRITE, default=None)
+    def coreartist(self) -> CoreArtist:
+        """Current CoreArtist object
+
+        :param CoreArtist coreartist: The CoreArtist object
+        :rtype: CoreArtist
+        """
+        return self._coreartist
+
+    @coreartist.setter  # type: ignore
+    def coreartist(self, coreartist: CoreArtist) -> None:
+        """Sets the CoreArtist for the widget
+
+        :param CoreArtist coreartist: The CoreArtist to use
+        """
+        if self._coreartist is not coreartist:
+            self._coreartist = coreartist
+
+            self._update_model()

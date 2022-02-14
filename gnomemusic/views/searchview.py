@@ -275,8 +275,8 @@ class SearchView(Gtk.Stack):
         if self.props.selection_mode:
             return
 
-        artist_albums_widget = ArtistAlbumsWidget(
-            coreartist, self._application)
+        artist_albums_widget = ArtistAlbumsWidget(self._application)
+        artist_albums_widget.props.coreartist = coreartist
         # FIXME: Recreating a view here. Alternate solution is used
         # in AlbumsView: one view created and an update function.
         # Settle on one design.
