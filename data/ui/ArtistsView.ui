@@ -18,15 +18,9 @@
       </object>
     </child>
     <child>
-      <object class="GtkScrolledWindow" id="_artist_container">
+      <object class="GtkScrolledWindow" id="_artist_view">
         <property name="hexpand">True</property>
         <property name="vexpand">True</property>
-        <child>
-          <object class="GtkStack" id="_artist_view">
-            <property name="transition-type">crossfade</property>
-            <property name="vhomogeneous">False</property>
-          </object>
-        </child>
       </object>
     </child>
   </template>
