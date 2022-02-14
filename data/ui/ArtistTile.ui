@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <template class="ArtistTile" parent="GtkListBoxRow">
+  <template class="ArtistTile" parent="GtkBox">
     <property name="focusable">False</property>
     <child>
       <object class="GtkBox">
