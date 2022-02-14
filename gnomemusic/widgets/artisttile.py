@@ -32,7 +32,7 @@ from gnomemusic.utils import ArtSize, DefaultIconType
 
 
 @Gtk.Template(resource_path='/org/gnome/Music/ui/ArtistTile.ui')
-class ArtistTile(Gtk.ListBoxRow):
+class ArtistTile(Gtk.Box):
     """Row for sidebars
 
     Contains a label and an optional checkbox.
