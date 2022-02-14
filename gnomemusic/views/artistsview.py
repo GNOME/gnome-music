@@ -165,7 +165,8 @@ class ArtistsView(Gtk.Paned):
             self._artist_view.set_visible_child_name(coreartist.props.artist)
             return
 
-        artist_albums = ArtistAlbumsWidget(coreartist, self._application)
+        artist_albums = ArtistAlbumsWidget(self._application)
+        artist_albums.props.coreartist = coreartist
 
         self.bind_property(
             "selection-mode", artist_albums, "selection-mode",
