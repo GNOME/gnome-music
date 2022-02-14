@@ -150,7 +150,7 @@ class GrlTrackerWrapper(GObject.GObject):
         self._fast_options_lprio = Grl.OperationOptions()
         self._fast_options_lprio.set_type_filter(Grl.TypeFilter.AUDIO)
         self._fast_options_lprio.set_resolution_flags(
-            Grl.ResolutionFlags.FAST_ONLY)
+            Grl.ResolutionFlags.FAST_ONLY | Grl.ResolutionFlags.IDLE_RELAY)
 
         self._full_options: Grl.OperationOptions = Grl.OperationOptions()
         self._full_options.set_type_filter(Grl.TypeFilter.AUDIO)
