@@ -42,7 +42,6 @@ class ArtistSearchTile(Gtk.FlowBoxChild):
     _artist_label = Gtk.Template.Child()
     _art_stack = Gtk.Template.Child()
     _check = Gtk.Template.Child()
-    # _events = Gtk.Template.Child()
 
     coreartist = GObject.Property(
         type=CoreArtist, default=None, flags=GObject.ParamFlags.READWRITE)
