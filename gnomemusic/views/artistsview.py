@@ -60,7 +60,6 @@ class ArtistsView(Gtk.Paned):
 
         self._application = application
         self._loaded_artists = []
-        self._widget_counter = 1
 
         # This indicates if the current list has been empty and has
         # had no user interaction since.
@@ -100,11 +99,6 @@ class ArtistsView(Gtk.Paned):
 
         artist_tile.props.coreartist = coreartist
         artist_tile.props.text = coreartist.props.artist
-
-        GLib.timeout_add(
-            self._widget_counter * 300, artist_tile.retrieve,
-            priority=GLib.PRIORITY_LOW)
-        self._widget_counter = self._widget_counter + 1
 
     def _on_model_items_changed(
             self, model: Gtk.SingleSelection, position: int, removed: int,
