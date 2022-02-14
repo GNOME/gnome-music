@@ -117,6 +117,9 @@
                 <property name="focusable">False</property>
                 <property name="margin-top">48</property>
                 <property name="selection_mode">0</property>
+                <style>
+                  <class name="background"/>
+                </style>
               </object>
             </child>
           </object>
