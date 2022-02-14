@@ -76,3 +76,4 @@ class ArtistTile(Gtk.Box):
         self._coreartist = coreartist
 
         self._art_stack.props.coreobject = coreartist
+        self.props.text = coreartist.props.artist

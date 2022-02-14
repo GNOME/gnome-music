@@ -98,7 +98,6 @@ class ArtistsView(Gtk.Paned):
         artist_tile = list_item.props.child
 
         artist_tile.props.coreartist = coreartist
-        artist_tile.props.text = coreartist.props.artist
 
     def _on_model_items_changed(
             self, model: Gtk.SingleSelection, position: int, removed: int,
