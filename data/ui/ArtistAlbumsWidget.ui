@@ -9,6 +9,9 @@
         <property name="orientation">horizontal</property>
         <child>
           <object class="GtkListBox" id="_listbox">
+            <style>
+              <class name="background"/>
+            </style>
           </object>
         </child>
       </object>
