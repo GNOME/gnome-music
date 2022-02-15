@@ -29,6 +29,8 @@ from gi.repository import GObject, MediaArt
 from gnomemusic.asyncqueue import AsyncQueue
 from gnomemusic.embeddedart import EmbeddedArt
 from gnomemusic.fileexistsasync import FileExistsAsync
+from gnomemusic.griloartqueue import GriloArtQueue
+from gnomemusic.utils import CoreObjectType
 
 
 class AlbumArt(GObject.GObject):
@@ -50,13 +52,15 @@ class AlbumArt(GObject.GObject):
         self._album = self._corealbum.props.title
         self._artist = self._corealbum.props.artist
 
+        self._grilo_art_queue = GriloArtQueue(application)
+
         self._in_cache()
 
     def _on_embedded_art_found(self, embeddedart, found):
         if found:
             self._in_cache()
         else:
-            self._coregrilo.get_album_art(self._corealbum)
+            self._grilo_art_queue.queue(self._corealbum, CoreObjectType.ALBUM)
 
     def _in_cache(self):
         success, thumb_file = MediaArt.get_file(
