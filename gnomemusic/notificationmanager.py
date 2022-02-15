@@ -22,12 +22,15 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from gi.repository import GObject
+from gi.repository import GLib, GObject
 
 
 class NotificationManager(GObject.Object):
     """Managing wrapper around the notification widgets
     """
+
+    _pulse_id = 0
+    _loading_counter = 0
 
     def __init__(self, application):
         """Initialize the notification manager
@@ -37,7 +40,6 @@ class NotificationManager(GObject.Object):
         super().__init__()
 
         self._application = application
-        self._pushed = False
         self._window = application.props.window
 
         if self._window is None:
@@ -46,16 +48,24 @@ class NotificationManager(GObject.Object):
 
     def _on_window_changed(self, klass, value):
         self._window = self._application.props.window
+        if self._loading_counter > 0:
+            self._window.loading_visible(True)
 
     def push_loading(self):
         """Push a loading notifcation."""
-        if self._window:
-            # This makes sure push/pop are in sync when starting.
-            self._pushed = True
-            self._window.notifications_popup.push_loading()
+        self._loading_counter += 1
+
+        if (self._pulse_id == 0
+                and self._window):
+            self._window.loading_visible(True)
+            self._pulse_id = GLib.timeout_add(100, self._window.loading_pulse)
 
     def pop_loading(self):
-        """Pop a loading notification."""
-        if (self._window
-                and self._pushed):
-            self._window.notifications_popup.pop_loading()
+        self._loading_counter -= 1
+
+        if (self._loading_counter == 0
+                and self._pulse_id != 0):
+            GLib.Source.remove(self._pulse_id)
+            self._pulse_id = 0
+            if self._window:
+                self._window.loading_visible(False)

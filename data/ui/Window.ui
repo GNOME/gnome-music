@@ -28,6 +28,15 @@
               </object>
             </child>
             <child type="overlay">
+              <object class="GtkProgressBar" id="_loading_progress">
+                <property name="valign">start</property>
+                <property name="visible">False</property>
+                <style>
+                  <class name="osd"/>
+                </style>
+              </object>
+            </child>
+            <child type="overlay">
               <object class="NotificationsPopup" id="notifications_popup">
                 <property name="halign">center</property>
                 <property name="transition-type">slide-down</property>

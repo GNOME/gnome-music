@@ -44,15 +44,9 @@ class NotificationsPopup(Gtk.Revealer):
     def __init__(self):
         super().__init__()
 
-        self._loading_notification = LoadingNotification()
-        self._loading_notification.connect('visible', self._set_visibility)
-        self._loading_notification.connect('invisible', self._set_visibility)
-        self._box.append(self._loading_notification)
-
     def _hide_notifications(self, notification, remove):
         if remove:
             self._box.remove(notification)
-        self._loading_notification.hide()
         self.hide()
 
     def _set_visibility(self, notification, remove=False):
@@ -61,12 +55,8 @@ class NotificationsPopup(Gtk.Revealer):
         Popup is displayed if a loading is active or if a playlist
         deletion is in progress.
         """
-        loading_finished = self._loading_notification._counter == 0
         box_children = [child for child in self._box]
-        no_other_notif = (len(box_children) == 1
-                          or (len(box_children) == 2
-                              and notification != self._loading_notification))
-        invisible = loading_finished and no_other_notif
+        invisible = (len(box_children) == 1 or (len(box_children) == 2))
 
         if not invisible:
             if remove:
@@ -79,20 +69,6 @@ class NotificationsPopup(Gtk.Revealer):
             GLib.timeout_add(
                 duration + 100, self._hide_notifications, notification, remove)
         self.set_reveal_child(not invisible)
-
-    def pop_loading(self):
-        """Decrease loading notification counter.
-
-        If it reaches zero, the notification is withdrawn.
-        """
-        self._loading_notification.pop()
-
-    def push_loading(self):
-        """Increase loading notification counter.
-
-        If no notification is visible, start loading notification.
-        """
-        self._loading_notification.push()
 
     def add_notification(self, notification):
         """Display a new notification
@@ -116,52 +92,6 @@ class NotificationsPopup(Gtk.Revealer):
         if len(children) > 1:
             for notification in children[:-1]:
                 notification._finish_deletion()
-
-
-@Gtk.Template(resource_path="/org/gnome/Music/ui/LoadingNotification.ui")
-class LoadingNotification(Gtk.Grid):
-    """LoadingNotification displays a loading notification message
-
-    It can be triggered by different all main views. Message is
-    displayed as long as at least one loading operation is in progress.
-    """
-
-    __gsignals__ = {
-        'visible': (GObject.SignalFlags.RUN_FIRST, None, ()),
-        'invisible': (GObject.SignalFlags.RUN_FIRST, None, ())
-    }
-
-    __gtype_name__ = "LoadingNotification"
-
-    def __init__(self):
-        super().__init__()
-        self._counter = 0
-        self._timeout_id = 0
-
-    def pop(self):
-        """Decrease the counter. Hide notification if it reaches 0."""
-        self._counter = self._counter - 1
-
-        if self._counter == 0:
-            # Stop the timeout if necessary
-            if self._timeout_id > 0:
-                if not self.is_visible():
-                    GLib.source_remove(self._timeout_id)
-                self._timeout_id = 0
-            self.emit('invisible')
-
-    def push(self):
-        """Increase the counter. Start notification if necessary."""
-        def callback():
-            self.props.visible = True
-            self.emit('visible')
-
-        if self._counter == 0:
-            # Only show the notification after a small delay, thus
-            # add a timeout. 500ms feels good enough.
-            self._timeout_id = GLib.timeout_add(500, callback)
-
-        self._counter = self._counter + 1
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/PlaylistNotification.ui")

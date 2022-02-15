@@ -58,6 +58,7 @@ class Window(Adw.ApplicationWindow):
 
     notifications_popup = Gtk.Template.Child()
     _headerbar_stack = Gtk.Template.Child()
+    _loading_progress = Gtk.Template.Child()
     _overlay = Gtk.Template.Child()
     _player_toolbar = Gtk.Template.Child()
     _selection_toolbar = Gtk.Template.Child()
@@ -477,3 +478,20 @@ class Window(Adw.ApplicationWindow):
         :param bool visible: actionbar visibility
         """
         self._player_toolbar.props.revealed = visible
+
+    def loading_pulse(self) -> bool:
+        """Pulse the loading progress bar
+
+        :returns: GLib.SOURCE_CONTINUE
+        :rtype: bool
+        """
+        self._loading_progress.pulse()
+
+        return GLib.SOURCE_CONTINUE
+
+    def loading_visible(self, show: bool) -> None:
+        """Sets visibility of the loading progressbar
+
+        :param bool show: Wheter to show the loading bar
+        """
+        self._loading_progress.props.visible = show

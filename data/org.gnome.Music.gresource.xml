@@ -18,7 +18,6 @@
     <file preprocess="xml-stripblanks">ui/EmptyView.ui</file>
     <file preprocess="xml-stripblanks">ui/HeaderBar.ui</file>
     <file preprocess="xml-stripblanks">ui/LastfmDialog.ui</file>
-    <file preprocess="xml-stripblanks">ui/LoadingNotification.ui</file>
     <file preprocess="xml-stripblanks">ui/NotificationsPopup.ui</file>
     <file preprocess="xml-stripblanks">ui/PlayerToolbar.ui</file>
     <file preprocess="xml-stripblanks">ui/PlaylistControls.ui</file>
