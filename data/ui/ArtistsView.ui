@@ -6,13 +6,13 @@
     <child>
       <object class="GtkScrolledWindow">
         <property name="width_request">220</property>
-        <style>
-          <class name="sidebar"/>
-        </style>
         <child>
           <object class="GtkListView" id="_sidebar">
             <property name="single-click-activate">True</property>
             <signal name="activate" handler="_on_artist_activated" swapped="no"/>
+            <style>
+              <class name="navigation-sidebar"/>
+            </style>
           </object>
         </child>
       </object>
