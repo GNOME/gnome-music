@@ -457,7 +457,7 @@ class GrlTrackerWrapper(GObject.GObject):
                 ?urn nao:hasTag ?tag .
                 FILTER (?tag = nao:predefined-tag-favorite)
             }}
-        }}
+        }} ORDER BY ?title ?artist
         """.split())
 
         return query

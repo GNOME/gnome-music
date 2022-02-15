@@ -97,6 +97,7 @@ class CoreModel(GObject.GObject):
         self._songs_model = Gtk.SortListModel.new(self._flatten_songs_model)
         sorter = Gtk.CustomSorter()
         sorter.set_sort_func(self._songs_sort)
+        self._songs_model.props.incremental = True
         self._songs_model.set_sorter(sorter)
 
         self._albums_model_proxy: Gio.ListStore = Gio.ListStore.new(
