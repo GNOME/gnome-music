@@ -29,7 +29,7 @@ import typing
 from gi.repository import Gio, Gtk
 
 from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
-from gnomemusic.widgets.notificationspopup import PlaylistNotification
+from gnomemusic.songtoast import SongToast
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
 from gnomemusic.widgets.songwidget import SongWidget
 if typing.TYPE_CHECKING:
@@ -124,7 +124,5 @@ class SongWidgetMenu(Gtk.PopoverMenu):
     def _remove_from_playlist(self, action: Gio.Simple, param: Any) -> None:
         self.popdown()
         position = self._song_widget.get_index()
-        notification = PlaylistNotification(  # noqa: F841
-            self._window.notifications_popup, self._application,
-            PlaylistNotification.Type.SONG, self._coreobject, position,
-            self._coresong)
+        SongToast(
+            self._application, self._coreobject, position, self._coresong)

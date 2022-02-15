@@ -27,7 +27,7 @@ import gettext
 from gi.repository import Gdk, GObject, Gio, Gtk
 
 from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
-from gnomemusic.widgets.notificationspopup import PlaylistNotification
+from gnomemusic.playlisttoast import PlaylistToast
 
 
 @Gtk.Template(resource_path='/org/gnome/Music/ui/PlaylistControls.ui')
@@ -99,9 +99,7 @@ class PlaylistControls(Gtk.Box):
             self._player.stop()
             self._window.set_player_visible(False)
 
-        PlaylistNotification(
-            self._window.notifications_popup, self._application,
-            PlaylistNotification.Type.PLAYLIST, self.props.playlist)
+        PlaylistToast(self._application, self.props.playlist)
 
     @Gtk.Template.Callback()
     def _on_play_button_clicked(self, button: Gtk.Button) -> None:

@@ -13,7 +13,6 @@ data/ui/LastfmDialog.ui
 data/ui/PlayerToolbar.ui
 data/ui/PlaylistControls.ui
 data/ui/PlaylistDialog.ui
-data/ui/PlaylistNotification.ui
 data/ui/SearchHeaderBar.ui
 data/ui/SearchView.ui
 data/ui/SelectionBarMenuButton.ui
@@ -26,6 +25,8 @@ gnomemusic/gstplayer.py
 gnomemusic/inhibitsuspend.py
 gnomemusic/mpris.py
 gnomemusic/player.py
+gnomemusic/playlisttoast.py
+gnomemusic/songtoast.py
 gnomemusic/utils.py
 gnomemusic/views/albumsview.py
 gnomemusic/views/artistsview.py
@@ -37,7 +38,6 @@ gnomemusic/widgets/albumwidget.py
 gnomemusic/widgets/discbox.py
 gnomemusic/widgets/headerbar.py
 gnomemusic/widgets/lastfmdialog.py
-gnomemusic/widgets/notificationspopup.py
 gnomemusic/widgets/playertoolbar.py
 gnomemusic/widgets/playlistcontrols.py
 gnomemusic/widgets/playlistdialog.py

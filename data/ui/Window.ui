@@ -10,46 +10,43 @@
       </object>
     </child>
     <child>
-      <object class="GtkBox">
-        <property name="orientation">vertical</property>
+      <object class="AdwToastOverlay" id="_toast_overlay">
         <child>
-          <object class="GtkStack" id="_headerbar_stack">
-            <property name="transition-type">crossfade</property>
-          </object>
-        </child>
-        <child>
-          <object class="GtkOverlay" id="_overlay">
-            <property name="vexpand">True</property>
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
             <child>
-              <object class="AdwViewStack" id="_stack">
-                <property name="focusable">False</property>
-                <property name="hhomogeneous">False</property>
-                <property name="vhomogeneous">False</property>
+              <object class="GtkStack" id="_headerbar_stack">
+                <property name="transition-type">crossfade</property>
               </object>
             </child>
-            <child type="overlay">
-              <object class="GtkProgressBar" id="_loading_progress">
-                <property name="valign">start</property>
-                <property name="visible">False</property>
-                <style>
-                  <class name="osd"/>
-                </style>
+            <child>
+              <object class="GtkOverlay" id="_overlay">
+                <property name="vexpand">True</property>
+                <child>
+                  <object class="AdwViewStack" id="_stack">
+                    <property name="focusable">False</property>
+                    <property name="hhomogeneous">False</property>
+                    <property name="vhomogeneous">False</property>
+                  </object>
+                </child>
+                <child type="overlay">
+                  <object class="GtkProgressBar" id="_loading_progress">
+                    <property name="valign">start</property>
+                    <property name="visible">False</property>
+                    <style>
+                      <class name="osd"/>
+                    </style>
+                  </object>
+                </child>
               </object>
             </child>
-            <child type="overlay">
-              <object class="NotificationsPopup" id="notifications_popup">
-                <property name="halign">center</property>
-                <property name="transition-type">slide-down</property>
-                <property name="valign">start</property>
-              </object>
+            <child>
+              <object class="SelectionToolbar" id="_selection_toolbar"/>
+            </child>
+            <child>
+              <object class="PlayerToolbar" id="_player_toolbar"/>
             </child>
           </object>
-        </child>
-        <child>
-          <object class="SelectionToolbar" id="_selection_toolbar"/>
-        </child>
-        <child>
-          <object class="PlayerToolbar" id="_player_toolbar"/>
         </child>
       </object>
     </child>

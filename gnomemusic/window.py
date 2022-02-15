@@ -39,7 +39,6 @@ from gnomemusic.views.searchview import SearchView
 from gnomemusic.views.songsview import SongsView
 from gnomemusic.views.playlistsview import PlaylistsView
 from gnomemusic.widgets.headerbar import HeaderBar
-from gnomemusic.widgets.notificationspopup import NotificationsPopup  # noqa
 from gnomemusic.widgets.playertoolbar import PlayerToolbar  # noqa: F401
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
 from gnomemusic.widgets.searchheaderbar import SearchHeaderBar
@@ -56,13 +55,13 @@ class Window(Adw.ApplicationWindow):
     selected_songs_count = GObject.Property(type=int, default=0, minimum=0)
     selection_mode = GObject.Property(type=bool, default=False)
 
-    notifications_popup = Gtk.Template.Child()
     _headerbar_stack = Gtk.Template.Child()
     _loading_progress = Gtk.Template.Child()
     _overlay = Gtk.Template.Child()
     _player_toolbar = Gtk.Template.Child()
     _selection_toolbar = Gtk.Template.Child()
     _stack = Gtk.Template.Child()
+    _toast_overlay = Gtk.Template.Child()
 
     def __init__(self, app):
         """Initialize the main window.
