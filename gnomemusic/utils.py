@@ -46,6 +46,13 @@ class ArtSize(Enum):
         self.height = height
 
 
+class CoreObjectType(Enum):
+    """Indicates the type of the CoreObject passed"""
+    ALBUM = 0
+    ARTIST = 1
+    SONG = 2
+
+
 class SongStateIcon(Enum):
     """Enum for icons used in song playing and validation"""
     ERROR = "dialog-error-symbolic"

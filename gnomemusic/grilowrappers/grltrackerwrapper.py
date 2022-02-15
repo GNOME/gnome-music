@@ -39,6 +39,7 @@ from gnomemusic.grilowrappers.grltrackerplaylists import (
     GrlTrackerPlaylists, Playlist)
 from gnomemusic.storeart import StoreArt
 from gnomemusic.trackerwrapper import TrackerWrapper
+from gnomemusic.utils import CoreObjectType
 if typing.TYPE_CHECKING:
     from gnomemusic.application import Application
     from gnomemusic.coremodel import CoreModel
@@ -1232,7 +1233,8 @@ class GrlTrackerWrapper(GObject.GObject):
                 return
 
             self._async_queue.queue(
-                StoreArt(), coresong, queried_media.get_thumbnail())
+                StoreArt(), coresong, queried_media.get_thumbnail(),
+                CoreObjectType.SONG)
 
         song_id: str = media.get_id()
         query: str = self._get_album_for_media_id_query(song_id)
@@ -1260,7 +1262,8 @@ class GrlTrackerWrapper(GObject.GObject):
                 return
 
             self._async_queue.queue(
-                StoreArt(), corealbum, queried_media.get_thumbnail())
+                StoreArt(), corealbum, queried_media.get_thumbnail(),
+                CoreObjectType.ALBUM)
 
         album_id: str = media.get_id()
         query: str = self._get_album_for_media_id_query(album_id, False)
@@ -1290,7 +1293,8 @@ class GrlTrackerWrapper(GObject.GObject):
                 return
 
             self._async_queue.queue(
-                StoreArt(), coreartist, resolved_media.get_thumbnail())
+                StoreArt(), coreartist, resolved_media.get_thumbnail(),
+                CoreObjectType.ARTIST)
 
         self.props.source.resolve(
             media, [Grl.METADATA_KEY_THUMBNAIL], self._full_options_lprio,
