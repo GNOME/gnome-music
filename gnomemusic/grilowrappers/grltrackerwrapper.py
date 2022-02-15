@@ -37,7 +37,6 @@ from gnomemusic.coredisc import CoreDisc
 from gnomemusic.coresong import CoreSong
 from gnomemusic.grilowrappers.grltrackerplaylists import (
     GrlTrackerPlaylists, Playlist)
-from gnomemusic.storeart import StoreArt
 from gnomemusic.trackerwrapper import TrackerWrapper
 from gnomemusic.utils import CoreObjectType
 if typing.TYPE_CHECKING:
@@ -45,6 +44,7 @@ if typing.TYPE_CHECKING:
     from gnomemusic.coremodel import CoreModel
     from gnomemusic.musiclogger import MusicLogger
     from gnomemusic.notificationmanager import NotificationManager
+    from gnomemusic.storeart import StoreArt
 
 
 class GrlTrackerWrapper(GObject.GObject):
@@ -1203,7 +1203,7 @@ class GrlTrackerWrapper(GObject.GObject):
 
         return query
 
-    def get_song_art(self, coresong: CoreSong) -> None:
+    def get_song_art(self, coresong: CoreSong, storeart: StoreArt) -> None:
         """Retrieve song art for the given CoreSong
 
         Since MediaArt does not really support per-song art this
@@ -1211,6 +1211,7 @@ class GrlTrackerWrapper(GObject.GObject):
         art and store it.
 
         :param CoreSong coresong: CoreSong to get art for
+        :param StoreArt storeart: StoreArt instance to use
         """
         media: Grl.Media = coresong.props.media
 
@@ -1227,13 +1228,14 @@ class GrlTrackerWrapper(GObject.GObject):
                 error: Optional[GLib.Error]) -> None:
             if error:
                 self._log.warning("Error: {}".format(error))
+                self.emit("finished")
                 return
 
             if queried_media is None:
                 return
 
             self._async_queue.queue(
-                StoreArt(), coresong, queried_media.get_thumbnail(),
+                storeart, coresong, queried_media.get_thumbnail(),
                 CoreObjectType.SONG)
 
         song_id: str = media.get_id()
@@ -1243,10 +1245,11 @@ class GrlTrackerWrapper(GObject.GObject):
             query, self._METADATA_THUMBNAIL_KEYS, self._full_options_lprio,
             art_retrieved_cb)
 
-    def get_album_art(self, corealbum: CoreAlbum) -> None:
+    def get_album_art(self, corealbum: CoreAlbum, storeart: StoreArt) -> None:
         """Retrieve album art for the given CoreAlbum
 
         :param CoreAlbum corealbum: CoreAlbum to get art for
+        :param StoreArt storeart: StoreArt instance to use
         """
         media: Grl.Media = corealbum.props.media
 
@@ -1256,13 +1259,14 @@ class GrlTrackerWrapper(GObject.GObject):
                 error: Optional[GLib.Error]) -> None:
             if error:
                 self._log.warning("Error: {}".format(error))
+                storeart.emit("finished")
                 return
 
             if queried_media is None:
                 return
 
             self._async_queue.queue(
-                StoreArt(), corealbum, queried_media.get_thumbnail(),
+                storeart, corealbum, queried_media.get_thumbnail(),
                 CoreObjectType.ALBUM)
 
         album_id: str = media.get_id()
@@ -1272,12 +1276,14 @@ class GrlTrackerWrapper(GObject.GObject):
             query, self._METADATA_THUMBNAIL_KEYS, self._full_options_lprio,
             art_retrieved_cb)
 
-    def get_artist_art(self, coreartist: CoreArtist) -> None:
+    def get_artist_art(
+            self, coreartist: CoreArtist, storeart: StoreArt) -> None:
         """Retrieve artist art for the given CoreArtist
 
         This retrieves art through Grilo online services only.
 
         :param CoreArtist coreartist: CoreArtist to get art for
+        :param StoreArt storeart: StoreArt instance to use
         """
         media: Grl.Media = coreartist.props.media
 
@@ -1286,14 +1292,21 @@ class GrlTrackerWrapper(GObject.GObject):
                 resolved_media: Optional[Grl.Media],
                 error: Optional[GLib.Error]) -> None:
             if error:
+                storeart.emit("finished")
                 self._log.warning("Error: {}".format(error))
                 return
 
             if resolved_media is None:
+                storeart.emit("finished")
+                return
+
+            thumbnail = resolved_media.get_thumbnail()
+            if thumbnail is None:
+                storeart.emit("finished")
                 return
 
             self._async_queue.queue(
-                StoreArt(), coreartist, resolved_media.get_thumbnail(),
+                storeart, coreartist, resolved_media.get_thumbnail(),
                 CoreObjectType.ARTIST)
 
         self.props.source.resolve(

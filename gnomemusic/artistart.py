@@ -28,6 +28,8 @@ from gi.repository import GObject, MediaArt
 
 from gnomemusic.asyncqueue import AsyncQueue
 from gnomemusic.fileexistsasync import FileExistsAsync
+from gnomemusic.griloartqueue import GriloArtQueue
+from gnomemusic.utils import CoreObjectType
 
 
 class ArtistArt(GObject.GObject):
@@ -48,6 +50,8 @@ class ArtistArt(GObject.GObject):
         self._coregrilo = application.props.coregrilo
         self._artist = self._coreartist.props.artist
 
+        self._grilo_art_queue = GriloArtQueue(application)
+
         self._in_cache()
 
     def _in_cache(self):
@@ -60,7 +64,8 @@ class ArtistArt(GObject.GObject):
             if result:
                 self._coreartist.props.thumbnail = thumb_file.get_uri()
             else:
-                self._coregrilo.get_artist_art(self._coreartist)
+                self._grilo_art_queue.queue(
+                    self._coreartist, CoreObjectType.ARTIST)
 
         file_exists_async = FileExistsAsync()
         file_exists_async.connect(

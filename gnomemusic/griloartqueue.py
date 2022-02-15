@@ -100,4 +100,5 @@ class GriloArtQueue(GObject.GObject):
 
     def _on_async_finished(
             self, storeart: StoreArt, coreobject: CoreObject) -> None:
-        self._active_queue.remove(coreobject)
+        if coreobject in self._active_queue:
+            self._active_queue.remove(coreobject)

@@ -29,6 +29,7 @@ from gi.repository import GObject, MediaArt
 from gnomemusic.asyncqueue import AsyncQueue
 from gnomemusic.embeddedart import EmbeddedArt
 from gnomemusic.fileexistsasync import FileExistsAsync
+from gnomemusic.storeart import StoreArt
 
 
 class SongArt(GObject.GObject):
@@ -56,7 +57,7 @@ class SongArt(GObject.GObject):
         if found:
             self._in_cache()
         else:
-            self._coregrilo.get_song_art(self._coresong)
+            self._coregrilo.get_song_art(self._coresong, StoreArt())
 
     def _in_cache(self):
         success, thumb_file = MediaArt.get_file(
