@@ -27,9 +27,7 @@ gi.require_versions({"MediaArt": "2.0", "Soup": "2.4"})
 from gi.repository import Gio, GLib, GObject, MediaArt, Soup, GdkPixbuf
 
 from gnomemusic.musiclogger import MusicLogger
-from gnomemusic.coreartist import CoreArtist
-from gnomemusic.corealbum import CoreAlbum
-from gnomemusic.coresong import CoreSong
+from gnomemusic.utils import CoreObjectType
 
 
 class StoreArt(GObject.Object):
@@ -54,7 +52,7 @@ class StoreArt(GObject.Object):
         self._log = MusicLogger()
         self._soup_session = Soup.Session.new()
 
-    def start(self, coreobject, uri):
+    def start(self, coreobject, uri, coreobjecttype):
         self._coreobject = coreobject
 
         if (uri is None
@@ -62,14 +60,14 @@ class StoreArt(GObject.Object):
             self.emit("finished")
             return
 
-        if isinstance(self._coreobject, CoreArtist):
+        if coreobjecttype == CoreObjectType.ARTIST:
             success, self._file = MediaArt.get_file(
                 self._coreobject.props.artist, None, "artist")
-        elif isinstance(self._coreobject, CoreAlbum):
+        elif coreobjecttype == CoreObjectType.ALBUM:
             success, self._file = MediaArt.get_file(
                 self._coreobject.props.artist, self._coreobject.props.title,
                 "album")
-        elif isinstance(self._coreobject, CoreSong):
+        elif coreobjecttype == CoreObjectType.SONG:
             success, self._file = MediaArt.get_file(
                 self._coreobject.props.artist, self._coreobject.props.album,
                 "album")
