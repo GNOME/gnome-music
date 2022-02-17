@@ -206,7 +206,7 @@ class Application(Gtk.Application):
 
     def _help(self, action, param):
         try:
-            Gtk.show_uri(None, "help:gnome-music", Gdk.CURRENT_TIME)
+            Gtk.show_uri(self._window, "help:gnome-music", Gdk.CURRENT_TIME)
         except GLib.Error:
             self._log.message("Help handler not available.")
 
