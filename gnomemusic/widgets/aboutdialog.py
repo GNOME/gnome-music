@@ -33,8 +33,3 @@ class AboutDialog(Gtk.AboutDialog):
 
     def __init__(self):
         super().__init__()
-
-        self.connect("response", self._about_response)
-
-    def _about_response(self, klass, data=None):
-        klass.destroy()
