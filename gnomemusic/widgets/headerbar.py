@@ -39,8 +39,6 @@ class SelectionBarMenuButton(Gtk.MenuButton):
 
     __gtype_name__ = "SelectionBarMenuButton"
 
-    _menu_label = Gtk.Template.Child()
-
     def __init__(self):
         super().__init__()
 
@@ -66,9 +64,9 @@ class SelectionBarMenuButton(Gtk.MenuButton):
         if value > 0:
             text = ngettext(
                 "Selected {} song", "Selected {} songs", value).format(value)
-            self._menu_label.props.label = text
+            self.props.label = text
         else:
-            self._menu_label.props.label = _("Click on items to select them")
+            self.props.label = _("Click on items to select them")
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/HeaderBar.ui")
