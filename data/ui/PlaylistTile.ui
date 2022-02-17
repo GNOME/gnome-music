@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <template class="PlaylistTile" parent="GtkListBoxRow">
-    <property name="visible">True</property>
     <child>
       <object class="GtkBox">
         <property name="orientation">horizontal</property>
-        <property name="visible">True</property>
         <property name="margin-start">10</property>
         <child>
           <object class="GtkImage" id="_icon">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="icon_size">4</property>
+            <property name="focusable">False</property>
+            <property name="icon-size">normal</property>
             <property name="valign">center</property>
             <style>
               <class name="playlist-icon"/>
@@ -20,7 +17,7 @@
         </child>
         <child>
           <object class="GtkLabel" id="_label">
-            <property name="can_focus">False</property>
+            <property name="focusable">False</property>
             <property name="ellipsize">end</property>
             <property name="halign">start</property>
             <property name="hexpand">False</property>
@@ -28,7 +25,6 @@
             <property name="margin-end">10</property>
             <property name="margin-start">10</property>
             <property name="margin-top">16</property>
-            <property name="visible">True</property>
           </object>
         </child>
       </object>

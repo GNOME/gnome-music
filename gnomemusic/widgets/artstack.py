@@ -26,10 +26,7 @@ from __future__ import annotations
 from typing import Optional, Union
 import typing
 
-from gi.repository import GObject, Gtk, Handy
-if typing.TYPE_CHECKING:
-    from cairo import ImageSurface
-
+from gi.repository import Adw, GObject, Gtk
 
 from gnomemusic.asyncqueue import AsyncQueue
 from gnomemusic.artcache import ArtCache
@@ -82,7 +79,7 @@ class ArtStack(Gtk.Stack):
         self.props.size = size
 
         self.connect("destroy", self._on_destroy)
-        Handy.StyleManager.get_default().connect(
+        Adw.StyleManager.get_default().connect(
             "notify::dark", self._on_dark_changed)
 
     @GObject.Property(type=object, flags=GObject.ParamFlags.READWRITE)
@@ -131,6 +128,9 @@ class ArtStack(Gtk.Stack):
 
     @coreobject.setter  # type: ignore
     def coreobject(self, coreobject: CoreObject) -> None:
+        if coreobject is self._coreobject:
+            return
+
         if self._thumbnail_id != 0:
             self._coreobject.disconnect(self._thumbnail_id)
             self._thumbnail_id = 0
@@ -143,7 +143,7 @@ class ArtStack(Gtk.Stack):
             self._on_thumbnail_changed(self._coreobject, None)
 
     def _on_dark_changed(
-            self, style_manager: Handy.StyleManager,
+            self, style_manager: Adw.StyleManager,
             pspec: GObject.ParamSpecBoolean) -> None:
         default_icon = DefaultIcon(self).get(self._art_type, self._size)
 
@@ -163,24 +163,26 @@ class ArtStack(Gtk.Stack):
 
         self._async_queue.queue(self._cache, coreobject, self._size)
 
-    def _swap_thumbnails(self, surface: ImageSurface, animate: bool) -> None:
+    def _swap_thumbnails(
+            self, paintable: Gtk.Paintable, animate: bool) -> None:
         if self.props.visible_child_name == "B":
-            self._cover_a.props.surface = surface
+            self._cover_a.props.paintable = paintable
             if animate:
                 self.set_visible_child_full(
                     "A", Gtk.StackTransitionType.CROSSFADE)
             else:
                 self.props.visible_child_name = "A"
         else:
-            self._cover_b.props.surface = surface
+            self._cover_b.props.paintable = paintable
             if animate:
                 self.set_visible_child_full(
                     "B", Gtk.StackTransitionType.CROSSFADE)
             else:
                 self.props.visible_child_name = "B"
 
-    def _on_cache_result(self, cache: ArtCache, surface: ImageSurface) -> None:
-        self._swap_thumbnails(surface, True)
+    def _on_cache_result(
+            self, cache: ArtCache, paintable: Gtk.Paintable) -> None:
+        self._swap_thumbnails(paintable, True)
 
     def _on_destroy(self, widget: ArtStack) -> None:
         # If the stack is destroyed while the art is updated, an error

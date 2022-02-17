@@ -63,7 +63,7 @@ class PlaylistsView(Gtk.Paned):
         self._untouched_list = True
 
         self._playlist_widget = PlaylistsWidget(application, self)
-        self.add(self._playlist_widget)
+        self.props.end_child = self._playlist_widget
 
         self._sidebar.set_header_func(self._sidebar_header_func)
         self._sidebar.bind_model(self._model, self._add_playlist_to_sidebar)

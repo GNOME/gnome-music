@@ -1,123 +1,91 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <!-- interface-requires gtk+ 3.10 -->
-  <template class="HeaderBar" parent="HdyHeaderBar">
-    <property name="visible">True</property>
-    <property name="vexpand">False</property>
-    <style>
-      <class name="titlebar"/>
-    </style>
+  <template class="HeaderBar" parent="AdwBin">
     <child>
-      <object class="GtkMenuButton" id="_menu_button">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="valign">center</property>
-        <property name="sensitive">True</property>
-        <property name="tooltip_text" translatable="yes">Menu</property>
+      <object class="AdwHeaderBar" id="_headerbar">
+        <property name="vexpand">False</property>
         <style>
-          <class name="image-button"/>
+          <class name="titlebar"/>
         </style>
-        <child>
-          <object class="GtkImage" id="_menu_button_image">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
+        <child type="end">
+          <object class="GtkMenuButton" id="_menu_button">
+            <property name="focusable">False</property>
+            <property name="valign">center</property>
+            <property name="sensitive">True</property>
             <property name="icon-name">open-menu-symbolic</property>
-            <property name="icon-size">1</property>
+            <property name="tooltip_text" translatable="yes">Menu</property>
           </object>
         </child>
-      </object>
-      <packing>
-        <property name="pack_type">end</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkToggleButton" id="_select_button">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="valign">center</property>
-        <property name="sensitive">True</property>
-        <property name="tooltip_text" translatable="yes">Select</property>
-        <style>
-          <class name="image-button"/>
-        </style>
-        <child>
-          <object class="GtkImage" id="_select_button_image">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="icon-name">object-select-symbolic</property>
-            <property name="icon-size">1</property>
+        <child type="end">
+          <object class="GtkToggleButton" id="_select_button">
+            <property name="focusable">False</property>
+            <property name="valign">center</property>
+            <property name="sensitive">True</property>
+            <property name="icon-name">selection-mode-symbolic</property>
+            <property name="tooltip_text" translatable="yes">Select</property>
           </object>
         </child>
-      </object>
-      <packing>
-        <property name="pack_type">end</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkButton" id="_cancel_button">
-        <property name="visible">False</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">_Cancel</property>
-        <property name="use_underline">True</property>
-        <property name="valign">center</property>
-        <property name="sensitive">True</property>
-        <signal name="clicked" handler="_on_cancel_button_clicked" swapped="no"/>
-        <style>
-          <class name="text-button"/>
-        </style>
-      </object>
-      <packing>
-        <property name="pack_type">end</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkToggleButton" id="_search_button">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="valign">center</property>
-        <property name="sensitive">True</property>
-        <property name="tooltip_text" translatable="yes">Search</property>
-        <style>
-          <class name="image-button"/>
-        </style>
-        <child>
-          <object class="GtkImage" id="_search_button_image">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
+        <child type="end">
+          <object class="GtkButton" id="_cancel_button">
+            <property name="visible">False</property>
+            <property name="focusable">False</property>
+            <property name="label" translatable="yes">_Cancel</property>
+            <property name="use_underline">True</property>
+            <property name="valign">center</property>
+            <property name="sensitive">True</property>
+            <signal name="clicked" handler="_on_cancel_button_clicked" swapped="no"/>
+          </object>
+        </child>
+        <child type="end">
+          <object class="GtkToggleButton" id="_search_button">
+            <property name="focusable">False</property>
+            <property name="valign">center</property>
+            <property name="sensitive">True</property>
             <property name="icon-name">edit-find-symbolic</property>
-            <property name="icon-size">1</property>
+            <property name="tooltip_text" translatable="yes">Search</property>
           </object>
         </child>
-      </object>
-      <packing>
-        <property name="pack_type">end</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkButton" id="_back_button">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="valign">center</property>
-        <property name="sensitive">True</property>
-        <property name="tooltip_text" translatable="yes">Back</property>
-        <signal name="clicked" handler="_on_back_button_clicked" swapped="no"/>
-        <style>
-          <class name="image-button"/>
-        </style>
-        <child>
-          <object class="GtkImage" id="_back_button_image">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
+        <child type="start">
+          <object class="GtkButton" id="_back_button">
+            <property name="focusable">False</property>
+            <property name="valign">center</property>
+            <property name="sensitive">True</property>
             <property name="icon-name">go-previous-symbolic</property>
-            <property name="icon-size">1</property>
+            <property name="tooltip_text" translatable="yes">Back</property>
+            <signal name="clicked" handler="_on_back_button_clicked" swapped="no"/>
           </object>
         </child>
       </object>
-      <packing>
-        <property name="pack_type">start</property>
-      </packing>
     </child>
   </template>
+  <object class="GtkBox" id="_label_title_box">
+    <property name="orientation">vertical</property>
+    <child>
+      <object class="GtkLabel" id="_label_title">
+        <property name="single-line-mode">True</property>
+        <property name="ellipsize">end</property>
+        <property name="width-chars">5</property>
+        <property name="vexpand">True</property>
+        <property name="yalign">1.0</property>
+        <style>
+          <class name="title"/>
+        </style>
+      </object>
+    </child>
+    <child>
+      <object class="GtkLabel" id="_label_subtitle">
+        <property name="single-line-mode">True</property>
+        <property name="ellipsize">end</property>
+        <property name="width-chars">5</property>
+        <property name="vexpand">True</property>
+        <property name="yalign">0.0</property>
+        <style>
+          <class name="subtitle"/>
+        </style>
+      </object>
+    </child>
+  </object>
   <object class="GtkSizeGroup" id="size1">
     <property name="mode">vertical</property>
     <widgets>

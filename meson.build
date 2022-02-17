@@ -44,9 +44,8 @@ PKGLIB_DIR = join_paths(get_option('prefix'), get_option('libdir'), APPLICATION_
 dependency('glib-2.0', version: '>= 2.67.1')
 dependency('goa-1.0', version: '>= 3.35.90')
 dependency('gobject-introspection-1.0', version: '>= 1.35.0')
-dependency('gtk+-3.0', version: '>= 3.24.14')
-dependency('libhandy-1', version: '>= 1.5.0')
-dependency('libdazzle-1.0', version: '>= 3.28.0')
+dependency('gtk4', version: '>= 4.5.0')
+dependency('libadwaita-1', version: '>= 1.0')
 dependency('libmediaart-2.0', version: '>= 1.9.1')
 dependency('libsoup-2.4')
 dependency('tracker-sparql-3.0', version: '>= 2.99.3')
@@ -55,12 +54,6 @@ dependency('pygobject-3.0', version: '>= 3.36.1')
 dependency('py3cairo', version: '>= 1.14.0')
 dependency('grilo-0.3', version: '>= 0.3.13', fallback: ['grilo', 'libgrl_dep'])
 dependency('grilo-plugins-0.3', version: '>= 0.3.12', fallback: ['grilo-plugins', 'grilo_plugins_dep'])
-
-subproject('gfm',
-    default_options: [
-        'pkgdatadir=' + PKGDATA_DIR,
-        'pkglibdir=' + PKGLIB_DIR
-    ])
 
 subdir('data/ui')
 subdir('data')
@@ -80,8 +73,6 @@ bin_config.set('pkgdatadir', PKGDATA_DIR)
 bin_config.set('localedir', join_paths(get_option('prefix'), get_option('datadir'), 'locale'))
 bin_config.set('pythondir', PYTHON_DIR)
 bin_config.set('schemasdir', PKGDATA_DIR)
-# Used for gfm
-bin_config.set('gfmlibdir', PKGLIB_DIR)
 
 bin_config.set('local_build', 'False')
 
@@ -100,8 +91,6 @@ local_config.set('pkgdatadir', join_paths(meson.current_build_dir(), 'data'))
 local_config.set('localedir', join_paths(get_option('prefix'), get_option('datadir'), 'locale'))
 local_config.set('pythondir', meson.current_source_dir())
 local_config.set('schemasdir', join_paths(meson.current_build_dir(), 'data'))
-# Used for gfm
-local_config.set('gfmlibdir', join_paths(meson.current_build_dir(), 'subprojects', 'gfm'))
 
 local_config.set('local_build', 'True')
 

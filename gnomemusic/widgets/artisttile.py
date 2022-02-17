@@ -22,6 +22,9 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from __future__ import annotations
+from typing import Optional
+
 from gi.repository import GObject, Gtk
 
 from gnomemusic.coreartist import CoreArtist
@@ -29,7 +32,7 @@ from gnomemusic.utils import ArtSize, DefaultIconType
 
 
 @Gtk.Template(resource_path='/org/gnome/Music/ui/ArtistTile.ui')
-class ArtistTile(Gtk.ListBoxRow):
+class ArtistTile(Gtk.Box):
     """Row for sidebars
 
     Contains a label and an optional checkbox.
@@ -40,13 +43,13 @@ class ArtistTile(Gtk.ListBoxRow):
     _art_stack = Gtk.Template.Child()
     _label = Gtk.Template.Child()
 
-    coreartist = GObject.Property(type=CoreArtist, default=None)
     text = GObject.Property(type=str, default='')
 
-    def __init__(self, coreartist=None):
+    def __init__(self) -> None:
+        """Initialise ArtistTile"""
         super().__init__()
 
-        self.props.coreartist = coreartist
+        self._coreartist: Optional[CoreArtist] = None
 
         self._art_stack.props.size = ArtSize.XSMALL
         self._art_stack.props.art_type = DefaultIconType.ARTIST
@@ -54,9 +57,23 @@ class ArtistTile(Gtk.ListBoxRow):
         self.bind_property('text', self._label, 'label')
         self.bind_property('text', self._label, 'tooltip-text')
 
-        self.show()
+    @GObject.Property(
+        type=CoreArtist, flags=GObject.ParamFlags.READWRITE, default=None)
+    def coreartist(self) -> CoreArtist:
+        """CoreArtist to use for ArtistTile
 
-    def retrieve(self):
-        """Start retrieving artist art
+        :returns: The artist object
+        :rtype: CoreArtist
         """
-        self._art_stack.props.coreobject = self.props.coreartist
+        return self._coreartist
+
+    @coreartist.setter  # type: ignore
+    def coreartist(self, coreartist: CoreArtist) -> None:
+        """CoreArtist setter
+
+        :param CoreArtist coreartist: The coreartist to use
+        """
+        self._coreartist = coreartist
+
+        self._art_stack.props.coreobject = coreartist
+        self.props.text = coreartist.props.artist

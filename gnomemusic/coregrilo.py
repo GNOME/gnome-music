@@ -25,8 +25,8 @@
 import weakref
 
 import gi
-gi.require_versions({"Grl": "0.3", "Gfm": "0.1"})
-from gi.repository import Grl, GLib, GObject, Gfm
+gi.require_version("Grl", "0.3")
+from gi.repository import Grl, GLib, GObject, Gtk
 
 from gnomemusic.grilowrappers.grlsearchwrapper import GrlSearchWrapper
 from gnomemusic.grilowrappers.grltrackerwrapper import GrlTrackerWrapper
@@ -178,7 +178,7 @@ class CoreGrilo(GObject.GObject):
         """Get all album by an artist
 
         :param Grl.Media media: A Grilo Media item that represents Artist
-        :param Gfm.FilterListModel filter_model: The model to fill
+        :param Gtk.FilterListModel filter_model: The model to fill
         """
         source = media.get_source()
         self._wrappers[source].get_artist_albums(media, filter_model)
@@ -187,19 +187,19 @@ class CoreGrilo(GObject.GObject):
         """Get all discs from an album
 
         :param Grl.Media media: A Grilo Media item that represents Album
-        :param Gfm.SortListModel disc_model: The model to fill
+        :param Gtk.SortListModel disc_model: The model to fill
         """
         source = media.get_source()
         self._wrappers[source].get_album_discs(media, disc_model)
 
     def get_album_disc(
             self, media: Grl.Media, discnr: int,
-            model: Gfm.FilterListModel) -> None:
+            model: Gtk.FilterListModel) -> None:
         """Get all songs from an album disc
 
         :param Grl.Media media: An album
         :param int discnr: The disc number
-        :param Gfm.FilterListModel model: The model to fill
+        :param Gtk.FilterListModel model: The model to fill
         """
         source = media.get_source()
         self._wrappers[source].get_album_disc(media, discnr, model)

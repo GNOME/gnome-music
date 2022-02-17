@@ -1,4 +1,4 @@
-# Copyright (c) 2016 The GNOME Music Developers
+# Copyright 2022 The GNOME Music Developers
 #
 # GNOME Music is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -22,16 +22,21 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from gettext import gettext as _
-from gi.repository import Gdk, GObject, Gtk, Pango
+from __future__ import annotations
+import typing
 
-from gnomemusic.coresong import CoreSong
-from gnomemusic.utils import SongStateIcon
-from gnomemusic.widgets.starhandlerwidget import StarHandlerWidget
+from gettext import gettext as _
+from gi.repository import GObject, Gtk
+from typing import Dict, List
+
+from gnomemusic.widgets.songwidgetmenu import SongWidgetMenu
+import gnomemusic.utils as utils
+if typing.TYPE_CHECKING:
+    from gnomemusic.application import Application
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/SongsView.ui")
-class SongsView(Gtk.ScrolledWindow):
+class SongsView(Gtk.Box):
     """Main view of all songs sorted artistwise
 
     Consists all songs along with songname, star, length, artist
@@ -46,14 +51,9 @@ class SongsView(Gtk.ScrolledWindow):
     title = GObject.Property(
         type=str, default=_("Songs"), flags=GObject.ParamFlags.READABLE)
 
-    _duration_renderer = Gtk.Template.Child()
-    _now_playing_column = Gtk.Template.Child()
-    _now_playing_cell = Gtk.Template.Child()
-    _songs_ctrlr = Gtk.Template.Child()
-    _songs_view = Gtk.Template.Child()
-    _star_column = Gtk.Template.Child()
+    _listview = Gtk.Template.Child()
 
-    def __init__(self, application):
+    def __init__(self, application: Application) -> None:
         """Initialize
 
         :param GtkApplication window: The application object
@@ -62,50 +62,168 @@ class SongsView(Gtk.ScrolledWindow):
 
         self.props.name = "songs"
 
-        self._window = application.props.window
+        self._application = application
         self._coremodel = application.props.coremodel
-
-        self._iter_to_clean = None
-        self._set_list_renderers()
-
-        self._playlist_model = self._coremodel.props.playlist_sort
-        self._songs_view.props.model = self._coremodel.props.songs_gtkliststore
-        self._model = self._songs_view.props.model
-
+        self._coreselection = application.props.coreselection
         self._player = application.props.player
-        self._player.connect('song-changed', self._update_model)
+        self._window = application.props.window
+
+        self._list_item_bindings: Dict[
+            Gtk.ListItem, List[GObject.Binding]] = {}
+        self._list_item_star_controllers: Dict[
+            Gtk.ListItem, List[GObject.Binding]] = {}
+
+        self._selection_model = Gtk.MultiSelection.new(
+            self._coremodel.props.songs)
+
+        list_item_factory = Gtk.SignalListItemFactory()
+        list_item_factory.connect("setup", self._setup_list_item)
+        list_item_factory.connect("bind", self._bind_list_item)
+        list_item_factory.connect("unbind", self._unbind_list_item)
+
+        self._listview.props.factory = list_item_factory
+        self._listview.props.model = self._selection_model
+
+        self._listview.connect("activate", self._on_song_activated)
 
         self._selection_mode = False
 
+        self.bind_property(
+            "selection-mode", self._listview, "single-click-activate",
+            GObject.BindingFlags.SYNC_CREATE
+            | GObject.BindingFlags.INVERT_BOOLEAN)
+        self.bind_property(
+            "selection-mode", self._listview, "enable-rubberband",
+            GObject.BindingFlags.SYNC_CREATE)
         self._window.bind_property(
             "selection-mode", self, "selection-mode",
             GObject.BindingFlags.BIDIRECTIONAL)
 
-    def _set_list_renderers(self):
-        self._now_playing_column.set_cell_data_func(
-            self._now_playing_cell, self._on_list_widget_icon_render, None)
+    def _on_song_activated(self, widget, position):
+        coresong = widget.props.model[position]
 
-        self._star_handler = StarHandlerWidget(self, 6)
-        self._star_handler.add_star_renderers(self._star_column)
+        self._coremodel.props.active_core_object = coresong
+        self._player.play(coresong)
 
-        attrs = Pango.AttrList()
-        attrs.insert(Pango.AttrFontFeatures.new("tnum=1"))
-        self._duration_renderer.props.attributes = attrs
+    def _setup_list_item(
+            self, factory: Gtk.SignalListItemFactory,
+            list_item: Gtk.ListItem) -> None:
+        builder = Gtk.Builder.new_from_resource(
+            "/org/gnome/Music/ui/SongListItem.ui")
+        list_item.props.child = builder.get_object("_song_box")
 
-    def _on_list_widget_icon_render(self, col, cell, model, itr, data):
-        current_song = self._player.props.current_song
-        if current_song is None:
-            return
+        self.bind_property(
+            "selection-mode", list_item, "selectable",
+            GObject.BindingFlags.SYNC_CREATE)
+        self.bind_property(
+            "selection-mode", list_item, "activatable",
+            GObject.BindingFlags.SYNC_CREATE
+            | GObject.BindingFlags.INVERT_BOOLEAN)
 
-        coresong = model[itr][7]
-        if coresong.props.validation == CoreSong.Validation.FAILED:
-            cell.props.icon_name = SongStateIcon.ERROR.value
-            cell.props.visible = True
-        elif coresong.props.grlid == current_song.props.grlid:
-            cell.props.icon_name = SongStateIcon.PLAYING.value
-            cell.props.visible = True
-        else:
-            cell.props.visible = False
+    def _bind_list_item(
+            self, factory: Gtk.SignalListItemFactory,
+            list_item: Gtk.ListItem) -> None:
+        list_row = list_item.props.child
+        coresong = list_item.props.item
+
+        check = list_row.get_first_child()
+        info_box = check.get_next_sibling()
+        duration_label = info_box.get_next_sibling()
+        star_box = duration_label.get_next_sibling()
+        star_image = star_box.get_first_child()
+        title_label = info_box.get_first_child()
+        album_label = title_label.get_next_sibling()
+        artist_label = album_label.get_next_sibling()
+        menu_button = star_box.get_next_sibling()
+
+        def _on_star_toggle(
+                controller: Gtk.GestureClick, n_press: int, x: float,
+                y: float) -> None:
+            controller.set_state(Gtk.EventSequenceState.CLAIMED)
+            coresong.props.favorite = not coresong.props.favorite
+            star_image.props.favorite = coresong.props.favorite
+
+        star_click = Gtk.GestureClick()
+        star_click.props.button = 1
+        star_click.connect("released", _on_star_toggle)
+        star_image.add_controller(star_click)
+
+        def _on_star_enter(
+                controller: Gtk.EventControllerMotion, x: float,
+                y: float) -> None:
+            star_image.props.hover = True
+
+        def _on_star_leave(controller: Gtk.EventControllerMotion) -> None:
+            star_image.props.hover = False
+
+        star_hover = Gtk.EventControllerMotion()
+        star_hover.connect("enter", _on_star_enter)
+        star_hover.connect("leave", _on_star_leave)
+        star_image.add_controller(star_hover)
+
+        menu_button.props.popover = SongWidgetMenu(
+            self._application, list_row, coresong)
+
+        b1 = coresong.bind_property(
+            "title", title_label, "label", GObject.BindingFlags.SYNC_CREATE)
+        b2 = coresong.bind_property(
+            "album", album_label, "label", GObject.BindingFlags.SYNC_CREATE)
+        b3 = coresong.bind_property(
+            "artist", artist_label, "label", GObject.BindingFlags.SYNC_CREATE)
+
+        b4 = coresong.bind_property(
+            "favorite", star_image, "favorite")
+
+        duration_label.props.label = utils.seconds_to_string(
+            coresong.props.duration)
+
+        b5 = list_item.bind_property(
+            "selected", coresong, "selected", GObject.BindingFlags.SYNC_CREATE)
+        b6 = list_item.bind_property(
+            "selected", check, "active", GObject.BindingFlags.SYNC_CREATE)
+        b7 = self.bind_property(
+            "selection-mode", check, "visible",
+            GObject.BindingFlags.SYNC_CREATE)
+
+        def on_activated(widget, value):
+            if check.props.active:
+                self._selection_model.select_item(
+                    list_item.get_position(), False)
+            else:
+                self._selection_model.unselect_item(
+                    list_item.get_position())
+
+        # The listitem selected property is read-only.
+        # It cannot be bound from the check active property.
+        # It is necessary to update the selection model in order
+        # to update it.
+        check.connect("notify::active", on_activated)
+
+        self._list_item_bindings[list_item] = [b1, b2, b3, b4, b5, b6, b7]
+        self._list_item_star_controllers[list_item] = [star_click, star_hover]
+
+    def _unbind_list_item(
+            self, factory: Gtk.SignalListItemFactory,
+            list_item: Gtk.ListItem) -> None:
+        bindings = self._list_item_bindings.pop(list_item)
+        [binding.unbind() for binding in bindings]
+
+        list_row = list_item.props.child
+        check = list_row.get_first_child()
+        info_box = check.get_next_sibling()
+        duration_label = info_box.get_next_sibling()
+        star_box = duration_label.get_next_sibling()
+        star_image = star_box.get_first_child()
+
+        controllers = self._list_item_star_controllers.pop(list_item)
+        [star_image.remove_controller(ctrl) for ctrl in controllers]
+
+        signal_id, detail_id = GObject.signal_parse_name(
+            "notify::active", check, True)
+        handler_id = GObject.signal_handler_find(
+            check, GObject.SignalMatchType.ID, signal_id, detail_id, None, 0,
+            0)
+        check.disconnect(handler_id)
 
     @GObject.Property(type=bool, default=False)
     def selection_mode(self):
@@ -130,101 +248,17 @@ class SongsView(Gtk.ScrolledWindow):
         if self._selection_mode is False:
             self.deselect_all()
 
-        cols = self._songs_view.get_columns()
-        cols[1].props.visible = self._selection_mode
-
-    @Gtk.Template.Callback()
-    def _on_item_activated(self, treeview, path, column):
-        """Action performed when clicking on a song
-
-        clicking on star column toggles favorite
-        clicking on an other columns launches player
-
-        :param Gtk.TreeView treeview: self._songs_view
-        :param Gtk.TreePath path: activated row index
-        :param Gtk.TreeViewColumn column: activated column
+    def _toggle_all_selection(self, selected):
+        """Selects or deselects all items.
         """
-        if self._star_handler.star_renderer_click:
-            self._star_handler.star_renderer_click = False
-            return
-
-        if self.props.selection_mode:
-            return
-
-        itr = self._model.get_iter(path)
-        coresong = self._model[itr][7]
-        self._coremodel.props.active_core_object = coresong
-
-        self._player.play(coresong)
-
-    @Gtk.Template.Callback()
-    def _on_view_clicked(self, gesture, n_press, x, y):
-        """Ctrl+click on self._songs_view triggers selection mode."""
-        _, state = Gtk.get_current_event_state()
-        modifiers = Gtk.accelerator_get_default_mod_mask()
-        if (state & modifiers == Gdk.ModifierType.CONTROL_MASK
-                and not self.props.selection_mode):
-            self.props.selection_mode = True
-
-        # FIXME: In selection mode, star clicks might still trigger
-        # activation.
-        if self.props.selection_mode:
-            path = self._songs_view.get_path_at_pos(x, y)
-            if path is None:
-                return
-
-            iter_ = self._model.get_iter(path[0])
-            new_fav_status = not self._model[iter_][1]
-            self._model[iter_][1] = new_fav_status
-            self._model[iter_][7].props.selected = new_fav_status
-
-    def _update_model(self, player):
-        """Updates model when the song changes
-
-        :param Player player: The main player object
-        """
-        # iter_to_clean is necessary because of a bug in GtkTreeView
-        # See https://gitlab.gnome.org/GNOME/gtk/issues/503
-        if self._iter_to_clean:
-            self._model[self._iter_to_clean][9] = False
-
-        index = self._player.props.position
-        current_coresong = self._playlist_model[index]
-        for idx, liststore in enumerate(self._model):
-            if liststore[7] == current_coresong:
-                break
-
-        iter_ = self._model.get_iter_from_string(str(idx))
-        path = self._model.get_path(iter_)
-        self._model[iter_][9] = True
-        self._songs_view.scroll_to_cell(path, None, True, 0.5, 0.5)
-
-        if self._model[iter_][0] != SongStateIcon.ERROR.value:
-            self._iter_to_clean = iter_.copy()
-
-        return False
-
-    @GObject.Property(
-        type=Gtk.ListStore, default=None, flags=GObject.ParamFlags.READABLE)
-    def model(self):
-        """Get songs view model
-
-        :returns: songs view model
-        :rtype: Gtk.ListStore
-        """
-        return self._model
-
-    def _select(self, value):
-        with self._model.freeze_notify():
-            itr = self._model.iter_children(None)
-            while itr is not None:
-                self._model[itr][7].props.selected = value
-                self._model[itr][1] = value
-
-                itr = self._model.iter_next(itr)
+        with self._coreselection.freeze_notify():
+            if selected:
+                self._selection_model.select_all()
+            else:
+                self._selection_model.unselect_all()
 
     def select_all(self):
-        self._select(True)
+        self._toggle_all_selection(True)
 
     def deselect_all(self):
-        self._select(False)
+        self._toggle_all_selection(False)

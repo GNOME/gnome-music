@@ -22,7 +22,13 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from __future__ import annotations
+import typing
+
 from gi.repository import GLib, GObject
+
+if typing.TYPE_CHECKING:
+    from gnomemusic.window import Window
 
 
 class WindowPlacement(GObject.GObject):
@@ -47,42 +53,35 @@ class WindowPlacement(GObject.GObject):
 
         self._restore_window_state()
 
-        self._window_placement_update_timeout = None
+        self._window_placement_update_timeout = 0
         self._window.connect('notify::is-maximized', self._on_maximized)
-        self._window.connect('configure-event', self._on_configure_event)
+        self._window.connect("notify::default-height", self._on_size_change)
+        self._window.connect("notify::default-width", self._on_size_change)
 
     def _restore_window_state(self):
         size_setting = self._settings.get_value('window-size')
         if (len(size_setting) == 2
                 and isinstance(size_setting[0], int)
                 and isinstance(size_setting[1], int)):
-            self._window.resize(size_setting[0], size_setting[1])
-
-        position_setting = self._settings.get_value('window-position')
-        if (len(position_setting) == 2
-                and isinstance(position_setting[0], int)
-                and isinstance(position_setting[1], int)):
-            self._window.move(position_setting[0], position_setting[1])
+            self._window.set_default_size(size_setting[0], size_setting[1])
 
         if self._settings.get_value('window-maximized'):
             self._window.maximize()
 
-    def _on_configure_event(self, widget, event):
-        if self._window_placement_update_timeout is None:
+    def _on_size_change(
+            self, window: Window, size: GObject.ParamSpecInt) -> None:
+        if self._window_placement_update_timeout == 0:
             self._window_placement_update_timeout = GLib.timeout_add(
-                500, self._store_size_and_position, widget)
+                500, self._store_size, window)
 
-    def _store_size_and_position(self, widget):
-        size = widget.get_size()
+    def _store_size(self, window: Window) -> bool:
+        width = window.get_width()
+        height = window.get_height()
         self._settings.set_value(
-            'window-size', GLib.Variant('ai', [size[0], size[1]]))
-
-        position = widget.get_position()
-        self._settings.set_value(
-            'window-position', GLib.Variant('ai', [position[0], position[1]]))
+            "window-size", GLib.Variant("ai", [width, height]))
 
         GLib.source_remove(self._window_placement_update_timeout)
-        self._window_placement_update_timeout = None
+        self._window_placement_update_timeout = 0
 
         return False
 

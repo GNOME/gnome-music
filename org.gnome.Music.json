@@ -7,6 +7,7 @@
     "tags": ["devel", "development", "nightly"],
     "desktop-file-name-suffix": " ☢️",
     "finish-args": [
+        "--device=dri",
         "--share=ipc",
         "--share=network",
         "--socket=wayland",
@@ -40,16 +41,6 @@
                 {
                     "type": "git",
                     "url": "https://gitlab.gnome.org/GNOME/libmediaart.git"
-                }
-            ]
-        },
-        {
-            "name": "libdazzle",
-            "buildsystem": "meson",
-            "sources": [
-                {
-                    "type": "git",
-                    "url": "https://gitlab.gnome.org/GNOME/libdazzle.git"
                 }
             ]
         },

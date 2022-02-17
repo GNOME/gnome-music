@@ -22,13 +22,12 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from __future__ import annotations
+
 from enum import IntEnum
 from typing import Optional
 
-import gi
-gi.require_version('Dazzle', '1.0')
 from gi.repository import Gdk, GObject, Gtk
-from gi.repository.Dazzle import BoldingLabel  # noqa: F401
 
 from gnomemusic import utils
 from gnomemusic.coresong import CoreSong
@@ -56,7 +55,6 @@ class SongWidget(Gtk.ListBoxRow):
     }
 
     coresong = GObject.Property(type=CoreSong, default=None)
-    select_click = GObject.Property(type=bool, default=False)
     selected = GObject.Property(type=bool, default=False)
     show_song_number = GObject.Property(type=bool, default=True)
 
@@ -64,14 +62,13 @@ class SongWidget(Gtk.ListBoxRow):
     _album_duration_box = Gtk.Template.Child()
     _artist_box = Gtk.Template.Child()
     _artist_label = Gtk.Template.Child()
-    _controller_motion = Gtk.Template.Child()
-    _dnd_eventbox = Gtk.Template.Child()
+    _dnd_icon = Gtk.Template.Child()
+    _drag_source = Gtk.Template.Child()
     _menu_button = Gtk.Template.Child()
     _select_button = Gtk.Template.Child()
     _number_label = Gtk.Template.Child()
     _title_label = Gtk.Template.Child()
     _duration_label = Gtk.Template.Child()
-    _star_eventbox = Gtk.Template.Child()
     _star_image = Gtk.Template.Child()
     _star_stack = Gtk.Template.Child()
     _play_icon = Gtk.Template.Child()
@@ -126,8 +123,7 @@ class SongWidget(Gtk.ListBoxRow):
 
         self._select_button.set_visible(False)
 
-        self._play_icon.set_from_icon_name(
-            'media-playback-start-symbolic', Gtk.IconSize.SMALL_TOOLBAR)
+        self._play_icon.set_from_icon_name("media-playback-start-symbolic")
 
         self.props.coresong.bind_property(
             'selected', self._select_button, 'active',
@@ -149,74 +145,74 @@ class SongWidget(Gtk.ListBoxRow):
         if not self.props.coresong.props.is_tracker:
             self._star_stack.props.visible_child_name = "empty"
 
-        if can_dnd is True:
-            self._dnd_eventbox.props.visible = True
-            self._drag_widget = None
-            entries = [
-                Gtk.TargetEntry.new(
-                    "GTK_EVENT_BOX", Gtk.TargetFlags.SAME_APP, 0)
-            ]
-            self._dnd_eventbox.drag_source_set(
-                Gdk.ModifierType.BUTTON1_MASK, entries,
-                Gdk.DragAction.MOVE)
-            self.drag_dest_set(
-                Gtk.DestDefaults.ALL, entries, Gdk.DragAction.MOVE)
+        self._drag_x = 0.
+        self._drag_y = 0.
+        self._drag_widget: Optional[Gtk.ListBox] = None
+        if can_dnd:
+            capture_phase = Gtk.PropagationPhase.CAPTURE
+            self._drag_source.props.propagation_phase = capture_phase
+            self._dnd_icon.props.visible = True
 
     @Gtk.Template.Callback()
-    def _on_drag_begin(self, klass, context):
-        gdk_window = self.get_window()
-        _, x, y, _ = gdk_window.get_device_position(context.get_device())
-        allocation = self.get_allocation()
+    def _on_drag_prepare(
+        self, drag_source: Gtk.DragSource, x: float,
+            y: float) -> Gdk.ContentProvider:
+        self._drag_x = x
+        self._drag_y = y
+        return Gdk.ContentProvider.new_for_value(self)
 
+    @Gtk.Template.Callback()
+    def _on_drag_begin(
+            self, drag_source: Gtk.DragSource, drag: Gdk.Drag) -> None:
+        allocation = self.get_allocation()
         self._drag_widget = Gtk.ListBox()
         self._drag_widget.set_size_request(allocation.width, allocation.height)
 
-        drag_row = SongWidget(self.props.coresong)
+        drag_row = SongWidget(self.props.coresong, False, True)
         drag_row.props.show_song_number = self.props.show_song_number
-
-        self._drag_widget.add(drag_row)
+        self._drag_widget.append(drag_row)
         self._drag_widget.drag_highlight_row(drag_row)
-        self._drag_widget.props.visible = True
-        Gtk.drag_set_icon_widget(
-            context, self._drag_widget, x - allocation.x, y - allocation.y)
+
+        drag_icon = Gtk.DragIcon.get_for_drag(drag)
+        drag_icon.props.child = self._drag_widget
+        drag.set_hotspot(self._drag_x, self._drag_y)
 
     @Gtk.Template.Callback()
-    def _on_drag_end(self, klass, context):
+    def _on_drop(
+            self, target: Gtk.DropTarget,
+            source_widget: SongWidget, x: float, y: float) -> bool:
         self._drag_widget = None
+        self._drag_x = 0.
+        self._drag_y = 0.
 
-    @Gtk.Template.Callback()
-    def _on_drag_data_get(self, klass, context, selection_data, info, time_):
-        row_position = self.get_index()
-        selection_data.set(
-            Gdk.Atom.intern("row_position", False), 0,
-            bytes(str(row_position), encoding="UTF8"))
-
-    @Gtk.Template.Callback()
-    def _on_drag_data_received(
-            self, klass, context, x, y, selection_data, info, time_):
-        source_position = int(str(selection_data.get_data(), "UTF-8"))
+        source_position = source_widget.get_index()
         target_position = self.get_index()
         if source_position == target_position:
-            return
-
-        self.emit("widget-moved", source_position)
-
-    @Gtk.Template.Callback()
-    def _on_select_button_toggled(self, widget):
-        # This property is used to ignore the second click event
-        # (one event in SongWidget and the other one in select_button).
-        self.props.select_click = not self.props.select_click
-
-    @Gtk.Template.Callback()
-    def _on_star_toggle(self, widget, event):
-        (_, button) = event.get_button()
-        if button != Gdk.BUTTON_PRIMARY:
             return False
 
+        self.emit("widget-moved", source_position)
+        return True
+
+    @Gtk.Template.Callback()
+    def _on_click(
+            self, gesture_click: Gtk.GestureClick, n_click: int, x: int,
+            y: int) -> bool:
+        state = gesture_click.get_current_event_state()
+        modifiers = Gtk.accelerator_get_default_mod_mask()
+        if (state & modifiers == Gdk.ModifierType.CONTROL_MASK
+                and not self.props.selection_mode):
+            self.props.selection_mode = True
+
+        return Gdk.EVENT_STOP
+
+    @Gtk.Template.Callback()
+    def _on_star_toggle(
+            self, controller: Gtk.GestureClick, n_press: int, x: float,
+            y: float) -> bool:
+        controller.set_state(Gtk.EventSequenceState.CLAIMED)
         favorite = not self._star_image.favorite
         self._star_image.props.favorite = favorite
-
-        return True
+        return Gdk.EVENT_STOP
 
     @Gtk.Template.Callback()
     def _on_star_hover(self, controller, x, y):

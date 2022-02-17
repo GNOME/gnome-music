@@ -24,7 +24,7 @@
 
 from typing import Optional
 
-from gi.repository import Gtk, Gdk, Gio, GLib, GObject, Handy
+from gi.repository import Adw, Gtk, Gdk, Gio, GLib, GObject
 from gettext import gettext as _
 
 from gnomemusic.gstplayer import Playback
@@ -48,7 +48,7 @@ from gnomemusic.windowplacement import WindowPlacement
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/Window.ui")
-class Window(Handy.ApplicationWindow):
+class Window(Adw.ApplicationWindow):
 
     __gtype_name__ = "Window"
 
@@ -58,7 +58,6 @@ class Window(Handy.ApplicationWindow):
 
     notifications_popup = Gtk.Template.Child()
     _headerbar_stack = Gtk.Template.Child()
-    _key_controller = Gtk.Template.Child()
     _overlay = Gtk.Template.Child()
     _player_toolbar = Gtk.Template.Child()
     _selection_toolbar = Gtk.Template.Child()
@@ -229,11 +228,11 @@ class Window(Handy.ApplicationWindow):
         if self.views[View.ALBUM] is not None:
             return
 
-        self._btn_ctrl = Gtk.GestureMultiPress().new(self)
-        self._btn_ctrl.props.propagation_phase = Gtk.PropagationPhase.CAPTURE
+        ctrl = Gtk.GestureClick().new()
         # Mouse button 8 is the back button.
-        self._btn_ctrl.props.button = 8
-        self._btn_ctrl.connect("pressed", self._on_back_button_pressed)
+        ctrl.props.button = 8
+        ctrl.connect("pressed", self._on_back_button_pressed)
+        self.add_controller(ctrl)
 
         self.views[View.EMPTY].props.state = EmptyView.State.SEARCH
 
@@ -250,9 +249,9 @@ class Window(Handy.ApplicationWindow):
         # from being displayed during startup
         for i in self.views[View.ALBUM:]:
             if i.props.title:
-                self._stack.add_titled(i, i.props.name, i.props.title)
-                self._stack.child_set_property(
-                    i, "icon-name", i.props.icon_name)
+                stackpage = self._stack.add_titled(
+                    i, i.props.name, i.props.title)
+                stackpage.props.icon_name = i.props.icon_name
             else:
                 self._stack.add_named(i, i.props.name)
 
@@ -288,7 +287,7 @@ class Window(Handy.ApplicationWindow):
         modifiers = state & Gtk.accelerator_get_default_mod_mask()
         control_mask = Gdk.ModifierType.CONTROL_MASK
         shift_mask = Gdk.ModifierType.SHIFT_MASK
-        mod1_mask = Gdk.ModifierType.MOD1_MASK
+        alt_mask = Gdk.ModifierType.ALT_MASK
         shift_ctrl_mask = control_mask | shift_mask
 
         # Ctrl+<KEY>
@@ -328,7 +327,7 @@ class Window(Handy.ApplicationWindow):
             if keyval == Gdk.KEY_A:
                 self._deselect_all()
         # Alt+<KEY>
-        elif modifiers == mod1_mask:
+        elif modifiers == alt_mask:
             # Go back from child view on Alt + Left
             if keyval == Gdk.KEY_Left:
                 self._switch_back_from_childview()
@@ -443,7 +442,7 @@ class Window(Handy.ApplicationWindow):
     def _on_selection_mode_changed(self, widget, data=None):
         if (not self.props.selection_mode
                 and self._player.state == Playback.STOPPED):
-            self._player_toolbar.hide()
+            self._player_toolbar.props.revealed = False
 
     def _on_add_to_playlist(self, widget: SelectionToolbar) -> None:
 
@@ -477,4 +476,4 @@ class Window(Handy.ApplicationWindow):
 
         :param bool visible: actionbar visibility
         """
-        self._player_toolbar.set_visible(visible)
+        self._player_toolbar.props.revealed = visible

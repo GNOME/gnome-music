@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <template class="Window" parent="HdyApplicationWindow">
+  <template class="Window" parent="AdwApplicationWindow">
     <property name="default-height">500</property>
     <property name="default-width">300</property>
     <child>
+      <object class="GtkEventControllerKey">
+        <property name="propagation-phase">capture</property>
+        <signal name="key-pressed" handler="_on_key_press" swapped="no"/>
+      </object>
+    </child>
+    <child>
       <object class="GtkBox">
         <property name="orientation">vertical</property>
-        <property name="visible">True</property>
         <child>
           <object class="GtkStack" id="_headerbar_stack">
             <property name="transition-type">crossfade</property>
-            <property name="visible">True</property>
           </object>
         </child>
         <child>
           <object class="GtkOverlay" id="_overlay">
             <property name="vexpand">True</property>
-            <property name="visible">True</property>
             <child>
-              <object class="GtkStack" id="_stack">
-                <property name="can-focus">False</property>
+              <object class="AdwViewStack" id="_stack">
+                <property name="focusable">False</property>
                 <property name="hhomogeneous">False</property>
                 <property name="vhomogeneous">False</property>
-                <property name="transition-duration">100</property>
-                <property name="transition-type">crossfade</property>
-                <property name="visible">True</property>
               </object>
             </child>
             <child type="overlay">
@@ -45,9 +45,4 @@
       </object>
     </child>
   </template>
-  <object class="GtkEventControllerKey" id="_key_controller">
-    <property name="widget">Window</property>
-    <property name="propagation-phase">capture</property>
-    <signal name="key-pressed" handler="_on_key_press" swapped="no"/>
-  </object>
 </interface>

@@ -23,19 +23,16 @@
 # delete this exception statement from your version.
 
 from __future__ import annotations
-from typing import Optional, Union
+from typing import Any, Optional, Union
 import typing
 
-import gi
-gi.require_version("Gfm", "0.1")
-from gi.repository import GLib, GObject, Gio, Gfm, Gtk
+from gi.repository import GLib, GObject, Gio, Gtk
 
 from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.coreartist import CoreArtist
 from gnomemusic.coresong import CoreSong
 from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
 from gnomemusic.player import PlayerPlaylist
-from gnomemusic.songliststore import SongListStore
 from gnomemusic.widgets.songwidget import SongWidget
 if typing.TYPE_CHECKING:
     from gnomemusic.application import Application
@@ -85,86 +82,91 @@ class CoreModel(GObject.GObject):
         """
         super().__init__()
 
-        self._flatten_model: Optional[Gfm.FlattenListModel] = None
+        self._application = application
+        self._flatten_model: Optional[Gtk.FlattenListModel] = None
         self._player_signal_id = 0
         self._current_playlist_model: Optional[Union[
-            Gfm.FlattenListModel, Gfm.SortListModel, Gio.ListModel]] = None
+            Gtk.FlattenListModel, Gtk.SortListModel, Gio.ListModel]] = None
         self._previous_playlist_model: Optional[Union[
-            Gfm.FlattenListModel, Gfm.SortListModel, Gio.ListModel]] = None
+            Gtk.FlattenListModel, Gtk.SortListModel, Gio.ListModel]] = None
 
         self._songs_model_proxy: Gio.ListStore = Gio.ListStore.new(
             Gio.ListModel)
-        self._songs_model: Gfm.FlattenListModel = Gfm.FlattenListModel.new(
-            CoreSong, self._songs_model_proxy)
-        self._songliststore = SongListStore(self._songs_model)
-
-        self._application = application
+        self._flatten_songs_model = Gtk.FlattenListModel.new(
+            self._songs_model_proxy)
+        self._songs_model = Gtk.SortListModel.new(self._flatten_songs_model)
+        sorter = Gtk.CustomSorter()
+        sorter.set_sort_func(self._songs_sort)
+        self._songs_model.props.incremental = True
+        self._songs_model.set_sorter(sorter)
 
         self._albums_model_proxy: Gio.ListStore = Gio.ListStore.new(
             Gio.ListModel)
-        self._albums_model: Gfm.FlattenListModel = Gfm.FlattenListModel.new(
-            CoreAlbum, self._albums_model_proxy)
-        self._albums_model_sort: Gfm.SortListModel = Gfm.SortListModel.new(
+        self._albums_model: Gtk.FlattenListModel = Gtk.FlattenListModel.new(
+            self._albums_model_proxy)
+        self._albums_model_sort: Gtk.SortListModel = Gtk.SortListModel.new(
             self._albums_model)
-        self._albums_model_sort.set_sort_func(
-            utils.wrap_list_store_sort_func(self._albums_sort))
+        albums_sorter = Gtk.CustomSorter()
+        albums_sorter.set_sort_func(self._albums_sort)
+        self._albums_model_sort.set_sorter(albums_sorter)
 
         self._artists_model_proxy: Gio.ListStore = Gio.ListStore.new(
             Gio.ListModel)
-        self._artists_model: Gfm.FlattenListModel = Gfm.FlattenListModel.new(
-            CoreArtist, self._artists_model_proxy)
-        self._artists_model_sort: Gfm.SortListModel = Gfm.SortListModel.new(
+        self._artists_model: Gtk.FlattenListModel = Gtk.FlattenListModel.new(
+            self._artists_model_proxy)
+        self._artists_model_sort: Gtk.SortListModel = Gtk.SortListModel.new(
             self._artists_model)
-        self._artists_model_sort.set_sort_func(
-            utils.wrap_list_store_sort_func(self._artist_sort))
+        artists_sorter = Gtk.CustomSorter()
+        artists_sorter.set_sort_func(self._artist_sort)
+        self._artists_model_sort.set_sorter(artists_sorter)
 
         self._playlist_model: Gio.ListStore = Gio.ListStore.new(CoreSong)
-        self._playlist_model_sort: Gfm.SortListModel = Gfm.SortListModel.new(
+        self._playlist_model_sort: Gtk.SortListModel = Gtk.SortListModel.new(
             self._playlist_model)
-        self._playlist_model_recent: Gfm.SliceListModel = (
-            Gfm.SliceListModel.new(
+        self._playlist_model_recent: Gtk.SliceListModel = (
+            Gtk.SliceListModel.new(
                 self._playlist_model_sort, 0, self._recent_size))
         self._active_core_object: Optional[Union[
             CoreAlbum, CoreArtist, Playlist]] = None
 
         self._songs_search_proxy: Gio.ListStore = Gio.ListStore.new(
-            Gfm.FilterListModel)
-        self._songs_search_flatten: Gfm.FlattenListModel = (
-            Gfm.FlattenListModel.new(CoreSong))
+            Gtk.FilterListModel)
+        self._songs_search_flatten: Gtk.FlattenListModel = (
+            Gtk.FlattenListModel())
         self._songs_search_flatten.set_model(self._songs_search_proxy)
 
         self._albums_search_proxy: Gio.Liststore = Gio.ListStore.new(
-            Gfm.FilterListModel)
-        self._albums_search_flatten: Gfm.FlattenListModel = (
-            Gfm.FlattenListModel.new(CoreAlbum))
+            Gtk.FilterListModel)
+        self._albums_search_flatten: Gtk.FlattenListModel = (
+            Gtk.FlattenListModel())
         self._albums_search_flatten.set_model(self._albums_search_proxy)
-
-        self._albums_search_filter: Gfm.FilterListModel = (
-            Gfm.FilterListModel.new(self._albums_search_flatten))
+        self._albums_search_filter: Gtk.FilterListModel = (
+            Gtk.FilterListModel.new(Gtk.AnyFilter()))
 
         self._artists_search_proxy: Gio.Liststore = Gio.ListStore.new(
-            Gfm.FilterListModel)
-        self._artists_search_flatten: Gfm.FlattenListModel = (
-            Gfm.FlattenListModel.new(CoreArtist))
+            Gtk.FilterListModel)
+        self._artists_search_flatten: Gtk.FlattenListModel = (
+            Gtk.FlattenListModel())
         self._artists_search_flatten.set_model(self._artists_search_proxy)
-
-        self._artists_search_filter: Gfm.FilterListModel = (
-            Gfm.FilterListModel.new(self._artists_search_flatten))
+        self._artists_search_filter: Gtk.FilterListModel = (
+            Gtk.FilterListModel.new(Gtk.AnyFilter()))
 
         self._playlists_model: Gio.ListStore = Gio.ListStore.new(Playlist)
-        self._playlists_model_filter: Gfm.FilterListModel = (
-            Gfm.FilterListModel.new(self._playlists_model))
-        self._playlists_model_sort: Gfm.SortListModel = Gfm.SortListModel.new(
+        self._playlists_model_filter: Gtk.FilterListModel = (
+            Gtk.FilterListModel.new(self._playlists_model))
+        self._playlists_model_sort: Gtk.SortListModel = Gtk.SortListModel.new(
             self._playlists_model_filter)
-        self._playlists_model_sort.set_sort_func(
-            utils.wrap_list_store_sort_func(self._playlists_sort))
+        playlists_sorter = Gtk.CustomSorter()
+        playlists_sorter.set_sort_func(self._playlists_sort)
+        self._playlists_model_sort.set_sorter(playlists_sorter)
 
-        self._user_playlists_model_filter: Gfm.FilterListModel = (
-            Gfm.FilterListModel.new(self._playlists_model))
-        self._user_playlists_model_sort: Gfm.SortListModel = (
-            Gfm.SortListModel.new(self._user_playlists_model_filter))
-        self._user_playlists_model_sort.set_sort_func(
-            utils.wrap_list_store_sort_func(self._playlists_sort))
+        self._user_playlists_model_filter: Gtk.FilterListModel = (
+            Gtk.FilterListModel.new(self._playlists_model))
+        self._user_playlists_model_sort: Gtk.SortListModel = (
+            Gtk.SortListModel.new(self._user_playlists_model_filter))
+        user_playlists_sorter = Gtk.CustomSorter()
+        user_playlists_sorter.set_sort_func(self._playlists_sort)
+        self._user_playlists_model_sort.set_sorter(user_playlists_sorter)
 
         self._search: Search = application.props.search
 
@@ -183,18 +185,33 @@ class CoreModel(GObject.GObject):
         else:
             self.props.songs_available = False
 
-    def _filter_selected(self, coresong):
-        return coresong.props.selected
+    def _songs_sort(
+            self, song_a: CoreSong, song_b: CoreSong, data: Any = None) -> int:
+        title_a = song_a.props.title
+        title_b = song_b.props.title
+        song_cmp = (utils.normalize_caseless(title_a)
+                    == utils.normalize_caseless(title_b))
+        if not song_cmp:
+            return utils.natural_sort_names(title_a, title_b)
 
-    def _albums_sort(self, album_a, album_b):
+        artist_a = song_a.props.artist
+        artist_b = song_b.props.artist
+        artist_cmp = (utils.normalize_caseless(artist_a)
+                      == utils.normalize_caseless(artist_b))
+        if not artist_cmp:
+            return utils.natural_sort_names(artist_a, artist_b)
+
+        return utils.natural_sort_names(song_a.props.album, song_b.props.album)
+
+    def _albums_sort(self, album_a, album_b, data=None):
         return utils.natural_sort_names(
             album_a.props.title, album_b.props.title)
 
-    def _artist_sort(self, artist_a, artist_b):
+    def _artist_sort(self, artist_a, artist_b, data=None):
         return utils.natural_sort_names(
             artist_a.props.artist, artist_b.props.artist)
 
-    def _playlists_sort(self, playlist_a, playlist_b):
+    def _playlists_sort(self, playlist_a, playlist_b, data=None):
         if playlist_a.props.is_smart:
             if not playlist_b.props.is_smart:
                 return -1
@@ -260,8 +277,7 @@ class CoreModel(GObject.GObject):
             for disc in model:
                 proxy_model.append(disc.props.model)
 
-            self._flatten_model = Gfm.FlattenListModel.new(
-                CoreSong, proxy_model)
+            self._flatten_model = Gtk.FlattenListModel.new(proxy_model)
             self._current_playlist_model = self._flatten_model
 
             for model_song in self._flatten_model:
@@ -276,8 +292,7 @@ class CoreModel(GObject.GObject):
                 for disc in artist_album.model:
                     proxy_model.append(disc.props.model)
 
-            self._flatten_model = Gfm.FlattenListModel.new(
-                CoreSong, proxy_model)
+            self._flatten_model = Gtk.FlattenListModel.new(proxy_model)
             self._current_playlist_model = self._flatten_model
 
             for model_song in self._flatten_model:
@@ -286,9 +301,9 @@ class CoreModel(GObject.GObject):
                 songs_added.append(song)
 
         elif playlist_type == PlayerPlaylist.Type.SONGS:
-            self._current_playlist_model = self._songliststore.props.model
+            self._current_playlist_model = self._songs_model
 
-            for song in self._songliststore.props.model:
+            for song in self._songs_model:
                 songs_added.append(song)
 
                 if song.props.state == SongWidget.State.PLAYING:
@@ -363,7 +378,7 @@ class CoreModel(GObject.GObject):
         return self._songs_model
 
     @GObject.Property(
-        type=Gfm.FlattenListModel, default=None,
+        type=Gtk.FlattenListModel, default=None,
         flags=GObject.ParamFlags.READABLE)
     def songs_proxy(self):
         return self._songs_model_proxy
@@ -374,7 +389,7 @@ class CoreModel(GObject.GObject):
         return self._albums_model
 
     @GObject.Property(
-        type=Gfm.FlattenListModel, default=None,
+        type=Gtk.FlattenListModel, default=None,
         flags=GObject.ParamFlags.READABLE)
     def albums_proxy(self):
         return self._albums_model_proxy
@@ -385,7 +400,7 @@ class CoreModel(GObject.GObject):
         return self._artists_model
 
     @GObject.Property(
-        type=Gfm.FlattenListModel, default=None,
+        type=Gtk.FlattenListModel, default=None,
         flags=GObject.ParamFlags.READABLE)
     def artists_proxy(self):
         return self._artists_model_proxy
@@ -396,25 +411,25 @@ class CoreModel(GObject.GObject):
         return self._playlist_model
 
     @GObject.Property(
-        type=Gfm.SortListModel, default=None,
+        type=Gtk.SortListModel, default=None,
         flags=GObject.ParamFlags.READABLE)
     def albums_sort(self):
         return self._albums_model_sort
 
     @GObject.Property(
-        type=Gfm.SortListModel, default=None,
+        type=Gtk.SortListModel, default=None,
         flags=GObject.ParamFlags.READABLE)
     def artists_sort(self):
         return self._artists_model_sort
 
     @GObject.Property(
-        type=Gfm.SortListModel, default=None,
+        type=Gtk.SortListModel, default=None,
         flags=GObject.ParamFlags.READABLE)
     def playlist_sort(self):
         return self._playlist_model_sort
 
     @GObject.Property(
-        type=Gfm.SliceListModel, default=None,
+        type=Gtk.SliceListModel, default=None,
         flags=GObject.ParamFlags.READABLE)
     def recent_playlist(self):
         return self._playlist_model_recent
@@ -426,7 +441,7 @@ class CoreModel(GObject.GObject):
         return self._recent_size // 2
 
     @GObject.Property(
-        type=Gfm.FilterListModel, default=None,
+        type=Gtk.FilterListModel, default=None,
         flags=GObject.ParamFlags.READABLE)
     def songs_search(self):
         return self._songs_search_flatten
@@ -438,13 +453,13 @@ class CoreModel(GObject.GObject):
         return self._songs_search_proxy
 
     @GObject.Property(
-        type=Gfm.FlattenListModel, default=None,
+        type=Gtk.FlattenListModel, default=None,
         flags=GObject.ParamFlags.READABLE)
-    def albums_search(self) -> Gfm.FlattenListModel:
+    def albums_search(self) -> Gtk.FlattenListModel:
         return self._albums_search_flatten
 
     @GObject.Property(
-        type=Gfm.FilterListModel, default=None,
+        type=Gtk.FilterListModel, default=None,
         flags=GObject.ParamFlags.READABLE)
     def albums_search_filter(self):
         return self._albums_search_filter
@@ -455,13 +470,13 @@ class CoreModel(GObject.GObject):
         return self._albums_search_proxy
 
     @GObject.Property(
-        type=Gfm.FlattenListModel, default=None,
+        type=Gtk.FlattenListModel, default=None,
         flags=GObject.ParamFlags.READABLE)
-    def artists_search(self) -> Gfm.FlattenListModel:
+    def artists_search(self) -> Gtk.FlattenListModel:
         return self._artists_search_flatten
 
     @GObject.Property(
-        type=Gfm.FilterListModel, default=None,
+        type=Gtk.FilterListModel, default=None,
         flags=GObject.ParamFlags.READABLE)
     def artists_search_filter(self):
         return self._artists_search_filter
@@ -472,35 +487,30 @@ class CoreModel(GObject.GObject):
         return self._artists_search_proxy
 
     @GObject.Property(
-        type=Gtk.ListStore, default=None, flags=GObject.ParamFlags.READABLE)
-    def songs_gtkliststore(self):
-        return self._songliststore
-
-    @GObject.Property(
         type=Gio.ListStore, default=None, flags=GObject.ParamFlags.READABLE)
     def playlists(self):
         return self._playlists_model
 
     @GObject.Property(
-        type=Gfm.SortListModel, default=None,
+        type=Gtk.SortListModel, default=None,
         flags=GObject.ParamFlags.READABLE)
     def playlists_sort(self):
         return self._playlists_model_sort
 
     @GObject.Property(
-        type=Gfm.SortListModel, default=None,
+        type=Gtk.SortListModel, default=None,
         flags=GObject.ParamFlags.READABLE)
     def playlists_filter(self):
         return self._playlists_model_filter
 
     @GObject.Property(
-        type=Gfm.SortListModel, default=None,
+        type=Gtk.SortListModel, default=None,
         flags=GObject.ParamFlags.READABLE)
     def user_playlists_sort(self):
         return self._user_playlists_model_sort
 
     @GObject.Property(
-        type=Gfm.SortListModel, default=None,
+        type=Gtk.SortListModel, default=None,
         flags=GObject.ParamFlags.READABLE)
     def user_playlists_filter(self):
         return self._user_playlists_model_filter

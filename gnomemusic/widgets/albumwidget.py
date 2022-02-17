@@ -27,7 +27,7 @@ from gettext import ngettext
 from typing import Optional, Union
 import typing
 
-from gi.repository import Gfm, Gio, GLib, GObject, Gtk, Handy
+from gi.repository import Adw, Gio, GLib, GObject, Gtk
 
 from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.utils import ArtSize, DefaultIconType
@@ -42,7 +42,7 @@ if typing.TYPE_CHECKING:
 
 
 @Gtk.Template(resource_path='/org/gnome/Music/ui/AlbumWidget.ui')
-class AlbumWidget(Handy.Clamp):
+class AlbumWidget(Adw.Bin):
     """Album widget.
 
     The album widget consists of an image with the album art
@@ -203,7 +203,7 @@ class AlbumWidget(Handy.Clamp):
         return disc_box
 
     def _on_model_items_changed(
-            self, model: Gfm.SortListModel, position: int, removed: int,
+            self, model: Gtk.SortListModel, position: int, removed: int,
             added: int) -> None:
         n_items: int = model.get_n_items()
         if n_items == 1:

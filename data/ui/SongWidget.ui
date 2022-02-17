@@ -1,59 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.20.0 -->
 <interface>
-  <requires lib="gtk+" version="3.10"/>
+  <requires lib="gtk" version="4.0"/>
   <template class="SongWidget" parent="GtkListBoxRow">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
+    <property name="focusable">False</property>
     <property name="selectable">False</property>
-    <signal name="drag_data_received" handler="_on_drag_data_received"/>
     <child>
       <object class="GtkBox" id="box1">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="focusable">False</property>
         <property name="spacing">6</property>
         <child>
-          <object class="GtkEventBox" id="_dnd_eventbox">
+          <object class="GtkImage" id="_dnd_icon">
             <property name="visible">False</property>
-            <signal name="drag-begin" handler="_on_drag_begin"/>
-            <signal name="drag-end" handler="_on_drag_end"/>
-            <signal name="drag_data_get" handler="_on_drag_data_get"/>
-            <child>
-              <object class="GtkImage">
-                <property name="visible">True</property>
-                <property name="icon-name">list-drag-handle-symbolic</property>
-                <style>
-                  <class name="drag-handle"/>
-                </style>
-              </object>
-            </child>
+            <property name="icon-name">list-drag-handle-symbolic</property>
+            <style>
+              <class name="drag-handle"/>
+            </style>
           </object>
         </child>
         <child>
           <object class="GtkBox" id="box3">
             <property name="width_request">48</property>
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="focusable">False</property>
             <property name="homogeneous">True</property>
             <child>
               <object class="GtkImage" id="_play_icon">
-                <property name="can_focus">False</property>
+                <property name="focusable">False</property>
                 <property name="icon_size">1</property>
               </object>
             </child>
             <child>
               <object class="GtkCheckButton" id="_select_button">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="focusable">False</property>
                 <property name="receives_default">False</property>
-                <property name="draw_indicator">True</property>
-                <signal name="toggled" handler="_on_select_button_toggled"/>
               </object>
             </child>
             <child>
               <object class="GtkLabel" id="_number_label">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="focusable">False</property>
                 <property name="halign">end</property>
                 <property name="justify">right</property>
                 <style>
@@ -65,13 +48,11 @@
         </child>
         <child>
           <object class="GtkBox" id="title_box">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="focusable">False</property>
             <property name="hexpand">True</property>
             <child>
-              <object class="DzlBoldingLabel" id="_title_label">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
+              <object class="GtkLabel" id="_title_label">
+                <property name="focusable">False</property>
                 <property name="xalign">0</property>
                 <property name="halign">start</property>
                 <property name="hexpand">True</property>
@@ -86,12 +67,11 @@
         <child>
           <object class="GtkBox" id="_artist_box">
             <property name="visible">False</property>
-            <property name="can_focus">False</property>
+            <property name="focusable">False</property>
             <property name="hexpand">True</property>
             <child>
               <object class="GtkLabel" id="_artist_label">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="focusable">False</property>
                 <property name="xalign">0</property>
                 <property name="halign">start</property>
                 <property name="hexpand">True</property>
@@ -105,14 +85,13 @@
         </child>
         <child>
           <object class="GtkBox" id="_album_duration_box">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="focusable">False</property>
             <property name="hexpand">True</property>
             <property name="spacing">6</property>
             <child>
               <object class="GtkLabel" id="_album_label">
                 <property name="visible">False</property>
-                <property name="can_focus">False</property>
+                <property name="focusable">False</property>
                 <property name="xalign">0</property>
                 <property name="halign">start</property>
                 <property name="hexpand">True</property>
@@ -123,8 +102,7 @@
             </child>
             <child>
               <object class="GtkLabel" id="_duration_label">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="focusable">False</property>
                 <property name="halign">end</property>
                 <property name="hexpand">True</property>
                 <property name="single_line_mode">True</property>
@@ -137,57 +115,82 @@
         </child>
         <child>
           <object class="GtkStack" id="_star_stack">
-            <property name="can-focus">False</property>
-            <property name="visible">True</property>
+            <property name="focusable">False</property>
             <child>
-              <object class="GtkEventBox" id="_star_eventbox">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="halign">end</property>
-                <property name="valign">center</property>
-                <property name="visible_window">True</property>
-                <signal name="button-release-event" handler="_on_star_toggle" swapped="no"/>
-                <child>
-                  <object class="StarImage" id="_star_image">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="valign">center</property>
-                    <property name="margin-end">12</property>
-                    <property name="margin-start">12</property>
-                  </object>
-                </child>
-              </object>
-              <packing>
+              <object class="GtkStackPage">
                 <property name="name">star</property>
-              </packing>
+                <property name="child">
+                  <object class="GtkBox" id="_star_box">
+                    <property name="focusable">0</property>
+                    <property name="halign">end</property>
+                    <property name="valign">center</property>
+                    <child>
+                      <object class="GtkGestureClick">
+                        <property name="button">1</property>
+                        <property name="propagation-phase">capture</property>
+                        <signal name="released" handler="_on_star_toggle" swapped="no"/>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkEventControllerMotion">
+                        <signal name="enter" handler="_on_star_hover" swapped="no"/>
+                        <signal name="leave" handler="_on_star_unhover" swapped="no"/>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="StarImage" id="_star_image">
+                        <property name="focusable">False</property>
+                        <property name="valign">center</property>
+                        <property name="margin-end">12</property>
+                        <property name="margin-start">12</property>
+                      </object>
+                    </child>
+                  </object>
+                </property>
+              </object>
             </child>
             <child>
-              <object class="GtkBox">
-                <property name="visible">True</property>
-              </object>
-              <packing>
+              <object class="GtkStackPage">
                 <property name="name">empty</property>
-                <property name="position">1</property>
-              </packing>
+                <property name="child">
+                  <object class="GtkBox"/>
+                </property>
+              </object>
             </child>
           </object>
         </child>
         <child>
           <object class="GtkMenuButton" id="_menu_button">
             <property name="visible">False</property>
-            <property name="can-focus">True</property>
+            <property name="focusable">True</property>
+            <property name="icon-name">view-more-symbolic</property>
             <style>
               <class name="flat"/>
             </style>
-            <child>
-              <object class="GtkImage">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="icon-name">view-more-symbolic</property>
-              </object>
-            </child>
           </object>
         </child>
+      </object>
+    </child>
+    <child>
+      <object class="GtkGestureClick">
+        <property name="button">1</property>
+        <signal name="released" handler="_on_click" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkDragSource" id="_drag_source">
+        <property name="actions">move</property>
+        <property name="propagation-phase">none</property>
+        <signal name="prepare" handler="_on_drag_prepare" swapped="no"/>
+        <signal name="drag-begin" handler="_on_drag_begin" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkDropTarget">
+        <property name="actions">move</property>
+        <property name="formats">SongWidget</property>
+        <property name="preload">True</property>
+        <signal name="drop" handler="_on_drop" swapped="no"/>
       </object>
     </child>
     <style>
@@ -201,11 +204,5 @@
       <widget name="_artist_box"/>
       <widget name="_album_duration_box"/>
     </widgets>
-  </object>
-  <object class="GtkEventControllerMotion" id="_controller_motion">
-    <property name="propagation-phase">target</property>
-    <property name="widget">_star_eventbox</property>
-    <signal name="enter" handler="_on_star_hover" swapped="no"/>
-    <signal name="leave" handler="_on_star_unhover" swapped="no"/>
   </object>
 </interface>

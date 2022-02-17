@@ -23,16 +23,16 @@
 # delete this exception statement from your version.
 
 from __future__ import annotations
-import math
 import typing
 
 from gettext import gettext as _
-from gi.repository import Gdk, GLib, GObject, Gtk
+from gi.repository import GObject, Gtk
+from typing import Dict, List
 
 from gnomemusic.widgets.headerbar import HeaderBar
-from gnomemusic.widgets.albumcover import AlbumCover
 from gnomemusic.widgets.albumwidget import AlbumWidget
 if typing.TYPE_CHECKING:
+    from gnomemusic.application import Application
     from gnomemusic.corealbum import CoreAlbum
 
 
@@ -55,10 +55,9 @@ class AlbumsView(Gtk.Stack):
 
     _album_scrolled_window = Gtk.Template.Child()
     _scrolled_window = Gtk.Template.Child()
-    _flowbox = Gtk.Template.Child()
-    _flowbox_long_press = Gtk.Template.Child()
+    _gridview = Gtk.Template.Child()
 
-    def __init__(self, application):
+    def __init__(self, application: Application) -> None:
         """Initialize AlbumsView
 
         :param application: The Application object
@@ -70,17 +69,31 @@ class AlbumsView(Gtk.Stack):
         self._application = application
         self._window = application.props.window
         self._headerbar = self._window._headerbar
-        self._adjustment_timeout_id = 0
-        self._viewport = self._scrolled_window.get_child()
-        self._widget_counter = 1
-        self._ctrl_hold = False
 
-        model = self._application.props.coremodel.props.albums_sort
-        self._flowbox.bind_model(model, self._create_album_cover)
-        self._flowbox.set_hadjustment(self._scrolled_window.get_hadjustment())
-        self._flowbox.set_vadjustment(self._scrolled_window.get_vadjustment())
-        self._flowbox.connect("child-activated", self._on_child_activated)
+        self._list_item_bindings: Dict[
+            Gtk.ListItem, List[GObject.Binding]] = {}
+        self._list_item_star_controllers: Dict[
+            Gtk.ListItem, List[GObject.Binding]] = {}
 
+        list_item_factory = Gtk.SignalListItemFactory()
+        list_item_factory.connect("setup", self._setup_list_item)
+        list_item_factory.connect("bind", self._bind_list_item)
+
+        self._gridview.props.factory = list_item_factory
+
+        self._selection_model = Gtk.MultiSelection.new(
+            self._application.props.coremodel.props.albums_sort)
+        self._gridview.props.model = self._selection_model
+
+        self._gridview.connect("activate", self._on_album_activated)
+
+        self.bind_property(
+            "selection-mode", self._gridview, "single-click-activate",
+            GObject.BindingFlags.SYNC_CREATE
+            | GObject.BindingFlags.INVERT_BOOLEAN)
+        self.bind_property(
+            "selection-mode", self._gridview, "enable-rubberband",
+            GObject.BindingFlags.SYNC_CREATE)
         self.bind_property(
             "selection-mode", self._window, "selection-mode",
             GObject.BindingFlags.DEFAULT)
@@ -93,66 +106,11 @@ class AlbumsView(Gtk.Stack):
             "selection-mode", self, "selection-mode",
             GObject.BindingFlags.BIDIRECTIONAL)
 
-        self._album_scrolled_window.add(self._album_widget)
+        viewport = self._album_scrolled_window.get_first_child()
+        viewport.set_child(self._album_widget)
 
         self.connect(
             "notify::search-mode-active", self._on_search_mode_changed)
-
-        self._scrolled_window.props.vadjustment.connect(
-            "value-changed", self._on_vadjustment_changed)
-        self._scrolled_window.props.vadjustment.connect(
-            "changed", self._on_vadjustment_changed)
-
-    def _on_vadjustment_changed(self, adjustment):
-        if self._adjustment_timeout_id != 0:
-            GLib.source_remove(self._adjustment_timeout_id)
-            self._adjustment_timeout_id = 0
-
-        self._adjustment_timeout_id = GLib.timeout_add(
-            200, self._retrieve_covers, adjustment.props.value,
-            priority=GLib.PRIORITY_DEFAULT - 10)
-
-    def _retrieve_covers(self, old_adjustment):
-        adjustment = self._scrolled_window.props.vadjustment.props.value
-
-        if old_adjustment != adjustment:
-            return GLib.SOURCE_CONTINUE
-
-        first_cover = self._flowbox.get_child_at_index(0)
-        if first_cover is None:
-            return GLib.SOURCE_REMOVE
-
-        cover_size, _ = first_cover.get_allocated_size()
-        if cover_size.width == 0 or cover_size.height == 0:
-            return GLib.SOURCE_REMOVE
-
-        viewport_size, _ = self._viewport.get_allocated_size()
-
-        h_space = self._flowbox.get_column_spacing()
-        v_space = self._flowbox.get_row_spacing()
-        nr_cols = (
-            (viewport_size.width + h_space) // (cover_size.width + h_space))
-
-        top_left_cover = self._flowbox.get_child_at_index(
-            nr_cols * (adjustment // (cover_size.height + v_space)))
-
-        covers_col = math.ceil(viewport_size.width / cover_size.width)
-        covers_row = math.ceil(viewport_size.height / cover_size.height)
-
-        children = self._flowbox.get_children()
-        retrieve_list = []
-        for i, albumcover in enumerate(children):
-            if top_left_cover == albumcover:
-                retrieve_covers = covers_row * covers_col
-                retrieve_list = children[i:i + retrieve_covers]
-                break
-
-        for albumcover in retrieve_list:
-            albumcover.retrieve()
-
-        self._adjustment_timeout_id = 0
-
-        return GLib.SOURCE_REMOVE
 
     def _on_selection_mode_changed(self, widget, data=None):
         selection_mode = self._window.props.selection_mode
@@ -163,7 +121,6 @@ class AlbumsView(Gtk.Stack):
         self.props.selection_mode = selection_mode
         if not self.props.selection_mode:
             self.deselect_all()
-            self._flowbox.props.selection_mode = Gtk.SelectionMode.NONE
 
     def _on_search_mode_changed(self, klass, param):
         if (not self.props.search_mode_active
@@ -171,31 +128,16 @@ class AlbumsView(Gtk.Stack):
                 and self.get_visible_child_name() == "widget"):
             self._set_album_headerbar(self._album_widget.props.corealbum)
 
-    def _create_album_cover(self, corealbum: CoreAlbum) -> AlbumCover:
-        album_cover = AlbumCover(corealbum)
-
-        self.bind_property(
-            "selection-mode", album_cover, "selection-mode",
-            GObject.BindingFlags.SYNC_CREATE
-            | GObject.BindingFlags.BIDIRECTIONAL)
-
-        # NOTE: Adding SYNC_CREATE here will trigger all the nested
-        # models to be created. This will slow down initial start,
-        # but will improve initial 'select all' speed.
-        album_cover.bind_property(
-            "selected", corealbum, "selected",
-            GObject.BindingFlags.BIDIRECTIONAL)
-
-        GLib.timeout_add(
-            self._widget_counter * 250, album_cover.retrieve,
-            priority=GLib.PRIORITY_LOW)
-        self._widget_counter = self._widget_counter + 1
-
-        return album_cover
-
     def _back_button_clicked(self, widget, data=None):
         self._headerbar.state = HeaderBar.State.MAIN
         self.props.visible_child = self._scrolled_window
+
+    def _on_album_activated(self, widget, position):
+        corealbum = widget.props.model[position]
+
+        self._album_widget.props.corealbum = corealbum
+        self._set_album_headerbar(corealbum)
+        self.props.visible_child = self._album_scrolled_window
 
     def _on_child_activated(self, widget, child, user_data=None):
         corealbum = child.props.corealbum
@@ -208,48 +150,10 @@ class AlbumsView(Gtk.Stack):
         self._set_album_headerbar(corealbum)
         self.set_visible_child_name("widget")
 
-    def _set_album_headerbar(self, corealbum):
+    def _set_album_headerbar(self, corealbum: CoreAlbum) -> None:
         self._headerbar.props.state = HeaderBar.State.CHILD
-        self._headerbar.props.title = corealbum.props.title
-        self._headerbar.props.subtitle = corealbum.props.artist
-
-    @Gtk.Template.Callback()
-    def _on_flowbox_press_begin(self, gesture, sequence):
-        event = gesture.get_last_event(sequence)
-        ok, state = event.get_state()
-        if ((ok is True
-             and state == Gdk.ModifierType.CONTROL_MASK)
-                or self.props.selection_mode is True):
-            self._flowbox.props.selection_mode = Gtk.SelectionMode.MULTIPLE
-            if state == Gdk.ModifierType.CONTROL_MASK:
-                self._ctrl_hold = True
-
-    @Gtk.Template.Callback()
-    def _on_flowbox_press_cancel(self, gesture, sequence):
-        self._flowbox.props.selection_mode = Gtk.SelectionMode.NONE
-
-    @Gtk.Template.Callback()
-    def _on_selected_children_changed(self, flowbox):
-        if self._flowbox.props.selection_mode == Gtk.SelectionMode.NONE:
-            return
-
-        if self.props.selection_mode is False:
-            self.props.selection_mode = True
-
-        rubberband_selection = len(self._flowbox.get_selected_children()) > 1
-        with self._application.props.coreselection.freeze_notify():
-            if (rubberband_selection
-                    and not self._ctrl_hold):
-                self.deselect_all()
-            for child in self._flowbox.get_selected_children():
-                if (self._ctrl_hold is True
-                        or not rubberband_selection):
-                    child.props.selected = not child.props.selected
-                else:
-                    child.props.selected = True
-
-        self._ctrl_hold = False
-        self._flowbox.props.selection_mode = Gtk.SelectionMode.NONE
+        self._headerbar.set_label_title(
+            corealbum.props.title, corealbum.props.artist)
 
     def _toggle_all_selection(self, selected):
         """Selects or deselects all items.
@@ -261,11 +165,90 @@ class AlbumsView(Gtk.Stack):
                 else:
                     self._album_widget.deselect_all()
             else:
-                for child in self._flowbox.get_children():
-                    child.props.selected = selected
+                if selected:
+                    self._selection_model.select_all()
+                else:
+                    self._selection_model.unselect_all()
 
     def select_all(self):
         self._toggle_all_selection(True)
 
     def deselect_all(self):
         self._toggle_all_selection(False)
+
+    def _setup_list_item(
+            self, factory: Gtk.SignalListItemFactory,
+            list_item: Gtk.ListItem) -> None:
+        builder = Gtk.Builder.new_from_resource(
+            "/org/gnome/Music/ui/AlbumCoverListItem.ui")
+        list_item.props.child = builder.get_object("_album_cover")
+
+        self.bind_property(
+            "selection-mode", list_item, "selectable",
+            GObject.BindingFlags.SYNC_CREATE)
+        self.bind_property(
+            "selection-mode", list_item, "activatable",
+            GObject.BindingFlags.SYNC_CREATE
+            | GObject.BindingFlags.INVERT_BOOLEAN)
+
+    def _bind_list_item(
+            self, factory: Gtk.SignalListItemFactory,
+            list_item: Gtk.ListItem) -> None:
+        album_cover = list_item.props.child
+        corealbum = list_item.props.item
+
+        art_stack = album_cover.get_first_child().get_first_child()
+        check = art_stack.get_next_sibling()
+        album_label = album_cover.get_first_child().get_next_sibling()
+        artist_label = album_label.get_next_sibling()
+
+        b1 = corealbum.bind_property(
+            "corealbum", art_stack, "coreobject",
+            GObject.BindingFlags.SYNC_CREATE)
+        b2 = corealbum.bind_property(
+            "title", album_label, "label", GObject.BindingFlags.SYNC_CREATE)
+        b3 = corealbum.bind_property(
+            "artist", artist_label, "label", GObject.BindingFlags.SYNC_CREATE)
+
+        b4 = list_item.bind_property(
+            "selected", corealbum, "selected",
+            GObject.BindingFlags.SYNC_CREATE)
+        b5 = list_item.bind_property(
+            "selected", check, "active", GObject.BindingFlags.SYNC_CREATE)
+        b6 = self.bind_property(
+            "selection-mode", check, "visible",
+            GObject.BindingFlags.SYNC_CREATE)
+
+        def on_activated(widget, value):
+            if check.props.active:
+                self._selection_model.select_item(
+                    list_item.get_position(), False)
+            else:
+                self._selection_model.unselect_item(
+                    list_item.get_position())
+
+        # the listitem selected property is read-only.
+        # It cannot be bound from the check active property.
+        # It is necessary to update the selection model in order
+        # to update it.
+        check.connect("notify::active", on_activated)
+
+        self._list_item_bindings[list_item] = [b1, b2, b3, b4, b5, b6]
+
+    def _unbind_list_item(
+            self, factory: Gtk.SignalListItemFactory,
+            list_item: Gtk.ListItem) -> None:
+        bindings = self._list_item_bindings.pop(list_item)
+        [binding.unbind() for binding in bindings]
+
+        album_cover = list_item.props.child
+
+        art_stack = album_cover.get_first_child().get_first_child()
+        check = art_stack.get_next_sibling()
+
+        signal_id, detail_id = GObject.signal_parse_name(
+            "notify::active", check, True)
+        handler_id = GObject.signal_handler_find(
+            check, GObject.SignalMatchType.ID, signal_id, detail_id, None, 0,
+            0)
+        check.disconnect(handler_id)

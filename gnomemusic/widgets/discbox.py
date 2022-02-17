@@ -107,28 +107,10 @@ class DiscBox(Gtk.ListBoxRow):
     @Gtk.Template.Callback()
     def _song_activated(
             self, list_box: Gtk.ListBox, song_widget: SongWidget) -> bool:
-        if song_widget.props.select_click:
-            song_widget.props.select_click = False
-            return True
-
-        event = Gtk.get_current_event()
-        (_, state) = event.get_state()
-        mod_mask = Gtk.accelerator_get_default_mod_mask()
-        if ((state & mod_mask) == Gdk.ModifierType.CONTROL_MASK
-                and not self.props.selection_mode):
-            self.props.selection_mode = True
-            song_widget.props.select_click = True
-            song_widget.props.coresong.props.selected = True
-            return True
-
-        (_, button) = event.get_button()
-        if (button == Gdk.BUTTON_PRIMARY
-                and not self.props.selection_mode):
-            self.emit("song-activated", song_widget)
-
         if self.props.selection_mode:
-            song_widget.props.select_click = True
             selection_state = song_widget.props.coresong.props.selected
             song_widget.props.coresong.props.selected = not selection_state
+        else:
+            self.emit("song-activated", song_widget)
 
-        return True
+        return Gdk.EVENT_STOP

@@ -1,23 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.20.0 -->
 <interface>
-  <requires lib="gtk+" version="3.12"/>
+  <requires lib="gtk" version="4.0"/>
   <template parent="GtkListBoxRow" class="DiscBox">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
+    <property name="focusable">False</property>
     <property name="activatable">False</property>
     <property name="selectable">False</property>
     <child>
       <object class="GtkBox">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="focusable">False</property>
         <property name="orientation">vertical</property>
         <child>
           <object class="GtkLabel" id="_disc_label">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="focusable">False</property>
             <property name="halign">fill</property>
-            <!-- <property name="hexpand">True</property> -->
             <property name="xalign">0.0</property>
             <style>
               <class name="disc-label"/>
@@ -26,13 +21,12 @@
         </child>
         <child>
           <object class="GtkListBox" id="_list_box">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="focusable">False</property>
             <property name="valign">start</property>
             <property name="selection_mode">none</property>
             <signal name="row-activated" handler="_song_activated" swapped="no"/>
             <style>
-              <class name="content"/>
+              <class name="boxed-list"/>
             </style>
           </object>
         </child>

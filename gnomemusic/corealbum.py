@@ -22,9 +22,11 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from __future__ import annotations
+
 import gi
-gi.require_versions({"Gfm": "0.1", "Grl": "0.3"})
-from gi.repository import Gfm, Gio, Grl, GObject
+gi.require_versions({"Grl": "0.3"})
+from gi.repository import Gio, Grl, Gtk, GObject
 
 import gnomemusic.utils as utils
 
@@ -75,20 +77,21 @@ class CoreAlbum(GObject.GObject):
 
     def _get_album_model(self):
         disc_model = Gio.ListStore()
-        disc_model_sort = Gfm.SortListModel.new(disc_model)
+        disc_model_sort = Gtk.SortListModel.new(disc_model)
 
-        def _disc_order_sort(disc_a, disc_b):
+        def _disc_order_sort(disc_a, disc_b, data=None):
             return disc_a.props.disc_nr - disc_b.props.disc_nr
 
-        disc_model_sort.set_sort_func(
-            utils.wrap_list_store_sort_func(_disc_order_sort))
+        disc_sorter = Gtk.CustomSorter()
+        disc_sorter.set_sort_func(_disc_order_sort)
+        disc_model_sort.set_sorter(disc_sorter)
 
         self._coregrilo.get_album_discs(self.props.media, disc_model)
 
         return disc_model_sort
 
     @GObject.Property(
-        type=Gfm.SortListModel, default=None,
+        type=Gtk.SortListModel, default=None,
         flags=GObject.ParamFlags.READABLE)
     def model(self):
         if self._model is None:
@@ -158,3 +161,7 @@ class CoreAlbum(GObject.GObject):
 
         if self._thumbnail != "generic":
             self.props.media.set_thumbnail(self._thumbnail)
+
+    @GObject.Property(type=object, flags=GObject.ParamFlags.READABLE)
+    def corealbum(self) -> CoreAlbum:
+        return self

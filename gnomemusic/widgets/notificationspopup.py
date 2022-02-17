@@ -47,7 +47,7 @@ class NotificationsPopup(Gtk.Revealer):
         self._loading_notification = LoadingNotification()
         self._loading_notification.connect('visible', self._set_visibility)
         self._loading_notification.connect('invisible', self._set_visibility)
-        self._box.add(self._loading_notification)
+        self._box.append(self._loading_notification)
 
     def _hide_notifications(self, notification, remove):
         if remove:
@@ -62,8 +62,9 @@ class NotificationsPopup(Gtk.Revealer):
         deletion is in progress.
         """
         loading_finished = self._loading_notification._counter == 0
-        no_other_notif = (len(self._box.get_children()) == 1
-                          or (len(self._box.get_children()) == 2
+        box_children = [child for child in self._box]
+        no_other_notif = (len(box_children) == 1
+                          or (len(box_children) == 2
                               and notification != self._loading_notification))
         invisible = loading_finished and no_other_notif
 
@@ -98,7 +99,7 @@ class NotificationsPopup(Gtk.Revealer):
 
         :param notification: notification to display
         """
-        self._box.add(notification)
+        self._box.append(notification)
         self.show()
         self.set_reveal_child(True)
 

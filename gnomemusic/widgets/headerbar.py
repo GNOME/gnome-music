@@ -25,7 +25,7 @@
 from enum import IntEnum
 
 from gettext import gettext as _, ngettext
-from gi.repository import GObject, Gtk, Handy
+from gi.repository import Adw, GObject, Gtk
 
 from gnomemusic.widgets.appmenu import AppMenu
 
@@ -72,7 +72,7 @@ class SelectionBarMenuButton(Gtk.MenuButton):
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/HeaderBar.ui")
-class HeaderBar(Handy.HeaderBar):
+class HeaderBar(Adw.Bin):
     """Headerbar of the application"""
 
     class State(IntEnum):
@@ -92,12 +92,16 @@ class HeaderBar(Handy.HeaderBar):
     _select_button = Gtk.Template.Child()
     _cancel_button = Gtk.Template.Child()
     _back_button = Gtk.Template.Child()
+    _headerbar = Gtk.Template.Child()
+    _label_title_box = Gtk.Template.Child()
+    _label_title = Gtk.Template.Child()
+    _label_subtitle = Gtk.Template.Child()
     _menu_button = Gtk.Template.Child()
 
     search_mode_active = GObject.Property(type=bool, default=False)
     selected_songs_count = GObject.Property(type=int, default=0, minimum=0)
     selection_mode_allowed = GObject.Property(type=bool, default=True)
-    stack = GObject.Property(type=Gtk.Stack)
+    stack = GObject.Property(type=Adw.ViewStack)
 
     def __init__(self, application):
         """Initialize Headerbar
@@ -108,16 +112,16 @@ class HeaderBar(Handy.HeaderBar):
 
         self._selection_mode = False
 
-        self._stack_switcher = Handy.ViewSwitcher(
-            can_focus=False, halign="center")
-        self._stack_switcher.show()
+        self._stack_switcher = Adw.ViewSwitcher(
+            focusable=False, halign="center",
+            policy=Adw.ViewSwitcherPolicy.WIDE)
 
         self._selection_menu = SelectionBarMenuButton()
 
         self._menu_button.set_popover(AppMenu(application))
 
         self.bind_property(
-            "selection-mode", self, "show-close-button",
+            "selection-mode", self._headerbar, "show-end-title-buttons",
             GObject.BindingFlags.INVERT_BOOLEAN
             | GObject.BindingFlags.SYNC_CREATE)
         self.bind_property(
@@ -205,6 +209,24 @@ class HeaderBar(Handy.HeaderBar):
             self._select_button.props.sensitive = True
             self._stack_switcher.show()
 
+    def set_label_title(self, title: str, subtitle: str) -> None:
+        """Set the headerbar title-widget as two labels:
+        a title and a subtitle
+
+        :param str title: headerbar title
+        :param str subtitle: headerbar subtitle
+        :returns:
+        """
+        self._headerbar.props.title_widget = self._label_title_box
+        self._label_title.props.label = title
+        self._label_subtitle.props.label = subtitle
+        if not subtitle:
+            self._label_title.props.valign = Gtk.Align.CENTER
+            self._label_subtitle.props.visible = False
+        else:
+            self._label_title.props.valign = Gtk.Align.FILL
+            self._label_subtitle.props.visible = True
+
     @Gtk.Template.Callback()
     def _on_back_button_clicked(self, widget=None):
         self.emit('back-button-clicked')
@@ -215,11 +237,11 @@ class HeaderBar(Handy.HeaderBar):
 
     def _update(self):
         if self.props.selection_mode:
-            self.props.custom_title = self._selection_menu
+            self._headerbar.props.title_widget = self._selection_menu
         elif self.props.state != HeaderBar.State.MAIN:
-            self.props.custom_title = None
+            self._headerbar.props.title_widget = None
         else:
-            self.props.custom_title = self._stack_switcher
+            self._headerbar.props.title_widget = self._stack_switcher
 
         self._back_button.props.visible = (
             not self.props.selection_mode

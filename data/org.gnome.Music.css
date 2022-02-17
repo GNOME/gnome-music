@@ -25,41 +25,10 @@
 }
 
 /* PlayerToolbar */
-.border-solid {
-    border-style: solid;
-}
-
-.semi-circular {
-    border-radius: 20px;
-    -gtk-outline-radius: 20px;
-}
-
-.semi-circular:hover {
-    border-top-width: 0px;
-    border-bottom-width: 0px;
-    border-left-width: 0px;
-    border-right-width: 0px;
-}
-
-.pill {
-    border-radius: 9999px;
-    -gtk-outline-radius: 9999px;
-}
 
 .smooth-scale {
     padding-top: 0px;
     padding-bottom: 0px;
-}
-
-/* FIXME: Remove once songsview is ported to the new style */
-.songs-list-old {
-    box-shadow: inset 0 -1px shade(@borders, 1.30);
-    background-color: @theme_bg_color;
-}
-
-.songs-list-old:selected {
-    color: @theme_fg_color;
-    border-color: mix(@theme_fg_color, @theme_bg_color, 0.5);
 }
 
 /* We use background-image as a workaround on the StarImage widget to
@@ -80,8 +49,6 @@
     transition: 100ms linear;
 }
 
-.content-view { background-color: @theme_bg; }
-
 .grey-image {
     color: alpha(@theme_fg_color, 0.3);
 }
@@ -94,16 +61,6 @@
 /* TwoLineTip */
 .tooltip-title {
   font-weight: bold;
-}
-
-/* Lists style */
-
-/* workaround to avoid a black background issue
-in AlbumWidget and PlaylistsView
-https://gitlab.gnome.org/GNOME/gtk/issues/694
-*/
-list {
-    background-color: transparent;
 }
 
 .playlistdialog-row:selected {
@@ -134,8 +91,27 @@ list {
     font-weight: bold;
 }
 
-/* SongWidget */
+/* SongsView */
+/* boxed-list style does not work for
+GtkListView at the moment */
+.songs-list {
+    border-left: 1px solid @borders;
+    border-right: 1px solid @borders;
+    border-top: 1px solid @borders;
+}
 
-.songwidget {
+.songs-list:first-child {
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+.songs-list:last-child {
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
+/* SongWidget and SongsView rows*/
+.songwidget,
+.songs-list row {
   padding: 12px;
 }

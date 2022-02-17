@@ -24,14 +24,14 @@
 
 from enum import IntEnum
 
-from gi.repository import GLib, GObject, Gtk, Handy
+from gi.repository import Adw, GObject, Gtk
 
 from gnomemusic.search import Search
 from gnomemusic.widgets.headerbar import HeaderBar, SelectionBarMenuButton
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/SearchHeaderBar.ui")
-class SearchHeaderBar(Handy.HeaderBar):
+class SearchHeaderBar(Adw.Bin):
     """SearcnHeaderbar of the application"""
 
     class State(IntEnum):
@@ -43,6 +43,7 @@ class SearchHeaderBar(Handy.HeaderBar):
 
     __gtype_name__ = "SearchHeaderBar"
 
+    _headerbar = Gtk.Template.Child()
     _search_button = Gtk.Template.Child()
     _select_button = Gtk.Template.Child()
     _cancel_button = Gtk.Template.Child()
@@ -51,14 +52,13 @@ class SearchHeaderBar(Handy.HeaderBar):
     search_state = GObject.Property(type=int, default=Search.State.NONE)
     selected_songs_count = GObject.Property(type=int, default=0, minimum=0)
     selection_mode_allowed = GObject.Property(type=bool, default=True)
-    stack = GObject.Property(type=Gtk.Stack)
+    stack = GObject.Property(type=Adw.ViewStack)
 
     def __init__(self, application):
         super().__init__()
 
         self._coregrilo = application.props.coregrilo
         self._selection_mode = False
-        self._timeout = None
 
         self._entry = Gtk.SearchEntry()
         self._entry.props.halign = Gtk.Align.CENTER
@@ -68,7 +68,7 @@ class SearchHeaderBar(Handy.HeaderBar):
         self._selection_menu = SelectionBarMenuButton()
 
         self.bind_property(
-            "selection-mode", self, "show-close-button",
+            "selection-mode", self._headerbar, "show-end-title-buttons",
             GObject.BindingFlags.INVERT_BOOLEAN
             | GObject.BindingFlags.SYNC_CREATE)
         self.bind_property(
@@ -99,7 +99,7 @@ class SearchHeaderBar(Handy.HeaderBar):
             "notify::search-mode-active", self._on_search_mode_changed)
         self.connect("notify::search-state", self._search_state_changed)
 
-        self._entry.connect("changed", self._search_entry_timeout)
+        self._entry.connect("search-changed", self._search_entry_changed)
 
     @GObject.Property(type=bool, default=False)
     def selection_mode(self):
@@ -164,9 +164,9 @@ class SearchHeaderBar(Handy.HeaderBar):
 
     def _update(self):
         if self.props.selection_mode:
-            self.props.custom_title = self._selection_menu
+            self._headerbar.props.title_widget = self._selection_menu
         else:
-            self.props.custom_title = self._entry
+            self._headerbar.props.title_widget = self._entry
 
     def _on_selection_mode_allowed_changed(self, widget, data):
         if self.props.selection_mode_allowed:
@@ -174,16 +174,7 @@ class SearchHeaderBar(Handy.HeaderBar):
         else:
             self._select_button.props.sensitive = False
 
-    def _search_entry_timeout(self, widget):
-        if self._timeout:
-            GLib.source_remove(self._timeout)
-
-        self._timeout = GLib.timeout_add(
-            500, self._search_entry_changed, widget)
-
-    def _search_entry_changed(self, widget):
-        self._timeout = None
-
+    def _search_entry_changed(self, widget: Gtk.SearchEntry) -> bool:
         search_term = self._entry.get_text()
         if search_term != "":
             self.props.stack.set_visible_child_name("search")
@@ -195,7 +186,6 @@ class SearchHeaderBar(Handy.HeaderBar):
 
     def _on_search_mode_changed(self, klass, data):
         if self.props.search_mode_active:
-            # self._search_entry.realize()
             self._entry.grab_focus()
 
     def _search_state_changed(self, klass, data):

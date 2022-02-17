@@ -24,10 +24,9 @@
 
 from gi.repository import Gdk, GdkPixbuf, Gio, Gtk, GLib, GObject
 
-from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.coreartist import CoreArtist
-from gnomemusic.coresong import CoreSong
-from gnomemusic.defaulticon import DefaultIcon, make_icon_frame
+from gnomemusic.coverpaintable import CoverPaintable
+from gnomemusic.defaulticon import DefaultIcon
 from gnomemusic.musiclogger import MusicLogger
 from gnomemusic.utils import ArtSize, DefaultIconType
 
@@ -36,7 +35,7 @@ class ArtCache(GObject.GObject):
     """Handles retrieval of MediaArt cache art
 
     Uses signals to indicate success or failure and always returns a
-    Cairo.Surface.
+    CoverPaintable.
     """
 
     __gtype_name__ = "ArtCache"
@@ -58,8 +57,8 @@ class ArtCache(GObject.GObject):
         self._widget = widget
 
         self._coreobject = None
-        self._default_icon = None
-        self._surface = None
+        self._icon_type = DefaultIconType.ALBUM
+        self._paintable = None
 
     def start(self, coreobject, size):
         """Start the cache query
@@ -71,16 +70,14 @@ class ArtCache(GObject.GObject):
         self._size = size
 
         if isinstance(coreobject, CoreArtist):
-            self._default_icon = DefaultIcon(self._widget).get(
-                DefaultIconType.ARTIST, self._size)
-        elif (isinstance(coreobject, CoreAlbum)
-                or isinstance(coreobject, CoreSong)):
-            self._default_icon = DefaultIcon(self._widget).get(
-                DefaultIconType.ALBUM, self._size)
+            self._icon_type = DefaultIconType.ARTIST
+
+        self._paintable = DefaultIcon(self._widget).get(
+            self._icon_type, self._size)
 
         thumbnail_uri = coreobject.props.thumbnail
         if thumbnail_uri == "generic":
-            self.emit("finished", self._default_icon)
+            self.emit("finished", self._paintable)
             return
 
         thumb_file = Gio.File.new_for_uri(thumbnail_uri)
@@ -89,7 +86,7 @@ class ArtCache(GObject.GObject):
                 GLib.PRIORITY_DEFAULT_IDLE, None, self._open_stream, None)
             return
 
-        self.emit("finished", self._default_icon)
+        self.emit("finished", self._paintable)
 
     def _open_stream(self, thumb_file, result, arguments):
         try:
@@ -97,7 +94,7 @@ class ArtCache(GObject.GObject):
         except GLib.Error as error:
             self._log.warning(
                 "Error: {}, {}".format(error.domain, error.message))
-            self.emit("finished", self._default_icon)
+            self.emit("finished", self._paintable)
             return
 
         GdkPixbuf.Pixbuf.new_from_stream_async(
@@ -109,22 +106,17 @@ class ArtCache(GObject.GObject):
         except GLib.Error as error:
             self._log.warning(
                 "Error: {}, {}".format(error.domain, error.message))
-            self.emit("finished", self._default_icon)
+            self.emit("finished", self._paintable)
             return
+
+        texture = Gdk.Texture.new_for_pixbuf(pixbuf)
+        if texture:
+            self._paintable = CoverPaintable(
+                self._size, self._widget, icon_type=self._icon_type,
+                texture=texture)
 
         stream.close_async(
             GLib.PRIORITY_DEFAULT_IDLE, None, self._close_stream, None)
-
-        scale = self._widget.props.scale_factor
-        surface = Gdk.cairo_surface_create_from_pixbuf(pixbuf, scale, None)
-        if isinstance(self._coreobject, CoreArtist):
-            surface = make_icon_frame(
-                surface, self._size, scale, round_shape=True)
-        elif (isinstance(self._coreobject, CoreAlbum)
-                or isinstance(self._coreobject, CoreSong)):
-            surface = make_icon_frame(surface, self._size, scale)
-
-        self._surface = surface
 
     def _close_stream(self, stream, result, data):
         try:
@@ -133,4 +125,4 @@ class ArtCache(GObject.GObject):
             self._log.warning(
                 "Error: {}, {}".format(error.domain, error.message))
 
-        self.emit("finished", self._surface)
+        self.emit("finished", self._paintable)

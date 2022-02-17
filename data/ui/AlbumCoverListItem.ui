@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <object class="GtkBox" id="_album_cover">
+    <property name="focusable">False</property>
+    <property name="has_tooltip">True</property>
+    <property name="valign">start</property>
+    <property name="orientation">vertical</property>
+    <child>
+      <object class="GtkOverlay">
+        <child>
+          <object class="ArtStack" id="_art_stack">
+            <property name="focusable">False</property>
+            <property name="vexpand">True</property>
+            <property name="valign">end</property>
+            <property name="halign">center</property>
+          </object>
+        </child>
+        <child type="overlay">
+          <object class="GtkCheckButton" id="_check">
+            <property name="visible">False</property>
+            <property name="halign">end</property>
+            <property name="valign">end</property>
+            <style>
+              <class name="selection-mode"/>
+            </style>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="GtkLabel">
+        <property name="justify">center</property>
+        <property name="wrap">True</property>
+        <property name="ellipsize">middle</property>
+        <property name="max_width_chars">20</property>
+        <property name="lines">2</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkLabel" id="_artist_label">
+        <property name="ellipsize">middle</property>
+        <property name="max_width_chars">20</property>
+        <style>
+          <class name="albumcover-artist-label"/>
+          <class name="dim-label"/>
+        </style>
+      </object>
+    </child>
+  </object>
+</interface>
