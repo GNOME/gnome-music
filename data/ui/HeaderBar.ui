@@ -10,7 +10,6 @@
         </style>
         <child type="end">
           <object class="GtkMenuButton" id="_menu_button">
-            <property name="focusable">False</property>
             <property name="valign">center</property>
             <property name="sensitive">True</property>
             <property name="icon-name">open-menu-symbolic</property>
@@ -19,7 +18,6 @@
         </child>
         <child type="end">
           <object class="GtkToggleButton" id="_select_button">
-            <property name="focusable">False</property>
             <property name="valign">center</property>
             <property name="sensitive">True</property>
             <property name="icon-name">selection-mode-symbolic</property>
@@ -29,7 +27,6 @@
         <child type="end">
           <object class="GtkButton" id="_cancel_button">
             <property name="visible">False</property>
-            <property name="focusable">False</property>
             <property name="label" translatable="yes">_Cancel</property>
             <property name="use_underline">True</property>
             <property name="valign">center</property>
@@ -39,7 +36,6 @@
         </child>
         <child type="end">
           <object class="GtkToggleButton" id="_search_button">
-            <property name="focusable">False</property>
             <property name="valign">center</property>
             <property name="sensitive">True</property>
             <property name="icon-name">edit-find-symbolic</property>
@@ -48,7 +44,6 @@
         </child>
         <child type="start">
           <object class="GtkButton" id="_back_button">
-            <property name="focusable">False</property>
             <property name="valign">center</property>
             <property name="sensitive">True</property>
             <property name="icon-name">go-previous-symbolic</property>
