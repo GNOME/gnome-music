@@ -1,3 +1,37 @@
+Overview of changes in 42.beta
+==============================
+
+• Port to GTK-4
+• Dark mode switching
+
+Bugs fixed:
+ Fix slow startup (!923)
+
+Thanks to our contributors this release:
+ Christopher Davis
+ Jakub Steiner
+ Jean Felder
+ Koushik Sahu
+ Marinus Schraal
+ Michael Catanzaro
+ Sam Hewitt
+ Sophie Herold
+
+Updated translations:
+ Danish
+ Icelandic
+ Swedish
+ Russian
+ Indonesian
+ Catalan
+ Friulian
+ Latvian
+ Frisian
+ Bulgarian
+ Serbian
+ Vietnamese
+
+
 Overview of changes in 41.0
 ===========================
 
