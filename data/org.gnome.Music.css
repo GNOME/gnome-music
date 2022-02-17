@@ -8,6 +8,17 @@
     color: @theme_fg_color;
 }
 
+/* AlbumsView */
+
+#albums gridview {
+  padding: 18px;
+}
+
+#albums gridview > child {
+  margin: 9px;
+  padding: 6px;
+}
+
 /* By default in Adwaita dark this is not transparent */
 .tile {
     background-color: transparent;
