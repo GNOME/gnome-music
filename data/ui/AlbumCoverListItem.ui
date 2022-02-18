@@ -8,6 +8,7 @@
     <property name="orientation">vertical</property>
     <child>
       <object class="GtkOverlay">
+        <property name="margin-bottom">6</property>
         <child>
           <object class="ArtStack" id="_art_stack">
             <property name="focusable">False</property>
