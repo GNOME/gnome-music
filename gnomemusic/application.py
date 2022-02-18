@@ -204,11 +204,17 @@ class Application(Gtk.Application):
             if accel is not None:
                 self.set_accels_for_action(*accel)
 
-    def _help(self, action, param):
-        try:
-            Gtk.show_uri(self._window, "help:gnome-music", Gdk.CURRENT_TIME)
-        except GLib.Error:
-            self._log.message("Help handler not available.")
+    def _help(self, action: Gio.Action, param: Optional[GLib.Variant]) -> None:
+
+        def show_uri_cb(parent: Gtk.Window, result: Gio.AsyncResult) -> None:
+            try:
+                Gtk.show_uri_full_finish(parent, result)
+            except GLib.Error:
+                self._log.message("Help handler not available.")
+
+        Gtk.show_uri_full(
+            self._window, "help:gnome-music", Gdk.CURRENT_TIME, None,
+            show_uri_cb)
 
     def _lastfm_account(
             self, action: Gio.SimpleAction,
