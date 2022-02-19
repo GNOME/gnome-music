@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2022-02-17 10:24+0000\n"
-"PO-Revision-Date: 2022-02-17 21:33+0000\n"
+"POT-Creation-Date: 2022-02-19 12:39+0000\n"
+"PO-Revision-Date: 2022-02-19 17:45+0000\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <>\n"
 "Language: pt\n"
@@ -214,28 +214,28 @@ msgstr "A_Juda"
 msgid "_About Music"
 msgstr "_Sobre Música"
 
-#: data/ui/EmptyView.ui:26
+#: data/ui/EmptyView.ui:26 data/ui/InitialState.ui:13
 msgid "Welcome to Music"
 msgstr "Bem-vindo ao Música"
 
-#: data/ui/HeaderBar.ui:17
+#: data/ui/HeaderBar.ui:16
 msgid "Menu"
 msgstr "Menu"
 
-#: data/ui/HeaderBar.ui:26 data/ui/SearchHeaderBar.ui:16
+#: data/ui/HeaderBar.ui:24 data/ui/SearchHeaderBar.ui:15
 msgid "Select"
 msgstr "Selecionar"
 
-#: data/ui/HeaderBar.ui:33 data/ui/PlaylistDialog.ui:211
-#: data/ui/SearchHeaderBar.ui:22
+#: data/ui/HeaderBar.ui:30 data/ui/PlaylistDialog.ui:211
+#: data/ui/SearchHeaderBar.ui:20
 msgid "_Cancel"
 msgstr "_Cancelar"
 
-#: data/ui/HeaderBar.ui:46 data/ui/SearchHeaderBar.ui:35
+#: data/ui/HeaderBar.ui:42 data/ui/SearchHeaderBar.ui:32
 msgid "Search"
 msgstr "Procurar"
 
-#: data/ui/HeaderBar.ui:55
+#: data/ui/HeaderBar.ui:50
 msgid "Back"
 msgstr "Recuar"
 
@@ -292,7 +292,7 @@ msgstr "Alternar repetir"
 #: data/ui/help-overlay.ui:67
 msgctxt "shortcut window"
 msgid "Toggle shuffle"
-msgstr "Alternar misturar"
+msgstr "Alternar baralhar"
 
 #: data/ui/help-overlay.ui:75
 msgctxt "shortcut window"
@@ -323,6 +323,10 @@ msgstr "Adicionar à lista de reprodução"
 msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Voltar atrás"
+
+#: data/ui/InitialState.ui:25
+msgid "The contents of your Music Folder will appear here"
+msgstr "O conteúdo da pasta Música aparecerá aqui"
 
 #: data/ui/LastfmDialog.ui:21
 msgid ""
@@ -416,7 +420,7 @@ msgstr "Selecionar todas"
 msgid "Select None"
 msgstr "Não selecionar nenhuma"
 
-#: data/ui/SelectionBarMenuButton.ui:26 gnomemusic/widgets/headerbar.py:71
+#: data/ui/SelectionBarMenuButton.ui:19 gnomemusic/widgets/headerbar.py:69
 msgid "Click on items to select them"
 msgstr "Clique nos itens para os selecionar"
 
@@ -581,7 +585,7 @@ msgstr[1] "{} minutos"
 msgid "Disc {}"
 msgstr "Disco {}"
 
-#: gnomemusic/widgets/headerbar.py:68
+#: gnomemusic/widgets/headerbar.py:66
 msgid "Selected {} song"
 msgid_plural "Selected {} songs"
 msgstr[0] "Música {} selecionada"
