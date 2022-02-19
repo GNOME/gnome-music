@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2022-02-17 10:24+0000\n"
-"PO-Revision-Date: 2022-02-17 17:39+0200\n"
+"POT-Creation-Date: 2022-02-19 12:39+0000\n"
+"PO-Revision-Date: 2022-02-19 18:36+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -215,28 +215,28 @@ msgstr "_Довідка"
 msgid "_About Music"
 msgstr "_Про «Музику»"
 
-#: data/ui/EmptyView.ui:26
+#: data/ui/EmptyView.ui:26 data/ui/InitialState.ui:13
 msgid "Welcome to Music"
 msgstr "Вітаємо у «Музиці»"
 
-#: data/ui/HeaderBar.ui:17
+#: data/ui/HeaderBar.ui:16
 msgid "Menu"
 msgstr "Меню"
 
-#: data/ui/HeaderBar.ui:26 data/ui/SearchHeaderBar.ui:16
+#: data/ui/HeaderBar.ui:24 data/ui/SearchHeaderBar.ui:15
 msgid "Select"
 msgstr "Вибрати"
 
-#: data/ui/HeaderBar.ui:33 data/ui/PlaylistDialog.ui:211
-#: data/ui/SearchHeaderBar.ui:22
+#: data/ui/HeaderBar.ui:30 data/ui/PlaylistDialog.ui:211
+#: data/ui/SearchHeaderBar.ui:20
 msgid "_Cancel"
 msgstr "_Скасувати"
 
-#: data/ui/HeaderBar.ui:46 data/ui/SearchHeaderBar.ui:35
+#: data/ui/HeaderBar.ui:42 data/ui/SearchHeaderBar.ui:32
 msgid "Search"
 msgstr "Пошук"
 
-#: data/ui/HeaderBar.ui:55
+#: data/ui/HeaderBar.ui:50
 msgid "Back"
 msgstr "Назад"
 
@@ -324,6 +324,11 @@ msgstr "Перейти до списків композицій"
 msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Повернутися"
+
+#: data/ui/InitialState.ui:25
+#| msgid "The contents of your {} will appear here."
+msgid "The contents of your Music Folder will appear here"
+msgstr "Тут з'явиться вміст вашої теки «Музика»."
 
 #: data/ui/LastfmDialog.ui:21
 msgid ""
@@ -419,7 +424,7 @@ msgstr "Вибрати все"
 msgid "Select None"
 msgstr "Не вибирати"
 
-#: data/ui/SelectionBarMenuButton.ui:26 gnomemusic/widgets/headerbar.py:71
+#: data/ui/SelectionBarMenuButton.ui:19 gnomemusic/widgets/headerbar.py:69
 msgid "Click on items to select them"
 msgstr "Натисніть на об'єкти, щоб вибрати їх"
 
@@ -428,7 +433,6 @@ msgid "_Add to Playlist"
 msgstr "_Додати до списку композицій"
 
 #: data/ui/SongWidgetMenu.ui:19
-#| msgid "Remove From Playlist"
 msgid "_Remove from Playlist"
 msgstr "Ви_лучити зі списку"
 
@@ -509,7 +513,6 @@ msgid "Playlist {} removed"
 msgstr "Список композицій {} вилучено"
 
 #: gnomemusic/playlisttoast.py:56 gnomemusic/songtoast.py:65
-#| msgid "_Undo"
 msgid "Undo"
 msgstr "Скасувати"
 
@@ -587,7 +590,7 @@ msgstr[3] "{} хвилина"
 msgid "Disc {}"
 msgstr "Диск {}"
 
-#: gnomemusic/widgets/headerbar.py:68
+#: gnomemusic/widgets/headerbar.py:66
 msgid "Selected {} song"
 msgid_plural "Selected {} songs"
 msgstr[0] "Вибрано {} композицію"
