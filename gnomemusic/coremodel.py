@@ -214,15 +214,21 @@ class CoreModel(GObject.GObject):
     def _playlists_sort(self, playlist_a, playlist_b, data=None):
         if playlist_a.props.is_smart:
             if not playlist_b.props.is_smart:
-                return -1
+                return Gtk.Ordering.SMALLER
             return utils.natural_sort_names(
                 playlist_a.props.title, playlist_b.props.title)
 
         if playlist_b.props.is_smart:
-            return 1
+            return Gtk.Ordering.LARGER
 
-        return GLib.DateTime.compare(
+        date_compare = GLib.DateTime.compare(
             playlist_b.props.creation_date, playlist_a.props.creation_date)
+        if date_compare == -1:
+            return Gtk.Ordering.SMALLER
+        elif date_compare == 1:
+            return Gtk.Ordering.LARGER
+        else:
+            return Gtk.Ordering.EQUAL
 
     def _set_player_model(self, playlist_type, model):
         """Set the model for PlayerPlaylist to use
