@@ -51,7 +51,7 @@ from gnomemusic.widgets.lastfmdialog import LastfmDialog
 from gnomemusic.window import Window
 
 
-class Application(Gtk.Application):
+class Application(Adw.Application):
 
     def __init__(self, application_id):
         super().__init__(
@@ -82,14 +82,6 @@ class Application(Gtk.Application):
 
         InhibitSuspend(self)
         PauseOnSuspend(self._player)
-
-    def _init_style(self):
-        css_provider = Gtk.CssProvider()
-        css_provider.load_from_resource('/org/gnome/Music/org.gnome.Music.css')
-        display = Gdk.Display.get_default()
-        style_context = self._window.get_style_context()
-        style_context.add_provider_for_display(
-            display, css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
 
     @GObject.Property(
         type=CoreGrilo, default=None, flags=GObject.ParamFlags.READABLE)
@@ -238,7 +230,7 @@ class Application(Gtk.Application):
         about.present()
 
     def do_startup(self):
-        Gtk.Application.do_startup(self)
+        Adw.Application.do_startup(self)
         Adw.StyleManager.get_default().set_color_scheme(
             Adw.ColorScheme.PREFER_LIGHT)
         self._set_actions()
@@ -251,7 +243,6 @@ class Application(Gtk.Application):
             self._window = Window(self)
             self.notify("window")
             self._window.set_default_icon_name(self.props.application_id)
-            self._init_style()
             if self.props.application_id == "org.gnome.Music.Devel":
                 self._window.get_style_context().add_class('devel')
             MPRIS(self)
