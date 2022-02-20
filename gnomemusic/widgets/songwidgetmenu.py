@@ -23,10 +23,10 @@
 # delete this exception statement from your version.
 
 from __future__ import annotations
-from typing import Any, Optional, Union
+from typing import Any, Optional, Union, cast
 import typing
 
-from gi.repository import Gio, Gtk
+from gi.repository import Gio, GObject, Gtk
 
 from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
 from gnomemusic.songtoast import SongToast
@@ -36,6 +36,7 @@ if typing.TYPE_CHECKING:
     from gnomemusic.application import Application
     from gnomemusic.corealbum import CoreAlbum
     from gnomemusic.coresong import CoreSong
+    CoreObject = Union[CoreAlbum, CoreSong, Playlist]
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/SongWidgetMenu.ui")
@@ -46,7 +47,7 @@ class SongWidgetMenu(Gtk.PopoverMenu):
     def __init__(
             self, application: Application,
             song_widget: Union[SongWidget, Gtk.ListItem],
-            coreobject: Union[CoreAlbum, CoreSong, Playlist]) -> None:
+            coreobject: Optional[CoreObject]) -> None:
         """Menu to interact with the song of a SongWidget.
 
         :param Application application: The application object
@@ -62,12 +63,9 @@ class SongWidgetMenu(Gtk.PopoverMenu):
         self._window = application.props.window
 
         self._coreobject = coreobject
+        self._coresong: CoreSong
         self._song_widget = song_widget
-
-        if isinstance(song_widget, SongWidget):
-            self._coresong = song_widget.props.coresong
-        else:
-            self._coresong = coreobject
+        self.props.coreobject = coreobject
 
         self._playlist_dialog: Optional[PlaylistDialog] = None
 
@@ -125,4 +123,18 @@ class SongWidgetMenu(Gtk.PopoverMenu):
         self.popdown()
         position = self._song_widget.get_index()
         SongToast(
-            self._application, self._coreobject, position, self._coresong)
+            self._application, cast(Playlist, self._coreobject), position,
+            self._coresong)
+
+    @GObject.Property(type=GObject.GObject)
+    def coreobject(self) -> CoreObject:
+        return self._coreobject
+
+    @coreobject.setter  # type: ignore
+    def coreobject(self, coreobject: CoreObject) -> None:
+        self._coreobject = coreobject
+
+        if isinstance(self._song_widget, SongWidget):
+            self._coresong = self._song_widget.props.coresong
+        else:
+            self._coresong = coreobject
