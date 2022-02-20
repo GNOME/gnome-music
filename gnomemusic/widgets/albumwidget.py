@@ -153,6 +153,9 @@ class AlbumWidget(Adw.Bin):
         self._year_signal_id = self._corealbum.connect(
             "notify::year", self._on_release_info_changed)
         self._set_composer_label()
+        # In case the duration is no longer changing, make sure it is
+        # displayed.
+        self._corealbum.notify("duration")
 
         self._album_model = self._corealbum.props.model
         self._model_signal_id = self._album_model.connect_after(
