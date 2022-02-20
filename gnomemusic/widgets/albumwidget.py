@@ -231,7 +231,6 @@ class AlbumWidget(Adw.Bin):
             show = True
 
         self._composer_label.props.visible = show
-        self._composer_label.props.visible = show
 
     def _on_release_info_changed(
             self, klass: CoreAlbum,
