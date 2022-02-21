@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2022-02-17 10:24+0000\n"
-"PO-Revision-Date: 2022-02-18 08:53+0700\n"
+"POT-Creation-Date: 2022-02-19 12:39+0000\n"
+"PO-Revision-Date: 2022-02-21 13:40+0700\n"
 "Last-Translator: Kukuh Syafaat <kukuhsyafaat@gnome.org>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "Language: id\n"
@@ -214,28 +214,28 @@ msgstr "_Bantuan"
 msgid "_About Music"
 msgstr "Tent_ang Musik"
 
-#: data/ui/EmptyView.ui:26
+#: data/ui/EmptyView.ui:26 data/ui/InitialState.ui:13
 msgid "Welcome to Music"
 msgstr "Selamat Datang di Musik"
 
-#: data/ui/HeaderBar.ui:17
+#: data/ui/HeaderBar.ui:16
 msgid "Menu"
 msgstr "Menu"
 
-#: data/ui/HeaderBar.ui:26 data/ui/SearchHeaderBar.ui:16
+#: data/ui/HeaderBar.ui:24 data/ui/SearchHeaderBar.ui:15
 msgid "Select"
 msgstr "Pilih"
 
-#: data/ui/HeaderBar.ui:33 data/ui/PlaylistDialog.ui:211
-#: data/ui/SearchHeaderBar.ui:22
+#: data/ui/HeaderBar.ui:30 data/ui/PlaylistDialog.ui:211
+#: data/ui/SearchHeaderBar.ui:20
 msgid "_Cancel"
 msgstr "_Batal"
 
-#: data/ui/HeaderBar.ui:46 data/ui/SearchHeaderBar.ui:35
+#: data/ui/HeaderBar.ui:42 data/ui/SearchHeaderBar.ui:32
 msgid "Search"
 msgstr "Cari"
 
-#: data/ui/HeaderBar.ui:55
+#: data/ui/HeaderBar.ui:50
 msgid "Back"
 msgstr "Mundur"
 
@@ -323,6 +323,10 @@ msgstr "Ke Daftar Putar"
 msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Mundur"
+
+#: data/ui/InitialState.ui:25
+msgid "The contents of your Music Folder will appear here"
+msgstr "Isi Folder Musik Anda akan muncul di sini"
 
 #: data/ui/LastfmDialog.ui:21
 msgid ""
@@ -416,7 +420,7 @@ msgstr "Pilih Semua"
 msgid "Select None"
 msgstr "Pilih Tak Satupun"
 
-#: data/ui/SelectionBarMenuButton.ui:26 gnomemusic/widgets/headerbar.py:71
+#: data/ui/SelectionBarMenuButton.ui:19 gnomemusic/widgets/headerbar.py:69
 msgid "Click on items to select them"
 msgstr "Klik pada butir untuk memilihnya"
 
@@ -576,7 +580,7 @@ msgstr[0] "{} menit"
 msgid "Disc {}"
 msgstr "Cakram {}"
 
-#: gnomemusic/widgets/headerbar.py:68
+#: gnomemusic/widgets/headerbar.py:66
 msgid "Selected {} song"
 msgid_plural "Selected {} songs"
 msgstr[0] "Dipilih {} lagu"
