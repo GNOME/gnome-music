@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2022-02-17 10:24+0000\n"
-"PO-Revision-Date: 2022-02-17 13:41+0300\n"
+"POT-Creation-Date: 2022-02-19 12:39+0000\n"
+"PO-Revision-Date: 2022-02-20 12:35+0300\n"
 "Last-Translator: Aleksandr Melman <Alexmelman88@gmail.com>\n"
 "Language-Team: Русский <gnome-cyr@gnome.org>\n"
 "Language: ru\n"
@@ -221,28 +221,28 @@ msgstr "_Справка"
 msgid "_About Music"
 msgstr "_О приложении"
 
-#: data/ui/EmptyView.ui:26
+#: data/ui/EmptyView.ui:26 data/ui/InitialState.ui:13
 msgid "Welcome to Music"
 msgstr "Добро пожаловать в Музыку"
 
-#: data/ui/HeaderBar.ui:17
+#: data/ui/HeaderBar.ui:16
 msgid "Menu"
 msgstr "Меню"
 
-#: data/ui/HeaderBar.ui:26 data/ui/SearchHeaderBar.ui:16
+#: data/ui/HeaderBar.ui:24 data/ui/SearchHeaderBar.ui:15
 msgid "Select"
 msgstr "Выбрать"
 
-#: data/ui/HeaderBar.ui:33 data/ui/PlaylistDialog.ui:211
-#: data/ui/SearchHeaderBar.ui:22
+#: data/ui/HeaderBar.ui:30 data/ui/PlaylistDialog.ui:211
+#: data/ui/SearchHeaderBar.ui:20
 msgid "_Cancel"
 msgstr "_Отмена"
 
-#: data/ui/HeaderBar.ui:46 data/ui/SearchHeaderBar.ui:35
+#: data/ui/HeaderBar.ui:42 data/ui/SearchHeaderBar.ui:32
 msgid "Search"
 msgstr "Поиск"
 
-#: data/ui/HeaderBar.ui:55
+#: data/ui/HeaderBar.ui:50
 msgid "Back"
 msgstr "Назад"
 
@@ -330,6 +330,10 @@ msgstr "Перейти к разделу Списки воспроизведен
 msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Перейти назад"
+
+#: data/ui/InitialState.ui:25
+msgid "The contents of your Music Folder will appear here"
+msgstr "Содержимое папки Музыка появится здесь"
 
 #: data/ui/LastfmDialog.ui:21
 msgid ""
@@ -427,7 +431,7 @@ msgstr "Выбрать все"
 msgid "Select None"
 msgstr "Снять выделение"
 
-#: data/ui/SelectionBarMenuButton.ui:26 gnomemusic/widgets/headerbar.py:71
+#: data/ui/SelectionBarMenuButton.ui:19 gnomemusic/widgets/headerbar.py:69
 msgid "Click on items to select them"
 msgstr "Нажмите, чтобы выбрать"
 
@@ -536,7 +540,7 @@ msgstr "Переменная директории XDG Музыки не уста
 
 #: gnomemusic/views/emptyview.py:72
 msgid "Music Folder"
-msgstr "Папка с музыкой"
+msgstr "Папка Музыка"
 
 #. TRANSLATORS: This is a label to display a link to open user's music
 #. folder. {} will be replaced with the translated text 'Music folder'
@@ -593,7 +597,7 @@ msgstr[2] "{} минут"
 msgid "Disc {}"
 msgstr "Диск {}"
 
-#: gnomemusic/widgets/headerbar.py:68
+#: gnomemusic/widgets/headerbar.py:66
 msgid "Selected {} song"
 msgid_plural "Selected {} songs"
 msgstr[0] "Выбранная песня {}"
@@ -627,4 +631,3 @@ msgid_plural "{} Songs"
 msgstr[0] "{} композиция"
 msgstr[1] "{} композиции"
 msgstr[2] "{} композиций"
-
