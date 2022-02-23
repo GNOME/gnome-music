@@ -110,7 +110,12 @@ class SongsView(Gtk.Box):
             list_item: Gtk.ListItem) -> None:
         builder = Gtk.Builder.new_from_resource(
             "/org/gnome/Music/ui/SongListItem.ui")
-        list_item.props.child = builder.get_object("_song_box")
+        song_box = builder.get_object("_song_box")
+        list_item.props.child = song_box
+
+        menu_button = builder.get_object("_menu_button")
+        song_menu = SongWidgetMenu(self._application, song_box, None)
+        menu_button.props.popover = song_menu
 
         self.bind_property(
             "selection-mode", list_item, "selectable",
@@ -161,8 +166,8 @@ class SongsView(Gtk.Box):
         star_hover.connect("leave", _on_star_leave)
         star_image.add_controller(star_hover)
 
-        menu_button.props.popover = SongWidgetMenu(
-            self._application, list_row, coresong)
+        song_menu = menu_button.props.popover
+        song_menu.props.coreobject = coresong
 
         b1 = coresong.bind_property(
             "title", title_label, "label", GObject.BindingFlags.SYNC_CREATE)
