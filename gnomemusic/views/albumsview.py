@@ -78,6 +78,7 @@ class AlbumsView(Gtk.Stack):
         list_item_factory = Gtk.SignalListItemFactory()
         list_item_factory.connect("setup", self._setup_list_item)
         list_item_factory.connect("bind", self._bind_list_item)
+        list_item_factory.connect("unbind", self._unbind_list_item)
 
         self._gridview.props.factory = list_item_factory
 
