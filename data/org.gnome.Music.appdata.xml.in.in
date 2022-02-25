@@ -15,16 +15,16 @@
   </description>
   <screenshots>
     <screenshot type="default">
-      <image type="source">https://gitlab.gnome.org/GNOME/gnome-music/raw/master/data/screenshots/gnome-music-1.png</image>
+      <image type="source">https://gitlab.gnome.org/GNOME/gnome-music/raw/HEAD/data/screenshots/gnome-music-1.png</image>
     </screenshot>
     <screenshot>
-      <image type="source">https://gitlab.gnome.org/GNOME/gnome-music/raw/master/data/screenshots/gnome-music-2.png</image>
+      <image type="source">https://gitlab.gnome.org/GNOME/gnome-music/raw/HEAD/data/screenshots/gnome-music-2.png</image>
     </screenshot>
     <screenshot>
-      <image type="source">https://gitlab.gnome.org/GNOME/gnome-music/raw/master/data/screenshots/gnome-music-3.png</image>
+      <image type="source">https://gitlab.gnome.org/GNOME/gnome-music/raw/HEAD/data/screenshots/gnome-music-3.png</image>
     </screenshot>
     <screenshot>
-      <image type="source">https://gitlab.gnome.org/GNOME/gnome-music/raw/master/data/screenshots/gnome-music-4.png</image>
+      <image type="source">https://gitlab.gnome.org/GNOME/gnome-music/raw/HEAD/data/screenshots/gnome-music-4.png</image>
     </screenshot>
   </screenshots>
   <releases>
