@@ -1,17 +1,17 @@
 # Swedish translation for gnome-music.
-# Copyright © 2014-2021 gnome-music's COPYRIGHT HOLDER
+# Copyright © 2014-2022 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-music package.
 # Anders Jonsson <anders.jonsson@norsjovallen.se>, 2014, 2016, 2017, 2018, 2019, 2020, 2021.
 # Sebastian Rasmussen <sebras@gmail.com>, 2015.
 # Marcus Gisslén <marcus.gisslen@gmail.com>, 2015.
-# Luna Jernberg <droidbittin@gmail.com>, 2021.
+# Luna Jernberg <droidbittin@gmail.com>, 2021, 2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2021-08-27 21:42+0000\n"
-"PO-Revision-Date: 2021-08-27 23:46+0200\n"
+"POT-Creation-Date: 2022-02-21 21:11+0000\n"
+"PO-Revision-Date: 2022-02-28 18:15+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -19,11 +19,13 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
-msgid "GNOME Music"
-msgstr "GNOME Musik"
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:61
+#: gnomemusic/window.py:71
+msgid "Music"
+msgstr "Musik"
 
 #: data/org.gnome.Music.appdata.xml.in.in:7
 #: data/org.gnome.Music.desktop.in.in:5
@@ -42,14 +44,9 @@ msgstr ""
 "Hitta spår i din lokala samling, använd automatiskt genererade spellistor "
 "eller sammanställ en ny."
 
-#: data/org.gnome.Music.appdata.xml.in.in:140
+#: data/org.gnome.Music.appdata.xml.in.in:149
 msgid "The GNOME Music developers"
 msgstr "GNOME Musik-utvecklarna"
-
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:60
-#: gnomemusic/window.py:71
-msgid "Music"
-msgstr "Musik"
 
 #: data/org.gnome.Music.desktop.in.in:4
 msgid "Music Player"
@@ -69,27 +66,19 @@ msgid "Window size (width and height)."
 msgstr "Fönsterstorlek (bredd och höjd)."
 
 #: data/org.gnome.Music.gschema.xml:17
-msgid "Window position"
-msgstr "Fönsterposition"
-
-#: data/org.gnome.Music.gschema.xml:18
-msgid "Window position (x and y)."
-msgstr "Fönsterposition (x och y)."
-
-#: data/org.gnome.Music.gschema.xml:22
 msgid "Window maximized"
 msgstr "Fönster maximerat"
 
-#: data/org.gnome.Music.gschema.xml:23
+#: data/org.gnome.Music.gschema.xml:18
 msgid "Window maximized state."
 msgstr "Tillstånd för maximerat fönster."
 
-#: data/org.gnome.Music.gschema.xml:27
+#: data/org.gnome.Music.gschema.xml:22
 msgid "Playback repeat mode"
 msgstr "Upprepningsläge för uppspelning"
 
 #. Translators: Don't translate allowed values, just the description in the brackets
-#: data/org.gnome.Music.gschema.xml:29
+#: data/org.gnome.Music.gschema.xml:24
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
 "collection. Allowed values are: “none” (repeat and shuffle are off), "
@@ -102,29 +91,29 @@ msgstr ""
 "ordning och börjar sedan om), ”shuffle” (låtar spelas i slumpmässig ordning, "
 "detta medför upprepning av alla)."
 
-#: data/org.gnome.Music.gschema.xml:33
+#: data/org.gnome.Music.gschema.xml:28
 msgid "Enable ReplayGain"
 msgstr "Aktivera uppspelningsförstärkning"
 
-#: data/org.gnome.Music.gschema.xml:34
+#: data/org.gnome.Music.gschema.xml:29
 msgid "Enables or disables ReplayGain for albums"
 msgstr "Aktiverar eller inaktiverar uppspelningsförstärkning för album"
 
-#: data/org.gnome.Music.gschema.xml:38
+#: data/org.gnome.Music.gschema.xml:33
 msgid "Inhibit system suspend"
 msgstr "Hindra vänteläge för systemet"
 
-#: data/org.gnome.Music.gschema.xml:39
+#: data/org.gnome.Music.gschema.xml:34
 msgid "Enables or disables inhibiting system suspend while playing music"
 msgstr ""
 "Aktiverar eller inaktiverar hindrande av vänteläge för systemet då musik "
 "spelas upp"
 
-#: data/org.gnome.Music.gschema.xml:43
+#: data/org.gnome.Music.gschema.xml:38
 msgid "Report music history to Last.fm"
 msgstr "Rapportera musikhistorik till Last.fm"
 
-#: data/org.gnome.Music.gschema.xml:44
+#: data/org.gnome.Music.gschema.xml:39
 msgid ""
 "Enables or disables sending scrobbles and the “currently playing” info to "
 "Last.fm."
@@ -190,21 +179,21 @@ msgstr ""
 "tvungen att göra det. Ta bort detta undantag från din version om du inte "
 "vill använda det."
 
-#: data/ui/AlbumWidget.ui:104 data/ui/PlayerToolbar.ui:122
-#: data/ui/PlaylistControls.ui:121 data/ui/SongWidgetMenu.ui:19
-#: gnomemusic/widgets/playertoolbar.py:177
+#: data/ui/AlbumWidget.ui:86 data/ui/PlayerToolbar.ui:88
+#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:168
 msgid "Play"
 msgstr "Spela"
 
-#: data/ui/AlbumWidget.ui:163 data/ui/PlaylistControls.ui:6
+#: data/ui/AlbumWidget.ui:132 data/ui/PlaylistControls.ui:5
+#: data/ui/SongWidgetMenu.ui:11
 msgid "_Play"
 msgstr "_Spela"
 
-#: data/ui/AlbumWidget.ui:167
+#: data/ui/AlbumWidget.ui:136
 msgid "Add to _Favorite Songs"
 msgstr "Lägg till i _favoritlåtar"
 
-#: data/ui/AlbumWidget.ui:171
+#: data/ui/AlbumWidget.ui:140 data/ui/SongWidgetMenu.ui:15
 msgid "_Add to Playlist…"
 msgstr "_Lägg till i spellista…"
 
@@ -212,23 +201,23 @@ msgstr "_Lägg till i spellista…"
 msgid "Last.fm Account"
 msgstr "Last.fm-konto"
 
-#: data/ui/AppMenu.ui:38
+#: data/ui/AppMenu.ui:36
 msgid "Report Music Listening"
 msgstr "Rapportera musiklyssnande"
 
-#: data/ui/AppMenu.ui:63
+#: data/ui/AppMenu.ui:58
 msgid "_Keyboard Shortcuts"
 msgstr "_Tangentbordsgenvägar"
 
-#: data/ui/AppMenu.ui:74
+#: data/ui/AppMenu.ui:68
 msgid "_Help"
 msgstr "_Hjälp"
 
-#: data/ui/AppMenu.ui:85
+#: data/ui/AppMenu.ui:78
 msgid "_About Music"
 msgstr "_Om Musik"
 
-#: data/ui/EmptyView.ui:35
+#: data/ui/EmptyView.ui:26 data/ui/InitialState.ui:13
 msgid "Welcome to Music"
 msgstr "Välkommen till Musik"
 
@@ -236,109 +225,113 @@ msgstr "Välkommen till Musik"
 msgid "Menu"
 msgstr "Meny"
 
-#: data/ui/HeaderBar.ui:39 data/ui/SearchHeaderBar.ui:16
+#: data/ui/HeaderBar.ui:24 data/ui/SearchHeaderBar.ui:15
 msgid "Select"
 msgstr "Välj"
 
-#: data/ui/HeaderBar.ui:60 data/ui/PlaylistDialog.ui:211
-#: data/ui/SearchHeaderBar.ui:37
+#: data/ui/HeaderBar.ui:30 data/ui/PlaylistDialog.ui:211
+#: data/ui/SearchHeaderBar.ui:20
 msgid "_Cancel"
 msgstr "_Avbryt"
 
-#: data/ui/HeaderBar.ui:79 data/ui/SearchHeaderBar.ui:56
+#: data/ui/HeaderBar.ui:42 data/ui/SearchHeaderBar.ui:32
 msgid "Search"
 msgstr "Sök"
 
-#: data/ui/HeaderBar.ui:102
+#: data/ui/HeaderBar.ui:50
 msgid "Back"
 msgstr "Bakåt"
 
-#: data/ui/help-overlay.ui:13
+#: data/ui/help-overlay.ui:11
 msgctxt "shortcut window"
 msgid "General"
 msgstr "Allmänt"
 
-#: data/ui/help-overlay.ui:17
+#: data/ui/help-overlay.ui:14
 msgctxt "shortcut window"
 msgid "Close window"
 msgstr "Stäng fönster"
 
-#: data/ui/help-overlay.ui:24
+#: data/ui/help-overlay.ui:20
 msgctxt "shortcut window"
 msgid "Search"
 msgstr "Sök"
 
-#: data/ui/help-overlay.ui:31
+#: data/ui/help-overlay.ui:26
 msgctxt "shortcut window"
 msgid "Help"
 msgstr "Hjälp"
 
-#: data/ui/help-overlay.ui:38
+#: data/ui/help-overlay.ui:32
 msgctxt "shortcut window"
 msgid "Shortcuts"
 msgstr "Genvägar"
 
-#: data/ui/help-overlay.ui:47
+#: data/ui/help-overlay.ui:40
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Uppspelning"
 
-#: data/ui/help-overlay.ui:51
+#: data/ui/help-overlay.ui:43
 msgctxt "shortcut window"
 msgid "Play/Pause"
 msgstr "Spela upp/Gör paus"
 
-#: data/ui/help-overlay.ui:58
+#: data/ui/help-overlay.ui:49
 msgctxt "shortcut window"
 msgid "Next song"
 msgstr "Nästa låt"
 
-#: data/ui/help-overlay.ui:65
+#: data/ui/help-overlay.ui:55
 msgctxt "shortcut window"
 msgid "Previous song"
 msgstr "Föregående låt"
 
-#: data/ui/help-overlay.ui:72
+#: data/ui/help-overlay.ui:61
 msgctxt "shortcut window"
 msgid "Toggle repeat"
 msgstr "Växla repetera"
 
-#: data/ui/help-overlay.ui:79
+#: data/ui/help-overlay.ui:67
 msgctxt "shortcut window"
 msgid "Toggle shuffle"
 msgstr "Växla blandad uppspelning"
 
-#: data/ui/help-overlay.ui:88
+#: data/ui/help-overlay.ui:75
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "Navigering"
 
-#: data/ui/help-overlay.ui:92
+#: data/ui/help-overlay.ui:78
 msgctxt "shortcut window"
 msgid "Go to Albums"
 msgstr "Gå till Album"
 
-#: data/ui/help-overlay.ui:99
+#: data/ui/help-overlay.ui:84
 msgctxt "shortcut window"
 msgid "Go to Artists"
 msgstr "Gå till Artister"
 
-#: data/ui/help-overlay.ui:106
+#: data/ui/help-overlay.ui:90
 msgctxt "shortcut window"
 msgid "Go to Songs"
 msgstr "Gå till Låtar"
 
-#: data/ui/help-overlay.ui:113
+#: data/ui/help-overlay.ui:96
 msgctxt "shortcut window"
 msgid "Go to Playlists"
 msgstr "Gå till Spellistor"
 
-#: data/ui/help-overlay.ui:120
+#: data/ui/help-overlay.ui:102
 msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Gå bakåt"
 
-#: data/ui/LastfmDialog.ui:24
+#: data/ui/InitialState.ui:25
+msgid "The contents of your Music Folder will appear here"
+msgstr "Innehållet i din Musikmapp kommer att visas här"
+
+#: data/ui/LastfmDialog.ui:21
 msgid ""
 "Last.fm is a music discovery service that gives you personalised "
 "recommendations based on the music you listen to."
@@ -346,87 +339,79 @@ msgstr ""
 "Last.fm är en musikupptäcktstjänst som ger dig personliga rekommendationer "
 "beroende på musiken du lyssnar på."
 
-#: data/ui/LastfmDialog.ui:35 gnomemusic/widgets/lastfmdialog.py:58
+#: data/ui/LastfmDialog.ui:31 gnomemusic/widgets/lastfmdialog.py:57
 msgid "Music Reporting Not Setup"
 msgstr "Musikrapportering ej konfigurerad"
 
-#: data/ui/LastfmDialog.ui:49 gnomemusic/widgets/lastfmdialog.py:61
+#: data/ui/LastfmDialog.ui:44 gnomemusic/widgets/lastfmdialog.py:60
 msgid "Login to your Last.fm account to report your music listening."
 msgstr "Logga in på ditt Last.fm-konto för att rapportera ditt musiklyssnande."
 
-#: data/ui/LastfmDialog.ui:60 gnomemusic/widgets/lastfmdialog.py:59
+#: data/ui/LastfmDialog.ui:55 gnomemusic/widgets/lastfmdialog.py:58
 msgid "Login"
 msgstr "Logga in"
 
-#: data/ui/LoadingNotification.ui:16
-msgid "Loading"
-msgstr "Läser in"
-
-#: data/ui/PlayerToolbar.ui:105
+#: data/ui/PlayerToolbar.ui:75
 msgid "Previous"
 msgstr "Föregående"
 
-#: data/ui/PlayerToolbar.ui:139
+#: data/ui/PlayerToolbar.ui:107
 msgid "Next"
 msgstr "Nästa"
 
-#: data/ui/PlaylistControls.ui:10
+#: data/ui/PlaylistControls.ui:9
 msgid "_Delete"
 msgstr "_Ta bort"
 
-#: data/ui/PlaylistControls.ui:14
+#: data/ui/PlaylistControls.ui:13
 msgid "_Rename…"
 msgstr "_Byt namn…"
 
-#: data/ui/PlaylistControls.ui:44
+#: data/ui/PlaylistControls.ui:28
 msgid "Playlist Name"
 msgstr "Namn på spellista"
 
-#: data/ui/PlaylistControls.ui:77
+#: data/ui/PlaylistControls.ui:62
 msgid "_Done"
 msgstr "_Färdig"
 
-#: data/ui/PlaylistDialog.ui:66
+#: data/ui/PlaylistDialog.ui:52
 msgid "Enter a name for your first playlist"
 msgstr "Ange ett namn för din första spellista"
 
-#: data/ui/PlaylistDialog.ui:88
+#: data/ui/PlaylistDialog.ui:77
 msgid "C_reate"
 msgstr "S_kapa"
 
-#: data/ui/PlaylistDialog.ui:156
+#: data/ui/PlaylistDialog.ui:146
 msgid "New Playlist…"
 msgstr "Ny spellista…"
 
-#: data/ui/PlaylistDialog.ui:167
+#: data/ui/PlaylistDialog.ui:161
 msgid "Add"
 msgstr "Lägg till"
 
-#: data/ui/PlaylistDialog.ui:208
+#: data/ui/PlaylistDialog.ui:200
 msgid "Add to Playlist"
 msgstr "Lägg till i spellista"
 
-#: data/ui/PlaylistDialog.ui:224
+#: data/ui/PlaylistDialog.ui:220
 msgid "_Add"
 msgstr "_Lägg till"
 
-#: data/ui/PlaylistNotification.ui:22
-msgid "_Undo"
-msgstr "_Ångra"
-
-#: data/ui/SearchView.ui:47 gnomemusic/views/artistsview.py:46
+#: data/ui/SearchView.ui:33 gnomemusic/views/artistsview.py:51
 msgid "Artists"
 msgstr "Artister"
 
-#: data/ui/SearchView.ui:57 data/ui/SearchView.ui:108
+#: data/ui/SearchView.ui:42 data/ui/SearchView.ui:84
 msgid "View All"
 msgstr "Visa alla"
 
-#: data/ui/SearchView.ui:98 gnomemusic/views/albumsview.py:50
+#: data/ui/SearchView.ui:75 gnomemusic/views/albumsview.py:54
 msgid "Albums"
 msgstr "Album"
 
-#: data/ui/SearchView.ui:149 gnomemusic/views/songsview.py:47
+#: data/ui/SearchView.ui:117 gnomemusic/views/songsview.py:52
 msgid "Songs"
 msgstr "Låtar"
 
@@ -438,44 +423,40 @@ msgstr "Markera alla"
 msgid "Select None"
 msgstr "Avmarkera alla"
 
-#: data/ui/SelectionBarMenuButton.ui:30 gnomemusic/widgets/headerbar.py:71
+#: data/ui/SelectionBarMenuButton.ui:19 gnomemusic/widgets/headerbar.py:69
 msgid "Click on items to select them"
 msgstr "Klicka på objekt för att välja dem"
 
-#: data/ui/SelectionToolbar.ui:9
+#: data/ui/SelectionToolbar.ui:8
 msgid "_Add to Playlist"
 msgstr "_Lägg till i spellista"
 
-#: data/ui/SongWidgetMenu.ui:29
-msgid "Add to Playlist…"
-msgstr "Lägg till i spellista…"
-
-#: data/ui/SongWidgetMenu.ui:39
-msgid "Remove From Playlist"
-msgstr "Ta bort från spellista"
+#: data/ui/SongWidgetMenu.ui:19
+msgid "_Remove from Playlist"
+msgstr "_Ta bort från spellista"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:898
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:894
 msgid "Most Played"
 msgstr "Mest spelade"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:952
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:948
 msgid "Never Played"
 msgstr "Aldrig spelade"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1005
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1001
 msgid "Recently Played"
 msgstr "Nyligen spelade"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1068
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1064
 msgid "Recently Added"
 msgstr "Nyligen tillagda"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1131
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1127
 msgid "Favorite Songs"
 msgstr "Favoritlåtar"
 
@@ -508,27 +489,39 @@ msgid "Playing music"
 msgstr "Spelar upp musik"
 
 #. Translators: "shuffle" causes tracks to play in random order.
-#: gnomemusic/player.py:45
+#: gnomemusic/player.py:44
 msgid "Shuffle"
 msgstr "Spela i slumpmässig ordning"
 
-#: gnomemusic/player.py:46
+#: gnomemusic/player.py:45
 msgid "Repeat Song"
 msgstr "Upprepa låt"
 
-#: gnomemusic/player.py:47
+#: gnomemusic/player.py:46
 msgid "Repeat All"
 msgstr "Upprepa alla"
 
-#: gnomemusic/player.py:48
+#: gnomemusic/player.py:47
 msgid "Shuffle/Repeat Off"
 msgstr "Spela i ordning utan upprepning"
 
-#: gnomemusic/utils.py:80
+#: gnomemusic/playlisttoast.py:55
+msgid "Playlist {} removed"
+msgstr "Spellista {} borttagen"
+
+#: gnomemusic/playlisttoast.py:56 gnomemusic/songtoast.py:65
+msgid "Undo"
+msgstr "Ångra"
+
+#: gnomemusic/songtoast.py:64
+msgid "{} removed from {}"
+msgstr "{} borttagen från {}"
+
+#: gnomemusic/utils.py:92
 msgid "Unknown album"
 msgstr "Okänt album"
 
-#: gnomemusic/utils.py:101
+#: gnomemusic/utils.py:113
 msgid "Unknown Artist"
 msgstr "Okänd artist"
 
@@ -574,64 +567,71 @@ msgstr "Musik kräver version 3.0.0 eller högre av Tracker."
 msgid "Playlists"
 msgstr "Spellistor"
 
-#: gnomemusic/views/searchview.py:420
+#: gnomemusic/views/searchview.py:304
 msgid "Artists Results"
 msgstr "Artistresultat"
 
-#: gnomemusic/views/searchview.py:435
+#: gnomemusic/views/searchview.py:318
 msgid "Albums Results"
 msgstr "Albumresultat"
 
-#: gnomemusic/widgets/albumwidget.py:237
+#: gnomemusic/widgets/albumwidget.py:242
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} minut"
 msgstr[1] "{} minuter"
 
-#: gnomemusic/widgets/disclistboxwidget.py:75
+#: gnomemusic/widgets/discbox.py:75
 msgid "Disc {}"
 msgstr "Skiva {}"
 
-#: gnomemusic/widgets/headerbar.py:68
+#: gnomemusic/widgets/headerbar.py:66
 msgid "Selected {} song"
 msgid_plural "Selected {} songs"
 msgstr[0] "Markerade {} låt"
 msgstr[1] "Markerade {} låtar"
 
-#: gnomemusic/widgets/lastfmdialog.py:65
+#: gnomemusic/widgets/lastfmdialog.py:64
 msgid "Your music listening is reported to Last.fm."
 msgstr "Ditt musiklyssnande rapporteras till Last.fm."
 
-#: gnomemusic/widgets/lastfmdialog.py:67
+#: gnomemusic/widgets/lastfmdialog.py:66
 msgid "Your music listening is not reported to Last.fm."
 msgstr "Ditt musiklyssnande rapporteras inte till Last.fm."
 
 #. TRANSLATORS: displays the username of the Last.fm account
-#: gnomemusic/widgets/lastfmdialog.py:71
+#: gnomemusic/widgets/lastfmdialog.py:70
 msgid "Logged in as {}"
 msgstr "Inloggad som {}"
 
-#: gnomemusic/widgets/lastfmdialog.py:72
+#: gnomemusic/widgets/lastfmdialog.py:71
 msgid "Configure"
 msgstr "Konfigurera"
 
-#: gnomemusic/widgets/notificationspopup.py:216
-msgid "Playlist {} removed"
-msgstr "Spellista {} borttagen"
-
-#: gnomemusic/widgets/notificationspopup.py:220
-msgid "{} removed from {}"
-msgstr "{} borttagen från {}"
-
-#: gnomemusic/widgets/playertoolbar.py:174
+#: gnomemusic/widgets/playertoolbar.py:165
 msgid "Pause"
 msgstr "Gör paus"
 
-#: gnomemusic/widgets/playlistcontrols.py:132
+#: gnomemusic/widgets/playlistcontrols.py:130
 msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} låt"
 msgstr[1] "{} låtar"
+
+#~ msgid "GNOME Music"
+#~ msgstr "GNOME Musik"
+
+#~ msgid "Window position"
+#~ msgstr "Fönsterposition"
+
+#~ msgid "Window position (x and y)."
+#~ msgstr "Fönsterposition (x och y)."
+
+#~ msgid "Loading"
+#~ msgstr "Läser in"
+
+#~ msgid "Add to Playlist…"
+#~ msgstr "Lägg till i spellista…"
 
 #~ msgid ""
 #~ "An easy way to play your music. Automatically discover music on your "
