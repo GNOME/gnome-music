@@ -29,7 +29,7 @@ i18n.merge_file(
     input: PROJECT_RDNN_NAME + '.desktop.in.in',
     configuration: desktop_conf),
   output: APPLICATION_ID + '.desktop',
-  po_dir: join_paths(meson.current_source_dir(), 'po'),
+  po_dir: join_paths(meson.project_source_root(), 'po'),
   install: true,
   install_dir: join_paths(get_option('prefix'), get_option('datadir'), 'applications')
 )
@@ -56,7 +56,7 @@ i18n.merge_file(
     configuration: appdata_conf
   ),
   output: APPLICATION_ID + '.appdata.xml',
-  po_dir: join_paths(meson.current_source_dir(), 'po'),
+  po_dir: join_paths(meson.project_source_root(), 'po'),
   install: true,
   install_dir: join_paths(get_option('prefix'), get_option('datadir'), 'metainfo')
 )
