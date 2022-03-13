@@ -1,19 +1,19 @@
 # Japanese translation for gnome-music.
-# Copyright (C) 2013-2015, 2019-2020 gnome-music's COPYRIGHT HOLDER
+# Copyright (C) 2013-2015, 2019-2020, 2022 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-music package.
 # DanielaHidemiOyafuso <danielaoyafuso@gmail.com>, 2013.
 # Ikuya Awashiro <ikuya@fruitsbasket.info>, 2014.
 # Kento Tsuji <tuziemon@pclives.org>, 2014.
 # Hajime Taira <htaira@redhat.com>, 2015.
 # Jiro Matsuzawa <jmatsuzawa@gnome.org>, 2015.
-# sicklylife <translation@sicklylife.jp>, 2019-2020.
+# sicklylife <translation@sicklylife.jp>, 2019-2020, 2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
 "POT-Creation-Date: 2022-02-19 12:39+0000\n"
-"PO-Revision-Date: 2020-08-31 22:30+0900\n"
+"PO-Revision-Date: 2022-03-13 20:50+0900\n"
 "Last-Translator: sicklylife <translation@sicklylife.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "Language: ja\n"
@@ -163,16 +163,12 @@ msgid "_Play"
 msgstr "再生(_P)"
 
 #: data/ui/AlbumWidget.ui:136
-#, fuzzy
-#| msgid "Favorite Songs"
 msgid "Add to _Favorite Songs"
-msgstr "お気に入りの曲"
+msgstr "お気に入りの曲に追加(_F)"
 
 #: data/ui/AlbumWidget.ui:140 data/ui/SongWidgetMenu.ui:15
-#, fuzzy
-#| msgid "Add to Playlist…"
 msgid "_Add to Playlist…"
-msgstr "プレイリストに追加…"
+msgstr "プレイリストに追加(_A)…"
 
 #: data/ui/AppMenu.ui:23 data/ui/LastfmDialog.ui:8
 msgid "Last.fm Account"
@@ -196,7 +192,7 @@ msgstr "“ミュージック”について(_A)"
 
 #: data/ui/EmptyView.ui:26 data/ui/InitialState.ui:13
 msgid "Welcome to Music"
-msgstr ""
+msgstr "“ミュージック”へようこそ"
 
 #: data/ui/HeaderBar.ui:16
 msgid "Menu"
@@ -305,10 +301,8 @@ msgid "Go back"
 msgstr "戻る"
 
 #: data/ui/InitialState.ui:25
-#, fuzzy
-#| msgid "The contents of your {} will appear here."
 msgid "The contents of your Music Folder will appear here"
-msgstr "あなたの{}の内容がここに表示されます。"
+msgstr "ミュージックフォルダーの内容がここに表示されます"
 
 #: data/ui/LastfmDialog.ui:21
 msgid ""
@@ -412,10 +406,8 @@ msgid "_Add to Playlist"
 msgstr "プレイリストに追加(_A)"
 
 #: data/ui/SongWidgetMenu.ui:19
-#, fuzzy
-#| msgid "Remove From Playlist"
 msgid "_Remove from Playlist"
-msgstr "プレイリストから削除"
+msgstr "プレイリストから削除(_R)"
 
 #. TRANSLATORS: this is a playlist name
 #: gnomemusic/grilowrappers/grltrackerplaylists.py:894
@@ -491,10 +483,8 @@ msgid "Playlist {} removed"
 msgstr "プレイリスト {} を削除しました"
 
 #: gnomemusic/playlisttoast.py:56 gnomemusic/songtoast.py:65
-#, fuzzy
-#| msgid "_Undo"
 msgid "Undo"
-msgstr "元に戻す(_U)"
+msgstr "元に戻す"
 
 #: gnomemusic/songtoast.py:64
 msgid "{} removed from {}"
@@ -513,8 +503,6 @@ msgid "Your XDG Music directory is not set."
 msgstr "XDG の Music ディレクトリを設定していません。"
 
 #: gnomemusic/views/emptyview.py:72
-#, fuzzy
-#| msgid "Music folder"
 msgid "Music Folder"
 msgstr "ミュージックフォルダー"
 
@@ -522,43 +510,31 @@ msgstr "ミュージックフォルダー"
 #. folder. {} will be replaced with the translated text 'Music folder'
 #: gnomemusic/views/emptyview.py:76
 msgid "The contents of your {} will appear here."
-msgstr "あなたの{}の内容がここに表示されます。"
+msgstr "{}の内容がここに表示されます。"
 
 #: gnomemusic/views/emptyview.py:124
-#, fuzzy
-#| msgid "No music found"
 msgid "No Music Found"
 msgstr "曲が見つかりませんでした"
 
 #: gnomemusic/views/emptyview.py:125
-#, fuzzy
-#| msgid "Try a different search"
 msgid "Try a Different Search"
 msgstr "他のキーワードを試してください"
 
 #: gnomemusic/views/emptyview.py:129
-#, fuzzy
-#| msgid "GNOME Music could not connect to Tracker"
 msgid "GNOME Music could not connect to Tracker."
-msgstr "GNOME ミュージックが Tracker に接続できませんでした"
+msgstr "GNOME ミュージックが Tracker に接続できませんでした。"
 
 #: gnomemusic/views/emptyview.py:131
-#, fuzzy
-#| msgid "Your music files cannot be indexed without Tracker running"
 msgid "Your music files cannot be indexed without Tracker running."
-msgstr "Tracker を実行していないと音楽ファイルはインデックスされません"
+msgstr "Tracker を実行していないと音楽ファイルはインデックスされません。"
 
 #: gnomemusic/views/emptyview.py:137
-#, fuzzy
-#| msgid "Your system Tracker version seems outdated"
 msgid "Your system Tracker version seems outdated."
-msgstr "Tracker のバージョンが古すぎます"
+msgstr "Tracker のバージョンが古すぎます。"
 
 #: gnomemusic/views/emptyview.py:139
-#, fuzzy
-#| msgid "Music needs Tracker version 3.0.0 or higher"
 msgid "Music needs Tracker version 3.0.0 or higher."
-msgstr "Tracker のバージョン 3.0.0 以降が必要です"
+msgstr "Tracker のバージョン 3.0.0 以降が必要です。"
 
 #: gnomemusic/views/playlistsview.py:45
 msgid "Playlists"
