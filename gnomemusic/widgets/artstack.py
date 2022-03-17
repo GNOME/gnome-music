@@ -137,6 +137,8 @@ class ArtStack(Gtk.Stack):
         if coreobject is self._coreobject:
             return
 
+        self._disconnect_cache()
+
         if self._thumbnail_id != 0:
             self._coreobject.disconnect(self._thumbnail_id)
             self._thumbnail_id = 0
