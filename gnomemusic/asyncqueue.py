@@ -72,9 +72,15 @@ class AsyncQueue(GObject.GObject):
         """
         async_obj_id = id(args[0])
 
-        if (async_obj_id not in self._async_pool
-                and async_obj_id not in self._async_active_pool):
-            self._async_pool[async_obj_id] = (args)
+        if async_obj_id in self._async_active_pool:
+            obj = args[0]
+            handler_id, _ = self._async_data.pop(obj)
+            obj.disconnect(handler_id)
+            self._async_active_pool.pop(id(obj))
+        elif async_obj_id in self._async_pool:
+            self._async_pool.pop(async_obj_id)
+
+        self._async_pool[async_obj_id] = (args)
 
         if self._timeout_id == 0:
             self._timeout_id = GLib.timeout_add(100, self._dispatch)
