@@ -126,7 +126,7 @@ class ArtStack(Gtk.Stack):
 
         default_icon = DefaultIcon(self).get(self._art_type, self._size)
 
-        self._swap_thumbnails(default_icon, False)
+        self._swap_thumbnails(default_icon)
 
     @GObject.Property(type=object, default=None)
     def coreobject(self) -> Optional[CoreObject]:
@@ -140,7 +140,7 @@ class ArtStack(Gtk.Stack):
         self._disconnect_cache()
 
         default_icon = DefaultIcon(self).get(self._art_type, self._size)
-        self._swap_thumbnails(default_icon, False)
+        self._swap_thumbnails(default_icon)
 
         if self._thumbnail_id != 0:
             self._coreobject.disconnect(self._thumbnail_id)
@@ -158,11 +158,7 @@ class ArtStack(Gtk.Stack):
             pspec: GObject.ParamSpecBoolean) -> None:
         default_icon = DefaultIcon(self).get(self._art_type, self._size)
 
-        if self._coreobject:
-            if self._coreobject.props.thumbnail == "generic":
-                self._swap_thumbnails(default_icon, False)
-        else:
-            self._swap_thumbnails(default_icon, False)
+        self._swap_thumbnails(default_icon)
 
     def _on_thumbnail_changed(
             self, coreobject: CoreObject,
@@ -174,26 +170,17 @@ class ArtStack(Gtk.Stack):
 
         self._async_queue.queue(self._cache, coreobject, self._size)
 
-    def _swap_thumbnails(
-            self, paintable: Gtk.Paintable, animate: bool) -> None:
+    def _swap_thumbnails(self, paintable: Gtk.Paintable) -> None:
         if self.props.visible_child_name == "B":
             self._cover_a.props.paintable = paintable
-            if animate:
-                self.set_visible_child_full(
-                    "A", Gtk.StackTransitionType.CROSSFADE)
-            else:
-                self.props.visible_child_name = "A"
+            self.props.visible_child_name = "A"
         else:
             self._cover_b.props.paintable = paintable
-            if animate:
-                self.set_visible_child_full(
-                    "B", Gtk.StackTransitionType.CROSSFADE)
-            else:
-                self.props.visible_child_name = "B"
+            self.props.visible_child_name = "B"
 
     def _on_cache_result(
             self, cache: ArtCache, paintable: Gtk.Paintable) -> None:
-        self._swap_thumbnails(paintable, True)
+        self._swap_thumbnails(paintable)
 
     def _on_destroy(self, widget: ArtStack) -> None:
         # If the stack is destroyed while the art is updated, an error
