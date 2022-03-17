@@ -70,11 +70,8 @@ class ArtStack(Gtk.Stack):
 
         self._cover_a = Gtk.Image()
         self._cover_a.props.visible = True
-        self._cover_b = Gtk.Image()
-        self._cover_b.props.visible = True
 
         self.add_named(self._cover_a, "A")
-        self.add_named(self._cover_b, "B")
 
         self.props.size = size
 
@@ -171,12 +168,7 @@ class ArtStack(Gtk.Stack):
         self._async_queue.queue(self._cache, coreobject, self._size)
 
     def _swap_thumbnails(self, paintable: Gtk.Paintable) -> None:
-        if self.props.visible_child_name == "B":
-            self._cover_a.props.paintable = paintable
-            self.props.visible_child_name = "A"
-        else:
-            self._cover_b.props.paintable = paintable
-            self.props.visible_child_name = "B"
+        self._cover_a.props.paintable = paintable
 
     def _on_cache_result(
             self, cache: ArtCache, paintable: Gtk.Paintable) -> None:
