@@ -71,7 +71,7 @@ class ArtStack(Gtk.Stack):
         self._cover = Gtk.Image()
         self._cover.props.visible = True
 
-        self.add_named(self._cover, "A")
+        self.add_child(self._cover)
 
         self.props.size = size
 
