@@ -153,6 +153,12 @@ class ArtStack(Gtk.Stack):
     def _on_dark_changed(
             self, style_manager: Adw.StyleManager,
             pspec: GObject.ParamSpecBoolean) -> None:
+        if self._coreobject is None:
+            return
+
+        if self._coreobject.props.thumbnail != "generic":
+            return
+
         default_icon = DefaultIcon(self).get(self._art_type, self._size)
 
         self._cover.props.paintable = default_icon
