@@ -139,6 +139,9 @@ class ArtStack(Gtk.Stack):
 
         self._disconnect_cache()
 
+        default_icon = DefaultIcon(self).get(self._art_type, self._size)
+        self._swap_thumbnails(default_icon, False)
+
         if self._thumbnail_id != 0:
             self._coreobject.disconnect(self._thumbnail_id)
             self._thumbnail_id = 0
