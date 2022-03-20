@@ -28,6 +28,14 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="42.0" date="2022-03-20">
+      <description>
+        <p>
+          Music has been ported to GTK-4. This brings some performance
+          improvements for larger collections.
+        </p>
+      </description>
+    </release>
     <release version="41.0" date="2021-09-18">
       <description>
         <p>

@@ -1,3 +1,54 @@
+Overview of changes in 42.0
+===========================
+
+• GTK-4 regression fixes
+
+Bugs fixed:
+ App title untranslated (#510)
+
+Thanks to our contributors this release:
+ Fabian Bornschein
+ Georges Basile Stavracas Neto
+ Jean Felder
+ Marinus Schraal
+ Sophie Herold
+
+Updated translations:
+ Ukrainian
+ Portuguese
+ Brazilian Portuguese
+ Indonesian
+ Catalan
+ Russian
+ Chinese (China)
+ Lithuanian
+ Hebrew
+ Czech
+ Persian
+ French
+ Turkish
+ Finnish
+ Spanish
+ Galician
+ Slovak
+ Slovenian
+ Polish
+ Basque
+ Swedish
+ Korean
+ Croatian
+ Danish
+ Bulgarian
+ Hungarian
+ Kazakh
+ Japanese
+ Serbian
+ German
+ Occitan
+ Norwegian Bokmål
+ Italian
+
+
 Overview of changes in 42.beta
 ==============================
 
