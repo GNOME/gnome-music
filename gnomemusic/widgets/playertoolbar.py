@@ -193,7 +193,7 @@ class PlayerToolbar(Gtk.ActionBar):
         coresong = player.props.current_song
         self._duration_label.props.label = utils.seconds_to_string(
             coresong.props.duration)
-        self._progress_time_label.props.label = "0∶00"
+        self._progress_time_label.props.label = "0:00"
 
         self._play_button.set_sensitive(True)
         self._sync_prev_next()
