@@ -31,7 +31,7 @@ msgstr "Música"
 #: data/org.gnome.Music.appdata.xml.in.in:7
 #: data/org.gnome.Music.desktop.in.in:5
 msgid "Play and organize your music collection"
-msgstr "Reproduïu i organitzeu la col·lecció de música"
+msgstr "Reproduïu i organitzeu la vostra col·lecció de música"
 
 #: data/org.gnome.Music.appdata.xml.in.in:9
 msgid "An easy and pleasant way to play your music."
@@ -42,7 +42,7 @@ msgid ""
 "Find tracks in your local collection, use automatically generated playlists "
 "or curate a fresh one."
 msgstr ""
-"Trobeu pistes a la vostra col·lecció local, utilitzeu llistes de reproducció "
+"Trobeu cançons a la vostra col·lecció local, utilitzeu llistes de reproducció "
 "generades automàticament o creeu-ne de noves."
 
 #: data/org.gnome.Music.appdata.xml.in.in:149
@@ -343,7 +343,7 @@ msgstr ""
 
 #: data/ui/LastfmDialog.ui:31 gnomemusic/widgets/lastfmdialog.py:57
 msgid "Music Reporting Not Setup"
-msgstr "La informe de la música no configurat"
+msgstr "L'informe de la música no està configurat"
 
 #: data/ui/LastfmDialog.ui:44 gnomemusic/widgets/lastfmdialog.py:60
 msgid "Login to your Last.fm account to report your music listening."
