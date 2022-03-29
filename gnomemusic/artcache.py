@@ -22,11 +22,13 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from gi.repository import Gdk, GdkPixbuf, Gio, Gtk, GLib, GObject
+from gi.repository import GObject, Gtk
 
+from gnomemusic.asyncqueue import AsyncQueue
 from gnomemusic.coreartist import CoreArtist
 from gnomemusic.coverpaintable import CoverPaintable
 from gnomemusic.defaulticon import DefaultIcon
+from gnomemusic.mediaartloader import MediaArtLoader
 from gnomemusic.musiclogger import MusicLogger
 from gnomemusic.utils import ArtSize, DefaultIconType
 
@@ -43,6 +45,8 @@ class ArtCache(GObject.GObject):
     __gsignals__ = {
         "finished": (GObject.SignalFlags.RUN_FIRST, None, (object, ))
     }
+
+    _async_queue = AsyncQueue("ArtCache")
 
     _log = MusicLogger()
 
@@ -80,49 +84,14 @@ class ArtCache(GObject.GObject):
             self.emit("finished", self._paintable)
             return
 
-        thumb_file = Gio.File.new_for_uri(thumbnail_uri)
-        if thumb_file:
-            thumb_file.read_async(
-                GLib.PRIORITY_DEFAULT_IDLE, None, self._open_stream, None)
-            return
+        art_loader = MediaArtLoader()
+        art_loader.connect("finished", self._on_art_loading_finished)
+        self._async_queue.queue(art_loader, thumbnail_uri)
 
-        self.emit("finished", self._paintable)
-
-    def _open_stream(self, thumb_file, result, arguments):
-        try:
-            stream = thumb_file.read_finish(result)
-        except GLib.Error as error:
-            self._log.warning(
-                "Error: {}, {}".format(error.domain, error.message))
-            self.emit("finished", self._paintable)
-            return
-
-        GdkPixbuf.Pixbuf.new_from_stream_async(
-            stream, None, self._pixbuf_loaded, None)
-
-    def _pixbuf_loaded(self, stream, result, data):
-        try:
-            pixbuf = GdkPixbuf.Pixbuf.new_from_stream_finish(result)
-        except GLib.Error as error:
-            self._log.warning(
-                "Error: {}, {}".format(error.domain, error.message))
-            self.emit("finished", self._paintable)
-            return
-
-        texture = Gdk.Texture.new_for_pixbuf(pixbuf)
+    def _on_art_loading_finished(self, art_loader, texture) -> None:
         if texture:
             self._paintable = CoverPaintable(
                 self._size, self._widget, icon_type=self._icon_type,
                 texture=texture)
-
-        stream.close_async(
-            GLib.PRIORITY_DEFAULT_IDLE, None, self._close_stream, None)
-
-    def _close_stream(self, stream, result, data):
-        try:
-            stream.close_finish(result)
-        except GLib.Error as error:
-            self._log.warning(
-                "Error: {}, {}".format(error.domain, error.message))
 
         self.emit("finished", self._paintable)
