@@ -28,9 +28,11 @@ import typing
 
 from gi.repository import Adw, GObject, Gtk
 
-from gnomemusic.asyncqueue import AsyncQueue
 from gnomemusic.artcache import ArtCache
+from gnomemusic.asyncqueue import AsyncQueue
+from gnomemusic.coverpaintable import CoverPaintable
 from gnomemusic.defaulticon import DefaultIcon
+from gnomemusic.mediaartloader import MediaArtLoader
 from gnomemusic.utils import ArtSize, DefaultIconType
 if typing.TYPE_CHECKING:
     from gnomemusic.corealbum import CoreAlbum
@@ -61,11 +63,14 @@ class ArtStack(Gtk.Stack):
         """
         super().__init__()
 
+        self._art_loader = MediaArtLoader()
+        self._art_loading_id = 0
         self._art_type = DefaultIconType.ALBUM
         self._cache = ArtCache(self)
         self._coreobject: Optional[CoreObject] = None
         self._handler_id = 0
         self._size = size
+        self._texture = None
         self._thumbnail_id = 0
 
         self._cover = Gtk.Image()
@@ -168,14 +173,29 @@ class ArtStack(Gtk.Stack):
             uri: GObject.ParamSpecString) -> None:
         self._disconnect_cache()
 
-        self._handler_id = self._cache.connect(
-            "finished", self._on_cache_result)
+        thumbnail_uri = coreobject.props.thumbnail
+        if self._art_loading_id != 0:
+            self._art_loader.disconnect(self._art_loading_id)
+            self._art_loading_id = 0
 
-        self._async_queue.queue(self._cache, coreobject, self._size)
+        if thumbnail_uri == "generic":
+            dark = Adw.StyleManager.get_default().props.dark
+            default_icon = CoverPaintable(self._size, self, dark=dark)
+            self._cover.props.paintable = default_icon
+            return
 
-    def _on_cache_result(
-            self, cache: ArtCache, paintable: Gtk.Paintable) -> None:
-        self._cover.props.paintable = paintable
+        self._art_loader = MediaArtLoader()
+        self._art_loading_id = self._art_loader.connect(
+            "finished", self._on_art_loading_finished)
+        self._async_queue.queue(self._art_loader, thumbnail_uri)
+
+    def _on_art_loading_finished(self, art_loader, texture) -> None:
+        if texture:
+            paintable = CoverPaintable(
+                self._size, self, icon_type=self._art_type,
+                texture=texture)
+
+            self._cover.props.paintable = paintable
 
     def _on_destroy(self, widget: ArtStack) -> None:
         # If the stack is destroyed while the art is updated, an error
