@@ -30,7 +30,6 @@ from gi.repository import Adw, GObject, Gtk
 
 from gnomemusic.asyncqueue import AsyncQueue
 from gnomemusic.coverpaintable import CoverPaintable
-from gnomemusic.defaulticon import DefaultIcon
 from gnomemusic.mediaartloader import MediaArtLoader
 from gnomemusic.utils import ArtSize, DefaultIconType
 if typing.TYPE_CHECKING:
@@ -122,8 +121,9 @@ class ArtStack(Gtk.Stack):
         """
         self._art_type = value
 
-        default_icon = DefaultIcon(self).get(self._art_type, self._size)
-
+        dark = Adw.StyleManager.get_default().props.dark
+        default_icon = CoverPaintable(
+            self._size, self, icon_type=self._art_type, dark=dark)
         self._cover.props.paintable = default_icon
 
     @GObject.Property(type=object, default=None)
@@ -135,7 +135,9 @@ class ArtStack(Gtk.Stack):
         if coreobject is self._coreobject:
             return
 
-        default_icon = DefaultIcon(self).get(self._art_type, self._size)
+        dark = Adw.StyleManager.get_default().props.dark
+        default_icon = CoverPaintable(
+            self._size, self, icon_type=self._art_type, dark=dark)
         self._cover.props.paintable = default_icon
 
         if self._thumbnail_id != 0:
@@ -158,8 +160,8 @@ class ArtStack(Gtk.Stack):
         if self._coreobject.props.thumbnail != "generic":
             return
 
-        default_icon = DefaultIcon(self).get(self._art_type, self._size)
-
+        dark = Adw.StyleManager.get_default().props.dark
+        default_icon = CoverPaintable(self._size, self, dark=dark)
         self._cover.props.paintable = default_icon
 
     def _on_thumbnail_changed(
@@ -172,7 +174,8 @@ class ArtStack(Gtk.Stack):
 
         if thumbnail_uri == "generic":
             dark = Adw.StyleManager.get_default().props.dark
-            default_icon = CoverPaintable(self._size, self, dark=dark)
+            default_icon = CoverPaintable(
+                self._size, self, icon_type=self._art_type, dark=dark)
             self._cover.props.paintable = default_icon
             return
 
