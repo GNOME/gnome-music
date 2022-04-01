@@ -28,7 +28,6 @@ import typing
 
 from gi.repository import Adw, GObject, Gtk
 
-from gnomemusic.artcache import ArtCache
 from gnomemusic.asyncqueue import AsyncQueue
 from gnomemusic.coverpaintable import CoverPaintable
 from gnomemusic.defaulticon import DefaultIcon
@@ -66,9 +65,7 @@ class ArtStack(Gtk.Stack):
         self._art_loader = MediaArtLoader()
         self._art_loading_id = 0
         self._art_type = DefaultIconType.ALBUM
-        self._cache = ArtCache(self)
         self._coreobject: Optional[CoreObject] = None
-        self._handler_id = 0
         self._size = size
         self._texture = None
         self._thumbnail_id = 0
@@ -80,7 +77,6 @@ class ArtStack(Gtk.Stack):
 
         self.props.size = size
 
-        self.connect("destroy", self._on_destroy)
         Adw.StyleManager.get_default().connect(
             "notify::dark", self._on_dark_changed)
 
@@ -139,8 +135,6 @@ class ArtStack(Gtk.Stack):
         if coreobject is self._coreobject:
             return
 
-        self._disconnect_cache()
-
         default_icon = DefaultIcon(self).get(self._art_type, self._size)
         self._cover.props.paintable = default_icon
 
@@ -171,8 +165,6 @@ class ArtStack(Gtk.Stack):
     def _on_thumbnail_changed(
             self, coreobject: CoreObject,
             uri: GObject.ParamSpecString) -> None:
-        self._disconnect_cache()
-
         thumbnail_uri = coreobject.props.thumbnail
         if self._art_loading_id != 0:
             self._art_loader.disconnect(self._art_loading_id)
@@ -196,14 +188,3 @@ class ArtStack(Gtk.Stack):
                 texture=texture)
 
             self._cover.props.paintable = paintable
-
-    def _on_destroy(self, widget: ArtStack) -> None:
-        # If the stack is destroyed while the art is updated, an error
-        # can occur once the art is retrieved because the ArtStack does
-        # not have children anymore.
-        self._disconnect_cache()
-
-    def _disconnect_cache(self) -> None:
-        if self._handler_id != 0:
-            self._cache.disconnect(self._handler_id)
-            self._handler_id = 0
