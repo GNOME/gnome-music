@@ -117,6 +117,26 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
 
         self.invalidate_contents()
 
+    @GObject.Property(type=object, flags=GObject.ParamFlags.READWRITE)
+    def icon_type(self) -> DefaultIconType:
+        """Icon type of the cover
+
+        :returns: The type of the default icon
+        :rtype: DefaultIconType
+        """
+        return self._icon_type
+
+    @icon_type.setter  # type: ignore
+    def icon_type(self, value: DefaultIconType) -> None:
+        """Set the cover icon type
+
+        :param DefaultIconType value: The default icon type for the
+            cover
+        """
+        self._icon_type = value
+
+        self.invalidate_contents()
+
     def do_get_flags(self) -> Gdk.PaintableFlags:
         return Gdk.PaintableFlags.SIZE
 

@@ -65,6 +65,8 @@ class ArtStack(Gtk.Stack):
         self._art_loading_id = 0
         self._art_type = DefaultIconType.ALBUM
         self._coreobject: Optional[CoreObject] = None
+        self._default_icon = CoverPaintable(
+            size, self, icon_type=self._art_type)
         self._size = size
         self._texture = None
         self._thumbnail_id = 0
@@ -118,9 +120,7 @@ class ArtStack(Gtk.Stack):
         """
         self._art_type = value
 
-        default_icon = CoverPaintable(
-            self._size, self, icon_type=self._art_type)
-        self._cover.props.paintable = default_icon
+        self._default_icon.props.icon_type = self._art_type
 
     @GObject.Property(type=object, default=None)
     def coreobject(self) -> Optional[CoreObject]:
@@ -131,9 +131,7 @@ class ArtStack(Gtk.Stack):
         if coreobject is self._coreobject:
             return
 
-        default_icon = CoverPaintable(
-            self._size, self, icon_type=self._art_type)
-        self._cover.props.paintable = default_icon
+        self._cover.props.paintable = self._default_icon
 
         if self._thumbnail_id != 0:
             self._coreobject.disconnect(self._thumbnail_id)
@@ -155,9 +153,7 @@ class ArtStack(Gtk.Stack):
             self._art_loading_id = 0
 
         if thumbnail_uri == "generic":
-            default_icon = CoverPaintable(
-                self._size, self, icon_type=self._art_type)
-            self._cover.props.paintable = default_icon
+            self._cover.props.paintable = self._default_icon
             return
 
         self._art_loader = MediaArtLoader()
