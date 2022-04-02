@@ -28,9 +28,7 @@ import typing
 
 from gi.repository import GObject, Gtk
 
-from gnomemusic.asyncqueue import AsyncQueue
 from gnomemusic.coverpaintable import CoverPaintable
-from gnomemusic.mediaartloader import MediaArtLoader
 from gnomemusic.utils import ArtSize, DefaultIconType
 if typing.TYPE_CHECKING:
     from gnomemusic.corealbum import CoreAlbum
@@ -52,8 +50,6 @@ class ArtStack(Gtk.Stack):
 
     __gtype_name__ = "ArtStack"
 
-    _async_queue = AsyncQueue("ArtStack")
-
     def __init__(self, size: ArtSize = ArtSize.MEDIUM) -> None:
         """Initialize the ArtStack
 
@@ -61,15 +57,11 @@ class ArtStack(Gtk.Stack):
         """
         super().__init__()
 
-        self._art_loader = MediaArtLoader()
-        self._art_loading_id = 0
         self._art_type = DefaultIconType.ALBUM
         self._coreobject: Optional[CoreObject] = None
-        self._default_icon = CoverPaintable(
+        self._cover_paintable = CoverPaintable(
             size, self, icon_type=self._art_type)
         self._size = size
-        self._texture = None
-        self._thumbnail_id = 0
 
         self._cover = Gtk.Image()
         self._cover.props.visible = True
@@ -120,7 +112,7 @@ class ArtStack(Gtk.Stack):
         """
         self._art_type = value
 
-        self._default_icon.props.icon_type = self._art_type
+        self._cover_paintable.props.icon_type = self._art_type
 
     @GObject.Property(type=object, default=None)
     def coreobject(self) -> Optional[CoreObject]:
@@ -131,40 +123,6 @@ class ArtStack(Gtk.Stack):
         if coreobject is self._coreobject:
             return
 
-        self._cover.props.paintable = self._default_icon
-
-        if self._thumbnail_id != 0:
-            self._coreobject.disconnect(self._thumbnail_id)
-            self._thumbnail_id = 0
-
         self._coreobject = coreobject
-        self._thumbnail_id = self._coreobject.connect(
-            "notify::thumbnail", self._on_thumbnail_changed)
-
-        if self._coreobject.props.thumbnail is not None:
-            self._on_thumbnail_changed(self._coreobject, None)
-
-    def _on_thumbnail_changed(
-            self, coreobject: CoreObject,
-            uri: GObject.ParamSpecString) -> None:
-        thumbnail_uri = coreobject.props.thumbnail
-        if self._art_loading_id != 0:
-            self._art_loader.disconnect(self._art_loading_id)
-            self._art_loading_id = 0
-
-        if thumbnail_uri == "generic":
-            self._cover.props.paintable = self._default_icon
-            return
-
-        self._art_loader = MediaArtLoader()
-        self._art_loading_id = self._art_loader.connect(
-            "finished", self._on_art_loading_finished)
-        self._async_queue.queue(self._art_loader, thumbnail_uri)
-
-    def _on_art_loading_finished(self, art_loader, texture) -> None:
-        if texture:
-            paintable = CoverPaintable(
-                self._size, self, icon_type=self._art_type,
-                texture=texture)
-
-            self._cover.props.paintable = paintable
+        self._cover_paintable.props.coreobject = coreobject
+        self._cover.props.paintable = self._cover_paintable

@@ -23,12 +23,23 @@
 # delete this exception statement from your version.
 
 from __future__ import annotations
+from typing import Optional, Union
+import typing
 
 import gi
 gi.require_versions({"Gdk": "4.0", "Gtk": "4.0", "Gsk": "4.0"})
 from gi.repository import Adw, Gsk, Gtk, GObject, Graphene, Gdk
 
+from gnomemusic.asyncqueue import AsyncQueue
+from gnomemusic.mediaartloader import MediaArtLoader
 from gnomemusic.utils import ArtSize, DefaultIconType
+if typing.TYPE_CHECKING:
+    from gnomemusic.corealbum import CoreAlbum
+    from gnomemusic.coreartist import CoreArtist
+    from gnomemusic.coresong import CoreSong
+
+if typing.TYPE_CHECKING:
+    CoreObject = Union[CoreAlbum, CoreArtist, CoreSong]
 
 
 class CoverPaintable(GObject.GObject, Gdk.Paintable):
@@ -39,6 +50,8 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
     """
 
     __gtype_name__ = "CoverPaintable"
+
+    _async_queue = AsyncQueue("CoverPaintable")
 
     def __init__(
             self, art_size: ArtSize, widget: Gtk.Widget,
@@ -54,12 +67,16 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
         """
         super().__init__()
 
+        self._art_loader = MediaArtLoader()
+        self._art_loading_id = 0
         self._art_size = art_size
+        self._coreobject: Optional[CoreObject] = None
         self._icon_theme = Gtk.IconTheme.new().get_for_display(
             widget.get_display())
         self._icon_type = icon_type
         self._style_manager = Adw.StyleManager.get_default()
         self._texture = texture
+        self._thumbnail_id = 0
         self._widget = widget
 
         self._style_manager.connect("notify::dark", self._on_dark_changed)
@@ -116,6 +133,62 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
             return
 
         self.invalidate_contents()
+
+    @GObject.Property(type=object, default=None)
+    def coreobject(self) -> Optional[CoreObject]:
+        """Get the current core object in use
+
+        :returns: The corrent coreobject
+        :rtype: Union[CoreAlbum, CoreArtist, CoreSong] or None
+        """
+        return self._coreobject
+
+    @coreobject.setter  # type: ignore
+    def coreobject(self, coreobject: CoreObject) -> None:
+        """Update the coreobject used for CoverPaintable
+
+        :param Union[CoreAlbum, CoreArtist, CoreSong] coreobject:
+            The coreobject to set
+        """
+        if coreobject is self._coreobject:
+            return
+
+        self._texture = None
+        self.invalidate_contents()
+
+        if self._thumbnail_id != 0:
+            self._coreobject.disconnect(self._thumbnail_id)
+            self._thumbnail_id = 0
+
+        self._coreobject = coreobject
+        self._thumbnail_id = self._coreobject.connect(
+            "notify::thumbnail", self._on_thumbnail_changed)
+
+        if self._coreobject.props.thumbnail is not None:
+            self._on_thumbnail_changed(self._coreobject, None)
+
+    def _on_thumbnail_changed(
+            self, coreobject: CoreObject,
+            uri: GObject.ParamSpecString) -> None:
+        thumbnail_uri = coreobject.props.thumbnail
+        if self._art_loading_id != 0:
+            self._art_loader.disconnect(self._art_loading_id)
+            self._art_loading_id = 0
+
+        if thumbnail_uri == "generic":
+            self._texture = None
+            self.invalidate_contents()
+            return
+
+        self._art_loader = MediaArtLoader()
+        self._art_loading_id = self._art_loader.connect(
+            "finished", self._on_art_loading_finished)
+        self._async_queue.queue(self._art_loader, thumbnail_uri)
+
+    def _on_art_loading_finished(self, art_loader, texture) -> None:
+        if texture:
+            self._texture = texture
+            self.invalidate_contents()
 
     @GObject.Property(type=object, flags=GObject.ParamFlags.READWRITE)
     def icon_type(self) -> DefaultIconType:
