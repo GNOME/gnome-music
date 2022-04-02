@@ -26,7 +26,7 @@ from __future__ import annotations
 
 import gi
 gi.require_versions({"Gdk": "4.0", "Gtk": "4.0", "Gsk": "4.0"})
-from gi.repository import Gsk, Gtk, GObject, Graphene, Gdk
+from gi.repository import Adw, Gsk, Gtk, GObject, Graphene, Gdk
 
 from gnomemusic.utils import ArtSize, DefaultIconType
 
@@ -43,7 +43,7 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
     def __init__(
             self, art_size: ArtSize, widget: Gtk.Widget,
             icon_type: DefaultIconType = DefaultIconType.ALBUM,
-            texture: Gdk.Texture = None, dark: bool = False) -> None:
+            texture: Gdk.Texture = None) -> None:
         """Initiliaze CoverPaintable
 
         :param ArtSize art_size: Size of the cover
@@ -51,17 +51,18 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
         :param DefaultIconType icon_type: Type of cover
         :param Gdk.Texture texture: Texture to use or None for
             placeholder
-        :param bool dark: Dark mode
         """
         super().__init__()
 
         self._art_size = art_size
-        self._dark = dark
         self._icon_theme = Gtk.IconTheme.new().get_for_display(
             widget.get_display())
         self._icon_type = icon_type
+        self._style_manager = Adw.StyleManager.get_default()
         self._texture = texture
         self._widget = widget
+
+        self._style_manager.connect("notify::dark", self._on_dark_changed)
 
     def do_snapshot(self, snapshot: Gtk.Snapshot, w: int, h: int) -> None:
         if self._icon_type == DefaultIconType.ARTIST:
@@ -95,7 +96,7 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
                 self._widget.props.scale_factor, 0, 0)
 
             bg_color = Gdk.RGBA(1, 1, 1, 1)
-            if self._dark:
+            if self._style_manager.props.dark:
                 bg_color = Gdk.RGBA(0.3, 0.3, 0.3, 1)
 
             snapshot.append_color(bg_color, Graphene.Rect().init(0, 0, w, h))
@@ -108,8 +109,16 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
 
         snapshot.pop()
 
+    def _on_dark_changed(
+            self, style_manager: Adw.StyleManager,
+            pspec: GObject.ParamSpecBoolean) -> None:
+        if self._texture is not None:
+            return
+
+        self.invalidate_contents()
+
     def do_get_flags(self) -> Gdk.PaintableFlags:
-        return Gdk.PaintableFlags.SIZE | Gdk.PaintableFlags.CONTENTS
+        return Gdk.PaintableFlags.SIZE
 
     def do_get_intrinsic_height(self) -> int:
         return self._art_size.height

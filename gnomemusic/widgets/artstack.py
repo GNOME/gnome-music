@@ -26,7 +26,7 @@ from __future__ import annotations
 from typing import Optional, Union
 import typing
 
-from gi.repository import Adw, GObject, Gtk
+from gi.repository import GObject, Gtk
 
 from gnomemusic.asyncqueue import AsyncQueue
 from gnomemusic.coverpaintable import CoverPaintable
@@ -76,9 +76,6 @@ class ArtStack(Gtk.Stack):
 
         self.props.size = size
 
-        Adw.StyleManager.get_default().connect(
-            "notify::dark", self._on_dark_changed)
-
     @GObject.Property(type=object, flags=GObject.ParamFlags.READWRITE)
     def size(self) -> ArtSize:
         """Size of the cover
@@ -121,9 +118,8 @@ class ArtStack(Gtk.Stack):
         """
         self._art_type = value
 
-        dark = Adw.StyleManager.get_default().props.dark
         default_icon = CoverPaintable(
-            self._size, self, icon_type=self._art_type, dark=dark)
+            self._size, self, icon_type=self._art_type)
         self._cover.props.paintable = default_icon
 
     @GObject.Property(type=object, default=None)
@@ -135,9 +131,8 @@ class ArtStack(Gtk.Stack):
         if coreobject is self._coreobject:
             return
 
-        dark = Adw.StyleManager.get_default().props.dark
         default_icon = CoverPaintable(
-            self._size, self, icon_type=self._art_type, dark=dark)
+            self._size, self, icon_type=self._art_type)
         self._cover.props.paintable = default_icon
 
         if self._thumbnail_id != 0:
@@ -151,19 +146,6 @@ class ArtStack(Gtk.Stack):
         if self._coreobject.props.thumbnail is not None:
             self._on_thumbnail_changed(self._coreobject, None)
 
-    def _on_dark_changed(
-            self, style_manager: Adw.StyleManager,
-            pspec: GObject.ParamSpecBoolean) -> None:
-        if self._coreobject is None:
-            return
-
-        if self._coreobject.props.thumbnail != "generic":
-            return
-
-        dark = Adw.StyleManager.get_default().props.dark
-        default_icon = CoverPaintable(self._size, self, dark=dark)
-        self._cover.props.paintable = default_icon
-
     def _on_thumbnail_changed(
             self, coreobject: CoreObject,
             uri: GObject.ParamSpecString) -> None:
@@ -173,9 +155,8 @@ class ArtStack(Gtk.Stack):
             self._art_loading_id = 0
 
         if thumbnail_uri == "generic":
-            dark = Adw.StyleManager.get_default().props.dark
             default_icon = CoverPaintable(
-                self._size, self, icon_type=self._art_type, dark=dark)
+                self._size, self, icon_type=self._art_type)
             self._cover.props.paintable = default_icon
             return
 
