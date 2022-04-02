@@ -30,8 +30,8 @@ import gi
 gi.require_versions({"Gdk": "4.0", "Gtk": "4.0", "Gsk": "4.0"})
 from gi.repository import Adw, Gsk, Gtk, GObject, Graphene, Gdk
 
-from gnomemusic.asyncqueue import AsyncQueue
 from gnomemusic.mediaartloader import MediaArtLoader
+from gnomemusic.texturecache import TextureCache
 from gnomemusic.utils import ArtSize, DefaultIconType
 if typing.TYPE_CHECKING:
     from gnomemusic.corealbum import CoreAlbum
@@ -51,19 +51,14 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
 
     __gtype_name__ = "CoverPaintable"
 
-    _async_queue = AsyncQueue("CoverPaintable")
-
     def __init__(
             self, art_size: ArtSize, widget: Gtk.Widget,
-            icon_type: DefaultIconType = DefaultIconType.ALBUM,
-            texture: Gdk.Texture = None) -> None:
+            icon_type: DefaultIconType = DefaultIconType.ALBUM) -> None:
         """Initiliaze CoverPaintable
 
         :param ArtSize art_size: Size of the cover
         :param Gtk.Widget widget: Widget using the cover
         :param DefaultIconType icon_type: Type of cover
-        :param Gdk.Texture texture: Texture to use or None for
-            placeholder
         """
         super().__init__()
 
@@ -75,7 +70,8 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
             widget.get_display())
         self._icon_type = icon_type
         self._style_manager = Adw.StyleManager.get_default()
-        self._texture = texture
+        self._texture = None
+        self._texture_cache = TextureCache()
         self._thumbnail_id = 0
         self._widget = widget
 
@@ -180,12 +176,11 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
             self.invalidate_contents()
             return
 
-        self._art_loader = MediaArtLoader()
-        self._art_loading_id = self._art_loader.connect(
-            "finished", self._on_art_loading_finished)
-        self._async_queue.queue(self._art_loader, thumbnail_uri)
+        self._texture_cache.connect("texture", self._on_texture_cache)
+        self._texture_cache.lookup(thumbnail_uri)
 
-    def _on_art_loading_finished(self, art_loader, texture) -> None:
+    def _on_texture_cache(
+            self, texture_cache: TextureCache, texture: Gdk.Texture) -> None:
         if texture:
             self._texture = texture
             self.invalidate_contents()
