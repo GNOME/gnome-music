@@ -108,9 +108,10 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
                 self._icon_type.value, None, w * i_s,
                 self._widget.props.scale_factor, 0, 0)
 
-            bg_color = Gdk.RGBA(1, 1, 1, 1)
+            bg_color = Gdk.RGBA()
+            bg_color.parse("rgba(95%, 95%, 95%, 1)")
             if self._style_manager.props.dark:
-                bg_color = Gdk.RGBA(0.3, 0.3, 0.3, 1)
+                bg_color.parse("rgba(30%, 30%, 30%, 1)")
 
             snapshot.append_color(bg_color, Graphene.Rect().init(0, 0, w, h))
             snapshot.translate(
