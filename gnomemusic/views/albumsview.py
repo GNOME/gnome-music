@@ -29,6 +29,8 @@ from gettext import gettext as _
 from gi.repository import GObject, Gtk
 from typing import Dict, List
 
+from gnomemusic.coverpaintable import CoverPaintable
+from gnomemusic.utils import ArtSize, DefaultIconType
 from gnomemusic.widgets.headerbar import HeaderBar
 from gnomemusic.widgets.albumwidget import AlbumWidget
 if typing.TYPE_CHECKING:
@@ -183,6 +185,11 @@ class AlbumsView(Gtk.Stack):
         builder = Gtk.Builder.new_from_resource(
             "/org/gnome/Music/ui/AlbumCoverListItem.ui")
         list_item.props.child = builder.get_object("_album_cover")
+        cover_image = list_item.props.child.get_first_child().get_first_child()
+        cover_image.set_size_request(
+            ArtSize.MEDIUM.width, ArtSize.MEDIUM.height)
+        cover_image.props.paintable = CoverPaintable(
+            self, ArtSize.MEDIUM, icon_type=DefaultIconType.ALBUM)
 
         self.bind_property(
             "selection-mode", list_item, "selectable",
@@ -198,13 +205,13 @@ class AlbumsView(Gtk.Stack):
         album_cover = list_item.props.child
         corealbum = list_item.props.item
 
-        art_stack = album_cover.get_first_child().get_first_child()
-        check = art_stack.get_next_sibling()
+        cover_image = album_cover.get_first_child().get_first_child()
+        check = cover_image.get_next_sibling()
         album_label = album_cover.get_first_child().get_next_sibling()
         artist_label = album_label.get_next_sibling()
 
         b1 = corealbum.bind_property(
-            "corealbum", art_stack, "coreobject",
+            "corealbum", cover_image.props.paintable, "coreobject",
             GObject.BindingFlags.SYNC_CREATE)
         b2 = corealbum.bind_property(
             "title", album_label, "label", GObject.BindingFlags.SYNC_CREATE)
@@ -244,8 +251,8 @@ class AlbumsView(Gtk.Stack):
 
         album_cover = list_item.props.child
 
-        art_stack = album_cover.get_first_child().get_first_child()
-        check = art_stack.get_next_sibling()
+        cover_image = album_cover.get_first_child().get_first_child()
+        check = cover_image.get_next_sibling()
 
         signal_id, detail_id = GObject.signal_parse_name(
             "notify::active", check, True)

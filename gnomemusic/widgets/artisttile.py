@@ -28,6 +28,7 @@ from typing import Optional
 from gi.repository import GObject, Gtk
 
 from gnomemusic.coreartist import CoreArtist
+from gnomemusic.coverpaintable import CoverPaintable
 from gnomemusic.utils import ArtSize, DefaultIconType
 
 
@@ -40,7 +41,7 @@ class ArtistTile(Gtk.Box):
 
     __gtype_name__ = 'ArtistTile'
 
-    _art_stack = Gtk.Template.Child()
+    _cover_image = Gtk.Template.Child()
     _label = Gtk.Template.Child()
 
     text = GObject.Property(type=str, default='')
@@ -51,8 +52,10 @@ class ArtistTile(Gtk.Box):
 
         self._coreartist: Optional[CoreArtist] = None
 
-        self._art_stack.props.size = ArtSize.XSMALL
-        self._art_stack.props.art_type = DefaultIconType.ARTIST
+        self._cover_image.set_size_request(
+            ArtSize.XSMALL.width, ArtSize.XSMALL.height)
+        self._cover_image.props.paintable = CoverPaintable(
+            self, ArtSize.XSMALL, DefaultIconType.ARTIST)
 
         self.bind_property('text', self._label, 'label')
         self.bind_property('text', self._label, 'tooltip-text')
@@ -75,5 +78,5 @@ class ArtistTile(Gtk.Box):
         """
         self._coreartist = coreartist
 
-        self._art_stack.props.coreobject = coreartist
+        self._cover_image.props.paintable.props.coreobject = coreartist
         self.props.text = coreartist.props.artist

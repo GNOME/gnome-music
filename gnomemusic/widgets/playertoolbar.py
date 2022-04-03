@@ -25,10 +25,10 @@
 from gettext import gettext as _
 from gi.repository import Gio, GLib, GObject, Gtk
 
+from gnomemusic.coverpaintable import CoverPaintable
 from gnomemusic.gstplayer import Playback
 from gnomemusic.utils import ArtSize, DefaultIconType
 from gnomemusic.player import Player, RepeatMode
-from gnomemusic.widgets.artstack import ArtStack  # noqa: F401
 from gnomemusic.widgets.smoothscale import SmoothScale  # noqa: F401
 from gnomemusic.widgets.twolinetip import TwoLineTip
 import gnomemusic.utils as utils
@@ -44,7 +44,7 @@ class PlayerToolbar(Gtk.ActionBar):
     __gtype_name__ = 'PlayerToolbar'
 
     _artist_label = Gtk.Template.Child()
-    _art_stack = Gtk.Template.Child()
+    _cover_image = Gtk.Template.Child()
     _duration_label = Gtk.Template.Child()
     _next_button = Gtk.Template.Child()
     _play_button = Gtk.Template.Child()
@@ -62,8 +62,10 @@ class PlayerToolbar(Gtk.ActionBar):
 
         self._player = None
 
-        self._art_stack.props.size = ArtSize.SMALL
-        self._art_stack.props.art_type = DefaultIconType.ALBUM
+        self._cover_image.set_size_request(
+            ArtSize.SMALL.width, ArtSize.SMALL.height)
+        self._cover_image.props.paintable = CoverPaintable(
+            self, ArtSize.SMALL, DefaultIconType.ALBUM)
 
         self._tooltip = TwoLineTip()
 
@@ -198,7 +200,7 @@ class PlayerToolbar(Gtk.ActionBar):
         self._tooltip.props.title = title
         self._tooltip.props.subtitle = artist
 
-        self._art_stack.props.coreobject = coresong
+        self._cover_image.props.paintable.props.coreobject = coresong
 
     @Gtk.Template.Callback()
     def _on_tooltip_query(self, widget, x, y, kb, tooltip, data=None):

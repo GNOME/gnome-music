@@ -16,11 +16,9 @@
                 <property name="hexpand">True</property>
                 <property name="spacing">32</property>
                 <child>
-                  <object class="ArtStack" id="_art_stack">
+                  <object class="GtkImage" id="_cover_image">
                     <property name="halign">center</property>
-                    <property name="valign">start</property>
-                    <property name="hhomogeneous">False</property>
-                    <property name="vhomogeneous">False</property>
+                    <property name="valign">center</property>
                   </object>
                 </child>
                 <child>

@@ -7,8 +7,9 @@
         <property name="orientation">horizontal</property>
         <property name="margin-start">10</property>
         <child>
-          <object class="ArtStack" id="_art_stack">
-            <property name="focusable">False</property>
+          <object class="GtkImage" id="_cover_image">
+            <property name="halign">center</property>
+            <property name="valign">center</property>
           </object>
         </child>
         <child>

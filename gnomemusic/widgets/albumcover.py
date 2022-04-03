@@ -27,6 +27,7 @@ gi.require_version('Grl', '0.3')
 from gi.repository import GObject, Gtk
 
 from gnomemusic.corealbum import CoreAlbum
+from gnomemusic.coverpaintable import CoverPaintable
 from gnomemusic.utils import ArtSize, DefaultIconType
 from gnomemusic.widgets.twolinetip import TwoLineTip
 
@@ -40,8 +41,8 @@ class AlbumCover(Gtk.FlowBoxChild):
 
     __gtype_name__ = 'AlbumCover'
 
-    _art_stack = Gtk.Template.Child()
     _check = Gtk.Template.Child()
+    _cover_image = Gtk.Template.Child()
     _title_label = Gtk.Template.Child()
     _artist_label = Gtk.Template.Child()
 
@@ -81,8 +82,10 @@ class AlbumCover(Gtk.FlowBoxChild):
 
         self.connect('query-tooltip', self._on_tooltip_query)
 
-        self._art_stack.props.size = ArtSize.MEDIUM
-        self._art_stack.props.art_type = DefaultIconType.ALBUM
+        self._cover_image.set_size_request(
+            ArtSize.MEDIUM.width, ArtSize.MEDIUM.height)
+        self._cover_image.props.paintable = CoverPaintable(
+            self, ArtSize.MEDIUM, DefaultIconType.ALBUM)
 
     def retrieve(self):
         """Start retrieving the actual album cover
@@ -94,7 +97,7 @@ class AlbumCover(Gtk.FlowBoxChild):
             return
 
         self._retrieved = True
-        self._art_stack.props.coreobject = self._corealbum
+        self._cover_image.props.paintable.props.coreobject = self._corealbum
 
     @GObject.Property(type=CoreAlbum, flags=GObject.ParamFlags.READABLE)
     def corealbum(self):

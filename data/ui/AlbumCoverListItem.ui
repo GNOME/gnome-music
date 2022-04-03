@@ -10,10 +10,9 @@
       <object class="GtkOverlay">
         <property name="margin-bottom">6</property>
         <child>
-          <object class="ArtStack" id="_art_stack">
-            <property name="focusable">False</property>
+          <object class="GtkImage" id="_cover_image">
             <property name="vexpand">True</property>
-            <property name="valign">end</property>
+            <property name="valign">center</property>
             <property name="halign">center</property>
           </object>
         </child>

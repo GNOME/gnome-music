@@ -25,8 +25,8 @@
 from gi.repository import Gdk, GObject, Gtk
 
 from gnomemusic.coreartist import CoreArtist
+from gnomemusic.coverpaintable import CoverPaintable
 from gnomemusic.utils import ArtSize, DefaultIconType
-from gnomemusic.widgets.artstack import ArtStack  # noqa: F401
 from gnomemusic.widgets.twolinetip import TwoLineTip
 
 
@@ -40,7 +40,7 @@ class ArtistSearchTile(Gtk.FlowBoxChild):
     __gtype_name__ = "ArtistSearchTile"
 
     _artist_label = Gtk.Template.Child()
-    _art_stack = Gtk.Template.Child()
+    _cover_image = Gtk.Template.Child()
     _check = Gtk.Template.Child()
 
     coreartist = GObject.Property(
@@ -59,9 +59,12 @@ class ArtistSearchTile(Gtk.FlowBoxChild):
 
         self.props.coreartist = coreartist
 
-        self._art_stack.props.size = ArtSize.MEDIUM
-        self._art_stack.props.art_type = DefaultIconType.ARTIST
-        self._art_stack.props.coreobject = self.props.coreartist
+        self._cover_image.set_size_request(
+            ArtSize.MEDIUM.width, ArtSize.MEDIUM.height)
+        self._cover_image.props.paintable = CoverPaintable(
+            self, ArtSize.MEDIUM, DefaultIconType.ARTIST)
+
+        self._cover_image.props.paintable.props.coreobject = coreartist
 
         self._tooltip = TwoLineTip()
         self._tooltip.props.subtitle_visible = False

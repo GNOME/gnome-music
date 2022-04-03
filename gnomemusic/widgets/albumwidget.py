@@ -30,6 +30,7 @@ import typing
 from gi.repository import Adw, Gio, GLib, GObject, Gtk
 
 from gnomemusic.corealbum import CoreAlbum
+from gnomemusic.coverpaintable import CoverPaintable
 from gnomemusic.utils import ArtSize, DefaultIconType
 from gnomemusic.widgets.discbox import DiscBox
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
@@ -53,7 +54,7 @@ class AlbumWidget(Adw.Bin):
 
     _artist_label = Gtk.Template.Child()
     _composer_label = Gtk.Template.Child()
-    _art_stack = Gtk.Template.Child()
+    _cover_image = Gtk.Template.Child()
     _disc_list_box = Gtk.Template.Child()
     _menu_button = Gtk.Template.Child()
     _play_button = Gtk.Template.Child()
@@ -81,8 +82,10 @@ class AlbumWidget(Adw.Bin):
 
         self._playlist_dialog: Optional[PlaylistDialog] = None
 
-        self._art_stack.props.size = ArtSize.LARGE
-        self._art_stack.props.art_type = DefaultIconType.ALBUM
+        self._cover_image.set_size_request(
+            ArtSize.LARGE.width, ArtSize.LARGE.height)
+        self._cover_image.props.paintable = CoverPaintable(
+            self, ArtSize.LARGE, DefaultIconType.ALBUM)
         self._player = self._application.props.player
 
         self.bind_property(
@@ -137,7 +140,7 @@ class AlbumWidget(Adw.Bin):
 
         self._corealbum = corealbum
 
-        self._art_stack.props.coreobject = self._corealbum
+        self._cover_image.props.paintable.props.coreobject = self._corealbum
 
         album_name = self._corealbum.props.title
         artist = self._corealbum.props.artist

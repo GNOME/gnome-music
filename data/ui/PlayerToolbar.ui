@@ -17,8 +17,7 @@
         <property name="margin-top">6</property>
         <signal name="query-tooltip" handler="_on_tooltip_query"/>
         <child>
-          <object class="ArtStack" id="_art_stack">
-            <property name="focusable">False</property>
+          <object class="GtkImage" id="_cover_image">
           </object>
         </child>
         <child>
