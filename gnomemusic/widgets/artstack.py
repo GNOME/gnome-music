@@ -60,7 +60,7 @@ class ArtStack(Gtk.Stack):
         self._art_type = DefaultIconType.ALBUM
         self._coreobject: Optional[CoreObject] = None
         self._cover_paintable = CoverPaintable(
-            size, self, icon_type=self._art_type)
+            self, size, self._art_type)
         self._size = size
 
         self._cover = Gtk.Image()

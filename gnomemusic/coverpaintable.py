@@ -52,12 +52,12 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
     __gtype_name__ = "CoverPaintable"
 
     def __init__(
-            self, art_size: ArtSize, widget: Gtk.Widget,
-            icon_type: DefaultIconType = DefaultIconType.ALBUM) -> None:
+            self, widget: Gtk.Widget, art_size: ArtSize,
+            icon_type: DefaultIconType) -> None:
         """Initiliaze CoverPaintable
 
-        :param ArtSize art_size: Size of the cover
         :param Gtk.Widget widget: Widget using the cover
+        :param ArtSize art_size: Size of the cover
         :param DefaultIconType icon_type: Type of cover
         """
         super().__init__()
