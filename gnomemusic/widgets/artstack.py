@@ -86,12 +86,6 @@ class ArtStack(Gtk.Stack):
         :param ArtSize value: The size to use for the cover
         """
         self.set_size_request(value.width, value.height)
-
-        if value in [ArtSize.MEDIUM, ArtSize.LARGE]:
-            self.add_css_class('card')
-        else:
-            self.remove_css_class('card')
-
         self._size = value
 
     @GObject.Property(type=object, flags=GObject.ParamFlags.READWRITE)
