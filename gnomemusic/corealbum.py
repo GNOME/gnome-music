@@ -80,7 +80,13 @@ class CoreAlbum(GObject.GObject):
         disc_model_sort = Gtk.SortListModel.new(disc_model)
 
         def _disc_order_sort(disc_a, disc_b, data=None):
-            return disc_a.props.disc_nr - disc_b.props.disc_nr
+            order = disc_a.props.disc_nr - disc_b.props.disc_nr
+            if order < 0:
+                return Gtk.Ordering.SMALLER
+            elif order > 0:
+                return Gtk.Ordering.LARGER
+            else:
+                return Gtk.Ordering.EQUAL
 
         disc_sorter = Gtk.CustomSorter()
         disc_sorter.set_sort_func(_disc_order_sort)
