@@ -58,7 +58,13 @@ class CoreDisc(GObject.GObject):
     @GObject.Property(type=Gio.ListModel, default=None)
     def model(self):
         def _disc_sort(song_a, song_b, data=None):
-            return song_a.props.track_number - song_b.props.track_number
+            order = song_a.props.track_number - song_b.props.track_number
+            if order < 0:
+                return Gtk.Ordering.SMALLER
+            elif order > 0:
+                return Gtk.Ordering.LARGER
+            else:
+                return Gtk.Ordering.EQUAL
 
         if self._model is None:
             self._filter_model = Gtk.FilterListModel.new(
