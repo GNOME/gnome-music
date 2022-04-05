@@ -374,6 +374,7 @@ class Window(Adw.ApplicationWindow):
                 and GLib.unichar_isprint(chr(key_unic))
                 and (modifiers == shift_mask
                      or modifiers == 0)
+                and self.views[View.PLAYLIST] is not None
                 and not self.views[View.PLAYLIST].rename_active
                 and not self.props.selection_mode
                 and self._headerbar.props.state != HeaderBar.State.SEARCH):
