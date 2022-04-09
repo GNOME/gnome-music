@@ -8,15 +8,15 @@
 # William Oprandi <william.oprandi@gmail.com>, 2019.
 # Julien Humbert <julroy67@gmail.com>, 2020.
 # vanadiae <vanadiae35@gmail.com>, 2020.
-# Charles Monzat <charles.monzat@free.fr>, 2018-2021.
+# Charles Monzat <charles.monzat@free.fr>, 2018-2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2022-02-19 12:39+0000\n"
-"PO-Revision-Date: 2022-02-21 22:11+0100\n"
-"Last-Translator: Claude Paroz <claude@2xlibre.net>\n"
+"POT-Creation-Date: 2022-02-21 21:11+0000\n"
+"PO-Revision-Date: 2022-04-08 22:49+0200\n"
+"Last-Translator: Charles Monzat <charles.monzat@free.fr>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -135,7 +135,7 @@ msgstr "Un lecteur de musique et une application de gestion pour GNOME."
 
 #: data/ui/AboutDialog.ui.in:12
 msgid "Visit GNOME Music website"
-msgstr "Visiter le site Web de l’application Musique de GNOME"
+msgstr "Visiter le site web de l’application Musique de GNOME"
 
 #: data/ui/AboutDialog.ui.in:13
 msgid ""
@@ -585,7 +585,7 @@ msgstr "Résultats pour Artistes"
 msgid "Albums Results"
 msgstr "Résultats pour Albums"
 
-#: gnomemusic/widgets/albumwidget.py:240
+#: gnomemusic/widgets/albumwidget.py:242
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} minute"
@@ -660,4 +660,3 @@ msgstr[1] "{} morceaux"
 
 #~ msgid "Composer"
 #~ msgstr "Compositeur"
-
