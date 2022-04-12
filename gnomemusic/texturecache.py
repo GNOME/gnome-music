@@ -23,7 +23,8 @@
 # delete this exception statement from your version.
 
 from __future__ import annotations
-from typing import Dict, Union
+from enum import IntEnum
+from typing import Dict, Optional, Tuple, Union
 import typing
 
 from gi.repository import GObject, Gdk
@@ -43,6 +44,18 @@ class TextureCache(GObject.GObject):
     """Retrieval and cache for artwork textures
     """
 
+    class LoadingState(IntEnum):
+        """The loading status of the URI
+
+        AVAILABLE: The texture is currently cached
+        UNAVAILABLE: No texture is available for the URI
+        CLEARED: The texture was available, has been cleared and
+            should be available on lookup
+        """
+        AVAILABLE = 0
+        UNAVAILABLE = 1
+        CLEARED = 2
+
     __gtype_name__ = "TextureCache"
 
     __gsignals__ = {
@@ -51,7 +64,8 @@ class TextureCache(GObject.GObject):
 
     _async_queue = AsyncQueue("TextureCache")
 
-    _textures: Dict[str, Gdk.Texture] = {}
+    _textures: Dict[str, Tuple[
+        TextureCache.LoadingState, Optional[Gdk.Texture]]] = {}
 
     def __init__(self) -> None:
         """Initialize Texturecache
@@ -79,8 +93,12 @@ class TextureCache(GObject.GObject):
         self.clear_pending_lookup_callback()
 
         if uri in TextureCache._textures.keys():
-            self.emit("texture", TextureCache._textures[uri])
-            return
+            state, texture = TextureCache._textures[uri]
+            if state in [
+                    TextureCache.LoadingState.AVAILABLE,
+                    TextureCache.LoadingState.UNAVAILABLE]:
+                self.emit("texture", texture)
+                return
 
         self._art_loader = MediaArtLoader()
         self._art_loading_id = self._art_loader.connect(
@@ -90,7 +108,10 @@ class TextureCache(GObject.GObject):
     def _on_art_loading_finished(
             self, art_loader: MediaArtLoader, texture: Gdk.Texture) -> None:
         if texture:
-            TextureCache._textures[self._uri] = texture
-            self.emit("texture", texture)
+            state = TextureCache.LoadingState.AVAILABLE
         else:
-            self.emit("texture", None)
+            state = TextureCache.LoadingState.UNAVAILABLE
+
+        TextureCache._textures[self._uri] = (state, texture)
+
+        self.emit("texture", texture)
