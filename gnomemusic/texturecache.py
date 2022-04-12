@@ -75,7 +75,6 @@ class TextureCache(GObject.GObject):
 
         self._art_loader: MediaArtLoader
         self._art_loading_id = 0
-        self._uri = ""
 
     def clear_pending_lookup_callback(self) -> None:
         """Disconnect ongoing lookup callback
@@ -89,8 +88,6 @@ class TextureCache(GObject.GObject):
 
         :param str uri: The MediaArt uri
         """
-        self._uri = uri
-
         self.clear_pending_lookup_callback()
 
         if uri in TextureCache._textures.keys():
@@ -99,22 +96,22 @@ class TextureCache(GObject.GObject):
                     TextureCache.LoadingState.AVAILABLE,
                     TextureCache.LoadingState.UNAVAILABLE]:
                 self.emit("texture", texture)
-                TextureCache._textures[self._uri] = (
-                    state, time.time(), texture)
+                TextureCache._textures[uri] = (state, time.time(), texture)
                 return
 
         self._art_loader = MediaArtLoader()
         self._art_loading_id = self._art_loader.connect(
-            "finished", self._on_art_loading_finished)
-        self._async_queue.queue(self._art_loader, self._uri)
+            "finished", self._on_art_loading_finished, uri)
+        self._async_queue.queue(self._art_loader, uri)
 
     def _on_art_loading_finished(
-            self, art_loader: MediaArtLoader, texture: Gdk.Texture) -> None:
+            self, art_loader: MediaArtLoader, texture: Gdk.Texture,
+            uri: str) -> None:
         if texture:
             state = TextureCache.LoadingState.AVAILABLE
         else:
             state = TextureCache.LoadingState.UNAVAILABLE
 
-        TextureCache._textures[self._uri] = (state, time.time(), texture)
+        TextureCache._textures[uri] = (state, time.time(), texture)
 
         self.emit("texture", texture)
