@@ -25,6 +25,7 @@
 from __future__ import annotations
 from enum import IntEnum
 from typing import Dict, Optional, Tuple, Union
+import time
 import typing
 
 from gi.repository import GObject, Gdk
@@ -65,7 +66,7 @@ class TextureCache(GObject.GObject):
     _async_queue = AsyncQueue("TextureCache")
 
     _textures: Dict[str, Tuple[
-        TextureCache.LoadingState, Optional[Gdk.Texture]]] = {}
+        TextureCache.LoadingState, float, Optional[Gdk.Texture]]] = {}
 
     def __init__(self) -> None:
         """Initialize Texturecache
@@ -93,11 +94,13 @@ class TextureCache(GObject.GObject):
         self.clear_pending_lookup_callback()
 
         if uri in TextureCache._textures.keys():
-            state, texture = TextureCache._textures[uri]
+            state, _, texture = TextureCache._textures[uri]
             if state in [
                     TextureCache.LoadingState.AVAILABLE,
                     TextureCache.LoadingState.UNAVAILABLE]:
                 self.emit("texture", texture)
+                TextureCache._textures[self._uri] = (
+                    state, time.time(), texture)
                 return
 
         self._art_loader = MediaArtLoader()
@@ -112,6 +115,6 @@ class TextureCache(GObject.GObject):
         else:
             state = TextureCache.LoadingState.UNAVAILABLE
 
-        TextureCache._textures[self._uri] = (state, texture)
+        TextureCache._textures[self._uri] = (state, time.time(), texture)
 
         self.emit("texture", texture)
