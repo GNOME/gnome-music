@@ -184,9 +184,11 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
 
     def _on_texture_cache(
             self, texture_cache: TextureCache, texture: Gdk.Texture) -> None:
-        if texture:
-            self._texture = texture
-            self.invalidate_contents()
+        if texture == self._texture:
+            return
+
+        self._texture = texture
+        self.invalidate_contents()
 
     @GObject.Property(type=object, flags=GObject.ParamFlags.READWRITE)
     def icon_type(self) -> DefaultIconType:
