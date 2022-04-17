@@ -152,8 +152,9 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
 
         self._texture_cache.clear_pending_lookup_callback()
 
-        self._texture = None
-        self.invalidate_contents()
+        if self._texture:
+            self._texture = None
+            self.invalidate_contents()
 
         if self._thumbnail_id != 0:
             self._coreobject.disconnect(self._thumbnail_id)
