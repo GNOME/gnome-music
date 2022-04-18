@@ -150,6 +150,8 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
         if coreobject is self._coreobject:
             return
 
+        self._texture_cache.clear_pending_lookup_callback()
+
         self._texture = None
         self.invalidate_contents()
 

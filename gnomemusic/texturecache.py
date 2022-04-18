@@ -62,6 +62,13 @@ class TextureCache(GObject.GObject):
         self._art_loading_id = 0
         self._uri = ""
 
+    def clear_pending_lookup_callback(self) -> None:
+        """Disconnect ongoing lookup callback
+        """
+        if self._art_loading_id != 0:
+            self._art_loader.disconnect(self._art_loading_id)
+            self._art_loading_id = 0
+
     def lookup(self, uri: str) -> None:
         """Look up a texture for the given MediaArt uri
 
@@ -69,9 +76,7 @@ class TextureCache(GObject.GObject):
         """
         self._uri = uri
 
-        if self._art_loading_id != 0:
-            self._art_loader.disconnect(self._art_loading_id)
-            self._art_loading_id = 0
+        self.clear_pending_lookup_callback()
 
         if uri in self._textures.keys():
             self.emit("texture", self._textures[uri])
