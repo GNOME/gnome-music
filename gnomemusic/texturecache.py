@@ -28,9 +28,10 @@ from typing import Dict, Optional, Tuple, Union
 import time
 import typing
 
-from gi.repository import GObject, Gdk
+from gi.repository import GLib, GObject, Gdk
 
 from gnomemusic.asyncqueue import AsyncQueue
+from gnomemusic.musiclogger import MusicLogger
 from gnomemusic.mediaartloader import MediaArtLoader
 if typing.TYPE_CHECKING:
     from gnomemusic.corealbum import CoreAlbum
@@ -64,7 +65,13 @@ class TextureCache(GObject.GObject):
     }
 
     _async_queue = AsyncQueue("TextureCache")
-
+    _cleanup_id = 0
+    _log = MusicLogger()
+    # Music has two main cycling views (AlbumsView and ArtistsView),
+    # both have around 200 cycling items each when fully used. For
+    # the cache to be useful it needs to be larger than the given
+    # numbers combined.
+    _size = 800
     _textures: Dict[str, Tuple[
         TextureCache.LoadingState, float, Optional[Gdk.Texture]]] = {}
 
@@ -75,6 +82,10 @@ class TextureCache(GObject.GObject):
 
         self._art_loader: MediaArtLoader
         self._art_loading_id = 0
+
+        if TextureCache._cleanup_id == 0:
+            TextureCache._cleanup_id = GLib.timeout_add_seconds(
+                10, TextureCache._cache_cleanup)
 
     def clear_pending_lookup_callback(self) -> None:
         """Disconnect ongoing lookup callback
@@ -103,6 +114,34 @@ class TextureCache(GObject.GObject):
         self._art_loading_id = self._art_loader.connect(
             "finished", self._on_art_loading_finished, uri)
         self._async_queue.queue(self._art_loader, uri)
+
+    @classmethod
+    def _cache_cleanup(cls) -> None:
+        """Sorts the available cache entries by recency and evicts
+        the oldest items to match the maximum cache size.
+        """
+        sorted_available = {
+            k: (state, t, texture)
+            for k, (state, t, texture) in sorted(
+                TextureCache._textures.items(), key=lambda item: item[1][1])
+            if state in [TextureCache.LoadingState.AVAILABLE]}
+
+        sorted_available_l = len(sorted_available)
+        if sorted_available_l < TextureCache._size:
+            return GLib.SOURCE_CONTINUE
+
+        keys_to_clear = list(sorted_available.keys())[:-TextureCache._size]
+        for key in keys_to_clear:
+            state, t, texture = TextureCache._textures[key]
+            TextureCache._textures[key] = (
+                TextureCache.LoadingState.CLEARED, t, None)
+
+        keys_l = len(keys_to_clear)
+        TextureCache._log.info(
+            f"Cleared {keys_l} items, texture cache contains"
+            f" {sorted_available_l-keys_l} available items.")
+
+        return GLib.SOURCE_CONTINUE
 
     def _on_art_loading_finished(
             self, art_loader: MediaArtLoader, texture: Gdk.Texture,
