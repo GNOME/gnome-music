@@ -78,8 +78,8 @@ class TextureCache(GObject.GObject):
 
         self.clear_pending_lookup_callback()
 
-        if uri in self._textures.keys():
-            self.emit("texture", self._textures[uri])
+        if uri in TextureCache._textures.keys():
+            self.emit("texture", TextureCache._textures[uri])
             return
 
         self._art_loader = MediaArtLoader()
@@ -90,7 +90,7 @@ class TextureCache(GObject.GObject):
     def _on_art_loading_finished(
             self, art_loader: MediaArtLoader, texture: Gdk.Texture) -> None:
         if texture:
-            self._textures[self._uri] = texture
+            TextureCache._textures[self._uri] = texture
             self.emit("texture", texture)
         else:
             self.emit("texture", None)
