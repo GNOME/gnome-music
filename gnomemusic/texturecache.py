@@ -28,7 +28,7 @@ from typing import Dict, Optional, Tuple, Union
 import time
 import typing
 
-from gi.repository import GLib, GObject, Gdk
+from gi.repository import GLib, GObject, Gdk, Gio
 
 from gnomemusic.asyncqueue import AsyncQueue
 from gnomemusic.musiclogger import MusicLogger
@@ -64,14 +64,17 @@ class TextureCache(GObject.GObject):
         "texture": (GObject.SignalFlags.RUN_FIRST, None, (object, ))
     }
 
-    _async_queue = AsyncQueue("TextureCache")
-    _cleanup_id = 0
-    _log = MusicLogger()
     # Music has two main cycling views (AlbumsView and ArtistsView),
     # both have around 200 cycling items each when fully used. For
     # the cache to be useful it needs to be larger than the given
     # numbers combined.
-    _size = 800
+    _MAX_CACHE_SIZE = 800
+
+    _async_queue = AsyncQueue("TextureCache")
+    _cleanup_id = 0
+    _log = MusicLogger()
+    _memory_monitor = Gio.MemoryMonitor.dup_default()
+    _size = _MAX_CACHE_SIZE
     _textures: Dict[str, Tuple[
         TextureCache.LoadingState, float, Optional[Gdk.Texture]]] = {}
 
@@ -86,6 +89,8 @@ class TextureCache(GObject.GObject):
         if TextureCache._cleanup_id == 0:
             TextureCache._cleanup_id = GLib.timeout_add_seconds(
                 10, TextureCache._cache_cleanup)
+            TextureCache._memory_monitor.connect(
+                "low-memory-warning", TextureCache._low_memory_warning)
 
     def clear_pending_lookup_callback(self) -> None:
         """Disconnect ongoing lookup callback
@@ -114,6 +119,17 @@ class TextureCache(GObject.GObject):
         self._art_loading_id = self._art_loader.connect(
             "finished", self._on_art_loading_finished, uri)
         self._async_queue.queue(self._art_loader, uri)
+
+    @classmethod
+    def _low_memory_warning(
+            cls, mm: Gio.MemoryMonitor,
+            level: Gio.MemoryMonitorWarningLevel) -> None:
+        if level < Gio.MemoryMonitorWarningLevel.LOW:
+            TextureCache._size = TextureCache._MAX_CACHE_SIZE
+        else:
+            # List slicing with 0 gives an empty list in
+            # _cache_cleanup.
+            TextureCache._size = 1
 
     @classmethod
     def _cache_cleanup(cls) -> None:
