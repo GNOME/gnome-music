@@ -30,7 +30,6 @@ import gi
 gi.require_versions({"Gdk": "4.0", "Gtk": "4.0", "Gsk": "4.0"})
 from gi.repository import Adw, Gsk, Gtk, GObject, Graphene, Gdk
 
-from gnomemusic.mediaartloader import MediaArtLoader
 from gnomemusic.texturecache import TextureCache
 from gnomemusic.utils import ArtSize, DefaultIconType
 if typing.TYPE_CHECKING:
@@ -62,8 +61,6 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
         """
         super().__init__()
 
-        self._art_loader = MediaArtLoader()
-        self._art_loading_id = 0
         self._art_size = art_size
         self._coreobject: Optional[CoreObject] = None
         self._icon_theme = Gtk.IconTheme.new().get_for_display(
@@ -171,9 +168,6 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
             self, coreobject: CoreObject,
             uri: GObject.ParamSpecString) -> None:
         thumbnail_uri = coreobject.props.thumbnail
-        if self._art_loading_id != 0:
-            self._art_loader.disconnect(self._art_loading_id)
-            self._art_loading_id = 0
 
         if thumbnail_uri == "generic":
             self._texture = None
