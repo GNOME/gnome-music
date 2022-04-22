@@ -44,11 +44,12 @@ class MediaArtLoader(GObject.GObject):
 
     _log = MusicLogger()
 
-    def __init__(self) -> None:
+    def __init__(self, cancellable: Gio.Cancellable) -> None:
         """Intialize MediaArtLoader
         """
         super().__init__()
 
+        self._cancellable = cancellable
         self._texture: Gdk.Texture
 
     def start(self, uri: str) -> None:
@@ -60,7 +61,8 @@ class MediaArtLoader(GObject.GObject):
 
         if thumb_file:
             thumb_file.read_async(
-                GLib.PRIORITY_DEFAULT_IDLE, None, self._open_stream, None)
+                GLib.PRIORITY_DEFAULT_IDLE, self._cancellable,
+                self._open_stream, None)
         else:
             self.emit("finished", None)
 
@@ -70,35 +72,44 @@ class MediaArtLoader(GObject.GObject):
         try:
             stream = thumb_file.read_finish(result)
         except GLib.Error as error:
-            self._log.warning(
-                "Error: {}, {}".format(error.domain, error.message))
+            if error.code == Gio.IOErrorEnum.CANCELLED:
+                print("cancelled")
+            else:
+                self._log.warning(
+                    "Error: {}, {}".format(error.domain, error.message))
             self.emit("finished", None)
             return
 
         GdkPixbuf.Pixbuf.new_from_stream_async(
-            stream, None, self._pixbuf_loaded)
+            stream, self._cancellable, self._pixbuf_loaded)
 
     def _pixbuf_loaded(
             self, stream: Gio.InputStream, result: Gio.AsyncResult) -> None:
         try:
             pixbuf = GdkPixbuf.Pixbuf.new_from_stream_finish(result)
         except GLib.Error as error:
-            self._log.warning(
-                "Error: {}, {}".format(error.domain, error.message))
+            if error.code == Gio.IOErrorEnum.CANCELLED:
+                print("cancelled")
+            else:
+                self._log.warning(
+                    "Error: {}, {}".format(error.domain, error.message))
             self.emit("finished", None)
             return
 
         self._texture = Gdk.Texture.new_for_pixbuf(pixbuf)
 
         stream.close_async(
-            GLib.PRIORITY_DEFAULT_IDLE, None, self._close_stream)
+            GLib.PRIORITY_DEFAULT_IDLE, self._cancellable, self._close_stream)
 
     def _close_stream(
             self, stream: Gio.InputStream, result: Gio.AsyncResult) -> None:
         try:
             stream.close_finish(result)
         except GLib.Error as error:
-            self._log.warning(
-                "Error: {}, {}".format(error.domain, error.message))
+            if error.code == Gio.IOErrorEnum.CANCELLED:
+                print("cancelled")
+            else:
+                self._log.warning(
+                    "Error: {}, {}".format(error.domain, error.message))
 
         self.emit("finished", self._texture)

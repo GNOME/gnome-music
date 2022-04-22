@@ -85,6 +85,7 @@ class TextureCache(GObject.GObject):
 
         self._art_loader: MediaArtLoader
         self._art_loading_id = 0
+        self._cancellable = Gio.Cancellable()
 
         if TextureCache._cleanup_id == 0:
             TextureCache._cleanup_id = GLib.timeout_add_seconds(
@@ -96,6 +97,7 @@ class TextureCache(GObject.GObject):
         """Disconnect ongoing lookup callback
         """
         if self._art_loading_id != 0:
+            self._cancellable.cancel()
             self._art_loader.disconnect(self._art_loading_id)
             self._art_loading_id = 0
 
@@ -106,6 +108,11 @@ class TextureCache(GObject.GObject):
         """
         self.clear_pending_lookup_callback()
 
+        if self._art_loading_id != 0:
+            self._art_loader.disconnect(self._art_loading_id)
+            self._art_loading_id = 0
+
+
         if uri in TextureCache._textures.keys():
             state, _, texture = TextureCache._textures[uri]
             if state in [
@@ -115,7 +122,8 @@ class TextureCache(GObject.GObject):
                 TextureCache._textures[uri] = (state, time.time(), texture)
                 return
 
-        self._art_loader = MediaArtLoader()
+        self._cancellable = Gio.Cancellable()
+        self._art_loader = MediaArtLoader(self._cancellable)
         self._art_loading_id = self._art_loader.connect(
             "finished", self._on_art_loading_finished, uri)
         self._async_queue.queue(self._art_loader, uri)
@@ -136,6 +144,12 @@ class TextureCache(GObject.GObject):
         """Sorts the available cache entries by recency and evicts
         the oldest items to match the maximum cache size.
         """
+        unavailable = {
+            k: (state, t, texture)
+            for k, (state, t, texture) in TextureCache._textures.items()
+            if state in [TextureCache.LoadingState.UNAVAILABLE]
+        }
+        print("UNAVAILABLE", unavailable)
         sorted_available = {
             k: (state, t, texture)
             for k, (state, t, texture) in sorted(
