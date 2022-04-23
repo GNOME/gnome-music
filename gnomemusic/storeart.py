@@ -138,6 +138,7 @@ class StoreArt(GObject.Object):
         except GLib.Error as error:
             # File already exists.
             self._log.info(f"Error: {error.domain}, {error.message}")
+            self.emit("finished")
         else:
             pixbuf.save_to_streamv_async(
                 output_stream, "jpeg", None, None, None,
