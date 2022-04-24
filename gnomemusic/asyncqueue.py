@@ -103,6 +103,11 @@ class AsyncQueue(GObject.GObject):
                 tick)
             async_obj.start(*async_task_args[1:])
 
+        self._log.debug(
+            f"{self._queue_name}: "
+            f"{len(self._async_active_pool)} active task(s)"
+            f"with {len(self._async_pool)} remaining")
+
         return GLib.SOURCE_CONTINUE
 
     def _on_async_finished(
@@ -110,11 +115,6 @@ class AsyncQueue(GObject.GObject):
         handler_id, tick = self._async_data.pop(obj)
         t = (time.time() - tick) * 1000
         self._log.debug(f"{self._queue_name}: {t:.2f} ms task")
-
-        a = len(self._async_active_pool)
-        self._log.debug(
-            f"{self._queue_name}: "
-            f"{a} active task(s) of {len(self._async_pool) + a}")
 
         obj.disconnect(handler_id)
         self._async_active_pool.pop(id(obj))
