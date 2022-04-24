@@ -49,6 +49,7 @@ class MusicLogger(GObject.GObject):
         function = stack[2][3]
 
         if level in [GLib.LogLevelFlags.LEVEL_DEBUG,
+                     GLib.LogLevelFlags.LEVEL_INFO,
                      GLib.LogLevelFlags.LEVEL_WARNING]:
             message = "({}, {}, {}) {}".format(
                 filename, function, line, message)
