@@ -1,3 +1,40 @@
+Overview of changes in 41.1
+===========================
+
+• Speed increase on first startup on larger collections
+• Make shuffle random
+• Fix time displayed in RTL languages
+
+Bugs fixed:
+ Time is reversed in RTL (#500)
+ Improve async queue work (#472)
+ Fix crash on empty selection (#492)
+ playlistswidget: Fix incorrect import (#491)
+ Make random shuffle actually random (#369)
+ albumwidget: Ensure the correct album is played (#461)
+
+Thanks to our contributors this realse:
+ Jean Felder
+ Koushik Sahu
+ Marinus Schraal
+ Michael Catanzaro
+ Yosef Or Boczko
+
+Updated translations:
+ Vietnamese
+ Russian
+ Serbian
+ Bulgerian
+ Frisian
+ Latvian
+ Icelandic
+ Friulian
+ Catalan
+ Indonesian
+ Swedish
+ Danish
+
+
 Overview of changes in 41.0
 ===========================
 

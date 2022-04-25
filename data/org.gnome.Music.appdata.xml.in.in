@@ -28,6 +28,16 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="41.1" date="2022-04-25">
+      <description>
+        <ul>
+          <li>Solve an issue with long loading times, resulting in a speed increase
+            on larger collections</li>
+          <li>Fix an issue with displaying time in RTL languages</li>
+          <li>Make shuffle truly random</li>
+        </ul>
+      </description>
+    </release>
     <release version="41.0" date="2021-09-18">
       <description>
         <p>
