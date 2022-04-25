@@ -28,6 +28,16 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="42.1" date="2022-04-25">
+      <description>
+        <ul>
+          <li>Make shuffle shuffle again</li>
+          <li>Fix time display in RTL languages</li>
+          <li>No longer mismatch art on scrolling</li>
+          <li>Fix async queue block on fresh art retrieval</li>
+        </ul>
+      </description>
+    </release>
     <release version="42.0" date="2022-03-20">
       <description>
         <p>

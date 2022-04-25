@@ -1,3 +1,29 @@
+Overview of changes in 42.1
+===========================
+
+• Make shuffle shuffle again
+• Fix time display in RTL languages
+• No longer mismatch art on scrolling
+• Fix async queue block on fresh art retrieval
+
+Bugs fixed:
+ Rework ArtStack to handle cycling widgets better (#500)
+ Shuffle broken in Music 42 (#515)
+ Time is reversed in RTL (#509)
+
+Thanks to our contributors this release:
+ Marinus Schraal
+ Yosef Or Boczko
+
+Updated or added translations:
+ Latvian
+ Dutch
+ Catalan
+ Icelandic
+ French
+ Chinese (China)
+
+
 Overview of changes in 42.0
 ===========================
 
