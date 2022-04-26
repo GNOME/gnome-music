@@ -1,9 +1,8 @@
-Music is the new GNOME music playing application.
+Music is the GNOME music playing application.
 
 # Where can I find more?
 
-Music has a wiki page at
-https://wiki.gnome.org/Apps/Music.
+Music has a wiki page at https://wiki.gnome.org/Apps/Music.
 
 You can join the developers on IRC: [#gnome-music](irc://irc.gnome.org/gnome-music) on [GIMPNet](https://wiki.gnome.org/Community/GettingInTouch/IRC).
 
@@ -139,15 +138,6 @@ def selected(self, value: bool) -> None:
 
 ### PyGObject specifics
 
-#### Treemodel
-
-Use PyGObject shorthands for manipulating `GtkTreeModel` & `GtkListStore`:
-
-```python
-model[iter][0] = "artist"
-artist, title = model[iter][1, 4]
-```
-
 #### Properties
 
 Most objects in Music are derived from GObject and have properties. Use [PyGObject properties](https://pygobject.readthedocs.io/en/latest/guide/api/properties.html) through decorator usage if you add properties to your code.
@@ -184,9 +174,7 @@ Note that GObject multi-word properties are separated by `-` as in `'selection-m
 
 #### Templates
 
-Recent PyGObject (3.29.1 and up) allows template usage and Music is [starting to convert](https://gitlab.gnome.org/GNOME/gnome-music/issues/183) to using this to build the user interface. More information can be found in the PyGObject source and [examples](https://gitlab.gnome.org/GNOME/gnome-music/blob/master/gnomemusic/widgets/songwidget.py) in the Music code.
-
-The basic usage in Python is as follows, with the `widget.ui` file being a regular GTK template:
+Music uses ui templates extensively for building the user interface. The basic usage in Python is as follows, with the `widget.ui` file being a regular GTK template:
 
 ```python
 @Gtk.Template(resource_path="/org/gnome/Music/widget.ui")
