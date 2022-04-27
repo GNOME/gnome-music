@@ -22,6 +22,9 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from __future__ import annotations
+from typing import Optional
+
 from enum import IntEnum
 from hashlib import md5
 
@@ -51,12 +54,14 @@ class GoaLastFM(GObject.GObject):
         DISABLED = 2
         ENABLED = 3
 
-    def __init__(self):
+    def __init__(self) -> None:
+        """Initialize GoaLastFM
+        """
         super().__init__()
-
         self._log = MusicLogger()
 
-        self._client = None
+        self._client: Optional[Goa.Client] = None
+        self._connection: Optional[Gio.DBusConnection] = None
         self._state = GoaLastFM.State.NOT_AVAILABLE
         self.notify("state")
         self._reset_attributes()
@@ -180,35 +185,37 @@ class GoaLastFM(GObject.GObject):
                     e.message))
             return None
 
-    def configure(self):
+    def configure(self) -> None:
+        """Open the LastFM GOA Settings panel"""
         if self.props.state == GoaLastFM.State.NOT_AVAILABLE:
             self._log.warning("Error, cannot configure a Last.fm account.")
             return
 
-        Gio.bus_get(Gio.BusType.SESSION, None, self._get_connection_db, None)
+        Gio.bus_get(Gio.BusType.SESSION, None, self._get_dbus_connection)
 
-    def _get_connection_db(self, source, res, user_data=None):
+    def _get_dbus_connection(
+            self, source: None, result: Gio.AsyncResult) -> None:
         try:
-            connection = Gio.bus_get_finish(res)
+            self._connection = Gio.bus_get_finish(result)
         except GLib.Error as e:
             self._log.warning(
                 "Error: Unable to get the DBus connection: {}".format(
                     e.message))
             return
 
-        Gio.DBusProxy.new(
-            connection, Gio.DBusProxyFlags.NONE, None,
-            "org.gnome.ControlCenter", "/org/gnome/ControlCenter",
-            "org.gtk.Actions", None, self._get_control_center_proxy_cb, None)
-
-    def _get_control_center_proxy_cb(self, source, res, user_data=None):
         try:
-            settings_proxy = Gio.DBusProxy.new_finish(res)
+            proxy = Gio.DBusProxy.new_sync(
+                self._connection, Gio.DBusProxyFlags.DO_NOT_CONNECT_SIGNALS
+                | Gio.DBusProxyFlags.DO_NOT_LOAD_PROPERTIES, None,
+                "org.gnome.Settings", "/org/gnome/Settings", "org.gtk.Actions",
+                None)
         except GLib.Error as e:
-            self._log.warning(
-                "Error: Unable to get a proxy: {}".format(e.message))
-            return
+            self._log.warning(f"Unable to create proxy: {e.message}")
+        else:
+            self._activate_settings(proxy, True)
 
+    def _activate_settings(
+            self, settings_proxy: Gio.DBusProxy, try_fallback: bool) -> None:
         if self._state == GoaLastFM.State.NOT_CONFIGURED:
             params = [GLib.Variant("s", "add"), GLib.Variant("s", "lastfm")]
         else:
@@ -218,15 +225,24 @@ class GoaLastFM(GObject.GObject):
         variant = GLib.Variant("(sava{sv})", ("launch-panel", [args], {}))
         settings_proxy.call(
             "Activate", variant, Gio.DBusCallFlags.NONE, -1, None,
-            self._on_control_center_activated)
+            self._on_settings_activated, try_fallback)
 
-    def _on_control_center_activated(self, proxy, res, user_data=None):
+    def _on_settings_activated(
+            self, proxy: Gio.DBusProxy, result: Gio.AsyncResult,
+            try_fallback: bool) -> None:
         try:
-            proxy.call_finish(res)
+            proxy.call_finish(result)
         except GLib.Error as e:
-            self._log.warning(
-                "Error: Failed to activate control-center: {}".format(
-                    e.message))
+            if try_fallback:
+                proxy = Gio.DBusProxy.new_sync(
+                    self._connection, Gio.DBusProxyFlags.DO_NOT_CONNECT_SIGNALS
+                    | Gio.DBusProxyFlags.DO_NOT_LOAD_PROPERTIES, None,
+                    "org.gnome.ControlCenter", "/org/gnome/ControlCenter",
+                    "org.gtk.Actions", None)
+                self._activate_settings(proxy, False)
+            else:
+                self._log.warning(
+                    f"Error: Failed to activate Settings: {e.message}")
 
 
 class LastFmScrobbler(GObject.GObject):
