@@ -710,7 +710,7 @@ class GrlTrackerWrapper(GObject.GObject):
             'location_filter': self._tracker_wrapper.location_filter()
         }
 
-        albums: List[Grl.Media] = []
+        albums: List[str] = []
 
         def query_cb(
                 source: Grl.Source, op_id: int, media: Optional[Grl.Media],
@@ -727,15 +727,10 @@ class GrlTrackerWrapper(GObject.GObject):
                 self._notificationmanager.pop_loading()
                 return
 
-            albums.append(media)
+            albums.append(media.get_id())
 
-        def albums_filter(
-                corealbum: CoreAlbum, albums: List[Grl.Media]) -> bool:
-            for media in albums:
-                if media.get_id() == corealbum.props.media.get_id():
-                    return True
-
-            return False
+        def albums_filter(corealbum: CoreAlbum, albums: List[str]) -> bool:
+            return corealbum.props.media.get_id() in albums
 
         self.props.source.query(
             query, [Grl.METADATA_KEY_TITLE], self._fast_options, query_cb)
