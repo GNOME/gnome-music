@@ -866,7 +866,7 @@ class GrlTrackerWrapper(GObject.GObject):
             Grl.METADATA_KEY_URL
         ]
 
-        disc_song_ids: List[int] = []
+        disc_song_ids: List[str] = []
 
         def _filter_func(coresong: CoreSong) -> bool:
             return coresong.props.grlid in disc_song_ids
