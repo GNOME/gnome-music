@@ -204,6 +204,16 @@ class CoreGrilo(GObject.GObject):
         source = media.get_source()
         self._wrappers[source].get_album_disc(media, discnr, model)
 
+    def get_album_songs(
+            self, media: Grl.Media, model: Gtk.FilterListModel) -> None:
+        """Get all songs from an album
+
+        :param Grl.Media media: An album
+        :param Gtk.FilterListModel model: The model to fill
+        """
+        source = media.get_source()
+        self._wrappers[source].get_album_songs(media, model)
+
     def writeback(self, media, key):
         """Store the values associated with the key.
 

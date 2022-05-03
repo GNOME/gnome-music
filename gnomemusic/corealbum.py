@@ -31,6 +31,7 @@ from gi.repository import Gio, Grl, Gtk, GObject
 import gnomemusic.utils as utils
 
 from gnomemusic.albumart import AlbumArt
+from gnomemusic.coredisc import CoreDisc
 
 
 class CoreAlbum(GObject.GObject):
@@ -57,8 +58,11 @@ class CoreAlbum(GObject.GObject):
 
         self._application = application
         self._coregrilo = application.props.coregrilo
+
         self._model = None
         self._selected = False
+        self._songs_model = Gtk.FilterListModel.new(
+            application.props.coremodel.props.songs, Gtk.AnyFilter())
         self._thumbnail = None
 
         self.update(media)
@@ -74,6 +78,23 @@ class CoreAlbum(GObject.GObject):
         self.props.title = utils.get_media_title(media)
         self.props.url = media.get_url()
         self.props.year = utils.get_media_year(media)
+
+    def _update_disc_model(self) -> None:
+        discs = set()
+        for coresong in self._songs_model:
+            discs.add(coresong.props.media.get_album_disc_number())
+
+        model_discs = []
+        for coredisc in self._model:
+            model_discs.append(coredisc.props.disc_nr)
+
+        missing = discs.difference(model_discs)
+
+        for disc_nr in missing:
+            self._model.props.model.append(
+                CoreDisc(
+                    self._application, self.props.media, disc_nr,
+                    self._songs_model))
 
     def _get_album_model(self):
         disc_model = Gio.ListStore()
@@ -101,30 +122,28 @@ class CoreAlbum(GObject.GObject):
         flags=GObject.ParamFlags.READABLE)
     def model(self):
         if self._model is None:
-            self._model = self._get_album_model()
-            self._model.connect("items-changed", self._on_list_items_changed)
-            self._model.items_changed(0, 0, self._model.get_n_items())
+            self._model = Gtk.SortListModel.new(Gio.ListStore())
+
+            self._songs_model.connect("items-changed", self._on_songs_list_changed)
+            self._coregrilo.get_album_songs(self.props.media, self._songs_model)
 
         return self._model
 
-    def _on_list_items_changed(self, model, position, removed, added):
-        with self.freeze_notify():
-            for coredisc in model:
-                coredisc.props.selected = self.props.selected
+    def _on_songs_list_changed(
+            self, model: Gtk.FilterListModel, position: int, removed: int,
+            added: int) -> None:
+        with model.freeze_notify():
+            #for song in model:
+            #     coredisc.props.selected = self.props.selected
 
-            if added > 0:
-                for i in range(added):
-                    coredisc = model[position + i]
-                    coredisc.connect(
-                        "notify::duration", self._on_duration_changed)
+            if (added > 0
+                    or removed > 0):
+                self._update_disc_model()
+                duration = 0
+                for coresong in model:
+                    duration += coresong.props.duration
 
-    def _on_duration_changed(self, coredisc, duration):
-        duration = 0
-
-        for coredisc in self.props.model:
-            duration += coredisc.props.duration
-
-        self.props.duration = duration
+                self.props.duration = duration
 
     @GObject.Property(type=bool, default=False)
     def selected(self):

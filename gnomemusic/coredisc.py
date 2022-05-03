@@ -33,7 +33,7 @@ class CoreDisc(GObject.GObject):
     duration = GObject.Property(type=int, default=None)
     media = GObject.Property(type=Grl.Media, default=None)
 
-    def __init__(self, application, media, nr):
+    def __init__(self, application, media, nr, album_model=None):
         """Initialize a CoreDisc object
 
         :param Application application: The application object
@@ -42,6 +42,7 @@ class CoreDisc(GObject.GObject):
         """
         super().__init__()
 
+        self._album_model = album_model
         self._coregrilo = application.props.coregrilo
         self._coremodel = application.props.coremodel
         self._filter_model = None
@@ -66,31 +67,23 @@ class CoreDisc(GObject.GObject):
             else:
                 return Gtk.Ordering.EQUAL
 
+        def _disc_nr_filter(coresong):
+            cs_dn = coresong.props.media.get_album_disc_number()
+            return cs_dn == self.props.disc_nr
+
         if self._model is None:
             self._filter_model = Gtk.FilterListModel.new(
-                self._coremodel.props.songs)
-            self._filter_model.set_filter(Gtk.AnyFilter())
+                self._album_model)
+            filter = Gtk.CustomFilter()
+            filter.set_filter_func(_disc_nr_filter)
+            self._filter_model.set_filter(filter)
 
             self._model = Gtk.SortListModel.new(self._filter_model)
-            disc_sorter = Gtk.CustomSorter()
-            disc_sorter.set_sort_func(_disc_sort)
-            self._model.set_sorter(disc_sorter)
-
-            self._model.connect("items-changed", self._on_disc_changed)
-
-            self._coregrilo.get_album_disc(
-                self.props.media, self.props.disc_nr, self._filter_model)
+            song_sorter = Gtk.CustomSorter()
+            song_sorter.set_sort_func(_disc_sort)
+            self._model.set_sorter(song_sorter)
 
         return self._model
-
-    def _on_disc_changed(self, model, position, removed, added):
-        with self.freeze_notify():
-            duration = 0
-            for coresong in model:
-                coresong.props.selected = self._selected
-                duration += coresong.props.duration
-
-            self.props.duration = duration
 
     @GObject.Property(
         type=bool, default=False, flags=GObject.ParamFlags.READWRITE)

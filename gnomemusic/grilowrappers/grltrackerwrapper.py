@@ -51,7 +51,7 @@ class GrlTrackerWrapper(GObject.GObject):
     """Wrapper for the Grilo Tracker source.
     """
 
-    _SPLICE_SIZE: int = 100
+    _SPLICE_SIZE: int = 1000
 
     _METADATA_ALBUM_CHANGED_KEYS: List[int] = [
         Grl.METADATA_KEY_ARTIST,
@@ -885,6 +885,97 @@ class GrlTrackerWrapper(GObject.GObject):
                 return
 
             disc_song_ids.append(media.get_source() + media.get_id())
+
+        self.props.source.query(
+            query, metadata_keys, self._fast_options, _callback)
+
+    def get_album_songs(
+            self, media: Grl.Media, model: Gtk.FilterListModel) -> None:
+        """Get all songs of an album
+
+        :param Grl.Media media: The media with the album id
+        :param Gtk.FilterListModel model: The model to fill
+        """
+        album_id = media.get_id()
+
+        query = """
+        SELECT
+            ?type ?id ?url ?title
+            ?artist ?album
+            ?duration ?trackNumber ?albumDiscNumber
+            ?publicationDate
+            nie:usageCounter(?id) AS ?playCount
+            ?tag AS ?favorite
+        WHERE {
+            SERVICE <dbus:%(miner_fs_busname)s> {
+                GRAPH tracker:Audio {
+                    SELECT DISTINCT
+                        %(media_type)s AS ?type
+                        ?song AS ?id
+                        nie:isStoredAs(?song) AS ?url
+                        nie:title(?song) AS ?title
+                        nmm:artistName(nmm:artist(?song)) AS ?artist
+                        nie:title(nmm:musicAlbum(?song)) AS ?album
+                        nfo:duration(?song) AS ?duration
+                        nmm:trackNumber(?song) AS ?trackNumber
+                        nmm:setNumber(nmm:musicAlbumDisc(?song))
+                            AS ?albumDiscNumber
+                        YEAR(?date) AS ?publicationDate
+                    WHERE {
+                        ?song a nmm:MusicPiece ;
+                                nmm:musicAlbum ?album .
+                        OPTIONAL { ?song nie:contentCreated ?date . }
+                        FILTER (
+                            ?album = <%(album_id)s>
+                        )
+                        %(location_filter)s
+                    }
+                    ORDER BY ?albumDiscNumber ?trackNumber
+                }
+            }
+            OPTIONAL {
+                ?id nao:hasTag ?tag .
+                FILTER (?tag = nao:predefined-tag-favorite)
+            }
+        }
+        """.replace('\n', ' ').strip() % {
+            "media_type": int(Grl.MediaType.AUDIO),
+            'album_id': album_id,
+            'location_filter': self._tracker_wrapper.location_filter(),
+            'miner_fs_busname': self._tracker_wrapper.props.miner_fs_busname
+        }
+
+        metadata_keys: List[int] = [
+            Grl.METADATA_KEY_ALBUM,
+            Grl.METADATA_KEY_ALBUM_DISC_NUMBER,
+            Grl.METADATA_KEY_ARTIST,
+            Grl.METADATA_KEY_DURATION,
+            Grl.METADATA_KEY_FAVOURITE,
+            Grl.METADATA_KEY_ID,
+            Grl.METADATA_KEY_PLAY_COUNT,
+            Grl.METADATA_KEY_TITLE,
+            Grl.METADATA_KEY_URL
+        ]
+
+        album_song_ids: List[int] = []
+
+        def _filter_func(coresong: CoreSong) -> bool:
+            return coresong.props.grlid in album_song_ids
+
+        def _callback(
+                source: Grl.Source, op_id: int, media: Grl.Media,
+                remaining: int, error: GLib.Error) -> None:
+            if error:
+                self._log.warning(f"Error: {error.domain}, {error.message}")
+                return
+
+            if media is None:
+                custom_filter = Gtk.CustomFilter()
+                custom_filter.set_filter_func(_filter_func)
+                model.set_filter(custom_filter)
+                return
+
+            album_song_ids.append(media.get_source() + media.get_id())
 
         self.props.source.query(
             query, metadata_keys, self._fast_options, _callback)
