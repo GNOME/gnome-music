@@ -10,32 +10,38 @@
       </object>
     </child>
   </template>
-  <object class="GtkBox" id="_initial_state">
-    <property name="valign">start</property>
-    <property name="orientation">vertical</property>
+  <object class="AdwClamp" id="_initial_state">
+    <property name="maximum-size">620</property>
+    <property name="tightening-threshold">500</property>
     <child>
-      <object class="GtkPicture">
-        <property name="can-shrink">true</property>
-        <property name="keep-aspect-ratio">true</property>
-        <property name="file">resource:///org/gnome/Music/icons/welcome-music.svg</property>
-      </object>
-    </child>
-    <child>
-      <object class="GtkLabel" id="_title_label">
-        <property name="justify">center</property>
-        <property name="label" translatable="yes">Welcome to Music</property>
-        <style>
-          <class name="large-title"/>
-        </style>
-      </object>
-    </child>
-    <child>
-      <object class="GtkLabel" id="_description_label">
-        <property name="justify">center</property>
-        <property name="use-markup">True</property>
-        <style>
-          <class name="body"/>
-        </style>
+      <object class="GtkBox">
+        <property name="valign">start</property>
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="GtkPicture">
+            <property name="can-shrink">true</property>
+            <property name="keep-aspect-ratio">true</property>
+            <property name="file">resource:///org/gnome/Music/icons/welcome-music.svg</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkLabel" id="_title_label">
+            <property name="justify">center</property>
+            <property name="label" translatable="yes">Welcome to Music</property>
+            <style>
+              <class name="large-title"/>
+            </style>
+          </object>
+        </child>
+        <child>
+          <object class="GtkLabel" id="_description_label">
+            <property name="justify">center</property>
+            <property name="use-markup">True</property>
+            <style>
+              <class name="body"/>
+            </style>
+          </object>
+        </child>
       </object>
     </child>
   </object>
