@@ -2,7 +2,6 @@
 <interface>
   <requires lib="gtk" version="4.0"/>
   <template class="SongWidget" parent="GtkListBoxRow">
-    <property name="focusable">False</property>
     <property name="selectable">False</property>
     <child>
       <object class="GtkBox" id="box1">
