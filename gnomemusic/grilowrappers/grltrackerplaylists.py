@@ -638,12 +638,14 @@ class Playlist(GObject.GObject):
 
         :param list coresongs: list of Coresong
         """
-        def _add_to_model(conn, res, coresong):
+        def _add_to_model(
+                connection: Tracker.SparqlConnection, result: Gio.AsyncResult,
+                coresong: CoreSong) -> None:
             if self._model is None:
                 return
 
             try:
-                conn.update_finish(res)
+                connection.update_finish(result)
             except GLib.Error as error:
                 self._log.warning(
                     "Unable to add to playlist {} song {}: {}".format(
