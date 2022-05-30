@@ -638,79 +638,22 @@ class Playlist(GObject.GObject):
 
         :param list coresongs: list of Coresong
         """
-        def _add_to_model(source, op_id, media, remaining, error):
-            if not media:
-                self.props.count = self._model.get_n_items()
-                return
-
-            coresong = CoreSong(self._application, media)
-            self._bind_to_main_song(coresong)
-            if coresong not in self._songs_todelete:
-                self._model.append(coresong)
-
-        def _requery_media(conn, res, coresong):
+        def _add_to_model(conn, res, coresong):
             if self._model is None:
                 return
 
-            media_id = coresong.props.media.get_id()
-            pl_id = self.props.pl_id
-            miner_fs_busname = self._tracker_wrapper.props.miner_fs_busname
-            query = """
-            SELECT
-                %(media_type)s AS ?type
-                ?song AS ?id
-                ?url
-                ?title
-                ?artist
-                ?album
-                ?duration
-                ?tag AS ?favorite
-                nie:contentAccessed(?song) AS ?lastPlayed
-                nie:usageCounter(?song) AS ?playCount
-            WHERE {
-                ?playlist a nmm:Playlist ;
-                          a nfo:MediaList ;
-                            nfo:hasMediaFileListEntry ?entry .
-                ?entry a nfo:MediaFileListEntry ;
-                         nfo:entryUrl ?url .
-                SERVICE <dbus:%(miner_fs_busname)s> {
-                    GRAPH tracker:Audio {
-                        SELECT
-                            ?song
-                            nie:title(?song) AS ?title
-                            nmm:artistName(nmm:artist(?song)) AS ?artist
-                            nie:title(nmm:musicAlbum(?song)) AS ?album
-                            nfo:duration(?song) AS ?duration
-                            ?url
-                        WHERE {
-                            ?song a nmm:MusicPiece ;
-                                  nie:isStoredAs ?url .
-                            %(location_filter)s
-                            FILTER (
-                                %(filter_clause_song)s
-                            )
-                        }
-                    }
-                }
-                OPTIONAL {
-                    ?song nao:hasTag ?tag .
-                    FILTER( ?tag = nao:predefined-tag-favorite )
-                }
-                FILTER (
-                    %(filter_clause_pl)s
-                )
-            } LIMIT 1
-            """.replace("\n", " ").strip() % {
-                "media_type": int(Grl.MediaType.AUDIO),
-                "filter_clause_song": f"?song = <{media_id}>",
-                "filter_clause_pl": f"?playlist = <{pl_id}>",
-                "location_filter": self._tracker_wrapper.location_filter(),
-                "miner_fs_busname": miner_fs_busname,
-            }
-
-            self._source.query(
-                query, self._METADATA_PLAYLIST_KEYS, self._fast_options,
-                _add_to_model)
+            try:
+                conn.update_finish(res)
+            except GLib.Error as error:
+                self._log.warning(
+                    "Unable to add to playlist {} song {}: {}".format(
+                        self.props.title, coresong.props.title, error.message))
+            else:
+                media = coresong.props.media
+                coresong_copy = CoreSong(self._application, media)
+                self._bind_to_main_song(coresong_copy)
+                self._model.append(coresong_copy)
+                self.props.count = self._model.get_n_items()
 
         for coresong in coresongs:
             query = """
@@ -738,7 +681,7 @@ class Playlist(GObject.GObject):
                 "song_uri": coresong.props.media.get_url()}
 
             self._tracker.update_blank_async(
-                query, None, _requery_media, coresong)
+                query, None, _add_to_model, coresong)
 
     def reorder(self, previous_position, new_position):
         """Changes the order of a songs in the playlist.
