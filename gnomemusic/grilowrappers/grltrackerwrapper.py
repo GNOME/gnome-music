@@ -428,6 +428,7 @@ class GrlTrackerWrapper(GObject.GObject):
             ?artist ?album
             ?duration ?trackNumber
             ?albumDiscNumber
+            nie:contentAccessed(?urn) AS ?lastPlayed
             nie:usageCounter(?urn) AS ?playCount
             ?tag AS ?favorite
         WHERE {{
