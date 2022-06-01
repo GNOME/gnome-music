@@ -30,7 +30,7 @@ import typing
 
 import gi
 gi.require_version('GstPbutils', '1.0')
-from gi.repository import GObject, GstPbutils, Gtk
+from gi.repository import GLib, GObject, GstPbutils, Gtk
 
 from gnomemusic.coresong import CoreSong
 from gnomemusic.gstplayer import GstPlayer, Playback
@@ -585,7 +585,7 @@ class Player(GObject.GObject):
                     and self._new_clock):
                 self._new_clock = False
                 current_song.bump_play_count()
-                current_song.set_last_played()
+                current_song.props.last_played = GLib.DateTime.new_now_utc()
 
     @GObject.Property(type=object)
     def repeat_mode(self) -> RepeatMode:

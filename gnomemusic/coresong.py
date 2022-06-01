@@ -117,6 +117,29 @@ class CoreSong(GObject.GObject):
         self._coregrilo.writeback_tracker(
             self.props.media, "favorite")
 
+    @GObject.Property(type=GLib.DateTime, default=None)
+    def last_played(self) -> Optional[GLib.DateTime]:
+        """Get last played time
+
+        :returns: Last played date time if available
+        :rtype: GLib.DateTime or None
+        """
+        return self.props.media.get_last_played()
+
+    @last_played.setter  # type: ignore
+    def last_played(self, value: Optional[GLib.DateTime]) -> None:
+        """Set last played time
+
+        :param GLib.DateTime value: The datetime to set
+        """
+        if value is None:
+            return
+
+        self.props.media.set_last_played(value)
+
+        if self._is_tracker:
+            self._coregrilo.writeback_tracker(self.props.media, "last-played")
+
     @GObject.Property(type=bool, default=False)
     def selected(self) -> bool:
         return self._selected
@@ -163,6 +186,7 @@ class CoreSong(GObject.GObject):
         self.props.artist = utils.get_artist_name(media)
         self.props.duration = media.get_duration()
         self.props.favorite = media.get_favourite()
+        self.props.last_played = media.get_last_played()
         self.props.play_count = media.get_play_count()
         self.props.title = utils.get_media_title(media)
         self.props.track_number = media.get_track_number()
@@ -176,14 +200,6 @@ class CoreSong(GObject.GObject):
         self.update(self.props.media)
         self._coregrilo.writeback_tracker(
             self.props.media, "play-count")
-
-    def set_last_played(self) -> None:
-        if not self._is_tracker:
-            return
-
-        self.props.media.set_last_played(GLib.DateTime.new_now_utc())
-        self._coregrilo.writeback_tracker(
-            self.props.media, "last-played")
 
     def update_shuffle_pos(self) -> None:
         """Randomizes the shuffle position of this song"""
