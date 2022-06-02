@@ -190,11 +190,13 @@
     <child internal-child="action_area">
       <object class="GtkBox">
         <property name="focusable">False</property>
+        <property name="visible">False</property>
       </object>
     </child>
   </template>
   <object class="GtkHeaderBar" id="_title_bar">
     <property name="focusable">False</property>
+    <property name="show_title_buttons">False</property>
     <property name="title-widget">
       <object class="GtkLabel">
         <property name="label" translatable="yes">Add to Playlist</property>
