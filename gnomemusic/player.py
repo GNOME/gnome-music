@@ -592,11 +592,6 @@ class Player(GObject.GObject):
             if (percentage > 0.5
                     and self._new_clock):
                 self._new_clock = False
-                # FIXME: we should not need to update smart
-                # playlists here but removing it may introduce
-                # a bug. So, we keep it for the time being.
-                # FIXME: Not using Playlist class anymore.
-                # playlists.update_all_smart_playlists()
                 current_song.bump_play_count()
                 current_song.set_last_played()
 
