@@ -45,7 +45,7 @@ class CoreAlbum(GObject.GObject):
     media = GObject.Property(type=Grl.Media)
     title = GObject.Property(type=str)
     url = GObject.Property(type=str)
-    year = GObject.Property(type=str, default="----")
+    year = GObject.Property(type=str, default=None)
 
     def __init__(self, application, media):
         """Initiate the CoreAlbum object

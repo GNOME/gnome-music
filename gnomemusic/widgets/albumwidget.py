@@ -245,7 +245,7 @@ class AlbumWidget(Adw.Bin):
         mins_text = ngettext("{} minute", "{} minutes", mins).format(mins)
         year = self._corealbum.props.year
 
-        if year == "----":
+        if year is None:
             label = mins_text
         else:
             label = f"{year}, {mins_text}"
