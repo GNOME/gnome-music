@@ -65,10 +65,15 @@
         },
         {
             "name": "gnome-online-accounts",
-            "config-opts": [ "--enable-introspection",
-                             "--disable-documentation",
-                             "--disable-backend",
-                             "--disable-Werror" ],
+            "buildsystem": "meson",
+            "config-opts": [ "-Dgoabackend=false",
+                             "-Dvapi=false",
+                             "-Dexchange=false",
+                             "-Dgoogle=false",
+                             "-Dimap_smtp=false",
+                             "-Dkerberos=false",
+                             "-Downcloud=false",
+                             "-Dwindows_live=false" ],
             "sources": [
                 {
                     "type": "git",
