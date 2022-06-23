@@ -414,9 +414,8 @@ class GrlTrackerWrapper(GObject.GObject):
 
         :param list ids: List of Media ids to filter by or None
         """
-        if ids is None:
-            songs_filter = ""
-        else:
+        songs_filter = ""
+        if ids is not None:
             media_ids = ", ".join([f"<{media_id}>" for media_id in ids])
             songs_filter = f"FILTER ( ?song in ( {media_ids} ) )"
 
