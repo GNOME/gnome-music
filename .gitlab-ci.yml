@@ -25,12 +25,14 @@ nightly:
 
 flake8:
   stage: check
+  image: registry.fedoraproject.org/fedora:latest
   script:
     - dnf install -y python3-flake8
     - flake8 --ignore E402,W503 --show-source gnomemusic/
 
 mypy:
   stage: check
+  image: registry.fedoraproject.org/fedora:latest
   script:
     - dnf install -y python3-mypy
     - mypy --ignore-missing-imports --disallow-incomplete-defs gnomemusic
