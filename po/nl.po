@@ -8,12 +8,13 @@
 # Hannie Dumoleyn <hannie@ubuntu-nl.org>, 2015.
 # Justin van Steijn <jvs@fsfe.org>, 2016.
 # Nathan Follens <nfollens@gnome.org>, 2018-2022.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2022-02-19 12:39+0000\n"
-"PO-Revision-Date: 2022-03-25 13:49+0100\n"
+"POT-Creation-Date: 2022-05-10 09:09+0000\n"
+"PO-Revision-Date: 2022-06-30 21:18+0200\n"
 "Last-Translator: Nathan Follens <nfollens@gnome.org>\n"
 "Language-Team: Dutch <gnome-nl-list@gnome.org>\n"
 "Language: nl\n"
@@ -21,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.1\n"
 "X-Project-Style: gnome\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
@@ -47,7 +48,7 @@ msgstr ""
 "Vind nummers in uw lokale bibliotheek, maak gebruik van automatisch "
 "gegenereerde afspeellijsten of stel er zelf eentje samen."
 
-#: data/org.gnome.Music.appdata.xml.in.in:149
+#: data/org.gnome.Music.appdata.xml.in.in:167
 msgid "The GNOME Music developers"
 msgstr "De Gnome Muziek-ontwikkelaars"
 
@@ -182,21 +183,21 @@ msgstr ""
 "u besluit de uitzondering niet van toepassing te verklaring, verwijder dan "
 "deze verklaring uit uw versie."
 
-#: data/ui/AlbumWidget.ui:86 data/ui/PlayerToolbar.ui:88
-#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:168
+#: data/ui/AlbumWidget.ui:84 data/ui/PlayerToolbar.ui:87
+#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:170
 msgid "Play"
 msgstr "Afspelen"
 
-#: data/ui/AlbumWidget.ui:132 data/ui/PlaylistControls.ui:5
+#: data/ui/AlbumWidget.ui:130 data/ui/PlaylistControls.ui:5
 #: data/ui/SongWidgetMenu.ui:11
 msgid "_Play"
 msgstr "Afs_pelen"
 
-#: data/ui/AlbumWidget.ui:136
+#: data/ui/AlbumWidget.ui:134
 msgid "Add to _Favorite Songs"
 msgstr "Toevoegen aan _favoriete nummers"
 
-#: data/ui/AlbumWidget.ui:140 data/ui/SongWidgetMenu.ui:15
+#: data/ui/AlbumWidget.ui:138 data/ui/SongWidgetMenu.ui:15
 msgid "_Add to Playlist…"
 msgstr "Toevoegen aan _afspeellijst…"
 
@@ -220,7 +221,7 @@ msgstr "_Hulp"
 msgid "_About Music"
 msgstr "_Over Muziek"
 
-#: data/ui/EmptyView.ui:26 data/ui/InitialState.ui:13
+#: data/ui/EmptyView.ui:30 data/ui/InitialState.ui:13
 msgid "Welcome to Music"
 msgstr "Welkom bij Muziek"
 
@@ -355,11 +356,11 @@ msgstr ""
 msgid "Login"
 msgstr "Aanmelden"
 
-#: data/ui/PlayerToolbar.ui:75
+#: data/ui/PlayerToolbar.ui:74
 msgid "Previous"
 msgstr "Vorige"
 
-#: data/ui/PlayerToolbar.ui:107
+#: data/ui/PlayerToolbar.ui:106
 msgid "Next"
 msgstr "Volgende"
 
@@ -411,7 +412,7 @@ msgstr "Artiesten"
 msgid "View All"
 msgstr "Alles tonen"
 
-#: data/ui/SearchView.ui:75 gnomemusic/views/albumsview.py:54
+#: data/ui/SearchView.ui:75 gnomemusic/views/albumsview.py:56
 msgid "Albums"
 msgstr "Muziekalbum"
 
@@ -509,7 +510,7 @@ msgstr "Alles herhalen"
 
 #: gnomemusic/player.py:47
 msgid "Shuffle/Repeat Off"
-msgstr "Willekeurig/Herhalen uit"
+msgstr "Willekeurig/herhalen uit"
 
 #: gnomemusic/playlisttoast.py:55
 msgid "Playlist {} removed"
@@ -583,7 +584,7 @@ msgstr "Artiestresultaten"
 msgid "Albums Results"
 msgstr "Albumresultaten"
 
-#: gnomemusic/widgets/albumwidget.py:240
+#: gnomemusic/widgets/albumwidget.py:245
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} minuut"
@@ -616,7 +617,7 @@ msgstr "Aangemeld als {}"
 msgid "Configure"
 msgstr "Configureren"
 
-#: gnomemusic/widgets/playertoolbar.py:165
+#: gnomemusic/widgets/playertoolbar.py:167
 msgid "Pause"
 msgstr "Pauzeren"
 
