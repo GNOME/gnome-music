@@ -1,29 +1,32 @@
 # Dutch translation for gnome-music.
 # Copyright (C) 2016 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-music package.
-# Justin van Steijn <justin50@live.nl>, 2016.
+# Justin van Steijn <jvs@fsfe.org>, 2016.
+# Nathan Follens <nfollens@gnome.org>, 2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
-"POT-Creation-Date: 2016-10-05 12:45+0000\n"
-"PO-Revision-Date: 2016-11-20 12:22+0100\n"
-"Last-Translator: Justin van Steijn <justin50@live.nl>\n"
+"POT-Creation-Date: 2022-05-10 09:09+0000\n"
+"PO-Revision-Date: 2022-06-30 21:18+0200\n"
+"Last-Translator: Nathan Follens <nfollens@gnome.org>\n"
 "Language-Team: Dutch <gnome-nl-list@gnome.org>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.6.10\n"
+"X-Generator: Poedit 3.1\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
-msgstr "Justin van Steijn <justin50@live.nl>, 2016."
+msgstr ""
+"Justin van Steijn <jvs@fsfe.org>, 2016.\n"
+"Nathan Follens <nfollens@gnome.org>, 2022."
 
 #. (itstool) path: credit/name
-#: C/introduction.page:11 C/index.page:11 C/play-music.page:11
+#: C/introduction.page:11 C/index.page:12 C/play-music.page:11
 #: C/playlist-create-albums.page:11 C/playlist-create-songs.page:11
 #: C/playlist-create-artists.page:11 C/playlist-delete.page:11
 #: C/playlist-remove-songs.page:11 C/playlist-repeat.page:11
@@ -32,7 +35,7 @@ msgid "Shobha Tyagi"
 msgstr "Shobha Tyagi"
 
 #. (itstool) path: credit/years
-#: C/introduction.page:13 C/index.page:13 C/play-music.page:13
+#: C/introduction.page:13 C/index.page:14 C/play-music.page:13
 #: C/playlist-create-albums.page:13 C/playlist-create-songs.page:13
 #: C/playlist-create-artists.page:13 C/playlist-delete.page:13
 #: C/playlist-remove-songs.page:13 C/playlist-repeat.page:13
@@ -47,8 +50,8 @@ msgid ""
 "A simple and elegant replacement for using <app>Files</app> to show the "
 "music directory."
 msgstr ""
-"Een eenvoudige en elegante vervanging voor het gebruiken van <app>Bestanden</"
-"app> om door de muziekmap te bladeren."
+"Een eenvoudige en elegante vervanging voor <app>Bestanden</app> om door de "
+"muziekmap te bladeren."
 
 #. (itstool) path: page/title
 #: C/introduction.page:22
@@ -57,18 +60,24 @@ msgstr "Inleiding tot Muziek"
 
 #. (itstool) path: info/title
 #: C/index.page:6
-msgctxt "link"
+msgctxt "link:trail"
 msgid "Music"
 msgstr "Muziek"
 
 #. (itstool) path: info/title
 #: C/index.page:7
+msgctxt "link"
+msgid "Music"
+msgstr "Muziek"
+
+#. (itstool) path: info/title
+#: C/index.page:8
 msgctxt "text"
 msgid "Music"
 msgstr "Muziek"
 
 #. (itstool) path: page/title
-#: C/index.page:18
+#: C/index.page:19
 msgid "<_:media-1/> Music"
 msgstr "<_:media-1/> Muziek"
 
@@ -131,7 +140,7 @@ msgstr "Klik op <gui>Afspelen</gui>."
 #. (itstool) path: info/desc
 #: C/playlist-create-albums.page:18
 msgid "Add songs to playlists using albums."
-msgstr "Nummers aan afspeellijsten toevoegen door gebruik te maken van albums."
+msgstr "Voeg nummers aan afspeellijsten toe door gebruik te maken van albums."
 
 #. (itstool) path: page/title
 #: C/playlist-create-albums.page:21
@@ -144,20 +153,19 @@ msgid ""
 "You can view all your albums by clicking on the <gui style=\"button"
 "\">Albums</gui> button."
 msgstr ""
-"U kunt al uw albums bekijken door op de <gui style=\"button\">Albums</gui>-"
-"knop te klikken."
+"U kunt al uw albums bekijken door op de knop <gui style=\"button\">Albums</"
+"gui> te klikken."
 
 #. (itstool) path: steps/title
 #: C/playlist-create-albums.page:27
 msgid "To add all the songs in an album:"
-msgstr "Om alle nummers in een album toe toe te voegen:"
+msgstr "Om alle nummers in een album toe te voegen:"
 
 #. (itstool) path: item/p
 #: C/playlist-create-albums.page:29 C/playlist-create-songs.page:29
 #: C/playlist-create-artists.page:30
 msgid "Click on the check button in the top-right of the window."
-msgstr ""
-"Druk op de knop met het vinkje in de rechter-bovenhoek van het venster."
+msgstr "Klik op de knop met het vinkje in de rechterbovenhoek van het venster."
 
 #. (itstool) path: item/p
 #: C/playlist-create-albums.page:32
@@ -168,8 +176,7 @@ msgstr "Selecteer albums."
 #: C/playlist-create-albums.page:35 C/playlist-create-albums.page:60
 #: C/playlist-create-songs.page:35 C/playlist-create-artists.page:37
 msgid "Click on the <gui style=\"button\">Add to Playlist</gui> button."
-msgstr ""
-"Klik op de <gui style=\"button\">Aan afspeellijst toevoegen</gui>-knop."
+msgstr "Klik op <gui style=\"button\">Toevoegen aan afspeellijst</gui>."
 
 #. (itstool) path: item/p
 #: C/playlist-create-albums.page:38 C/playlist-create-albums.page:63
@@ -234,12 +241,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/playlist-create-songs.page:18
 msgid "Create playlist by selecting your favorite songs."
-msgstr "Een afspeellijst maken door uw favoriete nummers te selecteren."
+msgstr "Maak een afspeellijst aan door uw favoriete nummers te selecteren."
 
 #. (itstool) path: page/title
 #: C/playlist-create-songs.page:21
 msgid "Create playlists using songs"
-msgstr "Afspeellijsten maken met nummers"
+msgstr "Afspeellijsten aanmaken met nummers"
 
 #. (itstool) path: page/p
 #: C/playlist-create-songs.page:23
@@ -247,14 +254,14 @@ msgid ""
 "You can view all the songs by clicking on the <gui style=\"button\">Songs</"
 "gui> button."
 msgstr ""
-"U kunt alle nummers bekijken door te klikken op de <gui style=\"button"
-"\">Nummers</gui>-knop."
+"U kunt alle nummers bekijken door te klikken op <gui style=\"button"
+"\">Nummers</gui>."
 
 #. (itstool) path: steps/title
 #: C/playlist-create-songs.page:27
 msgid "To create a new playlist while in <em>Songs</em> view:"
 msgstr ""
-"Om een nieuwe afspeellijst te maken terwijl u in de <em>Nummers</em>-"
+"Om een nieuwe afspeellijst aan te maken terwijl u in de <em>Nummers</em>-"
 "weergave bent:"
 
 #. (itstool) path: item/p
@@ -274,12 +281,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/playlist-create-artists.page:18
 msgid "Create playlist by selecting your favorite artists."
-msgstr "Een afspeellijst maken door uw favoriete artiesten te selecteren."
+msgstr "Maak een afspeellijst aan door uw favoriete artiesten te selecteren."
 
 #. (itstool) path: page/title
 #: C/playlist-create-artists.page:22
 msgid "Create playlists using artists"
-msgstr "Afspeellijsten maken met artiesten"
+msgstr "Afspeellijsten aanmaken met artiesten"
 
 #. (itstool) path: page/p
 #: C/playlist-create-artists.page:24
@@ -287,21 +294,21 @@ msgid ""
 "You can view all the artists and their songs by clicking on the <gui style="
 "\"button\">Artists</gui> button."
 msgstr ""
-"U kunt alle artiesten en hun nummers weergeven door te klikken op de <gui "
-"style=\"button\">Artiesten</gui>-knop."
+"U kunt alle artiesten en hun nummers weergeven door te klikken op <gui style="
+"\"button\">Artiesten</gui>."
 
 #. (itstool) path: steps/title
 #: C/playlist-create-artists.page:28
 msgid "To create a new playlist while in <em>Artists</em> view:"
 msgstr ""
-"Om een nieuwe afspeellijst te maken terwijl u in de <em>Artiesten</em>-"
+"Om een nieuwe afspeellijst aan te maken terwijl u in de <em>Artiesten</em>-"
 "weergave bent:"
 
 #. (itstool) path: item/p
 #: C/playlist-create-artists.page:33
 msgid "Select all the artists whose songs you want to add to the playlist."
 msgstr ""
-"Selecteer alle artiesten wiens nummers u aan de afspeellijst wilt toevoegen."
+"Selecteer alle artiesten wier nummers u aan de afspeellijst wilt toevoegen."
 
 #. (itstool) path: item/p
 #: C/playlist-create-artists.page:44
@@ -311,7 +318,7 @@ msgstr "Klik op <gui>Selecteren</gui>."
 #. (itstool) path: info/desc
 #: C/playlist-delete.page:18
 msgid "Remove an unwanted playlist."
-msgstr "Een overbodige afspeellijst verwijderen."
+msgstr "Verwijder een ongewenste afspeellijst."
 
 #. (itstool) path: page/title
 #: C/playlist-delete.page:22
@@ -321,7 +328,7 @@ msgstr "Een afspeellijst verwijderen"
 #. (itstool) path: page/p
 #: C/playlist-delete.page:24
 msgid "You can remove an old and unwanted playlist."
-msgstr "U kunt een oude en overbodige afspeellijst verwijderen."
+msgstr "U kunt een oude en ongewenste afspeellijst verwijderen."
 
 #. (itstool) path: item/p
 #: C/playlist-delete.page:29
@@ -336,7 +343,7 @@ msgstr "Klik op <gui>Verwijderen</gui>."
 #. (itstool) path: info/desc
 #: C/playlist-remove-songs.page:18
 msgid "Delete songs from the playlist."
-msgstr "Nummers uit een afspeellijst verwijderen."
+msgstr "Verwijder nummers uit een afspeellijst."
 
 #. (itstool) path: page/title
 #: C/playlist-remove-songs.page:22
@@ -346,7 +353,7 @@ msgstr "Nummers verwijderen"
 #. (itstool) path: page/p
 #: C/playlist-remove-songs.page:24
 msgid "You can remove any unwanted songs from a playlist."
-msgstr "U kunt overbodige nummers uit een afspeellijst verwijderen."
+msgstr "U kunt ongewenste nummers uit een afspeellijst verwijderen."
 
 #. (itstool) path: item/p
 #: C/playlist-remove-songs.page:29
@@ -366,12 +373,12 @@ msgstr "Selecteer alle nummers die u wilt verwijderen."
 #. (itstool) path: item/p
 #: C/playlist-remove-songs.page:38
 msgid "Click on <gui style=\"button\">Remove from Playlist</gui>."
-msgstr "Klik op <gui style=\"button\">Uit afspeellijst verwijderen</gui>."
+msgstr "Klik op <gui style=\"button\">Verwijderen uit afspeellijst</gui>."
 
 #. (itstool) path: info/desc
 #: C/playlist-repeat.page:18
 msgid "Repeat all songs in the playlist or only the current song."
-msgstr "Alle nummers in de afspeellijst herhalen of alleen het huidige nummer."
+msgstr "Herhaal alle nummers in de afspeellijst of alleen het huidige nummer."
 
 #. (itstool) path: page/title
 #: C/playlist-repeat.page:22
@@ -398,12 +405,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/playlist-shuffle.page:18
 msgid "Shuffle songs in the playlist."
-msgstr "Nummers in de afspeellijst willekeurig afspelen."
+msgstr "Speel nummers in de afspeellijst in willekeurige volgorde af."
 
 #. (itstool) path: page/title
 #: C/playlist-shuffle.page:22
 msgid "How do I shuffle my songs?"
-msgstr "Hoe hussel ik mijn nummers?"
+msgstr "Hoe speel ik mijn nummers af in willekeurige volgorde?"
 
 #. (itstool) path: page/p
 #: C/playlist-shuffle.page:24
@@ -417,7 +424,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/search.page:18
 msgid "Search through your music collection."
-msgstr "Door uw muziekverzameling zoeken."
+msgstr "Zoek in uw muziekverzameling."
 
 #. (itstool) path: page/title
 #: C/search.page:22
@@ -432,13 +439,13 @@ msgid ""
 "searching."
 msgstr ""
 "U kunt door uw albums, artiesten, nummers en afspeellijsten zoeken. "
-"Selecteer waarin u wilt zoeken, selecteer dan de <gui>Zoeken</gui>-knop en "
-"begin met zoeken."
+"Selecteer waarin u wilt zoeken, klik op <gui>Zoeken</gui> en begin met "
+"zoeken."
 
 #. (itstool) path: p/link
 #: C/legal.xml:5
 msgid "Creative Commons Attribution-ShareAlike 3.0 Unported License"
-msgstr "Creative Commons Naamsvermelding-GelijkDelen 3.0 Unported Licentie"
+msgstr "Creative Commons Naamsvermelding-GelijkDelen 3.0 Unported-licentie"
 
 #. (itstool) path: license/p
 #: C/legal.xml:4
