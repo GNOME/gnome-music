@@ -39,13 +39,26 @@ APPLICATION_ID = 'org.gnome.Music@0@'.format(PROFILE)
 PYTHON_DIR = py_installation.get_path('purelib')
 PKGDATA_DIR = join_paths(get_option('prefix'), get_option('datadir'), APPLICATION_ID)
 PKGLIB_DIR = join_paths(get_option('prefix'), get_option('libdir'), APPLICATION_ID)
+VCS_TAG = ''
+if get_option('profile') != 'default'
+  git = find_program('git', required : false)
+  if git.found()
+    VCS_TAG = run_command('git', 'rev-parse', '--short', 'HEAD').stdout().strip()
+  endif
+  if VCS_TAG == ''
+    VCS_TAG = '-devel'
+  else
+    VCS_TAG = '-@0@'.format(VCS_TAG)
+  endif
+endif
+
 
 # Dependencies
 dependency('glib-2.0', version: '>= 2.67.1')
 dependency('goa-1.0', version: '>= 3.35.90')
 dependency('gobject-introspection-1.0', version: '>= 1.35.0')
 dependency('gtk4', version: '>= 4.5.0')
-dependency('libadwaita-1', version: '>= 1.0')
+dependency('libadwaita-1', version: '>= 1.2.alpha')
 dependency('libmediaart-2.0', version: '>= 1.9.1')
 dependency('libsoup-2.4')
 dependency('tracker-sparql-3.0', version: '>= 2.99.3')
@@ -55,7 +68,6 @@ dependency('py3cairo', version: '>= 1.14.0')
 dependency('grilo-0.3', version: '>= 0.3.13', fallback: ['grilo', 'libgrl_dep'])
 dependency('grilo-plugins-0.3', version: '>= 0.3.12', fallback: ['grilo-plugins', 'grilo_plugins_dep'])
 
-subdir('data/ui')
 subdir('data')
 subdir('help')
 subdir('po')
@@ -73,6 +85,7 @@ bin_config.set('pkgdatadir', PKGDATA_DIR)
 bin_config.set('localedir', join_paths(get_option('prefix'), get_option('datadir'), 'locale'))
 bin_config.set('pythondir', PYTHON_DIR)
 bin_config.set('schemasdir', PKGDATA_DIR)
+bin_config.set('version', meson.project_version() + VCS_TAG)
 
 bin_config.set('local_build', 'False')
 

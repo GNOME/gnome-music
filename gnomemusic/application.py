@@ -35,6 +35,7 @@ from gettext import gettext as _
 
 from gi.repository import Adw, Gtk, Gio, GLib, Gdk, GObject
 
+from gnomemusic.about import show_about
 from gnomemusic.coregrilo import CoreGrilo
 from gnomemusic.coremodel import CoreModel
 from gnomemusic.coreselection import CoreSelection
@@ -46,14 +47,13 @@ from gnomemusic.pauseonsuspend import PauseOnSuspend
 from gnomemusic.player import Player
 from gnomemusic.scrobbler import LastFmScrobbler
 from gnomemusic.search import Search
-from gnomemusic.widgets.aboutdialog import AboutDialog
 from gnomemusic.widgets.lastfmdialog import LastfmDialog
 from gnomemusic.window import Window
 
 
 class Application(Adw.Application):
 
-    def __init__(self, application_id):
+    def __init__(self, application_id, version):
         super().__init__(
             application_id=application_id,
             flags=Gio.ApplicationFlags.FLAGS_NONE)
@@ -62,6 +62,7 @@ class Application(Adw.Application):
         GLib.set_prgname(application_id)
         GLib.setenv("PULSE_PROP_media.role", "music", True)
 
+        self._version = version
         self._window = None
 
         self._log = MusicLogger()
@@ -225,9 +226,7 @@ class Application(Adw.Application):
         self._lastfm_dialog.present()
 
     def _about(self, action, param):
-        about = AboutDialog()
-        about.props.transient_for = self._window
-        about.present()
+        show_about(self.props.application_id, self._version, self._window)
 
     def do_startup(self):
         Adw.Application.do_startup(self)

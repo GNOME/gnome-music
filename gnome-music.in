@@ -51,7 +51,7 @@ Adw.init()
 
 LOCALE_DIR = '@localedir@'
 PKGDATA_DIR = '@pkgdatadir@'
-
+VERSION = '@version@'
 
 def set_exception_hook():
     """Configures sys.excepthook to enforce Gtk application exiting."""
@@ -92,7 +92,7 @@ def run_application():
     """Runs GNOME Music application and returns its exit code."""
     from gnomemusic.application import Application
 
-    app = Application('@application_id@')
+    app = Application('@application_id@', VERSION)
     signal.signal(signal.SIGINT, signal.SIG_DFL)
     return app.run(sys.argv)
 

@@ -6,8 +6,7 @@ gnome.compile_resources(
   gresource_bundle: true,
   source_dir: meson.current_build_dir(),
   install_dir: PKGDATA_DIR,
-  install: true,
-  dependencies: about_dialog
+  install: true
 )
 
 schema_src = PROJECT_RDNN_NAME + '.gschema.xml'
