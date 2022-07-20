@@ -29,7 +29,7 @@
             <property name="justify">center</property>
             <property name="label" translatable="yes">Welcome to Music</property>
             <style>
-              <class name="large-title"/>
+              <class name="title-1"/>
             </style>
           </object>
         </child>
