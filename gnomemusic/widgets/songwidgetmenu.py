@@ -51,7 +51,7 @@ class SongWidgetMenu(Gtk.PopoverMenu):
 
         :param Application application: The application object
         :param SongWidget song_widget: The songwidget associated with the menu
-        :param Union[CoreAlbum, CoreSong, Playlist]  coreboject: The
+        :param Union[CoreAlbum, CoreSong, Playlist] coreobject: The
             coreobject associated with the menu
         """
         super().__init__()
