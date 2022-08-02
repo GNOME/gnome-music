@@ -97,7 +97,7 @@ class SearchView(Gtk.Stack):
         self._model = self._coremodel.props.songs_search
         self._player = self._application.props.player
         self._window = application.props.window
-        self._headerbar = self._window._headerbar
+        self._headerbar = self._window.props.headerbar
 
         self._album_model = self._coremodel.props.albums_search
         self._artist_model = self._coremodel.props.artists_search

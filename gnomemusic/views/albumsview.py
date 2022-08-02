@@ -70,7 +70,7 @@ class AlbumsView(Gtk.Stack):
 
         self._application = application
         self._window = application.props.window
-        self._headerbar = self._window._headerbar
+        self._headerbar = self._window.props.headerbar
 
         self._list_item_bindings: Dict[
             Gtk.ListItem, List[GObject.Binding]] = {}

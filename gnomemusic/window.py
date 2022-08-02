@@ -282,6 +282,16 @@ class Window(Adw.ApplicationWindow):
 
         self.props.active_view.deselect_all()
 
+    @GObject.Property(
+        type=HeaderBar, default=None, flags=GObject.ParamFlags.READABLE)
+    def headerbar(self) -> HeaderBar:
+        """Get headerbar instance.
+
+        :returns: The headerbar
+        :rtype: HeaderBar
+        """
+        return self._headerbar
+
     @Gtk.Template.Callback()
     def _on_key_press(self, controller, keyval, keycode, state):
         modifiers = state & Gtk.accelerator_get_default_mod_mask()
