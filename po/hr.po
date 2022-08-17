@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2022-02-19 12:39+0000\n"
-"PO-Revision-Date: 2022-03-02 15:39+0100\n"
+"POT-Creation-Date: 2022-07-28 09:23+0000\n"
+"PO-Revision-Date: 2022-08-17 13:32+0200\n"
 "Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: Croatian <hr@li.org>\n"
 "Language: hr\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.1.1\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
 #: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:61
@@ -28,7 +28,7 @@ msgstr "Glazba"
 #: data/org.gnome.Music.appdata.xml.in.in:7
 #: data/org.gnome.Music.desktop.in.in:5
 msgid "Play and organize your music collection"
-msgstr "Slušajte i organizirajte vašu glazbenu kolekciju"
+msgstr "Slušajte i organizirajte svoju glazbenu kolekciju"
 
 #: data/org.gnome.Music.appdata.xml.in.in:9
 msgid "An easy and pleasant way to play your music."
@@ -42,7 +42,7 @@ msgstr ""
 "Potražite pjesme u svojoj lokalnoj fonoteci, koristite automatski stvorene "
 "popise izvođenja ili stvorite nove."
 
-#: data/org.gnome.Music.appdata.xml.in.in:149
+#: data/org.gnome.Music.appdata.xml.in.in:167
 msgid "The GNOME Music developers"
 msgstr "GNOME Glazbeni razvijatelji"
 
@@ -176,21 +176,21 @@ msgstr ""
 "učiniti.  Ako to ne želite učiniti, obrišite ovu izjavu iznimke iz vaše "
 "inačice."
 
-#: data/ui/AlbumWidget.ui:86 data/ui/PlayerToolbar.ui:88
-#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:168
+#: data/ui/AlbumWidget.ui:84 data/ui/PlayerToolbar.ui:87
+#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:170
 msgid "Play"
 msgstr "Reproduciraj"
 
-#: data/ui/AlbumWidget.ui:132 data/ui/PlaylistControls.ui:5
+#: data/ui/AlbumWidget.ui:130 data/ui/PlaylistControls.ui:5
 #: data/ui/SongWidgetMenu.ui:11
 msgid "_Play"
 msgstr "_Sviraj"
 
-#: data/ui/AlbumWidget.ui:136
+#: data/ui/AlbumWidget.ui:134
 msgid "Add to _Favorite Songs"
 msgstr "Dodaj u _omiljene pjesme"
 
-#: data/ui/AlbumWidget.ui:140 data/ui/SongWidgetMenu.ui:15
+#: data/ui/AlbumWidget.ui:138 data/ui/SongWidgetMenu.ui:15
 msgid "_Add to Playlist…"
 msgstr "_Dodaj na popis izvođenja…"
 
@@ -214,7 +214,7 @@ msgstr "_Priručnik"
 msgid "_About Music"
 msgstr "_O Glazbi"
 
-#: data/ui/EmptyView.ui:26 data/ui/InitialState.ui:13
+#: data/ui/EmptyView.ui:30
 msgid "Welcome to Music"
 msgstr "Dobrodošli u Glazbu"
 
@@ -324,10 +324,6 @@ msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Idi natrag"
 
-#: data/ui/InitialState.ui:25
-msgid "The contents of your Music Folder will appear here"
-msgstr "Sadržaj vaše Glazbene mape će se pojaviti ovdje."
-
 #: data/ui/LastfmDialog.ui:21
 msgid ""
 "Last.fm is a music discovery service that gives you personalised "
@@ -350,11 +346,11 @@ msgstr ""
 msgid "Login"
 msgstr "Prijava"
 
-#: data/ui/PlayerToolbar.ui:75
+#: data/ui/PlayerToolbar.ui:74
 msgid "Previous"
 msgstr "Prijašnja"
 
-#: data/ui/PlayerToolbar.ui:107
+#: data/ui/PlayerToolbar.ui:106
 msgid "Next"
 msgstr "Sljedeća"
 
@@ -406,7 +402,7 @@ msgstr "Izvođači"
 msgid "View All"
 msgstr "Prikaži sve"
 
-#: data/ui/SearchView.ui:75 gnomemusic/views/albumsview.py:54
+#: data/ui/SearchView.ui:75 gnomemusic/views/albumsview.py:56
 msgid "Albums"
 msgstr "Albumi"
 
@@ -577,7 +573,7 @@ msgstr "Rezultati izvođača"
 msgid "Albums Results"
 msgstr "Rezultati albuma"
 
-#: gnomemusic/widgets/albumwidget.py:240
+#: gnomemusic/widgets/albumwidget.py:245
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} minuta"
@@ -612,7 +608,7 @@ msgstr "Prijavljeni kao {}"
 msgid "Configure"
 msgstr "Podesi"
 
-#: gnomemusic/widgets/playertoolbar.py:165
+#: gnomemusic/widgets/playertoolbar.py:167
 msgid "Pause"
 msgstr "Pauziraj"
 
@@ -622,6 +618,9 @@ msgid_plural "{} Songs"
 msgstr[0] "{} pjesma"
 msgstr[1] "{} pjesme"
 msgstr[2] "{} pjesama"
+
+#~ msgid "The contents of your Music Folder will appear here"
+#~ msgstr "Sadržaj vaše Glazbene mape će se pojaviti ovdje."
 
 #~ msgid "GNOME Music"
 #~ msgstr "GNOME Glazba"
