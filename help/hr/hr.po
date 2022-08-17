@@ -6,17 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
-"POT-Creation-Date: 2017-08-26 17:13+0000\n"
-"PO-Revision-Date: 2018-04-08 20:32+0200\n"
+"POT-Creation-Date: 2022-07-25 15:45+0000\n"
+"PO-Revision-Date: 2022-08-17 23:09+0200\n"
+"Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: Croatian <hr@li.org>\n"
+"Language: hr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: hr\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"Last-Translator: \n"
-"X-Generator: Poedit 2.0.6\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Poedit 3.1.1\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -26,7 +26,7 @@ msgstr ""
 "  gogo https://launchpad.net/~trebelnik-stefina"
 
 #. (itstool) path: credit/name
-#: C/introduction.page:11 C/index.page:11 C/play-music.page:11
+#: C/introduction.page:11 C/index.page:12 C/play-music.page:11
 #: C/playlist-create-albums.page:11 C/playlist-create-songs.page:11
 #: C/playlist-create-artists.page:11 C/playlist-delete.page:11
 #: C/playlist-remove-songs.page:11 C/playlist-repeat.page:11
@@ -35,7 +35,7 @@ msgid "Shobha Tyagi"
 msgstr "Shobha Tyagi"
 
 #. (itstool) path: credit/years
-#: C/introduction.page:13 C/index.page:13 C/play-music.page:13
+#: C/introduction.page:13 C/index.page:14 C/play-music.page:13
 #: C/playlist-create-albums.page:13 C/playlist-create-songs.page:13
 #: C/playlist-create-artists.page:13 C/playlist-delete.page:13
 #: C/playlist-remove-songs.page:13 C/playlist-repeat.page:13
@@ -50,8 +50,8 @@ msgid ""
 "A simple and elegant replacement for using <app>Files</app> to show the "
 "music directory."
 msgstr ""
-"Jednostavna i elegantna zamjena za korištenje <app>Datoteka</app> za "
-"prikaz glazbene mape."
+"Jednostavna i elegantna zamjena za korištenje <app>Datoteka</app> za prikaz "
+"glazbene mape."
 
 #. (itstool) path: page/title
 #: C/introduction.page:22
@@ -60,18 +60,24 @@ msgstr "Uvod u Glazbu"
 
 #. (itstool) path: info/title
 #: C/index.page:6
-msgctxt "link"
+msgctxt "link:trail"
 msgid "Music"
 msgstr "Glazba"
 
 #. (itstool) path: info/title
 #: C/index.page:7
+msgctxt "link"
+msgid "Music"
+msgstr "Glazba"
+
+#. (itstool) path: info/title
+#: C/index.page:8
 msgctxt "text"
 msgid "Music"
 msgstr "Glazba"
 
 #. (itstool) path: page/title
-#: C/index.page:18
+#: C/index.page:19
 msgid "<_:media-1/> Music"
 msgstr "<_:media-1/> Glazba"
 
@@ -143,11 +149,11 @@ msgstr "Stvaranje popisa izvođenja pomoću albuma"
 #. (itstool) path: page/p
 #: C/playlist-create-albums.page:23
 msgid ""
-"You can view all your albums by clicking on the <gui style=\"button"
-"\">Albums</gui> button."
+"You can view all your albums by clicking on the <gui "
+"style=\"button\">Albums</gui> button."
 msgstr ""
-"Možete vidjeti sve svoje albume klikom na <gui style=\"button\">Albumi</"
-"gui> tipku."
+"Možete vidjeti sve svoje albume klikom na <gui style=\"button\">Albumi</gui> "
+"tipku."
 
 #. (itstool) path: steps/title
 #: C/playlist-create-albums.page:27
@@ -169,8 +175,7 @@ msgstr "Odaberite albume."
 #: C/playlist-create-albums.page:35 C/playlist-create-albums.page:60
 #: C/playlist-create-songs.page:35 C/playlist-create-artists.page:37
 msgid "Click on the <gui style=\"button\">Add to Playlist</gui> button."
-msgstr ""
-"Kliknite na <gui style=\"button\">Dodaj u popis izvođenja</gui> tipku."
+msgstr "Kliknite na <gui style=\"button\">Dodaj u popis izvođenja</gui> tipku."
 
 #. (itstool) path: item/p
 #: C/playlist-create-albums.page:38 C/playlist-create-albums.page:63
@@ -230,8 +235,8 @@ msgid ""
 "To clear the selection click <guiseq><gui>Click on items to select them</"
 "gui><gui>Select None</gui></guiseq> in the toolbar."
 msgstr ""
-"Kako bi uklonili odabir kliknite na <guiseq><gui>Klikni na stavku za "
-"odabir</gui><gui>Ukloni odabir</gui></guiseq> u alatnoj traci."
+"Kako bi uklonili odabir kliknite na <guiseq><gui>Klikni na stavku za odabir</"
+"gui><gui>Ukloni odabir</gui></guiseq> u alatnoj traci."
 
 #. (itstool) path: info/desc
 #: C/playlist-create-songs.page:18
@@ -249,8 +254,7 @@ msgid ""
 "You can view all the songs by clicking on the <gui style=\"button\">Songs</"
 "gui> button."
 msgstr ""
-"Možete vidjeti sve pjesme klikom na <gui style=\"button\">Pjesme</gui> "
-"tipku."
+"Možete vidjeti sve pjesme klikom na <gui style=\"button\">Pjesme</gui> tipku."
 
 #. (itstool) path: steps/title
 #: C/playlist-create-songs.page:27
@@ -269,8 +273,8 @@ msgid ""
 "Click on <gui style=\"button\">New Playlist</gui> and type a name for your "
 "playlist."
 msgstr ""
-"Kliknite na <gui style=\"button\">Novi popis izvođenja</gui> i upišite "
-"naziv vašeg popisa izvođenja."
+"Kliknite na <gui style=\"button\">Novi popis izvođenja</gui> i upišite naziv "
+"vašeg popisa izvođenja."
 
 #. (itstool) path: info/desc
 #: C/playlist-create-artists.page:18
@@ -285,11 +289,11 @@ msgstr "Stvaranje popisa izvođenja pomoću izvođača"
 #. (itstool) path: page/p
 #: C/playlist-create-artists.page:24
 msgid ""
-"You can view all the artists and their songs by clicking on the <gui style="
-"\"button\">Artists</gui> button."
+"You can view all the artists and their songs by clicking on the <gui "
+"style=\"button\">Artists</gui> button."
 msgstr ""
-"Možete vidjeti sve izvođače i njihove pjesme klikom na <gui style=\"button"
-"\">Izvođači</gui> tipku."
+"Možete vidjeti sve izvođače i njihove pjesme klikom na <gui "
+"style=\"button\">Izvođači</gui> tipku."
 
 #. (itstool) path: steps/title
 #: C/playlist-create-artists.page:28
