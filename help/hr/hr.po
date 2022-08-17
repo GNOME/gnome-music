@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "POT-Creation-Date: 2022-07-25 15:45+0000\n"
-"PO-Revision-Date: 2022-08-17 23:09+0200\n"
+"PO-Revision-Date: 2022-08-17 23:18+0200\n"
 "Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: Croatian <hr@li.org>\n"
 "Language: hr\n"
@@ -401,12 +401,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/playlist-shuffle.page:18
 msgid "Shuffle songs in the playlist."
-msgstr "Izmješajte pjesme na popisu izvođenja."
+msgstr "Pokrenite naizmjeničnu reprodukciju pjesama na popisu izvođenja."
 
 #. (itstool) path: page/title
 #: C/playlist-shuffle.page:22
 msgid "How do I shuffle my songs?"
-msgstr "Kako da izmješate svoje pjesme?"
+msgstr "Kako pokrenuti naizmjeničnu reprodukciju pjesama?"
 
 #. (itstool) path: page/p
 #: C/playlist-shuffle.page:24
