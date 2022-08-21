@@ -86,9 +86,8 @@ class GstPlayer(GObject.GObject):
         self._setup_replaygain()
 
         self._settings.connect(
-            'changed::replaygain', self._on_replaygain_setting_changed)
-        self._on_replaygain_setting_changed(
-            None, self._settings.get_value('replaygain'))
+            "changed::replaygain", self._on_replaygain_setting_changed)
+        self._settings.emit("changed", "replaygain")
 
         self._bus.connect('message::async-done', self._on_async_done)
         self._bus.connect('message::error', self._on_bus_error)
@@ -126,7 +125,9 @@ class GstPlayer(GObject.GObject):
             self._log.message("Replay Gain is not available")
             return
 
-    def _on_replaygain_setting_changed(self, settings, value):
+    def _on_replaygain_setting_changed(
+            self, settings: Gio.Settings, key: str) -> None:
+        value = settings.get_value(key)
         if value:
             self._player.set_property("audio-filter", self._filter_bin)
         else:

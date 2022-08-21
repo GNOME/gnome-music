@@ -45,6 +45,7 @@ from gnomemusic.notificationmanager import NotificationManager
 from gnomemusic.pauseonsuspend import PauseOnSuspend
 from gnomemusic.player import Player
 from gnomemusic.search import Search
+from gnomemusic.widgets.preferencesdialog import PreferencesDialog
 from gnomemusic.window import Window
 
 
@@ -159,6 +160,8 @@ class Application(Adw.Application):
     def _set_actions(self):
         action_entries = [
             ("about", self._about, None),
+            ("preferences", self._preferences_dialog,
+                ("app.preferences", ["<Ctrl>comma"])),
             ("help", self._help, ("app.help", ["F1"])),
             ("quit", self._quit, ("app.quit", ["<Ctrl>Q"]))
         ]
@@ -181,6 +184,12 @@ class Application(Adw.Application):
         Gtk.show_uri_full(
             self._window, "help:gnome-music", Gdk.CURRENT_TIME, None,
             show_uri_cb)
+
+    def _preferences_dialog(
+            self, action: Gio.SimpleAction,
+            param_type: GLib.VariantType) -> None:
+        pref_dialog = PreferencesDialog(self)
+        pref_dialog.present(self._window)
 
     def _about(self, action, param):
         show_about(self.props.application_id, self._version, self._window)

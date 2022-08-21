@@ -21,10 +21,16 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from __future__ import annotations
+import typing
+
 from gettext import gettext as _
 from gi.repository import Gtk, GObject
 
 from gnomemusic.gstplayer import Playback
+
+if typing.TYPE_CHECKING:
+    from gi.repository import Gio
 
 
 class InhibitSuspend(GObject.GObject):
@@ -70,8 +76,9 @@ class InhibitSuspend(GObject.GObject):
             self._application.uninhibit(self._inhibit_cookie)
             self._inhibit_cookie = 0
 
-    def _on_inhibit_suspend_changed(self, settings, value):
-        self._should_inhibit = value
+    def _on_inhibit_suspend_changed(
+            self, settings: Gio.Settings, key: str) -> None:
+        self._should_inhibit = settings.get_value(key)
         self._on_player_state_changed(None, None)
 
     def _on_player_state_changed(self, klass, arguments):

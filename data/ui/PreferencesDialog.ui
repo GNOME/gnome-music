@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="PreferencesDialog" parent="AdwPreferencesDialog">
+    <property name="title" translatable="true">Preferences</property>
+    <child>
+      <object class="AdwPreferencesPage">
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title" translatable="true">Player Settings</property>
+            <child>
+              <object class="AdwComboRow" id="_repeatmode_row">
+                <property name="title" translatable="true">Repeat Mode</property>
+                <property name="model">
+                  <object class="GtkStringList">
+                    <items>
+                      <item translatable="true">None</item>
+                      <item translatable="true">Song</item>
+                      <item translatable="true">All</item>
+                      <item translatable="true">Shuffle</item>
+                    </items>
+                  </object>
+                </property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwSwitchRow" id="_replay_gain_row">
+                <property name="title" translatable="true">Enable ReplayGain</property>
+                <property name="subtitle" translatable="true">Balance loudness between songs if ReplayGain metadata is found</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title" translatable="true">Power Settings</property>
+            <child>
+              <object class="AdwSwitchRow" id="_inhibit_suspend_row">
+                <property name="title" translatable="true">Inhibit Suspend</property>
+                <property name="subtitle" translatable="true">Only while playing</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

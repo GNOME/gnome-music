@@ -147,11 +147,17 @@ class PlayerToolbar(Gtk.ActionBar):
 
     def _on_repeat_mode_changed(self, klass, param):
         self._sync_repeat_image()
+        self._sync_repeat_action()
         self._sync_prev_next()
 
     def _sync_repeat_image(self) -> None:
         self._repeat_image.set_from_icon_name(
             self._player.props.repeat_mode.icon)
+
+    def _sync_repeat_action(self) -> None:
+        new_state = self._player.props.repeat_mode.value
+        self._repeat_action.set_state(
+            GLib.Variant("s", str(new_state)))
 
     def _sync_playing(self, player, state):
         if (self._player.props.state == Playback.STOPPED

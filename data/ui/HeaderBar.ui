@@ -28,6 +28,10 @@
   <menu id="_primary_menu">
     <section>
       <item>
+        <attribute name="label" translatable="true">Preferences</attribute>
+        <attribute name="action">app.preferences</attribute>
+      </item>
+      <item>
         <attribute name="label" translatable="true">Keyboard Shortcuts</attribute>
         <attribute name="action">win.show-help-overlay</attribute>
       </item>

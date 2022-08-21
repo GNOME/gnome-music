@@ -22,6 +22,7 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from __future__ import annotations
 from enum import Enum, IntEnum
 from gettext import gettext as _
 from random import randrange
@@ -35,6 +36,9 @@ from gi.repository import GLib, GObject, GstPbutils, Gtk
 from gnomemusic.coresong import CoreSong
 from gnomemusic.gstplayer import GstPlayer, Playback
 from gnomemusic.widgets.songwidget import SongWidget
+
+if typing.TYPE_CHECKING:
+    from gi.repository import Gio
 
 
 class RepeatMode(Enum):
@@ -381,6 +385,8 @@ class Player(GObject.GObject):
             "items-changed", self._on_playlist_model_items_changed)
 
         self._settings = application.props.settings
+        self._settings.connect("changed::repeat", self._on_repeat_mode_changed)
+
         self._repeat = RepeatMode(self._settings.get_enum("repeat"))
         self.bind_property(
             'repeat-mode', self._playlist, 'repeat-mode',
@@ -434,6 +440,11 @@ class Player(GObject.GObject):
         if (removed > 0
                 and model.get_n_items() == 0):
             self.stop()
+
+    def _on_repeat_mode_changed(
+            self, settings: Gio.Settings, key: str) -> None:
+        repeat_mode = settings.get_enum(key)
+        self.props.repeat_mode = RepeatMode(repeat_mode)
 
     def _on_about_to_finish(self, klass):
         if self.props.has_next:
