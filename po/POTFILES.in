@@ -3,7 +3,6 @@
 data/org.gnome.Music.appdata.xml.in.in
 data/org.gnome.Music.desktop.in.in
 data/org.gnome.Music.gschema.xml
-data/ui/AboutDialog.ui.in
 data/ui/AlbumWidget.ui
 data/ui/AppMenu.ui
 data/ui/EmptyView.ui
@@ -19,6 +18,7 @@ data/ui/SelectionBarMenuButton.ui
 data/ui/SelectionToolbar.ui
 data/ui/SongWidgetMenu.ui
 gnomemusic/__init__.py
+gnomemusic/about.py
 gnomemusic/application.py
 gnomemusic/grilowrappers/grltrackerplaylists.py
 gnomemusic/gstplayer.py
