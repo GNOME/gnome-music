@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2022-07-28 09:23+0000\n"
-"PO-Revision-Date: 2022-08-17 13:32+0200\n"
+"POT-Creation-Date: 2022-08-27 13:27+0000\n"
+"PO-Revision-Date: 2022-08-27 22:37+0200\n"
 "Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: Croatian <hr@li.org>\n"
 "Language: hr\n"
@@ -20,8 +20,8 @@ msgstr ""
 "X-Generator: Poedit 3.1.1\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:61
-#: gnomemusic/window.py:71
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/about.py:236
+#: gnomemusic/application.py:61 gnomemusic/window.py:71
 msgid "Music"
 msgstr "Glazba"
 
@@ -118,64 +118,6 @@ msgstr ""
 "Omogući ili onemogući slanje skroblanja i \"trenutne reprodukcije\" na Last."
 "fm."
 
-#: data/ui/AboutDialog.ui.in:9
-msgid "Copyright © 2018 GNOME Music Developers"
-msgstr "Autorsko pravo © 2018 GNOME Glazbeni razvijatelji"
-
-#: data/ui/AboutDialog.ui.in:10
-msgid "A music player and management application for GNOME."
-msgstr ""
-"Glazbeni svirač i aplikacija upravljanja glazbenom kolekcijom za GNOME."
-
-#: data/ui/AboutDialog.ui.in:12
-msgid "Visit GNOME Music website"
-msgstr "Posjeti GNOME Glazba web stranicu"
-
-#: data/ui/AboutDialog.ui.in:13
-msgid ""
-"GNOME Music is free software; you can redistribute it and/or modify it under "
-"the terms of the GNU General Public License as published by the Free "
-"Software Foundation; either version 2 of the License, or (at your option) "
-"any later version.\n"
-"\n"
-"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
-"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
-"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
-"more details.\n"
-"\n"
-"You should have received a copy of the GNU General Public License along with "
-"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
-"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
-"\n"
-"The GNOME Music authors hereby grant permission for non-GPL compatible "
-"GStreamer plugins to be used and distributed together with GStreamer and "
-"GNOME Music.  This permission is above and beyond the permissions granted by "
-"the GPL license by which GNOME Music is covered.  If you modify this code, "
-"you may extend this exception to your version of the code, but you are not "
-"obligated to do so.  If you do not wish to do so, delete this exception "
-"statement from your version."
-msgstr ""
-"GNOME Glazba je slobodan softver; možete ga redistribuirati i/ili mijenjati "
-"pod uvjetima GNU Opće javne licence objavljene od Fundacije slobodnog "
-"softvera; ili inačice 2 Licence ili (po vašemu mišljenju) svake kasnije "
-"inačice.\n"
-"\n"
-"GNOME Glazba je distribuiran u nadi da će biti koristan ali BEZ IKAKVOG "
-"JAMSTVA; čak i bez podrazumjevanog jamstva ili POGODNOSTI ZA ODREĐENU "
-"NAMJENU. Pogledajte GNU Opću javnu licencu za više informacija.\n"
-"\n"
-"Trebali ste dobiti primjerak GNU Opće javne licence uz ovaj program; ako "
-"niste, pišite na adresu Free Software Foundation, Inc., 51 Franklin Street, "
-"Fifth Floor, Boston, MA 02110-1301 USA.\n"
-"\n"
-"Autori GNOME Glazbe ovime odobravaju dozvolu za ne-OJL kompatibilne "
-"GStreamer priključke da se mogu koristiti i distribuirati zajedno s "
-"GStreamerom i GNOME Glazbom.  Ova dozvola je iznad i izvan dozvole odobrene "
-"OJL licencom kojom je GNOME Glazba pokrivena.  Ako mijenjate ovaj kôd, "
-"morate istaknuti tu iznimku u vašoj inačici kôda, ali Vi niste dužni to "
-"učiniti.  Ako to ne želite učiniti, obrišite ovu izjavu iznimke iz vaše "
-"inačice."
-
 #: data/ui/AlbumWidget.ui:84 data/ui/PlayerToolbar.ui:87
 #: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:170
 msgid "Play"
@@ -226,7 +168,7 @@ msgstr "Izbornik"
 msgid "Select"
 msgstr "Odaberi"
 
-#: data/ui/HeaderBar.ui:30 data/ui/PlaylistDialog.ui:211
+#: data/ui/HeaderBar.ui:30 data/ui/PlaylistDialog.ui:213
 #: data/ui/SearchHeaderBar.ui:20
 msgid "_Cancel"
 msgstr "_Odustani"
@@ -386,11 +328,11 @@ msgstr "Novi popis izvođenja…"
 msgid "Add"
 msgstr "Dodaj"
 
-#: data/ui/PlaylistDialog.ui:200
+#: data/ui/PlaylistDialog.ui:202
 msgid "Add to Playlist"
 msgstr "Dodaj na popis izvođenja"
 
-#: data/ui/PlaylistDialog.ui:220
+#: data/ui/PlaylistDialog.ui:222
 msgid "_Add"
 msgstr "_Dodaj"
 
@@ -429,6 +371,24 @@ msgstr "_Dodaj na popis izvođenja"
 #: data/ui/SongWidgetMenu.ui:19
 msgid "_Remove from Playlist"
 msgstr "_Ukloni s popisa izvođenja"
+
+#: gnomemusic/about.py:238
+msgid "The GNOME Project"
+msgstr "GNOME projekt"
+
+#: gnomemusic/about.py:242
+msgid "translator-credits"
+msgstr ""
+"Launchpad Contributions:\n"
+"  gogo https://launchpad.net/~trebelnik-stefina"
+
+#: gnomemusic/about.py:246
+msgid "Copyright The GNOME Music Developers"
+msgstr "Autorsko pravo GNOME Glazbeni razvijatelji"
+
+#: gnomemusic/about.py:249
+msgid "Translated by"
+msgstr "Preveli"
 
 #. TRANSLATORS: this is a playlist name
 #: gnomemusic/grilowrappers/grltrackerplaylists.py:894
@@ -618,6 +578,57 @@ msgid_plural "{} Songs"
 msgstr[0] "{} pjesma"
 msgstr[1] "{} pjesme"
 msgstr[2] "{} pjesama"
+
+#~ msgid "A music player and management application for GNOME."
+#~ msgstr ""
+#~ "Glazbeni svirač i aplikacija upravljanja glazbenom kolekcijom za GNOME."
+
+#~ msgid "Visit GNOME Music website"
+#~ msgstr "Posjeti GNOME Glazba web stranicu"
+
+#~ msgid ""
+#~ "GNOME Music is free software; you can redistribute it and/or modify it "
+#~ "under the terms of the GNU General Public License as published by the "
+#~ "Free Software Foundation; either version 2 of the License, or (at your "
+#~ "option) any later version.\n"
+#~ "\n"
+#~ "GNOME Music is distributed in the hope that it will be useful, but "
+#~ "WITHOUT ANY WARRANTY; without even the implied warranty of "
+#~ "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General "
+#~ "Public License for more details.\n"
+#~ "\n"
+#~ "You should have received a copy of the GNU General Public License along "
+#~ "with GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+#~ "Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+#~ "\n"
+#~ "The GNOME Music authors hereby grant permission for non-GPL compatible "
+#~ "GStreamer plugins to be used and distributed together with GStreamer and "
+#~ "GNOME Music.  This permission is above and beyond the permissions granted "
+#~ "by the GPL license by which GNOME Music is covered.  If you modify this "
+#~ "code, you may extend this exception to your version of the code, but you "
+#~ "are not obligated to do so.  If you do not wish to do so, delete this "
+#~ "exception statement from your version."
+#~ msgstr ""
+#~ "GNOME Glazba je slobodan softver; možete ga redistribuirati i/ili "
+#~ "mijenjati pod uvjetima GNU Opće javne licence objavljene od Fundacije "
+#~ "slobodnog softvera; ili inačice 2 Licence ili (po vašemu mišljenju) svake "
+#~ "kasnije inačice.\n"
+#~ "\n"
+#~ "GNOME Glazba je distribuiran u nadi da će biti koristan ali BEZ IKAKVOG "
+#~ "JAMSTVA; čak i bez podrazumjevanog jamstva ili POGODNOSTI ZA ODREĐENU "
+#~ "NAMJENU. Pogledajte GNU Opću javnu licencu za više informacija.\n"
+#~ "\n"
+#~ "Trebali ste dobiti primjerak GNU Opće javne licence uz ovaj program; ako "
+#~ "niste, pišite na adresu Free Software Foundation, Inc., 51 Franklin "
+#~ "Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+#~ "\n"
+#~ "Autori GNOME Glazbe ovime odobravaju dozvolu za ne-OJL kompatibilne "
+#~ "GStreamer priključke da se mogu koristiti i distribuirati zajedno s "
+#~ "GStreamerom i GNOME Glazbom.  Ova dozvola je iznad i izvan dozvole "
+#~ "odobrene OJL licencom kojom je GNOME Glazba pokrivena.  Ako mijenjate "
+#~ "ovaj kôd, morate istaknuti tu iznimku u vašoj inačici kôda, ali Vi niste "
+#~ "dužni to učiniti.  Ako to ne želite učiniti, obrišite ovu izjavu iznimke "
+#~ "iz vaše inačice."
 
 #~ msgid "The contents of your Music Folder will appear here"
 #~ msgstr "Sadržaj vaše Glazbene mape će se pojaviti ovdje."
