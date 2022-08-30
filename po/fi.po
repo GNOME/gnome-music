@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2022-02-19 12:39+0000\n"
-"PO-Revision-Date: 2022-02-23 20:47+0200\n"
+"POT-Creation-Date: 2022-08-27 13:27+0000\n"
+"PO-Revision-Date: 2022-08-30 14:54+0300\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: suomi <lokalisointi-lista@googlegroups.com>\n"
 "Language: fi\n"
@@ -16,11 +16,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.1.1\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:61
-#: gnomemusic/window.py:71
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/about.py:236
+#: gnomemusic/application.py:61 gnomemusic/window.py:71
 msgid "Music"
 msgstr "Musiikki"
 
@@ -41,7 +41,7 @@ msgstr ""
 "Löydä kappaleet paikallisesta kokoelmastasi, käytä automaattisesti luotuja "
 "soittolistoja tai valikoi itse parhaat kappaleet soittolistalle."
 
-#: data/org.gnome.Music.appdata.xml.in.in:149
+#: data/org.gnome.Music.appdata.xml.in.in:167
 msgid "The GNOME Music developers"
 msgstr "Gnomen musiikkisoittimen kehittäjät"
 
@@ -117,58 +117,21 @@ msgstr ""
 "Ottaa käyttöön tai poistaa käytöstä kuunteluhistorian ja \"Nyt toistetaan\"-"
 "tietojen lähettämisen Last.fm:ään."
 
-#: data/ui/AboutDialog.ui.in:9
-msgid "Copyright © 2018 GNOME Music Developers"
-msgstr "Tekijänoikeus © 2018 Gnomen musiikkisoittimen kehittäjät"
-
-#: data/ui/AboutDialog.ui.in:10
-msgid "A music player and management application for GNOME."
-msgstr "Gnomen musiikkisoitin."
-
-#: data/ui/AboutDialog.ui.in:12
-msgid "Visit GNOME Music website"
-msgstr "Käy Gnomen musiikkisoittimen verkkosivustolla"
-
-#: data/ui/AboutDialog.ui.in:13
-msgid ""
-"GNOME Music is free software; you can redistribute it and/or modify it under "
-"the terms of the GNU General Public License as published by the Free "
-"Software Foundation; either version 2 of the License, or (at your option) "
-"any later version.\n"
-"\n"
-"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
-"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
-"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
-"more details.\n"
-"\n"
-"You should have received a copy of the GNU General Public License along with "
-"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
-"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
-"\n"
-"The GNOME Music authors hereby grant permission for non-GPL compatible "
-"GStreamer plugins to be used and distributed together with GStreamer and "
-"GNOME Music.  This permission is above and beyond the permissions granted by "
-"the GPL license by which GNOME Music is covered.  If you modify this code, "
-"you may extend this exception to your version of the code, but you are not "
-"obligated to do so.  If you do not wish to do so, delete this exception "
-"statement from your version."
-msgstr ""
-
-#: data/ui/AlbumWidget.ui:86 data/ui/PlayerToolbar.ui:88
-#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:168
+#: data/ui/AlbumWidget.ui:84 data/ui/PlayerToolbar.ui:87
+#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:170
 msgid "Play"
 msgstr "Toista"
 
-#: data/ui/AlbumWidget.ui:132 data/ui/PlaylistControls.ui:5
+#: data/ui/AlbumWidget.ui:130 data/ui/PlaylistControls.ui:5
 #: data/ui/SongWidgetMenu.ui:11
 msgid "_Play"
 msgstr "_Toista"
 
-#: data/ui/AlbumWidget.ui:136
+#: data/ui/AlbumWidget.ui:134
 msgid "Add to _Favorite Songs"
 msgstr "Lisää _suosikkikappaleisiin"
 
-#: data/ui/AlbumWidget.ui:140 data/ui/SongWidgetMenu.ui:15
+#: data/ui/AlbumWidget.ui:138 data/ui/SongWidgetMenu.ui:15
 msgid "_Add to Playlist…"
 msgstr "Lisää s_oittolistalle…"
 
@@ -192,7 +155,7 @@ msgstr "_Ohje"
 msgid "_About Music"
 msgstr "_Tietoja - Musiikki"
 
-#: data/ui/EmptyView.ui:26 data/ui/InitialState.ui:13
+#: data/ui/EmptyView.ui:30
 msgid "Welcome to Music"
 msgstr "Tervetuloa, tämä on Musiikki"
 
@@ -204,7 +167,7 @@ msgstr "Valikko"
 msgid "Select"
 msgstr "Valitse"
 
-#: data/ui/HeaderBar.ui:30 data/ui/PlaylistDialog.ui:211
+#: data/ui/HeaderBar.ui:30 data/ui/PlaylistDialog.ui:213
 #: data/ui/SearchHeaderBar.ui:20
 msgid "_Cancel"
 msgstr "_Peru"
@@ -302,10 +265,6 @@ msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Siirry takaisin"
 
-#: data/ui/InitialState.ui:25
-msgid "The contents of your Music Folder will appear here"
-msgstr "Musiikki-kansion sisältö ilmestyy tähän"
-
 #: data/ui/LastfmDialog.ui:21
 msgid ""
 "Last.fm is a music discovery service that gives you personalised "
@@ -326,11 +285,11 @@ msgstr "Kirjaudu Last.fm-tilillesi lähettääksesi musiikin kuunteluhistoriasi.
 msgid "Login"
 msgstr "Kirjaudu"
 
-#: data/ui/PlayerToolbar.ui:75
+#: data/ui/PlayerToolbar.ui:74
 msgid "Previous"
 msgstr "Edellinen"
 
-#: data/ui/PlayerToolbar.ui:107
+#: data/ui/PlayerToolbar.ui:106
 msgid "Next"
 msgstr "Seuraava"
 
@@ -366,11 +325,11 @@ msgstr "Uusi soittolista…"
 msgid "Add"
 msgstr "Lisää"
 
-#: data/ui/PlaylistDialog.ui:200
+#: data/ui/PlaylistDialog.ui:202
 msgid "Add to Playlist"
 msgstr "Lisää soittolistaan"
 
-#: data/ui/PlaylistDialog.ui:220
+#: data/ui/PlaylistDialog.ui:222
 msgid "_Add"
 msgstr "_Lisää"
 
@@ -382,7 +341,7 @@ msgstr "Esittäjät"
 msgid "View All"
 msgstr "Näytä kaikki"
 
-#: data/ui/SearchView.ui:75 gnomemusic/views/albumsview.py:54
+#: data/ui/SearchView.ui:75 gnomemusic/views/albumsview.py:56
 msgid "Albums"
 msgstr "Albumit"
 
@@ -409,6 +368,22 @@ msgstr "Lisää _soittolistalle"
 #: data/ui/SongWidgetMenu.ui:19
 msgid "_Remove from Playlist"
 msgstr "Poista _soittolistalta"
+
+#: gnomemusic/about.py:238
+msgid "The GNOME Project"
+msgstr "Gnome-projekti"
+
+#: gnomemusic/about.py:242
+msgid "translator-credits"
+msgstr "Jiri Grönroos"
+
+#: gnomemusic/about.py:246
+msgid "Copyright The GNOME Music Developers"
+msgstr "Tekijänoikeus Gnomen musiikkisoittimen kehittäjät"
+
+#: gnomemusic/about.py:249
+msgid "Translated by"
+msgstr "Käännös"
 
 #. TRANSLATORS: this is a playlist name
 #: gnomemusic/grilowrappers/grltrackerplaylists.py:894
@@ -550,7 +525,7 @@ msgstr "Esittäjätulokset"
 msgid "Albums Results"
 msgstr "Albumitulokset"
 
-#: gnomemusic/widgets/albumwidget.py:240
+#: gnomemusic/widgets/albumwidget.py:245
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} minuutti"
@@ -583,7 +558,7 @@ msgstr "Kirjautuneena tilillä {}"
 msgid "Configure"
 msgstr "Määritä"
 
-#: gnomemusic/widgets/playertoolbar.py:165
+#: gnomemusic/widgets/playertoolbar.py:167
 msgid "Pause"
 msgstr "Keskeytä"
 
@@ -592,6 +567,15 @@ msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} kappale"
 msgstr[1] "{} kappaletta"
+
+#~ msgid "A music player and management application for GNOME."
+#~ msgstr "Gnomen musiikkisoitin."
+
+#~ msgid "Visit GNOME Music website"
+#~ msgstr "Käy Gnomen musiikkisoittimen verkkosivustolla"
+
+#~ msgid "The contents of your Music Folder will appear here"
+#~ msgstr "Musiikki-kansion sisältö ilmestyy tähän"
 
 #~ msgid "GNOME Music"
 #~ msgstr "Gnomen Musiikki"
@@ -755,9 +739,6 @@ msgstr[1] "{} kappaletta"
 
 #~ msgid "Quit"
 #~ msgstr "Lopeta"
-
-#~ msgid "translator-credits"
-#~ msgstr "Jiri Grönroos"
 
 #~ msgid "A GNOME 3 application to listen and manage music playlists"
 #~ msgstr "Gnome 3 -sovellus musiikin kuunteluun ja soittolistojen hallintaan"
