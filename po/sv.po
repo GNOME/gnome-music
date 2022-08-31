@@ -1,7 +1,7 @@
 # Swedish translation for gnome-music.
 # Copyright © 2014-2022 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-music package.
-# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2014, 2016, 2017, 2018, 2019, 2020, 2021.
+# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2014, 2016, 2017, 2018, 2019, 2020, 2021, 2022.
 # Sebastian Rasmussen <sebras@gmail.com>, 2015.
 # Marcus Gisslén <marcus.gisslen@gmail.com>, 2015.
 # Luna Jernberg <droidbittin@gmail.com>, 2021, 2022.
@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2022-02-21 21:11+0000\n"
-"PO-Revision-Date: 2022-02-28 18:15+0100\n"
+"POT-Creation-Date: 2022-08-27 13:27+0000\n"
+"PO-Revision-Date: 2022-08-27 20:51+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -19,11 +19,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.1.1\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:61
-#: gnomemusic/window.py:71
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/about.py:236
+#: gnomemusic/application.py:61 gnomemusic/window.py:71
 msgid "Music"
 msgstr "Musik"
 
@@ -44,7 +44,7 @@ msgstr ""
 "Hitta spår i din lokala samling, använd automatiskt genererade spellistor "
 "eller sammanställ en ny."
 
-#: data/org.gnome.Music.appdata.xml.in.in:149
+#: data/org.gnome.Music.appdata.xml.in.in:167
 msgid "The GNOME Music developers"
 msgstr "GNOME Musik-utvecklarna"
 
@@ -121,79 +121,21 @@ msgstr ""
 "Aktiverar eller inaktiverar sändning av skrobblingar och ”spelar nu”-info "
 "till Last.fm."
 
-#: data/ui/AboutDialog.ui.in:9
-msgid "Copyright © 2018 GNOME Music Developers"
-msgstr "Copyright © 2018 GNOME Musik-utvecklarna"
-
-#: data/ui/AboutDialog.ui.in:10
-msgid "A music player and management application for GNOME."
-msgstr "Ett program för uppspelning och hantering av musik för GNOME."
-
-#: data/ui/AboutDialog.ui.in:12
-msgid "Visit GNOME Music website"
-msgstr "Besök webbplatsen för GNOME Musik"
-
-#: data/ui/AboutDialog.ui.in:13
-msgid ""
-"GNOME Music is free software; you can redistribute it and/or modify it under "
-"the terms of the GNU General Public License as published by the Free "
-"Software Foundation; either version 2 of the License, or (at your option) "
-"any later version.\n"
-"\n"
-"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
-"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
-"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
-"more details.\n"
-"\n"
-"You should have received a copy of the GNU General Public License along with "
-"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
-"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
-"\n"
-"The GNOME Music authors hereby grant permission for non-GPL compatible "
-"GStreamer plugins to be used and distributed together with GStreamer and "
-"GNOME Music.  This permission is above and beyond the permissions granted by "
-"the GPL license by which GNOME Music is covered.  If you modify this code, "
-"you may extend this exception to your version of the code, but you are not "
-"obligated to do so.  If you do not wish to do so, delete this exception "
-"statement from your version."
-msgstr ""
-"GNOME Musik är fri programvara. Du kan distribuera det och/eller modifiera "
-"det under villkoren i GNU General Public License, publicerad av Free "
-"Software Foundation, antingen version 2 eller (om du så vill) någon senare "
-"version.\n"
-"\n"
-"GNOME Musik distribueras i hopp om att det ska vara användbart, men UTAN "
-"NÅGON SOM HELST GARANTI, även utan underförstådd garanti om SÄLJBARHET eller "
-"LÄMPLIGHET FÖR NÅGOT SPECIELLT ÄNDAMÅL. Se GNU General Public License för "
-"ytterligare information.\n"
-"\n"
-"Du bör ha fått en kopia av GNU General Public License tillsammans med GNOME "
-"Musik. Om inte, skriv till Free Software Foundation, Inc., 51 Franklin "
-"Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
-"\n"
-"Upphovsmännen för GNOME Musik ger härmed tillåtelse för användning och "
-"distribution av ej GPL-kompatibla GStreamer-insticksmoduler tillsammans med "
-"GStreamer och GNOME Musik. Denna tillåtelse är bortom tillåtelserna som ges "
-"av GPL-licensen, vilken täcker GNOME Musik. Om du ändrar denna kod kan du om "
-"du vill överföra detta undantag till din version av koden, men du är inte "
-"tvungen att göra det. Ta bort detta undantag från din version om du inte "
-"vill använda det."
-
-#: data/ui/AlbumWidget.ui:86 data/ui/PlayerToolbar.ui:88
-#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:168
+#: data/ui/AlbumWidget.ui:84 data/ui/PlayerToolbar.ui:87
+#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:170
 msgid "Play"
 msgstr "Spela"
 
-#: data/ui/AlbumWidget.ui:132 data/ui/PlaylistControls.ui:5
+#: data/ui/AlbumWidget.ui:130 data/ui/PlaylistControls.ui:5
 #: data/ui/SongWidgetMenu.ui:11
 msgid "_Play"
 msgstr "_Spela"
 
-#: data/ui/AlbumWidget.ui:136
+#: data/ui/AlbumWidget.ui:134
 msgid "Add to _Favorite Songs"
 msgstr "Lägg till i _favoritlåtar"
 
-#: data/ui/AlbumWidget.ui:140 data/ui/SongWidgetMenu.ui:15
+#: data/ui/AlbumWidget.ui:138 data/ui/SongWidgetMenu.ui:15
 msgid "_Add to Playlist…"
 msgstr "_Lägg till i spellista…"
 
@@ -217,7 +159,7 @@ msgstr "_Hjälp"
 msgid "_About Music"
 msgstr "_Om Musik"
 
-#: data/ui/EmptyView.ui:26 data/ui/InitialState.ui:13
+#: data/ui/EmptyView.ui:30
 msgid "Welcome to Music"
 msgstr "Välkommen till Musik"
 
@@ -229,7 +171,7 @@ msgstr "Meny"
 msgid "Select"
 msgstr "Välj"
 
-#: data/ui/HeaderBar.ui:30 data/ui/PlaylistDialog.ui:211
+#: data/ui/HeaderBar.ui:30 data/ui/PlaylistDialog.ui:213
 #: data/ui/SearchHeaderBar.ui:20
 msgid "_Cancel"
 msgstr "_Avbryt"
@@ -327,10 +269,6 @@ msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Gå bakåt"
 
-#: data/ui/InitialState.ui:25
-msgid "The contents of your Music Folder will appear here"
-msgstr "Innehållet i din Musikmapp kommer att visas här"
-
 #: data/ui/LastfmDialog.ui:21
 msgid ""
 "Last.fm is a music discovery service that gives you personalised "
@@ -351,11 +289,11 @@ msgstr "Logga in på ditt Last.fm-konto för att rapportera ditt musiklyssnande.
 msgid "Login"
 msgstr "Logga in"
 
-#: data/ui/PlayerToolbar.ui:75
+#: data/ui/PlayerToolbar.ui:74
 msgid "Previous"
 msgstr "Föregående"
 
-#: data/ui/PlayerToolbar.ui:107
+#: data/ui/PlayerToolbar.ui:106
 msgid "Next"
 msgstr "Nästa"
 
@@ -391,11 +329,11 @@ msgstr "Ny spellista…"
 msgid "Add"
 msgstr "Lägg till"
 
-#: data/ui/PlaylistDialog.ui:200
+#: data/ui/PlaylistDialog.ui:202
 msgid "Add to Playlist"
 msgstr "Lägg till i spellista"
 
-#: data/ui/PlaylistDialog.ui:220
+#: data/ui/PlaylistDialog.ui:222
 msgid "_Add"
 msgstr "_Lägg till"
 
@@ -407,7 +345,7 @@ msgstr "Artister"
 msgid "View All"
 msgstr "Visa alla"
 
-#: data/ui/SearchView.ui:75 gnomemusic/views/albumsview.py:54
+#: data/ui/SearchView.ui:75 gnomemusic/views/albumsview.py:56
 msgid "Albums"
 msgstr "Album"
 
@@ -434,6 +372,29 @@ msgstr "_Lägg till i spellista"
 #: data/ui/SongWidgetMenu.ui:19
 msgid "_Remove from Playlist"
 msgstr "_Ta bort från spellista"
+
+#: gnomemusic/about.py:238
+msgid "The GNOME Project"
+msgstr "GNOME-projektet"
+
+#: gnomemusic/about.py:242
+msgid "translator-credits"
+msgstr ""
+"Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
+"Sebastian Rasmussen <sebras@gmail.com>\n"
+"Marcus Gisslén <marcus.gisslen@gmail.com>\n"
+"Luna Jernberg <droidbittin@gmail.com>\n"
+"\n"
+"Skicka synpunkter på översättningen till\n"
+"<tp-sv@listor.tp-sv.se>."
+
+#: gnomemusic/about.py:246
+msgid "Copyright The GNOME Music Developers"
+msgstr "Copyright GNOME Musik-utvecklarna"
+
+#: gnomemusic/about.py:249
+msgid "Translated by"
+msgstr "Översatt av"
 
 #. TRANSLATORS: this is a playlist name
 #: gnomemusic/grilowrappers/grltrackerplaylists.py:894
@@ -575,7 +536,7 @@ msgstr "Artistresultat"
 msgid "Albums Results"
 msgstr "Albumresultat"
 
-#: gnomemusic/widgets/albumwidget.py:242
+#: gnomemusic/widgets/albumwidget.py:245
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} minut"
@@ -608,7 +569,7 @@ msgstr "Inloggad som {}"
 msgid "Configure"
 msgstr "Konfigurera"
 
-#: gnomemusic/widgets/playertoolbar.py:165
+#: gnomemusic/widgets/playertoolbar.py:167
 msgid "Pause"
 msgstr "Gör paus"
 
@@ -617,6 +578,60 @@ msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} låt"
 msgstr[1] "{} låtar"
+
+#~ msgid "A music player and management application for GNOME."
+#~ msgstr "Ett program för uppspelning och hantering av musik för GNOME."
+
+#~ msgid "Visit GNOME Music website"
+#~ msgstr "Besök webbplatsen för GNOME Musik"
+
+#~ msgid ""
+#~ "GNOME Music is free software; you can redistribute it and/or modify it "
+#~ "under the terms of the GNU General Public License as published by the "
+#~ "Free Software Foundation; either version 2 of the License, or (at your "
+#~ "option) any later version.\n"
+#~ "\n"
+#~ "GNOME Music is distributed in the hope that it will be useful, but "
+#~ "WITHOUT ANY WARRANTY; without even the implied warranty of "
+#~ "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General "
+#~ "Public License for more details.\n"
+#~ "\n"
+#~ "You should have received a copy of the GNU General Public License along "
+#~ "with GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+#~ "Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+#~ "\n"
+#~ "The GNOME Music authors hereby grant permission for non-GPL compatible "
+#~ "GStreamer plugins to be used and distributed together with GStreamer and "
+#~ "GNOME Music.  This permission is above and beyond the permissions granted "
+#~ "by the GPL license by which GNOME Music is covered.  If you modify this "
+#~ "code, you may extend this exception to your version of the code, but you "
+#~ "are not obligated to do so.  If you do not wish to do so, delete this "
+#~ "exception statement from your version."
+#~ msgstr ""
+#~ "GNOME Musik är fri programvara. Du kan distribuera det och/eller "
+#~ "modifiera det under villkoren i GNU General Public License, publicerad av "
+#~ "Free Software Foundation, antingen version 2 eller (om du så vill) någon "
+#~ "senare version.\n"
+#~ "\n"
+#~ "GNOME Musik distribueras i hopp om att det ska vara användbart, men UTAN "
+#~ "NÅGON SOM HELST GARANTI, även utan underförstådd garanti om SÄLJBARHET "
+#~ "eller LÄMPLIGHET FÖR NÅGOT SPECIELLT ÄNDAMÅL. Se GNU General Public "
+#~ "License för ytterligare information.\n"
+#~ "\n"
+#~ "Du bör ha fått en kopia av GNU General Public License tillsammans med "
+#~ "GNOME Musik. Om inte, skriv till Free Software Foundation, Inc., 51 "
+#~ "Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+#~ "\n"
+#~ "Upphovsmännen för GNOME Musik ger härmed tillåtelse för användning och "
+#~ "distribution av ej GPL-kompatibla GStreamer-insticksmoduler tillsammans "
+#~ "med GStreamer och GNOME Musik. Denna tillåtelse är bortom tillåtelserna "
+#~ "som ges av GPL-licensen, vilken täcker GNOME Musik. Om du ändrar denna "
+#~ "kod kan du om du vill överföra detta undantag till din version av koden, "
+#~ "men du är inte tvungen att göra det. Ta bort detta undantag från din "
+#~ "version om du inte vill använda det."
+
+#~ msgid "The contents of your Music Folder will appear here"
+#~ msgstr "Innehållet i din Musikmapp kommer att visas här"
 
 #~ msgid "GNOME Music"
 #~ msgstr "GNOME Musik"
