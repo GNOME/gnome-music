@@ -7,8 +7,8 @@
 msgid ""
 msgstr "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2022-02-19 12:39+0000\n"
-"PO-Revision-Date: 2022-02-27 10:00+0100\n"
+"POT-Creation-Date: 2022-08-27 13:27+0000\n"
+"PO-Revision-Date: 2022-08-31 10:00+0100\n"
 "Last-Translator: Asier Sarasua Garmendia <asiersarasua@ni.eus>\n"
 "Language-Team: Basque <librezale@librezale.eus>\n"
 "Language: eu\n"
@@ -18,8 +18,8 @@ msgstr "Project-Id-Version: gnome-music master\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:61
-#: gnomemusic/window.py:71
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/about.py:236
+#: gnomemusic/application.py:61 gnomemusic/window.py:71
 msgid "Music"
 msgstr "Musika"
 
@@ -38,7 +38,7 @@ msgid ""
 "or curate a fresh one."
 msgstr "Bilatu pistak zure bilduma lokalean, erabili automatikoki sortutako erreprodukzio-zerrendak edo sortu zerrenda berria."
 
-#: data/org.gnome.Music.appdata.xml.in.in:149
+#: data/org.gnome.Music.appdata.xml.in.in:167
 msgid "The GNOME Music developers"
 msgstr "GNOME Musika aplikazioaren garatzaileak"
 
@@ -106,64 +106,21 @@ msgid ""
 "Last.fm."
 msgstr "Abestien izenak eta \"unean erreproduzitzen\" Last-fm guneari igortzea gaitzen edo desgaitzen du."
 
-#: data/ui/AboutDialog.ui.in:9
-msgid "Copyright © 2018 GNOME Music Developers"
-msgstr "Copyright © 2018 GNOME Music garatzaileak"
-
-#: data/ui/AboutDialog.ui.in:10
-msgid "A music player and management application for GNOME."
-msgstr "GNOMEren aplikazio bat musika erreproduzitzeko eta kudeatzeko."
-
-#: data/ui/AboutDialog.ui.in:12
-msgid "Visit GNOME Music website"
-msgstr "Bisitatu GNOME Music-en webgunea"
-
-#: data/ui/AboutDialog.ui.in:13
-msgid ""
-"GNOME Music is free software; you can redistribute it and/or modify it under "
-"the terms of the GNU General Public License as published by the Free "
-"Software Foundation; either version 2 of the License, or (at your option) "
-"any later version.\n"
-"\n"
-"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
-"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
-"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
-"more details.\n"
-"\n"
-"You should have received a copy of the GNU General Public License along with "
-"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
-"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
-"\n"
-"The GNOME Music authors hereby grant permission for non-GPL compatible "
-"GStreamer plugins to be used and distributed together with GStreamer and "
-"GNOME Music.  This permission is above and beyond the permissions granted by "
-"the GPL license by which GNOME Music is covered.  If you modify this code, "
-"you may extend this exception to your version of the code, but you are not "
-"obligated to do so.  If you do not wish to do so, delete this exception "
-"statement from your version."
-msgstr "GNOME Musika software librea da; birbana eta/edo alda dezakezu Free Software Foundation-ek argitaratutako GNU Lizentzia Publiko Orokorraren 2. bertsioan, edo (nahiago baduzu) bertsio berriago batean, jasotako baldintzak betez gero.\n"
-"\n"
-"GNOME Musika erabilgarria izango delakoan banatzen da, baina INOLAKO BERMERIK GABE; era berean, ez da bermatzen beraren EGOKITASUNA MERKATURATZEKO edo HELBURU PARTIKULARRETARAKO ERABILTZEKO.  Argibide gehiago nahi izanez gero, ikus GNU Lizentzia Publiko Orokorra.\n"
-"\n"
-"Programa honekin batera GNU Lizentzia Publiko Orokorraren kopia bat ere jaso beharko zenuke; horrela ez bada, idatzi helbide honetara: Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02111-1301, USA.\n"
-"\n"
-"GNOME Musikaren egileek baimena ematen dute GPL lizentziarekin bateragarriak ez diren GStreamer pluginak erabiltzeko eta banatzeko GStreamerrekin eta GNOME Musikarekin batera. Baimen hori GNOME Musikak darabilen GPL lizentziak ematen dituen baimenen gainetik eta haratago dago. Kode hau aldatzen baduzu, salbuespen hori kodearen zure bertsiora hedatu dezakezu, baina ez zaude hori egitera behartuta. Ez baduzu egin nahi, ezabatu salbuespen-adierazpen hau zure bertsiotik."
-
-#: data/ui/AlbumWidget.ui:86 data/ui/PlayerToolbar.ui:88
-#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:168
+#: data/ui/AlbumWidget.ui:84 data/ui/PlayerToolbar.ui:87
+#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:170
 msgid "Play"
 msgstr "Erreproduzitu"
 
-#: data/ui/AlbumWidget.ui:132 data/ui/PlaylistControls.ui:5
+#: data/ui/AlbumWidget.ui:130 data/ui/PlaylistControls.ui:5
 #: data/ui/SongWidgetMenu.ui:11
 msgid "_Play"
 msgstr "_Erreproduzitu"
 
-#: data/ui/AlbumWidget.ui:136
+#: data/ui/AlbumWidget.ui:134
 msgid "Add to _Favorite Songs"
 msgstr "Gehitu _gogoko abestiei"
 
-#: data/ui/AlbumWidget.ui:140 data/ui/SongWidgetMenu.ui:15
+#: data/ui/AlbumWidget.ui:138 data/ui/SongWidgetMenu.ui:15
 msgid "_Add to Playlist…"
 msgstr "Gehitu e_rreprodukzio-zerrendari…"
 
@@ -187,7 +144,7 @@ msgstr "_Laguntza"
 msgid "_About Music"
 msgstr "_Musikari buruz"
 
-#: data/ui/EmptyView.ui:26 data/ui/InitialState.ui:13
+#: data/ui/EmptyView.ui:30
 msgid "Welcome to Music"
 msgstr "Ongi etorri Musika aplikaziora"
 
@@ -199,7 +156,7 @@ msgstr "Menua"
 msgid "Select"
 msgstr "Hautatu"
 
-#: data/ui/HeaderBar.ui:30 data/ui/PlaylistDialog.ui:211
+#: data/ui/HeaderBar.ui:30 data/ui/PlaylistDialog.ui:213
 #: data/ui/SearchHeaderBar.ui:20
 msgid "_Cancel"
 msgstr "_Utzi"
@@ -297,10 +254,6 @@ msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Joan atzera"
 
-#: data/ui/InitialState.ui:25
-msgid "The contents of your Music Folder will appear here"
-msgstr "Zure 'Musika' karpetaren edukiak hemen agertuko dira"
-
 #: data/ui/LastfmDialog.ui:21
 msgid ""
 "Last.fm is a music discovery service that gives you personalised "
@@ -319,11 +272,11 @@ msgstr "Hasi saioa zure Last.fm kontuan entzuten duzun musikaren berri emateko."
 msgid "Login"
 msgstr "Saio-hasiera"
 
-#: data/ui/PlayerToolbar.ui:75
+#: data/ui/PlayerToolbar.ui:74
 msgid "Previous"
 msgstr "Aurrekoa"
 
-#: data/ui/PlayerToolbar.ui:107
+#: data/ui/PlayerToolbar.ui:106
 msgid "Next"
 msgstr "Hurrengoa"
 
@@ -359,11 +312,11 @@ msgstr "Erreprodukzio-zerrenda berria…"
 msgid "Add"
 msgstr "Gehitu"
 
-#: data/ui/PlaylistDialog.ui:200
+#: data/ui/PlaylistDialog.ui:202
 msgid "Add to Playlist"
 msgstr "Gehitu erreprodukzio-zerrendari…"
 
-#: data/ui/PlaylistDialog.ui:220
+#: data/ui/PlaylistDialog.ui:222
 msgid "_Add"
 msgstr "_Gehitu"
 
@@ -375,7 +328,7 @@ msgstr "Artistak"
 msgid "View All"
 msgstr "Ikusi dena"
 
-#: data/ui/SearchView.ui:75 gnomemusic/views/albumsview.py:54
+#: data/ui/SearchView.ui:75 gnomemusic/views/albumsview.py:56
 msgid "Albums"
 msgstr "Albumak"
 
@@ -402,6 +355,22 @@ msgstr "_Gehitu zerrendari"
 #: data/ui/SongWidgetMenu.ui:19
 msgid "_Remove from Playlist"
 msgstr "_Kendu erreprodukzio-zerrendatik"
+
+#: gnomemusic/about.py:238
+msgid "The GNOME Project"
+msgstr "GNOME proiektua"
+
+#: gnomemusic/about.py:242
+msgid "translator-credits"
+msgstr "translator-credits"
+
+#: gnomemusic/about.py:246
+msgid "Copyright The GNOME Music Developers"
+msgstr "Copyright GNOME Musika aplikazioaren garatzaileak"
+
+#: gnomemusic/about.py:249
+msgid "Translated by"
+msgstr "Itzultzaileak"
 
 #. TRANSLATORS: this is a playlist name
 #: gnomemusic/grilowrappers/grltrackerplaylists.py:894
@@ -543,7 +512,7 @@ msgstr "Artisten emaitzak"
 msgid "Albums Results"
 msgstr "Albumen emaitzak"
 
-#: gnomemusic/widgets/albumwidget.py:240
+#: gnomemusic/widgets/albumwidget.py:245
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "Minutu {}"
@@ -576,7 +545,7 @@ msgstr "Saioa hasita {} erabiltzailearekin"
 msgid "Configure"
 msgstr "Konfiguratu"
 
-#: gnomemusic/widgets/playertoolbar.py:165
+#: gnomemusic/widgets/playertoolbar.py:167
 msgid "Pause"
 msgstr "Pausatu"
 
@@ -585,6 +554,61 @@ msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "Abesti {}"
 msgstr[1] "{} abesti"
+
+#~ msgid "A music player and management application for GNOME."
+#~ msgstr "GNOMEren aplikazio bat musika erreproduzitzeko eta kudeatzeko."
+
+#~ msgid "Visit GNOME Music website"
+#~ msgstr "Bisitatu GNOME Music-en webgunea"
+
+#~ msgid ""
+#~ "GNOME Music is free software; you can redistribute it and/or modify it "
+#~ "under the terms of the GNU General Public License as published by the "
+#~ "Free Software Foundation; either version 2 of the License, or (at your "
+#~ "option) any later version.\n"
+#~ "\n"
+#~ "GNOME Music is distributed in the hope that it will be useful, but "
+#~ "WITHOUT ANY WARRANTY; without even the implied warranty of "
+#~ "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General "
+#~ "Public License for more details.\n"
+#~ "\n"
+#~ "You should have received a copy of the GNU General Public License along "
+#~ "with GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+#~ "Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+#~ "\n"
+#~ "The GNOME Music authors hereby grant permission for non-GPL compatible "
+#~ "GStreamer plugins to be used and distributed together with GStreamer and "
+#~ "GNOME Music.  This permission is above and beyond the permissions granted "
+#~ "by the GPL license by which GNOME Music is covered.  If you modify this "
+#~ "code, you may extend this exception to your version of the code, but you "
+#~ "are not obligated to do so.  If you do not wish to do so, delete this "
+#~ "exception statement from your version."
+#~ msgstr ""
+#~ "GNOME Musika software librea da; birbana eta/edo alda dezakezu Free "
+#~ "Software Foundation-ek argitaratutako GNU Lizentzia Publiko Orokorraren "
+#~ "2. bertsioan, edo (nahiago baduzu) bertsio berriago batean, jasotako "
+#~ "baldintzak betez gero.\n"
+#~ "\n"
+#~ "GNOME Musika erabilgarria izango delakoan banatzen da, baina INOLAKO "
+#~ "BERMERIK GABE; era berean, ez da bermatzen beraren EGOKITASUNA "
+#~ "MERKATURATZEKO edo HELBURU PARTIKULARRETARAKO ERABILTZEKO.  Argibide "
+#~ "gehiago nahi izanez gero, ikus GNU Lizentzia Publiko Orokorra.\n"
+#~ "\n"
+#~ "Programa honekin batera GNU Lizentzia Publiko Orokorraren kopia bat ere "
+#~ "jaso beharko zenuke; horrela ez bada, idatzi helbide honetara: Free "
+#~ "Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA "
+#~ "02111-1301, USA.\n"
+#~ "\n"
+#~ "GNOME Musikaren egileek baimena ematen dute GPL lizentziarekin "
+#~ "bateragarriak ez diren GStreamer pluginak erabiltzeko eta banatzeko "
+#~ "GStreamerrekin eta GNOME Musikarekin batera. Baimen hori GNOME Musikak "
+#~ "darabilen GPL lizentziak ematen dituen baimenen gainetik eta haratago "
+#~ "dago. Kode hau aldatzen baduzu, salbuespen hori kodearen zure bertsiora "
+#~ "hedatu dezakezu, baina ez zaude hori egitera behartuta. Ez baduzu egin "
+#~ "nahi, ezabatu salbuespen-adierazpen hau zure bertsiotik."
+
+#~ msgid "The contents of your Music Folder will appear here"
+#~ msgstr "Zure 'Musika' karpetaren edukiak hemen agertuko dira"
 
 #~ msgid "GNOME Music"
 #~ msgstr "GNOME Musika"
