@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2022-02-19 12:39+0000\n"
-"PO-Revision-Date: 2022-02-21 10:11+0100\n"
+"POT-Creation-Date: 2022-08-27 13:27+0000\n"
+"PO-Revision-Date: 2022-09-02 23:30+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -22,8 +22,8 @@ msgstr ""
 "X-Generator: Poedit 2.2.3\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:61
-#: gnomemusic/window.py:71
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/about.py:236
+#: gnomemusic/application.py:61 gnomemusic/window.py:71
 msgid "Music"
 msgstr "Hudba"
 
@@ -44,7 +44,7 @@ msgstr ""
 "Vyhledávejte skladby ve své místní sbírce, používejte automaticky "
 "vygenerované seznamy skladeb nebo si vytvořte své vlastní."
 
-#: data/org.gnome.Music.appdata.xml.in.in:149
+#: data/org.gnome.Music.appdata.xml.in.in:167
 msgid "The GNOME Music developers"
 msgstr "Vývojáři Hudby GNOME"
 
@@ -120,79 +120,21 @@ msgstr ""
 "Povolí nebo zakáže zasílání informací o dříve a právě přehrávaných skladbách "
 "do služby Last.fm."
 
-#: data/ui/AboutDialog.ui.in:9
-msgid "Copyright © 2018 GNOME Music Developers"
-msgstr "Copyright © 2018 Vývojáři Hudby GNOME"
-
-#: data/ui/AboutDialog.ui.in:10
-msgid "A music player and management application for GNOME."
-msgstr "Aplikace pro prostředí GNOME sloužící k přehrávání a správě hudby."
-
-#: data/ui/AboutDialog.ui.in:12
-msgid "Visit GNOME Music website"
-msgstr "Navštívit webové stránky Hudby GNOME"
-
-#: data/ui/AboutDialog.ui.in:13
-msgid ""
-"GNOME Music is free software; you can redistribute it and/or modify it under "
-"the terms of the GNU General Public License as published by the Free "
-"Software Foundation; either version 2 of the License, or (at your option) "
-"any later version.\n"
-"\n"
-"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
-"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
-"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
-"more details.\n"
-"\n"
-"You should have received a copy of the GNU General Public License along with "
-"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
-"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
-"\n"
-"The GNOME Music authors hereby grant permission for non-GPL compatible "
-"GStreamer plugins to be used and distributed together with GStreamer and "
-"GNOME Music.  This permission is above and beyond the permissions granted by "
-"the GPL license by which GNOME Music is covered.  If you modify this code, "
-"you may extend this exception to your version of the code, but you are not "
-"obligated to do so.  If you do not wish to do so, delete this exception "
-"statement from your version."
-msgstr ""
-"Hudba GNOME (v originálním znění GNOME Music) je svobodný software: Můžete "
-"jej dále šířit a/nebo upravovat za podmínek licence GNU General Public "
-"License v podobě, v jaké ji vydala Free Software Foundation, a to buď ve "
-"verzi 2 této licence nebo (dle vaší volby) v libovolné novější verzi.\n"
-"\n"
-"Aplikace Hudba GNOME je šířena ve víře, že bude užitečná, ale BEZ "
-"JAKÝCHKOLIV ZÁRUK, a to i bez předpokládané záruky na PRODEJNOST nebo "
-"VHODNOST PRO KONKRÉTNÍ ÚČEL. Více podrobností najdete přímo v licenci GNU "
-"General Public License.\n"
-"\n"
-"Spolu s aplikací Hudba byste měli obdržet kopii GNU General Public License. "
-"Pokud se tak nestalo, napište na Free Software Foundation, Inc., 51 Franklin "
-"Street, Fifth Floor, Boston, MA  02110-1301, USA.\n"
-"\n"
-"Autoři Hudby GNOME tímto udělují svolení, aby zásuvné moduly GStreamer, "
-"které nejsou kompatibilní s GPL, byly používány a šířeny spolu s programy "
-"GStreamer a Hudba GNOME. Toto oprávnění je nad rámec oprávnění poskytovaných "
-"licencí GPL, která pokrývá Hudbu GNOME. Pokud provedete změny v jejím "
-"zdrojovém kódu, můžete tuto výjimku vztáhnout i na svoji verzi kódu, ale "
-"nejste povinni tak učinit. Pokud si tak učinit nepřejete, odstraňte tento "
-"odstavec s výjimkou ze svojí verze."
-
-#: data/ui/AlbumWidget.ui:86 data/ui/PlayerToolbar.ui:88
-#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:168
+#: data/ui/AlbumWidget.ui:84 data/ui/PlayerToolbar.ui:87
+#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:170
 msgid "Play"
 msgstr "Přehrát"
 
-#: data/ui/AlbumWidget.ui:132 data/ui/PlaylistControls.ui:5
+#: data/ui/AlbumWidget.ui:130 data/ui/PlaylistControls.ui:5
 #: data/ui/SongWidgetMenu.ui:11
 msgid "_Play"
 msgstr "_Přehrát"
 
-#: data/ui/AlbumWidget.ui:136
+#: data/ui/AlbumWidget.ui:134
 msgid "Add to _Favorite Songs"
 msgstr "Přidat do o_blíbených skladeb"
 
-#: data/ui/AlbumWidget.ui:140 data/ui/SongWidgetMenu.ui:15
+#: data/ui/AlbumWidget.ui:138 data/ui/SongWidgetMenu.ui:15
 msgid "_Add to Playlist…"
 msgstr "Přid_at do seznamu k přehrání…"
 
@@ -216,7 +158,7 @@ msgstr "_Nápověda"
 msgid "_About Music"
 msgstr "O _aplikaci Hudba"
 
-#: data/ui/EmptyView.ui:26 data/ui/InitialState.ui:13
+#: data/ui/EmptyView.ui:30
 msgid "Welcome to Music"
 msgstr "Vítejte v Hudbě"
 
@@ -228,7 +170,7 @@ msgstr "Nabídka"
 msgid "Select"
 msgstr "Vybrat"
 
-#: data/ui/HeaderBar.ui:30 data/ui/PlaylistDialog.ui:211
+#: data/ui/HeaderBar.ui:30 data/ui/PlaylistDialog.ui:213
 #: data/ui/SearchHeaderBar.ui:20
 msgid "_Cancel"
 msgstr "_Zrušit"
@@ -326,10 +268,6 @@ msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Přejít zpět"
 
-#: data/ui/InitialState.ui:25
-msgid "The contents of your Music Folder will appear here"
-msgstr "Zde se objeví obsah vaší složky Hudba."
-
 #: data/ui/LastfmDialog.ui:21
 msgid ""
 "Last.fm is a music discovery service that gives you personalised "
@@ -352,11 +290,11 @@ msgstr ""
 msgid "Login"
 msgstr "Přihlásit"
 
-#: data/ui/PlayerToolbar.ui:75
+#: data/ui/PlayerToolbar.ui:74
 msgid "Previous"
 msgstr "Předchozí"
 
-#: data/ui/PlayerToolbar.ui:107
+#: data/ui/PlayerToolbar.ui:106
 msgid "Next"
 msgstr "Následující"
 
@@ -392,11 +330,11 @@ msgstr "Nový seznam k přehrání…"
 msgid "Add"
 msgstr "Přidat"
 
-#: data/ui/PlaylistDialog.ui:200
+#: data/ui/PlaylistDialog.ui:202
 msgid "Add to Playlist"
 msgstr "Přidání do seznamu k přehrání"
 
-#: data/ui/PlaylistDialog.ui:220
+#: data/ui/PlaylistDialog.ui:222
 msgid "_Add"
 msgstr "Přid_at"
 
@@ -408,7 +346,7 @@ msgstr "Umělci"
 msgid "View All"
 msgstr "Zobrazit vše"
 
-#: data/ui/SearchView.ui:75 gnomemusic/views/albumsview.py:54
+#: data/ui/SearchView.ui:75 gnomemusic/views/albumsview.py:56
 msgid "Albums"
 msgstr "Alba"
 
@@ -435,6 +373,22 @@ msgstr "Přid_at do seznamu k přehrání"
 #: data/ui/SongWidgetMenu.ui:19
 msgid "_Remove from Playlist"
 msgstr "Odeb_rat ze seznamu k přehrání"
+
+#: gnomemusic/about.py:238
+msgid "The GNOME Project"
+msgstr "Projekt GNOME"
+
+#: gnomemusic/about.py:242
+msgid "translator-credits"
+msgstr "Marek Černocký <marek@manet.cz>"
+
+#: gnomemusic/about.py:246
+msgid "Copyright The GNOME Music Developers"
+msgstr "Copyright vývojáři Hudby GNOME"
+
+#: gnomemusic/about.py:249
+msgid "Translated by"
+msgstr "Přeložili"
 
 #. TRANSLATORS: this is a playlist name
 #: gnomemusic/grilowrappers/grltrackerplaylists.py:894
@@ -579,7 +533,7 @@ msgstr "Nalezení umělci"
 msgid "Albums Results"
 msgstr "Nalezená alba"
 
-#: gnomemusic/widgets/albumwidget.py:240
+#: gnomemusic/widgets/albumwidget.py:245
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} minuta"
@@ -614,7 +568,7 @@ msgstr "Přihlášeno pod jménem {}"
 msgid "Configure"
 msgstr "Nastavit"
 
-#: gnomemusic/widgets/playertoolbar.py:165
+#: gnomemusic/widgets/playertoolbar.py:167
 msgid "Pause"
 msgstr "Pozastavit"
 
