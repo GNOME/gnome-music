@@ -13,21 +13,21 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2022-02-19 12:39+0000\n"
-"PO-Revision-Date: 2022-02-19 12:24-0500\n"
-"Last-Translator: lumingzh <lumingzh@qq.com>\n"
+"POT-Creation-Date: 2022-08-27 13:27+0000\n"
+"PO-Revision-Date: 2022-09-03 16:56-0400\n"
+"Last-Translator: Boyuan Yang <073plan@gmail.com>\n"
 "Language-Team: Chinese - China <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 2.4.3\n"
+"X-Generator: Poedit 3.1.1\n"
 "X-DamnedLies-Scope: partial\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:61
-#: gnomemusic/window.py:71
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/about.py:236
+#: gnomemusic/application.py:61 gnomemusic/window.py:71
 msgid "Music"
 msgstr "音乐"
 
@@ -47,7 +47,7 @@ msgid ""
 msgstr ""
 "在您的本地收藏中寻找音轨，使用自动生成的播放列表或者自行编辑生成播放列表。"
 
-#: data/org.gnome.Music.appdata.xml.in.in:149
+#: data/org.gnome.Music.appdata.xml.in.in:167
 msgid "The GNOME Music developers"
 msgstr "GNOME“音乐”开发者"
 
@@ -118,74 +118,21 @@ msgid ""
 "Last.fm."
 msgstr "启用或禁用向 Last.fm 发送当前播放的曲目以及“正在播放”信息的功能。"
 
-#: data/ui/AboutDialog.ui.in:9
-msgid "Copyright © 2018 GNOME Music Developers"
-msgstr "版权所有 © 2018 GNOME“音乐”开发者"
-
-#: data/ui/AboutDialog.ui.in:10
-msgid "A music player and management application for GNOME."
-msgstr "GNOME 音乐播放及管理程序。"
-
-#: data/ui/AboutDialog.ui.in:12
-msgid "Visit GNOME Music website"
-msgstr "访问“GNOME 音乐”网站"
-
-#: data/ui/AboutDialog.ui.in:13
-msgid ""
-"GNOME Music is free software; you can redistribute it and/or modify it under "
-"the terms of the GNU General Public License as published by the Free "
-"Software Foundation; either version 2 of the License, or (at your option) "
-"any later version.\n"
-"\n"
-"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
-"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
-"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
-"more details.\n"
-"\n"
-"You should have received a copy of the GNU General Public License along with "
-"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
-"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
-"\n"
-"The GNOME Music authors hereby grant permission for non-GPL compatible "
-"GStreamer plugins to be used and distributed together with GStreamer and "
-"GNOME Music.  This permission is above and beyond the permissions granted by "
-"the GPL license by which GNOME Music is covered.  If you modify this code, "
-"you may extend this exception to your version of the code, but you are not "
-"obligated to do so.  If you do not wish to do so, delete this exception "
-"statement from your version."
-msgstr ""
-"GNOME 音乐是自由软件；您可以在自由软件基金会发布的 GNU 通用公共许可证的条款下"
-"重新分发和（或）修改它；您可以选择使用 GPL 第二版，或（按照您的意愿）任何更新"
-"的版本。\n"
-"\n"
-"GNOME 音乐分发的目的是希望它物有所用，但是没有任何担保；没有对其适销性和某一"
-"特定目的下的适用性的任何即便是暗示的担保。请查阅 GNU 通用公共许可证以获得更多"
-"信息。\n"
-"\n"
-"您应当已经跟 GNOME 音乐一起收到一份 GNU 通用公众许可证的副本；如果没有，请写"
-"信至：Free Software Foundation, Inc.，\n"
-"51 Franklin St, Fifth Floor, Boston, MA 02110-1301  USA\n"
-"\n"
-"GNOME 音乐的作者在此对非 GPL 兼容的 GStreamer 插件同 GNOME 音乐及 GStreamer "
-"一道使用及分发给予许可。该许可优于并覆盖在 GNOME 音乐的 GPL 授权许可之上。如"
-"果您修改该代码，您可以将该例外扩展到您的代码，但非强制。如果您不愿意如此，从"
-"您的版本中删除该例外声明。"
-
-#: data/ui/AlbumWidget.ui:86 data/ui/PlayerToolbar.ui:88
-#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:168
+#: data/ui/AlbumWidget.ui:84 data/ui/PlayerToolbar.ui:87
+#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:170
 msgid "Play"
 msgstr "播放"
 
-#: data/ui/AlbumWidget.ui:132 data/ui/PlaylistControls.ui:5
+#: data/ui/AlbumWidget.ui:130 data/ui/PlaylistControls.ui:5
 #: data/ui/SongWidgetMenu.ui:11
 msgid "_Play"
 msgstr "播放(_P)"
 
-#: data/ui/AlbumWidget.ui:136
+#: data/ui/AlbumWidget.ui:134
 msgid "Add to _Favorite Songs"
 msgstr "添加至收藏歌曲(_F)"
 
-#: data/ui/AlbumWidget.ui:140 data/ui/SongWidgetMenu.ui:15
+#: data/ui/AlbumWidget.ui:138 data/ui/SongWidgetMenu.ui:15
 msgid "_Add to Playlist…"
 msgstr "添加到播放列表(_A)…"
 
@@ -209,7 +156,7 @@ msgstr "帮助(_H)"
 msgid "_About Music"
 msgstr "关于“音乐”(_A)"
 
-#: data/ui/EmptyView.ui:26 data/ui/InitialState.ui:13
+#: data/ui/EmptyView.ui:30
 msgid "Welcome to Music"
 msgstr "欢迎使用音乐应用"
 
@@ -221,7 +168,7 @@ msgstr "菜单"
 msgid "Select"
 msgstr "选择"
 
-#: data/ui/HeaderBar.ui:30 data/ui/PlaylistDialog.ui:211
+#: data/ui/HeaderBar.ui:30 data/ui/PlaylistDialog.ui:213
 #: data/ui/SearchHeaderBar.ui:20
 msgid "_Cancel"
 msgstr "取消(_C)"
@@ -319,10 +266,6 @@ msgctxt "shortcut window"
 msgid "Go back"
 msgstr "返回"
 
-#: data/ui/InitialState.ui:25
-msgid "The contents of your Music Folder will appear here"
-msgstr "您的音乐文件夹的内容将会显示在此处"
-
 #: data/ui/LastfmDialog.ui:21
 msgid ""
 "Last.fm is a music discovery service that gives you personalised "
@@ -341,11 +284,11 @@ msgstr "登录您的 Last.fm 帐号以便报告您的音乐收听情况。"
 msgid "Login"
 msgstr "登录"
 
-#: data/ui/PlayerToolbar.ui:75
+#: data/ui/PlayerToolbar.ui:74
 msgid "Previous"
 msgstr "上一首"
 
-#: data/ui/PlayerToolbar.ui:107
+#: data/ui/PlayerToolbar.ui:106
 msgid "Next"
 msgstr "下一首"
 
@@ -381,11 +324,11 @@ msgstr "新建播放列表…"
 msgid "Add"
 msgstr "添加"
 
-#: data/ui/PlaylistDialog.ui:200
+#: data/ui/PlaylistDialog.ui:202
 msgid "Add to Playlist"
 msgstr "添加到播放列表"
 
-#: data/ui/PlaylistDialog.ui:220
+#: data/ui/PlaylistDialog.ui:222
 msgid "_Add"
 msgstr "添加(_A)"
 
@@ -397,7 +340,7 @@ msgstr "艺术家"
 msgid "View All"
 msgstr "查看所有"
 
-#: data/ui/SearchView.ui:75 gnomemusic/views/albumsview.py:54
+#: data/ui/SearchView.ui:75 gnomemusic/views/albumsview.py:56
 msgid "Albums"
 msgstr "专辑"
 
@@ -424,6 +367,30 @@ msgstr "添加到播放列表(_A)"
 #: data/ui/SongWidgetMenu.ui:19
 msgid "_Remove from Playlist"
 msgstr "从播放列表移除(_R)"
+
+#: gnomemusic/about.py:238
+msgid "The GNOME Project"
+msgstr "GNOME 项目"
+
+#: gnomemusic/about.py:242
+msgid "translator-credits"
+msgstr ""
+"tuhaihe <1132321739qq@gmail.com>, 2013\n"
+"Tong Hui <tonghuix@gmail.com>, 2013\n"
+"sphinx <yishanj@gmail.com>, 2014\n"
+"Mingcong Bai <jeffbai@aosc.xyz>, 2018\n"
+"Dingzhong Chen <wsxy162@gmail.com>, 2018, 2019\n"
+"Cheng Lu <chenglu1990@gmail.com>, 2016, 2020\n"
+"lumingzh <lumingzh@qq.com>, 2022\n"
+"Boyuan Yang <byang@debian.org>, 2022"
+
+#: gnomemusic/about.py:246
+msgid "Copyright The GNOME Music Developers"
+msgstr "版权所有 GNOME“音乐”开发者"
+
+#: gnomemusic/about.py:249
+msgid "Translated by"
+msgstr "翻译贡献者"
 
 #. TRANSLATORS: this is a playlist name
 #: gnomemusic/grilowrappers/grltrackerplaylists.py:894
@@ -564,7 +531,7 @@ msgstr "艺术家结果"
 msgid "Albums Results"
 msgstr "专辑结果"
 
-#: gnomemusic/widgets/albumwidget.py:240
+#: gnomemusic/widgets/albumwidget.py:245
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} 分钟"
@@ -595,7 +562,7 @@ msgstr "以 {} 登录"
 msgid "Configure"
 msgstr "设置"
 
-#: gnomemusic/widgets/playertoolbar.py:165
+#: gnomemusic/widgets/playertoolbar.py:167
 msgid "Pause"
 msgstr "暂停"
 
@@ -603,6 +570,55 @@ msgstr "暂停"
 msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} 首歌曲"
+
+#~ msgid "A music player and management application for GNOME."
+#~ msgstr "GNOME 音乐播放及管理程序。"
+
+#~ msgid "Visit GNOME Music website"
+#~ msgstr "访问“GNOME 音乐”网站"
+
+#~ msgid ""
+#~ "GNOME Music is free software; you can redistribute it and/or modify it "
+#~ "under the terms of the GNU General Public License as published by the "
+#~ "Free Software Foundation; either version 2 of the License, or (at your "
+#~ "option) any later version.\n"
+#~ "\n"
+#~ "GNOME Music is distributed in the hope that it will be useful, but "
+#~ "WITHOUT ANY WARRANTY; without even the implied warranty of "
+#~ "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General "
+#~ "Public License for more details.\n"
+#~ "\n"
+#~ "You should have received a copy of the GNU General Public License along "
+#~ "with GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+#~ "Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+#~ "\n"
+#~ "The GNOME Music authors hereby grant permission for non-GPL compatible "
+#~ "GStreamer plugins to be used and distributed together with GStreamer and "
+#~ "GNOME Music.  This permission is above and beyond the permissions granted "
+#~ "by the GPL license by which GNOME Music is covered.  If you modify this "
+#~ "code, you may extend this exception to your version of the code, but you "
+#~ "are not obligated to do so.  If you do not wish to do so, delete this "
+#~ "exception statement from your version."
+#~ msgstr ""
+#~ "GNOME 音乐是自由软件；您可以在自由软件基金会发布的 GNU 通用公共许可证的条"
+#~ "款下重新分发和（或）修改它；您可以选择使用 GPL 第二版，或（按照您的意愿）"
+#~ "任何更新的版本。\n"
+#~ "\n"
+#~ "GNOME 音乐分发的目的是希望它物有所用，但是没有任何担保；没有对其适销性和某"
+#~ "一特定目的下的适用性的任何即便是暗示的担保。请查阅 GNU 通用公共许可证以获"
+#~ "得更多信息。\n"
+#~ "\n"
+#~ "您应当已经跟 GNOME 音乐一起收到一份 GNU 通用公众许可证的副本；如果没有，请"
+#~ "写信至：Free Software Foundation, Inc.，\n"
+#~ "51 Franklin St, Fifth Floor, Boston, MA 02110-1301  USA\n"
+#~ "\n"
+#~ "GNOME 音乐的作者在此对非 GPL 兼容的 GStreamer 插件同 GNOME 音乐及 "
+#~ "GStreamer 一道使用及分发给予许可。该许可优于并覆盖在 GNOME 音乐的 GPL 授权"
+#~ "许可之上。如果您修改该代码，您可以将该例外扩展到您的代码，但非强制。如果您"
+#~ "不愿意如此，从您的版本中删除该例外声明。"
+
+#~ msgid "The contents of your Music Folder will appear here"
+#~ msgstr "您的音乐文件夹的内容将会显示在此处"
 
 #~ msgid "GNOME Music"
 #~ msgstr "GNOME 音乐"
