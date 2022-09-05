@@ -1,5 +1,5 @@
 # Brazilian Portuguese translation for gnome-music.
-# Copyright (C) 2021 gnome-music's COPYRIGHT HOLDER
+# Copyright (C) 2022 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-music package.
 # Georges Basile Stavracas Neto <georges.stavracas@gmail.com>, 2013.
 # Antonio Fernandes C. Neto <fernandesn@gnome.org>, 2013.
@@ -9,16 +9,17 @@
 # Fábio Nogueira <fnogueira@gnome.org> 2018.
 # Henrique Machado Campos <henriquecamposrj@gmail.com>, 2020.
 # Rafael Fontenelle <rafaelff@gnome.org>, 2012-2021.
-# Enrico Nicoletto <liverig@gmail.com>, 2013-2016, 2021.
+# Enrico Nicoletto <hiko@duck.com>, 2013-2016, 2021-2022.
 # Matheus Barbosa <mdpb.matheus@gmail.com>, 2022.
+# Leônidas Araújo <leorusvellt@hotmail.com>, 2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2022-02-19 12:39+0000\n"
-"PO-Revision-Date: 2022-02-19 16:27-0300\n"
-"Last-Translator: Matheus Barbosa <mdpb.matheus@gmail.com>\n"
+"POT-Creation-Date: 2022-08-31 10:45+0000\n"
+"PO-Revision-Date: 2022-08-31 08:46-0300\n"
+"Last-Translator: Leônidas Araújo <leorusvellt@hotmail.com>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -27,10 +28,15 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
 "X-Generator: Gtranslator 40.0\n"
 "X-Project-Style: gnome\n"
+"X-DL-Team: pt_BR\n"
+"X-DL-Module: gnome-music\n"
+"X-DL-Branch: master\n"
+"X-DL-Domain: po\n"
+"X-DL-State: Translating\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:61
-#: gnomemusic/window.py:71
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/about.py:236
+#: gnomemusic/application.py:61 gnomemusic/window.py:71
 msgid "Music"
 msgstr "Música"
 
@@ -51,7 +57,7 @@ msgstr ""
 "Localize faixas na sua coleção local, use listas de reprodução geradas "
 "automaticamente ou faça a curadoria de uma nova."
 
-#: data/org.gnome.Music.appdata.xml.in.in:149
+#: data/org.gnome.Music.appdata.xml.in.in:167
 msgid "The GNOME Music developers"
 msgstr "Os Desenvolvedores do GNOME Música"
 
@@ -127,80 +133,21 @@ msgstr ""
 "Habilita ou desabilita enviar scrobbles e a informação “currently playing” "
 "para o Last.fm."
 
-#: data/ui/AboutDialog.ui.in:9
-msgid "Copyright © 2018 GNOME Music Developers"
-msgstr "Copyright © 2018 Desenvolvedores do GNOME Música"
-
-#: data/ui/AboutDialog.ui.in:10
-msgid "A music player and management application for GNOME."
-msgstr "Um reprodutor de músicas e aplicativo de gerenciamento para o GNOME."
-
-#: data/ui/AboutDialog.ui.in:12
-msgid "Visit GNOME Music website"
-msgstr "Visite o web site do aplicativo GNOME Música"
-
-#: data/ui/AboutDialog.ui.in:13
-msgid ""
-"GNOME Music is free software; you can redistribute it and/or modify it under "
-"the terms of the GNU General Public License as published by the Free "
-"Software Foundation; either version 2 of the License, or (at your option) "
-"any later version.\n"
-"\n"
-"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
-"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
-"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
-"more details.\n"
-"\n"
-"You should have received a copy of the GNU General Public License along with "
-"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
-"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
-"\n"
-"The GNOME Music authors hereby grant permission for non-GPL compatible "
-"GStreamer plugins to be used and distributed together with GStreamer and "
-"GNOME Music.  This permission is above and beyond the permissions granted by "
-"the GPL license by which GNOME Music is covered.  If you modify this code, "
-"you may extend this exception to your version of the code, but you are not "
-"obligated to do so.  If you do not wish to do so, delete this exception "
-"statement from your version."
-msgstr ""
-"O GNOME Música é um software livre; você pode redistribuí-lo e/ou modificá-"
-"lo sob os termos da Licença Pública Geral GNU publicada pela Free Software "
-"Foundation; qualquer versão 2 da Licença, ou (a seu critério) outra versão "
-"posterior.\n"
-"\n"
-"O GNOME Música é distribuído na expectativa de que seja útil, mas SEM "
-"NENHUMA GARANTIA; sem mesmo implicar garantias de COMERCIALIZAÇÃO ou "
-"ADEQUAÇÃO A UM FIM ESPECÍFICO. Veja a Licença Pública Geral GNU (GPL) para "
-"mais detalhes.\n"
-"\n"
-"Você deve ter recebido uma cópia da Licença Pública Geral GNU junto com o "
-"aplicativo GNOME Música; caso contrário, escreva para a Free Software "
-"Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, "
-"EUA.\n"
-"\n"
-"Os autores do GNOME Música concedem por este meio permissão para uso de plug-"
-"ins compatíveis com GStreamer não consoantes com a GPL e distribuição junto "
-"com o GStreamer e aplicativo GNOME Música. Esta permissão está acima e além "
-"das permissões concedidas pela licença GPL a qual cobre o aplicativo GNOME "
-"Música. Se você modificar esse código, você pode estender essa exceção para "
-"a sua versão do código, mas você não é obrigado a fazê-lo. Se você não "
-"desejar fazer isto, exclua esta declaração de exceção da sua versão."
-
-#: data/ui/AlbumWidget.ui:86 data/ui/PlayerToolbar.ui:88
-#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:168
+#: data/ui/AlbumWidget.ui:84 data/ui/PlayerToolbar.ui:87
+#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:170
 msgid "Play"
 msgstr "Reproduzir"
 
-#: data/ui/AlbumWidget.ui:132 data/ui/PlaylistControls.ui:5
+#: data/ui/AlbumWidget.ui:130 data/ui/PlaylistControls.ui:5
 #: data/ui/SongWidgetMenu.ui:11
 msgid "_Play"
 msgstr "_Reproduzir"
 
-#: data/ui/AlbumWidget.ui:136
+#: data/ui/AlbumWidget.ui:134
 msgid "Add to _Favorite Songs"
 msgstr "Adicionar para músicas _favoritas"
 
-#: data/ui/AlbumWidget.ui:140 data/ui/SongWidgetMenu.ui:15
+#: data/ui/AlbumWidget.ui:138 data/ui/SongWidgetMenu.ui:15
 msgid "_Add to Playlist…"
 msgstr "_Adicionar para lista de reprodução…"
 
@@ -224,7 +171,7 @@ msgstr "A_juda"
 msgid "_About Music"
 msgstr "_Sobre o Música"
 
-#: data/ui/EmptyView.ui:26 data/ui/InitialState.ui:13
+#: data/ui/EmptyView.ui:30
 msgid "Welcome to Music"
 msgstr "Boas vindas ao Música"
 
@@ -236,7 +183,7 @@ msgstr "Menu"
 msgid "Select"
 msgstr "Selecionar"
 
-#: data/ui/HeaderBar.ui:30 data/ui/PlaylistDialog.ui:211
+#: data/ui/HeaderBar.ui:30 data/ui/PlaylistDialog.ui:213
 #: data/ui/SearchHeaderBar.ui:20
 msgid "_Cancel"
 msgstr "_Cancelar"
@@ -334,11 +281,6 @@ msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Volta"
 
-#: data/ui/InitialState.ui:25
-#| msgid "The contents of your {} will appear here."
-msgid "The contents of your Music Folder will appear here"
-msgstr "Os conteúdos da sua pasta de músicas aparecerão aqui."
-
 #: data/ui/LastfmDialog.ui:21
 msgid ""
 "Last.fm is a music discovery service that gives you personalised "
@@ -359,11 +301,11 @@ msgstr "Faça login sua conta do Last.fm para relatar suas músicas."
 msgid "Login"
 msgstr "Entrar"
 
-#: data/ui/PlayerToolbar.ui:75
+#: data/ui/PlayerToolbar.ui:74
 msgid "Previous"
 msgstr "Anterior"
 
-#: data/ui/PlayerToolbar.ui:107
+#: data/ui/PlayerToolbar.ui:106
 msgid "Next"
 msgstr "Próxima"
 
@@ -399,11 +341,11 @@ msgstr "Nova lista de reprodução…"
 msgid "Add"
 msgstr "Adicionar"
 
-#: data/ui/PlaylistDialog.ui:200
+#: data/ui/PlaylistDialog.ui:202
 msgid "Add to Playlist"
 msgstr "Adicionar para lista de reprodução"
 
-#: data/ui/PlaylistDialog.ui:220
+#: data/ui/PlaylistDialog.ui:222
 msgid "_Add"
 msgstr "_Adicionar"
 
@@ -415,7 +357,7 @@ msgstr "Artistas"
 msgid "View All"
 msgstr "Ver tudo"
 
-#: data/ui/SearchView.ui:75 gnomemusic/views/albumsview.py:54
+#: data/ui/SearchView.ui:75 gnomemusic/views/albumsview.py:56
 msgid "Albums"
 msgstr "Álbuns"
 
@@ -442,6 +384,22 @@ msgstr "_Adicionar para lista de reprodução"
 #: data/ui/SongWidgetMenu.ui:19
 msgid "_Remove from Playlist"
 msgstr "_Remover da lista de reprodução"
+
+#: gnomemusic/about.py:238
+msgid "The GNOME Project"
+msgstr "O Projeto GNOME"
+
+#: gnomemusic/about.py:242
+msgid "translator-credits"
+msgstr "créditos-do-tradutor"
+
+#: gnomemusic/about.py:246
+msgid "Copyright The GNOME Music Developers"
+msgstr "Direitos autorais dos desenvolvedores do GNOME Música"
+
+#: gnomemusic/about.py:249
+msgid "Translated by"
+msgstr "Traduzido por"
 
 #. TRANSLATORS: this is a playlist name
 #: gnomemusic/grilowrappers/grltrackerplaylists.py:894
@@ -585,7 +543,7 @@ msgstr "Resultados de artistas"
 msgid "Albums Results"
 msgstr "Resultados de álbuns"
 
-#: gnomemusic/widgets/albumwidget.py:240
+#: gnomemusic/widgets/albumwidget.py:245
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} minuto"
@@ -618,7 +576,7 @@ msgstr "Autenticado como {}"
 msgid "Configure"
 msgstr "Configurar"
 
-#: gnomemusic/widgets/playertoolbar.py:165
+#: gnomemusic/widgets/playertoolbar.py:167
 msgid "Pause"
 msgstr "Pausar"
 
@@ -627,18 +585,3 @@ msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} música"
 msgstr[1] "{} músicas"
-
-#~ msgid "GNOME Music"
-#~ msgstr "GNOME Música"
-
-#~ msgid "Window position"
-#~ msgstr "Posição da janela"
-
-#~ msgid "Window position (x and y)."
-#~ msgstr "Posição da janela (x e y)."
-
-#~ msgid "Loading"
-#~ msgstr "Carregando"
-
-#~ msgid "Add to Playlist…"
-#~ msgstr "Adicionar para lista de reprodução…"
