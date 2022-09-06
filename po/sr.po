@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2022-02-19 12:39+0000\n"
-"PO-Revision-Date: 2022-03-14 16:36+0100\n"
+"POT-Creation-Date: 2022-09-06 03:05+0000\n"
+"PO-Revision-Date: 2022-09-06 10:03+0200\n"
 "Last-Translator: Марко М. Костић <marko.m.kostic@gmail.com>\n"
 "Language-Team: српски <gnome-sr@googlegroups.org>\n"
 "Language: sr\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=n==1? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Project-Style: gnome\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.1.1\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:61
-#: gnomemusic/window.py:71
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/about.py:236
+#: gnomemusic/application.py:61 gnomemusic/window.py:71
 msgid "Music"
 msgstr "Музика"
 
@@ -42,7 +42,7 @@ msgstr ""
 "Нађите нумере у вашој локалној збирци, користите самостворене спискове "
 "нумера или направите нови."
 
-#: data/org.gnome.Music.appdata.xml.in.in:149
+#: data/org.gnome.Music.appdata.xml.in.in:167
 msgid "The GNOME Music developers"
 msgstr "Програмери Гномове музике"
 
@@ -117,80 +117,21 @@ msgstr ""
 "Омогућава или онемогућава слање скроблова и податке о тренутном слушању на "
 "Last.fm."
 
-#: data/ui/AboutDialog.ui.in:9
-msgid "Copyright © 2018 GNOME Music Developers"
-msgstr "Ауторска права © 2018 Програмери Гномове музике"
-
-#: data/ui/AboutDialog.ui.in:10
-msgid "A music player and management application for GNOME."
-msgstr "Гномов програм за пуштање и управљање музиком."
-
-#: data/ui/AboutDialog.ui.in:12
-msgid "Visit GNOME Music website"
-msgstr "Посетите веб страницу Гномове музике"
-
-#: data/ui/AboutDialog.ui.in:13
-msgid ""
-"GNOME Music is free software; you can redistribute it and/or modify it under "
-"the terms of the GNU General Public License as published by the Free "
-"Software Foundation; either version 2 of the License, or (at your option) "
-"any later version.\n"
-"\n"
-"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
-"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
-"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
-"more details.\n"
-"\n"
-"You should have received a copy of the GNU General Public License along with "
-"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
-"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
-"\n"
-"The GNOME Music authors hereby grant permission for non-GPL compatible "
-"GStreamer plugins to be used and distributed together with GStreamer and "
-"GNOME Music.  This permission is above and beyond the permissions granted by "
-"the GPL license by which GNOME Music is covered.  If you modify this code, "
-"you may extend this exception to your version of the code, but you are not "
-"obligated to do so.  If you do not wish to do so, delete this exception "
-"statement from your version."
-msgstr ""
-"Овај програм је слободан софтвер; можете га прослеђивати\n"
-"и/или мењати под условима Гнуове опште јавне лиценце коју је\n"
-"објавила Задужбина слободног софтвера; верзије 2 лиценце,\n"
-"или (по вашем избору) било које новије верзије.\n"
-"\n"
-"Овај програм се расподељује у нади да ће бити користан,\n"
-"али БЕЗ ИКАКВЕ ГАРАНЦИЈЕ; чак и без примењене гаранције\n"
-"ТРЖИШНЕ ВРЕДНОСТИ или ПРИЛАГОЂЕНОСТИ ОДРЕЂЕНОЈ НАМЕНИ.\n"
-"Погледајте Гнуову општу јавну лиценцу за више детаља.\n"
-"\n"
-"Требали сте да примите примерак ГНУ Опште јавне лиценце\n"
-"уз овај програм; ако нисте, пишите Задужбини слободног\n"
-"софтвера на адресу: „Free Software Foundation, Inc.,\n"
-"51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.“\n"
-"\n"
-"Аутори Гномове музике безусловно гарантују овлашћења за коришћење и "
-"расподелу прикључака Гстримера који нису сагласни са ОЈЛ-ом уз Гстример и "
-"Гномову музику.  Ово овлашћење је изнад и испод овлашћења које обезбеђује "
-"ОЈЛ дозвола којом је покривена Гномова музика.  Ако измените овај код, "
-"можете да проширите овај изузетак на ваше издање кода, али нисте обавезни да "
-"то и урадите.  Ако не желите да урадите ово, обришите стање овог изузетка из "
-"вашег издања."
-
-#: data/ui/AlbumWidget.ui:86 data/ui/PlayerToolbar.ui:88
-#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:168
+#: data/ui/AlbumWidget.ui:84 data/ui/PlayerToolbar.ui:87
+#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:170
 msgid "Play"
 msgstr "Пусти"
 
-#: data/ui/AlbumWidget.ui:132 data/ui/PlaylistControls.ui:5
+#: data/ui/AlbumWidget.ui:130 data/ui/PlaylistControls.ui:5
 #: data/ui/SongWidgetMenu.ui:11
 msgid "_Play"
 msgstr "_Пусти"
 
-#: data/ui/AlbumWidget.ui:136
+#: data/ui/AlbumWidget.ui:134
 msgid "Add to _Favorite Songs"
 msgstr "Додај у _омиљене песме"
 
-#: data/ui/AlbumWidget.ui:140 data/ui/SongWidgetMenu.ui:15
+#: data/ui/AlbumWidget.ui:138 data/ui/SongWidgetMenu.ui:15
 msgid "_Add to Playlist…"
 msgstr "_Додај на списак нумера…"
 
@@ -214,7 +155,7 @@ msgstr "По_моћ"
 msgid "_About Music"
 msgstr "_О Музици"
 
-#: data/ui/EmptyView.ui:26 data/ui/InitialState.ui:13
+#: data/ui/EmptyView.ui:30
 msgid "Welcome to Music"
 msgstr "Добро дошли у Музику"
 
@@ -226,7 +167,7 @@ msgstr "Изборник"
 msgid "Select"
 msgstr "Изабери"
 
-#: data/ui/HeaderBar.ui:30 data/ui/PlaylistDialog.ui:211
+#: data/ui/HeaderBar.ui:30 data/ui/PlaylistDialog.ui:213
 #: data/ui/SearchHeaderBar.ui:20
 msgid "_Cancel"
 msgstr "_Откажи"
@@ -324,10 +265,6 @@ msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Иде назад"
 
-#: data/ui/InitialState.ui:25
-msgid "The contents of your Music Folder will appear here"
-msgstr "Садржај фасцикле „Музика“ појавиће се овде"
-
 #: data/ui/LastfmDialog.ui:21
 msgid ""
 "Last.fm is a music discovery service that gives you personalised "
@@ -350,11 +287,11 @@ msgstr ""
 msgid "Login"
 msgstr "Пријава"
 
-#: data/ui/PlayerToolbar.ui:75
+#: data/ui/PlayerToolbar.ui:74
 msgid "Previous"
 msgstr "Претходно"
 
-#: data/ui/PlayerToolbar.ui:107
+#: data/ui/PlayerToolbar.ui:106
 msgid "Next"
 msgstr "Наредно"
 
@@ -390,11 +327,11 @@ msgstr "Нови списак нумера…"
 msgid "Add"
 msgstr "Додај"
 
-#: data/ui/PlaylistDialog.ui:200
+#: data/ui/PlaylistDialog.ui:202
 msgid "Add to Playlist"
 msgstr "Додај на списак нумера"
 
-#: data/ui/PlaylistDialog.ui:220
+#: data/ui/PlaylistDialog.ui:222
 msgid "_Add"
 msgstr "_Додај"
 
@@ -406,7 +343,7 @@ msgstr "Извођачи"
 msgid "View All"
 msgstr "Прикажи све"
 
-#: data/ui/SearchView.ui:75 gnomemusic/views/albumsview.py:54
+#: data/ui/SearchView.ui:75 gnomemusic/views/albumsview.py:56
 msgid "Albums"
 msgstr "Албуми"
 
@@ -433,6 +370,25 @@ msgstr "_Додај на списак нумера"
 #: data/ui/SongWidgetMenu.ui:19
 msgid "_Remove from Playlist"
 msgstr "Уклони са списка нуме_ра"
+
+#: gnomemusic/about.py:238
+msgid "The GNOME Project"
+msgstr "Гномов пројекат"
+
+#: gnomemusic/about.py:242
+msgid "translator-credits"
+msgstr ""
+"Мирослав Николић <miroslavnikolic@rocketmail.com>\n"
+"Марко М. Костић <marko.m.kostic@gmail.com>\n"
+"https://гном.срб — превод Гнома на српски језик."
+
+#: gnomemusic/about.py:246
+msgid "Copyright The GNOME Music Developers"
+msgstr "Ауторска права програмери Гномове музике"
+
+#: gnomemusic/about.py:249
+msgid "Translated by"
+msgstr "Превод"
 
 #. TRANSLATORS: this is a playlist name
 #: gnomemusic/grilowrappers/grltrackerplaylists.py:894
@@ -577,7 +533,7 @@ msgstr "Резултати извођача"
 msgid "Albums Results"
 msgstr "Резултати албума"
 
-#: gnomemusic/widgets/albumwidget.py:240
+#: gnomemusic/widgets/albumwidget.py:245
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} минут"
@@ -614,7 +570,7 @@ msgstr "Пријављен као {}"
 msgid "Configure"
 msgstr "Подеси"
 
-#: gnomemusic/widgets/playertoolbar.py:165
+#: gnomemusic/widgets/playertoolbar.py:167
 msgid "Pause"
 msgstr "Застани"
 
@@ -625,6 +581,61 @@ msgstr[0] "{} песма"
 msgstr[1] "{} песме"
 msgstr[2] "{} песама"
 msgstr[3] "{} песма"
+
+#~ msgid "A music player and management application for GNOME."
+#~ msgstr "Гномов програм за пуштање и управљање музиком."
+
+#~ msgid "Visit GNOME Music website"
+#~ msgstr "Посетите веб страницу Гномове музике"
+
+#~ msgid ""
+#~ "GNOME Music is free software; you can redistribute it and/or modify it "
+#~ "under the terms of the GNU General Public License as published by the "
+#~ "Free Software Foundation; either version 2 of the License, or (at your "
+#~ "option) any later version.\n"
+#~ "\n"
+#~ "GNOME Music is distributed in the hope that it will be useful, but "
+#~ "WITHOUT ANY WARRANTY; without even the implied warranty of "
+#~ "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General "
+#~ "Public License for more details.\n"
+#~ "\n"
+#~ "You should have received a copy of the GNU General Public License along "
+#~ "with GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+#~ "Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+#~ "\n"
+#~ "The GNOME Music authors hereby grant permission for non-GPL compatible "
+#~ "GStreamer plugins to be used and distributed together with GStreamer and "
+#~ "GNOME Music.  This permission is above and beyond the permissions granted "
+#~ "by the GPL license by which GNOME Music is covered.  If you modify this "
+#~ "code, you may extend this exception to your version of the code, but you "
+#~ "are not obligated to do so.  If you do not wish to do so, delete this "
+#~ "exception statement from your version."
+#~ msgstr ""
+#~ "Овај програм је слободан софтвер; можете га прослеђивати\n"
+#~ "и/или мењати под условима Гнуове опште јавне лиценце коју је\n"
+#~ "објавила Задужбина слободног софтвера; верзије 2 лиценце,\n"
+#~ "или (по вашем избору) било које новије верзије.\n"
+#~ "\n"
+#~ "Овај програм се расподељује у нади да ће бити користан,\n"
+#~ "али БЕЗ ИКАКВЕ ГАРАНЦИЈЕ; чак и без примењене гаранције\n"
+#~ "ТРЖИШНЕ ВРЕДНОСТИ или ПРИЛАГОЂЕНОСТИ ОДРЕЂЕНОЈ НАМЕНИ.\n"
+#~ "Погледајте Гнуову општу јавну лиценцу за више детаља.\n"
+#~ "\n"
+#~ "Требали сте да примите примерак ГНУ Опште јавне лиценце\n"
+#~ "уз овај програм; ако нисте, пишите Задужбини слободног\n"
+#~ "софтвера на адресу: „Free Software Foundation, Inc.,\n"
+#~ "51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.“\n"
+#~ "\n"
+#~ "Аутори Гномове музике безусловно гарантују овлашћења за коришћење и "
+#~ "расподелу прикључака Гстримера који нису сагласни са ОЈЛ-ом уз Гстример и "
+#~ "Гномову музику.  Ово овлашћење је изнад и испод овлашћења које обезбеђује "
+#~ "ОЈЛ дозвола којом је покривена Гномова музика.  Ако измените овај код, "
+#~ "можете да проширите овај изузетак на ваше издање кода, али нисте обавезни "
+#~ "да то и урадите.  Ако не желите да урадите ово, обришите стање овог "
+#~ "изузетка из вашег издања."
+
+#~ msgid "The contents of your Music Folder will appear here"
+#~ msgstr "Садржај фасцикле „Музика“ појавиће се овде"
 
 #~ msgid "GNOME Music"
 #~ msgstr "Гномова музика"
