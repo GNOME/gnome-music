@@ -2,9 +2,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
-"POT-Creation-Date: 2019-09-24 00:24+0000\n"
-"PO-Revision-Date: 2021-03-28 19:52+0000\n"
-"Last-Translator: Jaume Jorba <jaume.jorba@gmail.com>\n"
+"POT-Creation-Date: 2022-07-25 15:45+0000\n"
+"PO-Revision-Date: 2022-08-09 19:52+0000\n"
+"Last-Translator: Jordi Mas i Herǹandez <jmas@softcatala.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/softcatala/gnome-"
 "documentation-catalan/language/ca/)\n"
 "Language: ca\n"
@@ -19,7 +19,7 @@ msgid "translator-credits"
 msgstr "Jaume Jorba <jaume.jorba@gmail.com>, 2018"
 
 #. (itstool) path: credit/name
-#: C/introduction.page:11 C/index.page:11 C/play-music.page:11
+#: C/introduction.page:11 C/index.page:12 C/play-music.page:11
 #: C/playlist-create-albums.page:11 C/playlist-create-songs.page:11
 #: C/playlist-create-artists.page:11 C/playlist-delete.page:11
 #: C/playlist-remove-songs.page:11 C/playlist-repeat.page:11
@@ -28,7 +28,7 @@ msgid "Shobha Tyagi"
 msgstr "Shobha Tyagi"
 
 #. (itstool) path: credit/years
-#: C/introduction.page:13 C/index.page:13 C/play-music.page:13
+#: C/introduction.page:13 C/index.page:14 C/play-music.page:13
 #: C/playlist-create-albums.page:13 C/playlist-create-songs.page:13
 #: C/playlist-create-artists.page:13 C/playlist-delete.page:13
 #: C/playlist-remove-songs.page:13 C/playlist-repeat.page:13
@@ -43,7 +43,7 @@ msgid ""
 "A simple and elegant replacement for using <app>Files</app> to show the "
 "music directory."
 msgstr ""
-"Un senzill i elegant reemplaçament per a utilitzar el <app>Fitxers</app> per "
+"Un senzill i elegant reemplaçament del <app>Fitxers</app> com a eina per "
 "a mostrar el directori de música."
 
 #. (itstool) path: page/title
@@ -53,18 +53,24 @@ msgstr "Introducció al Música"
 
 #. (itstool) path: info/title
 #: C/index.page:6
-msgctxt "link"
+msgctxt "link:trail"
 msgid "Music"
 msgstr "Música"
 
 #. (itstool) path: info/title
 #: C/index.page:7
+msgctxt "link"
+msgid "Music"
+msgstr "Música"
+
+#. (itstool) path: info/title
+#: C/index.page:8
 msgctxt "text"
 msgid "Music"
 msgstr "Música"
 
 #. (itstool) path: page/title
-#: C/index.page:18
+#: C/index.page:19
 msgid "<_:media-1/> Music"
 msgstr "<_:media-1/> Música"
 
@@ -99,8 +105,8 @@ msgid ""
 "You can play your favorite music by creating a playlist or by simply "
 "clicking on the song of your choice from any view."
 msgstr ""
-"Podeu reproduir la vostra música preferida creant una llista de reproducció o "
-"simplement fent clic sobre la cançó escollida des de qualsevol vista."
+"Podeu reproduir la vostra música preferida creant una llista de reproducció "
+"o simplement fent clic sobre la cançó escollida des de qualsevol vista."
 
 #. (itstool) path: steps/title
 #: C/play-music.page:28 C/playlist-delete.page:27
@@ -405,7 +411,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/playlist-shuffle.page:18
 msgid "Shuffle songs in the playlist."
-msgstr "Barrejar les cançons a la llista de reproducció."
+msgstr "Mesclar les cançons a la llista de reproducció."
 
 #. (itstool) path: page/title
 #: C/playlist-shuffle.page:22
