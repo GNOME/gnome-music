@@ -44,6 +44,13 @@ class TrackerState(IntEnum):
 
 
 class TrackerWrapper(GObject.GObject):
+    """Holds the connection to TinySparql.
+
+    Setup the connection to TinySparql in host and flaptpak mode.
+
+    Also provides some helper functions to query and update the
+    TinySparql database.
+    """
 
     def __init__(self, application: Application) -> None:
         """Create a connection to an instance of Tracker
@@ -194,6 +201,7 @@ class TrackerWrapper(GObject.GObject):
             return TrackerState.UNAVAILABLE
 
     def location_filter(self) -> Optional[str]:
+        """Get a SPARQL query filter for files in XDG_MUSIC only."""
         try:
             music_dir = GLib.get_user_special_dir(
                 GLib.UserDirectory.DIRECTORY_MUSIC)
@@ -211,7 +219,7 @@ class TrackerWrapper(GObject.GObject):
         return query
 
     def _update_favorite(self, media: Grl.Media) -> None:
-        """Update favorite state of a song
+        """Update favorite state of a song.
 
         :param Grl.Media media: media which contains updated favorite state
         """
