@@ -889,27 +889,8 @@ class GrlTrackerWrapper(GObject.GObject):
         self.props.source.query(
             query, metadata_keys, self._fast_options, _callback)
 
-    def search(self, text: str) -> None:
-        # FIXME: Searches are limited to not bog down the UI with
-        # widget creation ({List,Flow}Box limitations). The limit is
-        # arbitrarily set to 50 and set in the Tracker query. It should
-        # be possible to set it through Grilo options instead. This
-        # does not work as expected and needs further investigation.
-        term: str = Tracker.sparql_escape_string(
-            GLib.utf8_normalize(
-                GLib.utf8_casefold(text, -1), -1, GLib.NormalizeMode.NFKD))
-
-        for operation_id in self._grilo_search_operation_ids:
-            Grl.operation_cancel(operation_id)
-            self._grilo_search_operation_ids.remove(operation_id)
-
-        if text == "":
-            self._artists_search.set_filter(Gtk.AnyFilter())
-            self._albums_search.set_filter(Gtk.AnyFilter())
-            self._songs_search.set_filter(Gtk.AnyFilter())
-            return
-
-        # Artist search
+    def _search_artist(self, term: str) -> None:
+        """Search the artist tag and display results.."""
         self._notificationmanager.push_loading()
 
         query = """
@@ -963,37 +944,10 @@ class GrlTrackerWrapper(GObject.GObject):
             'name': term
         }
 
-        artist_filter_ids: List[str] = []
+        self._run_query(query, self._artists_search)
 
-        def artist_filter(coreartist: CoreArtist) -> bool:
-            return coreartist.media.get_id() in artist_filter_ids
-
-        def artist_search_cb(
-                source: Grl.Source, op_id: int, media: Optional[Grl.Media],
-                remaining: int, error: Optional[GLib.Error]) -> None:
-            if error:
-                if error.code != Grl.CoreError.OPERATION_CANCELLED:
-                    self._log.warning("Error: {}".format(error))
-                    self._albums_search.set_filter(Gtk.AnyFilter())
-                    self._grilo_search_operation_ids.remove(op_id)
-                self._notificationmanager.pop_loading()
-                return
-
-            if not media:
-                custom_filter = Gtk.CustomFilter()
-                custom_filter.set_filter_func(artist_filter)
-                self._artists_search.set_filter(custom_filter)
-                self._notificationmanager.pop_loading()
-                self._grilo_search_operation_ids.remove(op_id)
-                return
-
-            artist_filter_ids.append(media.get_id())
-
-        op_id = self.props.source.query(
-            query, [Grl.METADATA_KEY_ID], self._fast_options, artist_search_cb)
-        self._grilo_search_operation_ids.append(op_id)
-
-        # Album search
+    def _search_album(self, term: str) -> None:
+        """Search the album tag and display results."""
         self._notificationmanager.push_loading()
 
         query = """
@@ -1039,37 +993,10 @@ class GrlTrackerWrapper(GObject.GObject):
             'name': term
         }
 
-        album_filter_ids: List[str] = []
+        self._run_query(query, self._albums_search)
 
-        def album_filter(corealbum: CoreAlbum) -> bool:
-            return corealbum.media.get_id() in album_filter_ids
-
-        def albums_search_cb(
-                source: Grl.Source, op_id: int, media: Optional[Grl.Media],
-                remaining: int, error: Optional[GLib.Error]) -> None:
-            if error:
-                if error.code != Grl.CoreError.OPERATION_CANCELLED:
-                    self._log.warning("Error: {}".format(error))
-                    self._albums_search.set_filter(Gtk.AnyFilter())
-                    self._grilo_search_operation_ids.remove(op_id)
-                self._notificationmanager.pop_loading()
-                return
-
-            if not media:
-                custom_filter = Gtk.CustomFilter()
-                custom_filter.set_filter_func(album_filter)
-                self._albums_search.set_filter(custom_filter)
-                self._notificationmanager.pop_loading()
-                self._grilo_search_operation_ids.remove(op_id)
-                return
-
-            album_filter_ids.append(media.get_id())
-
-        op_id = self.props.source.query(
-            query, [Grl.METADATA_KEY_ID], self._fast_options, albums_search_cb)
-        self._grilo_search_operation_ids.append(op_id)
-
-        # Song search
+    def _search_song(self, term: str) -> None:
+        """Search for song names and display results."""
         self._notificationmanager.push_loading()
 
         query = """
@@ -1120,12 +1047,17 @@ class GrlTrackerWrapper(GObject.GObject):
             'name': term
         }
 
+        self._run_query(query, self._songs_search)
+
+    def _run_query(
+            self, query: str, filter_list_model: Gtk.FilterListModel) -> None:
+        """Run a SPARQL query and display results."""
         filter_ids: List[str] = []
 
-        def songs_filter(coresong: CoreSong) -> bool:
-            return coresong.media.get_id() in filter_ids
+        def filter_func(obj: GObject.GObject) -> bool:
+            return obj.media.get_id() in filter_ids
 
-        def songs_search_cb(
+        def _search_callback(
                 source: Grl.Source, op_id: int, media: Optional[Grl.Media],
                 remaining: int, error: Optional[GLib.Error]) -> None:
             if error:
@@ -1138,8 +1070,8 @@ class GrlTrackerWrapper(GObject.GObject):
 
             if not media:
                 custom_filter = Gtk.CustomFilter()
-                custom_filter.set_filter_func(songs_filter)
-                self._songs_search.set_filter(custom_filter)
+                custom_filter.set_filter_func(filter_func)
+                filter_list_model.set_filter(custom_filter)
                 self._notificationmanager.pop_loading()
                 self._grilo_search_operation_ids.remove(op_id)
                 return
@@ -1147,8 +1079,36 @@ class GrlTrackerWrapper(GObject.GObject):
             filter_ids.append(media.get_id())
 
         op_id = self.props.source.query(
-            query, [Grl.METADATA_KEY_ID], self._fast_options, songs_search_cb)
+            query, [Grl.METADATA_KEY_ID], self._fast_options, _search_callback)
         self._grilo_search_operation_ids.append(op_id)
+
+    def search(self, text: str) -> None:
+        """Do a search in all relevant tags and display results.
+
+        :param str text: An arbitrary user-defined search string.
+        """
+        # FIXME: Searches are limited to not bog down the UI with
+        # widget creation ({List,Flow}Box limitations). The limit is
+        # arbitrarily set to 50 and set in the Tracker query. It should
+        # be possible to set it through Grilo options instead. This
+        # does not work as expected and needs further investigation.
+        term: str = Tracker.sparql_escape_string(
+            GLib.utf8_normalize(
+                GLib.utf8_casefold(text, -1), -1, GLib.NormalizeMode.NFKD))
+
+        for operation_id in self._grilo_search_operation_ids:
+            Grl.operation_cancel(operation_id)
+            self._grilo_search_operation_ids.remove(operation_id)
+
+        if text == "":
+            self._artists_search.set_filter(Gtk.AnyFilter())
+            self._albums_search.set_filter(Gtk.AnyFilter())
+            self._songs_search.set_filter(Gtk.AnyFilter())
+            return
+
+        self._search_artist(term)
+        self._search_album(term)
+        self._search_song(term)
 
     def _get_album_for_media_id_query(
             self, media_id: str, song: bool = True) -> str:
