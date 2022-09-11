@@ -8,10 +8,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNOME Music\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2022-02-19 12:39+0000\n"
-"PO-Revision-Date: 2022-02-20 18:45+0200\n"
+"POT-Creation-Date: 2022-08-27 13:27+0000\n"
+"PO-Revision-Date: 2022-09-11 07:13+0300\n"
 "Last-Translator: Yosef Or Boczko <yoseforb@gmail.com>\n"
-"Language-Team: Hebrew <GNOME Hebrew Translation Project>\n"
+"Language-Team: Hebrew <>\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,8 +22,8 @@ msgstr ""
 "X-Generator: Gtranslator 40.0\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:61
-#: gnomemusic/window.py:71
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/about.py:236
+#: gnomemusic/application.py:61 gnomemusic/window.py:71
 msgid "Music"
 msgstr "מוזיקה"
 
@@ -44,7 +44,7 @@ msgstr ""
 "איתור רצועות באוסף המקומי שלך, נעשה שימוש ברשימות נגינה שנוצרות אוטומטית או "
 "שאפשר להכין אחת חדשה."
 
-#: data/org.gnome.Music.appdata.xml.in.in:149
+#: data/org.gnome.Music.appdata.xml.in.in:167
 msgid "The GNOME Music developers"
 msgstr "מפתח GNOME Music"
 
@@ -118,82 +118,21 @@ msgstr ""
 "Enables or disables sending scrobbles and the “currently playing” info to "
 "Last.fm."
 
-#: data/ui/AboutDialog.ui.in:9
-msgid "Copyright © 2018 GNOME Music Developers"
-msgstr "כל הזכויות שמורות © 2018 מפתחי GNOME Music"
-
-#: data/ui/AboutDialog.ui.in:10
-msgid "A music player and management application for GNOME."
-msgstr "נגן ויישום לניהול מוזיקה עבור GNOME."
-
-#: data/ui/AboutDialog.ui.in:12
-msgid "Visit GNOME Music website"
-msgstr "ביקור באתר GNOME מוזיקה"
-
-#: data/ui/AboutDialog.ui.in:13
-msgid ""
-"GNOME Music is free software; you can redistribute it and/or modify it under "
-"the terms of the GNU General Public License as published by the Free "
-"Software Foundation; either version 2 of the License, or (at your option) "
-"any later version.\n"
-"\n"
-"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
-"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
-"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
-"more details.\n"
-"\n"
-"You should have received a copy of the GNU General Public License along with "
-"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
-"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
-"\n"
-"The GNOME Music authors hereby grant permission for non-GPL compatible "
-"GStreamer plugins to be used and distributed together with GStreamer and "
-"GNOME Music.  This permission is above and beyond the permissions granted by "
-"the GPL license by which GNOME Music is covered.  If you modify this code, "
-"you may extend this exception to your version of the code, but you are not "
-"obligated to do so.  If you do not wish to do so, delete this exception "
-"statement from your version."
-msgstr ""
-"‏GNOME Music היא תכנה חופשית; ניתן להפיצה מחדש ו/או לשנות אותה לפי תנאי "
-"הרישיון הציבורי הכללי של GNU כפי שפורסם על ידי קרן התכנה החופשית; בין אם "
-"גרסה 2 של הרישיון ובין אם (לבחירתך) כל גרסה מאוחרת יותר.\n"
-"‬\n"
-"‏‫\n"
-"‬\n"
-"‫תכנית זו מופצת בתקווה שתביא תועלת אך ללא אחריות כלשהי; אפילו לא האחריות "
-"המשתמעת בדבר מסחריותה או התאמתה למטרה מסוימת. לפרטים נוספים ניתן לעיין "
-"ברישיון הציבורי הכללי של GNU.\n"
-"‬\n"
-"‏‫\n"
-"‬\n"
-"‫עם GNOME Music אמור היה להיות מצורף עותק של הרישיון הציבורי הכללי של GNU; "
-"במידה שלא, ניתן לכתוב ל־Free Software Foundation, Inc., 51 Franklin Street, "
-"Fifth Floor, Boston, MA 02110-1301 USA.\n"
-"‬\n"
-"‏‫\n"
-"‬\n"
-"‫היוצרים של GNOME Music מצהירים בזאת כי הם מעניקים הרשאה להפצה של תוספי "
-"GStreamer שאינם מעוגנים תחת ה־GPL יחד עם GStreamer ו־GNOME Music. הרשאה זו "
-"תקפה על פני ההרשאה הניתנת על־ידי רישיון ה־GPL תחתיו מוגנת התכנית GNOME "
-"Music. כל שינוי בקוד זה עשוי לאלץ אותך להרחיב את החריגה לקוד בגרסה שהכנת, אך "
-"אין כל התחייבות לעשות זאת. אם אין לך עניין לעשות דבר שכזה, יש למחוק את הצהרת "
-"החריגה הזאת מהגרסה שלך."
-
-#: data/ui/AlbumWidget.ui:86 data/ui/PlayerToolbar.ui:88
-#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:168
+#: data/ui/AlbumWidget.ui:84 data/ui/PlayerToolbar.ui:87
+#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:170
 msgid "Play"
 msgstr "ניגון"
 
-#: data/ui/AlbumWidget.ui:132 data/ui/PlaylistControls.ui:5
+#: data/ui/AlbumWidget.ui:130 data/ui/PlaylistControls.ui:5
 #: data/ui/SongWidgetMenu.ui:11
 msgid "_Play"
 msgstr "_ניגון"
 
-#: data/ui/AlbumWidget.ui:136
+#: data/ui/AlbumWidget.ui:134
 msgid "Add to _Favorite Songs"
 msgstr "הוספה לשירים מו_עדפים"
 
-#: data/ui/AlbumWidget.ui:140 data/ui/SongWidgetMenu.ui:15
+#: data/ui/AlbumWidget.ui:138 data/ui/SongWidgetMenu.ui:15
 msgid "_Add to Playlist…"
 msgstr "הוספה לרשימת _נגינה…"
 
@@ -217,7 +156,7 @@ msgstr "ע_זרה"
 msgid "_About Music"
 msgstr "על _אודות מוזיקה"
 
-#: data/ui/EmptyView.ui:26 data/ui/InitialState.ui:13
+#: data/ui/EmptyView.ui:30
 msgid "Welcome to Music"
 msgstr "ברוך בואך למוזיקה"
 
@@ -229,7 +168,7 @@ msgstr "תפריט"
 msgid "Select"
 msgstr "בחירה"
 
-#: data/ui/HeaderBar.ui:30 data/ui/PlaylistDialog.ui:211
+#: data/ui/HeaderBar.ui:30 data/ui/PlaylistDialog.ui:213
 #: data/ui/SearchHeaderBar.ui:20
 msgid "_Cancel"
 msgstr "_ביטול"
@@ -327,11 +266,6 @@ msgctxt "shortcut window"
 msgid "Go back"
 msgstr "חזרה"
 
-#: data/ui/InitialState.ui:25
-#| msgid "The contents of your {} will appear here."
-msgid "The contents of your Music Folder will appear here"
-msgstr "התוכן של תיקיית המוזיקה שלך שלך יופיע כאן"
-
 #: data/ui/LastfmDialog.ui:21
 msgid ""
 "Last.fm is a music discovery service that gives you personalised "
@@ -352,11 +286,11 @@ msgstr "יש להיכנס לחשבון Last.fm שלך על מנת לדווח ע�
 msgid "Login"
 msgstr "כניסה"
 
-#: data/ui/PlayerToolbar.ui:75
+#: data/ui/PlayerToolbar.ui:74
 msgid "Previous"
 msgstr "הקודם"
 
-#: data/ui/PlayerToolbar.ui:107
+#: data/ui/PlayerToolbar.ui:106
 msgid "Next"
 msgstr "הבא"
 
@@ -392,11 +326,11 @@ msgstr "רשימת נגינה חדשה…"
 msgid "Add"
 msgstr "הוספה"
 
-#: data/ui/PlaylistDialog.ui:200
+#: data/ui/PlaylistDialog.ui:202
 msgid "Add to Playlist"
 msgstr "הוספה לרשימת נגינה"
 
-#: data/ui/PlaylistDialog.ui:220
+#: data/ui/PlaylistDialog.ui:222
 msgid "_Add"
 msgstr "הו_ספה"
 
@@ -408,7 +342,7 @@ msgstr "אומנים"
 msgid "View All"
 msgstr "להציג הכול"
 
-#: data/ui/SearchView.ui:75 gnomemusic/views/albumsview.py:54
+#: data/ui/SearchView.ui:75 gnomemusic/views/albumsview.py:56
 msgid "Albums"
 msgstr "אלבומים"
 
@@ -433,9 +367,25 @@ msgid "_Add to Playlist"
 msgstr "_הוספה לרשימת נגינה"
 
 #: data/ui/SongWidgetMenu.ui:19
-#| msgid "Remove From Playlist"
 msgid "_Remove from Playlist"
 msgstr "ה_סרה מרשימת נגינה"
+
+#: gnomemusic/about.py:238
+msgid "The GNOME Project"
+msgstr "מיזם GNOME"
+
+#: gnomemusic/about.py:242
+msgid "translator-credits"
+msgstr "יוסף אור בוצ׳קו <yoseforb@gmail.com>"
+
+#: gnomemusic/about.py:246
+#| msgid "Copyright © 2018 GNOME Music Developers"
+msgid "Copyright The GNOME Music Developers"
+msgstr "כל הזכויות שמורות למפתחי GNOME Music"
+
+#: gnomemusic/about.py:249
+msgid "Translated by"
+msgstr "תורגם על ידי"
 
 #. TRANSLATORS: this is a playlist name
 #: gnomemusic/grilowrappers/grltrackerplaylists.py:894
@@ -514,7 +464,6 @@ msgid "Playlist {} removed"
 msgstr "רשימת הנגינה {} הוסרה"
 
 #: gnomemusic/playlisttoast.py:56 gnomemusic/songtoast.py:65
-#| msgid "_Undo"
 msgid "Undo"
 msgstr "ביטול"
 
@@ -580,7 +529,7 @@ msgstr "תוצאות אומנים"
 msgid "Albums Results"
 msgstr "תוצאות אלבומים"
 
-#: gnomemusic/widgets/albumwidget.py:240
+#: gnomemusic/widgets/albumwidget.py:245
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "דקה"
@@ -617,7 +566,7 @@ msgstr "נכנסת בשם {}"
 msgid "Configure"
 msgstr "הגדרה"
 
-#: gnomemusic/widgets/playertoolbar.py:165
+#: gnomemusic/widgets/playertoolbar.py:167
 msgid "Pause"
 msgstr "השהיה"
 
@@ -628,6 +577,64 @@ msgstr[0] "שיר"
 msgstr[1] "שני שירים"
 msgstr[2] "{} שירים"
 msgstr[3] "{} שירים"
+
+#~ msgid "A music player and management application for GNOME."
+#~ msgstr "נגן ויישום לניהול מוזיקה עבור GNOME."
+
+#~ msgid "Visit GNOME Music website"
+#~ msgstr "ביקור באתר GNOME מוזיקה"
+
+#~ msgid ""
+#~ "GNOME Music is free software; you can redistribute it and/or modify it "
+#~ "under the terms of the GNU General Public License as published by the "
+#~ "Free Software Foundation; either version 2 of the License, or (at your "
+#~ "option) any later version.\n"
+#~ "\n"
+#~ "GNOME Music is distributed in the hope that it will be useful, but "
+#~ "WITHOUT ANY WARRANTY; without even the implied warranty of "
+#~ "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General "
+#~ "Public License for more details.\n"
+#~ "\n"
+#~ "You should have received a copy of the GNU General Public License along "
+#~ "with GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+#~ "Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+#~ "\n"
+#~ "The GNOME Music authors hereby grant permission for non-GPL compatible "
+#~ "GStreamer plugins to be used and distributed together with GStreamer and "
+#~ "GNOME Music.  This permission is above and beyond the permissions granted "
+#~ "by the GPL license by which GNOME Music is covered.  If you modify this "
+#~ "code, you may extend this exception to your version of the code, but you "
+#~ "are not obligated to do so.  If you do not wish to do so, delete this "
+#~ "exception statement from your version."
+#~ msgstr ""
+#~ "‏GNOME Music היא תכנה חופשית; ניתן להפיצה מחדש ו/או לשנות אותה לפי תנאי "
+#~ "הרישיון הציבורי הכללי של GNU כפי שפורסם על ידי קרן התכנה החופשית; בין אם "
+#~ "גרסה 2 של הרישיון ובין אם (לבחירתך) כל גרסה מאוחרת יותר.\n"
+#~ "‬\n"
+#~ "‏‫\n"
+#~ "‬\n"
+#~ "‫תכנית זו מופצת בתקווה שתביא תועלת אך ללא אחריות כלשהי; אפילו לא האחריות "
+#~ "המשתמעת בדבר מסחריותה או התאמתה למטרה מסוימת. לפרטים נוספים ניתן לעיין "
+#~ "ברישיון הציבורי הכללי של GNU.\n"
+#~ "‬\n"
+#~ "‏‫\n"
+#~ "‬\n"
+#~ "‫עם GNOME Music אמור היה להיות מצורף עותק של הרישיון הציבורי הכללי של GNU; "
+#~ "במידה שלא, ניתן לכתוב ל־Free Software Foundation, Inc., 51 Franklin "
+#~ "Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+#~ "‬\n"
+#~ "‏‫\n"
+#~ "‬\n"
+#~ "‫היוצרים של GNOME Music מצהירים בזאת כי הם מעניקים הרשאה להפצה של תוספי "
+#~ "GStreamer שאינם מעוגנים תחת ה־GPL יחד עם GStreamer ו־GNOME Music. הרשאה "
+#~ "זו תקפה על פני ההרשאה הניתנת על־ידי רישיון ה־GPL תחתיו מוגנת התכנית GNOME "
+#~ "Music. כל שינוי בקוד זה עשוי לאלץ אותך להרחיב את החריגה לקוד בגרסה שהכנת, "
+#~ "אך אין כל התחייבות לעשות זאת. אם אין לך עניין לעשות דבר שכזה, יש למחוק את "
+#~ "הצהרת החריגה הזאת מהגרסה שלך."
+
+#~| msgid "The contents of your {} will appear here."
+#~ msgid "The contents of your Music Folder will appear here"
+#~ msgstr "התוכן של תיקיית המוזיקה שלך שלך יופיע כאן"
 
 #~ msgid "GNOME Music"
 #~ msgstr "‏GNOME מוזיקה"
