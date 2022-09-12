@@ -4,12 +4,13 @@
 # This file is distributed under the same license as the gnome-music package.
 # Hristo Kozhuharov "XTard" <ickomcdevill@gmail.com>, 2016.
 # Alexander Shopov <ash@kambanaria.org>, 2021, 2022.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2022-03-10 19:01+0000\n"
-"PO-Revision-Date: 2022-03-10 20:36+0100\n"
+"POT-Creation-Date: 2022-09-11 18:29+0000\n"
+"PO-Revision-Date: 2022-09-12 22:56+0200\n"
 "Last-Translator: Alexander Shopov <ash@kambanaria.org>\n"
 "Language-Team: Bulgarian <dict-notifications@fsa-bg.org>\n"
 "Language: bg\n"
@@ -19,8 +20,8 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:61
-#: gnomemusic/window.py:71
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/about.py:236
+#: gnomemusic/application.py:61 gnomemusic/window.py:71
 msgid "Music"
 msgstr "Музика"
 
@@ -41,7 +42,7 @@ msgstr ""
 "Откриване на песни в локалната ви колекция, ползване на автоматично или "
 "ръчно създадени списъци за изпълнение."
 
-#: data/org.gnome.Music.appdata.xml.in.in:149
+#: data/org.gnome.Music.appdata.xml.in.in:167
 msgid "The GNOME Music developers"
 msgstr "Разработчиците на „Музика на GNOME“"
 
@@ -117,78 +118,21 @@ msgstr ""
 "Позволяване или не на пращане на информацията за слушаната музика към Last."
 "fm."
 
-#: data/ui/AboutDialog.ui.in:9
-msgid "Copyright © 2018 GNOME Music Developers"
-msgstr "Авторски права: © 2018 Разработчиците на „Музика на GNOME“"
-
-#: data/ui/AboutDialog.ui.in:10
-msgid "A music player and management application for GNOME."
-msgstr "Изпълнение и организиране на песни и музика за GNOME."
-
-#: data/ui/AboutDialog.ui.in:12
-msgid "Visit GNOME Music website"
-msgstr "Посетете сайта на Музика на GNOME"
-
-#: data/ui/AboutDialog.ui.in:13
-msgid ""
-"GNOME Music is free software; you can redistribute it and/or modify it under "
-"the terms of the GNU General Public License as published by the Free "
-"Software Foundation; either version 2 of the License, or (at your option) "
-"any later version.\n"
-"\n"
-"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
-"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
-"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
-"more details.\n"
-"\n"
-"You should have received a copy of the GNU General Public License along with "
-"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
-"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
-"\n"
-"The GNOME Music authors hereby grant permission for non-GPL compatible "
-"GStreamer plugins to be used and distributed together with GStreamer and "
-"GNOME Music.  This permission is above and beyond the permissions granted by "
-"the GPL license by which GNOME Music is covered.  If you modify this code, "
-"you may extend this exception to your version of the code, but you are not "
-"obligated to do so.  If you do not wish to do so, delete this exception "
-"statement from your version."
-msgstr ""
-"Тази програма (GNOME Music) е свободен софтуер. Можете да я разпространявате "
-"и/или променяте под условията на Общия публичен лиценз на GNU (GNU GPL), "
-"както е публикуван от Фондацията за свободен софтуер — версия 2 на лиценза "
-"или (по ваше решение) по-късна версия.\n"
-"\n"
-"Тази програма се разпространява с надеждата, че ще бъде полезна, но БЕЗ "
-"НИКАКВИ ГАРАНЦИИ, дори и косвените за ПРОДАЖБА или СЪОТВЕТСТВИЕ С КАКВАТО И "
-"ДА Е УПОТРЕБА. За подробности погледнете Общия публичен лиценз на GNU.\n"
-"\n"
-"Трябва да сте получили копие от Общия публичен лиценз на GNU (GNU GPL) "
-"заедно с тази програма. Ако не сте, пишете на Free Software Foundation, "
-"Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
-"\n"
-"Авторите на GNOME Music дават изрично разрешение за съвместно използване и "
-"разпространение на GNOME Music с приставките на GStreamer, които не са "
-"съвместими с GNU GPL. Това право е над и извън правата предоставени от GNU "
-"GPL — лицензът, по който GNOME Music се разпространява. Ако промените този "
-"код, може да разрешите това изключение за вашата версия на кода, но това не "
-"е задължително. Ако не желаете да позволите това изключение, изтрийте тази "
-"клауза от от вашата версия."
-
-#: data/ui/AlbumWidget.ui:86 data/ui/PlayerToolbar.ui:88
-#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:168
+#: data/ui/AlbumWidget.ui:84 data/ui/PlayerToolbar.ui:87
+#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:170
 msgid "Play"
 msgstr "Изпълнение"
 
-#: data/ui/AlbumWidget.ui:132 data/ui/PlaylistControls.ui:5
+#: data/ui/AlbumWidget.ui:130 data/ui/PlaylistControls.ui:5
 #: data/ui/SongWidgetMenu.ui:11
 msgid "_Play"
 msgstr "_Изпълнение"
 
-#: data/ui/AlbumWidget.ui:136
+#: data/ui/AlbumWidget.ui:134
 msgid "Add to _Favorite Songs"
 msgstr "Добавяне в любими песни…"
 
-#: data/ui/AlbumWidget.ui:140 data/ui/SongWidgetMenu.ui:15
+#: data/ui/AlbumWidget.ui:138 data/ui/SongWidgetMenu.ui:15
 msgid "_Add to Playlist…"
 msgstr "_Добавяне в списък…"
 
@@ -212,7 +156,7 @@ msgstr "Помо_щ"
 msgid "_About Music"
 msgstr "_Относно „Музика“"
 
-#: data/ui/EmptyView.ui:26 data/ui/InitialState.ui:13
+#: data/ui/EmptyView.ui:30
 msgid "Welcome to Music"
 msgstr "Добре дошли в „Музика“"
 
@@ -224,7 +168,7 @@ msgstr "Меню"
 msgid "Select"
 msgstr "Избор"
 
-#: data/ui/HeaderBar.ui:30 data/ui/PlaylistDialog.ui:211
+#: data/ui/HeaderBar.ui:30 data/ui/PlaylistDialog.ui:213
 #: data/ui/SearchHeaderBar.ui:20
 msgid "_Cancel"
 msgstr "_Отказ"
@@ -322,10 +266,6 @@ msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Назад"
 
-#: data/ui/InitialState.ui:25
-msgid "The contents of your Music Folder will appear here"
-msgstr "Съдържанието на папката с музика ще се появи тук."
-
 #: data/ui/LastfmDialog.ui:21
 msgid ""
 "Last.fm is a music discovery service that gives you personalised "
@@ -348,11 +288,11 @@ msgstr ""
 msgid "Login"
 msgstr "Вписване"
 
-#: data/ui/PlayerToolbar.ui:75
+#: data/ui/PlayerToolbar.ui:74
 msgid "Previous"
 msgstr "Предишна"
 
-#: data/ui/PlayerToolbar.ui:107
+#: data/ui/PlayerToolbar.ui:106
 msgid "Next"
 msgstr "Следваща"
 
@@ -388,11 +328,11 @@ msgstr "Нов списък…"
 msgid "Add"
 msgstr "Добавяне"
 
-#: data/ui/PlaylistDialog.ui:200
+#: data/ui/PlaylistDialog.ui:202
 msgid "Add to Playlist"
 msgstr "Добавяне в списък"
 
-#: data/ui/PlaylistDialog.ui:220
+#: data/ui/PlaylistDialog.ui:222
 msgid "_Add"
 msgstr "_Добавяне"
 
@@ -404,7 +344,7 @@ msgstr "Автори"
 msgid "View All"
 msgstr "Преглед на всички"
 
-#: data/ui/SearchView.ui:75 gnomemusic/views/albumsview.py:54
+#: data/ui/SearchView.ui:75 gnomemusic/views/albumsview.py:56
 msgid "Albums"
 msgstr "Албуми"
 
@@ -431,6 +371,32 @@ msgstr "_Добавяне в списък"
 #: data/ui/SongWidgetMenu.ui:19
 msgid "_Remove from Playlist"
 msgstr "_Изваждане от списък"
+
+#: gnomemusic/about.py:238
+msgid "The GNOME Project"
+msgstr "Проектът GNOME"
+
+#: gnomemusic/about.py:242
+msgid "translator-credits"
+msgstr ""
+"Александър Шопов &lt;<a href='mailto:ash@kambanaria.org'>ash@kambanaria.org</"
+"a>&gt;\n"
+"Христо Кожухаров &lt;<a href='mailto:ickomcdevill@gmail."
+"com'>ickomcdevill@gmail.com</a>&gt;\n"
+"\n"
+"Проектът за превод на GNOME има нужда от подкрепа.\n"
+"Научете повече за нас на <a href='https://fsa-bg.org/project/gtp'>уеб сайта</"
+"a> ни.\n"
+"Докладвайте за грешки в превода в <a href='https://fsa-bg.org/project/gtp/"
+"newticket'>съответния раздел</a>."
+
+#: gnomemusic/about.py:246
+msgid "Copyright The GNOME Music Developers"
+msgstr "Авторски права: Разработчиците на „Музика на GNOME“"
+
+#: gnomemusic/about.py:249
+msgid "Translated by"
+msgstr "Преведено от"
 
 #. TRANSLATORS: this is a playlist name
 #: gnomemusic/grilowrappers/grltrackerplaylists.py:894
@@ -572,7 +538,7 @@ msgstr "Резултати — изпълнителни"
 msgid "Albums Results"
 msgstr "Резултати — албуми"
 
-#: gnomemusic/widgets/albumwidget.py:242
+#: gnomemusic/widgets/albumwidget.py:245
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} минута"
@@ -606,7 +572,7 @@ msgstr "Вписани сте като „{}“"
 msgid "Configure"
 msgstr "Настройки"
 
-#: gnomemusic/widgets/playertoolbar.py:165
+#: gnomemusic/widgets/playertoolbar.py:167
 msgid "Pause"
 msgstr "Пауза"
 
