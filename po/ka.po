@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gnome-music\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
 "POT-Creation-Date: 2022-09-06 08:04+0000\n"
-"PO-Revision-Date: 2022-09-06 18:56+0200\n"
+"PO-Revision-Date: 2022-09-14 18:46+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <(nothing)>\n"
 "Language: ka\n"
@@ -82,14 +82,19 @@ msgid ""
 "“song” (repeat current song), “all” (repeat playlist, no shuffle), "
 "“shuffle” (shuffle playlist, presumes repeat all)."
 msgstr ""
+"მნიშვნელობა განსაზღვრავს, კოლექციაში დაკვრა შემთხვევითი წესით მოხდება, თუ "
+"განმეორებითი. დასაშვები მნიშვნელობებია: \"none\" (შემთხვევითობა და "
+"განმეორებადობა გამორთულია), \"song\" (მიმდინარე სიმღერის გამეორება), \"all"
+"\" (კოლექციის გამეორება, შემთხვევითობის გარეშე), \"shuffle\" (სიმღერის "
+"შემთხვევით არჩევა. ყველას დაკვრა ისედაც იგულისხმება)."
 
 #: data/org.gnome.Music.gschema.xml:28
 msgid "Enable ReplayGain"
-msgstr ""
+msgstr "ReplayGain-ის ჩართვა"
 
 #: data/org.gnome.Music.gschema.xml:29
 msgid "Enables or disables ReplayGain for albums"
-msgstr ""
+msgstr "ალბომებისთვის ReplayGain-ის ჩართვა/გამორთვა"
 
 #: data/org.gnome.Music.gschema.xml:33
 msgid "Inhibit system suspend"
@@ -108,6 +113,7 @@ msgid ""
 "Enables or disables sending scrobbles and the “currently playing” info to "
 "Last.fm."
 msgstr ""
+"მიმდინარე სიმღერის შესახებ ინფორმაციის Last.fm-ზე გაგზავნის ჩართვა/გამორთვა."
 
 #: data/ui/AlbumWidget.ui:84 data/ui/PlayerToolbar.ui:87
 #: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:170
@@ -262,6 +268,8 @@ msgid ""
 "Last.fm is a music discovery service that gives you personalised "
 "recommendations based on the music you listen to."
 msgstr ""
+"Last.fm არის მუსიკალური სერვისი, რომელიც გაძლევთ პერსონალურ რეკომენდაციებს "
+"თქვენს მიერ მოსმენილი მუსიკის საფუძველზე."
 
 #: data/ui/LastfmDialog.ui:31 gnomemusic/widgets/lastfmdialog.py:57
 msgid "Music Reporting Not Setup"
