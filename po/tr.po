@@ -1,5 +1,5 @@
 # Turkish translation for gnome-music.
-# Copyright (C) 2013-2019 gnome-music's COPYRIGHT HOLDER
+# Copyright (C) 2013-2022 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-music package.
 #
 # Gökhan Gurbetoğlu <ggurbet@gmail.com>, 2014, 2015.
@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2022-08-27 13:27+0000\n"
+"POT-Creation-Date: 2022-09-01 22:46+0000\n"
 "PO-Revision-Date: 2022-09-01 01:41+0300\n"
 "Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Turkish <gnome-turk@gnome.org>\n"
