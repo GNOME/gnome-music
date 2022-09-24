@@ -23,14 +23,13 @@
 # delete this exception statement from your version.
 
 from __future__ import annotations
-from typing import Optional
-
+from typing import Dict, Optional, Union, cast
 from enum import IntEnum
 from hashlib import md5
 
 import gi
 gi.require_version('Goa', '1.0')
-gi.require_version('Soup', '2.4')
+gi.require_version("Soup", "3.0")
 from gi.repository import Gio, GLib, Goa, GObject, Soup
 
 from gnomemusic.musiclogger import MusicLogger
@@ -420,13 +419,24 @@ class LastFmScrobbler(GObject.GObject):
             "api_sig": api_sig
         })
 
-        msg = Soup.form_request_new_from_hash(
-            "POST", "https://ws.audioscrobbler.com/2.0/", request_dict)
-        self._soup_session.queue_message(
-            msg, self._lastfm_api_callback, request_type_key)
+        msg = Soup.Message.new_from_encoded_form(
+            "POST", "https://ws.audioscrobbler.com/2.0/",
+            Soup.form_encode_hash(request_dict))
+        data = {
+            "msg": msg,
+            "request_type_key": request_type_key,
+        }
+        self._soup_session.send_async(
+            msg, GLib.PRIORITY_DEFAULT, None, self._lastfm_api_callback, data)
 
-    def _lastfm_api_callback(self, session, msg, request_type_key):
-        """Internall callback method called by queue_message"""
+    def _lastfm_api_callback(
+            self, session: Soup.Session,
+            result: Gio.AsyncResult,
+            data: Dict[str, Union[str, Soup.Message]]) -> None:
+        """Internal callback method called by queue_message"""
+        msg = cast(Soup.Message, data["msg"])
+        request_type_key = cast(str, data["request_type_key"])
+
         status_code = msg.props.status_code
         if status_code != 200:
             self._log.debug("Failed to {} track {} : {}".format(
