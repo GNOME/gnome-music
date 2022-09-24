@@ -23,7 +23,7 @@
 # delete this exception statement from your version.
 
 import gi
-gi.require_versions({"MediaArt": "2.0", "Soup": "2.4"})
+gi.require_versions({"MediaArt": "2.0", "Soup": "3.0"})
 from gi.repository import Gio, GLib, GObject, MediaArt, Soup, GdkPixbuf
 
 from gnomemusic.musiclogger import MusicLogger
@@ -99,18 +99,19 @@ class StoreArt(GObject.Object):
                 return
 
         msg = Soup.Message.new("GET", uri)
-        self._soup_session.queue_message(msg, self._read_callback, None)
+        self._soup_session.send_and_read_async(
+            msg, GLib.PRIORITY_DEFAULT, None, self._read_callback)
 
-    def _read_callback(self, src, result, data):
-        if result.props.status_code != 200:
+    def _read_callback(
+            self, session: Soup.Session, result: Gio.AsyncResult) -> None:
+        try:
+            bytes = session.send_and_read_finish(result)
+        except GLib.Error as error:
             self._log.debug(
-                "Failed to get remote art: {}".format(
-                    result.props.reason_phrase))
+                f"Failed to get remote art: {error.domain}, {error.message}")
             self.emit("finished")
-            return
 
-        istream = Gio.MemoryInputStream.new_from_bytes(
-            result.props.response_body_data)
+        istream = Gio.MemoryInputStream.new_from_bytes(bytes)
         GdkPixbuf.Pixbuf.new_from_stream_async(
             istream, None, self._pixbuf_from_stream_finished)
 
