@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2022-02-19 12:39+0000\n"
-"PO-Revision-Date: 2022-04-12 09:43+0000\n"
+"POT-Creation-Date: 2022-08-27 13:27+0000\n"
+"PO-Revision-Date: 2022-10-03 09:29+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <f.t.public@gmail.com>\n"
 "Language: fur\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Editor: HaiPO 1.2 b1\n"
-"X-Generator: Poedit 3.0\n"
+"X-Generator: Poedit 3.1.1\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:61
-#: gnomemusic/window.py:71
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/about.py:236
+#: gnomemusic/application.py:61 gnomemusic/window.py:71
 msgid "Music"
 msgstr "Musiche"
 
@@ -42,7 +42,7 @@ msgstr ""
 "Cjate i tocs inte tô colezion locâl, dopre lis listis di riproduzion "
 "gjeneradis in automatic o cure une gnove."
 
-#: data/org.gnome.Music.appdata.xml.in.in:149
+#: data/org.gnome.Music.appdata.xml.in.in:167
 msgid "The GNOME Music developers"
 msgstr "I svilupadôrs di GNOME Musiche"
 
@@ -50,8 +50,7 @@ msgstr "I svilupadôrs di GNOME Musiche"
 msgid "Music Player"
 msgstr "Letôr musicâl"
 
-#. Translators: Search terms to find this application. Do NOT translate or
-#. localize the semicolons! The list MUST also end with a semicolon!
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.Music.desktop.in.in:13
 msgid "Music;Player;"
 msgstr "Musiche;Riprodutôr;"
@@ -76,20 +75,19 @@ msgstr "Stât barcon slargjât."
 msgid "Playback repeat mode"
 msgstr "Modalitât ripetizion"
 
-#. Translators: Don't translate allowed values, just the description in the
-#. brackets
+#. Translators: Don't translate allowed values, just the description in the brackets
 #: data/org.gnome.Music.gschema.xml:24
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
-"collection. Allowed values are: “none” (repeat and shuffle are off), “song” "
-"(repeat current song), “all” (repeat playlist, no shuffle), “shuffle” "
-"(shuffle playlist, presumes repeat all)."
+"collection. Allowed values are: “none” (repeat and shuffle are off), "
+"“song” (repeat current song), “all” (repeat playlist, no shuffle), "
+"“shuffle” (shuffle playlist, presumes repeat all)."
 msgstr ""
 "Il valôr al specifiche se ripeti o riprodusi a câs le colezion. I valôrs "
-"acetâts a son: “none” (ripetizion e messedât a son studâts), “song” "
-"(ripetizion de cjançon atuâl), “all” (ripetizion de liste des cjançons, "
-"cence messedâ), “shuffle” (messedâ l'ordin de liste des cjançons, si intint "
-"ancje ripeti dutis)."
+"acetâts a son: “none” (ripetizion e messedât a son studâts), "
+"“song” (ripetizion de cjançon atuâl), “all” (ripetizion de liste des "
+"cjançons, cence messedâ), “shuffle” (messedâ l'ordin de liste des cjançons, "
+"si intint ancje ripeti dutis)."
 
 #: data/org.gnome.Music.gschema.xml:28
 msgid "Enable ReplayGain"
@@ -106,8 +104,8 @@ msgstr "Inibìs la sospension dal sisteme"
 #: data/org.gnome.Music.gschema.xml:34
 msgid "Enables or disables inhibiting system suspend while playing music"
 msgstr ""
-"Abilite o disabilite la inibizion a sospindi il sisteme intant che si scolte"
-" la musiche"
+"Abilite o disabilite la inibizion a sospindi il sisteme intant che si scolte "
+"la musiche"
 
 #: data/org.gnome.Music.gschema.xml:38
 msgid "Report music history to Last.fm"
@@ -118,54 +116,24 @@ msgid ""
 "Enables or disables sending scrobbles and the “currently playing” info to "
 "Last.fm."
 msgstr ""
-"Al abilite o al disabilite l'inviâ i tiei gjenars di musiche preferide e lis"
-" informazions ce che tu stâs scoltant a Last.fm."
+"Al abilite o al disabilite l'inviâ i tiei gjenars di musiche preferide e lis "
+"informazions ce che tu stâs scoltant a Last.fm."
 
-#: data/ui/AboutDialog.ui.in:9
-msgid "Copyright © 2018 GNOME Music Developers"
-msgstr "Copyright © 2018 Svilupadôrs di GNOME Musiche"
-
-#: data/ui/AboutDialog.ui.in:10
-msgid "A music player and management application for GNOME."
-msgstr "Une aplicazion GNOME par sunâ e ministrâ le proprie musiche."
-
-#: data/ui/AboutDialog.ui.in:12
-msgid "Visit GNOME Music website"
-msgstr "Visite il sît di GNOME Musiche"
-
-#: data/ui/AboutDialog.ui.in:13
-msgid ""
-"GNOME Music is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.\n"
-"\n"
-"GNOME Music is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.\n"
-"\n"
-"You should have received a copy of the GNU General Public License along with GNOME Music; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
-"\n"
-"The GNOME Music authors hereby grant permission for non-GPL compatible GStreamer plugins to be used and distributed together with GStreamer and GNOME Music.  This permission is above and beyond the permissions granted by the GPL license by which GNOME Music is covered.  If you modify this code, you may extend this exception to your version of the code, but you are not obligated to do so.  If you do not wish to do so, delete this exception statement from your version."
-msgstr ""
-"GNOME Musiche al è software libar; al è pussibil tornâ a distribuîlu o modificâlu sot i tiermins de licence GNU General Public License, come publicade de Free Software Foundation, version 2 o (a tô sielte) cualsisei sucessive.\n"
-"\n"
-"GNOME Musiche al è distribuît inte sperance che al sedi util, ma CENCE NISSUNE GARANZIE, cence nancje la implicite garanzie di CUMIERÇABILITÂT o IDONEITÂT A UNE FINALITÂT PARTICOLÂR.  Consultâ la licence GNU General Public License par vê plui detais.\n"
-"\n"
-"Cun GNOME Musiche ti varessin di vê dât ancje une copie de licence GNU General Public License, in câs contrari al è pussibil domandâle scrivint a: Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
-"\n"
-"Cun cheste letare i autôrs di GNOME Musiche a concedin il permès di doprâ e distribuî i plugin GStreamer, che no son compatibii cun la GPL, adun cun GStreamer e GNOME Musiche.  Chest permès al è parsore e di là dal permès concedût de licence GPL che e cuvierç GNOME Musiche. Se tu modifichis chest codiç, tu puedis estindi cheste ecezion ae tô version dal codiç, ma no tu sês obleât a fâlu.  Se no tu desideris fâlu, elimine cheste declarazion di ecezion de tô version."
-
-#: data/ui/AlbumWidget.ui:86 data/ui/PlayerToolbar.ui:88
-#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:168
+#: data/ui/AlbumWidget.ui:84 data/ui/PlayerToolbar.ui:87
+#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:170
 msgid "Play"
 msgstr "Sune"
 
-#: data/ui/AlbumWidget.ui:132 data/ui/PlaylistControls.ui:5
+#: data/ui/AlbumWidget.ui:130 data/ui/PlaylistControls.ui:5
 #: data/ui/SongWidgetMenu.ui:11
 msgid "_Play"
 msgstr "_Sune"
 
-#: data/ui/AlbumWidget.ui:136
+#: data/ui/AlbumWidget.ui:134
 msgid "Add to _Favorite Songs"
 msgstr "Zonte ai _tocs preferîts"
 
-#: data/ui/AlbumWidget.ui:140 data/ui/SongWidgetMenu.ui:15
+#: data/ui/AlbumWidget.ui:138 data/ui/SongWidgetMenu.ui:15
 msgid "_Add to Playlist…"
 msgstr "_Zonte ae liste di riproduzion…"
 
@@ -189,7 +157,7 @@ msgstr "_Jutori"
 msgid "_About Music"
 msgstr "_Informazions su Musiche"
 
-#: data/ui/EmptyView.ui:26 data/ui/InitialState.ui:13
+#: data/ui/EmptyView.ui:30
 msgid "Welcome to Music"
 msgstr "Benvignûts su Musiche"
 
@@ -201,7 +169,7 @@ msgstr "Menù"
 msgid "Select"
 msgstr "Selezione"
 
-#: data/ui/HeaderBar.ui:30 data/ui/PlaylistDialog.ui:211
+#: data/ui/HeaderBar.ui:30 data/ui/PlaylistDialog.ui:213
 #: data/ui/SearchHeaderBar.ui:20
 msgid "_Cancel"
 msgstr "_Anule"
@@ -299,11 +267,6 @@ msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Torne indaûr"
 
-# %s o ai viodût che al ven fûr "cartele di musiche"
-#: data/ui/InitialState.ui:25
-msgid "The contents of your Music Folder will appear here"
-msgstr "Il contignût de tô cartele Musiche al vignarà mostrât achì"
-
 #: data/ui/LastfmDialog.ui:21
 msgid ""
 "Last.fm is a music discovery service that gives you personalised "
@@ -324,11 +287,11 @@ msgstr "Jentre tal to account Last.fm par inviâ la musiche che tu scoltis."
 msgid "Login"
 msgstr "Jentre"
 
-#: data/ui/PlayerToolbar.ui:75
+#: data/ui/PlayerToolbar.ui:74
 msgid "Previous"
 msgstr "Precedent"
 
-#: data/ui/PlayerToolbar.ui:107
+#: data/ui/PlayerToolbar.ui:106
 msgid "Next"
 msgstr "Prossim"
 
@@ -364,11 +327,11 @@ msgstr "Gnove liste di musichis…"
 msgid "Add"
 msgstr "Zonte"
 
-#: data/ui/PlaylistDialog.ui:200
+#: data/ui/PlaylistDialog.ui:202
 msgid "Add to Playlist"
 msgstr "Zonte ae liste des musichis"
 
-#: data/ui/PlaylistDialog.ui:220
+#: data/ui/PlaylistDialog.ui:222
 msgid "_Add"
 msgstr "_Zonte"
 
@@ -380,7 +343,7 @@ msgstr "Artiscj"
 msgid "View All"
 msgstr "Visualize dut"
 
-#: data/ui/SearchView.ui:75 gnomemusic/views/albumsview.py:54
+#: data/ui/SearchView.ui:75 gnomemusic/views/albumsview.py:56
 msgid "Albums"
 msgstr "Album"
 
@@ -407,6 +370,22 @@ msgstr "_Zonte ae liste des musichis"
 #: data/ui/SongWidgetMenu.ui:19
 msgid "_Remove from Playlist"
 msgstr "_Gjave de liste des musichis"
+
+#: gnomemusic/about.py:238
+msgid "The GNOME Project"
+msgstr "Il progjet GNOME"
+
+#: gnomemusic/about.py:242
+msgid "translator-credits"
+msgstr "Fabio Tomat <f.t.public@gmail.com>, 2022"
+
+#: gnomemusic/about.py:246
+msgid "Copyright The GNOME Music Developers"
+msgstr "Copyright i svilupadôrs di GNOME Musiche"
+
+#: gnomemusic/about.py:249
+msgid "Translated by"
+msgstr "Tradot di"
 
 #. TRANSLATORS: this is a playlist name
 #: gnomemusic/grilowrappers/grltrackerplaylists.py:894
@@ -509,9 +488,9 @@ msgstr "La tô cartele XDG di Musiche no je stabilide."
 msgid "Music Folder"
 msgstr "cartele de musiche"
 
+# %s o ai viodût che al ven fûr "cartele di musiche"
 #. TRANSLATORS: This is a label to display a link to open user's music
 #. folder. {} will be replaced with the translated text 'Music folder'
-# %s o ai viodût che al ven fûr "cartele di musiche"
 #: gnomemusic/views/emptyview.py:76
 msgid "The contents of your {} will appear here."
 msgstr "Il contignût de tô {} al vignarà mostrât achì."
@@ -554,7 +533,7 @@ msgstr "Risultâts artiscj"
 msgid "Albums Results"
 msgstr "Risultâts album"
 
-#: gnomemusic/widgets/albumwidget.py:240
+#: gnomemusic/widgets/albumwidget.py:245
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} minût"
@@ -587,7 +566,7 @@ msgstr "Jentrât come {}"
 msgid "Configure"
 msgstr "Configure"
 
-#: gnomemusic/widgets/playertoolbar.py:165
+#: gnomemusic/widgets/playertoolbar.py:167
 msgid "Pause"
 msgstr "Pause"
 
@@ -596,6 +575,62 @@ msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} Cjançon"
 msgstr[1] "{} Cjançons"
+
+#~ msgid "A music player and management application for GNOME."
+#~ msgstr "Une aplicazion GNOME par sunâ e ministrâ le proprie musiche."
+
+#~ msgid "Visit GNOME Music website"
+#~ msgstr "Visite il sît di GNOME Musiche"
+
+#~ msgid ""
+#~ "GNOME Music is free software; you can redistribute it and/or modify it "
+#~ "under the terms of the GNU General Public License as published by the "
+#~ "Free Software Foundation; either version 2 of the License, or (at your "
+#~ "option) any later version.\n"
+#~ "\n"
+#~ "GNOME Music is distributed in the hope that it will be useful, but "
+#~ "WITHOUT ANY WARRANTY; without even the implied warranty of "
+#~ "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General "
+#~ "Public License for more details.\n"
+#~ "\n"
+#~ "You should have received a copy of the GNU General Public License along "
+#~ "with GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+#~ "Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+#~ "\n"
+#~ "The GNOME Music authors hereby grant permission for non-GPL compatible "
+#~ "GStreamer plugins to be used and distributed together with GStreamer and "
+#~ "GNOME Music.  This permission is above and beyond the permissions granted "
+#~ "by the GPL license by which GNOME Music is covered.  If you modify this "
+#~ "code, you may extend this exception to your version of the code, but you "
+#~ "are not obligated to do so.  If you do not wish to do so, delete this "
+#~ "exception statement from your version."
+#~ msgstr ""
+#~ "GNOME Musiche al è software libar; al è pussibil tornâ a distribuîlu o "
+#~ "modificâlu sot i tiermins de licence GNU General Public License, come "
+#~ "publicade de Free Software Foundation, version 2 o (a tô sielte) "
+#~ "cualsisei sucessive.\n"
+#~ "\n"
+#~ "GNOME Musiche al è distribuît inte sperance che al sedi util, ma CENCE "
+#~ "NISSUNE GARANZIE, cence nancje la implicite garanzie di CUMIERÇABILITÂT o "
+#~ "IDONEITÂT A UNE FINALITÂT PARTICOLÂR.  Consultâ la licence GNU General "
+#~ "Public License par vê plui detais.\n"
+#~ "\n"
+#~ "Cun GNOME Musiche ti varessin di vê dât ancje une copie de licence GNU "
+#~ "General Public License, in câs contrari al è pussibil domandâle scrivint "
+#~ "a: Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, "
+#~ "Boston, MA 02110-1301 USA.\n"
+#~ "\n"
+#~ "Cun cheste letare i autôrs di GNOME Musiche a concedin il permès di doprâ "
+#~ "e distribuî i plugin GStreamer, che no son compatibii cun la GPL, adun "
+#~ "cun GStreamer e GNOME Musiche.  Chest permès al è parsore e di là dal "
+#~ "permès concedût de licence GPL che e cuvierç GNOME Musiche. Se tu "
+#~ "modifichis chest codiç, tu puedis estindi cheste ecezion ae tô version "
+#~ "dal codiç, ma no tu sês obleât a fâlu.  Se no tu desideris fâlu, elimine "
+#~ "cheste declarazion di ecezion de tô version."
+
+# %s o ai viodût che al ven fûr "cartele di musiche"
+#~ msgid "The contents of your Music Folder will appear here"
+#~ msgstr "Il contignût de tô cartele Musiche al vignarà mostrât achì"
 
 #~ msgid "GNOME Music"
 #~ msgstr "GNOME Musiche"
@@ -623,8 +658,8 @@ msgstr[1] "{} Cjançons"
 #~ "Find tracks in your local collection, get music from DLNA servers or try "
 #~ "something new with the Jamendo and Magnatune services."
 #~ msgstr ""
-#~ "Cjate i tocs te colezion locâl, oten musiche dai servidôrs DLNA o cîr alc di"
-#~ " gnûf cui servizis Jamendo e Magnatune."
+#~ "Cjate i tocs te colezion locâl, oten musiche dai servidôrs DLNA o cîr alc "
+#~ "di gnûf cui servizis Jamendo e Magnatune."
 
 #~ msgid "Inital state has been displayed"
 #~ msgstr "Il stât iniziâl al è stât mostrât"
