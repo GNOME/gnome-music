@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2022-02-19 12:39+0000\n"
-"PO-Revision-Date: 2022-02-25 08:53+0100\n"
+"POT-Creation-Date: 2022-08-27 13:27+0000\n"
+"PO-Revision-Date: 2022-10-07 14:36+0200\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak <gnome-sk-list@gnome.org>\n"
 "Language: sk\n"
@@ -16,11 +16,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 1 : (n>=2 && n<=4) ? 2 : 0;\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.1.1\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:61
-#: gnomemusic/window.py:71
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/about.py:236
+#: gnomemusic/application.py:61 gnomemusic/window.py:71
 msgid "Music"
 msgstr "Hudba"
 
@@ -41,7 +41,7 @@ msgstr ""
 "Nájdite stopy vo vašej miestnej zbierke, použite automaticky vygenerované "
 "zoznamy skladieb alebo vytvorte svoj vlastný."
 
-#: data/org.gnome.Music.appdata.xml.in.in:149
+#: data/org.gnome.Music.appdata.xml.in.in:167
 msgid "The GNOME Music developers"
 msgstr "Vývojári aplikácie Hudba prostredia GNOME"
 
@@ -116,82 +116,23 @@ msgstr ""
 "Povolí alebo zakáže odosielanie názvov skladieb (scrobbling) a informáciu "
 "„aktuálne prehrávané“ službe Last.fm."
 
-#: data/ui/AboutDialog.ui.in:9
-msgid "Copyright © 2018 GNOME Music Developers"
-msgstr "Autorské práva © 2018 Vývojári aplikácie Hudba prostredia GNOME"
-
-#: data/ui/AboutDialog.ui.in:10
-msgid "A music player and management application for GNOME."
-msgstr "Aplikácia na prehrávanie a správu hudby prostredia GNOME."
-
-#: data/ui/AboutDialog.ui.in:12
-msgid "Visit GNOME Music website"
-msgstr "Navštíviť domovskú stránku aplikácie Hudba prostredia GNOME"
-
-#: data/ui/AboutDialog.ui.in:13
-msgid ""
-"GNOME Music is free software; you can redistribute it and/or modify it under "
-"the terms of the GNU General Public License as published by the Free "
-"Software Foundation; either version 2 of the License, or (at your option) "
-"any later version.\n"
-"\n"
-"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
-"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
-"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
-"more details.\n"
-"\n"
-"You should have received a copy of the GNU General Public License along with "
-"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
-"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
-"\n"
-"The GNOME Music authors hereby grant permission for non-GPL compatible "
-"GStreamer plugins to be used and distributed together with GStreamer and "
-"GNOME Music.  This permission is above and beyond the permissions granted by "
-"the GPL license by which GNOME Music is covered.  If you modify this code, "
-"you may extend this exception to your version of the code, but you are not "
-"obligated to do so.  If you do not wish to do so, delete this exception "
-"statement from your version."
-msgstr ""
-"Aplikácia Hudba prostredia GNOME je slobodný softvér; môžete ho ďalej šíriť "
-"a upravovať podľa ustanovení licencie GNU General Public Licence (Všeobecná "
-"zverejňovacia licencia GNU), vydávanej nadáciou Free Software Foundation a "
-"to buď podľa 2. verzie tejto licencie, alebo (podľa vášho uváženia) "
-"ktorejkoľvek neskoršej verzie.\n"
-"\n"
-"Tento program je rozširovaný v nádeji, že bude užitočný, avšak BEZ "
-"AKEJKOĽVEK ZÁRUKY. Neposkytujú sa ani odvodené záruky PREDAJNOSTI alebo "
-"VHODNOSTI NA URČITÝ ÚČEL. Ďalšie podrobnosti hľadajte v licencii GNU General "
-"Public License.\n"
-"\n"
-"Kópiu licencie GNU General Public License by ste mali dostať spolu s týmto "
-"programom. Ak sa tak nestalo, napíšte na adresu Free Software Foundation, "
-"Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.\n"
-"\n"
-"Autori programu Hudba prostredia GNOME týmto vyhlasujú, že udeľujú právo "
-"použiť a distribuovať zásuvné moduly knižnice GStreamer, ktoré nie sú "
-"kompatibilné s GPL, spolu s týmto programom. Toto právo je nadrámec práv "
-"zaručených licenciou GPL, pod ktorú tento program spadá.  Ak upravíte "
-"zdrojový kód tohto programu, môžete túto výnimku použiť aj na vašu verziu "
-"kódu, no nie ste povinný tak urobiť. Ak to nechcete urobiť, vymažte z túto "
-"výnimku z vyhlásenia vo vašej verzii kódu."
-
 # tooltip
-#: data/ui/AlbumWidget.ui:86 data/ui/PlayerToolbar.ui:88
-#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:168
+#: data/ui/AlbumWidget.ui:84 data/ui/PlayerToolbar.ui:87
+#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:170
 msgid "Play"
 msgstr "Prehrá"
 
-#: data/ui/AlbumWidget.ui:132 data/ui/PlaylistControls.ui:5
+#: data/ui/AlbumWidget.ui:130 data/ui/PlaylistControls.ui:5
 #: data/ui/SongWidgetMenu.ui:11
 msgid "_Play"
 msgstr "_Prehrať"
 
-#: data/ui/AlbumWidget.ui:136
+#: data/ui/AlbumWidget.ui:134
 msgid "Add to _Favorite Songs"
 msgstr "Pridať _medzi obľúbené skladby"
 
 # gtk button
-#: data/ui/AlbumWidget.ui:140 data/ui/SongWidgetMenu.ui:15
+#: data/ui/AlbumWidget.ui:138 data/ui/SongWidgetMenu.ui:15
 msgid "_Add to Playlist…"
 msgstr "_Pridať do zoznamu skladieb…"
 
@@ -215,7 +156,7 @@ msgstr "_Pomocník"
 msgid "_About Music"
 msgstr "_O aplikácii Hudba"
 
-#: data/ui/EmptyView.ui:26 data/ui/InitialState.ui:13
+#: data/ui/EmptyView.ui:30
 msgid "Welcome to Music"
 msgstr "Vitajte v aplikácii Hudba"
 
@@ -228,7 +169,7 @@ msgstr "Ponuka"
 msgid "Select"
 msgstr "Vyberie"
 
-#: data/ui/HeaderBar.ui:30 data/ui/PlaylistDialog.ui:211
+#: data/ui/HeaderBar.ui:30 data/ui/PlaylistDialog.ui:213
 #: data/ui/SearchHeaderBar.ui:20
 msgid "_Cancel"
 msgstr "_Zrušiť"
@@ -329,10 +270,6 @@ msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Prejdenie späť"
 
-#: data/ui/InitialState.ui:25
-msgid "The contents of your Music Folder will appear here"
-msgstr "Tu sa zobrazí obsah vášho priečinku s hudbou"
-
 #: data/ui/LastfmDialog.ui:21
 msgid ""
 "Last.fm is a music discovery service that gives you personalised "
@@ -353,12 +290,12 @@ msgstr "Pre nahlásenie vami počúvanej hudby, sa prihláste do služby Last.fm
 msgid "Login"
 msgstr "Prihlásiť"
 
-#: data/ui/PlayerToolbar.ui:75
+#: data/ui/PlayerToolbar.ui:74
 msgid "Previous"
 msgstr "Predchádzajúca"
 
 # DK: skladba
-#: data/ui/PlayerToolbar.ui:107
+#: data/ui/PlayerToolbar.ui:106
 msgid "Next"
 msgstr "Nasledujúca"
 
@@ -395,11 +332,11 @@ msgid "Add"
 msgstr "Pridať"
 
 # gtk button
-#: data/ui/PlaylistDialog.ui:200
+#: data/ui/PlaylistDialog.ui:202
 msgid "Add to Playlist"
 msgstr "Pridanie do zoznamu skladieb"
 
-#: data/ui/PlaylistDialog.ui:220
+#: data/ui/PlaylistDialog.ui:222
 msgid "_Add"
 msgstr "_Pridať"
 
@@ -411,7 +348,7 @@ msgstr "Interpreti"
 msgid "View All"
 msgstr "Zobraziť všetko"
 
-#: data/ui/SearchView.ui:75 gnomemusic/views/albumsview.py:54
+#: data/ui/SearchView.ui:75 gnomemusic/views/albumsview.py:56
 msgid "Albums"
 msgstr "Albumy"
 
@@ -440,6 +377,22 @@ msgstr "_Pridať do zoznamu skladieb"
 #: data/ui/SongWidgetMenu.ui:19
 msgid "_Remove from Playlist"
 msgstr "O_dstrániť zo zoznamu skladieb"
+
+#: gnomemusic/about.py:238
+msgid "The GNOME Project"
+msgstr "Projekt GNOME"
+
+#: gnomemusic/about.py:242
+msgid "translator-credits"
+msgstr "Dušan Kazik <prescott66@gmail.com>"
+
+#: gnomemusic/about.py:246
+msgid "Copyright The GNOME Music Developers"
+msgstr "Autorské práva: vývojári aplikácie Hudba prostredia GNOME"
+
+#: gnomemusic/about.py:249
+msgid "Translated by"
+msgstr "Preložili"
 
 #. TRANSLATORS: this is a playlist name
 #: gnomemusic/grilowrappers/grltrackerplaylists.py:894
@@ -587,7 +540,7 @@ msgstr "Výsledky s interpretami"
 msgid "Albums Results"
 msgstr "Výsledky s albumami"
 
-#: gnomemusic/widgets/albumwidget.py:240
+#: gnomemusic/widgets/albumwidget.py:245
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} minút"
@@ -623,7 +576,7 @@ msgid "Configure"
 msgstr "Nastaviť"
 
 # tooltip
-#: gnomemusic/widgets/playertoolbar.py:165
+#: gnomemusic/widgets/playertoolbar.py:167
 msgid "Pause"
 msgstr "Pozastaví"
 
@@ -633,6 +586,62 @@ msgid_plural "{} Songs"
 msgstr[0] "{} skladieb"
 msgstr[1] "{} skladba"
 msgstr[2] "{} skladby"
+
+#~ msgid "A music player and management application for GNOME."
+#~ msgstr "Aplikácia na prehrávanie a správu hudby prostredia GNOME."
+
+#~ msgid "Visit GNOME Music website"
+#~ msgstr "Navštíviť domovskú stránku aplikácie Hudba prostredia GNOME"
+
+#~ msgid ""
+#~ "GNOME Music is free software; you can redistribute it and/or modify it "
+#~ "under the terms of the GNU General Public License as published by the "
+#~ "Free Software Foundation; either version 2 of the License, or (at your "
+#~ "option) any later version.\n"
+#~ "\n"
+#~ "GNOME Music is distributed in the hope that it will be useful, but "
+#~ "WITHOUT ANY WARRANTY; without even the implied warranty of "
+#~ "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General "
+#~ "Public License for more details.\n"
+#~ "\n"
+#~ "You should have received a copy of the GNU General Public License along "
+#~ "with GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+#~ "Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+#~ "\n"
+#~ "The GNOME Music authors hereby grant permission for non-GPL compatible "
+#~ "GStreamer plugins to be used and distributed together with GStreamer and "
+#~ "GNOME Music.  This permission is above and beyond the permissions granted "
+#~ "by the GPL license by which GNOME Music is covered.  If you modify this "
+#~ "code, you may extend this exception to your version of the code, but you "
+#~ "are not obligated to do so.  If you do not wish to do so, delete this "
+#~ "exception statement from your version."
+#~ msgstr ""
+#~ "Aplikácia Hudba prostredia GNOME je slobodný softvér; môžete ho ďalej "
+#~ "šíriť a upravovať podľa ustanovení licencie GNU General Public Licence "
+#~ "(Všeobecná zverejňovacia licencia GNU), vydávanej nadáciou Free Software "
+#~ "Foundation a to buď podľa 2. verzie tejto licencie, alebo (podľa vášho "
+#~ "uváženia) ktorejkoľvek neskoršej verzie.\n"
+#~ "\n"
+#~ "Tento program je rozširovaný v nádeji, že bude užitočný, avšak BEZ "
+#~ "AKEJKOĽVEK ZÁRUKY. Neposkytujú sa ani odvodené záruky PREDAJNOSTI alebo "
+#~ "VHODNOSTI NA URČITÝ ÚČEL. Ďalšie podrobnosti hľadajte v licencii GNU "
+#~ "General Public License.\n"
+#~ "\n"
+#~ "Kópiu licencie GNU General Public License by ste mali dostať spolu s "
+#~ "týmto programom. Ak sa tak nestalo, napíšte na adresu Free Software "
+#~ "Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, "
+#~ "USA.\n"
+#~ "\n"
+#~ "Autori programu Hudba prostredia GNOME týmto vyhlasujú, že udeľujú právo "
+#~ "použiť a distribuovať zásuvné moduly knižnice GStreamer, ktoré nie sú "
+#~ "kompatibilné s GPL, spolu s týmto programom. Toto právo je nadrámec práv "
+#~ "zaručených licenciou GPL, pod ktorú tento program spadá.  Ak upravíte "
+#~ "zdrojový kód tohto programu, môžete túto výnimku použiť aj na vašu verziu "
+#~ "kódu, no nie ste povinný tak urobiť. Ak to nechcete urobiť, vymažte z "
+#~ "túto výnimku z vyhlásenia vo vašej verzii kódu."
+
+#~ msgid "The contents of your Music Folder will appear here"
+#~ msgstr "Tu sa zobrazí obsah vášho priečinku s hudbou"
 
 #~ msgid "GNOME Music"
 #~ msgstr "Hudba prostredia GNOME"
