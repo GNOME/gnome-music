@@ -3,52 +3,47 @@
 # This file is distributed under the same license as the gnome-music package.
 #
 # pan93412 <pan93412@gmail.com>, 2019.
+# Freddy Cheng <freddy4212@gmail.com>, 2022.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2020-10-05 15:17+0000\n"
-"PO-Revision-Date: 2020-10-12 22:06+0800\n"
+"POT-Creation-Date: 2022-08-31 19:15+0000\n"
+"PO-Revision-Date: 2022-10-18 21:08+0800\n"
 "Last-Translator: Cheng-Chia Tseng <pswo10680@gmail.com>\n"
-"Language-Team: Chinese <zh-l10n@linux.org.tw>\n"
+"Language-Team: Chinese - Taiwan <chinese-l10n@googlegroups.com>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4.1\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.1.1\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
-msgid "GNOME Music"
-msgstr "GNOME 音樂"
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/about.py:236
+#: gnomemusic/application.py:61 gnomemusic/window.py:71
+msgid "Music"
+msgstr "音樂"
 
 #: data/org.gnome.Music.appdata.xml.in.in:7
 #: data/org.gnome.Music.desktop.in.in:5
 msgid "Play and organize your music collection"
-msgstr "播放與組織您的音樂收藏集"
+msgstr "播放與管理您所收藏的音樂"
 
 #: data/org.gnome.Music.appdata.xml.in.in:9
-msgid ""
-"An easy way to play your music. Automatically discover music on your "
-"computer, the local network and internet services."
-msgstr "用簡單的方式播放音樂，自動探索您電腦、區域網路和網際網路服務中的音樂。"
+msgid "An easy and pleasant way to play your music."
+msgstr "一種輕鬆且愉悅的音樂播放方式。"
 
 #: data/org.gnome.Music.appdata.xml.in.in:12
 msgid ""
-"Find tracks in your local collection, get music from DLNA servers or try "
-"something new with the Jamendo and Magnatune services."
-msgstr ""
-"在您的本地集合中找尋曲目，從 DLNA 伺服器取得音樂或透過 Jamendo 和 Magnatune "
-"服務找尋些新音樂。"
+"Find tracks in your local collection, use automatically generated playlists "
+"or curate a fresh one."
+msgstr "尋找您電腦中的音樂，並能自動產生或是自行編排播放列表。"
 
-#: data/org.gnome.Music.appdata.xml.in.in:133
+#: data/org.gnome.Music.appdata.xml.in.in:167
 msgid "The GNOME Music developers"
-msgstr "GNOME 音樂開發團隊"
-
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:60
-#: gnomemusic/window.py:70
-msgid "Music"
-msgstr "音樂"
+msgstr "GNOME 音樂開發群"
 
 #: data/org.gnome.Music.desktop.in.in:4
 msgid "Music Player"
@@ -57,7 +52,7 @@ msgstr "音樂播放器"
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.Music.desktop.in.in:13
 msgid "Music;Player;"
-msgstr "Music;Player;音樂;播放器;"
+msgstr "Music;Player;音樂;播放器;mp3;聽音樂;歌;lastfm;"
 
 #: data/org.gnome.Music.gschema.xml:12
 msgid "Window size"
@@ -65,267 +60,204 @@ msgstr "視窗尺寸"
 
 #: data/org.gnome.Music.gschema.xml:13
 msgid "Window size (width and height)."
-msgstr "視窗大小 (寬度與高度)。"
+msgstr "視窗大小 (寬度,高度)。"
 
 #: data/org.gnome.Music.gschema.xml:17
-msgid "Window position"
-msgstr "視窗位置"
+msgid "Window maximized"
+msgstr "視窗最大化"
 
 #: data/org.gnome.Music.gschema.xml:18
-msgid "Window position (x and y)."
-msgstr "視窗位置 (x 與 y)。"
+msgid "Window maximized state."
+msgstr "是否要最大化視窗。"
 
 #: data/org.gnome.Music.gschema.xml:22
-msgid "Window maximized"
-msgstr "視窗已最大化"
-
-#: data/org.gnome.Music.gschema.xml:23
-msgid "Window maximized state."
-msgstr "視窗為最大化狀態。"
-
-#: data/org.gnome.Music.gschema.xml:27
 msgid "Playback repeat mode"
 msgstr "重複播放模式"
 
 #. Translators: Don't translate allowed values, just the description in the brackets
-#: data/org.gnome.Music.gschema.xml:29
+#: data/org.gnome.Music.gschema.xml:24
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
 "collection. Allowed values are: “none” (repeat and shuffle are off), "
 "“song” (repeat current song), “all” (repeat playlist, no shuffle), "
 "“shuffle” (shuffle playlist, presumes repeat all)."
 msgstr ""
-"用來辨別是要重複播放收藏集或是亂數播放的值。允許的值有：「none」(不重複也不隨"
-"機)、「song」(重複目前曲目)、「all」(重複播放清單曲目，不隨機) 和「shuffle」"
-"(隨機播放清單曲目，假定全部重複)。"
+"用來辨別是要重複播放蒐藏或隨機播放的值。允許的值有：\n"
+"「none」（不重複也不隨機）\n"
+"「song」（重複目前曲目）\n"
+"「all」（重複播放清單曲目，不隨機）\n"
+"「shuffle」（隨機播放清單曲目，假定全部重複）"
 
-#: data/org.gnome.Music.gschema.xml:33
+#: data/org.gnome.Music.gschema.xml:28
 msgid "Enable ReplayGain"
 msgstr "啟用播放增益"
 
-#: data/org.gnome.Music.gschema.xml:34
+#: data/org.gnome.Music.gschema.xml:29
 msgid "Enables or disables ReplayGain for albums"
 msgstr "啟用或停用專輯的播放增益"
 
-#: data/org.gnome.Music.gschema.xml:38
-msgid "Inital state has been displayed"
-msgstr "已顯示初始狀態"
-
-#: data/org.gnome.Music.gschema.xml:39
-msgid "Set to true when initial state has been displayed"
-msgstr "當顯示初始狀態設定為 true"
-
-#: data/org.gnome.Music.gschema.xml:43
+#: data/org.gnome.Music.gschema.xml:33
 msgid "Inhibit system suspend"
 msgstr "防止系統暫停"
 
-#: data/org.gnome.Music.gschema.xml:44
+#: data/org.gnome.Music.gschema.xml:34
 msgid "Enables or disables inhibiting system suspend while playing music"
-msgstr "啟用或停用音樂播放時的防止系統暫停功能"
+msgstr "啟用或停用音樂播放時的防止系統進入暫停"
 
-#: data/org.gnome.Music.gschema.xml:48
+#: data/org.gnome.Music.gschema.xml:38
 msgid "Report music history to Last.fm"
-msgstr "回報音樂歷史記錄至 Last.fm"
+msgstr "將音樂記錄上傳至《Last.fm》"
 
-#: data/org.gnome.Music.gschema.xml:49
+#: data/org.gnome.Music.gschema.xml:39
 msgid ""
 "Enables or disables sending scrobbles and the “currently playing” info to "
 "Last.fm."
-msgstr "啟用／停用傳送音樂記錄及「目前播放」資訊給 Last.fm。"
+msgstr "啟用/停用上傳音樂記錄及「目前播放」資訊至《Last.fm》。"
 
-#: data/ui/AboutDialog.ui.in:9
-msgid "Copyright © 2018 GNOME Music Developers"
-msgstr "著作權所有 © 2018 GNOME Music 開發團隊"
+#: data/ui/AlbumWidget.ui:84 data/ui/PlayerToolbar.ui:87
+#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:170
+msgid "Play"
+msgstr "播放"
 
-#: data/ui/AboutDialog.ui.in:10
-msgid "A music player and management application for GNOME."
-msgstr "GNOME 的音樂播放器與管理員。"
+#: data/ui/AlbumWidget.ui:130 data/ui/PlaylistControls.ui:5
+#: data/ui/SongWidgetMenu.ui:11
+msgid "_Play"
+msgstr "播放(_P)"
 
-#: data/ui/AboutDialog.ui.in:12
-msgid "Visit GNOME Music website"
-msgstr "參訪 GNOME Music 網站"
+#: data/ui/AlbumWidget.ui:134
+msgid "Add to _Favorite Songs"
+msgstr "加入喜愛的歌曲(_F)"
 
-#: data/ui/AboutDialog.ui.in:13
-msgid ""
-"GNOME Music is free software; you can redistribute it and/or modify it under "
-"the terms of the GNU General Public License as published by the Free "
-"Software Foundation; either version 2 of the License, or (at your option) "
-"any later version.\n"
-"\n"
-"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
-"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
-"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
-"more details.\n"
-"\n"
-"You should have received a copy of the GNU General Public License along with "
-"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
-"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
-"\n"
-"The GNOME Music authors hereby grant permission for non-GPL compatible "
-"GStreamer plugins to be used and distributed together with GStreamer and "
-"GNOME Music.  This permission is above and beyond the permissions granted by "
-"the GPL license by which GNOME Music is covered.  If you modify this code, "
-"you may extend this exception to your version of the code, but you are not "
-"obligated to do so.  If you do not wish to do so, delete this exception "
-"statement from your version.\n"
-"\n"
-"“Magic of the vinyl” by Sami Pyylampi image is licensed by CC-BY-SA 2.0 "
-"https://www.flickr.com/photos/_spy_/12270839403"
-msgstr ""
-"GNOME Music 是自由軟體，您可以遵照自由軟體基金會 (Free Software Foundation) "
-"出版的 GNU 通用公共授權條款 (GNU General Public License) 第二版來修改和重新發"
-"佈這一程式，或者自由選擇使用之後的任何版本。\n"
-"\n"
-"發佈 GNOME Music 程式的目的是希望它有用，但「沒有任何擔保」；甚至也沒有「可以"
-"銷售」或「適合特定目的」等隱示性擔保。詳細內容請參閱 GNU 通用公共授權。\n"
-"\n"
-"您應該已經隨程式一起收到一份 GNU 通用公共授權的副本。如果還沒有，請寫信給："
-"Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA "
-"02110-1301 USA.\n"
-"\n"
-"GNOME Music 作者群特此授予不相容於 GPL 授權的 GStreamer 外掛程式能隨 "
-"GStreamer 及 GNOME Music 一同使用、散佈之許可。這項許可高於且超出 GNOME "
-"Music 遵照之 GPL 授權所授予之許可範圍。如果您修改此份程式碼，您可以將此例外條"
-"款擴及至您自身的版本上，但您沒有義務必須也這麼作。如果您不希望有此例外條款，"
-"請將例外聲明從您的版本中移除。\n"
-"\n"
-"\"Magic of the vinyl\" 作者 Sami Pyylampi 影像是以 CC-BY-SA 2.0 授權 https://"
-"www.flickr.com/photos/_spy_/12270839403"
+#: data/ui/AlbumWidget.ui:138 data/ui/SongWidgetMenu.ui:15
+msgid "_Add to Playlist…"
+msgstr "加入播放清單(_A)…"
 
-#: data/ui/AlbumWidget.ui:107
-msgid "Released"
-msgstr "發行"
-
-#: data/ui/AlbumWidget.ui:123
-msgid "Running Length"
-msgstr "播放長度"
-
-#: data/ui/AlbumWidget.ui:167
-msgid "Composer"
-msgstr "作曲家"
-
-#: data/ui/AppMenu.ui:20 data/ui/LastfmDialog.ui:8
+#: data/ui/AppMenu.ui:23 data/ui/LastfmDialog.ui:8
 msgid "Last.fm Account"
-msgstr "Last.fm 帳戶"
+msgstr "Last.fm 帳號"
 
-#: data/ui/AppMenu.ui:38
+#: data/ui/AppMenu.ui:36
 msgid "Report Music Listening"
-msgstr "回報聆聽中的音樂"
+msgstr "上傳音樂聆聽紀錄"
 
-#: data/ui/AppMenu.ui:69
+#: data/ui/AppMenu.ui:58
 msgid "_Keyboard Shortcuts"
 msgstr "鍵盤捷徑鍵(_K)"
 
-#: data/ui/AppMenu.ui:83
+#: data/ui/AppMenu.ui:68
 msgid "_Help"
 msgstr "求助(_H)"
 
-#: data/ui/AppMenu.ui:97
+#: data/ui/AppMenu.ui:78
 msgid "_About Music"
-msgstr "關於《音樂》(_A)"
+msgstr "關於音樂(_A)"
+
+#: data/ui/EmptyView.ui:30
+msgid "Welcome to Music"
+msgstr "歡迎使用《音樂》"
 
 #: data/ui/HeaderBar.ui:16
 msgid "Menu"
 msgstr "選單"
 
-#: data/ui/HeaderBar.ui:39 data/ui/SearchHeaderBar.ui:16
+#: data/ui/HeaderBar.ui:24 data/ui/SearchHeaderBar.ui:15
 msgid "Select"
-msgstr "選擇"
+msgstr "選取音樂"
 
-#: data/ui/HeaderBar.ui:60 data/ui/PlaylistDialog.ui:244
-#: data/ui/SearchHeaderBar.ui:37
+#: data/ui/HeaderBar.ui:30 data/ui/PlaylistDialog.ui:213
+#: data/ui/SearchHeaderBar.ui:20
 msgid "_Cancel"
 msgstr "取消(_C)"
 
-#: data/ui/HeaderBar.ui:79 data/ui/SearchHeaderBar.ui:56
+#: data/ui/HeaderBar.ui:42 data/ui/SearchHeaderBar.ui:32
 msgid "Search"
 msgstr "搜尋"
 
-#: data/ui/HeaderBar.ui:102
+#: data/ui/HeaderBar.ui:50
 msgid "Back"
 msgstr "返回"
 
-#: data/ui/help-overlay.ui:13
+#: data/ui/help-overlay.ui:11
 msgctxt "shortcut window"
 msgid "General"
 msgstr "一般"
 
-#: data/ui/help-overlay.ui:17
+#: data/ui/help-overlay.ui:14
 msgctxt "shortcut window"
 msgid "Close window"
 msgstr "關閉視窗"
 
-#: data/ui/help-overlay.ui:24
+#: data/ui/help-overlay.ui:20
 msgctxt "shortcut window"
 msgid "Search"
 msgstr "搜尋"
 
-#: data/ui/help-overlay.ui:31
+#: data/ui/help-overlay.ui:26
 msgctxt "shortcut window"
 msgid "Help"
 msgstr "求助"
 
-#: data/ui/help-overlay.ui:38
+#: data/ui/help-overlay.ui:32
 msgctxt "shortcut window"
 msgid "Shortcuts"
 msgstr "捷徑鍵"
 
-#: data/ui/help-overlay.ui:47
+#: data/ui/help-overlay.ui:40
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "播放控制"
 
-#: data/ui/help-overlay.ui:51
+#: data/ui/help-overlay.ui:43
 msgctxt "shortcut window"
 msgid "Play/Pause"
 msgstr "播放/暫停"
 
-#: data/ui/help-overlay.ui:58
+#: data/ui/help-overlay.ui:49
 msgctxt "shortcut window"
 msgid "Next song"
 msgstr "下一首"
 
-#: data/ui/help-overlay.ui:65
+#: data/ui/help-overlay.ui:55
 msgctxt "shortcut window"
 msgid "Previous song"
 msgstr "上一首"
 
-#: data/ui/help-overlay.ui:72
+#: data/ui/help-overlay.ui:61
 msgctxt "shortcut window"
 msgid "Toggle repeat"
-msgstr "切換重複與否"
+msgstr "切換重複播放模式"
 
-#: data/ui/help-overlay.ui:79
+#: data/ui/help-overlay.ui:67
 msgctxt "shortcut window"
 msgid "Toggle shuffle"
-msgstr "切換隨機與否"
+msgstr "切換隨機播放模式"
 
-#: data/ui/help-overlay.ui:88
+#: data/ui/help-overlay.ui:75
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "導覽"
 
-#: data/ui/help-overlay.ui:92
+#: data/ui/help-overlay.ui:78
 msgctxt "shortcut window"
 msgid "Go to Albums"
-msgstr "前往「專輯」"
+msgstr "前往專輯分頁"
 
-#: data/ui/help-overlay.ui:99
+#: data/ui/help-overlay.ui:84
 msgctxt "shortcut window"
 msgid "Go to Artists"
-msgstr "前往「演出者」"
+msgstr "前往演出者分頁"
 
-#: data/ui/help-overlay.ui:106
+#: data/ui/help-overlay.ui:90
 msgctxt "shortcut window"
 msgid "Go to Songs"
-msgstr "前往「歌曲」"
+msgstr "前往歌曲分頁"
 
-#: data/ui/help-overlay.ui:113
+#: data/ui/help-overlay.ui:96
 msgctxt "shortcut window"
 msgid "Go to Playlists"
-msgstr "前往「播放清單」"
+msgstr "前往播放清單分頁"
 
-#: data/ui/help-overlay.ui:120
+#: data/ui/help-overlay.ui:102
 msgctxt "shortcut window"
 msgid "Go back"
 msgstr "返回"
@@ -334,127 +266,82 @@ msgstr "返回"
 msgid ""
 "Last.fm is a music discovery service that gives you personalised "
 "recommendations based on the music you listen to."
-msgstr "Last.fm是一種音樂發現服務，可以根據您收聽的音樂為您提供個人化建議。"
+msgstr ""
+"《Last.fm》是一種音樂探索服務，能根據您的聆聽習慣提供個人化的音樂建議。"
 
-#: data/ui/LastfmDialog.ui:32 gnomemusic/widgets/lastfmdialog.py:58
+#: data/ui/LastfmDialog.ui:31 gnomemusic/widgets/lastfmdialog.py:57
 msgid "Music Reporting Not Setup"
-msgstr "音樂報告未設定"
+msgstr "音樂聆聽紀錄上傳功能尚未初始化"
 
-#: data/ui/LastfmDialog.ui:46 gnomemusic/widgets/lastfmdialog.py:61
+#: data/ui/LastfmDialog.ui:44 gnomemusic/widgets/lastfmdialog.py:60
 msgid "Login to your Last.fm account to report your music listening."
-msgstr "登入您的 Last.fm 帳號以報告您的音樂收聽。"
+msgstr "登入您的《Last.fm》帳號後便能上傳音樂聆聽紀錄。"
 
-#: data/ui/LastfmDialog.ui:57 gnomemusic/widgets/lastfmdialog.py:59
+#: data/ui/LastfmDialog.ui:55 gnomemusic/widgets/lastfmdialog.py:58
 msgid "Login"
 msgstr "登入"
 
-#: data/ui/LoadingNotification.ui:16
-msgid "Loading"
-msgstr "正在載入"
-
-#: data/ui/PlayerToolbar.ui:6
-msgid "Shuffle"
-msgstr "亂數"
-
-#: data/ui/PlayerToolbar.ui:11
-msgid "Repeat All"
-msgstr "全部重複播放"
-
-#: data/ui/PlayerToolbar.ui:16
-msgid "Repeat Song"
-msgstr "重複播放歌曲"
-
-#. Causes tracks to play in random order
-#: data/ui/PlayerToolbar.ui:21
-msgid "Shuffle/Repeat Off"
-msgstr "亂數/重複播放關閉"
-
-#: data/ui/PlayerToolbar.ui:69
+#: data/ui/PlayerToolbar.ui:74
 msgid "Previous"
-msgstr "前一首"
+msgstr "上一曲"
 
-#: data/ui/PlayerToolbar.ui:85 gnomemusic/widgets/playertoolbar.py:146
-msgid "Play"
-msgstr "播放"
-
-#: data/ui/PlayerToolbar.ui:101
+#: data/ui/PlayerToolbar.ui:106
 msgid "Next"
-msgstr "下一首"
+msgstr "下一曲"
 
-#: data/ui/PlaylistContextMenu.ui:5
-msgctxt "context menu item"
-msgid "Play"
-msgstr "播放"
-
-#: data/ui/PlaylistContextMenu.ui:9
-msgid "Add to Playlist…"
-msgstr "加入至播放清單…"
-
-#: data/ui/PlaylistContextMenu.ui:13
-msgid "Remove From Playlist"
-msgstr "從播放清單移除"
-
-#: data/ui/PlaylistControls.ui:6
-msgid "_Play"
-msgstr "播放(_P)"
-
-#: data/ui/PlaylistControls.ui:10
+#: data/ui/PlaylistControls.ui:9
 msgid "_Delete"
 msgstr "刪除(_D)"
 
-#: data/ui/PlaylistControls.ui:14
+#: data/ui/PlaylistControls.ui:13
 msgid "_Rename…"
 msgstr "重新命名(_R)…"
 
-#: data/ui/PlaylistControls.ui:41
+#: data/ui/PlaylistControls.ui:28
 msgid "Playlist Name"
 msgstr "播放清單名稱"
 
-#: data/ui/PlaylistControls.ui:74
+#: data/ui/PlaylistControls.ui:62
 msgid "_Done"
 msgstr "完成(_D)"
 
-#: data/ui/PlaylistDialog.ui:66
+#: data/ui/PlaylistDialog.ui:52
 msgid "Enter a name for your first playlist"
-msgstr "輸入您第一個播放清單的名稱"
+msgstr "為您的第一個播放清單命名"
 
-#: data/ui/PlaylistDialog.ui:92
+#: data/ui/PlaylistDialog.ui:77
 msgid "C_reate"
 msgstr "建立(_R)"
 
-#: data/ui/PlaylistDialog.ui:155
+#: data/ui/PlaylistDialog.ui:146
 msgid "New Playlist…"
-msgstr "新增播放清單…"
+msgstr "新播放清單…"
 
-#: data/ui/PlaylistDialog.ui:169
+#: data/ui/PlaylistDialog.ui:161
 msgid "Add"
 msgstr "加入"
 
-#: data/ui/PlaylistDialog.ui:241
+#: data/ui/PlaylistDialog.ui:202
 msgid "Add to Playlist"
-msgstr "加入至播放清單"
+msgstr "加入播放清單"
 
-#: data/ui/PlaylistDialog.ui:257
+#: data/ui/PlaylistDialog.ui:222
 msgid "_Add"
 msgstr "加入(_A)"
 
-#: data/ui/PlaylistNotification.ui:22
-msgid "_Undo"
-msgstr "復原(_U)"
-
-#: data/ui/SearchView.ui:43 gnomemusic/views/artistsview.py:43
+#: data/ui/SearchView.ui:33 gnomemusic/views/artistsview.py:51
 msgid "Artists"
 msgstr "演出者"
 
-#: data/ui/SearchView.ui:53 data/ui/SearchView.ui:106
+#: data/ui/SearchView.ui:42 data/ui/SearchView.ui:84
 msgid "View All"
 msgstr "檢視全部"
 
-#: data/ui/SearchView.ui:96 gnomemusic/views/albumsview.py:47
+#: data/ui/SearchView.ui:75 gnomemusic/views/albumsview.py:56
 msgid "Albums"
 msgstr "專輯"
 
-#: data/ui/SearchView.ui:149 gnomemusic/views/songsview.py:44
+#: data/ui/SearchView.ui:117 gnomemusic/views/songsview.py:52
 msgid "Songs"
 msgstr "歌曲"
 
@@ -466,175 +353,337 @@ msgstr "全選"
 msgid "Select None"
 msgstr "取消全選"
 
-#: data/ui/SelectionBarMenuButton.ui:31 gnomemusic/widgets/headerbar.py:71
+#: data/ui/SelectionBarMenuButton.ui:19 gnomemusic/widgets/headerbar.py:69
 msgid "Click on items to select them"
-msgstr "點按項目來選取它們"
+msgstr "點一下即可選取項目"
 
-#: data/ui/SelectionToolbar.ui:9
+#: data/ui/SelectionToolbar.ui:8
 msgid "_Add to Playlist"
-msgstr "加入至播放清單(_A)"
+msgstr "加入播放清單(_A)"
+
+#: data/ui/SongWidgetMenu.ui:19
+msgid "_Remove from Playlist"
+msgstr "自播放清單中移除(_R)"
+
+#: gnomemusic/about.py:238
+msgid "The GNOME Project"
+msgstr "GNOME 專案"
+
+#: gnomemusic/about.py:242
+msgid "translator-credits"
+msgstr ""
+"Yi-Jyun Pan <pan93412@gmail.com>, 2019.\n"
+"Freddy Cheng <freddy4212@gmail.com>, 2922."
+
+#: gnomemusic/about.py:246
+msgid "Copyright The GNOME Music Developers"
+msgstr "著作權所有 ©《音樂》開發者群"
+
+#: gnomemusic/about.py:249
+msgid "Translated by"
+msgstr "翻譯者"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:827
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:894
 msgid "Most Played"
 msgstr "最常播放"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:880
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:948
 msgid "Never Played"
 msgstr "從未播放"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:932
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1001
 msgid "Recently Played"
-msgstr "最近播放"
+msgstr "近期播放"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:994
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1064
 msgid "Recently Added"
-msgstr "最近加入"
+msgstr "近期加入"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1056
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1127
 msgid "Favorite Songs"
 msgstr "喜愛的歌曲"
 
-#: gnomemusic/gstplayer.py:378
+#: gnomemusic/gstplayer.py:408
 msgid "Unable to play the file"
-msgstr "無法播放這個檔案"
+msgstr "無法播放該檔案"
 
-#: gnomemusic/gstplayer.py:384
+#: gnomemusic/gstplayer.py:414
 msgid "_Find in {}"
-msgstr "於 {} 尋找(_F)"
+msgstr "於「{}」中尋找(_F)"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:394
+#: gnomemusic/gstplayer.py:424
 msgid " and "
-msgstr " 和 "
+msgstr " 與 "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:397
+#: gnomemusic/gstplayer.py:427
 msgid ", "
 msgstr "、"
 
-#: gnomemusic/gstplayer.py:399
+#: gnomemusic/gstplayer.py:429
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
-msgstr[0] "需要 {} 才能播放這個檔案，但尚未安裝。"
+msgstr[0] "需安裝「{}」後才能播放該檔案。"
 
 #: gnomemusic/inhibitsuspend.py:63
 msgid "Playing music"
-msgstr "正在播放音樂"
+msgstr "播放中的音樂"
 
-#: gnomemusic/utils.py:81
+#. Translators: "shuffle" causes tracks to play in random order.
+#: gnomemusic/player.py:44
+msgid "Shuffle"
+msgstr "隨機播放"
+
+#: gnomemusic/player.py:45
+msgid "Repeat Song"
+msgstr "單曲重複播放"
+
+#: gnomemusic/player.py:46
+msgid "Repeat All"
+msgstr "全部重複播放"
+
+#: gnomemusic/player.py:47
+msgid "Shuffle/Repeat Off"
+msgstr "隨機/重複播放關閉"
+
+#: gnomemusic/playlisttoast.py:55
+msgid "Playlist {} removed"
+msgstr "已移除「{}」"
+
+#: gnomemusic/playlisttoast.py:56 gnomemusic/songtoast.py:65
+msgid "Undo"
+msgstr "還原"
+
+#: gnomemusic/songtoast.py:64
+msgid "{} removed from {}"
+msgstr "「{}」已從「{}」中移除"
+
+#: gnomemusic/utils.py:92
 msgid "Unknown album"
-msgstr "未知專輯"
+msgstr "不明專輯"
 
-#: gnomemusic/utils.py:102
+#: gnomemusic/utils.py:113
 msgid "Unknown Artist"
-msgstr "不明的演出者"
+msgstr "不明演出者"
 
-#: gnomemusic/views/emptyview.py:67
+#: gnomemusic/views/emptyview.py:65
 msgid "Your XDG Music directory is not set."
-msgstr "您未設定 XDG 音樂目錄。"
+msgstr "尚未設定 XDG 音樂目錄。"
 
-#: gnomemusic/views/emptyview.py:74
-msgid "Music folder"
+#: gnomemusic/views/emptyview.py:72
+msgid "Music Folder"
 msgstr "音樂資料夾"
 
 #. TRANSLATORS: This is a label to display a link to open user's music
 #. folder. {} will be replaced with the translated text 'Music folder'
-#: gnomemusic/views/emptyview.py:78
+#: gnomemusic/views/emptyview.py:76
 msgid "The contents of your {} will appear here."
-msgstr "您的 {} 的內容會出現在這裡。"
+msgstr "您位於{}中的內容會顯示於此。"
 
-#: gnomemusic/views/emptyview.py:112
-msgid "Hey DJ"
-msgstr "嘿 DJ"
-
-#: gnomemusic/views/emptyview.py:121 gnomemusic/views/emptyview.py:126
-msgid "No music found"
+#: gnomemusic/views/emptyview.py:124
+msgid "No Music Found"
 msgstr "找不到音樂"
 
-#: gnomemusic/views/emptyview.py:128
-msgid "Try a different search"
-msgstr "請嘗試不同的搜尋"
+#: gnomemusic/views/emptyview.py:125
+msgid "Try a Different Search"
+msgstr "請嘗試不同的搜尋內容"
 
-#: gnomemusic/views/emptyview.py:133
-msgid "GNOME Music could not connect to Tracker"
-msgstr "GNOME 音樂無法連線到 Tracker"
+#: gnomemusic/views/emptyview.py:129
+msgid "GNOME Music could not connect to Tracker."
+msgstr "《音樂》無法連接《Tracker》。"
 
-#: gnomemusic/views/emptyview.py:136
-msgid "Your music files cannot be indexed without Tracker running"
-msgstr "若 Tracker 未執行，將無法索引您的音樂檔案"
+#: gnomemusic/views/emptyview.py:131
+msgid "Your music files cannot be indexed without Tracker running."
+msgstr "倘若《Tracker》未執行便無法檢索音樂檔案。"
 
-#: gnomemusic/views/emptyview.py:143
-msgid "Your system Tracker version seems outdated"
-msgstr "系統 Tracker 版本似乎過舊"
+#: gnomemusic/views/emptyview.py:137
+msgid "Your system Tracker version seems outdated."
+msgstr "系統所安裝的《Tracker》版本似乎過舊。"
 
-#: gnomemusic/views/emptyview.py:146
-msgid "Music needs Tracker version 3.0.0 or higher"
-msgstr "《音樂》需要 Tracker 3.0.0 版或更高版本"
+#: gnomemusic/views/emptyview.py:139
+msgid "Music needs Tracker version 3.0.0 or higher."
+msgstr "《音樂》需要《Tracker》3.0.0 以上的版本。"
 
-#: gnomemusic/views/playlistsview.py:41
+#: gnomemusic/views/playlistsview.py:45
 msgid "Playlists"
 msgstr "播放清單"
 
-#: gnomemusic/views/searchview.py:386
+#: gnomemusic/views/searchview.py:304
 msgid "Artists Results"
-msgstr "演出者結果"
+msgstr "演出者搜尋結果"
 
-#: gnomemusic/views/searchview.py:401
+#: gnomemusic/views/searchview.py:318
 msgid "Albums Results"
-msgstr "專輯結果"
+msgstr "專輯搜尋結果"
 
-#: gnomemusic/widgets/albumwidget.py:154
+#: gnomemusic/widgets/albumwidget.py:245
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} 分鐘"
 
-#: gnomemusic/widgets/disclistboxwidget.py:60
+#: gnomemusic/widgets/discbox.py:75
 msgid "Disc {}"
-msgstr "碟片 {}"
+msgstr "光碟 {}"
 
-#: gnomemusic/widgets/headerbar.py:68
+#: gnomemusic/widgets/headerbar.py:66
 msgid "Selected {} song"
 msgid_plural "Selected {} songs"
 msgstr[0] "己選取 {} 首歌"
 
-#: gnomemusic/widgets/lastfmdialog.py:65
+#: gnomemusic/widgets/lastfmdialog.py:64
 msgid "Your music listening is reported to Last.fm."
-msgstr "您的音樂收聽已回報至 Last.fm。"
+msgstr "您的音樂聆聽紀錄將會上傳至《Last.fm》。"
 
-#: gnomemusic/widgets/lastfmdialog.py:67
+#: gnomemusic/widgets/lastfmdialog.py:66
 msgid "Your music listening is not reported to Last.fm."
-msgstr "您的音樂收聽不會回報至 Last.fm。"
+msgstr "您的音樂聆聽紀錄不會上傳至《Last.fm》。"
 
 #. TRANSLATORS: displays the username of the Last.fm account
-#: gnomemusic/widgets/lastfmdialog.py:71
+#: gnomemusic/widgets/lastfmdialog.py:70
 msgid "Logged in as {}"
-msgstr "登入為 {}"
+msgstr "以「{}」登入"
 
-#: gnomemusic/widgets/lastfmdialog.py:72
+#: gnomemusic/widgets/lastfmdialog.py:71
 msgid "Configure"
 msgstr "設定"
 
-#: gnomemusic/widgets/notificationspopup.py:216
-msgid "Playlist {} removed"
-msgstr "播放清單 {} 已移除"
-
-#: gnomemusic/widgets/notificationspopup.py:220
-msgid "{} removed from {}"
-msgstr "{} 已從 {} 移除"
-
-#: gnomemusic/widgets/playertoolbar.py:143
+#: gnomemusic/widgets/playertoolbar.py:167
 msgid "Pause"
 msgstr "暫停"
 
-#: gnomemusic/widgets/playlistcontrols.py:127
+#: gnomemusic/widgets/playlistcontrols.py:130
 msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} 首歌曲"
+
+#~ msgid "A music player and management application for GNOME."
+#~ msgstr "GNOME 的音樂播放與管理應用程式。"
+
+#~ msgid "Visit GNOME Music website"
+#~ msgstr "造訪《音樂》網站"
+
+#~| msgid ""
+#~| "GNOME Music is free software; you can redistribute it and/or modify it "
+#~| "under the terms of the GNU General Public License as published by the "
+#~| "Free Software Foundation; either version 2 of the License, or (at your "
+#~| "option) any later version.\n"
+#~| "\n"
+#~| "GNOME Music is distributed in the hope that it will be useful, but "
+#~| "WITHOUT ANY WARRANTY; without even the implied warranty of "
+#~| "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU "
+#~| "General Public License for more details.\n"
+#~| "\n"
+#~| "You should have received a copy of the GNU General Public License along "
+#~| "with GNOME Music; if not, write to the Free Software Foundation, Inc., "
+#~| "51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+#~| "\n"
+#~| "The GNOME Music authors hereby grant permission for non-GPL compatible "
+#~| "GStreamer plugins to be used and distributed together with GStreamer and "
+#~| "GNOME Music.  This permission is above and beyond the permissions "
+#~| "granted by the GPL license by which GNOME Music is covered.  If you "
+#~| "modify this code, you may extend this exception to your version of the "
+#~| "code, but you are not obligated to do so.  If you do not wish to do so, "
+#~| "delete this exception statement from your version.\n"
+#~| "\n"
+#~| "“Magic of the vinyl” by Sami Pyylampi image is licensed by CC-BY-SA 2.0 "
+#~| "https://www.flickr.com/photos/_spy_/12270839403"
+#~ msgid ""
+#~ "GNOME Music is free software; you can redistribute it and/or modify it "
+#~ "under the terms of the GNU General Public License as published by the "
+#~ "Free Software Foundation; either version 2 of the License, or (at your "
+#~ "option) any later version.\n"
+#~ "\n"
+#~ "GNOME Music is distributed in the hope that it will be useful, but "
+#~ "WITHOUT ANY WARRANTY; without even the implied warranty of "
+#~ "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General "
+#~ "Public License for more details.\n"
+#~ "\n"
+#~ "You should have received a copy of the GNU General Public License along "
+#~ "with GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+#~ "Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+#~ "\n"
+#~ "The GNOME Music authors hereby grant permission for non-GPL compatible "
+#~ "GStreamer plugins to be used and distributed together with GStreamer and "
+#~ "GNOME Music.  This permission is above and beyond the permissions granted "
+#~ "by the GPL license by which GNOME Music is covered.  If you modify this "
+#~ "code, you may extend this exception to your version of the code, but you "
+#~ "are not obligated to do so.  If you do not wish to do so, delete this "
+#~ "exception statement from your version."
+#~ msgstr ""
+#~ "《音樂》為自由軟體，您可以遵照自由軟體基金會 (Free Software Foundation) 所"
+#~ "出版的 《GNU 通用公共授權條款》 (GNU General Public License) 第二版來修改"
+#~ "和重新發布這一程式；您也能自由選擇之後的任何版本做使用。\n"
+#~ "\n"
+#~ "我們將《音樂》無償提供給所有人使用，但「沒有任何擔保責任」；甚至也沒有「可"
+#~ "以銷售」或「適合特定目的」等隱示性擔保。詳情請參閱《GNU 通用公共授權條"
+#~ "款》。\n"
+#~ "\n"
+#~ "您應該已隨本程式一起收到一份《GNU 通用公共授權條款》的副本。倘若您尚未收"
+#~ "到，請寫封信至：Free Software Foundation, Inc., 51 Franklin Street, Fifth "
+#~ "Floor, Boston, MA 02110-1301 USA.\n"
+#~ "\n"
+#~ "《GNOME 音樂》作者群特此授予不相容於 GPL 授權的 GStreamer 外掛程式能隨 "
+#~ "GStreamer 及《GNOME 音樂》一同使用、散佈之許可。這項許可高於且超出《GNOME "
+#~ "音樂》遵照之 GPL 授權所授予之許可範圍。如果您修改此份程式碼，您可以將此例"
+#~ "外條款擴及至您自身的版本上，但您沒有義務必須跟著這麼作。如果您不希望有此例"
+#~ "外條款，請將例外聲明從您的版本中移除。"
+
+#~| msgid "The contents of your {} will appear here."
+#~ msgid "The contents of your Music Folder will appear here"
+#~ msgstr "您位於音樂資料夾中的內容會顯示於此"
+
+#~ msgid "GNOME Music"
+#~ msgstr "GNOME 音樂"
+
+#~ msgid ""
+#~ "An easy way to play your music. Automatically discover music on your "
+#~ "computer, the local network and internet services."
+#~ msgstr ""
+#~ "用簡單的方式播放音樂，自動探索您電腦、區域網路和網際網路服務中的音樂。"
+
+#~ msgid ""
+#~ "Find tracks in your local collection, get music from DLNA servers or try "
+#~ "something new with the Jamendo and Magnatune services."
+#~ msgstr ""
+#~ "在您的本地集合中找尋曲目，從 DLNA 伺服器取得音樂或透過 Jamendo 和 "
+#~ "Magnatune 服務找尋些新音樂。"
+
+#~ msgid "Window position"
+#~ msgstr "視窗位置"
+
+#~ msgid "Window position (x and y)."
+#~ msgstr "視窗位置 (x 與 y)。"
+
+#~ msgid "Inital state has been displayed"
+#~ msgstr "已顯示初始狀態"
+
+#~ msgid "Set to true when initial state has been displayed"
+#~ msgstr "當顯示初始狀態設定為 true"
+
+#~ msgid "Released"
+#~ msgstr "發行"
+
+#~ msgid "Running Length"
+#~ msgstr "播放長度"
+
+#~ msgid "Composer"
+#~ msgstr "作曲家"
+
+#~ msgid "Loading"
+#~ msgstr "正在載入"
+
+#~ msgctxt "context menu item"
+#~ msgid "Play"
+#~ msgstr "播放"
+
+#~ msgid "Hey DJ"
+#~ msgstr "嘿 DJ"
 
 #~ msgid "Untitled"
 #~ msgstr "無標題"
