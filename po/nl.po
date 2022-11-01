@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2022-05-10 09:09+0000\n"
-"PO-Revision-Date: 2022-06-30 21:18+0200\n"
+"POT-Creation-Date: 2022-08-27 13:27+0000\n"
+"PO-Revision-Date: 2022-11-01 22:57+0100\n"
 "Last-Translator: Nathan Follens <nfollens@gnome.org>\n"
 "Language-Team: Dutch <gnome-nl-list@gnome.org>\n"
 "Language: nl\n"
@@ -22,12 +22,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.1\n"
+"X-Generator: Poedit 3.1.1\n"
 "X-Project-Style: gnome\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:61
-#: gnomemusic/window.py:71
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/about.py:236
+#: gnomemusic/application.py:61 gnomemusic/window.py:71
 msgid "Music"
 msgstr "Muziek"
 
@@ -123,66 +123,6 @@ msgstr ""
 "Schakelt het verzenden van scrobbles en de ‘Luistert nu naar’-informatie "
 "naar Last.fm in of uit."
 
-#: data/ui/AboutDialog.ui.in:9
-msgid "Copyright © 2018 GNOME Music Developers"
-msgstr "Copyright © 2018 Gnome Muziek-ontwikkelaars"
-
-#: data/ui/AboutDialog.ui.in:10
-msgid "A music player and management application for GNOME."
-msgstr "Een muziekspeler en beheertoepassing voor Gnome."
-
-#: data/ui/AboutDialog.ui.in:12
-msgid "Visit GNOME Music website"
-msgstr "Bezoek de Gnome Muziek-website"
-
-#: data/ui/AboutDialog.ui.in:13
-msgid ""
-"GNOME Music is free software; you can redistribute it and/or modify it under "
-"the terms of the GNU General Public License as published by the Free "
-"Software Foundation; either version 2 of the License, or (at your option) "
-"any later version.\n"
-"\n"
-"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
-"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
-"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
-"more details.\n"
-"\n"
-"You should have received a copy of the GNU General Public License along with "
-"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
-"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
-"\n"
-"The GNOME Music authors hereby grant permission for non-GPL compatible "
-"GStreamer plugins to be used and distributed together with GStreamer and "
-"GNOME Music.  This permission is above and beyond the permissions granted by "
-"the GPL license by which GNOME Music is covered.  If you modify this code, "
-"you may extend this exception to your version of the code, but you are not "
-"obligated to do so.  If you do not wish to do so, delete this exception "
-"statement from your version."
-msgstr ""
-"Gnome Muziek is vrije software; u mag het verder verspreiden en/of wijzigen "
-"onder de voorwaarden van de GNU General Public License zoals gepubliceerd "
-"door de Free Software Foundation, naar keuze ofwel onder versie 2 ofwel "
-"onder een nieuwere versie van die licentie.\n"
-"\n"
-"Gnome Muziek wordt uitgegeven in de hoop dat het nuttig is, maar ZONDER "
-"ENIGE GARANTIE; zelfs zonder de impliciete garantie van VERKOOPBAARHEID of "
-"GESCHIKTHEID VOOR EEN BEPAALD DOEL. Zie de GNU General Public License voor "
-"meer details.\n"
-"\n"
-"U zou een kopie van de GNU General Public Licence ontvangen moeten hebben "
-"samen met Gnome Muziek; indien dit niet zo is, schrijf dan naar de Free "
-"Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA "
-"02110-1301 USA.\n"
-"\n"
-"De makers van Gnome Muziek verlenen hierbij toestemming om niet-GPL-"
-"verenigbare GStreamer-plugins te gebruiken en te distribueren samen met "
-"GStreamer en Gnome Muziek. Deze toestemming overstijgt en gaat verder dan de "
-"toestemming verleend door de GPL-licentie waaronder Gnome Muziek "
-"ressorteert. Als u deze code bewerkt kunt u deze uitzondering van toepassing "
-"verklaren op uw versie van de code, maar u bent hiertoe niet verplicht. Als "
-"u besluit de uitzondering niet van toepassing te verklaring, verwijder dan "
-"deze verklaring uit uw versie."
-
 #: data/ui/AlbumWidget.ui:84 data/ui/PlayerToolbar.ui:87
 #: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:170
 msgid "Play"
@@ -221,7 +161,7 @@ msgstr "_Hulp"
 msgid "_About Music"
 msgstr "_Over Muziek"
 
-#: data/ui/EmptyView.ui:30 data/ui/InitialState.ui:13
+#: data/ui/EmptyView.ui:30
 msgid "Welcome to Music"
 msgstr "Welkom bij Muziek"
 
@@ -233,7 +173,7 @@ msgstr "Menu"
 msgid "Select"
 msgstr "Selecteren"
 
-#: data/ui/HeaderBar.ui:30 data/ui/PlaylistDialog.ui:211
+#: data/ui/HeaderBar.ui:30 data/ui/PlaylistDialog.ui:213
 #: data/ui/SearchHeaderBar.ui:20
 msgid "_Cancel"
 msgstr "_Annuleren"
@@ -331,10 +271,6 @@ msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Teruggaan"
 
-#: data/ui/InitialState.ui:25
-msgid "The contents of your Music Folder will appear here"
-msgstr "De inhoud van uw muziekmap zal hier verschijnen"
-
 #: data/ui/LastfmDialog.ui:21
 msgid ""
 "Last.fm is a music discovery service that gives you personalised "
@@ -396,11 +332,11 @@ msgstr "Nieuwe afspeellijst…"
 msgid "Add"
 msgstr "Toevoegen"
 
-#: data/ui/PlaylistDialog.ui:200
+#: data/ui/PlaylistDialog.ui:202
 msgid "Add to Playlist"
 msgstr "Toevoegen aan afspeellijst"
 
-#: data/ui/PlaylistDialog.ui:220
+#: data/ui/PlaylistDialog.ui:222
 msgid "_Add"
 msgstr "_Toevoegen"
 
@@ -439,6 +375,29 @@ msgstr "Toevoegen aan _afspeellijst"
 #: data/ui/SongWidgetMenu.ui:19
 msgid "_Remove from Playlist"
 msgstr "Ve_rwijderen uit afspeellijst"
+
+#: gnomemusic/about.py:238
+msgid "The GNOME Project"
+msgstr "Het Gnome-project"
+
+#: gnomemusic/about.py:242
+msgid "translator-credits"
+msgstr ""
+"Erwin Poeze <donnut@outlook.com>\n"
+"Reinout van Schouwen <reinouts@gnome.org>\n"
+"Wouter Bolsterlee <wbolster@gnome.org>\n"
+"Hannie Dumoleyn <hannie@ubuntu-nl.org>\n"
+"Justin van Steijn <jvs@fsfe.org>\n"
+"Nathan Follens <nfollens@gnome.org>\n"
+"Meer info over Gnome-NL http://nl.gnome.org"
+
+#: gnomemusic/about.py:246
+msgid "Copyright The GNOME Music Developers"
+msgstr "Copyright de Gnome Muziek-ontwikkelaars"
+
+#: gnomemusic/about.py:249
+msgid "Translated by"
+msgstr "Vertaald door"
 
 #. TRANSLATORS: this is a playlist name
 #: gnomemusic/grilowrappers/grltrackerplaylists.py:894
@@ -626,6 +585,62 @@ msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} nummer"
 msgstr[1] "{} nummers"
+
+#~ msgid "A music player and management application for GNOME."
+#~ msgstr "Een muziekspeler en beheertoepassing voor Gnome."
+
+#~ msgid "Visit GNOME Music website"
+#~ msgstr "Bezoek de Gnome Muziek-website"
+
+#~ msgid ""
+#~ "GNOME Music is free software; you can redistribute it and/or modify it "
+#~ "under the terms of the GNU General Public License as published by the "
+#~ "Free Software Foundation; either version 2 of the License, or (at your "
+#~ "option) any later version.\n"
+#~ "\n"
+#~ "GNOME Music is distributed in the hope that it will be useful, but "
+#~ "WITHOUT ANY WARRANTY; without even the implied warranty of "
+#~ "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General "
+#~ "Public License for more details.\n"
+#~ "\n"
+#~ "You should have received a copy of the GNU General Public License along "
+#~ "with GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+#~ "Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+#~ "\n"
+#~ "The GNOME Music authors hereby grant permission for non-GPL compatible "
+#~ "GStreamer plugins to be used and distributed together with GStreamer and "
+#~ "GNOME Music.  This permission is above and beyond the permissions granted "
+#~ "by the GPL license by which GNOME Music is covered.  If you modify this "
+#~ "code, you may extend this exception to your version of the code, but you "
+#~ "are not obligated to do so.  If you do not wish to do so, delete this "
+#~ "exception statement from your version."
+#~ msgstr ""
+#~ "Gnome Muziek is vrije software; u mag het verder verspreiden en/of "
+#~ "wijzigen onder de voorwaarden van de GNU General Public License zoals "
+#~ "gepubliceerd door de Free Software Foundation, naar keuze ofwel onder "
+#~ "versie 2 ofwel onder een nieuwere versie van die licentie.\n"
+#~ "\n"
+#~ "Gnome Muziek wordt uitgegeven in de hoop dat het nuttig is, maar ZONDER "
+#~ "ENIGE GARANTIE; zelfs zonder de impliciete garantie van VERKOOPBAARHEID "
+#~ "of GESCHIKTHEID VOOR EEN BEPAALD DOEL. Zie de GNU General Public License "
+#~ "voor meer details.\n"
+#~ "\n"
+#~ "U zou een kopie van de GNU General Public Licence ontvangen moeten hebben "
+#~ "samen met Gnome Muziek; indien dit niet zo is, schrijf dan naar de Free "
+#~ "Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA "
+#~ "02110-1301 USA.\n"
+#~ "\n"
+#~ "De makers van Gnome Muziek verlenen hierbij toestemming om niet-GPL-"
+#~ "verenigbare GStreamer-plugins te gebruiken en te distribueren samen met "
+#~ "GStreamer en Gnome Muziek. Deze toestemming overstijgt en gaat verder dan "
+#~ "de toestemming verleend door de GPL-licentie waaronder Gnome Muziek "
+#~ "ressorteert. Als u deze code bewerkt kunt u deze uitzondering van "
+#~ "toepassing verklaren op uw versie van de code, maar u bent hiertoe niet "
+#~ "verplicht. Als u besluit de uitzondering niet van toepassing te "
+#~ "verklaring, verwijder dan deze verklaring uit uw versie."
+
+#~ msgid "The contents of your Music Folder will appear here"
+#~ msgstr "De inhoud van uw muziekmap zal hier verschijnen"
 
 #~ msgid "GNOME Music"
 #~ msgstr "Gnome Muziek"
