@@ -148,7 +148,7 @@ msgstr ""
 
 #: data/ui/HeaderBar.ui:16
 msgid "Menu"
-msgstr ""
+msgstr "Амениу"
 
 #: data/ui/HeaderBar.ui:24 data/ui/SearchHeaderBar.ui:15
 msgid "Select"
@@ -352,7 +352,7 @@ msgstr ""
 
 #: data/ui/SongWidgetMenu.ui:19
 msgid "_Remove from Playlist"
-msgstr "_Аҿакрақәа рыхьӡынҵа аҟнытә аныхра "
+msgstr "_Аҿакрақәа рыхьӡынҵа аҟнытә аныхра"
 
 #: gnomemusic/about.py:238
 msgid "The GNOME Project"
