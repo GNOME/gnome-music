@@ -21,11 +21,18 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from __future__ import annotations
 import os
-
+import typing
 from enum import IntEnum
+from typing import Optional
 
 from gi.repository import Gio, GLib, GObject, Tracker
+
+if typing.TYPE_CHECKING:
+    from gi.repository import Grl
+
+    from gnomemusic.application import Application
 
 
 class TrackerState(IntEnum):
@@ -38,7 +45,7 @@ class TrackerState(IntEnum):
 
 class TrackerWrapper(GObject.GObject):
 
-    def __init__(self, application):
+    def __init__(self, application: Application) -> None:
         """Create a connection to an instance of Tracker
 
         :param Application application: The application object
@@ -48,18 +55,18 @@ class TrackerWrapper(GObject.GObject):
         self._log = application.props.log
         self._application_id = application.props.application_id
 
-        self._local_db = None
+        self._local_db: Tracker.SparqlConnection = None
         self._local_db_available = TrackerState.UNAVAILABLE
 
-        self._miner_fs = None
-        self._miner_fs_busname = None
+        self._miner_fs: Tracker.SparqlConnection = None
+        self._miner_fs_busname = ""
         self._miner_fs_available = TrackerState.UNAVAILABLE
 
         self._setup_local_db()
         self._setup_host_miner_fs()
 
     @staticmethod
-    def _in_flatpak():
+    def _in_flatpak() -> bool:
         """Indicates if Music is running as flatpak
 
         :returns: True if running as flatpak.
@@ -67,7 +74,7 @@ class TrackerWrapper(GObject.GObject):
         """
         return os.path.exists("/.flatpak-info")
 
-    def _setup_host_miner_fs(self):
+    def _setup_host_miner_fs(self) -> None:
         self._miner_fs_busname = "org.freedesktop.Tracker3.Miner.Files"
 
         self._log.debug(
@@ -87,10 +94,10 @@ class TrackerWrapper(GObject.GObject):
             if self._in_flatpak():
                 self._setup_local_miner_fs()
             else:
-                self._miner_fs_busname = None
+                self._miner_fs_busname = ""
                 self.notify("tracker-available")
 
-    def _setup_local_miner_fs(self):
+    def _setup_local_miner_fs(self) -> None:
         self._miner_fs_busname = self._application_id + ".Tracker3.Miner.Files"
         self._log.debug(
             "Connecting to bundled Tracker indexer at {}".format(
@@ -114,7 +121,8 @@ class TrackerWrapper(GObject.GObject):
             Gio.DBusCallFlags.NONE, miner_fs_startup_timeout_msec, None,
             self._setup_local_miner_fs_ping_cb)
 
-    def _setup_local_miner_fs_ping_cb(self, klass, result):
+    def _setup_local_miner_fs_ping_cb(
+            self, klass: Gio.DBusProxy, result: Gio.AsyncResult) -> None:
         try:
             klass.call_finish(result)
             self._log.info("Using bundled tracker-miner-fs-3")
@@ -126,10 +134,10 @@ class TrackerWrapper(GObject.GObject):
             self._log.warning(
                 "Could not start local Tracker miner-fs at {}: {}".format(
                     self._miner_fs_busname, error))
-            self._miner_fs_busname = None
+            self._miner_fs_busname = ""
             self.notify("tracker-available")
 
-    def _setup_local_db(self):
+    def _setup_local_db(self) -> None:
         # Open a local Tracker database.
         try:
             self._local_db = Tracker.SparqlConnection.new(
@@ -149,7 +157,7 @@ class TrackerWrapper(GObject.GObject):
         self._local_db_available = TrackerState.AVAILABLE
         self.notify("tracker-available")
 
-    def cache_directory(self):
+    def cache_directory(self) -> str:
         """Get directory which contains Music private data.
 
         :returns: private store path
@@ -160,17 +168,17 @@ class TrackerWrapper(GObject.GObject):
             [GLib.get_user_cache_dir(), "gnome-music", "db"])
 
     @GObject.Property(type=str, flags=GObject.ParamFlags.READABLE)
-    def miner_fs_busname(self):
+    def miner_fs_busname(self) -> str:
         return self._miner_fs_busname
 
     @GObject.Property(type=object, flags=GObject.ParamFlags.READABLE)
-    def local_db(self):
+    def local_db(self) -> Tracker.SparqlConnection:
         return self._local_db
 
     @GObject.Property(
         type=int, default=TrackerState.UNAVAILABLE,
         flags=GObject.ParamFlags.READABLE)
-    def tracker_available(self):
+    def tracker_available(self) -> TrackerState:
         """Get Tracker availability.
 
         :returns: tracker availability
@@ -185,7 +193,7 @@ class TrackerWrapper(GObject.GObject):
         else:
             return TrackerState.UNAVAILABLE
 
-    def location_filter(self):
+    def location_filter(self) -> Optional[str]:
         try:
             music_dir = GLib.get_user_special_dir(
                 GLib.UserDirectory.DIRECTORY_MUSIC)
@@ -202,7 +210,7 @@ class TrackerWrapper(GObject.GObject):
 
         return query
 
-    def _update_favorite(self, media):
+    def _update_favorite(self, media: Grl.Media) -> None:
         """Update favorite state of a song
 
         :param Grl.Media media: media which contains updated favorite state
@@ -234,7 +242,7 @@ class TrackerWrapper(GObject.GObject):
 
         self._local_db.update_async(update, None, _update_favorite_cb)
 
-    def _update_play_count(self, media):
+    def _update_play_count(self, media: Grl.Media) -> None:
         update = """
         DELETE WHERE {
             <%(urn)s> nie:usageCounter ?count .
@@ -257,7 +265,7 @@ class TrackerWrapper(GObject.GObject):
 
         self._local_db.update_async(update, None, _update_play_count_cb)
 
-    def _update_last_played(self, media):
+    def _update_last_played(self, media: Grl.Media) -> None:
         last_played = media.get_last_played().format_iso8601()
         update = """
         DELETE WHERE {
@@ -281,7 +289,7 @@ class TrackerWrapper(GObject.GObject):
 
         self._local_db.update_async(update, None, _update_last_played_cb)
 
-    def update_tag(self, media, tag):
+    def update_tag(self, media: Grl.Media, tag: str) -> None:
         """Update property of a resource.
 
         :param Grl.Media media: media which contains updated tag
