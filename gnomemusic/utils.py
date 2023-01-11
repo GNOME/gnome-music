@@ -23,7 +23,7 @@
 # delete this exception statement from your version.
 
 from enum import Enum, IntEnum
-from typing import List
+from typing import List, Union
 import re
 import unicodedata
 
@@ -199,7 +199,7 @@ def natural_sort_names(name_a: str, name_b: str) -> int:
     :returns: Gtk Ordering
     :rtype: int
     """
-    def _extract_numbers(text: str) -> List[str]:
+    def _extract_numbers(text: str) -> List[Union[int, str]]:
         return [int(tmp) if tmp.isdigit() else tmp
                 for tmp in re.split(r"(\d+)", normalize_caseless(text))]
 
