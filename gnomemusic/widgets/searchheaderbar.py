@@ -24,6 +24,7 @@
 
 from enum import IntEnum
 
+from gettext import gettext as _
 from gi.repository import Adw, GObject, Gtk
 
 from gnomemusic.search import Search
@@ -61,6 +62,8 @@ class SearchHeaderBar(Adw.Bin):
         self._selection_mode = False
 
         self._entry = Gtk.SearchEntry()
+        self._entry.props.placeholder_text = _(
+            "Search songs, artists, albums and playlists")
         self._entry.props.halign = Gtk.Align.CENTER
         self._entry.props.visible = True
         self._entry.props.width_request = 500
