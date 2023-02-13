@@ -52,6 +52,7 @@ def show_about(app_id, version, parent):
         "Erik Inkinen",
         "Evan Nehring",
         "Evandro Giovanini",
+        "Ezike Ebuka",
         "Fabiano Fidêncio",
         "Felipe Borges",
         "Florian Darfeuille",
@@ -188,6 +189,7 @@ def show_about(app_id, version, parent):
         "Kjartan Maraas",
         "Kristjan Schmidt",
         "Kukuh Syafaat",
+        "Leônidas Araújo",
         "Luna Jernberg",
         "Марко Костић",
         "Marek Černocký",
@@ -199,8 +201,10 @@ def show_about(app_id, version, parent):
         "Mpho Jele",
         "Мирослав Николић",
         "Милош Поповић",
+        "Nart Tlisha",
         "Nathan Follens",
         "Osman Karagöz",
+        "Pawan Chitrakar",
         "Petr Kovář",
         "Philipp Kiemle",
         "Piotr Drąg",
@@ -220,6 +224,7 @@ def show_about(app_id, version, parent):
         "Tjipke van der Heide",
         "Tom Tryfonidis",
         "Trần Ngọc Quân",
+        "Vasil Pupkin",
         "Vinzenz Vietzke",
         "Xavi Ivars",
         "Yaron Shahrabani",
@@ -230,6 +235,7 @@ def show_about(app_id, version, parent):
         "Yuri Myasoedov",
         "Zander Brown",
         "Zmicer Turok",
+        "Zurab Kargareteli"
     ]
 
     about = Adw.AboutWindow(
