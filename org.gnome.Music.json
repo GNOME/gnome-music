@@ -48,7 +48,8 @@
         {
             "name": "tracker-miners",
             "buildsystem": "meson",
-            "config-opts": [ "-Ddefault_index_single_dirs=",
+            "config-opts": [ "-Dbattery_detection=none",
+                             "-Ddefault_index_single_dirs=",
                              "-Ddefault_index_recursive_dirs=&MUSIC",
                              "-Ddomain_prefix=org.gnome.Music.Devel",
                              "-Dman=false",
