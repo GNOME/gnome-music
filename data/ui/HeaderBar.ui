@@ -13,6 +13,7 @@
             <property name="valign">center</property>
             <property name="sensitive">True</property>
             <property name="icon-name">open-menu-symbolic</property>
+            <property name="primary">True</property>
             <property name="tooltip_text" translatable="yes">Menu</property>
           </object>
         </child>
