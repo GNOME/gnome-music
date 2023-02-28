@@ -4,7 +4,7 @@ Music is the GNOME music playing application.
 
 Music has a wiki page at https://wiki.gnome.org/Apps/Music.
 
-You can join the developers on IRC: [#gnome-music](irc://irc.gnome.org/gnome-music) on [GIMPNet](https://wiki.gnome.org/Community/GettingInTouch/IRC).
+You can join the developers on IRC: [#gnome-music](irc://irc.libera.chat/gnome-music) on [Libera Chat](https://wiki.gnome.org/GettingInTouch/IRC).
 
 # Join the development
 
