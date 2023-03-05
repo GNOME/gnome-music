@@ -1,3 +1,24 @@
+Overview of changes in 44.rc
+============================
+
+• Shortcuts menu cleanups
+• Misc focus fixes in album widgets
+• Decrease memory usage in SongsView
+
+Bugs Fixed:
+ SongView popup is a memory hog (#495)
+ Shuffle on/off mixup (#543)
+ Default template for issues (#525)
+
+Thanks to our contributors this release:
+ Andre Klapper
+ Automeris Naranja
+ Ezike Ebuka
+ Jean Felder
+ Marinus Schraal
+ Sabri Ünal
+
+
 Overview of changes in 44.beta
 ==============================
 

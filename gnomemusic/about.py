@@ -36,6 +36,7 @@ def show_about(app_id, version, parent):
         "Ashwani Singh Tanwar",
         "Ashwin Mohan",
         "Atharva Veer",
+        "Automeris Naranja",
         "Benoît Legat",
         "Bilal Elmoussaoui",
         "Billy Barrow",
