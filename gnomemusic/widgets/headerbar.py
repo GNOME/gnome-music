@@ -116,7 +116,7 @@ class HeaderBar(Adw.Bin):
 
         self._selection_menu = SelectionBarMenuButton()
 
-        self._menu_button.set_popover(AppMenu(application))
+        self._menu_button.props.popover = AppMenu(application)
 
         self.bind_property(
             "selection-mode", self._headerbar, "show-end-title-buttons",
