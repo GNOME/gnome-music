@@ -41,10 +41,10 @@ class RepeatMode(Enum):
     """Enum for player repeat mode"""
 
     # Translators: "shuffle" causes tracks to play in random order.
-    SHUFFLE = 0, "media-playlist-shuffle-symbolic", _("Shuffle")
+    NONE = 0, "media-playlist-consecutive-symbolic", _("Shuffle/Repeat Off")
     SONG = 1, "media-playlist-repeat-song-symbolic", _("Repeat Song")
     ALL = 2, "media-playlist-repeat-symbolic", _("Repeat All")
-    NONE = 3, "media-playlist-consecutive-symbolic", _("Shuffle/Repeat Off")
+    SHUFFLE = 3, "media-playlist-shuffle-symbolic", _("Shuffle")
 
     # The type checking is necessary to avoid false positives
     # See: https://github.com/python/mypy/issues/1021
