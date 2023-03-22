@@ -28,6 +28,21 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="44.0" date="2023-03-22">
+      <description>
+        <p>
+          First stable release for GNOME 44. This version mostly consists
+          of stability improvements. There are also some notable
+          improvements:
+        </p>
+        <ul>
+          <li>Port to soup 3</li>
+          <li>Fix shuffle</li>
+          <li>Decrease memory usage in SongsView</li>
+        </ul>
+        <p>This release also updates translations.</p>
+      </description>
+    </release>
     <release version="42.1" date="2022-04-25">
       <description>
         <ul>
