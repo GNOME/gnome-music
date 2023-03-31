@@ -84,7 +84,7 @@ class Window(Adw.ApplicationWindow):
         deselect_all.connect('activate', self._deselect_all)
         self.add_action(deselect_all)
 
-        self.set_size_request(200, 100)
+        self.set_size_request(360, 294)
         WindowPlacement(self)
 
         self._headerbar = HeaderBar(self._app)
