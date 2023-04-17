@@ -31,7 +31,7 @@ from gi.repository import GLib, GObject
 class MusicLogger(GObject.GObject):
     """GLib logging wrapper
 
-    A tiny wrapper aroung the default GLib logger.
+    A tiny wrapper around the default GLib logger.
 
     * Message is for user facing warnings, which ideally should be in
       the application.
