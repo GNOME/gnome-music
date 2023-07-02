@@ -69,9 +69,13 @@ class CoreArtist(GObject.GObject):
             self.props.media, albums_model_filter)
 
         def _album_sort(album_a, album_b, data=None):
-            if album_a.props.year > album_b.props.year:
+            year_a = album_a.props.year
+            year_b = album_b.props.year
+            if None in [year_a, year_b]:
+                return Gtk.Ordering.EQUAL
+            elif year_a > year_b:
                 return Gtk.Ordering.LARGER
-            elif album_a.props.year < album_b.props.year:
+            elif year_a < year_b:
                 return Gtk.Ordering.SMALLER
             else:
                 return Gtk.Ordering.EQUAL
