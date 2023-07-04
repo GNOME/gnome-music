@@ -14,19 +14,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2022-08-27 13:27+0000\n"
-"PO-Revision-Date: 2022-09-03 09:01+0200\n"
-"Last-Translator: Charles Monzat <charles.monzat@free.fr>\n"
+"POT-Creation-Date: 2023-07-04 07:49+0000\n"
+"PO-Revision-Date: 2023-07-04 10:30+0200\n"
+"Last-Translator: Guillaume Bernard <associations@guillaume-bernard.fr>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Gtranslator 40.0\n"
+"X-Generator: Poedit 3.3.1\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/about.py:236
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/about.py:243
 #: gnomemusic/application.py:61 gnomemusic/window.py:71
 msgid "Music"
 msgstr "Musique"
@@ -48,7 +48,7 @@ msgstr ""
 "Trouvez les pistes dans votre collection locale, utilisez des listes de "
 "lecture générées automatiquement ou organisez-en une nouvelle."
 
-#: data/org.gnome.Music.appdata.xml.in.in:167
+#: data/org.gnome.Music.appdata.xml.in.in:182
 msgid "The GNOME Music developers"
 msgstr "Les développeurs de l’application Musique de GNOME"
 
@@ -167,24 +167,24 @@ msgstr "À _propos de Musique"
 msgid "Welcome to Music"
 msgstr "Bienvenue dans Musique"
 
-#: data/ui/HeaderBar.ui:16
+#: data/ui/HeaderBar.ui:17
 msgid "Menu"
 msgstr "Menu"
 
-#: data/ui/HeaderBar.ui:24 data/ui/SearchHeaderBar.ui:15
+#: data/ui/HeaderBar.ui:25 data/ui/SearchHeaderBar.ui:15
 msgid "Select"
 msgstr "Sélectionner"
 
-#: data/ui/HeaderBar.ui:30 data/ui/PlaylistDialog.ui:213
+#: data/ui/HeaderBar.ui:31 data/ui/PlaylistDialog.ui:213
 #: data/ui/SearchHeaderBar.ui:20
 msgid "_Cancel"
 msgstr "A_nnuler"
 
-#: data/ui/HeaderBar.ui:42 data/ui/SearchHeaderBar.ui:32
+#: data/ui/HeaderBar.ui:43 data/ui/SearchHeaderBar.ui:32
 msgid "Search"
 msgstr "Rechercher"
 
-#: data/ui/HeaderBar.ui:50
+#: data/ui/HeaderBar.ui:51
 msgid "Back"
 msgstr "Retour"
 
@@ -379,11 +379,11 @@ msgstr "_Ajouter à la liste de lecture"
 msgid "_Remove from Playlist"
 msgstr "_Supprimer de la liste de lecture"
 
-#: gnomemusic/about.py:238
+#: gnomemusic/about.py:245
 msgid "The GNOME Project"
 msgstr "Le projet GNOME"
 
-#: gnomemusic/about.py:242
+#: gnomemusic/about.py:249
 msgid "translator-credits"
 msgstr ""
 "Alain Lojewski <allomervan@gmail.com>\n"
@@ -394,11 +394,11 @@ msgstr ""
 "vanadiae <vanadiae35@gmail.com>\n"
 "Charles Monzat <charles.monzat@free.fr>"
 
-#: gnomemusic/about.py:246
+#: gnomemusic/about.py:253
 msgid "Copyright The GNOME Music Developers"
 msgstr "Copyright Développeurs de l’application Musique de GNOME"
 
-#: gnomemusic/about.py:249
+#: gnomemusic/about.py:256
 msgid "Translated by"
 msgstr "Traduit par"
 
@@ -458,8 +458,8 @@ msgstr "Lecture de musique en cours"
 
 #. Translators: "shuffle" causes tracks to play in random order.
 #: gnomemusic/player.py:44
-msgid "Shuffle"
-msgstr "Mélanger"
+msgid "Shuffle/Repeat Off"
+msgstr "Désactiver mélanger/répéter"
 
 #: gnomemusic/player.py:45
 msgid "Repeat Song"
@@ -470,8 +470,8 @@ msgid "Repeat All"
 msgstr "Tout répéter"
 
 #: gnomemusic/player.py:47
-msgid "Shuffle/Repeat Off"
-msgstr "Désactiver mélanger/répéter"
+msgid "Shuffle"
+msgstr "Mélanger"
 
 #: gnomemusic/playlisttoast.py:55
 msgid "Playlist {} removed"
@@ -586,6 +586,11 @@ msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} morceau"
 msgstr[1] "{} morceaux"
+
+#: gnomemusic/widgets/searchheaderbar.py:66
+msgid "Search songs, artists, albums and playlists"
+msgstr ""
+"Rechercher des musiques, des artistes, des albums ou des listes de lecture"
 
 #~ msgid "A music player and management application for GNOME."
 #~ msgstr "Un lecteur de musique et une application de gestion pour GNOME."
