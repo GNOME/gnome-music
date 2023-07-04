@@ -24,7 +24,6 @@
 
 from enum import Enum, IntEnum
 from gettext import gettext as _
-from random import randrange
 import time
 import typing
 
@@ -247,10 +246,7 @@ class PlayerPlaylist(GObject.GObject):
             return None
 
         if song is None:
-            if self.props.repeat_mode == RepeatMode.SHUFFLE:
-                position = randrange(0, self._model.get_n_items())
-            else:
-                position = 0
+            position = 0
             song = self._model.get_item(position)
             song.props.state = SongWidget.State.PLAYING
             self._position = position
