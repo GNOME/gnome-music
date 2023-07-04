@@ -42,5 +42,4 @@ gnomemusic/widgets/playertoolbar.py
 gnomemusic/widgets/playlistcontrols.py
 gnomemusic/widgets/playlistdialog.py
 gnomemusic/widgets/searchheaderbar.py
-gnomemusic/widgets/starhandlerwidget.py
 gnomemusic/window.py
