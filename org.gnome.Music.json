@@ -5,7 +5,6 @@
     "sdk": "org.gnome.Sdk",
     "command": "gnome-music",
     "tags": ["devel", "development", "nightly"],
-    "desktop-file-name-suffix": " ☢️",
     "finish-args": [
         "--device=dri",
         "--share=ipc",
