@@ -29,10 +29,11 @@ import typing
 
 import gi
 gi.require_version('GstPbutils', '1.0')
-from gi.repository import GObject, GstPbutils, Gtk
+from gi.repository import GObject, GstPbutils
 
 from gnomemusic.coresong import CoreSong
 from gnomemusic.gstplayer import GstPlayer, Playback
+from gnomemusic.shufflesorter import ShuffleSorter
 from gnomemusic.widgets.songwidget import SongWidget
 
 
@@ -259,6 +260,7 @@ class PlayerPlaylist(GObject.GObject):
             if coresong == song:
                 coresong.props.state = SongWidget.State.PLAYING
                 self._position = idx
+                self._on_repeat_mode_changed(None, None)
                 self._validate_song(song)
                 self._validate_next_song()
                 self._update_model_recent()
@@ -272,21 +274,11 @@ class PlayerPlaylist(GObject.GObject):
         self._model_recent.set_offset(offset)
 
     def _on_repeat_mode_changed(self, klass, param):
-        def _shuffle_sort(song_a, song_b, data=None):
-            if song_a.props.shuffle_pos < song_b.props.shuffle_pos:
-                return Gtk.Ordering.SMALLER
-            elif song_a.props.shuffle_pos > song_b.props.shuffle_pos:
-                return Gtk.Ordering.LARGER
-            else:
-                return Gtk.Ordering.EQUAL
-
         if self.props.repeat_mode == RepeatMode.SHUFFLE:
-            for idx, coresong in enumerate(self._model):
-                coresong.update_shuffle_pos()
-
-            songs_sorter = Gtk.CustomSorter()
-            songs_sorter.set_sort_func(_shuffle_sort)
-            self._model.set_sorter(songs_sorter)
+            shuffle_sorter = ShuffleSorter()
+            coresong = self._model.get_item(self.props.position)
+            shuffle_sorter.first_song(coresong)
+            self._model.set_sorter(shuffle_sorter)
         elif self.props.repeat_mode in [RepeatMode.NONE, RepeatMode.ALL]:
             self._model.set_sorter(None)
 
