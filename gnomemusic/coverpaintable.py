@@ -98,7 +98,8 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
         snapshot.push_rounded_clip(rounded_rect)
 
         if self._texture is not None:
-            snapshot.append_texture(self._texture, rect)
+            snapshot.append_scaled_texture(
+                self._texture, Gsk.ScalingFilter.TRILINEAR, rect)
         else:
             i_s = 1 / 3  # Icon scale
             icon_pt = self._icon_theme.lookup_icon(
