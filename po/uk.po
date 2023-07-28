@@ -4,13 +4,13 @@
 # Daniel Korostil <ted.korostiled@gmail.com>, 2013, 2014, 2015, 2016, 2017.
 # Eugene Strezhnev <strezhnev.ua@gmail.com>, 2019.
 # Danylo Korostil <ted.korostiled@gmail.com>, 2019.
-# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2021, 2022.
+# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2021, 2022, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2022-08-27 13:27+0000\n"
-"PO-Revision-Date: 2022-08-27 17:31+0300\n"
+"POT-Creation-Date: 2023-07-04 07:49+0000\n"
+"PO-Revision-Date: 2023-07-28 21:23+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -23,7 +23,7 @@ msgstr ""
 "X-Project-Style: gnome\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/about.py:236
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/about.py:243
 #: gnomemusic/application.py:61 gnomemusic/window.py:71
 msgid "Music"
 msgstr "Музика"
@@ -45,7 +45,7 @@ msgstr ""
 "Шукайте композиції у вашій локальній збірці, користуйтеся автоматично "
 "створеними списками відтворення або створюйте вручну нові списки відтворення."
 
-#: data/org.gnome.Music.appdata.xml.in.in:167
+#: data/org.gnome.Music.appdata.xml.in.in:182
 msgid "The GNOME Music developers"
 msgstr "Розробники Музики GNOME"
 
@@ -163,24 +163,24 @@ msgstr "_Про «Музику»"
 msgid "Welcome to Music"
 msgstr "Вітаємо у «Музиці»"
 
-#: data/ui/HeaderBar.ui:16
+#: data/ui/HeaderBar.ui:17
 msgid "Menu"
 msgstr "Меню"
 
-#: data/ui/HeaderBar.ui:24 data/ui/SearchHeaderBar.ui:15
+#: data/ui/HeaderBar.ui:25 data/ui/SearchHeaderBar.ui:15
 msgid "Select"
 msgstr "Вибрати"
 
-#: data/ui/HeaderBar.ui:30 data/ui/PlaylistDialog.ui:213
+#: data/ui/HeaderBar.ui:31 data/ui/PlaylistDialog.ui:213
 #: data/ui/SearchHeaderBar.ui:20
 msgid "_Cancel"
 msgstr "_Скасувати"
 
-#: data/ui/HeaderBar.ui:42 data/ui/SearchHeaderBar.ui:32
+#: data/ui/HeaderBar.ui:43 data/ui/SearchHeaderBar.ui:32
 msgid "Search"
 msgstr "Пошук"
 
-#: data/ui/HeaderBar.ui:50
+#: data/ui/HeaderBar.ui:51
 msgid "Back"
 msgstr "Назад"
 
@@ -375,23 +375,22 @@ msgstr "_Додати до списку композицій"
 msgid "_Remove from Playlist"
 msgstr "Ви_лучити зі списку"
 
-#: gnomemusic/about.py:238
+#: gnomemusic/about.py:245
 msgid "The GNOME Project"
 msgstr "Проєкт GNOME"
 
-#: gnomemusic/about.py:242
+#: gnomemusic/about.py:249
 msgid "translator-credits"
 msgstr ""
 "Данило Коростіль <ted.korostiled@gmail.com>, 2013–2019\n"
 "Євген Стрежньов <strezhnev.ua@gmail.com>, 2019\n"
 "Юрій Чорноіван <yurchor@ukr.net>, 2020–2022"
 
-#: gnomemusic/about.py:246
-#| msgid "Copyright © 2018 GNOME Music Developers"
+#: gnomemusic/about.py:253
 msgid "Copyright The GNOME Music Developers"
 msgstr "© Розробники Музики GNOME"
 
-#: gnomemusic/about.py:249
+#: gnomemusic/about.py:256
 msgid "Translated by"
 msgstr "Переклад"
 
@@ -452,8 +451,8 @@ msgstr "Програється музика"
 
 #. Translators: "shuffle" causes tracks to play in random order.
 #: gnomemusic/player.py:44
-msgid "Shuffle"
-msgstr "У довільному порядку"
+msgid "Shuffle/Repeat Off"
+msgstr "Довільний порядок/Повторення вимкнено"
 
 #: gnomemusic/player.py:45
 msgid "Repeat Song"
@@ -464,8 +463,8 @@ msgid "Repeat All"
 msgstr "Повторювати все"
 
 #: gnomemusic/player.py:47
-msgid "Shuffle/Repeat Off"
-msgstr "Довільний порядок/Повторення вимкнено"
+msgid "Shuffle"
+msgstr "У довільному порядку"
 
 #: gnomemusic/playlisttoast.py:55
 msgid "Playlist {} removed"
@@ -585,6 +584,10 @@ msgstr[0] "{} пісня"
 msgstr[1] "{} пісні"
 msgstr[2] "{} пісень"
 msgstr[3] "{} пісня"
+
+#: gnomemusic/widgets/searchheaderbar.py:66
+msgid "Search songs, artists, albums and playlists"
+msgstr "Пошук композицій, виконавців, альбомів та списків відтворення"
 
 #~ msgid "A music player and management application for GNOME."
 #~ msgstr "Програма для програвання і впорядкування музики в GNOME."
