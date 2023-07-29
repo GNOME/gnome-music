@@ -58,7 +58,7 @@ class AsyncQueue(GObject.GObject):
         self._async_active_pool: Dict[int, Tuple] = {}
         self._async_data: Dict[object, Tuple[int, float]] = {}
         self._log = MusicLogger()
-        self._max_async = 4
+        self._max_async = 40
         self._queue_name = queue_name if queue_name else self
         self._timeout_id = 0
 
