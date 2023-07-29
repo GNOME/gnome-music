@@ -96,6 +96,12 @@ class TextureCache(GObject.GObject):
         """Disconnect ongoing lookup callback
         """
         if self._art_loading_id != 0:
+            # FIXME: It would be better to have AsyncQueue handle
+            # this transparently, but this lookup creates a new
+            # MediaArtLoader every time even for the same URI.
+            # AQ has no way to find out if it is for the same URI
+            # currently.
+            self._async_queue.queue_remove(self._art_loader)
             self._art_loader.disconnect(self._art_loading_id)
             self._art_loading_id = 0
 

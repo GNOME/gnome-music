@@ -85,6 +85,16 @@ class AsyncQueue(GObject.GObject):
         if self._timeout_id == 0:
             self._timeout_id = GLib.timeout_add(100, self._dispatch)
 
+    def queue_remove(self, obj: Any) -> None:
+        """Remove an async call from the queue
+
+        :param obj: The async class to remove from the queue.
+        """
+        async_obj_id = id(obj)
+
+        if async_obj_id in self._async_pool:
+            self._async_pool.pop(async_obj_id)
+
     def _dispatch(self) -> bool:
         tick = time.time()
 
