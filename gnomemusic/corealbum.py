@@ -36,8 +36,13 @@ from gnomemusic.albumart import AlbumArt
 class CoreAlbum(GObject.GObject):
     """Exposes a Grl.Media with relevant data as properties
     """
-
     __gtype_name__ = "CoreAlbum"
+    __slots__ = (
+        "_application", "_coregrilo", "_model", "_selected", "_thumbnail",
+        "_property_helper_artist", "_property_helper_composer",
+        "_property_helper_duration", "_property_helper_media",
+        "_property_helper_title", "_property_helper_url",
+        "_property_helper_year")
 
     artist = GObject.Property(type=str)
     composer = GObject.Property(type=str, default=None)

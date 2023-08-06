@@ -45,6 +45,18 @@ class CoreSong(GObject.GObject):
     """
 
     __gtype_name__ = "CoreSong"
+    __slots__ = (
+        "_application", "_coregrilo", "_coreselection", "_favorite",
+        "_selected", "_thumbnail", "_is_tracker", "_property_helper_album",
+        "_property_helper_album_disc_number", "_property_helper_artist",
+        "_property_helper_duration", "_property_helper_media",
+        "_property_helper_grlid", "_property_helper_play_count",
+        "_property_helper_shuffle_pos", "_property_helper_state",
+        "_property_helper_title", "_property_helper_track_number",
+        "_property_helper_url")
+    # FIXME: For some reason adding all the attributes in slots
+    # segfaults.
+    #   "_property_helper_validation"
 
     album = GObject.Property(type=str)
     album_disc_number = GObject.Property(type=int)

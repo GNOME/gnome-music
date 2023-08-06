@@ -34,6 +34,10 @@ class CoreArtist(GObject.GObject):
     """Exposes a Grl.Media with relevant data as properties
     """
 
+    __slots__ = (
+        "_application", "_coregrilo", "_coremodel", "_model", "_selected",
+        "_thumbnail", "_property_helper_artist", "_property_helper_media")
+
     artist = GObject.Property(type=str)
     media = GObject.Property(type=Grl.Media)
 
