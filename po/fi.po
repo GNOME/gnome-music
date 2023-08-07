@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2022-08-27 13:27+0000\n"
-"PO-Revision-Date: 2022-08-30 14:54+0300\n"
+"POT-Creation-Date: 2023-07-04 07:49+0000\n"
+"PO-Revision-Date: 2023-08-07 18:10+0300\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: suomi <lokalisointi-lista@googlegroups.com>\n"
 "Language: fi\n"
@@ -16,10 +16,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.3.2\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/about.py:236
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/about.py:243
 #: gnomemusic/application.py:61 gnomemusic/window.py:71
 msgid "Music"
 msgstr "Musiikki"
@@ -41,7 +41,7 @@ msgstr ""
 "Löydä kappaleet paikallisesta kokoelmastasi, käytä automaattisesti luotuja "
 "soittolistoja tai valikoi itse parhaat kappaleet soittolistalle."
 
-#: data/org.gnome.Music.appdata.xml.in.in:167
+#: data/org.gnome.Music.appdata.xml.in.in:182
 msgid "The GNOME Music developers"
 msgstr "Gnomen musiikkisoittimen kehittäjät"
 
@@ -83,8 +83,8 @@ msgid ""
 "“shuffle” (shuffle playlist, presumes repeat all)."
 msgstr ""
 "Arvo esittää, kerrataanko tai sekoitetaanko toistoa kokoelmaa käyttäen. "
-"Sallitut arvot ovat: \"none\" (ei kertausta tai sekoitusta), \"song"
-"\" (kertaa nykyistä kappaletta), \"all\" (kertaa soittolistaa, ei "
+"Sallitut arvot ovat: \"none\" (ei kertausta tai sekoitusta), "
+"\"song\" (kertaa nykyistä kappaletta), \"all\" (kertaa soittolistaa, ei "
 "sekoitusta) ja \"shuffle\" (sekoita soittolista, kertaus kaiken suhteen)."
 
 #: data/org.gnome.Music.gschema.xml:28
@@ -159,24 +159,24 @@ msgstr "_Tietoja - Musiikki"
 msgid "Welcome to Music"
 msgstr "Tervetuloa, tämä on Musiikki"
 
-#: data/ui/HeaderBar.ui:16
+#: data/ui/HeaderBar.ui:17
 msgid "Menu"
 msgstr "Valikko"
 
-#: data/ui/HeaderBar.ui:24 data/ui/SearchHeaderBar.ui:15
+#: data/ui/HeaderBar.ui:25 data/ui/SearchHeaderBar.ui:15
 msgid "Select"
 msgstr "Valitse"
 
-#: data/ui/HeaderBar.ui:30 data/ui/PlaylistDialog.ui:213
+#: data/ui/HeaderBar.ui:31 data/ui/PlaylistDialog.ui:213
 #: data/ui/SearchHeaderBar.ui:20
 msgid "_Cancel"
 msgstr "_Peru"
 
-#: data/ui/HeaderBar.ui:42 data/ui/SearchHeaderBar.ui:32
+#: data/ui/HeaderBar.ui:43 data/ui/SearchHeaderBar.ui:32
 msgid "Search"
 msgstr "Hae"
 
-#: data/ui/HeaderBar.ui:50
+#: data/ui/HeaderBar.ui:51
 msgid "Back"
 msgstr "Takaisin"
 
@@ -369,19 +369,19 @@ msgstr "Lisää _soittolistalle"
 msgid "_Remove from Playlist"
 msgstr "Poista _soittolistalta"
 
-#: gnomemusic/about.py:238
+#: gnomemusic/about.py:245
 msgid "The GNOME Project"
 msgstr "Gnome-projekti"
 
-#: gnomemusic/about.py:242
+#: gnomemusic/about.py:249
 msgid "translator-credits"
 msgstr "Jiri Grönroos"
 
-#: gnomemusic/about.py:246
+#: gnomemusic/about.py:253
 msgid "Copyright The GNOME Music Developers"
 msgstr "Tekijänoikeus Gnomen musiikkisoittimen kehittäjät"
 
-#: gnomemusic/about.py:249
+#: gnomemusic/about.py:256
 msgid "Translated by"
 msgstr "Käännös"
 
@@ -440,8 +440,8 @@ msgstr "Toistetaan musiikkia"
 
 #. Translators: "shuffle" causes tracks to play in random order.
 #: gnomemusic/player.py:44
-msgid "Shuffle"
-msgstr "Sekoita"
+msgid "Shuffle/Repeat Off"
+msgstr "Sekoitus/kertaus pois"
 
 #: gnomemusic/player.py:45
 msgid "Repeat Song"
@@ -452,8 +452,8 @@ msgid "Repeat All"
 msgstr "Kertaa kaikki"
 
 #: gnomemusic/player.py:47
-msgid "Shuffle/Repeat Off"
-msgstr "Sekoitus/kertaus pois"
+msgid "Shuffle"
+msgstr "Sekoita"
 
 #: gnomemusic/playlisttoast.py:55
 msgid "Playlist {} removed"
@@ -567,6 +567,10 @@ msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} kappale"
 msgstr[1] "{} kappaletta"
+
+#: gnomemusic/widgets/searchheaderbar.py:66
+msgid "Search songs, artists, albums and playlists"
+msgstr "Etsi kappaleita, esittäjiä, albumeita ja soittolistoja"
 
 #~ msgid "A music player and management application for GNOME."
 #~ msgstr "Gnomen musiikkisoitin."
