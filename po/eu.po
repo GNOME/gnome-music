@@ -3,12 +3,12 @@
 # This file is distributed under the same license as the gnome-music package.
 #
 # Iñaki Larrañaga Murgoitio <dooteo@zundan.com>, 2013, 2014, 2015, 2016, 2017.
-# Asier Sarasua Garmendia <asiersarasua@ni.eus>, 2013, 2019, 2020, 2021, 2022.
+# Asier Sarasua Garmendia <asiersarasua@ni.eus>, 2013, 2019, 2020, 2021, 2022, 2023.
 msgid ""
 msgstr "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2022-08-27 13:27+0000\n"
-"PO-Revision-Date: 2022-08-31 10:00+0100\n"
+"POT-Creation-Date: 2023-07-04 07:49+0000\n"
+"PO-Revision-Date: 2023-08-14 10:00+0100\n"
 "Last-Translator: Asier Sarasua Garmendia <asiersarasua@ni.eus>\n"
 "Language-Team: Basque <librezale@librezale.eus>\n"
 "Language: eu\n"
@@ -18,7 +18,7 @@ msgstr "Project-Id-Version: gnome-music master\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/about.py:236
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/about.py:243
 #: gnomemusic/application.py:61 gnomemusic/window.py:71
 msgid "Music"
 msgstr "Musika"
@@ -38,7 +38,7 @@ msgid ""
 "or curate a fresh one."
 msgstr "Bilatu pistak zure bilduma lokalean, erabili automatikoki sortutako erreprodukzio-zerrendak edo sortu zerrenda berria."
 
-#: data/org.gnome.Music.appdata.xml.in.in:167
+#: data/org.gnome.Music.appdata.xml.in.in:182
 msgid "The GNOME Music developers"
 msgstr "GNOME Musika aplikazioaren garatzaileak"
 
@@ -148,24 +148,24 @@ msgstr "_Musikari buruz"
 msgid "Welcome to Music"
 msgstr "Ongi etorri Musika aplikaziora"
 
-#: data/ui/HeaderBar.ui:16
+#: data/ui/HeaderBar.ui:17
 msgid "Menu"
 msgstr "Menua"
 
-#: data/ui/HeaderBar.ui:24 data/ui/SearchHeaderBar.ui:15
+#: data/ui/HeaderBar.ui:25 data/ui/SearchHeaderBar.ui:15
 msgid "Select"
 msgstr "Hautatu"
 
-#: data/ui/HeaderBar.ui:30 data/ui/PlaylistDialog.ui:213
+#: data/ui/HeaderBar.ui:31 data/ui/PlaylistDialog.ui:213
 #: data/ui/SearchHeaderBar.ui:20
 msgid "_Cancel"
 msgstr "_Utzi"
 
-#: data/ui/HeaderBar.ui:42 data/ui/SearchHeaderBar.ui:32
+#: data/ui/HeaderBar.ui:43 data/ui/SearchHeaderBar.ui:32
 msgid "Search"
 msgstr "Bilatu"
 
-#: data/ui/HeaderBar.ui:50
+#: data/ui/HeaderBar.ui:51
 msgid "Back"
 msgstr "Atzera"
 
@@ -356,19 +356,19 @@ msgstr "_Gehitu zerrendari"
 msgid "_Remove from Playlist"
 msgstr "_Kendu erreprodukzio-zerrendatik"
 
-#: gnomemusic/about.py:238
+#: gnomemusic/about.py:245
 msgid "The GNOME Project"
 msgstr "GNOME proiektua"
 
-#: gnomemusic/about.py:242
+#: gnomemusic/about.py:249
 msgid "translator-credits"
 msgstr "translator-credits"
 
-#: gnomemusic/about.py:246
+#: gnomemusic/about.py:253
 msgid "Copyright The GNOME Music Developers"
 msgstr "Copyright GNOME Musika aplikazioaren garatzaileak"
 
-#: gnomemusic/about.py:249
+#: gnomemusic/about.py:256
 msgid "Translated by"
 msgstr "Itzultzaileak"
 
@@ -427,8 +427,8 @@ msgstr "Musika erreproduzitzen"
 
 #. Translators: "shuffle" causes tracks to play in random order.
 #: gnomemusic/player.py:44
-msgid "Shuffle"
-msgstr "Ausaz"
+msgid "Shuffle/Repeat Off"
+msgstr "Ausaz/Ez errepikatu"
 
 #: gnomemusic/player.py:45
 msgid "Repeat Song"
@@ -439,8 +439,8 @@ msgid "Repeat All"
 msgstr "Errepikatu dena"
 
 #: gnomemusic/player.py:47
-msgid "Shuffle/Repeat Off"
-msgstr "Ausaz/Ez errepikatu"
+msgid "Shuffle"
+msgstr "Ausaz"
 
 #: gnomemusic/playlisttoast.py:55
 msgid "Playlist {} removed"
@@ -554,6 +554,10 @@ msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "Abesti {}"
 msgstr[1] "{} abesti"
+
+#: gnomemusic/widgets/searchheaderbar.py:66
+msgid "Search songs, artists, albums and playlists"
+msgstr "Bilatu abestiak, artistak, albumak eta erreprosukzio-zerrendak"
 
 #~ msgid "A music player and management application for GNOME."
 #~ msgstr "GNOMEren aplikazio bat musika erreproduzitzeko eta kudeatzeko."
