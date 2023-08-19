@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2022-08-27 13:27+0000\n"
-"PO-Revision-Date: 2022-09-18 12:57+0600\n"
+"POT-Creation-Date: 2023-07-04 07:49+0000\n"
+"PO-Revision-Date: 2023-08-19 12:51+0600\n"
 "Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>\n"
 "Language-Team: Kazakh <kk_KZ@googlegroups.com>\n"
 "Language: kk\n"
@@ -16,10 +16,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.3.2\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/about.py:236
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/about.py:243
 #: gnomemusic/application.py:61 gnomemusic/window.py:71
 msgid "Music"
 msgstr "Музыка"
@@ -41,7 +41,7 @@ msgstr ""
 "Жергілікті жинақтағы тректерді тауып, автоматты түрде жасалған ойнату "
 "тізімдерін пайдаланыңыз немесе жаңасын жасаңыз."
 
-#: data/org.gnome.Music.appdata.xml.in.in:167
+#: data/org.gnome.Music.appdata.xml.in.in:182
 msgid "The GNOME Music developers"
 msgstr "GNOME музыкасы әзірлеушілері"
 
@@ -160,24 +160,24 @@ msgstr "Музыка қолданбасы тур_алы"
 msgid "Welcome to Music"
 msgstr "Музыкаға қош келдіңіз"
 
-#: data/ui/HeaderBar.ui:16
+#: data/ui/HeaderBar.ui:17
 msgid "Menu"
 msgstr "Мәзір"
 
-#: data/ui/HeaderBar.ui:24 data/ui/SearchHeaderBar.ui:15
+#: data/ui/HeaderBar.ui:25 data/ui/SearchHeaderBar.ui:15
 msgid "Select"
 msgstr "Таңдау"
 
-#: data/ui/HeaderBar.ui:30 data/ui/PlaylistDialog.ui:213
+#: data/ui/HeaderBar.ui:31 data/ui/PlaylistDialog.ui:213
 #: data/ui/SearchHeaderBar.ui:20
 msgid "_Cancel"
 msgstr "Ба_с тарту"
 
-#: data/ui/HeaderBar.ui:42 data/ui/SearchHeaderBar.ui:32
+#: data/ui/HeaderBar.ui:43 data/ui/SearchHeaderBar.ui:32
 msgid "Search"
 msgstr "Іздеу"
 
-#: data/ui/HeaderBar.ui:50
+#: data/ui/HeaderBar.ui:51
 msgid "Back"
 msgstr "Кері"
 
@@ -370,19 +370,19 @@ msgstr "Ойнату тізіміне қ_осу"
 msgid "_Remove from Playlist"
 msgstr "Ойнату тізімінен өші_ру"
 
-#: gnomemusic/about.py:238
+#: gnomemusic/about.py:245
 msgid "The GNOME Project"
 msgstr "GNOME жобасы"
 
-#: gnomemusic/about.py:242
+#: gnomemusic/about.py:249
 msgid "translator-credits"
 msgstr "Baurzhan Muftakhidinov <baurthefirst@gmail.com>"
 
-#: gnomemusic/about.py:246
+#: gnomemusic/about.py:253
 msgid "Copyright The GNOME Music Developers"
 msgstr "Copyright © GNOME музыкасы әзірлеушілері"
 
-#: gnomemusic/about.py:249
+#: gnomemusic/about.py:256
 msgid "Translated by"
 msgstr "Аударған"
 
@@ -440,8 +440,8 @@ msgstr "Музыканы ойнату"
 
 #. Translators: "shuffle" causes tracks to play in random order.
 #: gnomemusic/player.py:44
-msgid "Shuffle"
-msgstr "Араластыру"
+msgid "Shuffle/Repeat Off"
+msgstr "Араластыру/қайталау сөндірілген"
 
 #: gnomemusic/player.py:45
 msgid "Repeat Song"
@@ -452,8 +452,8 @@ msgid "Repeat All"
 msgstr "Барлығын қайталау"
 
 #: gnomemusic/player.py:47
-msgid "Shuffle/Repeat Off"
-msgstr "Араластыру/қайталау сөндірілген"
+msgid "Shuffle"
+msgstr "Араластыру"
 
 #: gnomemusic/playlisttoast.py:55
 msgid "Playlist {} removed"
@@ -565,6 +565,10 @@ msgstr "Аялдату"
 msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} өлең"
+
+#: gnomemusic/widgets/searchheaderbar.py:66
+msgid "Search songs, artists, albums and playlists"
+msgstr "Өлеңдер, әртістер, альбомдар және ойнату тізімдерден іздеу"
 
 #~ msgid "A music player and management application for GNOME."
 #~ msgstr "Музыканы ойнау және басқаруға арналған GNOME қолданбасы."
