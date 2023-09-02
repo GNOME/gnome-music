@@ -1,15 +1,15 @@
 # Korean translation for gnome-music.
 # Copyright (C) 2013 gnome-music's authors and many contributors.
 # This file is distributed under the same license as the gnome-music package.
-# Seong-ho Cho <shcho@gnome.org>, 2013-2022.
+# Seong-ho Cho <shcho@gnome.org>, 2013-2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2022-08-27 13:27+0000\n"
-"PO-Revision-Date: 2022-08-28 23:00+0900\n"
-"Last-Translator: Seong-ho Cho <shcho@gnome.org>\n"
+"POT-Creation-Date: 2023-07-04 07:49+0000\n"
+"PO-Revision-Date: 2023-08-27 02:04+0900\n"
+"Last-Translator: Seong-ho Cho <darkcircle.0426@gmail.com>\n"
 "Language-Team: Korean <gnome-kr@googlegroups.com>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
@@ -19,7 +19,7 @@ msgstr ""
 "X-Generator: Poedit 2.3.1\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/about.py:236
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/about.py:243
 #: gnomemusic/application.py:61 gnomemusic/window.py:71
 msgid "Music"
 msgstr "음악"
@@ -41,7 +41,7 @@ msgstr ""
 "로컬 모음집에서 트랙을 찾거나 자동으로 미리 만든 재생 목록을 활용하거나 새 목"
 "록을 구성합니다."
 
-#: data/org.gnome.Music.appdata.xml.in.in:167
+#: data/org.gnome.Music.appdata.xml.in.in:182
 msgid "The GNOME Music developers"
 msgstr "The GNOME Music developers"
 
@@ -157,24 +157,24 @@ msgstr "음악 정보(_A)"
 msgid "Welcome to Music"
 msgstr "그놈 음악 사용을 환영합니다"
 
-#: data/ui/HeaderBar.ui:16
+#: data/ui/HeaderBar.ui:17
 msgid "Menu"
 msgstr "메뉴"
 
-#: data/ui/HeaderBar.ui:24 data/ui/SearchHeaderBar.ui:15
+#: data/ui/HeaderBar.ui:25 data/ui/SearchHeaderBar.ui:15
 msgid "Select"
 msgstr "선택"
 
-#: data/ui/HeaderBar.ui:30 data/ui/PlaylistDialog.ui:213
+#: data/ui/HeaderBar.ui:31 data/ui/PlaylistDialog.ui:213
 #: data/ui/SearchHeaderBar.ui:20
 msgid "_Cancel"
 msgstr "취소(_C)"
 
-#: data/ui/HeaderBar.ui:42 data/ui/SearchHeaderBar.ui:32
+#: data/ui/HeaderBar.ui:43 data/ui/SearchHeaderBar.ui:32
 msgid "Search"
 msgstr "검색"
 
-#: data/ui/HeaderBar.ui:50
+#: data/ui/HeaderBar.ui:51
 msgid "Back"
 msgstr "뒤로"
 
@@ -366,20 +366,19 @@ msgstr "재생 목록에 추가(_A)"
 msgid "_Remove from Playlist"
 msgstr "재생 목록에서 제거(_R)"
 
-#: gnomemusic/about.py:238
+#: gnomemusic/about.py:245
 msgid "The GNOME Project"
 msgstr "그놈 프로젝트"
 
-#: gnomemusic/about.py:242
+#: gnomemusic/about.py:249
 msgid "translator-credits"
 msgstr "조성호 <shcho@gnome.org>"
 
-#: gnomemusic/about.py:246
-#| msgid "Copyright © 2018 GNOME Music Developers"
+#: gnomemusic/about.py:253
 msgid "Copyright The GNOME Music Developers"
 msgstr "Copyright The GNOME Music Developers"
 
-#: gnomemusic/about.py:249
+#: gnomemusic/about.py:256
 msgid "Translated by"
 msgstr "번역자"
 
@@ -437,8 +436,8 @@ msgstr "음악 재생 중"
 
 #. Translators: "shuffle" causes tracks to play in random order.
 #: gnomemusic/player.py:44
-msgid "Shuffle"
-msgstr "뒤섞기"
+msgid "Shuffle/Repeat Off"
+msgstr "뒤섞기/반복 끔"
 
 #: gnomemusic/player.py:45
 msgid "Repeat Song"
@@ -449,8 +448,8 @@ msgid "Repeat All"
 msgstr "모두 반복"
 
 #: gnomemusic/player.py:47
-msgid "Shuffle/Repeat Off"
-msgstr "뒤섞기/반복 끔"
+msgid "Shuffle"
+msgstr "뒤섞기"
 
 #: gnomemusic/playlisttoast.py:55
 msgid "Playlist {} removed"
@@ -561,6 +560,10 @@ msgstr "일시 정지"
 msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "노래 {}곡"
+
+#: gnomemusic/widgets/searchheaderbar.py:66
+msgid "Search songs, artists, albums and playlists"
+msgstr "곡, 음악가, 앨범, 재생 목록을 검색합니다"
 
 #~ msgid "A music player and management application for GNOME."
 #~ msgstr "그놈용 음악 재생기 및 관리 프로그램."
