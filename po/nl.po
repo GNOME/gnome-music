@@ -7,26 +7,26 @@
 # Wouter Bolsterlee <wbolster@gnome.org>, 2013.
 # Hannie Dumoleyn <hannie@ubuntu-nl.org>, 2015.
 # Justin van Steijn <jvs@fsfe.org>, 2016.
-# Nathan Follens <nfollens@gnome.org>, 2018-2022.
+# Nathan Follens <nfollens@gnome.org>, 2018-2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2022-08-27 13:27+0000\n"
-"PO-Revision-Date: 2022-11-01 22:57+0100\n"
+"POT-Creation-Date: 2023-07-04 07:49+0000\n"
+"PO-Revision-Date: 2023-09-03 16:14+0200\n"
 "Last-Translator: Nathan Follens <nfollens@gnome.org>\n"
-"Language-Team: Dutch <gnome-nl-list@gnome.org>\n"
+"Language-Team: GNOME-NL https://matrix.to/#/#nl:gnome.org\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.3.2\n"
 "X-Project-Style: gnome\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/about.py:236
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/about.py:243
 #: gnomemusic/application.py:61 gnomemusic/window.py:71
 msgid "Music"
 msgstr "Muziek"
@@ -48,9 +48,9 @@ msgstr ""
 "Vind nummers in uw lokale bibliotheek, maak gebruik van automatisch "
 "gegenereerde afspeellijsten of stel er zelf eentje samen."
 
-#: data/org.gnome.Music.appdata.xml.in.in:167
+#: data/org.gnome.Music.appdata.xml.in.in:182
 msgid "The GNOME Music developers"
-msgstr "De Gnome Muziek-ontwikkelaars"
+msgstr "De GNOME Muziek-ontwikkelaars"
 
 #: data/org.gnome.Music.desktop.in.in:4
 msgid "Music Player"
@@ -165,24 +165,24 @@ msgstr "_Over Muziek"
 msgid "Welcome to Music"
 msgstr "Welkom bij Muziek"
 
-#: data/ui/HeaderBar.ui:16
+#: data/ui/HeaderBar.ui:17
 msgid "Menu"
 msgstr "Menu"
 
-#: data/ui/HeaderBar.ui:24 data/ui/SearchHeaderBar.ui:15
+#: data/ui/HeaderBar.ui:25 data/ui/SearchHeaderBar.ui:15
 msgid "Select"
 msgstr "Selecteren"
 
-#: data/ui/HeaderBar.ui:30 data/ui/PlaylistDialog.ui:213
+#: data/ui/HeaderBar.ui:31 data/ui/PlaylistDialog.ui:213
 #: data/ui/SearchHeaderBar.ui:20
 msgid "_Cancel"
 msgstr "_Annuleren"
 
-#: data/ui/HeaderBar.ui:42 data/ui/SearchHeaderBar.ui:32
+#: data/ui/HeaderBar.ui:43 data/ui/SearchHeaderBar.ui:32
 msgid "Search"
 msgstr "Zoeken"
 
-#: data/ui/HeaderBar.ui:50
+#: data/ui/HeaderBar.ui:51
 msgid "Back"
 msgstr "Terug"
 
@@ -376,11 +376,11 @@ msgstr "Toevoegen aan _afspeellijst"
 msgid "_Remove from Playlist"
 msgstr "Ve_rwijderen uit afspeellijst"
 
-#: gnomemusic/about.py:238
+#: gnomemusic/about.py:245
 msgid "The GNOME Project"
-msgstr "Het Gnome-project"
+msgstr "Het GNOME-project"
 
-#: gnomemusic/about.py:242
+#: gnomemusic/about.py:249
 msgid "translator-credits"
 msgstr ""
 "Erwin Poeze <donnut@outlook.com>\n"
@@ -389,13 +389,13 @@ msgstr ""
 "Hannie Dumoleyn <hannie@ubuntu-nl.org>\n"
 "Justin van Steijn <jvs@fsfe.org>\n"
 "Nathan Follens <nfollens@gnome.org>\n"
-"Meer info over Gnome-NL http://nl.gnome.org"
+"Meer info over GNOME-NL https://nl.gnome.org"
 
-#: gnomemusic/about.py:246
+#: gnomemusic/about.py:253
 msgid "Copyright The GNOME Music Developers"
-msgstr "Copyright de Gnome Muziek-ontwikkelaars"
+msgstr "Copyright de GNOME Muziek-ontwikkelaars"
 
-#: gnomemusic/about.py:249
+#: gnomemusic/about.py:256
 msgid "Translated by"
 msgstr "Vertaald door"
 
@@ -456,8 +456,8 @@ msgstr "Muziek wordt afgespeeld"
 
 #. Translators: "shuffle" causes tracks to play in random order.
 #: gnomemusic/player.py:44
-msgid "Shuffle"
-msgstr "Willekeurig"
+msgid "Shuffle/Repeat Off"
+msgstr "Willekeurig/herhalen uit"
 
 #: gnomemusic/player.py:45
 msgid "Repeat Song"
@@ -468,8 +468,8 @@ msgid "Repeat All"
 msgstr "Alles herhalen"
 
 #: gnomemusic/player.py:47
-msgid "Shuffle/Repeat Off"
-msgstr "Willekeurig/herhalen uit"
+msgid "Shuffle"
+msgstr "Willekeurig"
 
 #: gnomemusic/playlisttoast.py:55
 msgid "Playlist {} removed"
@@ -515,7 +515,7 @@ msgstr "Probeer een andere zoekopdracht"
 
 #: gnomemusic/views/emptyview.py:129
 msgid "GNOME Music could not connect to Tracker."
-msgstr "Gnome Muziek kon geen verbinding maken met Tracker."
+msgstr "GNOME Muziek kon geen verbinding maken met Tracker."
 
 #: gnomemusic/views/emptyview.py:131
 msgid "Your music files cannot be indexed without Tracker running."
@@ -585,6 +585,10 @@ msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} nummer"
 msgstr[1] "{} nummers"
+
+#: gnomemusic/widgets/searchheaderbar.py:66
+msgid "Search songs, artists, albums and playlists"
+msgstr "Zoek naar nummers, artiesten, albums en afspeellijsten"
 
 #~ msgid "A music player and management application for GNOME."
 #~ msgstr "Een muziekspeler en beheertoepassing voor Gnome."
