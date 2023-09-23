@@ -5,29 +5,31 @@
 # Daniel PUENTES <blatberk@openmailbox.org>, 2015.
 # Baptiste DARTHENAY < >, 2016.
 # Sébastien ZURFLUH <sebastien.zurfluh@gmail.com>, 2018.
-# Kristjan SCHMIDT <kristjan.schmidt@googlemail.com>, 2013-2019.
 # Carmen Bianca BAKKER <carmen@carmenbianca.eu>, 2018-2019.
+# Kristjan SCHMIDT <kristjan.schmidt@googlemail.com>, 2013-2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2019-05-08 14:02+0000\n"
-"PO-Revision-Date: 2019-05-10 13:04+0200\n"
-"Last-Translator: Carmen Bianca BAKKER <carmen@carmenbianca.eu>\n"
+"POT-Creation-Date: 2023-07-04 07:49+0000\n"
+"PO-Revision-Date: 2023-09-23 19:02+0200\n"
+"Last-Translator: Kristjan SCHMIDT <kristjan.schmidt@googlemail.com>\n"
 "Language-Team: Esperanto <gnome-eo-list@gnome.org>\n"
 "Language: eo\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"X-Generator: Gtranslator 3.32.0\n"
+"X-Generator: Gtranslator 42.0\n"
 "X-DamnedLies-Scope: partial\n"
 "X-Project-Style: gnome\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
-msgid "GNOME Music"
-msgstr "GNOME Muziko"
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/about.py:243
+#: gnomemusic/application.py:61 gnomemusic/window.py:71
+msgid "Music"
+msgstr "Muziko"
 
 #: data/org.gnome.Music.appdata.xml.in.in:7
 #: data/org.gnome.Music.desktop.in.in:5
@@ -35,29 +37,20 @@ msgid "Play and organize your music collection"
 msgstr "Ludu kaj organizu vian muzikaron"
 
 #: data/org.gnome.Music.appdata.xml.in.in:9
-msgid ""
-"An easy way to play your music. Automatically discover music on your "
-"computer, the local network and internet services."
-msgstr ""
-"Facila maniero por ludi vian muzikon. Malkovru aŭtomate muzikon sur via "
-"komputilo, la loka reto, kaj retaj servoj."
+msgid "An easy and pleasant way to play your music."
+msgstr "Facila kaj agrabla maniero ludi vian muzikon."
 
 #: data/org.gnome.Music.appdata.xml.in.in:12
 msgid ""
-"Find tracks in your local collection, get music from DLNA servers or try "
-"something new with the Jamendo and Magnatune services."
+"Find tracks in your local collection, use automatically generated playlists "
+"or curate a fresh one."
 msgstr ""
-"Trovu muzikaĵojn en via loka kolekto, akiru muzikon de DLNA-serviloj, aŭ "
-"provu ion novan kun la Jamendo aŭ Magnatune servoj."
+"Trovu musikaĵojn en via loka kolekto, uzu aŭtomate generitajn ludlistojn aŭ "
+"prenu freŝan."
 
-#: data/org.gnome.Music.appdata.xml.in.in:34
+#: data/org.gnome.Music.appdata.xml.in.in:182
 msgid "The GNOME Music developers"
 msgstr "Verkistoj de GNOME Muziko"
-
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:58
-#: gnomemusic/window.py:77
-msgid "Music"
-msgstr "Muziko"
 
 #: data/org.gnome.Music.desktop.in.in:4
 msgid "Music Player"
@@ -77,27 +70,19 @@ msgid "Window size (width and height)."
 msgstr "Dimensio de fenestro (larĝo kaj alto)."
 
 #: data/org.gnome.Music.gschema.xml:17
-msgid "Window position"
-msgstr "Pozicio de fenestro"
-
-#: data/org.gnome.Music.gschema.xml:18
-msgid "Window position (x and y)."
-msgstr "Pozicio de fenestro (x kaj y)."
-
-#: data/org.gnome.Music.gschema.xml:22
 msgid "Window maximized"
 msgstr "Fenestro maksimumigita"
 
-#: data/org.gnome.Music.gschema.xml:23
+#: data/org.gnome.Music.gschema.xml:18
 msgid "Window maximized state."
 msgstr "Maksimumigita stato de fenestro."
 
-#: data/org.gnome.Music.gschema.xml:27
+#: data/org.gnome.Music.gschema.xml:22
 msgid "Playback repeat mode"
 msgstr "Ripeta reĝimo de muzikludo"
 
 #. Translators: Don't translate allowed values, just the description in the brackets
-#: data/org.gnome.Music.gschema.xml:29
+#: data/org.gnome.Music.gschema.xml:24
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
 "collection. Allowed values are: “none” (repeat and shuffle are off), "
@@ -110,300 +95,267 @@ msgstr ""
 "“all” (ĉiu: ripeti la ludliston, ne hazardelekti), “shuffle” (hazardelekti "
 "ludliston, supozas ripetadon de ĉiuj)."
 
-#: data/org.gnome.Music.gschema.xml:33
+#: data/org.gnome.Music.gschema.xml:28
 msgid "Enable ReplayGain"
 msgstr "Ŝalti ReplayGain"
 
-#: data/org.gnome.Music.gschema.xml:34
+#: data/org.gnome.Music.gschema.xml:29
 msgid "Enables or disables ReplayGain for albums"
 msgstr "Ŝaltas aŭ malŝaltas ReplayGain por albumoj"
 
+#: data/org.gnome.Music.gschema.xml:33
+msgid "Inhibit system suspend"
+msgstr "Malhelpi la sistemon suspendi"
+
+#: data/org.gnome.Music.gschema.xml:34
+msgid "Enables or disables inhibiting system suspend while playing music"
+msgstr ""
+"Ebligas aŭ malenlogas malhelpan suspendon de la sistemo dum ludado de muziko"
+
 #: data/org.gnome.Music.gschema.xml:38
-msgid "Inital state has been displayed"
-msgstr "Komenca stato estis montrita"
+msgid "Report music history to Last.fm"
+msgstr "Raportimuzikhistorion al Last.fm"
 
 #: data/org.gnome.Music.gschema.xml:39
-msgid "Set to true when initial state has been displayed"
-msgstr "Agordu al vero kiam komenca stato estas montrita"
-
-#: data/ui/AboutDialog.ui.in:9
-msgid "Copyright © 2018 GNOME Music Developers"
-msgstr "Kopirajto © 2018 Programistoj de GNOME Muziko"
-
-#: data/ui/AboutDialog.ui.in:10
-msgid "A music player and management application for GNOME."
-msgstr "Muzikludilo kaj -organizilo por GNOME."
-
-#: data/ui/AboutDialog.ui.in:12
-msgid "Visit GNOME Music website"
-msgstr "Vizitu la retejon de GNOME Muziko"
-
-#: data/ui/AboutDialog.ui.in:13
+#, fuzzy
 msgid ""
-"GNOME Music is free software; you can redistribute it and/or modify it under "
-"the terms of the GNU General Public License as published by the Free "
-"Software Foundation; either version 2 of the License, or (at your option) "
-"any later version.\n"
-"\n"
-"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
-"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
-"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
-"more details.\n"
-"\n"
-"You should have received a copy of the GNU General Public License along with "
-"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
-"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
-"\n"
-"The GNOME Music authors hereby grant permission for non-GPL compatible "
-"GStreamer plugins to be used and distributed together with GStreamer and "
-"GNOME Music.  This permission is above and beyond the permissions granted by "
-"the GPL license by which GNOME Music is covered.  If you modify this code, "
-"you may extend this exception to your version of the code, but you are not "
-"obligated to do so.  If you do not wish to do so, delete this exception "
-"statement from your version.\n"
-"\n"
-"“Magic of the vinyl” by Sami Pyylampi image is licensed by CC-BY-SA 2.0 "
-"https://www.flickr.com/photos/_spy_/12270839403"
+"Enables or disables sending scrobbles and the “currently playing” info to "
+"Last.fm."
 msgstr ""
-"GNOME Muziko estas libera programaro; vi povas redistribui kaj/aŭ modifi ĝin "
-"laŭ la kondiĉoj de la Ĝenerala Publika Permesilo de GNU eldonite de la Free "
-"Software Foundation; aŭ en la 2a versio de la permesilo aŭ (laŭ via volo) en "
-"iu sekva versio.\n"
-"\n"
-"GNOME Muziko estas distribuite kun la espero ke ĝi estos utila, sed SEN IA "
-"AJN GARANTIO; eĉ sen la implica garantio de NEGOCEBLO aŭ ADAPTADO AL IU "
-"APARTA CELO.  Vidu la Ĝeneralan Publikan Permesilon de GNU por pli da "
-"detaloj.\n"
-"\n"
-"Vi devintus ricevi kopion de la Ĝenerala Publika Permesilo de GNU kune kun "
-"GNOME Muziko; se ne, skribu al Free Software Foundation, Inc., 51 Franklin "
-"Street, kvina etaĝo, Boston, MA 02110-1301 Usono.\n"
-"\n"
-"La aŭtoroj de GNOME Muziko donas, per tio, permeson por uzi ne-GPL kongruajn "
-"GStreamer-kromprogramojn kaj disdoni GNOME Muziko kune kun GStreamer "
-"kromprogramoj.  Tiu ĉi permeso superas la permesojn, kiuj estas donataj de "
-"la GPL-permesilo, sub kiu GNOME Muziko estas.  Se vi modifas tiun ĉi kodon, "
-"vi povas plivastigi tiun ĉi escepton en la versio de via kodo, sed tio ne "
-"estas devenda.  Se vi ne volas fari tion, forigu tiun ĉi esceptan ordonon de "
-"via versio.\n"
-"\n"
-"“Magic of the vinyl” de Sami Pyylampi, bildo estas rajtigite per CC-BY-SA "
-"2.0 https://www.flickr.com/photos/_spy_/12270839403"
+"Ebligas aŭ malebligas sendi skroblojn kaj la \"nun ludantajn\" informojn al "
+"Last.fm."
 
-#: data/ui/AlbumWidget.ui:105
-msgid "Released"
-msgstr "Eldonita"
+#: data/ui/AlbumWidget.ui:84 data/ui/PlayerToolbar.ui:87
+#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:170
+msgid "Play"
+msgstr "Ludi"
 
-#: data/ui/AlbumWidget.ui:121
-msgid "Running Length"
-msgstr "Ludada daŭro"
+#: data/ui/AlbumWidget.ui:130 data/ui/PlaylistControls.ui:5
+#: data/ui/SongWidgetMenu.ui:11
+msgid "_Play"
+msgstr "_Ludi"
 
-#: data/ui/AlbumWidget.ui:166 gnomemusic/widgets/searchbar.py:71
-msgid "Composer"
-msgstr "Komponisto"
+#: data/ui/AlbumWidget.ui:134
+msgid "Add to _Favorite Songs"
+msgstr "Aldonu al plej ŝ_atataj kantoj"
 
-#: data/ui/AppMenu.ui:21
+#: data/ui/AlbumWidget.ui:138 data/ui/SongWidgetMenu.ui:15
+msgid "_Add to Playlist…"
+msgstr "_Aldoni al ludlisto…"
+
+#: data/ui/AppMenu.ui:23 data/ui/LastfmDialog.ui:8
+msgid "Last.fm Account"
+msgstr "Last.fm-konto"
+
+#: data/ui/AppMenu.ui:36
+msgid "Report Music Listening"
+msgstr "Raporti aŭskultadon de muziko"
+
+#: data/ui/AppMenu.ui:58
 msgid "_Keyboard Shortcuts"
 msgstr "_Klavkombinoj"
 
-#: data/ui/AppMenu.ui:35
+#: data/ui/AppMenu.ui:68
 msgid "_Help"
 msgstr "_Helpo"
 
-#: data/ui/AppMenu.ui:49
+#: data/ui/AppMenu.ui:78
 msgid "_About Music"
 msgstr "_Pri Muziko"
 
-#: data/ui/HeaderBar.ui:13
+#: data/ui/EmptyView.ui:30
+msgid "Welcome to Music"
+msgstr "Bonvenon al Muziko"
+
+#: data/ui/HeaderBar.ui:17
 msgid "Menu"
 msgstr "Menuo"
 
-#: data/ui/HeaderBar.ui:36
+#: data/ui/HeaderBar.ui:25 data/ui/SearchHeaderBar.ui:15
 msgid "Select"
 msgstr "Elekti"
 
-#: data/ui/HeaderBar.ui:58 data/ui/PlaylistDialog.ui:255
+#: data/ui/HeaderBar.ui:31 data/ui/PlaylistDialog.ui:213
+#: data/ui/SearchHeaderBar.ui:20
 msgid "_Cancel"
 msgstr "_Nuligi"
 
-#: data/ui/HeaderBar.ui:77
+#: data/ui/HeaderBar.ui:43 data/ui/SearchHeaderBar.ui:32
 msgid "Search"
 msgstr "Serĉi"
 
-#: data/ui/HeaderBar.ui:100
+#: data/ui/HeaderBar.ui:51
 msgid "Back"
 msgstr "Reen"
 
-#: data/ui/help-overlay.ui:13
+#: data/ui/help-overlay.ui:11
 msgctxt "shortcut window"
 msgid "General"
 msgstr "Ĝeneralo"
 
-#: data/ui/help-overlay.ui:17
+#: data/ui/help-overlay.ui:14
 msgctxt "shortcut window"
 msgid "Close window"
 msgstr "Fermi fenestron"
 
-#: data/ui/help-overlay.ui:24
+#: data/ui/help-overlay.ui:20
 msgctxt "shortcut window"
 msgid "Search"
 msgstr "Serĉilo"
 
-#: data/ui/help-overlay.ui:31
+#: data/ui/help-overlay.ui:26
 msgctxt "shortcut window"
 msgid "Help"
 msgstr "Helpo"
 
-#: data/ui/help-overlay.ui:38
+#: data/ui/help-overlay.ui:32
 msgctxt "shortcut window"
 msgid "Shortcuts"
 msgstr "Klavkombinoj"
 
-#: data/ui/help-overlay.ui:47
+#: data/ui/help-overlay.ui:40
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Ludi"
 
-#: data/ui/help-overlay.ui:51
+#: data/ui/help-overlay.ui:43
 msgctxt "shortcut window"
 msgid "Play/Pause"
 msgstr "Ludi/Paŭzi"
 
-#: data/ui/help-overlay.ui:58
+#: data/ui/help-overlay.ui:49
 msgctxt "shortcut window"
 msgid "Next song"
 msgstr "Sekva muzikaĵo"
 
-#: data/ui/help-overlay.ui:65
+#: data/ui/help-overlay.ui:55
 msgctxt "shortcut window"
 msgid "Previous song"
 msgstr "Antaŭa muzikaĵo"
 
-#: data/ui/help-overlay.ui:72
+#: data/ui/help-overlay.ui:61
 msgctxt "shortcut window"
 msgid "Toggle repeat"
 msgstr "Baskuligi ripeton"
 
-#: data/ui/help-overlay.ui:79
+#: data/ui/help-overlay.ui:67
 msgctxt "shortcut window"
 msgid "Toggle shuffle"
 msgstr "Baskuligi hazardelekton"
 
-#: data/ui/help-overlay.ui:88
+#: data/ui/help-overlay.ui:75
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "Navigado"
 
-#: data/ui/help-overlay.ui:92
+#: data/ui/help-overlay.ui:78
 msgctxt "shortcut window"
 msgid "Go to Albums"
 msgstr "Iri al albumoj"
 
-#: data/ui/help-overlay.ui:99
+#: data/ui/help-overlay.ui:84
 msgctxt "shortcut window"
 msgid "Go to Artists"
 msgstr "Iri al artistoj"
 
-#: data/ui/help-overlay.ui:106
+#: data/ui/help-overlay.ui:90
 msgctxt "shortcut window"
 msgid "Go to Songs"
 msgstr "Iri al muzikaĵoj"
 
-#: data/ui/help-overlay.ui:113
+#: data/ui/help-overlay.ui:96
 msgctxt "shortcut window"
 msgid "Go to Playlists"
 msgstr "Iri al ludlistoj"
 
-#: data/ui/help-overlay.ui:120
+#: data/ui/help-overlay.ui:102
 msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Reen iri"
 
-#: data/ui/PlayerToolbar.ui:6
-msgid "Shuffle"
-msgstr "Hazardelekti"
+#: data/ui/LastfmDialog.ui:21
+msgid ""
+"Last.fm is a music discovery service that gives you personalised "
+"recommendations based on the music you listen to."
+msgstr ""
+"Last.fm estas muzika malkovra servo, kiu donas al vi personecigitajn "
+"rekomendojn bazitajn sur la muziko, kiun vi aŭskultas."
 
-#: data/ui/PlayerToolbar.ui:11
-msgid "Repeat All"
-msgstr "Ripeti ĉion"
+#: data/ui/LastfmDialog.ui:31 gnomemusic/widgets/lastfmdialog.py:57
+msgid "Music Reporting Not Setup"
+msgstr "Muzika raportado ne agordita"
 
-#: data/ui/PlayerToolbar.ui:16
-msgid "Repeat Song"
-msgstr "Ripeti muzikaĵon"
+#: data/ui/LastfmDialog.ui:44 gnomemusic/widgets/lastfmdialog.py:60
+msgid "Login to your Last.fm account to report your music listening."
+msgstr "Ensaluti al via Last.fm-konto por raporti vian aŭskultadon de muziko."
 
-#. Causes tracks to play in random order
-#: data/ui/PlayerToolbar.ui:21
-msgid "Shuffle/Repeat Off"
-msgstr "Ne hazardelekti, ne ripetadi"
+#: data/ui/LastfmDialog.ui:55 gnomemusic/widgets/lastfmdialog.py:58
+msgid "Login"
+msgstr "Saluti"
 
-#: data/ui/PlayerToolbar.ui:70
+#: data/ui/PlayerToolbar.ui:74
 msgid "Previous"
 msgstr "Antaŭa"
 
-#: data/ui/PlayerToolbar.ui:86 gnomemusic/widgets/playertoolbar.py:143
-msgid "Play"
-msgstr "Ludi"
-
-#: data/ui/PlayerToolbar.ui:102
+#: data/ui/PlayerToolbar.ui:106
 msgid "Next"
 msgstr "Sekva"
 
-#: data/ui/PlaylistContextMenu.ui:5
-msgctxt "context menu item"
-msgid "Play"
-msgstr "Ludi"
-
-#: data/ui/PlaylistContextMenu.ui:9
-msgid "Add to Playlist…"
-msgstr "Aldoni al ludlisto…"
-
-#: data/ui/PlaylistContextMenu.ui:13
-msgid "Remove From Playlist"
-msgstr "Forigi el ludlisto"
-
-#: data/ui/PlaylistControls.ui:6
-msgid "_Play"
-msgstr "_Ludi"
-
-#: data/ui/PlaylistControls.ui:10
+#: data/ui/PlaylistControls.ui:9
 msgid "_Delete"
 msgstr "_Forigi"
 
-#: data/ui/PlaylistControls.ui:14
+#: data/ui/PlaylistControls.ui:13
 msgid "_Rename…"
 msgstr "_Alinomi…"
 
-#: data/ui/PlaylistControls.ui:33
+#: data/ui/PlaylistControls.ui:28
 msgid "Playlist Name"
 msgstr "Ludlista nomo"
 
-#: data/ui/PlaylistControls.ui:67
+#: data/ui/PlaylistControls.ui:62
 msgid "_Done"
 msgstr "Far_ita"
 
-#: data/ui/PlaylistDialog.ui:66
+#: data/ui/PlaylistDialog.ui:52
 msgid "Enter a name for your first playlist"
 msgstr "Enigu nomon por via unua ludlisto"
 
-#: data/ui/PlaylistDialog.ui:92
+#: data/ui/PlaylistDialog.ui:77
 msgid "C_reate"
 msgstr "_Krei"
 
-#: data/ui/PlaylistDialog.ui:155
+#: data/ui/PlaylistDialog.ui:146
 msgid "New Playlist…"
 msgstr "Nova ludlisto…"
 
-#: data/ui/PlaylistDialog.ui:169
+#: data/ui/PlaylistDialog.ui:161
 msgid "Add"
 msgstr "Aldoni"
 
-#: data/ui/PlaylistDialog.ui:252
+#: data/ui/PlaylistDialog.ui:202
 msgid "Add to Playlist"
 msgstr "Aldoni al ludlisto"
 
-#: data/ui/PlaylistDialog.ui:268
+#: data/ui/PlaylistDialog.ui:222
 msgid "_Add"
 msgstr "_Aldoni"
+
+#: data/ui/SearchView.ui:33 gnomemusic/views/artistsview.py:51
+msgid "Artists"
+msgstr "Artistoj"
+
+#: data/ui/SearchView.ui:42 data/ui/SearchView.ui:84
+msgid "View All"
+msgstr "Montri ĉiujn"
+
+#: data/ui/SearchView.ui:75 gnomemusic/views/albumsview.py:56
+msgid "Albums"
+msgstr "Albumoj"
+
+#: data/ui/SearchView.ui:117 gnomemusic/views/songsview.py:52
+msgid "Songs"
+msgstr "Muzikaĵoj"
 
 #: data/ui/SelectionBarMenuButton.ui:7
 msgid "Select All"
@@ -413,192 +365,361 @@ msgstr "Elekti ĉiujn"
 msgid "Select None"
 msgstr "Elekti neniun"
 
-#: data/ui/SelectionBarMenuButton.ui:31 gnomemusic/widgets/headerbar.py:75
+#: data/ui/SelectionBarMenuButton.ui:19 gnomemusic/widgets/headerbar.py:69
 msgid "Click on items to select them"
 msgstr "Alklaku erojn por elekti ilin"
 
-#: data/ui/SelectionToolbar.ui:9
+#: data/ui/SelectionToolbar.ui:8
 msgid "_Add to Playlist"
 msgstr "_Aldoni al ludlisto"
 
-#: gnomemusic/gstplayer.py:375
+#: data/ui/SongWidgetMenu.ui:19
+msgid "_Remove from Playlist"
+msgstr "Forigi _el ludlisto"
+
+#: gnomemusic/about.py:245
+msgid "The GNOME Project"
+msgstr "La projekto GNOME"
+
+#: gnomemusic/about.py:249
+msgid "translator-credits"
+msgstr ""
+"Dominique PELLÉ\n"
+"Kristjan SCHMIDT\n"
+"Denizo PRISKORN\n"
+"Daniel PUENTES\n"
+"Aisano\n"
+"Andreas SCHLAPSI\n"
+"Michael MORONI\n"
+"Serge LEBLANC\n"
+"Sergio ALDANA\n"
+"William THEAKER\n"
+"Carmen Bianca BAKKER <carmen@carmenbianca.eu>"
+
+#: gnomemusic/about.py:253
+msgid "Copyright The GNOME Music Developers"
+msgstr "Kopirajto La programistoj de GNOME Muziko"
+
+#: gnomemusic/about.py:256
+msgid "Translated by"
+msgstr "Tradukita de"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:894
+msgid "Most Played"
+msgstr "Plejofte luditaj"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:948
+msgid "Never Played"
+msgstr "Neniam luditaj"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1001
+msgid "Recently Played"
+msgstr "Lastatempe luditaj"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1064
+msgid "Recently Added"
+msgstr "Freŝaldonitaj"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1127
+msgid "Favorite Songs"
+msgstr "Favorataj muzikaĵoj"
+
+#: gnomemusic/gstplayer.py:408
 msgid "Unable to play the file"
 msgstr "Ne eblas ludi la dosieron"
 
-#: gnomemusic/gstplayer.py:381
+#: gnomemusic/gstplayer.py:414
 msgid "_Find in {}"
 msgstr "_Trovi en {}"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:392
+#: gnomemusic/gstplayer.py:424
 msgid " and "
 msgstr " kaj "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:395
+#: gnomemusic/gstplayer.py:427
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:397
+#: gnomemusic/gstplayer.py:429
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "{} estas bezonata por ludi la dosieron, sed ĝi ne estas instalita."
 msgstr[1] ""
 "{} estas bezonataj por ludi la dosieron, sed ili ne estas instalitaj."
 
-#: gnomemusic/inhibitsuspend.py:72
+#: gnomemusic/inhibitsuspend.py:63
 msgid "Playing music"
 msgstr "Ludi muzikon"
 
-#. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:59
-msgid "Most Played"
-msgstr "Plejofte luditaj"
+#. Translators: "shuffle" causes tracks to play in random order.
+#: gnomemusic/player.py:44
+msgid "Shuffle/Repeat Off"
+msgstr "Ne hazardelekti, ne ripetadi"
 
-#. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:64
-msgid "Never Played"
-msgstr "Neniam luditaj"
+#: gnomemusic/player.py:45
+msgid "Repeat Song"
+msgstr "Ripeti muzikaĵon"
 
-#. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:69
-msgid "Recently Played"
-msgstr "Lastatempe luditaj"
+#: gnomemusic/player.py:46
+msgid "Repeat All"
+msgstr "Ripeti ĉion"
 
-#. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:74
-msgid "Recently Added"
-msgstr "Freŝaldonitaj"
+#: gnomemusic/player.py:47
+msgid "Shuffle"
+msgstr "Hazardelekti"
 
-#. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:79
-msgid "Favorite Songs"
-msgstr "Favorataj muzikaĵoj"
+#: gnomemusic/playlisttoast.py:55
+msgid "Playlist {} removed"
+msgstr "Ludlisto {} forigita"
 
-#: gnomemusic/utils.py:56
-#| msgid "Unknown Album"
+#: gnomemusic/playlisttoast.py:56 gnomemusic/songtoast.py:65
+msgid "Undo"
+msgstr "Malfari"
+
+#: gnomemusic/songtoast.py:64
+msgid "{} removed from {}"
+msgstr "{} forigita el {}"
+
+#: gnomemusic/utils.py:92
 msgid "Unknown album"
 msgstr "Nekonata albumo"
 
-#: gnomemusic/utils.py:77
+#: gnomemusic/utils.py:113
 msgid "Unknown Artist"
 msgstr "Nekonata artisto"
 
-#: gnomemusic/views/albumsview.py:46 gnomemusic/views/searchview.py:607
-msgid "Albums"
-msgstr "Albumoj"
+#: gnomemusic/views/emptyview.py:65
+msgid "Your XDG Music directory is not set."
+msgstr "Via XDG-muzika dosierujo ne estas agordita."
 
-#: gnomemusic/views/artistsview.py:61 gnomemusic/views/searchview.py:609
-msgid "Artists"
-msgstr "Artistoj"
-
-#: gnomemusic/views/emptyview.py:67
-msgid "Music folder"
+#: gnomemusic/views/emptyview.py:72
+msgid "Music Folder"
 msgstr "Muzika dosierujo"
 
 #. TRANSLATORS: This is a label to display a link to open user's music
 #. folder. {} will be replaced with the translated text 'Music folder'
-#: gnomemusic/views/emptyview.py:71
+#: gnomemusic/views/emptyview.py:76
 msgid "The contents of your {} will appear here."
 msgstr "La enhavo de via {} aperos ĉi tie."
 
-#: gnomemusic/views/emptyview.py:105
-msgid "Hey DJ"
-msgstr "Hej DĴ"
-
-#: gnomemusic/views/emptyview.py:115 gnomemusic/views/emptyview.py:121
-msgid "No music found"
+#: gnomemusic/views/emptyview.py:124
+msgid "No Music Found"
 msgstr "Neniu muziko trovita"
 
-#: gnomemusic/views/emptyview.py:123
-msgid "Try a different search"
+#: gnomemusic/views/emptyview.py:125
+msgid "Try a Different Search"
 msgstr "Provu alian serĉon"
 
 #: gnomemusic/views/emptyview.py:129
-msgid "GNOME Music could not connect to Tracker"
-msgstr "GNOME Muziko ne povis konekti al Ŝanĝospurilo"
+msgid "GNOME Music could not connect to Tracker."
+msgstr "GNOME Muziko ne povis konekti al Ŝanĝospurilo."
 
-#: gnomemusic/views/emptyview.py:132
-msgid "Your music files cannot be indexed without Tracker running"
-msgstr "Ne povis indeksigi viajn muzikdosierojn sen rulanta Ŝanĝospurilo"
+#: gnomemusic/views/emptyview.py:131
+msgid "Your music files cannot be indexed without Tracker running."
+msgstr "Ne povis indeksigi viajn muzikdosierojn sen rulanta Ŝanĝospurilo."
 
-#: gnomemusic/views/playlistview.py:62 gnomemusic/views/searchview.py:613
+#: gnomemusic/views/emptyview.py:137
+msgid "Your system Tracker version seems outdated."
+msgstr "Via sistema Tracker-versio ŝajnas malmoderna."
+
+#: gnomemusic/views/emptyview.py:139
+msgid "Music needs Tracker version 3.0.0 or higher."
+msgstr "Muziko bezonas Tracker-version 3.0.0 aŭ pli alta."
+
+#: gnomemusic/views/playlistsview.py:45
 msgid "Playlists"
 msgstr "Ludlistoj"
 
-#: gnomemusic/views/playlistview.py:632
-msgid "Playlist {} removed"
-msgstr "Ludlisto {} forigita"
+#: gnomemusic/views/searchview.py:304
+msgid "Artists Results"
+msgstr "Rezultoj de artistoj"
 
-#: gnomemusic/views/playlistview.py:638
-msgid "{} removed from {}"
-msgstr "{} forigita el {}"
+#: gnomemusic/views/searchview.py:318
+msgid "Albums Results"
+msgstr "Rezultoj de albumoj"
 
-#: gnomemusic/views/searchview.py:611 gnomemusic/views/songsview.py:55
-msgid "Songs"
-msgstr "Muzikaĵoj"
-
-#: gnomemusic/widgets/albumwidget.py:171
+#: gnomemusic/widgets/albumwidget.py:245
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} minuto"
 msgstr[1] "{} minutoj"
 
-#: gnomemusic/widgets/disclistboxwidget.py:141
+#: gnomemusic/widgets/discbox.py:75
 msgid "Disc {}"
 msgstr "Disko {}"
 
-#: gnomemusic/widgets/headerbar.py:72
-msgid "Selected {} item"
-msgid_plural "Selected {} items"
-msgstr[0] "{} ero elektita"
-msgstr[1] "{} eroj elektitaj"
+#: gnomemusic/widgets/headerbar.py:66
+msgid "Selected {} song"
+msgid_plural "Selected {} songs"
+msgstr[0] "Elektis {} kanton"
+msgstr[1] "Elektis {} kantojn"
 
-#: gnomemusic/widgets/notificationspopup.py:169
-msgid "Loading"
-msgstr "Ŝargante"
+#: gnomemusic/widgets/lastfmdialog.py:64
+msgid "Your music listening is reported to Last.fm."
+msgstr "Via aŭskultado de muziko estas raportita al Last.fm."
 
-#: gnomemusic/widgets/notificationspopup.py:232
-msgid "_Undo"
-msgstr "_Malfari"
+#: gnomemusic/widgets/lastfmdialog.py:66
+msgid "Your music listening is not reported to Last.fm."
+msgstr "Via aŭskultado de muziko ne estas raportita al Last.fm."
 
-#: gnomemusic/widgets/playertoolbar.py:140
+#. TRANSLATORS: displays the username of the Last.fm account
+#: gnomemusic/widgets/lastfmdialog.py:70
+msgid "Logged in as {}"
+msgstr "Ensalutinta kiel {}"
+
+#: gnomemusic/widgets/lastfmdialog.py:71
+msgid "Configure"
+msgstr "Agordi"
+
+#: gnomemusic/widgets/playertoolbar.py:167
 msgid "Pause"
 msgstr "Paŭzi"
 
-#: gnomemusic/widgets/playlistcontrols.py:96
+#: gnomemusic/widgets/playlistcontrols.py:130
 msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} muzikaĵo"
 msgstr[1] "{} muzikaĵoj"
 
-#: gnomemusic/widgets/searchbar.py:68 gnomemusic/widgets/searchbar.py:117
-msgid "All"
-msgstr "Ĉiuj"
+#: gnomemusic/widgets/searchheaderbar.py:66
+msgid "Search songs, artists, albums and playlists"
+msgstr "Serĉi kantojn, artistojn, albumojn kaj ludlistojn"
 
-#: gnomemusic/widgets/searchbar.py:69
-msgid "Artist"
-msgstr "Artisto"
+#~ msgid "GNOME Music"
+#~ msgstr "GNOME Muziko"
 
-#: gnomemusic/widgets/searchbar.py:70
-msgid "Album"
-msgstr "Albumo"
+#~ msgid ""
+#~ "An easy way to play your music. Automatically discover music on your "
+#~ "computer, the local network and internet services."
+#~ msgstr ""
+#~ "Facila maniero por ludi vian muzikon. Malkovru aŭtomate muzikon sur via "
+#~ "komputilo, la loka reto, kaj retaj servoj."
 
-#: gnomemusic/widgets/searchbar.py:72
-msgid "Track Title"
-msgstr "Muzikaĵa titolo"
+#~ msgid ""
+#~ "Find tracks in your local collection, get music from DLNA servers or try "
+#~ "something new with the Jamendo and Magnatune services."
+#~ msgstr ""
+#~ "Trovu muzikaĵojn en via loka kolekto, akiru muzikon de DLNA-serviloj, aŭ "
+#~ "provu ion novan kun la Jamendo aŭ Magnatune servoj."
 
-#: gnomemusic/widgets/searchbar.py:118
-msgid "Local"
-msgstr "Loka"
+#~ msgid "Window position"
+#~ msgstr "Pozicio de fenestro"
 
-#: gnomemusic/widgets/searchbar.py:287
-msgid "Sources"
-msgstr "Fontoj"
+#~ msgid "Window position (x and y)."
+#~ msgstr "Pozicio de fenestro (x kaj y)."
 
-#: gnomemusic/widgets/searchbar.py:298
-msgid "Match"
-msgstr "Kongrui"
+#~ msgid "Inital state has been displayed"
+#~ msgstr "Komenca stato estis montrita"
+
+#~ msgid "Set to true when initial state has been displayed"
+#~ msgstr "Agordu al vero kiam komenca stato estas montrita"
+
+#~ msgid "A music player and management application for GNOME."
+#~ msgstr "Muzikludilo kaj -organizilo por GNOME."
+
+#~ msgid "Visit GNOME Music website"
+#~ msgstr "Vizitu la retejon de GNOME Muziko"
+
+#~ msgid ""
+#~ "GNOME Music is free software; you can redistribute it and/or modify it "
+#~ "under the terms of the GNU General Public License as published by the "
+#~ "Free Software Foundation; either version 2 of the License, or (at your "
+#~ "option) any later version.\n"
+#~ "\n"
+#~ "GNOME Music is distributed in the hope that it will be useful, but "
+#~ "WITHOUT ANY WARRANTY; without even the implied warranty of "
+#~ "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General "
+#~ "Public License for more details.\n"
+#~ "\n"
+#~ "You should have received a copy of the GNU General Public License along "
+#~ "with GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+#~ "Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+#~ "\n"
+#~ "The GNOME Music authors hereby grant permission for non-GPL compatible "
+#~ "GStreamer plugins to be used and distributed together with GStreamer and "
+#~ "GNOME Music.  This permission is above and beyond the permissions granted "
+#~ "by the GPL license by which GNOME Music is covered.  If you modify this "
+#~ "code, you may extend this exception to your version of the code, but you "
+#~ "are not obligated to do so.  If you do not wish to do so, delete this "
+#~ "exception statement from your version.\n"
+#~ "\n"
+#~ "“Magic of the vinyl” by Sami Pyylampi image is licensed by CC-BY-SA 2.0 "
+#~ "https://www.flickr.com/photos/_spy_/12270839403"
+#~ msgstr ""
+#~ "GNOME Muziko estas libera programaro; vi povas redistribui kaj/aŭ modifi "
+#~ "ĝin laŭ la kondiĉoj de la Ĝenerala Publika Permesilo de GNU eldonite de "
+#~ "la Free Software Foundation; aŭ en la 2a versio de la permesilo aŭ (laŭ "
+#~ "via volo) en iu sekva versio.\n"
+#~ "\n"
+#~ "GNOME Muziko estas distribuite kun la espero ke ĝi estos utila, sed SEN "
+#~ "IA AJN GARANTIO; eĉ sen la implica garantio de NEGOCEBLO aŭ ADAPTADO AL "
+#~ "IU APARTA CELO.  Vidu la Ĝeneralan Publikan Permesilon de GNU por pli da "
+#~ "detaloj.\n"
+#~ "\n"
+#~ "Vi devintus ricevi kopion de la Ĝenerala Publika Permesilo de GNU kune "
+#~ "kun GNOME Muziko; se ne, skribu al Free Software Foundation, Inc., 51 "
+#~ "Franklin Street, kvina etaĝo, Boston, MA 02110-1301 Usono.\n"
+#~ "\n"
+#~ "La aŭtoroj de GNOME Muziko donas, per tio, permeson por uzi ne-GPL "
+#~ "kongruajn GStreamer-kromprogramojn kaj disdoni GNOME Muziko kune kun "
+#~ "GStreamer kromprogramoj.  Tiu ĉi permeso superas la permesojn, kiuj estas "
+#~ "donataj de la GPL-permesilo, sub kiu GNOME Muziko estas.  Se vi modifas "
+#~ "tiun ĉi kodon, vi povas plivastigi tiun ĉi escepton en la versio de via "
+#~ "kodo, sed tio ne estas devenda.  Se vi ne volas fari tion, forigu tiun ĉi "
+#~ "esceptan ordonon de via versio.\n"
+#~ "\n"
+#~ "“Magic of the vinyl” de Sami Pyylampi, bildo estas rajtigite per CC-BY-SA "
+#~ "2.0 https://www.flickr.com/photos/_spy_/12270839403"
+
+#~ msgid "Released"
+#~ msgstr "Eldonita"
+
+#~ msgid "Running Length"
+#~ msgstr "Ludada daŭro"
+
+#~ msgid "Composer"
+#~ msgstr "Komponisto"
+
+#~ msgctxt "context menu item"
+#~ msgid "Play"
+#~ msgstr "Ludi"
+
+#~ msgid "Remove From Playlist"
+#~ msgstr "Forigi el ludlisto"
+
+#~ msgid "Hey DJ"
+#~ msgstr "Hej DĴ"
+
+#~ msgid "Loading"
+#~ msgstr "Ŝargante"
+
+#~ msgid "All"
+#~ msgstr "Ĉiuj"
+
+#~ msgid "Artist"
+#~ msgstr "Artisto"
+
+#~ msgid "Album"
+#~ msgstr "Albumo"
+
+#~ msgid "Track Title"
+#~ msgstr "Muzikaĵa titolo"
+
+#~ msgid "Local"
+#~ msgstr "Loka"
+
+#~ msgid "Sources"
+#~ msgstr "Fontoj"
+
+#~ msgid "Match"
+#~ msgstr "Kongrui"
 
 #~ msgid "Untitled"
 #~ msgstr "Sentitola"
@@ -640,9 +761,6 @@ msgstr "Kongrui"
 
 #~ msgid "Select Playlist"
 #~ msgstr "Elekti ludliston"
-
-#~ msgid "_Remove from Playlist"
-#~ msgstr "Forigi _el ludlisto"
 
 #~ msgid "Max chars to display in track name on Artist view"
 #~ msgstr ""
