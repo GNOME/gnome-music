@@ -48,7 +48,7 @@ appdata_conf = configuration_data()
 appdata_conf.set('appid', APPLICATION_ID)
 appdata_conf.set('package_url', PACKAGE_URL)
 appdata_conf.set('package_url_bug', PACKAGE_URL_BUG)
-i18n.merge_file(
+appdata_file = i18n.merge_file(
   input: configure_file(
     output: PROJECT_RDNN_NAME + '.appdata.xml.in',
     input: PROJECT_RDNN_NAME + '.appdata.xml.in.in',
@@ -61,12 +61,12 @@ i18n.merge_file(
 )
 
 # Validating the appdata file
-appstream_util = find_program('appstream-util', required: false)
-if appstream_util.found()
-  test (
-    'Validate appdata file',
-    appstream_util,
-    args: ['validate-relax', '--nonet', join_paths(meson.current_build_dir (), APPLICATION_ID + '.appdata.xml')]
+appstreamcli = find_program('appstreamcli', required: false)
+if (appstreamcli.found())
+  test('Validate appdata file',
+    appstreamcli,
+    args: ['validate', '--no-net', '--explain', appdata_file],
+    workdir: meson.current_build_dir()
   )
 endif
 

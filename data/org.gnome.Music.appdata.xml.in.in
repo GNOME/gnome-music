@@ -184,12 +184,18 @@
     <release version="3.32.0" date="2019-03-13" />
   </releases>
   <project_group>GNOME</project_group>
+  <!-- developer_name tag deprecated with Appstream 1.0 -->
   <developer_name>The GNOME Music developers</developer_name>
+  <developer id="gnome.org">
+    <name>The GNOME Music developers</name>
+  </developer>
   <launchable type="desktop-id">@appid@.desktop</launchable>
   <url type="homepage">@package_url@</url>
   <url type="bugtracker">@package_url_bug@</url>
-  <url type="donation">https://www.gnome.org/friends/</url>
+  <url type="donation">https://www.gnome.org/donate/</url>
   <url type="help">https://help.gnome.org/users/gnome-music/stable/</url>
+  <url type="translate">https://l10n.gnome.org/module/gnome-music/</url>
+  <url type="vcs-browser">https://gitlab.gnome.org/GNOME/gnome-music</url>
   <kudos>
     <kudo>HiDpiIcon</kudo>
     <kudo>ModernToolkit</kudo>
