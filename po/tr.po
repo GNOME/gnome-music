@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2023-07-04 07:49+0000\n"
-"PO-Revision-Date: 2023-07-29 23:17+0300\n"
+"POT-Creation-Date: 2023-08-08 11:10+0000\n"
+"PO-Revision-Date: 2023-10-14 11:20+0300\n"
 "Last-Translator: Sabri Ünal <libreajans@gmail.com>\n"
 "Language-Team: Turkish <takim@gnome.org.tr>\n"
 "Language: tr\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.4\n"
 "X-POOTLE-MTIME: 1433363480.000000\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
@@ -179,7 +179,7 @@ msgstr "Seç"
 #: data/ui/HeaderBar.ui:31 data/ui/PlaylistDialog.ui:213
 #: data/ui/SearchHeaderBar.ui:20
 msgid "_Cancel"
-msgstr "_Vazgeç"
+msgstr "İ_ptal"
 
 #: data/ui/HeaderBar.ui:43 data/ui/SearchHeaderBar.ui:32
 msgid "Search"
