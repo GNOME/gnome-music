@@ -1,24 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <template class="PlaylistsView" parent="GtkPaned">
-    <property name="shrink-start-child">0</property>
+  <requires lib="gtk" version="4.0"/>
+  <template class="PlaylistsView" parent="AdwBin">
     <child>
-      <object class="GtkScrolledWindow">
-        <property name="width-request">220</property>
-        <child>
-          <object class="GtkViewport">
-            <property name="scroll-to-focus">True</property>
+      <object class="AdwNavigationSplitView" id="_split_view">
+        <property name="sidebar">
+          <object class="AdwNavigationPage">
+            <property name="title" translatable="true">Playlists</property>
             <child>
-              <object class="GtkListBox" id="_sidebar">
-                <property name="selection-mode">single</property>
-                <signal name="row-activated" handler="_on_playlist_activated" swapped="no"/>
-                <style>
-                  <class name="navigation-sidebar"/>
-                </style>
+              <object class="GtkScrolledWindow">
+                <property name="width-request">220</property>
+                <child>
+                  <object class="GtkViewport">
+                    <property name="scroll-to-focus">true</property>
+                    <child>
+                      <object class="GtkListBox" id="_sidebar">
+                        <property name="selection-mode">1</property>
+                        <signal name="row-activated" handler="_on_playlist_activated"/>
+                        <style>
+                          <class name="navigation-sidebar"/>
+                        </style>
+                      </object>
+                    </child>
+                  </object>
+                </child>
               </object>
             </child>
           </object>
-        </child>
+        </property>
+        <property name="content">
+          <object class="AdwNavigationPage" id="_playlist_page">
+            <property name="title" translatable="true">Playlist</property>
+          </object>
+        </property>
       </object>
     </child>
   </template>

@@ -25,7 +25,7 @@
 from gettext import gettext as _
 from typing import Optional
 
-from gi.repository import GObject, Gtk
+from gi.repository import Adw, GObject, Gtk
 
 from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
 from gnomemusic.widgets.playlistswidget import PlaylistsWidget
@@ -33,7 +33,7 @@ from gnomemusic.widgets.playlisttile import PlaylistTile
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/PlaylistsView.ui")
-class PlaylistsView(Gtk.Paned):
+class PlaylistsView(Adw.Bin):
     """Main view for playlists"""
 
     __gtype_name__ = "PlaylistsView"
@@ -44,7 +44,9 @@ class PlaylistsView(Gtk.Paned):
     title = GObject.Property(
         type=str, default=_("Playlists"), flags=GObject.ParamFlags.READABLE)
 
+    _playlist_page = Gtk.Template.Child()
     _sidebar = Gtk.Template.Child()
+    _split_view = Gtk.Template.Child()
 
     def __init__(self, application):
         """Initialize
@@ -63,7 +65,7 @@ class PlaylistsView(Gtk.Paned):
         self._untouched_list = True
 
         self._playlist_widget = PlaylistsWidget(application, self)
-        self.props.end_child = self._playlist_widget
+        self._playlist_page.props.child = self._playlist_widget
 
         self._sidebar.set_header_func(self._sidebar_header_func)
         self._sidebar.bind_model(self._model, self._add_playlist_to_sidebar)
@@ -132,6 +134,7 @@ class PlaylistsView(Gtk.Paned):
             self._untouched_list = False
 
         self.notify("current-playlist")
+        self._split_view.props.show_content = True
 
     def _on_active_core_object_changed(self, klass, val):
         """Selects the active playlist when an MPRIS client
