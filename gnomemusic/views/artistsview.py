@@ -26,7 +26,7 @@ from __future__ import annotations
 import typing
 
 from gettext import gettext as _
-from gi.repository import GObject, Gtk
+from gi.repository import Adw, GObject, Gtk
 
 from gnomemusic.widgets.artistalbumswidget import ArtistAlbumsWidget
 from gnomemusic.widgets.artisttile import ArtistTile
@@ -35,7 +35,7 @@ if typing.TYPE_CHECKING:
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/ArtistsView.ui")
-class ArtistsView(Gtk.Paned):
+class ArtistsView(Adw.Bin):
     """Main view of all available artists
 
     Consists of a list of artists on the left side and an overview of
@@ -52,6 +52,7 @@ class ArtistsView(Gtk.Paned):
 
     _artist_view = Gtk.Template.Child()
     _sidebar = Gtk.Template.Child()
+    _split_view = Gtk.Template.Child()
 
     def __init__(self, application: Application) -> None:
         """Initialize
@@ -122,6 +123,7 @@ class ArtistsView(Gtk.Paned):
         """Initializes new artist album widgets"""
         coreartist = self._selection_model.get_item(position)
         self._artist_album.props.coreartist = coreartist
+        self._split_view.props.show_content = True
 
     @GObject.Property(type=bool, default=False)
     def selection_mode(self):

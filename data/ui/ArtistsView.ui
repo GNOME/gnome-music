@@ -1,26 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk" version="4.0"/>
-  <template class="ArtistsView" parent="GtkPaned">
-    <property name="shrink-start-child">0</property>
+  <template class="ArtistsView" parent="AdwBin">
     <child>
-      <object class="GtkScrolledWindow">
-        <property name="width_request">220</property>
-        <child>
-          <object class="GtkListView" id="_sidebar">
-            <property name="single-click-activate">True</property>
-            <signal name="activate" handler="_on_artist_activated" swapped="no"/>
-            <style>
-              <class name="navigation-sidebar"/>
-            </style>
+      <object class="AdwNavigationSplitView" id="_split_view">
+        <property name="sidebar">
+          <object class="AdwNavigationPage">
+            <property name="title" translatable="true">Artists</property>
+            <property name="child">
+              <object class="GtkScrolledWindow">
+                <child>
+                  <object class="GtkListView" id="_sidebar">
+                    <property name="single-click-activate">true</property>
+                    <signal name="activate" handler="_on_artist_activated"/>
+                    <style>
+                      <class name="navigation-sidebar"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+            </property>
           </object>
-        </child>
-      </object>
-    </child>
-    <child>
-      <object class="GtkScrolledWindow" id="_artist_view">
-        <property name="hexpand">True</property>
-        <property name="vexpand">True</property>
+        </property>
+        <property name="content">
+          <object class="AdwNavigationPage">
+            <property name="title" translatable="true">Artist</property>
+            <property name="child">
+              <object class="GtkScrolledWindow" id="_artist_view">
+                <property name="hexpand">true</property>
+                <property name="vexpand">true</property>
+              </object>
+            </property>
+          </object>
+        </property>
       </object>
     </child>
   </template>
