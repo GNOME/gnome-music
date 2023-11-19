@@ -155,7 +155,7 @@ class TextureCache(GObject.GObject):
         keys_l = len(keys_to_clear)
         TextureCache._log.info(
             f"Cleared {keys_l} items, texture cache contains"
-            f" {sorted_available_l-keys_l} available items.")
+            f" {sorted_available_l-keys_l} available items.")  # noqa: E226
 
         return GLib.SOURCE_CONTINUE
 
