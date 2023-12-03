@@ -12,21 +12,22 @@
 # Enrico Nicoletto <hiko@duck.com>, 2013-2016, 2021-2022.
 # Matheus Barbosa <mdpb.matheus@gmail.com>, 2022.
 # Leônidas Araújo <leorusvellt@hotmail.com>, 2022.
+# Alex Jr <alexjrsh@proton.me>, 2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2022-08-31 10:45+0000\n"
-"PO-Revision-Date: 2022-08-31 08:46-0300\n"
-"Last-Translator: Leônidas Araújo <leorusvellt@hotmail.com>\n"
-"Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
+"POT-Creation-Date: 2023-07-04 07:49+0000\n"
+"PO-Revision-Date: 2023-12-02 21:48-0300\n"
+"Last-Translator: Alex Jr <alexjrsh@proton.me>\n"
+"Language-Team: Brazilian Portuguese <https://br.gnome.org/traducao>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
-"X-Generator: Gtranslator 40.0\n"
+"X-Generator: Gtranslator 45.3\n"
 "X-Project-Style: gnome\n"
 "X-DL-Team: pt_BR\n"
 "X-DL-Module: gnome-music\n"
@@ -35,7 +36,7 @@ msgstr ""
 "X-DL-State: Translating\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/about.py:236
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/about.py:243
 #: gnomemusic/application.py:61 gnomemusic/window.py:71
 msgid "Music"
 msgstr "Música"
@@ -57,7 +58,7 @@ msgstr ""
 "Localize faixas na sua coleção local, use listas de reprodução geradas "
 "automaticamente ou faça a curadoria de uma nova."
 
-#: data/org.gnome.Music.appdata.xml.in.in:167
+#: data/org.gnome.Music.appdata.xml.in.in:182
 msgid "The GNOME Music developers"
 msgstr "Os Desenvolvedores do GNOME Música"
 
@@ -175,24 +176,24 @@ msgstr "_Sobre o Música"
 msgid "Welcome to Music"
 msgstr "Boas vindas ao Música"
 
-#: data/ui/HeaderBar.ui:16
+#: data/ui/HeaderBar.ui:17
 msgid "Menu"
 msgstr "Menu"
 
-#: data/ui/HeaderBar.ui:24 data/ui/SearchHeaderBar.ui:15
+#: data/ui/HeaderBar.ui:25 data/ui/SearchHeaderBar.ui:15
 msgid "Select"
 msgstr "Selecionar"
 
-#: data/ui/HeaderBar.ui:30 data/ui/PlaylistDialog.ui:213
+#: data/ui/HeaderBar.ui:31 data/ui/PlaylistDialog.ui:213
 #: data/ui/SearchHeaderBar.ui:20
 msgid "_Cancel"
 msgstr "_Cancelar"
 
-#: data/ui/HeaderBar.ui:42 data/ui/SearchHeaderBar.ui:32
+#: data/ui/HeaderBar.ui:43 data/ui/SearchHeaderBar.ui:32
 msgid "Search"
 msgstr "Pesquisar"
 
-#: data/ui/HeaderBar.ui:50
+#: data/ui/HeaderBar.ui:51
 msgid "Back"
 msgstr "Voltar"
 
@@ -385,19 +386,19 @@ msgstr "_Adicionar para lista de reprodução"
 msgid "_Remove from Playlist"
 msgstr "_Remover da lista de reprodução"
 
-#: gnomemusic/about.py:238
+#: gnomemusic/about.py:245
 msgid "The GNOME Project"
 msgstr "O Projeto GNOME"
 
-#: gnomemusic/about.py:242
+#: gnomemusic/about.py:249
 msgid "translator-credits"
 msgstr "créditos-do-tradutor"
 
-#: gnomemusic/about.py:246
+#: gnomemusic/about.py:253
 msgid "Copyright The GNOME Music Developers"
 msgstr "Direitos autorais dos desenvolvedores do GNOME Música"
 
-#: gnomemusic/about.py:249
+#: gnomemusic/about.py:256
 msgid "Translated by"
 msgstr "Traduzido por"
 
@@ -457,8 +458,8 @@ msgstr "Reproduzindo música"
 
 #. Translators: "shuffle" causes tracks to play in random order.
 #: gnomemusic/player.py:44
-msgid "Shuffle"
-msgstr "Embaralhar"
+msgid "Shuffle/Repeat Off"
+msgstr "Desligar embaralhar/repetir"
 
 #: gnomemusic/player.py:45
 msgid "Repeat Song"
@@ -469,8 +470,8 @@ msgid "Repeat All"
 msgstr "Repetir tudo"
 
 #: gnomemusic/player.py:47
-msgid "Shuffle/Repeat Off"
-msgstr "Desligar embaralhar/repetir"
+msgid "Shuffle"
+msgstr "Embaralhar"
 
 #: gnomemusic/playlisttoast.py:55
 msgid "Playlist {} removed"
@@ -585,3 +586,7 @@ msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} música"
 msgstr[1] "{} músicas"
+
+#: gnomemusic/widgets/searchheaderbar.py:66
+msgid "Search songs, artists, albums and playlists"
+msgstr "Pesquisar músicas, artistas, álbuns e playlists"
