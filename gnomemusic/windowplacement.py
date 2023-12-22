@@ -54,7 +54,7 @@ class WindowPlacement(GObject.GObject):
         self._restore_window_state()
 
         self._window_placement_update_timeout = 0
-        self._window.connect('notify::is-maximized', self._on_maximized)
+        self._window.connect("notify::maximized", self._on_maximized)
         self._window.connect("notify::default-height", self._on_size_change)
         self._window.connect("notify::default-width", self._on_size_change)
 
