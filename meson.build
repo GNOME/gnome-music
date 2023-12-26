@@ -57,7 +57,7 @@ endif
 dependency('glib-2.0', version: '>= 2.67.1')
 dependency('goa-1.0', version: '>= 3.35.90')
 dependency('gobject-introspection-1.0', version: '>= 1.35.0')
-dependency('gtk4', version: '>= 4.5.0')
+dependency('gtk4', version: '>= 4.6.2')
 dependency('libadwaita-1', version: '>= 1.4.0')
 dependency('libmediaart-2.0', version: '>= 1.9.1')
 dependency('libsoup-3.0')

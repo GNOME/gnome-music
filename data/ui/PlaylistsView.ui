@@ -12,7 +12,6 @@
                 <property name="width-request">220</property>
                 <child>
                   <object class="GtkViewport">
-                    <property name="scroll-to-focus">true</property>
                     <child>
                       <object class="GtkListBox" id="_sidebar">
                         <property name="selection-mode">1</property>
