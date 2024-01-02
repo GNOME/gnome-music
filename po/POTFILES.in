@@ -3,10 +3,11 @@
 data/org.gnome.Music.appdata.xml.in.in
 data/org.gnome.Music.desktop.in.in
 data/org.gnome.Music.gschema.xml
+data/ui/AlbumsSearchNavigationPage.ui
 data/ui/AlbumWidget.ui
 data/ui/AppMenu.ui
+data/ui/ArtistsSearchNavigationPage.ui
 data/ui/ArtistsView.ui
-data/ui/EmptyView.ui
 data/ui/HeaderBar.ui
 data/ui/help-overlay.ui
 data/ui/PlayerToolbar.ui
@@ -17,6 +18,7 @@ data/ui/SearchView.ui
 data/ui/SelectionBarMenuButton.ui
 data/ui/SelectionToolbar.ui
 data/ui/SongWidgetMenu.ui
+data/ui/StatusNavigationPage.ui
 gnomemusic/__init__.py
 gnomemusic/about.py
 gnomemusic/application.py
@@ -30,7 +32,6 @@ gnomemusic/songtoast.py
 gnomemusic/utils.py
 gnomemusic/views/albumsview.py
 gnomemusic/views/artistsview.py
-gnomemusic/views/emptyview.py
 gnomemusic/views/playlistsview.py
 gnomemusic/views/searchview.py
 gnomemusic/views/songsview.py
@@ -41,4 +42,5 @@ gnomemusic/widgets/playertoolbar.py
 gnomemusic/widgets/playlistcontrols.py
 gnomemusic/widgets/playlistdialog.py
 gnomemusic/widgets/searchheaderbar.py
+gnomemusic/widgets/statusnavigationpage.py
 gnomemusic/window.py

@@ -29,19 +29,17 @@ from gettext import gettext as _
 
 from gnomemusic.gstplayer import Playback
 from gnomemusic.player import RepeatMode
-from gnomemusic.search import Search
 from gnomemusic.trackerwrapper import TrackerState
 from gnomemusic.utils import View
 from gnomemusic.views.albumsview import AlbumsView
 from gnomemusic.views.artistsview import ArtistsView
-from gnomemusic.views.emptyview import EmptyView
 from gnomemusic.views.searchview import SearchView
 from gnomemusic.views.songsview import SongsView
 from gnomemusic.views.playlistsview import PlaylistsView
+from gnomemusic.widgets.statusnavigationpage import StatusNavigationPage
 from gnomemusic.widgets.headerbar import HeaderBar
 from gnomemusic.widgets.playertoolbar import PlayerToolbar  # noqa: F401
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
-from gnomemusic.widgets.searchheaderbar import SearchHeaderBar
 from gnomemusic.widgets.selectiontoolbar import SelectionToolbar  # noqa: F401
 from gnomemusic.windowplacement import WindowPlacement
 
@@ -55,8 +53,10 @@ class Window(Adw.ApplicationWindow):
     selected_songs_count = GObject.Property(type=int, default=0, minimum=0)
     selection_mode = GObject.Property(type=bool, default=False)
 
-    _headerbar_stack = Gtk.Template.Child()
     _loading_progress = Gtk.Template.Child()
+    _main_navigation_page = Gtk.Template.Child()
+    _main_toolbar_view = Gtk.Template.Child()
+    _navigation_view = Gtk.Template.Child()
     _overlay = Gtk.Template.Child()
     _player_toolbar = Gtk.Template.Child()
     _selection_toolbar = Gtk.Template.Child()
@@ -87,9 +87,8 @@ class Window(Adw.ApplicationWindow):
         self.set_size_request(200, 100)
         WindowPlacement(self)
 
-        self._current_view = None
-        self._view_before_search = None
-
+        self._headerbar = HeaderBar(self._app)
+        self._status_navpage = StatusNavigationPage(app)
         self._playlist_dialog: Optional[PlaylistDialog] = None
 
         self._player = app.props.player
@@ -99,32 +98,18 @@ class Window(Adw.ApplicationWindow):
         self._setup_view()
 
     def _setup_view(self):
-        self._headerbar = HeaderBar(self._app)
         self._headerbar.props.stack = self._stack
-        self._search_headerbar = SearchHeaderBar(self._app)
-        self._search_headerbar.props.stack = self._stack
-        self._headerbar_stack.add_named(self._headerbar, "main")
-        self._headerbar_stack.add_named(self._search_headerbar, "search")
+        self._main_toolbar_view.add_top_bar(self._headerbar)
 
         self._search.bind_property(
             "search-mode-active", self._headerbar, "search-mode-active",
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
-        self._search.bind_property(
-            "search-mode-active", self._search_headerbar, "search-mode-active",
-            GObject.BindingFlags.BIDIRECTIONAL
-            | GObject.BindingFlags.SYNC_CREATE)
-        self._search.bind_property(
-            "state", self._search_headerbar, "search-state",
-            GObject.BindingFlags.SYNC_CREATE)
 
         self._search.connect(
             "notify::search-mode-active", self._on_search_mode_changed)
 
         self._player_toolbar.props.player = self._player
-
-        self._headerbar.connect(
-            'back-button-clicked', self._switch_back_from_childview)
 
         self.bind_property(
             'selected-songs-count', self._headerbar, 'selected-songs-count')
@@ -136,13 +121,6 @@ class Window(Adw.ApplicationWindow):
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
         self.bind_property(
-            "selected-songs-count", self._search_headerbar,
-            "selected-songs-count")
-        self.bind_property(
-            "selection-mode", self._search_headerbar, "selection-mode",
-            GObject.BindingFlags.BIDIRECTIONAL
-            | GObject.BindingFlags.SYNC_CREATE)
-        self.bind_property(
             "selection-mode", self._player_toolbar, "visible",
             GObject.BindingFlags.INVERT_BOOLEAN)
         self.bind_property(
@@ -150,22 +128,14 @@ class Window(Adw.ApplicationWindow):
         self.connect("notify::selection-mode", self._on_selection_mode_changed)
 
         self.views = [None] * len(View)
-        # Create only the empty view at startup
-        # if no music, switch to empty view and hide stack
-        # if some music is available, populate stack with mainviews,
-        # show stack and set empty_view to empty_search_view
-        self.views[View.EMPTY] = EmptyView()
+
+        self._navigation_view.add(self._status_navpage)
+
         self._stack.connect(
             "notify::visible-child", self._on_stack_visible_child_changed)
-        self._stack.add_named(self.views[View.EMPTY], "emptyview")
-
-        # Add the 'background' styleclass so it properly hides the
-        # bottom line of the searchbar
-        self._stack.get_style_context().add_class('background')
 
         self._selection_toolbar.connect(
             'add-to-playlist', self._on_add_to_playlist)
-        self._search.connect("notify::state", self._on_search_state_changed)
 
         self._headerbar.props.state = HeaderBar.State.MAIN
 
@@ -175,27 +145,29 @@ class Window(Adw.ApplicationWindow):
         self._app.props.coregrilo.connect(
             "notify::tracker-available", self._on_tracker_available)
 
-        self._startup_timeout_id = GLib.timeout_add(
-            2000, self._on_songs_available, None, None)
+        def notify() -> bool:
+            self._startup_timeout_id = 0
+            self._app.props.coremodel.notify("songs-available")
 
-    def _switch_to_empty_view(self):
-        state = self._app.props.coregrilo.props.tracker_available
-        empty_view = self.views[View.EMPTY]
-        empty_view.props.visible = True
-        if state == TrackerState.UNAVAILABLE:
-            empty_view.props.state = EmptyView.State.NO_TRACKER
-        elif state == TrackerState.OUTDATED:
-            empty_view.props.state = EmptyView.State.TRACKER_OUTDATED
+            return GLib.SOURCE_REMOVE
+
+        self._startup_timeout_id = GLib.timeout_add(1000, notify)
+
+    def _switch_to_empty_view(self) -> None:
+        tracker_state = self._app.props.coregrilo.props.tracker_available
+        statusnp = self._status_navpage
+        if tracker_state == TrackerState.UNAVAILABLE:
+            statusnp.props.state = StatusNavigationPage.State.NO_TRACKER
+        elif tracker_state == TrackerState.OUTDATED:
+            statusnp.props.state = StatusNavigationPage.State.TRACKER_OUTDATED
         else:
-            empty_view.props.state = EmptyView.State.EMPTY
-
-        self._headerbar.props.state = HeaderBar.State.EMPTY
+            statusnp.props.state = StatusNavigationPage.State.EMPTY
 
     def _on_search_mode_changed(self, search, value):
         if self._search.props.search_mode_active:
-            self._headerbar_stack.props.visible_child_name = "search"
+            self._navigation_view.replace_with_tags(["searchview"])
         else:
-            self._headerbar_stack.props.visible_child_name = "main"
+            self._navigation_view.replace_with_tags(["mainview"])
 
     def _on_songs_available(self, klass, value):
         if self._startup_timeout_id > 0:
@@ -203,8 +175,10 @@ class Window(Adw.ApplicationWindow):
             self._startup_timeout_id = 0
 
         if self._app.props.coremodel.props.songs_available:
+            self._navigation_view.replace_with_tags(["mainview"])
             self._switch_to_player_view()
         else:
+            self._navigation_view.replace_with_tags(["status"])
             self._switch_to_empty_view()
 
     def _on_stack_visible_child_changed(self, klass, value):
@@ -216,7 +190,7 @@ class Window(Adw.ApplicationWindow):
         if new_state != TrackerState.AVAILABLE:
             self._switch_to_empty_view()
 
-        self._on_songs_available(None, None)
+        self._app.props.coremodel.notify("songs-available")
 
     def _switch_to_player_view(self):
         self._on_notify_model_id = self._stack.connect(
@@ -228,25 +202,23 @@ class Window(Adw.ApplicationWindow):
         if self.views[View.ALBUM] is not None:
             return
 
-        ctrl = Gtk.GestureClick().new()
-        # Mouse button 8 is the back button.
-        ctrl.props.button = 8
-        ctrl.connect("pressed", self._on_back_button_pressed)
-        self.add_controller(ctrl)
-
-        self.views[View.EMPTY].props.state = EmptyView.State.SEARCH
-
         self._headerbar.props.state = HeaderBar.State.MAIN
         self.views[View.ALBUM] = AlbumsView(self._app)
         self.views[View.ARTIST] = ArtistsView(self._app)
         self.views[View.SONG] = SongsView(self._app)
         self.views[View.PLAYLIST] = PlaylistsView(self._app)
-        self.views[View.SEARCH] = SearchView(self._app)
 
-        # empty view has already been created in self._setup_view starting at
-        # View.ALBUM
-        # empty view state is changed once album view is visible to prevent it
-        # from being displayed during startup
+        self._search_view = SearchView(self._app)
+        self._search.bind_property(
+            "state", self._search_view, "search-state",
+            GObject.BindingFlags.BIDIRECTIONAL
+            | GObject.BindingFlags.SYNC_CREATE)
+        self._navigation_view.add(self._search_view)
+        self._search.bind_property(
+            "search-mode-active", self._search_view, "search-mode-active",
+            GObject.BindingFlags.BIDIRECTIONAL
+            | GObject.BindingFlags.SYNC_CREATE)
+
         for i in self.views[View.ALBUM:]:
             if i.props.title:
                 stackpage = self._stack.add_titled(
@@ -254,21 +226,6 @@ class Window(Adw.ApplicationWindow):
                 stackpage.props.icon_name = i.props.icon_name
             else:
                 self._stack.add_named(i, i.props.name)
-
-        # The "visible-child" notification ensures that the AlbumView
-        # appears as selected by the stack switcher on launch.
-        self._stack.props.visible_child = self.views[View.ALBUM]
-        self._stack.notify("visible-child")
-
-        self.views[View.SEARCH].bind_property(
-            "search-state", self._search, "state",
-            GObject.BindingFlags.SYNC_CREATE)
-        self._search.bind_property(
-            "search-mode-active", self.views[View.SEARCH],
-            "search-mode-active", GObject.BindingFlags.BIDIRECTIONAL)
-        self._search.bind_property(
-            "search-mode-active", self.views[View.ALBUM],
-            "search-mode-active", GObject.BindingFlags.SYNC_CREATE)
 
     def _select_all(self, action=None, param=None):
         if not self.props.selection_mode:
@@ -292,6 +249,17 @@ class Window(Adw.ApplicationWindow):
         """
         return self._headerbar
 
+    @GObject.Property(
+        type=Adw.NavigationView, default=None,
+        flags=GObject.ParamFlags.READABLE)
+    def navigation_view(self) -> Adw.NavigationView:
+        """Get NavigationView instance.
+
+        :returns: The navigation view
+        :rtype: Adw.NavigationView
+        """
+        return self._navigation_view
+
     @Gtk.Template.Callback()
     def _on_key_press(self, controller, keyval, keycode, state):
         modifiers = state & Gtk.accelerator_get_default_mod_mask()
@@ -301,6 +269,7 @@ class Window(Adw.ApplicationWindow):
         shift_ctrl_mask = control_mask | shift_mask
 
         # Ctrl+<KEY>
+        search_active = self._search.props.search_mode_active
         if control_mask == modifiers:
             if keyval == Gdk.KEY_a:
                 self._select_all()
@@ -308,9 +277,8 @@ class Window(Adw.ApplicationWindow):
             if (keyval == Gdk.KEY_f
                     and not self.views[View.PLAYLIST].rename_active
                     and not self.props.selection_mode
-                    and self._headerbar.props.state != HeaderBar.State.SEARCH):
-                search_mode = self._search.props.search_mode_active
-                self._search.props.search_mode_active = not search_mode
+                    and not search_active):
+                self._search.props.search_mode_active = True
             # Play / Pause on Ctrl + SPACE
             if keyval == Gdk.KEY_space:
                 self._player.play_pause()
@@ -338,18 +306,15 @@ class Window(Adw.ApplicationWindow):
                 self._deselect_all()
         # Alt+<KEY>
         elif modifiers == alt_mask:
-            # Go back from child view on Alt + Left
-            if keyval == Gdk.KEY_Left:
-                self._switch_back_from_childview()
             # Headerbar switching
             if keyval in [Gdk.KEY_1, Gdk.KEY_KP_1]:
-                self._toggle_view(View.ALBUM)
+                self._switch_to_view("albums")
             if keyval in [Gdk.KEY_2, Gdk.KEY_KP_2]:
-                self._toggle_view(View.ARTIST)
+                self._switch_to_view("artists")
             if keyval in [Gdk.KEY_3, Gdk.KEY_KP_3]:
-                self._toggle_view(View.SONG)
+                self._switch_to_view("songs")
             if keyval in [Gdk.KEY_4, Gdk.KEY_KP_4]:
-                self._toggle_view(View.PLAYLIST)
+                self._switch_to_view("playlists")
         # No modifier
         else:
             if (keyval == Gdk.KEY_AudioPlay
@@ -365,8 +330,10 @@ class Window(Adw.ApplicationWindow):
             if keyval == Gdk.KEY_AudioNext:
                 self._player.next()
 
+            active_view_stack_name = self._stack.props.visible_child_name
             if (keyval == Gdk.KEY_Delete
-                    and self.props.active_view == self.views[View.PLAYLIST]
+                    and self._is_main_view_active()
+                    and active_view_stack_name == "playlists"
                     and not self.views[View.PLAYLIST].rename_active):
                 self.activate_action("playlist_delete", None)
 
@@ -374,24 +341,20 @@ class Window(Adw.ApplicationWindow):
             if keyval == Gdk.KEY_Escape:
                 if self.props.selection_mode:
                     self.props.selection_mode = False
-                elif self._search.props.search_mode_active:
+                elif search_active:
                     self._search.props.search_mode_active = False
 
         # Open the search bar when typing printable chars.
         key_unic = Gdk.keyval_to_unicode(keyval)
-        if ((not self._search.props.search_mode_active
+        if ((not search_active
+                and self._is_main_view_active()
                 and not keyval == Gdk.KEY_space)
                 and GLib.unichar_isprint(chr(key_unic))
                 and (modifiers == shift_mask
                      or modifiers == 0)
-                and self.views[View.PLAYLIST] is not None
                 and not self.views[View.PLAYLIST].rename_active
-                and not self.props.selection_mode
-                and self._headerbar.props.state != HeaderBar.State.SEARCH):
+                and not self.props.selection_mode):
             self._search.props.search_mode_active = True
-
-    def _on_back_button_pressed(self, gesture, n_press, x, y):
-        self._headerbar.emit('back-button-clicked')
 
     def _notify_mode_disconnect(self, data=None):
         self._player.stop()
@@ -399,56 +362,22 @@ class Window(Adw.ApplicationWindow):
         self._stack.disconnect(self._on_notify_model_id)
 
     def _on_notify_mode(self, stack, param):
-        previous_view = self._current_view
-        self._current_view = self.props.active_view
-
-        # Disable search mode when switching view
-        search_views = [self.views[View.EMPTY], self.views[View.SEARCH]]
-        if (self._current_view in search_views
-                and previous_view not in search_views):
-            self._view_before_search = previous_view
-        elif (self._current_view not in search_views
-                and self._search.props.search_mode_active is True):
-            self._search.props.search_mode_active = False
-
-        # Disable the selection button for the EmptySearch and Playlist
-        # view
-        no_selection_mode = [
-            self.views[View.EMPTY],
-            self.views[View.PLAYLIST]
-        ]
-        allowed = self._current_view not in no_selection_mode
+        # Disable selection-mode for Playlists view
+        allowed = self._stack.props.visible_child_name != "playlists"
         self._headerbar.props.selection_mode_allowed = allowed
-        self._search_headerbar.props.selection_mode_allowed = allowed
 
-    def _toggle_view(self, view_enum):
-        # TODO: The SEARCH state actually refers to the child state of
-        # the search mode. This fixes the behaviour as needed, but is
-        # incorrect: searchview currently does not switch states
-        # correctly.
-        if (not self.props.selection_mode
-                and not self._headerbar.props.state == HeaderBar.State.CHILD
-                and not self._headerbar.props.state == HeaderBar.State.SEARCH):
-            self._stack.set_visible_child(self.views[view_enum])
+    def _switch_to_view(self, view_name: str) -> None:
+        """Switch the view switcher to another page"""
+        if (self._is_main_view_active()
+                and not self.props.selection_mode):
+            self._stack.props.visible_child_name = view_name
 
-    def _on_search_state_changed(self, klass, param):
-        if (self._search.props.state != Search.State.NONE
-                or not self._view_before_search):
-            return
-
-        # Get back to the view before the search
-        self._stack.props.visible_child = self._view_before_search
-
-    def _switch_back_from_childview(self, klass=None):
-        if self.props.selection_mode:
-            return
-
-        views_with_child = [
-            self.views[View.ALBUM],
-            self.views[View.SEARCH]
-        ]
-        if self._current_view in views_with_child:
-            self._current_view._back_button_clicked(self._current_view)
+    def _is_main_view_active(self) -> bool:
+        """Returns True if the main (view switcher) navigation page
+        is active
+        """
+        visible_page = self._navigation_view.props.visible_page
+        return visible_page == self._main_navigation_page
 
     def _on_selection_mode_changed(self, widget, data=None):
         if (not self.props.selection_mode

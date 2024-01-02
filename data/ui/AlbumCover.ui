@@ -26,6 +26,7 @@
                 <property name="receives_default">False</property>
                 <property name="halign">end</property>
                 <property name="valign">end</property>
+                <property name="visible">False</property>
                 <style>
                   <class name="selection-mode"/>
                 </style>

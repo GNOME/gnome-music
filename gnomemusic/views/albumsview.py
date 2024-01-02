@@ -26,20 +26,18 @@ from __future__ import annotations
 import typing
 
 from gettext import gettext as _
-from gi.repository import GObject, Gtk
+from gi.repository import Adw, GObject, Gtk
 from typing import Dict, List
 
 from gnomemusic.coverpaintable import CoverPaintable
 from gnomemusic.utils import ArtSize, DefaultIconType
-from gnomemusic.widgets.headerbar import HeaderBar
-from gnomemusic.widgets.albumwidget import AlbumWidget
+from gnomemusic.widgets.albumnavigationpage import AlbumNavigationPage
 if typing.TYPE_CHECKING:
     from gnomemusic.application import Application
-    from gnomemusic.corealbum import CoreAlbum
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/AlbumsView.ui")
-class AlbumsView(Gtk.Stack):
+class AlbumsView(Adw.Bin):
     """Gridlike view of all albums
 
     Album activation switches to AlbumWidget.
@@ -50,13 +48,10 @@ class AlbumsView(Gtk.Stack):
     icon_name = GObject.Property(
         type=str, default="media-optical-cd-audio-symbolic",
         flags=GObject.ParamFlags.READABLE)
-    search_mode_active = GObject.Property(type=bool, default=False)
     selection_mode = GObject.Property(type=bool, default=False)
     title = GObject.Property(
         type=str, default=_("Albums"), flags=GObject.ParamFlags.READABLE)
 
-    _album_scrolled_window = Gtk.Template.Child()
-    _scrolled_window = Gtk.Template.Child()
     _gridview = Gtk.Template.Child()
 
     def __init__(self, application: Application) -> None:
@@ -64,13 +59,13 @@ class AlbumsView(Gtk.Stack):
 
         :param application: The Application object
         """
-        super().__init__(transition_type=Gtk.StackTransitionType.CROSSFADE)
+        super().__init__()
 
         self.props.name = "albums"
 
         self._application = application
         self._window = application.props.window
-        self._headerbar = self._window.props.headerbar
+        self._navigation_view = self._window.props.navigation_view
 
         self._list_item_bindings: Dict[
             Gtk.ListItem, List[GObject.Binding]] = {}
@@ -104,74 +99,29 @@ class AlbumsView(Gtk.Stack):
         self._window.connect(
             "notify::selection-mode", self._on_selection_mode_changed)
 
-        self._album_widget = AlbumWidget(self._application)
-        self._album_widget.bind_property(
-            "selection-mode", self, "selection-mode",
-            GObject.BindingFlags.BIDIRECTIONAL)
-
-        viewport = self._album_scrolled_window.get_first_child()
-        viewport.set_child(self._album_widget)
-
-        self.connect(
-            "notify::search-mode-active", self._on_search_mode_changed)
-
     def _on_selection_mode_changed(self, widget, data=None):
         selection_mode = self._window.props.selection_mode
-        if (selection_mode == self.props.selection_mode
-                or self.get_parent().get_visible_child() != self):
+        if selection_mode == self.props.selection_mode:
             return
 
         self.props.selection_mode = selection_mode
         if not self.props.selection_mode:
             self.deselect_all()
 
-    def _on_search_mode_changed(self, klass, param):
-        if (not self.props.search_mode_active
-                and self._headerbar.props.stack.props.visible_child == self
-                and self.get_visible_child_name() == "widget"):
-            self._set_album_headerbar(self._album_widget.props.corealbum)
-
-    def _back_button_clicked(self, widget, data=None):
-        self._headerbar.state = HeaderBar.State.MAIN
-        self.props.visible_child = self._scrolled_window
-
     def _on_album_activated(self, widget, position):
         corealbum = widget.props.model[position]
 
-        self._album_widget.props.corealbum = corealbum
-        self._set_album_headerbar(corealbum)
-        self.props.visible_child = self._album_scrolled_window
-
-    def _on_child_activated(self, widget, child, user_data=None):
-        corealbum = child.props.corealbum
-        if self.props.selection_mode:
-            return
-
-        # Update and display the album widget if not in selection mode
-        self._album_widget.props.corealbum = corealbum
-
-        self._set_album_headerbar(corealbum)
-        self.set_visible_child_name("widget")
-
-    def _set_album_headerbar(self, corealbum: CoreAlbum) -> None:
-        self._headerbar.props.state = HeaderBar.State.CHILD
-        self._headerbar.set_label_title(
-            corealbum.props.title, corealbum.props.artist)
+        album_page = AlbumNavigationPage(self._application, corealbum)
+        self._navigation_view.push(album_page)
 
     def _toggle_all_selection(self, selected):
         """Selects or deselects all items.
         """
         with self._application.props.coreselection.freeze_notify():
-            if self.get_visible_child_name() == "widget":
-                if selected is True:
-                    self._album_widget.select_all()
-                else:
-                    self._album_widget.deselect_all()
+            if selected:
+                self._selection_model.select_all()
             else:
-                if selected:
-                    self._selection_model.select_all()
-                else:
-                    self._selection_model.unselect_all()
+                self._selection_model.unselect_all()
 
     def select_all(self):
         self._toggle_all_selection(True)

@@ -66,12 +66,10 @@ class SongStateIcon(Enum):
 
 class View(IntEnum):
     """Enum for views"""
-    EMPTY = 0
-    ALBUM = 1
-    ARTIST = 2
-    SONG = 3
-    PLAYLIST = 4
-    SEARCH = 5
+    ALBUM = 0
+    ARTIST = 1
+    SONG = 2
+    PLAYLIST = 3
 
 
 def get_album_title(item):

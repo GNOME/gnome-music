@@ -46,7 +46,6 @@ class PlaylistsView(Adw.Bin):
 
     _playlist_page = Gtk.Template.Child()
     _sidebar = Gtk.Template.Child()
-    _split_view = Gtk.Template.Child()
 
     def __init__(self, application):
         """Initialize
@@ -134,7 +133,6 @@ class PlaylistsView(Adw.Bin):
             self._untouched_list = False
 
         self.notify("current-playlist")
-        self._split_view.props.show_content = True
 
     def _on_active_core_object_changed(self, klass, val):
         """Selects the active playlist when an MPRIS client

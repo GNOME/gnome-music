@@ -109,16 +109,11 @@
                     <property name="focusable">True</property>
                     <property name="vexpand">True</property>
                     <child>
-                      <object class="GtkViewport">
-                        <property name="scroll-to-focus">True</property>
-                        <child>
-                          <object class="GtkListBox" id="_listbox">
-                            <property name="focusable">True</property>
-                            <property name="selection_mode">single</property>
-                            <property name="valign">start</property>
-                            <signal name="selected-rows-changed" handler="_on_selected_rows_changed" swapped="no"/>
-                          </object>
-                        </child>
+                      <object class="GtkListBox" id="_listbox">
+                        <property name="focusable">True</property>
+                        <property name="selection_mode">single</property>
+                        <property name="valign">start</property>
+                        <signal name="selected-rows-changed" handler="_on_selected_rows_changed" swapped="no"/>
                       </object>
                     </child>
                   </object>

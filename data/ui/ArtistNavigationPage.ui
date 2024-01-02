@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <template class="ArtistNavigationPage" parent="AdwNavigationPage">
+    <property name="title">Artist</property>
+    <child>
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar" id="_headerbar"/>
+        </child>
+        <property name="content">
+          <object class="GtkScrolledWindow" id="_artist_scrolled_window">
+            <property name="focusable">False</property>
+            <property name="hexpand">True</property>
+            <property name="vexpand">True</property>
+            <property name="hscrollbar_policy">never</property>
+          </object>
+        </property>
+      </object>
+    </child>
+  </template>
+</interface>

@@ -5,9 +5,6 @@
     <child>
       <object class="AdwHeaderBar" id="_headerbar">
         <property name="vexpand">False</property>
-        <style>
-          <class name="titlebar"/>
-        </style>
         <child type="end">
           <object class="GtkMenuButton" id="_menu_button">
             <property name="valign">center</property>
@@ -35,7 +32,7 @@
             <signal name="clicked" handler="_on_cancel_button_clicked" swapped="no"/>
           </object>
         </child>
-        <child type="end">
+        <child type="start">
           <object class="GtkToggleButton" id="_search_button">
             <property name="valign">center</property>
             <property name="sensitive">True</property>
@@ -43,45 +40,9 @@
             <property name="tooltip_text" translatable="yes">Search</property>
           </object>
         </child>
-        <child type="start">
-          <object class="GtkButton" id="_back_button">
-            <property name="valign">center</property>
-            <property name="sensitive">True</property>
-            <property name="icon-name">go-previous-symbolic</property>
-            <property name="tooltip_text" translatable="yes">Back</property>
-            <signal name="clicked" handler="_on_back_button_clicked" swapped="no"/>
-          </object>
-        </child>
       </object>
     </child>
   </template>
-  <object class="GtkBox" id="_label_title_box">
-    <property name="orientation">vertical</property>
-    <child>
-      <object class="GtkLabel" id="_label_title">
-        <property name="single-line-mode">True</property>
-        <property name="ellipsize">end</property>
-        <property name="width-chars">5</property>
-        <property name="vexpand">True</property>
-        <property name="yalign">1.0</property>
-        <style>
-          <class name="title"/>
-        </style>
-      </object>
-    </child>
-    <child>
-      <object class="GtkLabel" id="_label_subtitle">
-        <property name="single-line-mode">True</property>
-        <property name="ellipsize">end</property>
-        <property name="width-chars">5</property>
-        <property name="vexpand">True</property>
-        <property name="yalign">0.0</property>
-        <style>
-          <class name="subtitle"/>
-        </style>
-      </object>
-    </child>
-  </object>
   <object class="GtkSizeGroup" id="size1">
     <property name="mode">vertical</property>
     <widgets>

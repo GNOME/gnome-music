@@ -1,59 +1,45 @@
-# Copyright (c) 2016 The GNOME Music Developers
+# Copyright 2024 The GNOME Music developers
 #
-# GNOME Music is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
-#
-# GNOME Music is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License along
-# with GNOME Music; if not, write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-#
-# The GNOME Music authors hereby grant permission for non-GPL compatible
-# GStreamer plugins to be used and distributed together with GStreamer
-# and GNOME Music.  This permission is above and beyond the permissions
-# granted by the GPL license by which GNOME Music is covered.  If you
-# modify this code, you may extend this exception to your version of the
-# code, but you are not obligated to do so.  If you do not wish to do so,
-# delete this exception statement from your version.
+# SPDX-License-Identifier: GPL-2.0-or-later WITH GStreamer-exception-2008
 
+from __future__ import annotations
 from enum import IntEnum
+import typing
 
 from gettext import gettext as _
-from gi.repository import GLib, GObject, Gtk, Tracker
+from gi.repository import Adw, GLib, GObject, Gtk, Tracker
+
+from gnomemusic.widgets.headerbar import HeaderBar
+if typing.TYPE_CHECKING:
+    from gnomemusic.application import Application
 
 
-@Gtk.Template(resource_path="/org/gnome/Music/ui/EmptyView.ui")
-class EmptyView(Gtk.Stack):
-    """Empty view when there is no music to display
+@Gtk.Template(resource_path="/org/gnome/Music/ui/StatusNavigationPage.ui")
+class StatusNavigationPage(Adw.NavigationPage):
+    """Status page when there is no music or an issue with Tracker
 
     This view can have several states
 
     EMPTY: No music has been found at startup (default)
-    SEARCH: No music found with a user search
     NO_TRACKER: Tracker is unavailable
     TRACKER_OUTDATED: Tracker version is too old
     """
 
     class State(IntEnum):
-        """Enum for EmptyView state."""
+        """Enum for StatusNavigationPage state."""
         EMPTY = 0
         SEARCH = 1
         NO_TRACKER = 2
         TRACKER_OUTDATED = 3
 
-    __gtype_name__ = "EmptyView"
+    __gtype_name__ = "StatusNavigationPage"
 
     _description_label = Gtk.Template.Child()
     _initial_state = Gtk.Template.Child()
     _status_page = Gtk.Template.Child()
+    _toolbar = Gtk.Template.Child()
 
-    def __init__(self):
+    def __init__(self, application: Application) -> None:
         super().__init__()
 
         # FIXME: This is now duplicated here and in GrlTrackerWrapper.
@@ -71,6 +57,10 @@ class EmptyView(Gtk.Stack):
         href_text = "<a href='{}'>{}</a>".format(
             music_folder, _("Music Folder"))
 
+        self._headerbar = HeaderBar(application)
+        self._headerbar.props.state = HeaderBar.State.EMPTY
+        self._toolbar.add_top_bar(self._headerbar)
+
         # TRANSLATORS: This is a label to display a link to open user's music
         # folder. {} will be replaced with the translated text 'Music folder'
         folder_text = _("The contents of your {} will appear here.")
@@ -83,10 +73,10 @@ class EmptyView(Gtk.Stack):
 
         self._status_page.set_child(self._initial_state)
 
-        self._state = EmptyView.State.EMPTY
+        self.props.state = StatusNavigationPage.State.EMPTY
 
-    @GObject.Property(type=int, default=0, minimum=0, maximum=4)
-    def state(self):
+    @GObject.Property(type=int, default=0, minimum=0, maximum=2)
+    def state(self) -> int:
         """Get the state of the empty view
 
         :returns: The view state
@@ -95,7 +85,7 @@ class EmptyView(Gtk.Stack):
         return self._state
 
     @state.setter  # type: ignore
-    def state(self, value):
+    def state(self, value: int) -> None:
         """Set the state of the empty view
 
         :param int value: new state
@@ -105,26 +95,28 @@ class EmptyView(Gtk.Stack):
         self._adw_clamp.props.visible = True
         self._initial_state.props.visible = False
 
-        if self._state == EmptyView.State.EMPTY:
+        if self._state == StatusNavigationPage.State.EMPTY:
             self._set_empty_state()
-        elif self._state == EmptyView.State.SEARCH:
+        elif self._state == StatusNavigationPage.State.SEARCH:
             self._set_search_state()
-        elif self._state == EmptyView.State.NO_TRACKER:
+        elif self._state == StatusNavigationPage.State.NO_TRACKER:
             self._set_no_tracker_state()
-        elif self._state == EmptyView.State.TRACKER_OUTDATED:
+        elif self._state == StatusNavigationPage.State.TRACKER_OUTDATED:
             self._set_tracker_outdated_state()
 
-    def _set_empty_state(self):
+        self._headerbar.props.state = HeaderBar.State.EMPTY
+
+    def _set_empty_state(self) -> None:
         self._adw_clamp.props.visible = False
         self._initial_state.props.visible = True
 
         self._description_label.props.label = self._content_text
 
-    def _set_search_state(self):
+    def _set_search_state(self) -> None:
         self._status_page.props.title = _("No Music Found")
         self._status_page.props.description = _("Try a Different Search")
 
-    def _set_no_tracker_state(self):
+    def _set_no_tracker_state(self) -> None:
         self._status_page.props.title = _(
             "GNOME Music could not connect to Tracker.")
         self._status_page.props.description = _(
@@ -132,18 +124,10 @@ class EmptyView(Gtk.Stack):
 
         self._status_page.props.icon_name = "dialog-error-symbolic"
 
-    def _set_tracker_outdated_state(self):
+    def _set_tracker_outdated_state(self) -> None:
         self._status_page.props.title = _(
             "Your system Tracker version seems outdated.")
         self._status_page.props.description = _(
             "Music needs Tracker version 3.0.0 or higher.")
 
         self._status_page.props.icon_name = "dialog-error-symbolic"
-
-    def select_all(self):
-        """Cannot select songs from EmptyView."""
-        pass
-
-    def deselect_all(self):
-        """Cannot select songs from EmptyView."""
-        pass

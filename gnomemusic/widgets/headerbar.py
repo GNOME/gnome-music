@@ -80,18 +80,10 @@ class HeaderBar(Adw.Bin):
 
     __gtype_name__ = "HeaderBar"
 
-    __gsignals__ = {
-        'back-button-clicked': (GObject.SignalFlags.RUN_FIRST, None, ()),
-    }
-
     _search_button = Gtk.Template.Child()
     _select_button = Gtk.Template.Child()
     _cancel_button = Gtk.Template.Child()
-    _back_button = Gtk.Template.Child()
     _headerbar = Gtk.Template.Child()
-    _label_title_box = Gtk.Template.Child()
-    _label_title = Gtk.Template.Child()
-    _label_subtitle = Gtk.Template.Child()
     _menu_button = Gtk.Template.Child()
 
     search_mode_active = GObject.Property(type=bool, default=False)
@@ -207,28 +199,6 @@ class HeaderBar(Adw.Bin):
             self._select_button.props.sensitive = True
             self._stack_switcher.show()
 
-    def set_label_title(self, title: str, subtitle: str) -> None:
-        """Set the headerbar title-widget as two labels:
-        a title and a subtitle
-
-        :param str title: headerbar title
-        :param str subtitle: headerbar subtitle
-        :returns:
-        """
-        self._headerbar.props.title_widget = self._label_title_box
-        self._label_title.props.label = title
-        self._label_subtitle.props.label = subtitle
-        if not subtitle:
-            self._label_title.props.valign = Gtk.Align.CENTER
-            self._label_subtitle.props.visible = False
-        else:
-            self._label_title.props.valign = Gtk.Align.FILL
-            self._label_subtitle.props.visible = True
-
-    @Gtk.Template.Callback()
-    def _on_back_button_clicked(self, widget=None):
-        self.emit('back-button-clicked')
-
     @Gtk.Template.Callback()
     def _on_cancel_button_clicked(self, button):
         self.props.selection_mode = False
@@ -241,15 +211,10 @@ class HeaderBar(Adw.Bin):
         else:
             self._headerbar.props.title_widget = self._stack_switcher
 
-        self._back_button.props.visible = (
-            not self.props.selection_mode
-            and self.props.state != HeaderBar.State.MAIN
-            and self.props.state != HeaderBar.State.EMPTY
-        )
-
         self._menu_button.props.visible = (
             not self.props.selection_mode
-            and self.props.state == HeaderBar.State.MAIN
+            and self.props.state in [
+                HeaderBar.State.MAIN, HeaderBar.State.EMPTY]
         )
 
     def _on_selection_mode_allowed_changed(self, widget, data):

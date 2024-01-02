@@ -1,37 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk" version="4.0"/>
-  <template class="AlbumsView" parent="GtkStack">
+  <template class="AlbumsView" parent="AdwBin">
     <child>
-      <object class="GtkStackPage">
-        <property name="name">grid</property>
-        <property name="child">
-          <object class="GtkScrolledWindow" id="_scrolled_window">
-            <child>
-              <object class="GtkGridView" id="_gridview">
-                <property name="max-columns">10</property>
-              </object>
-            </child>
+      <object class="GtkScrolledWindow" id="_scrolled_window">
+        <child>
+          <object class="GtkGridView" id="_gridview">
+            <property name="max-columns">10</property>
           </object>
-        </property>
-      </object>
-    </child>
-    <child>
-      <object class="GtkStackPage">
-        <property name="name">widget</property>
-        <property name="child">
-          <object class="GtkScrolledWindow" id="_album_scrolled_window">
-            <property name="focusable">False</property>
-            <property name="hexpand">True</property>
-            <property name="vexpand">True</property>
-            <property name="hscrollbar_policy">never</property>
-            <child>
-              <object class="GtkViewport">
-                <property name="scroll-to-focus">True</property>
-              </object>
-            </child>
-          </object>
-        </property>
+        </child>
       </object>
     </child>
   </template>

@@ -52,7 +52,6 @@ class ArtistsView(Adw.Bin):
 
     _artist_view = Gtk.Template.Child()
     _sidebar = Gtk.Template.Child()
-    _split_view = Gtk.Template.Child()
 
     def __init__(self, application: Application) -> None:
         """Initialize
@@ -123,7 +122,6 @@ class ArtistsView(Adw.Bin):
         """Initializes new artist album widgets"""
         coreartist = self._selection_model.get_item(position)
         self._artist_album.props.coreartist = coreartist
-        self._split_view.props.show_content = True
 
     @GObject.Property(type=bool, default=False)
     def selection_mode(self):

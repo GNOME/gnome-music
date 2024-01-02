@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <template class="ArtistsSearchNavigationPage" parent="AdwNavigationPage">
+    <property name="title" translatable="yes">Artists</property>
+    <child>
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar"/>
+        </child>
+        <property name="content">
+          <object class="GtkScrolledWindow">
+            <property name="focusable">False</property>
+            <property name="hexpand">True</property>
+            <property name="vexpand">True</property>
+            <property name="hscrollbar_policy">never</property>
+            <child>
+              <object class="AdwClamp">
+                <property name="maximum-size">1600</property>
+                <child>
+                  <object class="GtkBox">
+                    <property name="halign">fill</property>
+                    <property name="hexpand">True</property>
+                    <property name="margin-bottom">20</property>
+                    <property name="margin-end">120</property>
+                    <property name="margin-start">120</property>
+                    <property name="margin-top">20</property>
+                    <property name="orientation">vertical</property>
+                    <child>
+                      <object class="GtkFlowBox" id="_all_artists_flowbox">
+                        <property name="column_spacing">6</property>
+                        <property name="halign">fill</property>
+                        <property name="hexpand">True</property>
+                        <property name="homogeneous">True</property>
+                        <property name="margin-bottom">18</property>
+                        <property name="margin-top">18</property>
+                        <property name="max-children-per-line">6</property>
+                        <property name="min-children-per-line">1</property>
+                        <property name="row_spacing">12</property>
+                        <property name="selection-mode">none</property>
+                        <property name="valign">start</property>
+                        <signal name="child-activated" handler="_on_artist_activated" swapped="no"/>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </property>
+      </object>
+    </child>
+  </template>
+</interface>

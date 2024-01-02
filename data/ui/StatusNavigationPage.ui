@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <template class="EmptyView" parent="GtkStack">
-    <property name="visible">False</property>
-    <child>
-      <object class="AdwStatusPage" id="_status_page">
-        <property name="hexpand">True</property>
-        <property name="vexpand">True</property>
-        <property name="icon_name">emblem-music-symbolic</property>
+  <template class="StatusNavigationPage" parent="AdwNavigationPage">
+    <property name="title" translatable="yes">Music</property>
+    <property name="tag">status</property>
+    <property name="child">
+      <object class="AdwToolbarView" id="_toolbar">
+        <property name="top-bar-style">raised</property>
+        <property name="content">
+          <object class="AdwStatusPage" id="_status_page">
+            <property name="hexpand">True</property>
+            <property name="vexpand">True</property>
+            <property name="icon_name">emblem-music-symbolic</property>
+          </object>
+        </property>
       </object>
-    </child>
+    </property>
   </template>
   <object class="AdwClamp" id="_initial_state">
     <property name="maximum-size">620</property>
