@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <template class="AppMenu" parent="GtkPopover">
+  <object class="GtkPopover" id="app_menu">
     <property name="focusable">False</property>
     <style>
       <class name="menu"/>
@@ -45,5 +45,5 @@
         </child>
       </object>
     </child>
-  </template>
+  </object>
 </interface>

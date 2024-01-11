@@ -27,8 +27,6 @@ from enum import IntEnum
 from gettext import gettext as _, ngettext
 from gi.repository import Adw, GObject, Gtk
 
-from gnomemusic.widgets.appmenu import AppMenu
-
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/SelectionBarMenuButton.ui")
 class SelectionBarMenuButton(Gtk.MenuButton):
@@ -116,7 +114,9 @@ class HeaderBar(Adw.Bin):
 
         self._selection_menu = SelectionBarMenuButton()
 
-        self._menu_button.props.popover = AppMenu(application)
+        menu = Gtk.Builder.new_from_resource(
+            "/org/gnome/Music/ui/AppMenu.ui").get_object("app_menu")
+        self._menu_button.props.popover = menu
 
         self.bind_property(
             "selection-mode", self._headerbar, "show-end-title-buttons",
