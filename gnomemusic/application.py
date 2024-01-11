@@ -45,9 +45,7 @@ from gnomemusic.musiclogger import MusicLogger
 from gnomemusic.notificationmanager import NotificationManager
 from gnomemusic.pauseonsuspend import PauseOnSuspend
 from gnomemusic.player import Player
-from gnomemusic.scrobbler import LastFmScrobbler
 from gnomemusic.search import Search
-from gnomemusic.widgets.lastfmdialog import LastfmDialog
 from gnomemusic.window import Window
 
 
@@ -76,10 +74,7 @@ class Application(Adw.Application):
         self._coregrilo = CoreGrilo(self)
 
         self._settings = Gio.Settings.new('org.gnome.Music')
-        self._lastfm_scrobbler = LastFmScrobbler(self)
         self._player = Player(self)
-
-        self._lastfm_dialog: Optional[LastfmDialog] = None
 
         InhibitSuspend(self)
         PauseOnSuspend(self._player)
@@ -144,15 +139,6 @@ class Application(Adw.Application):
         """
         return self._coreselection
 
-    @GObject.Property(type=LastFmScrobbler, flags=GObject.ParamFlags.READABLE)
-    def lastfm_scrobbler(self):
-        """Get Last.fm scrobbler.
-
-        :returns: Last.fm scrobbler
-        :rtype: LastFmScrobbler
-        """
-        return self._lastfm_scrobbler
-
     @GObject.Property(type=Window, flags=GObject.ParamFlags.READABLE)
     def window(self):
         """Get main window.
@@ -186,7 +172,6 @@ class Application(Adw.Application):
         action_entries = [
             ('about', self._about, None),
             ("help", self._help, ("app.help", ["F1"])),
-            ("lastfm-configure", self._lastfm_account, None),
             ("quit", self._quit, ("app.quit", ["<Ctrl>Q"]))
         ]
 
@@ -208,22 +193,6 @@ class Application(Adw.Application):
         Gtk.show_uri_full(
             self._window, "help:gnome-music", Gdk.CURRENT_TIME, None,
             show_uri_cb)
-
-    def _lastfm_account(
-            self, action: Gio.SimpleAction,
-            param: Optional[GLib.Variant]) -> None:
-
-        def on_response(dialog: LastfmDialog, response_id: int) -> None:
-            if not self._lastfm_dialog:
-                return
-
-            self._lastfm_dialog.destroy()
-            self._lastfm_dialog = None
-
-        self._lastfm_dialog = LastfmDialog(
-            self._window, self._lastfm_scrobbler)
-        self._lastfm_dialog.connect("response", on_response)
-        self._lastfm_dialog.present()
 
     def _about(self, action, param):
         show_about(self.props.application_id, self._version, self._window)

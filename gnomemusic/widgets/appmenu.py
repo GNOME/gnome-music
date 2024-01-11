@@ -24,8 +24,6 @@
 
 from gi.repository import Gtk
 
-from gnomemusic.scrobbler import GoaLastFM
-
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/AppMenu.ui")
 class AppMenu(Gtk.Popover):
@@ -33,50 +31,9 @@ class AppMenu(Gtk.Popover):
 
     __gtype_name__ = "AppMenu"
 
-    _lastfm_box = Gtk.Template.Child()
-    _lastfm_switch = Gtk.Template.Child()
-
     def __init__(self, application):
         """Initialize the application menu
 
         :param Application application: Application object
         """
         super().__init__()
-
-        self._lastfm_switcher_id = None
-
-        self._lastfm_configure_action = application.lookup_action(
-            "lastfm-configure")
-
-        self._lastfm_scrobbler = application.props.lastfm_scrobbler
-        self._lastfm_scrobbler.connect(
-            "notify::can-scrobble", self._on_scrobbler_state_changed)
-        self._on_scrobbler_state_changed(None, None)
-
-    def _on_scrobbler_state_changed(self, klass, args):
-        state = self._lastfm_scrobbler.props.account_state
-
-        if state == GoaLastFM.State.NOT_AVAILABLE:
-            self._lastfm_configure_action.props.enabled = False
-            return
-
-        self._lastfm_configure_action.props.enabled = True
-
-        if state == GoaLastFM.State.NOT_CONFIGURED:
-            self._lastfm_box.props.visible = False
-            if self._lastfm_switcher_id is not None:
-                self._lastfm_switch.disconnect(self._lastfm_switcher_id)
-                self._lastfm_switcher_id = None
-            return
-
-        self._lastfm_box.props.visible = True
-        if self._lastfm_switcher_id is None:
-            self._lastfm_switcher_id = self._lastfm_switch.connect(
-                "state-set", self._on_lastfm_switch_active)
-
-        with self._lastfm_switch.handler_block(self._lastfm_switcher_id):
-            can_scrobble = self._lastfm_scrobbler.props.can_scrobble
-            self._lastfm_switch.props.state = can_scrobble
-
-    def _on_lastfm_switch_active(self, klass, state):
-        self._lastfm_scrobbler.props.can_scrobble = state

@@ -64,24 +64,6 @@
             ]
         },
         {
-            "name": "gnome-online-accounts",
-            "buildsystem": "meson",
-            "config-opts": [ "-Dgoabackend=false",
-                             "-Dvapi=false",
-                             "-Dexchange=false",
-                             "-Dgoogle=false",
-                             "-Dimap_smtp=false",
-                             "-Dkerberos=false",
-                             "-Downcloud=false",
-                             "-Dwindows_live=false" ],
-            "sources": [
-                {
-                    "type": "git",
-                    "url": "https://gitlab.gnome.org/GNOME/gnome-online-accounts.git"
-                }
-            ]
-        },
-        {
             "name": "totem-pl-parser",
             "buildsystem": "meson",
             "sources": [

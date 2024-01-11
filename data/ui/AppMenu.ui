@@ -14,40 +14,6 @@
         <property name="margin-top">6</property>
         <property name="orientation">vertical</property>
         <child>
-          <object class="GtkModelButton" id="lastfm_account_button">
-            <property name="focusable">False</property>
-            <property name="halign">fill</property>
-            <property name="hexpand">False</property>
-            <property name="action_name">app.lastfm-configure</property>
-            <property name="text" translatable="yes">Last.fm Account</property>
-          </object>
-        </child>
-        <child>
-          <object class="GtkBox" id="_lastfm_box">
-            <property name="margin-end">5</property>
-            <property name="visible">False</property>
-            <child>
-              <object class="GtkLabel">
-                <property name="focusable">False</property>
-                <property name="margin-end">12</property>
-                <property name="halign">start</property>
-                <property name="hexpand">False</property>
-                <property name="label" translatable="yes">Report Music Listening</property>
-              </object>
-            </child>
-            <child>
-              <object class="GtkSwitch" id="_lastfm_switch">
-                <property name="focusable">True</property>
-                <property name="halign">end</property>
-              </object>
-            </child>
-          </object>
-        </child>
-        <child>
-          <object class="GtkSeparator">
-          </object>
-        </child>
-        <child>
           <object class="GtkModelButton" id="_keyboard_shortcuts_model_button">
             <property name="halign">fill</property>
             <property name="hexpand">False</property>

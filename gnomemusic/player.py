@@ -407,8 +407,6 @@ class Player(GObject.GObject):
         self._gst_player.bind_property(
             'state', self, 'state', GObject.BindingFlags.SYNC_CREATE)
 
-        self._lastfm = application.props.lastfm_scrobbler
-
     @GObject.Property(
         type=bool, default=False, flags=GObject.ParamFlags.READABLE)
     def has_next(self):
@@ -576,7 +574,6 @@ class Player(GObject.GObject):
 
         if tick == 0:
             self._new_clock = True
-            self._lastfm.now_playing(current_song)
 
         if self.props.duration == -1.:
             return
@@ -584,11 +581,6 @@ class Player(GObject.GObject):
         position = self._gst_player.props.position
         if position > 0:
             percentage = tick / self.props.duration
-            if (not self._lastfm.props.scrobbled
-                    and self.props.duration > 30.
-                    and (percentage > 0.5 or tick > 4 * 60)):
-                self._lastfm.scrobble(current_song, self._time_stamp)
-
             if (percentage > 0.5
                     and self._new_clock):
                 self._new_clock = False
