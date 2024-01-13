@@ -9,7 +9,6 @@ data/ui/ArtistsView.ui
 data/ui/EmptyView.ui
 data/ui/HeaderBar.ui
 data/ui/help-overlay.ui
-data/ui/LastfmDialog.ui
 data/ui/PlayerToolbar.ui
 data/ui/PlaylistControls.ui
 data/ui/PlaylistDialog.ui
@@ -38,7 +37,6 @@ gnomemusic/views/songsview.py
 gnomemusic/widgets/albumwidget.py
 gnomemusic/widgets/discbox.py
 gnomemusic/widgets/headerbar.py
-gnomemusic/widgets/lastfmdialog.py
 gnomemusic/widgets/playertoolbar.py
 gnomemusic/widgets/playlistcontrols.py
 gnomemusic/widgets/playlistdialog.py
