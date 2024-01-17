@@ -5,11 +5,6 @@
     <property name="focusable">False</property>
     <property name="valign">start</property>
     <child>
-      <object class="GtkCheckButton" id="_check">
-        <property name="visible">False</property>
-      </object>
-    </child>
-    <child>
       <object class="GtkBox">
         <property name="homogeneous">True</property>
         <child>

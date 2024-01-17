@@ -64,7 +64,6 @@ class SongsView(Gtk.Box):
 
         self._application = application
         self._coremodel = application.props.coremodel
-        self._coreselection = application.props.coreselection
         self._player = application.props.player
         self._window = application.props.window
 
@@ -73,8 +72,7 @@ class SongsView(Gtk.Box):
         self._list_item_star_controllers: Dict[
             Gtk.ListItem, List[GObject.Binding]] = {}
 
-        self._selection_model = Gtk.MultiSelection.new(
-            self._coremodel.props.songs)
+        selection_model = Gtk.MultiSelection.new(self._coremodel.props.songs)
 
         list_item_factory = Gtk.SignalListItemFactory()
         list_item_factory.connect("setup", self._setup_list_item)
@@ -82,22 +80,9 @@ class SongsView(Gtk.Box):
         list_item_factory.connect("unbind", self._unbind_list_item)
 
         self._listview.props.factory = list_item_factory
-        self._listview.props.model = self._selection_model
+        self._listview.props.model = selection_model
 
         self._listview.connect("activate", self._on_song_activated)
-
-        self._selection_mode = False
-
-        self.bind_property(
-            "selection-mode", self._listview, "single-click-activate",
-            GObject.BindingFlags.SYNC_CREATE
-            | GObject.BindingFlags.INVERT_BOOLEAN)
-        self.bind_property(
-            "selection-mode", self._listview, "enable-rubberband",
-            GObject.BindingFlags.SYNC_CREATE)
-        self._window.bind_property(
-            "selection-mode", self, "selection-mode",
-            GObject.BindingFlags.BIDIRECTIONAL)
 
     def _on_song_activated(self, widget, position):
         coresong = widget.props.model[position]
@@ -117,22 +102,13 @@ class SongsView(Gtk.Box):
         song_menu = SongWidgetMenu(self._application, song_box, None)
         menu_button.props.popover = song_menu
 
-        self.bind_property(
-            "selection-mode", list_item, "selectable",
-            GObject.BindingFlags.SYNC_CREATE)
-        self.bind_property(
-            "selection-mode", list_item, "activatable",
-            GObject.BindingFlags.SYNC_CREATE
-            | GObject.BindingFlags.INVERT_BOOLEAN)
-
     def _bind_list_item(
             self, factory: Gtk.SignalListItemFactory,
             list_item: Gtk.ListItem) -> None:
         list_row = list_item.props.child
         coresong = list_item.props.item
 
-        check = list_row.get_first_child()
-        info_box = check.get_next_sibling()
+        info_box = list_row.get_first_child()
         duration_label = info_box.get_next_sibling()
         star_box = duration_label.get_next_sibling()
         star_image = star_box.get_first_child()
@@ -182,29 +158,7 @@ class SongsView(Gtk.Box):
         duration_label.props.label = utils.seconds_to_string(
             coresong.props.duration)
 
-        b5 = list_item.bind_property(
-            "selected", coresong, "selected", GObject.BindingFlags.SYNC_CREATE)
-        b6 = list_item.bind_property(
-            "selected", check, "active", GObject.BindingFlags.SYNC_CREATE)
-        b7 = self.bind_property(
-            "selection-mode", check, "visible",
-            GObject.BindingFlags.SYNC_CREATE)
-
-        def on_activated(widget, value):
-            if check.props.active:
-                self._selection_model.select_item(
-                    list_item.get_position(), False)
-            else:
-                self._selection_model.unselect_item(
-                    list_item.get_position())
-
-        # The listitem selected property is read-only.
-        # It cannot be bound from the check active property.
-        # It is necessary to update the selection model in order
-        # to update it.
-        check.connect("notify::active", on_activated)
-
-        self._list_item_bindings[list_item] = [b1, b2, b3, b4, b5, b6, b7]
+        self._list_item_bindings[list_item] = [b1, b2, b3, b4]
         self._list_item_star_controllers[list_item] = [star_click, star_hover]
 
     def _unbind_list_item(
@@ -214,56 +168,10 @@ class SongsView(Gtk.Box):
         [binding.unbind() for binding in bindings]
 
         list_row = list_item.props.child
-        check = list_row.get_first_child()
-        info_box = check.get_next_sibling()
+        info_box = list_row.get_first_child()
         duration_label = info_box.get_next_sibling()
         star_box = duration_label.get_next_sibling()
         star_image = star_box.get_first_child()
 
         controllers = self._list_item_star_controllers.pop(list_item)
         [star_image.remove_controller(ctrl) for ctrl in controllers]
-
-        signal_id, detail_id = GObject.signal_parse_name(
-            "notify::active", check, True)
-        handler_id = GObject.signal_handler_find(
-            check, GObject.SignalMatchType.ID, signal_id, detail_id, None, 0,
-            0)
-        check.disconnect(handler_id)
-
-    @GObject.Property(type=bool, default=False)
-    def selection_mode(self):
-        """selection mode getter
-
-        :returns: If selection mode is active
-        :rtype: bool
-        """
-        return self._selection_mode
-
-    @selection_mode.setter  # type: ignore
-    def selection_mode(self, value):
-        """selection-mode setter
-
-        :param bool value: Activate selection mode
-        """
-        if (value == self._selection_mode
-                or self.get_parent().get_visible_child() != self):
-            return
-
-        self._selection_mode = value
-        if self._selection_mode is False:
-            self.deselect_all()
-
-    def _toggle_all_selection(self, selected):
-        """Selects or deselects all items.
-        """
-        with self._coreselection.freeze_notify():
-            if selected:
-                self._selection_model.select_all()
-            else:
-                self._selection_model.unselect_all()
-
-    def select_all(self):
-        self._toggle_all_selection(True)
-
-    def deselect_all(self):
-        self._toggle_all_selection(False)

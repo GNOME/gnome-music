@@ -14,6 +14,7 @@
             <child>
               <object class="GtkListView" id="_listview">
                 <property name="show-separators">True</property>
+                <property name="single-click-activate">True</property>
                 <style>
                   <class name="songs-list"/>
                 </style>
