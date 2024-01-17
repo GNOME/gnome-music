@@ -61,7 +61,6 @@ class AlbumWidget(Adw.Bin):
     _released_label = Gtk.Template.Child()
     _title_label = Gtk.Template.Child()
 
-    selection_mode = GObject.Property(type=bool, default=False)
     show_artist_label = GObject.Property(type=bool, default=True)
 
     def __init__(self, application: Application) -> None:
@@ -89,15 +88,8 @@ class AlbumWidget(Adw.Bin):
         self._player = self._application.props.player
 
         self.bind_property(
-            "selection-mode", self._disc_list_box, "selection-mode",
-            GObject.BindingFlags.BIDIRECTIONAL
-            | GObject.BindingFlags.SYNC_CREATE)
-
-        self.bind_property(
             "show-artist-label", self._artist_label, "visible",
             GObject.BindingFlags.SYNC_CREATE)
-
-        self.connect("notify::selection-mode", self._on_selection_mode_changed)
 
         action_group = Gio.SimpleActionGroup()
         actions = (
@@ -199,13 +191,6 @@ class AlbumWidget(Adw.Bin):
         disc_box = DiscBox(self._application, self._corealbum, disc)
         disc_box.connect('song-activated', self._song_activated)
 
-        self._corealbum.bind_property(
-            "selected", disc, "selected", GObject.BindingFlags.SYNC_CREATE)
-        self.bind_property(
-            "selection-mode", disc_box, "selection-mode",
-            GObject.BindingFlags.BIDIRECTIONAL
-            | GObject.BindingFlags.SYNC_CREATE)
-
         return disc_box
 
     def _on_model_items_changed(
@@ -265,26 +250,7 @@ class AlbumWidget(Adw.Bin):
 
     def _song_activated(
             self, widget: Gtk.Widget, song_widget: SongWidget) -> None:
-        if self.props.selection_mode:
-            song_widget.props.selected = not song_widget.props.selected
-            return
-
         self._play(song_widget.props.coresong)
-
-    def select_all(self) -> None:
-        if self._album_model:
-            for coredisc in self._album_model:
-                coredisc.props.selected = True
-
-    def deselect_all(self) -> None:
-        if self._album_model:
-            for coredisc in self._album_model:
-                coredisc.props.selected = False
-
-    def _on_selection_mode_changed(
-            self, widget: Gtk.Widget, value: GObject.ParamSpecBoolean) -> None:
-        if not self.props.selection_mode:
-            self.deselect_all()
 
     def _on_add_favorites_action(
             self, action: Gio.SimpleAction,

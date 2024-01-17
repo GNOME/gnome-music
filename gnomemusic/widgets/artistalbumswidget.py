@@ -47,8 +47,6 @@ class ArtistAlbumsWidget(Gtk.Box):
 
     _listbox = Gtk.Template.Child()
 
-    selection_mode = GObject.Property(type=bool, default=False)
-
     def __init__(self, application: Application) -> None:
         """Initialize the ArtistAlbumsWidget
 
@@ -75,27 +73,9 @@ class ArtistAlbumsWidget(Gtk.Box):
         widget.props.active_coreobject = self._coreartist
         widget.props.show_artist_label = False
 
-        self._coreartist.bind_property(
-            "selected", corealbum, "selected",
-            GObject.BindingFlags.SYNC_CREATE)
-        self.bind_property(
-            'selection-mode', widget, 'selection-mode',
-            GObject.BindingFlags.BIDIRECTIONAL
-            | GObject.BindingFlags.SYNC_CREATE)
-
         row.set_child(widget)
 
         return row
-
-    def select_all(self) -> None:
-        """Select all items"""
-        if self._coreartist is not None:
-            self._coreartist.props.selected = True
-
-    def deselect_all(self) -> None:
-        """Deselect all items"""
-        if self._coreartist is not None:
-            self._coreartist.props.selected = False
 
     @GObject.Property(
         type=CoreArtist, flags=GObject.ParamFlags.READWRITE, default=None)

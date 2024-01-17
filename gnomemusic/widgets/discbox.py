@@ -52,7 +52,6 @@ class DiscBox(Gtk.ListBoxRow):
         'song-activated': (GObject.SignalFlags.RUN_FIRST, None, (Gtk.Widget,))
     }
 
-    selection_mode = GObject.Property(type=bool, default=False)
     show_disc_label = GObject.Property(type=bool, default=False)
 
     def __init__(
@@ -80,37 +79,16 @@ class DiscBox(Gtk.ListBoxRow):
 
         self._list_box.bind_model(self._model, self._create_widget)
 
-    def select_all(self):
-        """Select all songs"""
-        for coresong in self._model:
-            coresong.props.selected = True
-
-    def deselect_all(self):
-        """Deselect all songs"""
-        for coresong in self._model:
-            coresong.props.selected = False
-
     def _create_widget(self, coresong):
         song_widget = SongWidget(coresong)
         song_widget.props.menu = SongWidgetMenu(
             self._application, song_widget, self._corealbum)
-
-        self._coredisc.bind_property(
-            "selected", coresong, "selected", GObject.BindingFlags.SYNC_CREATE)
-        self.bind_property(
-            "selection-mode", song_widget, "selection-mode",
-            GObject.BindingFlags.BIDIRECTIONAL
-            | GObject.BindingFlags.SYNC_CREATE)
 
         return song_widget
 
     @Gtk.Template.Callback()
     def _song_activated(
             self, list_box: Gtk.ListBox, song_widget: SongWidget) -> bool:
-        if self.props.selection_mode:
-            selection_state = song_widget.props.coresong.props.selected
-            song_widget.props.coresong.props.selected = not selection_state
-        else:
-            self.emit("song-activated", song_widget)
+        self.emit("song-activated", song_widget)
 
         return Gdk.EVENT_STOP
