@@ -15,7 +15,6 @@ data/ui/PlaylistDialog.ui
 data/ui/SearchHeaderBar.ui
 data/ui/SearchView.ui
 data/ui/SelectionBarMenuButton.ui
-data/ui/SelectionToolbar.ui
 data/ui/SongWidgetMenu.ui
 data/ui/StatusNavigationPage.ui
 gnomemusic/__init__.py
@@ -36,7 +35,6 @@ gnomemusic/views/searchview.py
 gnomemusic/views/songsview.py
 gnomemusic/widgets/albumwidget.py
 gnomemusic/widgets/discbox.py
-gnomemusic/widgets/headerbar.py
 gnomemusic/widgets/playertoolbar.py
 gnomemusic/widgets/playlistcontrols.py
 gnomemusic/widgets/playlistdialog.py

@@ -24,47 +24,7 @@
 
 from enum import IntEnum
 
-from gettext import gettext as _, ngettext
 from gi.repository import Adw, GObject, Gtk
-
-
-@Gtk.Template(resource_path="/org/gnome/Music/ui/SelectionBarMenuButton.ui")
-class SelectionBarMenuButton(Gtk.MenuButton):
-    """Button for popup to select all or no items
-
-    The button label indicates the number of items selected.
-    """
-
-    __gtype_name__ = "SelectionBarMenuButton"
-
-    def __init__(self):
-        super().__init__()
-
-        self._selected_songs_count = 0
-
-    @GObject.Property(type=int, default=0, minimum=0)
-    def selected_songs_count(self):
-        """The number of songs selected
-
-        :returns: Number of songs selected
-        :rtype: int
-        """
-        return self._selected_songs_count
-
-    @selected_songs_count.setter  # type: ignore
-    def selected_songs_count(self, value):
-        """Set the number of songs selected
-
-        :param int value: The number of songs selected
-        """
-        self._selected_songs_count = value
-
-        if value > 0:
-            text = ngettext(
-                "Selected {} song", "Selected {} songs", value).format(value)
-            self.props.label = text
-        else:
-            self.props.label = _("Click on items to select them")
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/HeaderBar.ui")
@@ -81,14 +41,10 @@ class HeaderBar(Adw.Bin):
     __gtype_name__ = "HeaderBar"
 
     _search_button = Gtk.Template.Child()
-    _select_button = Gtk.Template.Child()
-    _cancel_button = Gtk.Template.Child()
     _headerbar = Gtk.Template.Child()
     _menu_button = Gtk.Template.Child()
 
     search_mode_active = GObject.Property(type=bool, default=False)
-    selected_songs_count = GObject.Property(type=int, default=0, minimum=0)
-    selection_mode_allowed = GObject.Property(type=bool, default=True)
     stack = GObject.Property(type=Adw.ViewStack)
 
     def __init__(self, application):
@@ -98,70 +54,18 @@ class HeaderBar(Adw.Bin):
         """
         super().__init__()
 
-        self._selection_mode = False
-
         self._stack_switcher = Adw.ViewSwitcher(
             focusable=False, halign="center",
             policy=Adw.ViewSwitcherPolicy.WIDE)
 
-        self._selection_menu = SelectionBarMenuButton()
-
-        self.bind_property(
-            "selection-mode", self._headerbar, "show-end-title-buttons",
-            GObject.BindingFlags.INVERT_BOOLEAN
-            | GObject.BindingFlags.SYNC_CREATE)
-        self.bind_property(
-            "selection-mode", self._cancel_button, "visible")
-        self.bind_property(
-            "selection-mode", self._select_button, "visible",
-            GObject.BindingFlags.INVERT_BOOLEAN)
-        self.bind_property(
-            "selection-mode", self._select_button, "active",
-            GObject.BindingFlags.BIDIRECTIONAL)
         self.bind_property(
             "stack", self._stack_switcher, "stack",
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
         self.bind_property(
-            "selected-songs-count", self._selection_menu,
-            "selected-songs-count")
-        self.bind_property(
             "search-mode-active", self._search_button, "active",
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
-        self.bind_property(
-            "selection-mode", self._search_button, "visible",
-            GObject.BindingFlags.INVERT_BOOLEAN
-            | GObject.BindingFlags.SYNC_CREATE)
-
-        self.connect(
-            "notify::selection-mode-allowed",
-            self._on_selection_mode_allowed_changed)
-
-    @GObject.Property(type=bool, default=False)
-    def selection_mode(self):
-        """Selection mode
-
-        :returns: Selection mode
-        :rtype: bool
-        """
-        return self._selection_mode
-
-    @selection_mode.setter  # type: ignore
-    def selection_mode(self, mode):
-        """Set the selection mode
-
-        :param bool value: Selection mode
-        """
-        self._selection_mode = mode
-
-        if mode:
-            self.get_style_context().add_class("selection-mode")
-        else:
-            self.get_style_context().remove_class("selection-mode")
-            self._select_button.props.active = False
-
-        self._update()
 
     @GObject.Property
     def state(self):
@@ -188,33 +92,17 @@ class HeaderBar(Adw.Bin):
 
         if value == HeaderBar.State.EMPTY:
             self._search_button.props.sensitive = False
-            self._select_button.props.sensitive = False
             self._stack_switcher.hide()
         else:
             self._search_button.props.sensitive = True
-            self._select_button.props.sensitive = True
             self._stack_switcher.show()
 
-    @Gtk.Template.Callback()
-    def _on_cancel_button_clicked(self, button):
-        self.props.selection_mode = False
-
     def _update(self):
-        if self.props.selection_mode:
-            self._headerbar.props.title_widget = self._selection_menu
-        elif self.props.state != HeaderBar.State.MAIN:
+        if self.props.state != HeaderBar.State.MAIN:
             self._headerbar.props.title_widget = None
         else:
             self._headerbar.props.title_widget = self._stack_switcher
 
         self._menu_button.props.visible = (
-            not self.props.selection_mode
-            and self.props.state in [
-                HeaderBar.State.MAIN, HeaderBar.State.EMPTY]
+            self.props.state in [HeaderBar.State.MAIN, HeaderBar.State.EMPTY]
         )
-
-    def _on_selection_mode_allowed_changed(self, widget, data):
-        if self.props.selection_mode_allowed:
-            self._select_button.props.sensitive = True
-        else:
-            self._select_button.props.sensitive = False

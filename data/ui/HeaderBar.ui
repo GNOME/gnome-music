@@ -14,24 +14,6 @@
             <property name="tooltip_text" translatable="yes">Menu</property>
           </object>
         </child>
-        <child type="end">
-          <object class="GtkToggleButton" id="_select_button">
-            <property name="valign">center</property>
-            <property name="sensitive">True</property>
-            <property name="icon-name">selection-mode-symbolic</property>
-            <property name="tooltip_text" translatable="yes">Select</property>
-          </object>
-        </child>
-        <child type="end">
-          <object class="GtkButton" id="_cancel_button">
-            <property name="visible">False</property>
-            <property name="label" translatable="yes">_Cancel</property>
-            <property name="use_underline">True</property>
-            <property name="valign">center</property>
-            <property name="sensitive">True</property>
-            <signal name="clicked" handler="_on_cancel_button_clicked" swapped="no"/>
-          </object>
-        </child>
         <child type="start">
           <object class="GtkToggleButton" id="_search_button">
             <property name="valign">center</property>
@@ -43,13 +25,6 @@
       </object>
     </child>
   </template>
-  <object class="GtkSizeGroup" id="size1">
-    <property name="mode">vertical</property>
-    <widgets>
-      <widget name="_search_button"/>
-      <widget name="_cancel_button"/>
-    </widgets>
-  </object>
   <menu id="_primary_menu">
     <section>
       <item>

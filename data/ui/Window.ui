@@ -55,9 +55,6 @@
           </object>
         </child>
         <child type="bottom">
-          <object class="SelectionToolbar" id="_selection_toolbar"></object>
-        </child>
-        <child type="bottom">
           <object class="PlayerToolbar" id="_player_toolbar"></object>
         </child>
       </object>
