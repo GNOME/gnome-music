@@ -264,29 +264,18 @@ class AlbumWidget(Adw.Bin):
     def _on_add_playlist_action(
             self, action: Gio.SimpleAction,
             data: Optional[GLib.Variant]) -> None:
-
-        def on_response(dialog: PlaylistDialog, response_id: int) -> None:
-            if not self._playlist_dialog:
-                return
-
-            if response_id == Gtk.ResponseType.ACCEPT:
-                playlist = self._playlist_dialog.props.selected_playlist
-                coresongs = [
-                    song
-                    for disc in self._corealbum.props.model
-                    for song in disc.props.model]
-                playlist.add_songs(coresongs)
-
-            self._playlist_dialog.destroy()
-            self._playlist_dialog = None
-
         if not self._corealbum:
             return
 
-        self._playlist_dialog = PlaylistDialog(self._application)
+        selected_songs = [
+            song
+            for disc in self._corealbum.props.model
+            for song in disc.props.model]
+
+        self._playlist_dialog = PlaylistDialog(
+            self._application, selected_songs)
         active_window = self._application.props.active_window
         self._playlist_dialog.props.transient_for = active_window
-        self._playlist_dialog.connect("response", on_response)
         self._playlist_dialog.present()
 
     def _on_play_action(

@@ -101,22 +101,10 @@ class SongWidgetMenu(Gtk.PopoverMenu):
         self._coremodel.props.active_core_object = self._coreobject
 
     def _add_to_playlist(self, action: Gio.Simple, param: Any) -> None:
-
-        def on_response(dialog: PlaylistDialog, response_id: int) -> None:
-            if not self._playlist_dialog:
-                return
-
-            if response_id == Gtk.ResponseType.ACCEPT:
-                playlist = self._playlist_dialog.props.selected_playlist
-                playlist.add_songs([self._coresong])
-
-            self._playlist_dialog.destroy()
-            self._playlist_dialog = None
-
         self.popdown()
-        self._playlist_dialog = PlaylistDialog(self._application)
+        self._playlist_dialog = PlaylistDialog(
+            self._application, [self._coresong])
         self._playlist_dialog.props.transient_for = self._window
-        self._playlist_dialog.connect("response", on_response)
         self._playlist_dialog.present()
 
     def _remove_from_playlist(self, action: Gio.Simple, param: Any) -> None:

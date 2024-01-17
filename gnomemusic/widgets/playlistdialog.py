@@ -22,45 +22,56 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from gi.repository import GObject, Gtk
+from __future__ import annotations
+from typing import List, Optional
+import typing
+
+from gi.repository import Adw, Gtk
 
 from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
 from gnomemusic.widgets.playlistdialogrow import PlaylistDialogRow
+if typing.TYPE_CHECKING:
+    from gnomemusic.application import Application
+    from gnomemusic.coregrilo import CoreGrilo
+    from gnomemusic.coresong import CoreSong
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/PlaylistDialog.ui")
-class PlaylistDialog(Gtk.Dialog):
+class PlaylistDialog(Adw.Window):
     """Dialog for adding items to a playlist"""
 
     __gtype_name__ = 'PlaylistDialog'
 
-    selected_playlist = GObject.Property(type=Playlist, default=None)
-
     _add_playlist_stack = Gtk.Template.Child()
+    _bottom_bar = Gtk.Template.Child()
     _normal_box = Gtk.Template.Child()
     _empty_box = Gtk.Template.Child()
-    _title_bar = Gtk.Template.Child()
     _listbox = Gtk.Template.Child()
     _cancel_button = Gtk.Template.Child()
     _select_button = Gtk.Template.Child()
+    _toolbar_view = Gtk.Template.Child()
     _new_playlist_button = Gtk.Template.Child()
     _new_playlist_entry = Gtk.Template.Child()
     _first_playlist_button = Gtk.Template.Child()
     _first_playlist_entry = Gtk.Template.Child()
 
-    def __init__(self, application):
+    def __init__(
+            self, application: Application,
+            selected_songs: List[CoreSong]) -> None:
         """Initialize PlaylistDialog
 
         :param Application application: The application object
+        :param List[CoreSong] selected_songs: A list of songs to be
+            added
         """
         super().__init__()
 
-        self._coregrilo = application.props.coregrilo
+        self._coregrilo: CoreGrilo = application.props.coregrilo
+        self._selected_playlist: Optional[Playlist] = None
+        self._selected_songs = selected_songs
 
         self._add_playlist_button = None
         self._add_playlist_entry = None
-
-        self.set_titlebar(self._title_bar)
 
         self._user_playlists_available = False
 
@@ -76,11 +87,13 @@ class PlaylistDialog(Gtk.Dialog):
             self._add_playlist_stack.props.visible_child = self._normal_box
             self._add_playlist_button = self._new_playlist_button
             self._add_playlist_entry = self._new_playlist_entry
+            self._toolbar_view.props.reveal_bottom_bars = True
         else:
             self._empty_box.show()
             self._add_playlist_stack.props.visible_child = self._empty_box
             self._add_playlist_button = self._first_playlist_button
             self._add_playlist_entry = self._first_playlist_entry
+            self._toolbar_view.props.reveal_bottom_bars = False
 
     def _create_playlist_row(self, playlist):
         """Adds (non-smart only) playlists to the model"""
@@ -93,11 +106,12 @@ class PlaylistDialog(Gtk.Dialog):
 
     @Gtk.Template.Callback()
     def _on_selection(self, select_button):
-        self.response(Gtk.ResponseType.ACCEPT)
+        self._selected_playlist.add_songs(self._selected_songs)
+        self.destroy()
 
     @Gtk.Template.Callback()
     def _on_cancel_button_clicked(self, cancel_button):
-        self.response(Gtk.ResponseType.REJECT)
+        self.destroy()
 
     @Gtk.Template.Callback()
     def _on_selected_rows_changed(self, klass):
@@ -105,7 +119,7 @@ class PlaylistDialog(Gtk.Dialog):
         self._add_playlist_button.props.sensitive = False
         selected_row = self._listbox.get_selected_row()
         if selected_row is not None:
-            self.props.selected_playlist = selected_row.props.playlist
+            self._selected_playlist = selected_row.props.playlist
         self._select_button.props.sensitive = selected_row is not None
 
         for row in self._listbox:
@@ -118,7 +132,9 @@ class PlaylistDialog(Gtk.Dialog):
                 if row.props.playlist == playlist:
                     self._listbox.select_row(row)
                     break
-            self.response(Gtk.ResponseType.ACCEPT)
+
+            self._selected_playlist.add_songs(self._selected_songs)
+            self.destroy()
 
         text = self._add_playlist_entry.props.text
         if text:
