@@ -80,19 +80,9 @@ class ArtistsView(Adw.Bin):
         self._artist_album = ArtistAlbumsWidget(application)
         self._artist_view.props.child = self._artist_album
 
-        self.bind_property(
-            "selection-mode", self._artist_album, "selection-mode",
-            GObject.BindingFlags.SYNC_CREATE
-            | GObject.BindingFlags.BIDIRECTIONAL)
-        self._window.bind_property(
-            "selection-mode", self, "selection-mode",
-            GObject.BindingFlags.BIDIRECTIONAL)
-
         self._selection_model.connect_after(
             "items-changed", self._on_model_items_changed)
         self._on_model_items_changed(self._selection_model, 0, 0, 0)
-
-        self._selection_mode = False
 
     def _on_list_view_setup(
             self, factory: Gtk.SignalListItemFactory,
@@ -122,39 +112,3 @@ class ArtistsView(Adw.Bin):
         """Initializes new artist album widgets"""
         coreartist = self._selection_model.get_item(position)
         self._artist_album.props.coreartist = coreartist
-
-    @GObject.Property(type=bool, default=False)
-    def selection_mode(self):
-        """selection mode getter
-
-        :returns: If selection mode is active
-        :rtype: bool
-        """
-        return self._selection_mode
-
-    @selection_mode.setter  # type: ignore
-    def selection_mode(self, value):
-        """selection-mode setter
-
-        :param bool value: Activate selection mode
-        """
-        if (value == self._selection_mode
-                or self._window.props.active_view is not self):
-            return
-
-        self._selection_mode = value
-        self._sidebar.props.sensitive = not self._selection_mode
-        if not self._selection_mode:
-            self.deselect_all()
-
-    def select_all(self) -> None:
-        """Select all items"""
-        coreartist = self._selection_model.get_selected_item()
-        if coreartist:
-            coreartist.props.selected = True
-
-    def deselect_all(self) -> None:
-        """Deselect all items"""
-        coreartist = self._selection_model.get_selected_item()
-        if coreartist:
-            coreartist.props.selected = False
