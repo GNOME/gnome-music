@@ -72,8 +72,6 @@ class Window(Adw.ApplicationWindow):
         self._coreselection.bind_property(
             "selected-songs-count", self, "selected-songs-count")
 
-        self._settings = app.props.settings
-
         self.set_size_request(360, 294)
         WindowPlacement(self)
 
