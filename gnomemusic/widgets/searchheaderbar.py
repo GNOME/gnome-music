@@ -47,7 +47,7 @@ class SearchHeaderBar(Adw.Bin):
 
         self._entry = Gtk.SearchEntry()
         self._entry.props.placeholder_text = _(
-            "Search songs, artists, albums and playlists")
+            "Search songs, artists and albums")
         self._entry.props.halign = Gtk.Align.CENTER
         self._entry.props.visible = True
         self._entry.props.width_request = 500
