@@ -41,7 +41,6 @@ class SongWidget(Gtk.ListBoxRow):
 
     Contains
      * play icon (depending on state)
-     * selection check box (optional)
      * song number on disc (optional)
      * song title
      * song duration (optional)
@@ -55,7 +54,6 @@ class SongWidget(Gtk.ListBoxRow):
     }
 
     coresong = GObject.Property(type=CoreSong, default=None)
-    selected = GObject.Property(type=bool, default=False)
     show_song_number = GObject.Property(type=bool, default=True)
 
     _album_label = Gtk.Template.Child()
@@ -65,7 +63,6 @@ class SongWidget(Gtk.ListBoxRow):
     _dnd_icon = Gtk.Template.Child()
     _drag_source = Gtk.Template.Child()
     _menu_button = Gtk.Template.Child()
-    _select_button = Gtk.Template.Child()
     _number_label = Gtk.Template.Child()
     _title_label = Gtk.Template.Child()
     _duration_label = Gtk.Template.Child()
@@ -91,7 +88,6 @@ class SongWidget(Gtk.ListBoxRow):
         super().__init__()
 
         self.props.coresong = coresong
-        self._selection_mode = False
         self._state = SongWidget.State.UNPLAYED
 
         self.props.coresong.bind_property(
@@ -121,14 +117,8 @@ class SongWidget(Gtk.ListBoxRow):
         else:
             self._size_group.remove_widget(self._album_duration_box)
 
-        self._select_button.set_visible(False)
-
         self._play_icon.set_from_icon_name("media-playback-start-symbolic")
 
-        self.props.coresong.bind_property(
-            'selected', self._select_button, 'active',
-            GObject.BindingFlags.BIDIRECTIONAL
-            | GObject.BindingFlags.SYNC_CREATE)
         self.bind_property(
             'show-song-number', self._number_label, 'visible',
             GObject.BindingFlags.SYNC_CREATE)
@@ -194,18 +184,6 @@ class SongWidget(Gtk.ListBoxRow):
         return True
 
     @Gtk.Template.Callback()
-    def _on_click(
-            self, gesture_click: Gtk.GestureClick, n_click: int, x: int,
-            y: int) -> bool:
-        state = gesture_click.get_current_event_state()
-        modifiers = Gtk.accelerator_get_default_mod_mask()
-        if (state & modifiers == Gdk.ModifierType.CONTROL_MASK
-                and not self.props.selection_mode):
-            self.props.selection_mode = True
-
-        return Gdk.EVENT_STOP
-
-    @Gtk.Template.Callback()
     def _on_star_toggle(
             self, controller: Gtk.GestureClick, n_press: int, x: float,
             y: float) -> bool:
@@ -221,34 +199,6 @@ class SongWidget(Gtk.ListBoxRow):
     @Gtk.Template.Callback()
     def _on_star_unhover(self, controller):
         self._star_image.props.hover = False
-
-    @GObject.Property(type=bool, default=False)
-    def selection_mode(self):
-        """Selection mode
-
-        :returns: Selection mode
-        :rtype: bool
-        """
-        return self._selection_mode
-
-    @selection_mode.setter  # type: ignore
-    def selection_mode(self, value):
-        """Set the selection mode
-
-        :param bool value: Selection mode
-        """
-        if (not self.props.coresong.props.is_tracker
-                and value):
-            self.props.sensitive = False
-            return
-
-        self.props.sensitive = True
-
-        self._selection_mode = value
-        self._select_button.set_visible(value)
-
-        if not value:
-            self.props.selected = False
 
     @GObject.Property
     def state(self):
