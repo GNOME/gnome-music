@@ -8,29 +8,8 @@
         <property name="orientation">vertical</property>
         <signal name="query-tooltip" handler="_on_tooltip_query" swapped="no"/>
         <child>
-          <object class="GtkOverlay">
-            <property name="margin-bottom">4</property>
-            <child>
-              <object class="GtkImage" id="_cover_image">
-                <property name="hexpand">True</property>
-                <child>
-                  <object class="GtkGestureClick">
-                    <signal name="released" handler="_on_artist_event" swapped="no"/>
-                  </object>
-                </child>
-              </object>
-            </child>
-            <child type="overlay">
-              <object class="GtkCheckButton" id="_check">
-                <property name="receives_default">False</property>
-                <property name="halign">end</property>
-                <property name="valign">end</property>
-                <property name="visible">False</property>
-                <style>
-                  <class name="selection-mode"/>
-                </style>
-              </object>
-            </child>
+          <object class="GtkImage" id="_cover_image">
+            <property name="hexpand">True</property>
           </object>
         </child>
         <child>

@@ -22,7 +22,7 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from gi.repository import Gdk, GObject, Gtk
+from gi.repository import GObject, Gtk
 
 from gnomemusic.coreartist import CoreArtist
 from gnomemusic.coverpaintable import CoverPaintable
@@ -41,14 +41,9 @@ class ArtistSearchTile(Gtk.FlowBoxChild):
 
     _artist_label = Gtk.Template.Child()
     _cover_image = Gtk.Template.Child()
-    _check = Gtk.Template.Child()
 
     coreartist = GObject.Property(
         type=CoreArtist, default=None, flags=GObject.ParamFlags.READWRITE)
-    selected = GObject.Property(
-        type=bool, default=False, flags=GObject.ParamFlags.READWRITE)
-    selection_mode = GObject.Property(
-        type=bool, default=False, flags=GObject.ParamFlags.READWRITE)
 
     def __init__(self, coreartist):
         """Initialize the ArtistSearchTile
@@ -72,29 +67,6 @@ class ArtistSearchTile(Gtk.FlowBoxChild):
         artist = self.props.coreartist.props.artist
         self._artist_label.props.label = artist
         self._tooltip.props.title = artist
-
-        self.bind_property(
-            "selected", self._check, "active",
-            GObject.BindingFlags.BIDIRECTIONAL
-            | GObject.BindingFlags.SYNC_CREATE)
-        self.bind_property(
-            "selected", self.props.coreartist, "selected",
-            GObject.BindingFlags.BIDIRECTIONAL)
-
-        self.bind_property(
-            "selection-mode", self._check, "visible",
-            GObject.BindingFlags.BIDIRECTIONAL)
-
-    @Gtk.Template.Callback()
-    def _on_artist_event(self, gesture_click, n_press, x, y):
-        state = gesture_click.get_current_event_state()
-        modifiers = Gtk.accelerator_get_default_mod_mask()
-        if (state & modifiers == Gdk.ModifierType.CONTROL_MASK
-                and not self.props.selection_mode):
-            self.props.selection_mode = True
-
-        if self.props.selection_mode:
-            self.props.selected = not self.props.selected
 
     @Gtk.Template.Callback()
     def _on_tooltip_query(self, widget, x, y, kb, tooltip, data=None):

@@ -45,7 +45,6 @@ class ArtistsSearchNavigationPage(Adw.NavigationPage):
     def _create_artist_widget(
             self, coreartist: CoreArtist) -> ArtistSearchTile:
         artist_tile = ArtistSearchTile(coreartist)
-        artist_tile.props.selection_mode = False
 
         return artist_tile
 
