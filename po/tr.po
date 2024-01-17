@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2023-08-08 11:10+0000\n"
-"PO-Revision-Date: 2023-10-14 11:20+0300\n"
+"POT-Creation-Date: 2024-01-02 14:38+0000\n"
+"PO-Revision-Date: 2024-01-03 23:46+0300\n"
 "Last-Translator: Sabri Ünal <libreajans@gmail.com>\n"
 "Language-Team: Turkish <takim@gnome.org.tr>\n"
 "Language: tr\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.4\n"
+"X-Generator: Poedit 3.4.2\n"
 "X-POOTLE-MTIME: 1433363480.000000\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
@@ -50,7 +50,8 @@ msgstr ""
 "Yerel derleminizdeki parçaları bulun,  kendiliğinden oluşturulan çalma "
 "listelerini kullanın veya yenisini oluşturun."
 
-#: data/org.gnome.Music.appdata.xml.in.in:182
+#. developer_name tag deprecated with Appstream 1.0
+#: data/org.gnome.Music.appdata.xml.in.in:188
 msgid "The GNOME Music developers"
 msgstr "GNOME Müzik Geliştiricileri"
 
@@ -144,25 +145,34 @@ msgstr "_Gözde Şarkılara Ekle"
 msgid "_Add to Playlist…"
 msgstr "Çalma Listesine _Ekle…"
 
-#: data/ui/AppMenu.ui:23 data/ui/LastfmDialog.ui:8
+#: data/ui/AppMenu.ui:22 data/ui/LastfmDialog.ui:8
 msgid "Last.fm Account"
 msgstr "Last.fm Hesabı"
 
-#: data/ui/AppMenu.ui:36
+#: data/ui/AppMenu.ui:35
 msgid "Report Music Listening"
 msgstr "Müzik Dinlemeyi Bildir"
 
-#: data/ui/AppMenu.ui:58
+#: data/ui/AppMenu.ui:57
 msgid "_Keyboard Shortcuts"
 msgstr "_Klavye Kısayolları"
 
-#: data/ui/AppMenu.ui:68
+#: data/ui/AppMenu.ui:67
 msgid "_Help"
 msgstr "_Yardım"
 
-#: data/ui/AppMenu.ui:78
+#: data/ui/AppMenu.ui:77
 msgid "_About Music"
 msgstr "Müzik _Hakkında"
+
+#: data/ui/ArtistsView.ui:9 data/ui/SearchView.ui:33
+#: gnomemusic/views/artistsview.py:51
+msgid "Artists"
+msgstr "Sanatçılar"
+
+#: data/ui/ArtistsView.ui:27
+msgid "Artist"
+msgstr "Sanatçı"
 
 #: data/ui/EmptyView.ui:30
 msgid "Welcome to Music"
@@ -341,10 +351,6 @@ msgstr "Çalma Listesine Ekle"
 #: data/ui/PlaylistDialog.ui:222
 msgid "_Add"
 msgstr "_Ekle"
-
-#: data/ui/SearchView.ui:33 gnomemusic/views/artistsview.py:51
-msgid "Artists"
-msgstr "Sanatçılar"
 
 #: data/ui/SearchView.ui:42 data/ui/SearchView.ui:84
 msgid "View All"
