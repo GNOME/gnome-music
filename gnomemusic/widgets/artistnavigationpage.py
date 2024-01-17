@@ -22,7 +22,6 @@ class ArtistNavigationPage(Adw.NavigationPage):
 
     _artist_scrolled_window = Gtk.Template.Child()
 
-    selection_mode = GObject.Property(type=bool, default=False)
     show_artist_label = GObject.Property(type=bool, default=True)
 
     def __init__(
