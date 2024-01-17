@@ -23,7 +23,6 @@ class AlbumNavigationPage(Adw.NavigationPage):
     _album_scrolled_window = Gtk.Template.Child()
     _page_title = Gtk.Template.Child()
 
-    selection_mode = GObject.Property(type=bool, default=False)
     show_artist_label = GObject.Property(type=bool, default=True)
 
     def __init__(self, application: Application, corealbum: CoreAlbum) -> None:
