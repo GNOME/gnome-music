@@ -36,20 +36,14 @@ from gnomemusic.widgets.twolinetip import TwoLineTip
 class AlbumCover(Gtk.FlowBoxChild):
     """Cover tile as used in AlbumsView
 
-    Includes cover, album title, artist & selection mode checkmark.
+    Includes cover, album title and artist name.
     """
 
     __gtype_name__ = 'AlbumCover'
 
-    _check = Gtk.Template.Child()
     _cover_image = Gtk.Template.Child()
     _title_label = Gtk.Template.Child()
     _artist_label = Gtk.Template.Child()
-
-    selected = GObject.Property(
-        type=bool, default=False, flags=GObject.ParamFlags.READWRITE)
-    selection_mode = GObject.Property(
-        type=bool, default=False, flags=GObject.ParamFlags.READWRITE)
 
     def __init__(self, corealbum):
         """Initialize the AlbumCover
@@ -71,14 +65,6 @@ class AlbumCover(Gtk.FlowBoxChild):
 
         self._artist_label.props.label = artist
         self._title_label.props.label = title
-
-        self.bind_property(
-            'selected', self._check, 'active',
-            GObject.BindingFlags.BIDIRECTIONAL
-            | GObject.BindingFlags.SYNC_CREATE)
-        self.bind_property(
-            'selection-mode', self._check, 'visible',
-            GObject.BindingFlags.BIDIRECTIONAL)
 
         self.connect('query-tooltip', self._on_tooltip_query)
 

@@ -9,29 +9,11 @@
         <property name="orientation">vertical</property>
         <signal name="query-tooltip" handler="_on_tooltip_query"/>
         <child>
-          <object class="GtkOverlay">
+          <object class="GtkImage" id="_cover_image">
             <property name="focusable">False</property>
-            <property name="margin-bottom">4</property>
-            <child>
-              <object class="GtkImage" id="_cover_image">
-                <property name="focusable">False</property>
-                <property name="vexpand">True</property>
-                <property name="valign">end</property>
-                <property name="halign">center</property>
-              </object>
-            </child>
-            <child type="overlay">
-              <object class="GtkCheckButton" id="_check">
-                <property name="focusable">True</property>
-                <property name="receives_default">False</property>
-                <property name="halign">end</property>
-                <property name="valign">end</property>
-                <property name="visible">False</property>
-                <style>
-                  <class name="selection-mode"/>
-                </style>
-              </object>
-            </child>
+            <property name="vexpand">True</property>
+            <property name="valign">end</property>
+            <property name="halign">center</property>
           </object>
         </child>
         <child>
