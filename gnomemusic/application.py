@@ -170,7 +170,7 @@ class Application(Adw.Application):
 
     def _set_actions(self):
         action_entries = [
-            ('about', self._about, None),
+            ("about", self._about, None),
             ("help", self._help, ("app.help", ["F1"])),
             ("quit", self._quit, ("app.quit", ["<Ctrl>Q"]))
         ]

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <!-- interface-requires gtk+ 3.10 -->
   <template class="HeaderBar" parent="AdwBin">
     <child>
       <object class="AdwHeaderBar" id="_headerbar">
@@ -10,6 +9,7 @@
             <property name="valign">center</property>
             <property name="sensitive">True</property>
             <property name="icon-name">open-menu-symbolic</property>
+            <property name="menu-model">_primary_menu</property>
             <property name="primary">True</property>
             <property name="tooltip_text" translatable="yes">Menu</property>
           </object>
@@ -50,4 +50,20 @@
       <widget name="_cancel_button"/>
     </widgets>
   </object>
+  <menu id="_primary_menu">
+    <section>
+      <item>
+        <attribute name="label" translatable="true">Keyboard Shortcuts</attribute>
+        <attribute name="action">win.show-help-overlay</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="true">Help</attribute>
+        <attribute name="action">app.help</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="true">About Music</attribute>
+        <attribute name="action">app.about</attribute>
+      </item>
+    </section>
+  </menu>
 </interface>

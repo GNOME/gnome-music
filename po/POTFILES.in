@@ -5,7 +5,6 @@ data/org.gnome.Music.desktop.in.in
 data/org.gnome.Music.gschema.xml
 data/ui/AlbumsSearchNavigationPage.ui
 data/ui/AlbumWidget.ui
-data/ui/AppMenu.ui
 data/ui/ArtistsSearchNavigationPage.ui
 data/ui/ArtistsView.ui
 data/ui/HeaderBar.ui

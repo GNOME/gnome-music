@@ -106,10 +106,6 @@ class HeaderBar(Adw.Bin):
 
         self._selection_menu = SelectionBarMenuButton()
 
-        menu = Gtk.Builder.new_from_resource(
-            "/org/gnome/Music/ui/AppMenu.ui").get_object("app_menu")
-        self._menu_button.props.popover = menu
-
         self.bind_property(
             "selection-mode", self._headerbar, "show-end-title-buttons",
             GObject.BindingFlags.INVERT_BOOLEAN
