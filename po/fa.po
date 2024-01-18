@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the gnome-music package.
 # royaniva <royaniva@outlook.com >, 2013.
 # Arash Mousavi <mousavi.arash@gmail.com>, 2013-2017.
-# Danial Behzadi <dani.behzi@ubuntu.com>, 2014, 2018-2023.
+# Danial Behzadi <dani.behzi@ubuntu.com>, 2014, 2018-2024.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2023-07-04 07:49+0000\n"
-"PO-Revision-Date: 2023-07-31 02:14+0330\n"
+"POT-Creation-Date: 2024-01-17 14:11+0000\n"
+"PO-Revision-Date: 2024-01-18 03:34+0330\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <>\n"
 "Language: fa\n"
@@ -18,10 +18,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.3.2\n"
+"X-Generator: Poedit 3.4.2\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6 data/org.gnome.Music.desktop.in.in:3
-#: gnomemusic/about.py:243 gnomemusic/application.py:61 gnomemusic/window.py:71
+#: data/ui/StatusNavigationPage.ui:4 gnomemusic/about.py:243
+#: gnomemusic/application.py:59 gnomemusic/window.py:71
 msgid "Music"
 msgstr "آهنگ‌ها"
 
@@ -41,7 +42,8 @@ msgstr ""
 "یافتن قطعه‌ها در مجموعهٔ محلّیتان با استفاده از سیاهه‌های پخش ایجاد شده به صورت "
 "خودکار یا ساختن سیاهه‌ای تازه."
 
-#: data/org.gnome.Music.appdata.xml.in.in:182
+#. developer_name tag deprecated with Appstream 1.0
+#: data/org.gnome.Music.appdata.xml.in.in:188
 msgid "The GNOME Music developers"
 msgstr "توسعه‌دهندگان آهنگ‌های گنوم"
 
@@ -103,15 +105,10 @@ msgstr "جلوگیری از تعلیق سامانه"
 msgid "Enables or disables inhibiting system suspend while playing music"
 msgstr "به یا از کار انداختن جلوگیری از تعلیق سامانه هنگام پخش آهنگ"
 
-#: data/org.gnome.Music.gschema.xml:38
-msgid "Report music history to Last.fm"
-msgstr "گزارش تاریخچهٔ آهنگ‌ها به لست.اف‌ام"
-
-#: data/org.gnome.Music.gschema.xml:39
-msgid ""
-"Enables or disables sending scrobbles and the “currently playing” info to Last."
-"fm."
-msgstr "به یا از کار انداختن فرستادن اطلاعات پخش به لست.اف‌‌ام."
+#: data/ui/AlbumsSearchNavigationPage.ui:5 data/ui/SearchView.ui:95
+#: gnomemusic/views/albumsview.py:53
+msgid "Albums"
+msgstr "آلبوم‌ها"
 
 #: data/ui/AlbumWidget.ui:84 data/ui/PlayerToolbar.ui:87
 #: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:170
@@ -131,50 +128,38 @@ msgstr "افزودن به آوازهای _محبوب"
 msgid "_Add to Playlist…"
 msgstr "_افزودن به سیاههٔ پخش…"
 
-#: data/ui/AppMenu.ui:23 data/ui/LastfmDialog.ui:8
-msgid "Last.fm Account"
-msgstr "حساب لست.اف‌ام"
-
-#: data/ui/AppMenu.ui:36
-msgid "Report Music Listening"
-msgstr "گزارش گوش دادن به آهنگ"
-
-#: data/ui/AppMenu.ui:58
+#: data/ui/AppMenu.ui:23
 msgid "_Keyboard Shortcuts"
 msgstr "میان‌برهای _صفحه‌کلید"
 
-#: data/ui/AppMenu.ui:68
+#: data/ui/AppMenu.ui:33
 msgid "_Help"
 msgstr "_راهنما"
 
-#: data/ui/AppMenu.ui:78
+#: data/ui/AppMenu.ui:43
 msgid "_About Music"
 msgstr "_دربارهٔ آهنگ‌ها"
 
-#: data/ui/EmptyView.ui:30
-msgid "Welcome to Music"
-msgstr "به آهنگ‌ها خوش آمدید"
+#: data/ui/ArtistsSearchNavigationPage.ui:5 data/ui/SearchView.ui:40
+#: gnomemusic/views/artistsview.py:51
+msgid "Artists"
+msgstr "هنرمندان"
 
-#: data/ui/HeaderBar.ui:17
+#: data/ui/HeaderBar.ui:14
 msgid "Menu"
 msgstr "فهرست"
 
-#: data/ui/HeaderBar.ui:25 data/ui/SearchHeaderBar.ui:15
+#: data/ui/HeaderBar.ui:22
 msgid "Select"
 msgstr "گزینش"
 
-#: data/ui/HeaderBar.ui:31 data/ui/PlaylistDialog.ui:213
-#: data/ui/SearchHeaderBar.ui:20
+#: data/ui/HeaderBar.ui:28 data/ui/PlaylistDialog.ui:208
 msgid "_Cancel"
 msgstr "_لغو"
 
-#: data/ui/HeaderBar.ui:43 data/ui/SearchHeaderBar.ui:32
+#: data/ui/HeaderBar.ui:40 data/ui/SearchHeaderBar.ui:12
 msgid "Search"
 msgstr "جست‌وجو"
-
-#: data/ui/HeaderBar.ui:51
-msgid "Back"
-msgstr "برگشت"
 
 #: data/ui/help-overlay.ui:11
 msgctxt "shortcut window"
@@ -261,26 +246,6 @@ msgctxt "shortcut window"
 msgid "Go back"
 msgstr "بازگشت"
 
-#: data/ui/LastfmDialog.ui:21
-msgid ""
-"Last.fm is a music discovery service that gives you personalised recommendations "
-"based on the music you listen to."
-msgstr ""
-"لست.اف‌ام یک خدت کشف آهنگ است که به شما پیشنهادهایی شخصی‌شده بر اساس آهنگ‌هایی که "
-"گوش می‌کنید می‌دهد."
-
-#: data/ui/LastfmDialog.ui:31 gnomemusic/widgets/lastfmdialog.py:57
-msgid "Music Reporting Not Setup"
-msgstr "گزارش آهنگ برپا نشده"
-
-#: data/ui/LastfmDialog.ui:44 gnomemusic/widgets/lastfmdialog.py:60
-msgid "Login to your Last.fm account to report your music listening."
-msgstr "برای گزارش گوش کردنتان به آهنگ‌ها، وارد حساب لست.اف‌امتان شوید."
-
-#: data/ui/LastfmDialog.ui:55 gnomemusic/widgets/lastfmdialog.py:58
-msgid "Login"
-msgstr "ورود"
-
 #: data/ui/PlayerToolbar.ui:74
 msgid "Previous"
 msgstr "پیشین"
@@ -313,35 +278,27 @@ msgstr "نامی برای نخستین سیاههٔ پخشتان وارد کنی
 msgid "C_reate"
 msgstr "ا_یجاد"
 
-#: data/ui/PlaylistDialog.ui:146
+#: data/ui/PlaylistDialog.ui:141
 msgid "New Playlist…"
 msgstr "سیاههٔ پخش جدید…"
 
-#: data/ui/PlaylistDialog.ui:161
+#: data/ui/PlaylistDialog.ui:156
 msgid "Add"
 msgstr "افزودن"
 
-#: data/ui/PlaylistDialog.ui:202
+#: data/ui/PlaylistDialog.ui:197
 msgid "Add to Playlist"
 msgstr "افزودن به سیاههٔ پخش"
 
-#: data/ui/PlaylistDialog.ui:222
+#: data/ui/PlaylistDialog.ui:217
 msgid "_Add"
 msgstr "ا_فزودن"
 
-#: data/ui/SearchView.ui:33 gnomemusic/views/artistsview.py:51
-msgid "Artists"
-msgstr "هنرمندان"
-
-#: data/ui/SearchView.ui:42 data/ui/SearchView.ui:84
+#: data/ui/SearchView.ui:54 data/ui/SearchView.ui:109
 msgid "View All"
 msgstr "نمایش همه"
 
-#: data/ui/SearchView.ui:75 gnomemusic/views/albumsview.py:56
-msgid "Albums"
-msgstr "آلبوم‌ها"
-
-#: data/ui/SearchView.ui:117 gnomemusic/views/songsview.py:52
+#: data/ui/SearchView.ui:150 gnomemusic/views/songsview.py:52
 msgid "Songs"
 msgstr "آوازها"
 
@@ -353,7 +310,7 @@ msgstr "گزینش همه"
 msgid "Select None"
 msgstr "گزینش هیچ‌کدام"
 
-#: data/ui/SelectionBarMenuButton.ui:19 gnomemusic/widgets/headerbar.py:69
+#: data/ui/SelectionBarMenuButton.ui:19 gnomemusic/widgets/headerbar.py:67
 msgid "Click on items to select them"
 msgstr "برای گزینش موارد،‌رویشان کلیک کنید"
 
@@ -364,6 +321,10 @@ msgstr "ا_فزودن به سیاههٔ پخش"
 #: data/ui/SongWidgetMenu.ui:19
 msgid "_Remove from Playlist"
 msgstr "_برداشتن از سیاههٔ پخش"
+
+#: data/ui/StatusNavigationPage.ui:36
+msgid "Welcome to Music"
+msgstr "به آهنگ‌ها خوش آمدید"
 
 #: gnomemusic/about.py:245
 msgid "The GNOME Project"
@@ -462,63 +423,33 @@ msgstr "برگردان"
 msgid "{} removed from {}"
 msgstr "{} از {} برداشته شد"
 
-#: gnomemusic/utils.py:92
+#: gnomemusic/utils.py:90
 msgid "Unknown album"
 msgstr "آلبوم ناشناس"
 
-#: gnomemusic/utils.py:113
+#: gnomemusic/utils.py:111
 msgid "Unknown Artist"
 msgstr "هنرمند ناشناس"
-
-#: gnomemusic/views/emptyview.py:65
-msgid "Your XDG Music directory is not set."
-msgstr "شاخهٔ آهنگ XDGتان تنظیم نشده است."
-
-#: gnomemusic/views/emptyview.py:72
-msgid "Music Folder"
-msgstr "شاخهٔ موسیقی"
-
-#. TRANSLATORS: This is a label to display a link to open user's music
-#. folder. {} will be replaced with the translated text 'Music folder'
-#: gnomemusic/views/emptyview.py:76
-msgid "The contents of your {} will appear here."
-msgstr "محتویات {} شما در اینجا نمایان می‌شوند."
-
-#: gnomemusic/views/emptyview.py:124
-msgid "No Music Found"
-msgstr "هیچ آهنگی پیدا نشد"
-
-#: gnomemusic/views/emptyview.py:125
-msgid "Try a Different Search"
-msgstr "جست‌وجویی دیگر را بیازمایید"
-
-#: gnomemusic/views/emptyview.py:129
-msgid "GNOME Music could not connect to Tracker."
-msgstr "آهنگ‌های گنوم نتوانست به ردیاب وصل شود."
-
-#: gnomemusic/views/emptyview.py:131
-msgid "Your music files cannot be indexed without Tracker running."
-msgstr "بدون وجود ردیاب، پرونده‌های آهنگتان قادر به فهرست‌شدن نیستند."
-
-#: gnomemusic/views/emptyview.py:137
-msgid "Your system Tracker version seems outdated."
-msgstr "به نظر نگارش ردیاب سامانه‌تان قدیمی است."
-
-#: gnomemusic/views/emptyview.py:139
-msgid "Music needs Tracker version 3.0.0 or higher."
-msgstr "آهنگ‌ها به نگارش ۳٫۰٫۰ یا بالاتر ردیاب نیاز دارد."
 
 #: gnomemusic/views/playlistsview.py:45
 msgid "Playlists"
 msgstr "سیاهه‌های پخش"
 
-#: gnomemusic/views/searchview.py:304
-msgid "Artists Results"
-msgstr "نتیجه‌های هنرمندان"
+#: gnomemusic/views/searchview.py:220
+msgid "No Search Started"
+msgstr "هیچ جست‌وجویی آغاز نشده"
 
-#: gnomemusic/views/searchview.py:318
-msgid "Albums Results"
-msgstr "نتیجه‌های آلبوم‌ها"
+#: gnomemusic/views/searchview.py:222
+msgid "Use the searchbar to start searching for albums, artists or songs"
+msgstr "استفاده از نوار جست‌وجو برای آغاز جست‌وجوی آلبوم‌ها، هنرمندان یا آوازها"
+
+#: gnomemusic/views/searchview.py:226
+msgid "No Results Found"
+msgstr "هیچ نتیجه‌ای پیدا نشد"
+
+#: gnomemusic/views/searchview.py:228
+msgid "Try a different search"
+msgstr "جست‌وجویی دیگر را بیازمایید"
 
 #: gnomemusic/widgets/albumwidget.py:245
 msgid "{} minute"
@@ -529,27 +460,10 @@ msgstr[0] "{} دقیقه"
 msgid "Disc {}"
 msgstr "دیسک {}"
 
-#: gnomemusic/widgets/headerbar.py:66
+#: gnomemusic/widgets/headerbar.py:64
 msgid "Selected {} song"
 msgid_plural "Selected {} songs"
 msgstr[0] "{} آواز گزیده"
-
-#: gnomemusic/widgets/lastfmdialog.py:64
-msgid "Your music listening is reported to Last.fm."
-msgstr "گوش دادنتان به آهنگ‌ها به لست.اف‌ام گزارش شد."
-
-#: gnomemusic/widgets/lastfmdialog.py:66
-msgid "Your music listening is not reported to Last.fm."
-msgstr "گوش دادنتان به آهنگ‌ها به لست.اف‌ام گزارش نشد."
-
-#. TRANSLATORS: displays the username of the Last.fm account
-#: gnomemusic/widgets/lastfmdialog.py:70
-msgid "Logged in as {}"
-msgstr "وارد شده به عنوان {}"
-
-#: gnomemusic/widgets/lastfmdialog.py:71
-msgid "Configure"
-msgstr "پیکربندی"
 
 #: gnomemusic/widgets/playertoolbar.py:167
 msgid "Pause"
@@ -560,9 +474,98 @@ msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} آهنگ"
 
-#: gnomemusic/widgets/searchheaderbar.py:66
-msgid "Search songs, artists, albums and playlists"
-msgstr "جست‌وجوی آهنگ‌ها، هنرمندان و سیاهه‌های پخش"
+#: gnomemusic/widgets/searchheaderbar.py:50
+msgid "Search songs, artists and albums"
+msgstr "جست‌وجوی آوازها، هنرمندان و آلبوم‌ها"
+
+#: gnomemusic/widgets/statusnavigationpage.py:51
+msgid "Your XDG Music directory is not set."
+msgstr "شاخهٔ آهنگ XDGتان تنظیم نشده است."
+
+#: gnomemusic/widgets/statusnavigationpage.py:58
+msgid "Music Folder"
+msgstr "شاخهٔ موسیقی"
+
+#. TRANSLATORS: This is a label to display a link to open user's music
+#. folder. {} will be replaced with the translated text 'Music folder'
+#: gnomemusic/widgets/statusnavigationpage.py:66
+msgid "The contents of your {} will appear here."
+msgstr "محتویات {} شما در اینجا نمایان می‌شوند."
+
+#: gnomemusic/widgets/statusnavigationpage.py:116
+msgid "No Music Found"
+msgstr "هیچ آهنگی پیدا نشد"
+
+#: gnomemusic/widgets/statusnavigationpage.py:117
+msgid "Try a Different Search"
+msgstr "جست‌وجویی دیگر را بیازمایید"
+
+#: gnomemusic/widgets/statusnavigationpage.py:121
+msgid "GNOME Music could not connect to Tracker."
+msgstr "آهنگ‌های گنوم نتوانست به ردیاب وصل شود."
+
+#: gnomemusic/widgets/statusnavigationpage.py:123
+msgid "Your music files cannot be indexed without Tracker running."
+msgstr "بدون وجود ردیاب، پرونده‌های آهنگتان قادر به فهرست‌شدن نیستند."
+
+#: gnomemusic/widgets/statusnavigationpage.py:129
+msgid "Your system Tracker version seems outdated."
+msgstr "به نظر نگارش ردیاب سامانه‌تان قدیمی است."
+
+#: gnomemusic/widgets/statusnavigationpage.py:131
+msgid "Music needs Tracker version 3.0.0 or higher."
+msgstr "آهنگ‌ها به نگارش ۳٫۰٫۰ یا بالاتر ردیاب نیاز دارد."
+
+#~ msgid "Report music history to Last.fm"
+#~ msgstr "گزارش تاریخچهٔ آهنگ‌ها به لست.اف‌ام"
+
+#~ msgid ""
+#~ "Enables or disables sending scrobbles and the “currently playing” info to "
+#~ "Last.fm."
+#~ msgstr "به یا از کار انداختن فرستادن اطلاعات پخش به لست.اف‌‌ام."
+
+#~ msgid "Last.fm Account"
+#~ msgstr "حساب لست.اف‌ام"
+
+#~ msgid "Report Music Listening"
+#~ msgstr "گزارش گوش دادن به آهنگ"
+
+#~ msgid "Back"
+#~ msgstr "برگشت"
+
+#~ msgid ""
+#~ "Last.fm is a music discovery service that gives you personalised "
+#~ "recommendations based on the music you listen to."
+#~ msgstr ""
+#~ "لست.اف‌ام یک خدت کشف آهنگ است که به شما پیشنهادهایی شخصی‌شده بر اساس آهنگ‌هایی "
+#~ "که گوش می‌کنید می‌دهد."
+
+#~ msgid "Music Reporting Not Setup"
+#~ msgstr "گزارش آهنگ برپا نشده"
+
+#~ msgid "Login to your Last.fm account to report your music listening."
+#~ msgstr "برای گزارش گوش کردنتان به آهنگ‌ها، وارد حساب لست.اف‌امتان شوید."
+
+#~ msgid "Login"
+#~ msgstr "ورود"
+
+#~ msgid "Artists Results"
+#~ msgstr "نتیجه‌های هنرمندان"
+
+#~ msgid "Albums Results"
+#~ msgstr "نتیجه‌های آلبوم‌ها"
+
+#~ msgid "Your music listening is reported to Last.fm."
+#~ msgstr "گوش دادنتان به آهنگ‌ها به لست.اف‌ام گزارش شد."
+
+#~ msgid "Your music listening is not reported to Last.fm."
+#~ msgstr "گوش دادنتان به آهنگ‌ها به لست.اف‌ام گزارش نشد."
+
+#~ msgid "Logged in as {}"
+#~ msgstr "وارد شده به عنوان {}"
+
+#~ msgid "Configure"
+#~ msgstr "پیکربندی"
 
 #~ msgid "A music player and management application for GNOME."
 #~ msgstr "یک برنامه مدیریت و پخش آهنگ‌ها برای گنوم."
