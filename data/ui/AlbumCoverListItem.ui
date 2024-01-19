@@ -33,7 +33,7 @@
         <property name="wrap">True</property>
         <property name="ellipsize">middle</property>
         <property name="max_width_chars">20</property>
-        <property name="lines">2</property>
+        <property name="lines">1</property>
       </object>
     </child>
     <child>
