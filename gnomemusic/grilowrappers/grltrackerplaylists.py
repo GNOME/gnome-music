@@ -195,7 +195,7 @@ class GrlTrackerPlaylists(GObject.GObject):
             ?playlist a nmm:Playlist ;
                       a nfo:MediaList .
             FILTER (
-            tracker:id(?playlist) = %(playlist_id)s
+                ?playlist = <%(playlist_id)s>
             )
         }
         """.replace("\n", " ").strip() % {
@@ -401,7 +401,7 @@ class Playlist(GObject.GObject):
         ORDER BY nfo:listPosition(?entry)
         """.replace('\n', ' ').strip() % {
             "media_type": int(Grl.MediaType.AUDIO),
-            "filter_clause": 'tracker:id(?playlist) = ' + self.props.pl_id,
+            "filter_clause": f"?playlist = <{self.props.pl_id}>",
             "location_filter": self._tracker_wrapper.location_filter(),
             "miner_fs_busname": self._tracker_wrapper.props.miner_fs_busname,
         }
@@ -488,7 +488,7 @@ class Playlist(GObject.GObject):
                 ?playlist nfo:hasMediaFileListEntry ?entry .
             }
             FILTER (
-                tracker:id(?playlist) = %(playlist_id)s
+                ?playlist = <%(playlist_id)s>
             )
         }
         """.replace("\n", " ").strip() % {
@@ -567,8 +567,8 @@ class Playlist(GObject.GObject):
                                         ?removed_entry .
                             ?removed_entry nfo:listPosition ?removed_position .
                             FILTER (
-                                tracker:id(?playlist) = %(playlist_id)s &&
-                                tracker:id(?removed_entry) = %(entry_id)s
+                                ?playlist = <%(playlist_id)s> &&
+                                ?removed_entry = <%(entry_id)s>
                             )
                         }
                     }
@@ -585,7 +585,7 @@ class Playlist(GObject.GObject):
                               a nfo:MediaList ;
                                 nfo:entryCounter ?counter .
                     FILTER (
-                        tracker:id(?playlist) = %(playlist_id)s
+                        ?playlist = <%(playlist_id)s>
                     )
                 }
             };
@@ -598,8 +598,8 @@ class Playlist(GObject.GObject):
                           a nfo:MediaList ;
                             nfo:hasMediaFileListEntry ?entry .
                 FILTER (
-                    tracker:id(?playlist) = %(playlist_id)s &&
-                    tracker:id(?entry) = %(entry_id)s
+                    ?playlist = <%(playlist_id)s> &&
+                    ?entry = <%(entry_id)s>
                 )
             }
             """.replace("\n", " ").strip() % {
@@ -626,7 +626,7 @@ class Playlist(GObject.GObject):
         """.replace("\n", " ").strip() % {
             "media_type": int(Grl.MediaType.AUDIO),
             "position": position + 1,
-            "filter_clause_pl": "tracker:id(?playlist) = " + self.props.pl_id,
+            "filter_clause_pl": f"?playlist = <{self.props.pl_id}>",
         }
 
         self._source.query(
@@ -702,8 +702,8 @@ class Playlist(GObject.GObject):
             } LIMIT 1
             """.replace("\n", " ").strip() % {
                 "media_type": int(Grl.MediaType.AUDIO),
-                "filter_clause_song": "tracker:id(?song) = " + media_id,
-                "filter_clause_pl": "tracker:id(?playlist) = " + pl_id,
+                "filter_clause_song": f"?song = <{media_id}>",
+                "filter_clause_pl": f"?playlist = <{pl_id}>",
                 "location_filter": self._tracker_wrapper.location_filter(),
                 "miner_fs_busname": miner_fs_busname,
             }
@@ -729,7 +729,7 @@ class Playlist(GObject.GObject):
                               a nfo:MediaList ;
                                 nfo:entryCounter ?counter .
                     FILTER (
-                        tracker:id(?playlist) = %(playlist_id)s
+                        ?playlist = <%(playlist_id)s>
                     )
                 }
             }
@@ -764,8 +764,8 @@ class Playlist(GObject.GObject):
                       a nfo:MediaList ;
                         nfo:hasMediaFileListEntry ?entry .
             FILTER (
-                tracker:id(?playlist) = %(playlist_id)s &&
-                tracker:id(?entry) = %(song_id)s
+                ?playlist = <%(playlist_id)s> &&
+                ?entry = <%(song_id)s>
             )
         }
         """.replace("\n", " ").strip()
