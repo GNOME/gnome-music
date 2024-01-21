@@ -284,8 +284,7 @@ class TrackerWrapper(GObject.GObject):
             try:
                 conn.update_finish(res)
             except GLib.Error as e:
-                self._log.warning("Unable to update play count: {}".format(
-                    e.message))
+                self._log.warning(f"Unable to update last played: {e.message}")
 
         self._local_db.update_async(update, None, _update_last_played_cb)
 
