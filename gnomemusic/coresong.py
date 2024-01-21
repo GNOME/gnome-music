@@ -173,6 +173,7 @@ class CoreSong(GObject.GObject):
             return
 
         self.props.media.set_play_count(self.props.play_count + 1)
+        self.update(self.props.media)
         self._coregrilo.writeback_tracker(
             self.props.media, "play-count")
 
