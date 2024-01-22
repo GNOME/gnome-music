@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2024-01-02 14:38+0000\n"
-"PO-Revision-Date: 2024-01-05 12:56+0100\n"
+"POT-Creation-Date: 2024-01-22 12:32+0000\n"
+"PO-Revision-Date: 2024-01-22 19:22+0100\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -22,8 +22,8 @@ msgstr ""
 "X-Generator: Poedit 3.4.2\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/about.py:243
-#: gnomemusic/application.py:61 gnomemusic/window.py:71
+#: data/org.gnome.Music.desktop.in.in:3 data/ui/StatusNavigationPage.ui:4
+#: gnomemusic/about.py:243 gnomemusic/application.py:59 gnomemusic/window.py:71
 msgid "Music"
 msgstr "Hudba"
 
@@ -109,17 +109,10 @@ msgid "Enables or disables inhibiting system suspend while playing music"
 msgstr ""
 "Zapne nebo vypne blokování uspávání systému ve chvíli, kdy se přehrává hudba."
 
-#: data/org.gnome.Music.gschema.xml:38
-msgid "Report music history to Last.fm"
-msgstr "Sdělovat Last.fm hudební historii"
-
-#: data/org.gnome.Music.gschema.xml:39
-msgid ""
-"Enables or disables sending scrobbles and the “currently playing” info to "
-"Last.fm."
-msgstr ""
-"Povolí nebo zakáže zasílání informací o dříve a právě přehrávaných skladbách "
-"do služby Last.fm."
+#: data/ui/AlbumsSearchNavigationPage.ui:5 data/ui/SearchView.ui:95
+#: gnomemusic/views/albumsview.py:53
+msgid "Albums"
+msgstr "Alba"
 
 #: data/ui/AlbumWidget.ui:84 data/ui/PlayerToolbar.ui:87
 #: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:170
@@ -139,59 +132,38 @@ msgstr "Přidat do o_blíbených skladeb"
 msgid "_Add to Playlist…"
 msgstr "Přid_at do seznamu k přehrání…"
 
-#: data/ui/AppMenu.ui:22 data/ui/LastfmDialog.ui:8
-msgid "Last.fm Account"
-msgstr "Účet Last.fm"
-
-#: data/ui/AppMenu.ui:35
-msgid "Report Music Listening"
-msgstr "Sdělovat poslouchané skladby"
-
-#: data/ui/AppMenu.ui:57
-msgid "_Keyboard Shortcuts"
-msgstr "_Klávesové zkratky"
-
-#: data/ui/AppMenu.ui:67
-msgid "_Help"
-msgstr "_Nápověda"
-
-#: data/ui/AppMenu.ui:77
-msgid "_About Music"
-msgstr "O _aplikaci Hudba"
-
-#: data/ui/ArtistsView.ui:9 data/ui/SearchView.ui:33
+#: data/ui/ArtistsSearchNavigationPage.ui:5 data/ui/SearchView.ui:40
 #: gnomemusic/views/artistsview.py:51
 msgid "Artists"
 msgstr "Umělci"
 
-#: data/ui/ArtistsView.ui:27
-msgid "Artist"
-msgstr "Umělec"
-
-#: data/ui/EmptyView.ui:30
-msgid "Welcome to Music"
-msgstr "Vítejte v Hudbě"
-
-#: data/ui/HeaderBar.ui:17
+#: data/ui/HeaderBar.ui:14
 msgid "Menu"
 msgstr "Nabídka"
 
-#: data/ui/HeaderBar.ui:25 data/ui/SearchHeaderBar.ui:15
+#: data/ui/HeaderBar.ui:22
 msgid "Select"
 msgstr "Vybrat"
 
-#: data/ui/HeaderBar.ui:31 data/ui/PlaylistDialog.ui:213
-#: data/ui/SearchHeaderBar.ui:20
+#: data/ui/HeaderBar.ui:28 data/ui/PlaylistDialog.ui:208
 msgid "_Cancel"
 msgstr "_Zrušit"
 
-#: data/ui/HeaderBar.ui:43 data/ui/SearchHeaderBar.ui:32
+#: data/ui/HeaderBar.ui:40 data/ui/SearchHeaderBar.ui:12
 msgid "Search"
 msgstr "Hledat"
 
-#: data/ui/HeaderBar.ui:51
-msgid "Back"
-msgstr "Zpět"
+#: data/ui/HeaderBar.ui:56
+msgid "Keyboard Shortcuts"
+msgstr "Klávesové zkratky"
+
+#: data/ui/HeaderBar.ui:60
+msgid "Help"
+msgstr "Nápověda"
+
+#: data/ui/HeaderBar.ui:64
+msgid "About Music"
+msgstr "O aplikaci Hudba"
 
 #: data/ui/help-overlay.ui:11
 msgctxt "shortcut window"
@@ -278,28 +250,6 @@ msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Přejít zpět"
 
-#: data/ui/LastfmDialog.ui:21
-msgid ""
-"Last.fm is a music discovery service that gives you personalised "
-"recommendations based on the music you listen to."
-msgstr ""
-"Last.fm je vyhledávací služba, která Vám doporučí skladby podle toho, co "
-"posloucháte."
-
-#: data/ui/LastfmDialog.ui:31 gnomemusic/widgets/lastfmdialog.py:57
-msgid "Music Reporting Not Setup"
-msgstr "Sdělování informací není nastavené"
-
-#: data/ui/LastfmDialog.ui:44 gnomemusic/widgets/lastfmdialog.py:60
-msgid "Login to your Last.fm account to report your music listening."
-msgstr ""
-"Aby se mohly sdělovat informace, co posloucháte, musíte s k Last.fm "
-"přihlásit."
-
-#: data/ui/LastfmDialog.ui:55 gnomemusic/widgets/lastfmdialog.py:58
-msgid "Login"
-msgstr "Přihlásit"
-
 #: data/ui/PlayerToolbar.ui:74
 msgid "Previous"
 msgstr "Předchozí"
@@ -332,31 +282,27 @@ msgstr "Zadejte název pro svůj první seznam k přehrání"
 msgid "C_reate"
 msgstr "_Vytvořit"
 
-#: data/ui/PlaylistDialog.ui:146
+#: data/ui/PlaylistDialog.ui:141
 msgid "New Playlist…"
 msgstr "Nový seznam k přehrání…"
 
-#: data/ui/PlaylistDialog.ui:161
+#: data/ui/PlaylistDialog.ui:156
 msgid "Add"
 msgstr "Přidat"
 
-#: data/ui/PlaylistDialog.ui:202
+#: data/ui/PlaylistDialog.ui:197
 msgid "Add to Playlist"
 msgstr "Přidání do seznamu k přehrání"
 
-#: data/ui/PlaylistDialog.ui:222
+#: data/ui/PlaylistDialog.ui:217
 msgid "_Add"
 msgstr "Přid_at"
 
-#: data/ui/SearchView.ui:42 data/ui/SearchView.ui:84
+#: data/ui/SearchView.ui:54 data/ui/SearchView.ui:109
 msgid "View All"
 msgstr "Zobrazit vše"
 
-#: data/ui/SearchView.ui:75 gnomemusic/views/albumsview.py:56
-msgid "Albums"
-msgstr "Alba"
-
-#: data/ui/SearchView.ui:117 gnomemusic/views/songsview.py:52
+#: data/ui/SearchView.ui:150 gnomemusic/views/songsview.py:52
 msgid "Songs"
 msgstr "Skladby"
 
@@ -368,7 +314,7 @@ msgstr "Vybrat vše"
 msgid "Select None"
 msgstr "Zrušit výběr"
 
-#: data/ui/SelectionBarMenuButton.ui:19 gnomemusic/widgets/headerbar.py:69
+#: data/ui/SelectionBarMenuButton.ui:19 gnomemusic/widgets/headerbar.py:67
 msgid "Click on items to select them"
 msgstr "Klikáním vyberte položky"
 
@@ -379,6 +325,10 @@ msgstr "Přid_at do seznamu k přehrání"
 #: data/ui/SongWidgetMenu.ui:19
 msgid "_Remove from Playlist"
 msgstr "Odeb_rat ze seznamu k přehrání"
+
+#: data/ui/StatusNavigationPage.ui:36
+msgid "Welcome to Music"
+msgstr "Vítejte v Hudbě"
 
 #: gnomemusic/about.py:245
 msgid "The GNOME Project"
@@ -481,63 +431,33 @@ msgstr "Zpět"
 msgid "{} removed from {}"
 msgstr "Skladba {} byla odebrána ze seznamu {}"
 
-#: gnomemusic/utils.py:92
+#: gnomemusic/utils.py:90
 msgid "Unknown album"
 msgstr "Neznámé album"
 
-#: gnomemusic/utils.py:113
+#: gnomemusic/utils.py:111
 msgid "Unknown Artist"
 msgstr "Neznámý umělec"
-
-#: gnomemusic/views/emptyview.py:65
-msgid "Your XDG Music directory is not set."
-msgstr "Nemáte nastavenou složku Hudba dle standardu XDG."
-
-#: gnomemusic/views/emptyview.py:72
-msgid "Music Folder"
-msgstr "Složka s hudbou"
-
-#. TRANSLATORS: This is a label to display a link to open user's music
-#. folder. {} will be replaced with the translated text 'Music folder'
-#: gnomemusic/views/emptyview.py:76
-msgid "The contents of your {} will appear here."
-msgstr "Zde se objeví, co obsahuje vaše {}."
-
-#: gnomemusic/views/emptyview.py:124
-msgid "No Music Found"
-msgstr "Nebyla nalezena žádná hudba"
-
-#: gnomemusic/views/emptyview.py:125
-msgid "Try a Different Search"
-msgstr "Zkuste hledat nějak jinak"
-
-#: gnomemusic/views/emptyview.py:129
-msgid "GNOME Music could not connect to Tracker."
-msgstr "Hudbě GNOME se nezdařilo spojit s programem Tracker."
-
-#: gnomemusic/views/emptyview.py:131
-msgid "Your music files cannot be indexed without Tracker running."
-msgstr "Pokud Tracker neběží, není možné indexovat hudební soubory."
-
-#: gnomemusic/views/emptyview.py:137
-msgid "Your system Tracker version seems outdated."
-msgstr "Verze programu Tracker je pravděpodoně zastaralá."
-
-#: gnomemusic/views/emptyview.py:139
-msgid "Music needs Tracker version 3.0.0 or higher."
-msgstr "Hudba potřebuje program Tracker ve verzi 3.0.0 nebo vyšší."
 
 #: gnomemusic/views/playlistsview.py:45
 msgid "Playlists"
 msgstr "Seznamy k přehrání"
 
-#: gnomemusic/views/searchview.py:304
-msgid "Artists Results"
-msgstr "Nalezení umělci"
+#: gnomemusic/views/searchview.py:220
+msgid "No Search Started"
+msgstr "Vyhledávání nebylo zahájeno"
 
-#: gnomemusic/views/searchview.py:318
-msgid "Albums Results"
-msgstr "Nalezená alba"
+#: gnomemusic/views/searchview.py:222
+msgid "Use the searchbar to start searching for albums, artists or songs"
+msgstr "Pomocí vyhledávacího pole začněte hledat alba, umělce nebo skladby"
+
+#: gnomemusic/views/searchview.py:226
+msgid "No Results Found"
+msgstr "Nebyly nalezeny žádné výsledky"
+
+#: gnomemusic/views/searchview.py:228
+msgid "Try a different search"
+msgstr "Zkuste jiné hledání"
 
 #: gnomemusic/widgets/albumwidget.py:245
 msgid "{} minute"
@@ -550,29 +470,12 @@ msgstr[2] "{} minut"
 msgid "Disc {}"
 msgstr "Disk {}"
 
-#: gnomemusic/widgets/headerbar.py:66
+#: gnomemusic/widgets/headerbar.py:64
 msgid "Selected {} song"
 msgid_plural "Selected {} songs"
 msgstr[0] "Vybrána {} skladba"
 msgstr[1] "Vybrány {} skladby"
 msgstr[2] "Vybráno {} skladeb"
-
-#: gnomemusic/widgets/lastfmdialog.py:64
-msgid "Your music listening is reported to Last.fm."
-msgstr "Údaje o vášem poslechu hudby jsou sdělovány na Last.fm."
-
-#: gnomemusic/widgets/lastfmdialog.py:66
-msgid "Your music listening is not reported to Last.fm."
-msgstr "Údaje o vášem poslechu hudby nejsou sdělovány na Last.fm."
-
-#. TRANSLATORS: displays the username of the Last.fm account
-#: gnomemusic/widgets/lastfmdialog.py:70
-msgid "Logged in as {}"
-msgstr "Přihlášeno pod jménem {}"
-
-#: gnomemusic/widgets/lastfmdialog.py:71
-msgid "Configure"
-msgstr "Nastavit"
 
 #: gnomemusic/widgets/playertoolbar.py:167
 msgid "Pause"
@@ -585,6 +488,105 @@ msgstr[0] "{} skladba"
 msgstr[1] "{} skladby"
 msgstr[2] "{} skladeb"
 
-#: gnomemusic/widgets/searchheaderbar.py:66
-msgid "Search songs, artists, albums and playlists"
-msgstr "Vyhledávejte skladby, umělce, alba a seznamy skladeb"
+#: gnomemusic/widgets/searchheaderbar.py:50
+msgid "Search songs, artists and albums"
+msgstr "Vyhledávejte skladby, umělce a alba"
+
+#: gnomemusic/widgets/statusnavigationpage.py:51
+msgid "Your XDG Music directory is not set."
+msgstr "Nemáte nastavenou složku Hudba dle standardu XDG."
+
+#: gnomemusic/widgets/statusnavigationpage.py:58
+msgid "Music Folder"
+msgstr "Složka s hudbou"
+
+#. TRANSLATORS: This is a label to display a link to open user's music
+#. folder. {} will be replaced with the translated text 'Music folder'
+#: gnomemusic/widgets/statusnavigationpage.py:66
+msgid "The contents of your {} will appear here."
+msgstr "Zde se objeví, co obsahuje vaše {}."
+
+#: gnomemusic/widgets/statusnavigationpage.py:116
+msgid "No Music Found"
+msgstr "Nebyla nalezena žádná hudba"
+
+#: gnomemusic/widgets/statusnavigationpage.py:117
+msgid "Try a Different Search"
+msgstr "Zkuste hledat nějak jinak"
+
+#: gnomemusic/widgets/statusnavigationpage.py:121
+msgid "GNOME Music could not connect to Tracker."
+msgstr "Hudbě GNOME se nezdařilo spojit s programem Tracker."
+
+#: gnomemusic/widgets/statusnavigationpage.py:123
+msgid "Your music files cannot be indexed without Tracker running."
+msgstr "Pokud Tracker neběží, není možné indexovat hudební soubory."
+
+#: gnomemusic/widgets/statusnavigationpage.py:129
+msgid "Your system Tracker version seems outdated."
+msgstr "Verze programu Tracker je pravděpodoně zastaralá."
+
+#: gnomemusic/widgets/statusnavigationpage.py:131
+msgid "Music needs Tracker version 3.0.0 or higher."
+msgstr "Hudba potřebuje program Tracker ve verzi 3.0.0 nebo vyšší."
+
+#~ msgid "Report music history to Last.fm"
+#~ msgstr "Sdělovat Last.fm hudební historii"
+
+#~ msgid ""
+#~ "Enables or disables sending scrobbles and the “currently playing” info to "
+#~ "Last.fm."
+#~ msgstr ""
+#~ "Povolí nebo zakáže zasílání informací o dříve a právě přehrávaných "
+#~ "skladbách do služby Last.fm."
+
+#~ msgid "Last.fm Account"
+#~ msgstr "Účet Last.fm"
+
+#~ msgid "Report Music Listening"
+#~ msgstr "Sdělovat poslouchané skladby"
+
+#~ msgid "_Help"
+#~ msgstr "_Nápověda"
+
+#~ msgid "Artist"
+#~ msgstr "Umělec"
+
+#~ msgid "Back"
+#~ msgstr "Zpět"
+
+#~ msgid ""
+#~ "Last.fm is a music discovery service that gives you personalised "
+#~ "recommendations based on the music you listen to."
+#~ msgstr ""
+#~ "Last.fm je vyhledávací služba, která Vám doporučí skladby podle toho, co "
+#~ "posloucháte."
+
+#~ msgid "Music Reporting Not Setup"
+#~ msgstr "Sdělování informací není nastavené"
+
+#~ msgid "Login to your Last.fm account to report your music listening."
+#~ msgstr ""
+#~ "Aby se mohly sdělovat informace, co posloucháte, musíte s k Last.fm "
+#~ "přihlásit."
+
+#~ msgid "Login"
+#~ msgstr "Přihlásit"
+
+#~ msgid "Artists Results"
+#~ msgstr "Nalezení umělci"
+
+#~ msgid "Albums Results"
+#~ msgstr "Nalezená alba"
+
+#~ msgid "Your music listening is reported to Last.fm."
+#~ msgstr "Údaje o vášem poslechu hudby jsou sdělovány na Last.fm."
+
+#~ msgid "Your music listening is not reported to Last.fm."
+#~ msgstr "Údaje o vášem poslechu hudby nejsou sdělovány na Last.fm."
+
+#~ msgid "Logged in as {}"
+#~ msgstr "Přihlášeno pod jménem {}"
+
+#~ msgid "Configure"
+#~ msgstr "Nastavit"
