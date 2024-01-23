@@ -33,6 +33,7 @@
                                 <property name="hexpand">True</property>
                                 <property name="homogeneous">True</property>
                                 <property name="orientation">horizontal</property>
+                                <property name="visible">False</property>
                                 <child>
                                   <object class="GtkLabel">
                                     <property name="focusable">False</property>
@@ -79,6 +80,7 @@
                                 <property name="row_spacing">12</property>
                                 <property name="selection-mode">none</property>
                                 <property name="valign">start</property>
+                                <property name="visible">False</property>
                                 <signal name="child-activated" handler="_on_artist_activated" swapped="no"/>
                               </object>
                             </child>
@@ -88,6 +90,7 @@
                                 <property name="hexpand">True</property>
                                 <property name="homogeneous">True</property>
                                 <property name="orientation">horizontal</property>
+                                <property name="visible">False</property>
                                 <child>
                                   <object class="GtkLabel">
                                     <property name="focusable">False</property>
@@ -126,6 +129,7 @@
                                 <property name="halign">fill</property>
                                 <property name="hexpand">True</property>
                                 <property name="valign">start</property>
+                                <property name="visible">False</property>
                                 <property name="homogeneous">True</property>
                                 <property name="min_children_per_line">1</property>
                                 <property name="max_children_per_line">6</property>
