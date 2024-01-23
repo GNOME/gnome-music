@@ -59,7 +59,6 @@ class CoreAlbum(GObject.GObject):
         self._application = application
         self._coregrilo = application.props.coregrilo
         self._model = None
-        self._selected = False
         self._thumbnail = None
 
         self.update(media)
@@ -99,9 +98,6 @@ class CoreAlbum(GObject.GObject):
 
     def _on_list_items_changed(self, model, position, removed, added):
         with self.freeze_notify():
-            for coredisc in model:
-                coredisc.props.selected = self.props.selected
-
             if added > 0:
                 for i in range(added):
                     coredisc = model[position + i]
@@ -115,24 +111,6 @@ class CoreAlbum(GObject.GObject):
             duration += coredisc.props.duration
 
         self.props.duration = duration
-
-    @GObject.Property(type=bool, default=False)
-    def selected(self):
-        return self._selected
-
-    @selected.setter  # type: ignore
-    def selected(self, value):
-        if value == self._selected:
-            return
-
-        self._selected = value
-
-        # The model is loaded on-demand, so the first time the model is
-        # returned it can still be empty. This is problem for returning
-        # a selection. Trigger loading of the model here if a selection
-        # is requested, it will trigger the filled model update as
-        # well.
-        self.props.model.items_changed(0, 0, 0)
 
     @GObject.Property(type=str, default=None)
     def thumbnail(self):

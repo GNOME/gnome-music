@@ -77,7 +77,6 @@ class CoreSong(GObject.GObject):
         self._application: Application = application
         self._coregrilo: CoreGrilo = application.props.coregrilo
         self._favorite: bool = False
-        self._selected: bool = False
         self._thumbnail: Optional[str] = None
 
         self.props.grlid = media.get_source() + media.get_id()
@@ -137,20 +136,6 @@ class CoreSong(GObject.GObject):
 
         if self._is_tracker:
             self._coregrilo.writeback_tracker(self.props.media, "last-played")
-
-    @GObject.Property(type=bool, default=False)
-    def selected(self) -> bool:
-        return self._selected
-
-    @selected.setter  # type: ignore
-    def selected(self, value: bool) -> None:
-        if not self._is_tracker:
-            return
-
-        if self._selected == value:
-            return
-
-        self._selected = value
 
     @GObject.Property(type=str, default=None)
     def thumbnail(self) -> str:

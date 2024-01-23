@@ -48,7 +48,6 @@ class CoreDisc(GObject.GObject):
         self._coremodel = application.props.coremodel
         self._log = application.props.log
         self._model = None
-        self._selected = False
 
         self.update(media)
         self.props.disc_nr = nr
@@ -78,26 +77,6 @@ class CoreDisc(GObject.GObject):
         with self.freeze_notify():
             duration = 0
             for coresong in model:
-                coresong.props.selected = self._selected
                 duration += coresong.props.duration
 
             self.props.duration = duration
-
-    @GObject.Property(
-        type=bool, default=False, flags=GObject.ParamFlags.READWRITE)
-    def selected(self):
-        return self._selected
-
-    @selected.setter  # type: ignore
-    def selected(self, value):
-        if value == self._selected:
-            return
-
-        self._selected = value
-
-        # The model is loaded on-demand, so the first time the model is
-        # returned it can still be empty. This is problem for returning
-        # a selection. Trigger loading of the model here if a selection
-        # is requested, it will trigger the filled model update as
-        # well.
-        self.props.model.items_changed(0, 0, 0)
