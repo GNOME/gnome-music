@@ -61,7 +61,6 @@ class CoreGrilo(GObject.GObject):
 
         self._application = application
         self._coremodel = self._application.props.coremodel
-        self._coreselection = application.props.coreselection
         self._log = application.props.log
         self._search_wrappers = {}
         self._thumbnail_sources = []

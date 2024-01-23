@@ -36,7 +36,6 @@ from gnomemusic.songart import SongArt
 if typing.TYPE_CHECKING:
     from gnomemusic.application import Application
     from gnomemusic.coregrilo import CoreGrilo
-    from gnomemusic.coreselection import CoreSelection
 import gnomemusic.utils as utils
 
 
@@ -77,7 +76,6 @@ class CoreSong(GObject.GObject):
 
         self._application: Application = application
         self._coregrilo: CoreGrilo = application.props.coregrilo
-        self._coreselection: CoreSelection = application.props.coreselection
         self._favorite: bool = False
         self._selected: bool = False
         self._thumbnail: Optional[str] = None
@@ -153,7 +151,6 @@ class CoreSong(GObject.GObject):
             return
 
         self._selected = value
-        self._coreselection.update_selection(self, self._selected)
 
     @GObject.Property(type=str, default=None)
     def thumbnail(self) -> str:

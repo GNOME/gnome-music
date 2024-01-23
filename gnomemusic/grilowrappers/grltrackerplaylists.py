@@ -327,7 +327,6 @@ class Playlist(GObject.GObject):
         self._model = None
         self._source = source
         self._coremodel = application.props.coremodel
-        self._coreselection = application.props.coreselection
         self._log = application.props.log
         self._songs_hash = songs_hash
         self._tracker = tracker_wrapper.props.local_db

@@ -38,7 +38,6 @@ from gi.repository import Adw, Gtk, Gio, GLib, Gdk, GObject
 from gnomemusic.about import show_about
 from gnomemusic.coregrilo import CoreGrilo
 from gnomemusic.coremodel import CoreModel
-from gnomemusic.coreselection import CoreSelection
 from gnomemusic.inhibitsuspend import InhibitSuspend
 from gnomemusic.mpris import MPRIS
 from gnomemusic.musiclogger import MusicLogger
@@ -67,10 +66,9 @@ class Application(Adw.Application):
         self._search = Search()
 
         self._notificationmanager = NotificationManager(self)
-        self._coreselection = CoreSelection()
         self._coremodel = CoreModel(self)
         # Order is important: CoreGrilo initializes the Grilo sources,
-        # which in turn use CoreModel & CoreSelection extensively.
+        # which in turn uses CoreModel extensively.
         self._coregrilo = CoreGrilo(self)
 
         self._settings = Gio.Settings.new('org.gnome.Music')
@@ -128,16 +126,6 @@ class Application(Adw.Application):
         :rtype: CoreModel
         """
         return self._coremodel
-
-    @GObject.Property(
-        type=CoreSelection, flags=GObject.ParamFlags.READABLE)
-    def coreselection(self):
-        """Get selection object.
-
-        :returns: Object containing all selection info
-        :rtype: CoreSelection
-        """
-        return self._coreselection
 
     @GObject.Property(type=Window, flags=GObject.ParamFlags.READABLE)
     def window(self):

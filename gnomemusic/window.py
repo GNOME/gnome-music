@@ -48,7 +48,6 @@ class Window(Adw.ApplicationWindow):
     __gtype_name__ = "Window"
 
     active_view = GObject.Property(type=GObject.GObject, default=None)
-    selected_songs_count = GObject.Property(type=int, default=0, minimum=0)
 
     _loading_progress = Gtk.Template.Child()
     _main_navigation_page = Gtk.Template.Child()
@@ -67,10 +66,6 @@ class Window(Adw.ApplicationWindow):
         super().__init__(application=app, title=_("Music"))
 
         self._app = app
-        self._coreselection = app.props.coreselection
-
-        self._coreselection.bind_property(
-            "selected-songs-count", self, "selected-songs-count")
 
         self.set_size_request(360, 294)
         WindowPlacement(self)

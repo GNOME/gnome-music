@@ -65,7 +65,6 @@ class GrlSearchWrapper(GObject.GObject):
         super().__init__()
 
         self._application = application
-        self._coreselection = application.props.coreselection
         self._log = application.props.log
         self._source = source
 
