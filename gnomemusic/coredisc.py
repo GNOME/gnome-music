@@ -22,7 +22,9 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from gi.repository import GObject, Gio, Grl, Gtk
+from gi.repository import GObject, Grl, Gtk
+
+from gnomemusic.coresong import CoreSong
 
 
 class CoreDisc(GObject.GObject):
@@ -44,7 +46,6 @@ class CoreDisc(GObject.GObject):
 
         self._coregrilo = application.props.coregrilo
         self._coremodel = application.props.coremodel
-        self._filter_model = None
         self._log = application.props.log
         self._model = None
         self._selected = False
@@ -55,31 +56,21 @@ class CoreDisc(GObject.GObject):
     def update(self, media):
         self.props.media = media
 
-    @GObject.Property(type=Gio.ListModel, default=None)
-    def model(self):
-        def _disc_sort(song_a, song_b, data=None):
-            order = song_a.props.track_number - song_b.props.track_number
-            if order < 0:
-                return Gtk.Ordering.SMALLER
-            elif order > 0:
-                return Gtk.Ordering.LARGER
-            else:
-                return Gtk.Ordering.EQUAL
-
+    @GObject.Property(type=Gtk.SortListModel, default=None)
+    def model(self) -> Gtk.SortListModel:
         if self._model is None:
-            self._filter_model = Gtk.FilterListModel.new(
+            filter_model = Gtk.FilterListModel.new(
                 self._coremodel.props.songs)
-            self._filter_model.set_filter(Gtk.AnyFilter())
+            filter_model.set_filter(Gtk.AnyFilter())
 
-            self._model = Gtk.SortListModel.new(self._filter_model)
-            disc_sorter = Gtk.CustomSorter()
-            disc_sorter.set_sort_func(_disc_sort)
-            self._model.set_sorter(disc_sorter)
-
+            song_exp = Gtk.PropertyExpression.new(
+                CoreSong, None, "track-number")
+            song_sorter = Gtk.NumericSorter.new(song_exp)
+            self._model = Gtk.SortListModel.new(filter_model, song_sorter)
             self._model.connect("items-changed", self._on_disc_changed)
 
             self._coregrilo.get_album_disc(
-                self.props.media, self.props.disc_nr, self._filter_model)
+                self.props.media, self.props.disc_nr, filter_model)
 
         return self._model
 

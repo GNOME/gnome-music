@@ -276,20 +276,13 @@ class PlayerPlaylist(GObject.GObject):
         self._model_recent.set_offset(offset)
 
     def _on_repeat_mode_changed(self, klass, param):
-        def _shuffle_sort(song_a, song_b, data=None):
-            if song_a.props.shuffle_pos < song_b.props.shuffle_pos:
-                return Gtk.Ordering.SMALLER
-            elif song_a.props.shuffle_pos > song_b.props.shuffle_pos:
-                return Gtk.Ordering.LARGER
-            else:
-                return Gtk.Ordering.EQUAL
-
         if self.props.repeat_mode == RepeatMode.SHUFFLE:
             for idx, coresong in enumerate(self._model):
                 coresong.update_shuffle_pos()
 
-            songs_sorter = Gtk.CustomSorter()
-            songs_sorter.set_sort_func(_shuffle_sort)
+            song_sorter_exp = Gtk.PropertyExpression.new(
+                CoreSong, None, "shuffle-pos")
+            songs_sorter = Gtk.NumericSorter.new(song_sorter_exp)
             self._model.set_sorter(songs_sorter)
         elif self.props.repeat_mode in [RepeatMode.NONE, RepeatMode.ALL]:
             self._model.set_sorter(None)

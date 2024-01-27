@@ -31,6 +31,7 @@ from gi.repository import Gio, Grl, Gtk, GObject
 import gnomemusic.utils as utils
 
 from gnomemusic.albumart import AlbumArt
+from gnomemusic.coredisc import CoreDisc
 
 
 class CoreAlbum(GObject.GObject):
@@ -77,20 +78,9 @@ class CoreAlbum(GObject.GObject):
 
     def _get_album_model(self):
         disc_model = Gio.ListStore()
-        disc_model_sort = Gtk.SortListModel.new(disc_model)
-
-        def _disc_order_sort(disc_a, disc_b, data=None):
-            order = disc_a.props.disc_nr - disc_b.props.disc_nr
-            if order < 0:
-                return Gtk.Ordering.SMALLER
-            elif order > 0:
-                return Gtk.Ordering.LARGER
-            else:
-                return Gtk.Ordering.EQUAL
-
-        disc_sorter = Gtk.CustomSorter()
-        disc_sorter.set_sort_func(_disc_order_sort)
-        disc_model_sort.set_sorter(disc_sorter)
+        disc_no_exp = Gtk.PropertyExpression.new(CoreDisc, None, "disc_nr")
+        disc_sorter = Gtk.NumericSorter.new(disc_no_exp)
+        disc_model_sort = Gtk.SortListModel.new(disc_model, disc_sorter)
 
         self._coregrilo.get_album_discs(self.props.media, disc_model)
 

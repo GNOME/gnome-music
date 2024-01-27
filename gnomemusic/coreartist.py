@@ -27,6 +27,7 @@ gi.require_versions({"Grl": "0.3"})
 from gi.repository import Grl, Gtk, GObject
 
 from gnomemusic.artistart import ArtistArt
+from gnomemusic.corealbum import CoreAlbum
 import gnomemusic.utils as utils
 
 
@@ -63,26 +64,13 @@ class CoreArtist(GObject.GObject):
             self._coremodel.props.albums)
         albums_model_filter.set_filter(Gtk.AnyFilter())
 
-        albums_model_sort = Gtk.SortListModel.new(albums_model_filter)
+        albums_sort_exp = Gtk.PropertyExpression.new(CoreAlbum, None, "year")
+        albums_sorter = Gtk.StringSorter.new(albums_sort_exp)
+        albums_model_sort = Gtk.SortListModel.new(
+            albums_model_filter, albums_sorter)
 
         self._coregrilo.get_artist_albums(
             self.props.media, albums_model_filter)
-
-        def _album_sort(album_a, album_b, data=None):
-            year_a = album_a.props.year
-            year_b = album_b.props.year
-            if None in [year_a, year_b]:
-                return Gtk.Ordering.EQUAL
-            elif year_a > year_b:
-                return Gtk.Ordering.LARGER
-            elif year_a < year_b:
-                return Gtk.Ordering.SMALLER
-            else:
-                return Gtk.Ordering.EQUAL
-
-        albums_sorter = Gtk.CustomSorter()
-        albums_sorter.set_sort_func(_album_sort)
-        albums_model_sort.set_sorter(albums_sorter)
 
         return albums_model_sort
 

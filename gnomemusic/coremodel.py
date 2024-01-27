@@ -104,21 +104,20 @@ class CoreModel(GObject.GObject):
             Gio.ListModel)
         self._albums_model: Gtk.FlattenListModel = Gtk.FlattenListModel.new(
             self._albums_model_proxy)
+        album_sort_exp = Gtk.PropertyExpression.new(CoreAlbum, None, "title")
+        albums_sorter = Gtk.StringSorter.new(album_sort_exp)
         self._albums_model_sort: Gtk.SortListModel = Gtk.SortListModel.new(
-            self._albums_model)
-        albums_sorter = Gtk.CustomSorter()
-        albums_sorter.set_sort_func(self._albums_sort)
-        self._albums_model_sort.set_sorter(albums_sorter)
+            self._albums_model, albums_sorter)
 
         self._artists_model_proxy: Gio.ListStore = Gio.ListStore.new(
             Gio.ListModel)
         self._artists_model: Gtk.FlattenListModel = Gtk.FlattenListModel.new(
             self._artists_model_proxy)
+        artists_sort_exp = Gtk.PropertyExpression.new(
+            CoreArtist, None, "artist")
+        artists_sorter = Gtk.StringSorter.new(artists_sort_exp)
         self._artists_model_sort: Gtk.SortListModel = Gtk.SortListModel.new(
-            self._artists_model)
-        artists_sorter = Gtk.CustomSorter()
-        artists_sorter.set_sort_func(self._artist_sort)
-        self._artists_model_sort.set_sorter(artists_sorter)
+            self._artists_model, artists_sorter)
 
         self._playlist_model: Gio.ListStore = Gio.ListStore.new(CoreSong)
         self._playlist_model_sort: Gtk.SortListModel = Gtk.SortListModel.new(
@@ -202,14 +201,6 @@ class CoreModel(GObject.GObject):
             return utils.natural_sort_names(artist_a, artist_b)
 
         return utils.natural_sort_names(song_a.props.album, song_b.props.album)
-
-    def _albums_sort(self, album_a, album_b, data=None):
-        return utils.natural_sort_names(
-            album_a.props.title, album_b.props.title)
-
-    def _artist_sort(self, artist_a, artist_b, data=None):
-        return utils.natural_sort_names(
-            artist_a.props.artist, artist_b.props.artist)
 
     def _playlists_sort(self, playlist_a, playlist_b, data=None):
         if playlist_a.props.is_smart:
