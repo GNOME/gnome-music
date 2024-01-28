@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk" version="4.0"/>
-  <template class="PlaylistDialog" parent="AdwWindow">
+  <template class="PlaylistDialog" parent="AdwDialog">
     <property name="width_request">400</property>
     <property name="height_request">500</property>
     <property name="focusable">False</property>
-    <property name="modal">True</property>
-    <property name="destroy_with_parent">True</property>
-    <property name="content">
+    <property name="child">
       <object class="AdwToolbarView" id="_toolbar_view">
         <child type="top">
           <object class="AdwHeaderBar" id="_title_bar">

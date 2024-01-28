@@ -275,8 +275,7 @@ class AlbumWidget(Adw.Bin):
         self._playlist_dialog = PlaylistDialog(
             self._application, selected_songs)
         active_window = self._application.props.active_window
-        self._playlist_dialog.props.transient_for = active_window
-        self._playlist_dialog.present()
+        self._playlist_dialog.present(active_window)
 
     def _on_play_action(
             self, action: Gio.SimpleAction,

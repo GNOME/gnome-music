@@ -57,7 +57,7 @@ endif
 dependency('glib-2.0', version: '>= 2.67.1')
 dependency('gobject-introspection-1.0', version: '>= 1.35.0')
 dependency('gtk4', version: '>= 4.6.2')
-dependency('libadwaita-1', version: '>= 1.4.0')
+dependency('libadwaita-1', version: '>= 1.5.beta')
 dependency('libmediaart-2.0', version: '>= 1.9.1')
 dependency('libsoup-3.0')
 dependency('tracker-sparql-3.0', version: '>= 2.99.3')

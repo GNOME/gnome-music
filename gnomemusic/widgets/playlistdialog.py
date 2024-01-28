@@ -37,7 +37,7 @@ if typing.TYPE_CHECKING:
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/PlaylistDialog.ui")
-class PlaylistDialog(Adw.Window):
+class PlaylistDialog(Adw.Dialog):
     """Dialog for adding items to a playlist"""
 
     __gtype_name__ = 'PlaylistDialog'
@@ -107,11 +107,11 @@ class PlaylistDialog(Adw.Window):
     @Gtk.Template.Callback()
     def _on_selection(self, select_button):
         self._selected_playlist.add_songs(self._selected_songs)
-        self.destroy()
+        self.force_close()
 
     @Gtk.Template.Callback()
     def _on_cancel_button_clicked(self, cancel_button):
-        self.destroy()
+        self.force_close()
 
     @Gtk.Template.Callback()
     def _on_selected_rows_changed(self, klass):
@@ -134,7 +134,7 @@ class PlaylistDialog(Adw.Window):
                     break
 
             self._selected_playlist.add_songs(self._selected_songs)
-            self.destroy()
+            self.force_close()
 
         text = self._add_playlist_entry.props.text
         if text:

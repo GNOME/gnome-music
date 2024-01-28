@@ -104,8 +104,7 @@ class SongWidgetMenu(Gtk.PopoverMenu):
         self.popdown()
         self._playlist_dialog = PlaylistDialog(
             self._application, [self._coresong])
-        self._playlist_dialog.props.transient_for = self._window
-        self._playlist_dialog.present()
+        self._playlist_dialog.present(self._window)
 
     def _remove_from_playlist(self, action: Gio.Simple, param: Any) -> None:
         self.popdown()
