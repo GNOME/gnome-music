@@ -2,16 +2,16 @@
 # Copyright (C) 2013 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Yaron Shahrabani <sh.yaron@gmail.com>, 2013.
-# Yosef Or Boczko <yoseforb@gmail.com>, 2013-2023.
+# Yosef Or Boczko <yoseforb@gmail.com>, 2013-2024.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: GNOME Music\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2023-07-04 07:49+0000\n"
-"PO-Revision-Date: 2023-07-28 10:01+0300\n"
+"POT-Creation-Date: 2024-01-22 12:32+0000\n"
+"PO-Revision-Date: 2024-01-30 22:20+0200\n"
 "Last-Translator: Yosef Or Boczko <yoseforb@gmail.com>\n"
-"Language-Team: Hebrew <yoseforb@gmail.com>\n"
+"Language-Team: Hebrew\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,11 +19,11 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n==2 ? 1 : n>10 && n%10==0 ? "
 "2 : 3)\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Gtranslator 42.0\n"
+"X-Generator: Gtranslator 45.3\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/about.py:243
-#: gnomemusic/application.py:61 gnomemusic/window.py:71
+#: data/org.gnome.Music.desktop.in.in:3 data/ui/StatusNavigationPage.ui:4
+#: gnomemusic/about.py:243 gnomemusic/application.py:59 gnomemusic/window.py:71
 msgid "Music"
 msgstr "מוזיקה"
 
@@ -44,7 +44,8 @@ msgstr ""
 "איתור רצועות באוסף המקומי שלך, נעשה שימוש ברשימות נגינה שנוצרות אוטומטית או "
 "שאפשר להכין אחת חדשה."
 
-#: data/org.gnome.Music.appdata.xml.in.in:182
+#. developer_name tag deprecated with Appstream 1.0
+#: data/org.gnome.Music.appdata.xml.in.in:188
 msgid "The GNOME Music developers"
 msgstr "מפתח GNOME Music"
 
@@ -106,17 +107,10 @@ msgstr "Inhibit system suspend"
 msgid "Enables or disables inhibiting system suspend while playing music"
 msgstr "Enables or disables inhibiting system suspend while playing music"
 
-#: data/org.gnome.Music.gschema.xml:38
-msgid "Report music history to Last.fm"
-msgstr "דיווח על היסטוריית המוזיקה ל־Last.fm"
-
-#: data/org.gnome.Music.gschema.xml:39
-msgid ""
-"Enables or disables sending scrobbles and the “currently playing” info to "
-"Last.fm."
-msgstr ""
-"Enables or disables sending scrobbles and the “currently playing” info to "
-"Last.fm."
+#: data/ui/AlbumsSearchNavigationPage.ui:5 data/ui/SearchView.ui:95
+#: gnomemusic/views/albumsview.py:53
+msgid "Albums"
+msgstr "אלבומים"
 
 #: data/ui/AlbumWidget.ui:84 data/ui/PlayerToolbar.ui:87
 #: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:170
@@ -136,50 +130,39 @@ msgstr "הוספה לשירים מו_עדפים"
 msgid "_Add to Playlist…"
 msgstr "הוספה לרשימת _נגינה…"
 
-#: data/ui/AppMenu.ui:23 data/ui/LastfmDialog.ui:8
-msgid "Last.fm Account"
-msgstr "חשבון Last.fm"
+#: data/ui/ArtistsSearchNavigationPage.ui:5 data/ui/SearchView.ui:40
+#: gnomemusic/views/artistsview.py:51
+msgid "Artists"
+msgstr "אומנים"
 
-#: data/ui/AppMenu.ui:36
-msgid "Report Music Listening"
-msgstr "דיווח על האזנה למוזיקה"
-
-#: data/ui/AppMenu.ui:58
-msgid "_Keyboard Shortcuts"
-msgstr "_צירופי מקשים"
-
-#: data/ui/AppMenu.ui:68
-msgid "_Help"
-msgstr "ע_זרה"
-
-#: data/ui/AppMenu.ui:78
-msgid "_About Music"
-msgstr "על _אודות מוזיקה"
-
-#: data/ui/EmptyView.ui:30
-msgid "Welcome to Music"
-msgstr "ברוך בואך למוזיקה"
-
-#: data/ui/HeaderBar.ui:17
+#: data/ui/HeaderBar.ui:14
 msgid "Menu"
 msgstr "תפריט"
 
-#: data/ui/HeaderBar.ui:25 data/ui/SearchHeaderBar.ui:15
+#: data/ui/HeaderBar.ui:22
 msgid "Select"
 msgstr "בחירה"
 
-#: data/ui/HeaderBar.ui:31 data/ui/PlaylistDialog.ui:213
-#: data/ui/SearchHeaderBar.ui:20
+#: data/ui/HeaderBar.ui:28 data/ui/PlaylistDialog.ui:208
 msgid "_Cancel"
 msgstr "_ביטול"
 
-#: data/ui/HeaderBar.ui:43 data/ui/SearchHeaderBar.ui:32
+#: data/ui/HeaderBar.ui:40 data/ui/SearchHeaderBar.ui:12
 msgid "Search"
 msgstr "חיפוש"
 
-#: data/ui/HeaderBar.ui:51
-msgid "Back"
-msgstr "חזרה"
+#: data/ui/HeaderBar.ui:56
+msgid "Keyboard Shortcuts"
+msgstr "צירופי מקשים"
+
+#: data/ui/HeaderBar.ui:60
+# msgctxt "shortcut window"
+msgid "Help"
+msgstr "עזרה"
+
+#: data/ui/HeaderBar.ui:64
+msgid "About Music"
+msgstr "על אודות מוזיקה"
 
 #: data/ui/help-overlay.ui:11
 msgctxt "shortcut window"
@@ -266,26 +249,6 @@ msgctxt "shortcut window"
 msgid "Go back"
 msgstr "חזרה"
 
-#: data/ui/LastfmDialog.ui:21
-msgid ""
-"Last.fm is a music discovery service that gives you personalised "
-"recommendations based on the music you listen to."
-msgstr ""
-"‏Last.fm הוא שרת גילוי מוזיקה שמספק לך המלצות אישיות שמבוססות על המוזיקה לה "
-"בחרת להאזין."
-
-#: data/ui/LastfmDialog.ui:31 gnomemusic/widgets/lastfmdialog.py:57
-msgid "Music Reporting Not Setup"
-msgstr "לא מוגדר דיווח מוזיקה"
-
-#: data/ui/LastfmDialog.ui:44 gnomemusic/widgets/lastfmdialog.py:60
-msgid "Login to your Last.fm account to report your music listening."
-msgstr "יש להיכנס לחשבון Last.fm שלך על מנת לדווח על המוזיקה שמושמעת."
-
-#: data/ui/LastfmDialog.ui:55 gnomemusic/widgets/lastfmdialog.py:58
-msgid "Login"
-msgstr "כניסה"
-
 #: data/ui/PlayerToolbar.ui:74
 msgid "Previous"
 msgstr "הקודם"
@@ -318,35 +281,27 @@ msgstr "נא לתת שם לרשימת הנגינה הראשונה שלך"
 msgid "C_reate"
 msgstr "י_צירה"
 
-#: data/ui/PlaylistDialog.ui:146
+#: data/ui/PlaylistDialog.ui:141
 msgid "New Playlist…"
 msgstr "רשימת נגינה חדשה…"
 
-#: data/ui/PlaylistDialog.ui:161
+#: data/ui/PlaylistDialog.ui:156
 msgid "Add"
 msgstr "הוספה"
 
-#: data/ui/PlaylistDialog.ui:202
+#: data/ui/PlaylistDialog.ui:197
 msgid "Add to Playlist"
 msgstr "הוספה לרשימת נגינה"
 
-#: data/ui/PlaylistDialog.ui:222
+#: data/ui/PlaylistDialog.ui:217
 msgid "_Add"
 msgstr "הו_ספה"
 
-#: data/ui/SearchView.ui:33 gnomemusic/views/artistsview.py:51
-msgid "Artists"
-msgstr "אומנים"
-
-#: data/ui/SearchView.ui:42 data/ui/SearchView.ui:84
+#: data/ui/SearchView.ui:54 data/ui/SearchView.ui:109
 msgid "View All"
 msgstr "להציג הכול"
 
-#: data/ui/SearchView.ui:75 gnomemusic/views/albumsview.py:56
-msgid "Albums"
-msgstr "אלבומים"
-
-#: data/ui/SearchView.ui:117 gnomemusic/views/songsview.py:52
+#: data/ui/SearchView.ui:150 gnomemusic/views/songsview.py:52
 msgid "Songs"
 msgstr "שירים"
 
@@ -358,7 +313,7 @@ msgstr "בחירת הכול"
 msgid "Select None"
 msgstr "ביטול הבחירה"
 
-#: data/ui/SelectionBarMenuButton.ui:19 gnomemusic/widgets/headerbar.py:69
+#: data/ui/SelectionBarMenuButton.ui:19 gnomemusic/widgets/headerbar.py:67
 msgid "Click on items to select them"
 msgstr "יש ללחוץ על פריטים כדי לבחור אותם"
 
@@ -369,6 +324,10 @@ msgstr "_הוספה לרשימת נגינה"
 #: data/ui/SongWidgetMenu.ui:19
 msgid "_Remove from Playlist"
 msgstr "ה_סרה מרשימת נגינה"
+
+#: data/ui/StatusNavigationPage.ui:36
+msgid "Welcome to Music"
+msgstr "ברוך בואך למוזיקה"
 
 #: gnomemusic/about.py:245
 msgid "The GNOME Project"
@@ -470,63 +429,33 @@ msgstr "ביטול"
 msgid "{} removed from {}"
 msgstr "‏{} הוסר מתוך {}"
 
-#: gnomemusic/utils.py:92
+#: gnomemusic/utils.py:90
 msgid "Unknown album"
 msgstr "אלבום לא ידוע"
 
-#: gnomemusic/utils.py:113
+#: gnomemusic/utils.py:111
 msgid "Unknown Artist"
 msgstr "אמן לא ידוע"
-
-#: gnomemusic/views/emptyview.py:65
-msgid "Your XDG Music directory is not set."
-msgstr "תיקיית המוזיקה ב־XDG שלך אינה מוגדרת."
-
-#: gnomemusic/views/emptyview.py:72
-msgid "Music Folder"
-msgstr "תיקיית מוזיקה"
-
-#. TRANSLATORS: This is a label to display a link to open user's music
-#. folder. {} will be replaced with the translated text 'Music folder'
-#: gnomemusic/views/emptyview.py:76
-msgid "The contents of your {} will appear here."
-msgstr "התוכן של {} שלך יופיע כאן."
-
-#: gnomemusic/views/emptyview.py:124
-msgid "No Music Found"
-msgstr "לא נמצאה מוזיקה"
-
-#: gnomemusic/views/emptyview.py:125
-msgid "Try a Different Search"
-msgstr "נא לנסות חיפוש שונה"
-
-#: gnomemusic/views/emptyview.py:129
-msgid "GNOME Music could not connect to Tracker."
-msgstr "אין באפשרות GNOME Music התתחבר ל־Tracker."
-
-#: gnomemusic/views/emptyview.py:131
-msgid "Your music files cannot be indexed without Tracker running."
-msgstr "לא ניתן לסדר את קובצי המוזיקה שלך באינדקס ללא הפעלת Tracker."
-
-#: gnomemusic/views/emptyview.py:137
-msgid "Your system Tracker version seems outdated."
-msgstr "נראה כי גרסת ה־Tracker שבמערכת שלך אינה עדכנית."
-
-#: gnomemusic/views/emptyview.py:139
-msgid "Music needs Tracker version 3.0.0 or higher."
-msgstr "יישום המוזיקה דורש Tracker בגרסה 3.0.0 ומעלה."
 
 #: gnomemusic/views/playlistsview.py:45
 msgid "Playlists"
 msgstr "רשימות נגינה"
 
-#: gnomemusic/views/searchview.py:304
-msgid "Artists Results"
-msgstr "תוצאות אומנים"
+#: gnomemusic/views/searchview.py:220
+msgid "No Search Started"
+msgstr "לא החל חיפוש"
 
-#: gnomemusic/views/searchview.py:318
-msgid "Albums Results"
-msgstr "תוצאות אלבומים"
+#: gnomemusic/views/searchview.py:222
+msgid "Use the searchbar to start searching for albums, artists or songs"
+msgstr "יש להשתמש בשורת החיפוש על מנת לחפש אלבומים, אומנים או שירים"
+
+#: gnomemusic/views/searchview.py:226
+msgid "No Results Found"
+msgstr "לא נמצאו תוצאות"
+
+#: gnomemusic/views/searchview.py:228
+msgid "Try a different search"
+msgstr "יש לנסות חיפוש שונה"
 
 #: gnomemusic/widgets/albumwidget.py:245
 msgid "{} minute"
@@ -540,30 +469,13 @@ msgstr[3] "{} דקות"
 msgid "Disc {}"
 msgstr "דיסק {}"
 
-#: gnomemusic/widgets/headerbar.py:66
+#: gnomemusic/widgets/headerbar.py:64
 msgid "Selected {} song"
 msgid_plural "Selected {} songs"
 msgstr[0] "שיר נבחר"
 msgstr[1] "שני שירים נבחרו"
 msgstr[2] "{} שירים נבחרו"
 msgstr[3] "{} שירים נבחרו"
-
-#: gnomemusic/widgets/lastfmdialog.py:64
-msgid "Your music listening is reported to Last.fm."
-msgstr "ההאזנה שלך למוזיקה מדווחת ל־Last.fm."
-
-#: gnomemusic/widgets/lastfmdialog.py:66
-msgid "Your music listening is not reported to Last.fm."
-msgstr "ההאזנה שלך למוזיקה אינה מדווחת ל־Last.fm."
-
-#. TRANSLATORS: displays the username of the Last.fm account
-#: gnomemusic/widgets/lastfmdialog.py:70
-msgid "Logged in as {}"
-msgstr "נכנסת בשם {}"
-
-#: gnomemusic/widgets/lastfmdialog.py:71
-msgid "Configure"
-msgstr "הגדרה"
 
 #: gnomemusic/widgets/playertoolbar.py:167
 msgid "Pause"
@@ -577,9 +489,103 @@ msgstr[1] "שני שירים"
 msgstr[2] "{} שירים"
 msgstr[3] "{} שירים"
 
-#: gnomemusic/widgets/searchheaderbar.py:66
-msgid "Search songs, artists, albums and playlists"
-msgstr "חיפוש שירים, אמנים, אלבומים ורשימות נגינה"
+#: gnomemusic/widgets/searchheaderbar.py:50
+msgid "Search songs, artists and albums"
+msgstr "חיפוש שירים, אומנים, אלבומים ורשימות נגינה"
+
+#: gnomemusic/widgets/statusnavigationpage.py:51
+msgid "Your XDG Music directory is not set."
+msgstr "תיקיית המוזיקה ב־XDG שלך אינה מוגדרת."
+
+#: gnomemusic/widgets/statusnavigationpage.py:58
+msgid "Music Folder"
+msgstr "תיקיית מוזיקה"
+
+#. TRANSLATORS: This is a label to display a link to open user's music
+#. folder. {} will be replaced with the translated text 'Music folder'
+#: gnomemusic/widgets/statusnavigationpage.py:66
+msgid "The contents of your {} will appear here."
+msgstr "התוכן של {} שלך יופיע כאן."
+
+#: gnomemusic/widgets/statusnavigationpage.py:116
+msgid "No Music Found"
+msgstr "לא נמצאה מוזיקה"
+
+#: gnomemusic/widgets/statusnavigationpage.py:117
+msgid "Try a Different Search"
+msgstr "נא לנסות חיפוש שונה"
+
+#: gnomemusic/widgets/statusnavigationpage.py:121
+msgid "GNOME Music could not connect to Tracker."
+msgstr "אין באפשרות GNOME Music התתחבר ל־Tracker."
+
+#: gnomemusic/widgets/statusnavigationpage.py:123
+msgid "Your music files cannot be indexed without Tracker running."
+msgstr "לא ניתן לסדר את קובצי המוזיקה שלך באינדקס ללא הפעלת Tracker."
+
+#: gnomemusic/widgets/statusnavigationpage.py:129
+msgid "Your system Tracker version seems outdated."
+msgstr "נראה כי גרסת ה־Tracker שבמערכת שלך אינה עדכנית."
+
+#: gnomemusic/widgets/statusnavigationpage.py:131
+msgid "Music needs Tracker version 3.0.0 or higher."
+msgstr "יישום המוזיקה דורש Tracker בגרסה 3.0.0 ומעלה."
+
+#~ msgid "Report music history to Last.fm"
+#~ msgstr "דיווח על היסטוריית המוזיקה ל־Last.fm"
+
+#~ msgid ""
+#~ "Enables or disables sending scrobbles and the “currently playing” info to "
+#~ "Last.fm."
+#~ msgstr ""
+#~ "Enables or disables sending scrobbles and the “currently playing” info to "
+#~ "Last.fm."
+
+#~ msgid "Last.fm Account"
+#~ msgstr "חשבון Last.fm"
+
+#~ msgid "Report Music Listening"
+#~ msgstr "דיווח על האזנה למוזיקה"
+
+#~ msgid "_Help"
+#~ msgstr "ע_זרה"
+
+#~ msgid "Back"
+#~ msgstr "חזרה"
+
+#~ msgid ""
+#~ "Last.fm is a music discovery service that gives you personalised "
+#~ "recommendations based on the music you listen to."
+#~ msgstr ""
+#~ "‏Last.fm הוא שרת גילוי מוזיקה שמספק לך המלצות אישיות שמבוססות על המוזיקה "
+#~ "לה בחרת להאזין."
+
+#~ msgid "Music Reporting Not Setup"
+#~ msgstr "לא מוגדר דיווח מוזיקה"
+
+#~ msgid "Login to your Last.fm account to report your music listening."
+#~ msgstr "יש להיכנס לחשבון Last.fm שלך על מנת לדווח על המוזיקה שמושמעת."
+
+#~ msgid "Login"
+#~ msgstr "כניסה"
+
+#~ msgid "Artists Results"
+#~ msgstr "תוצאות אומנים"
+
+#~ msgid "Albums Results"
+#~ msgstr "תוצאות אלבומים"
+
+#~ msgid "Your music listening is reported to Last.fm."
+#~ msgstr "ההאזנה שלך למוזיקה מדווחת ל־Last.fm."
+
+#~ msgid "Your music listening is not reported to Last.fm."
+#~ msgstr "ההאזנה שלך למוזיקה אינה מדווחת ל־Last.fm."
+
+#~ msgid "Logged in as {}"
+#~ msgstr "נכנסת בשם {}"
+
+#~ msgid "Configure"
+#~ msgstr "הגדרה"
 
 #~ msgid "A music player and management application for GNOME."
 #~ msgstr "נגן ויישום לניהול מוזיקה עבור GNOME."
