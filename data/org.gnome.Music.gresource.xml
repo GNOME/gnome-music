@@ -28,8 +28,6 @@
     <file preprocess="xml-stripblanks">ui/PreferencesDialog.ui</file>
     <file preprocess="xml-stripblanks">ui/SearchHeaderBar.ui</file>
     <file preprocess="xml-stripblanks">ui/SearchView.ui</file>
-    <file preprocess="xml-stripblanks">ui/SongListItem.ui</file>
-    <file preprocess="xml-stripblanks">ui/SongsView.ui</file>
     <file preprocess="xml-stripblanks">ui/SongWidget.ui</file>
     <file preprocess="xml-stripblanks">ui/SongWidgetMenu.ui</file>
     <file preprocess="xml-stripblanks">ui/StatusNavigationPage.ui</file>

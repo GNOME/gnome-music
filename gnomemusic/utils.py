@@ -68,8 +68,7 @@ class View(IntEnum):
     """Enum for views"""
     ALBUM = 0
     ARTIST = 1
-    SONG = 2
-    PLAYLIST = 3
+    PLAYLIST = 2
 
 
 def get_album_title(item):

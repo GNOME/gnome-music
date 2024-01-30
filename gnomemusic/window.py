@@ -33,7 +33,6 @@ from gnomemusic.utils import View
 from gnomemusic.views.albumsview import AlbumsView
 from gnomemusic.views.artistsview import ArtistsView
 from gnomemusic.views.searchview import SearchView
-from gnomemusic.views.songsview import SongsView
 from gnomemusic.views.playlistsview import PlaylistsView
 from gnomemusic.widgets.statusnavigationpage import StatusNavigationPage
 from gnomemusic.widgets.headerbar import HeaderBar
@@ -165,7 +164,6 @@ class Window(Adw.ApplicationWindow):
         self._headerbar.props.state = HeaderBar.State.MAIN
         self.views[View.ALBUM] = AlbumsView(self._app)
         self.views[View.ARTIST] = ArtistsView(self._app)
-        self.views[View.SONG] = SongsView(self._app)
         self.views[View.PLAYLIST] = PlaylistsView(self._app)
 
         self._search_view = SearchView(self._app)
@@ -252,8 +250,6 @@ class Window(Adw.ApplicationWindow):
             if keyval in [Gdk.KEY_2, Gdk.KEY_KP_2]:
                 self._switch_to_view("artists")
             if keyval in [Gdk.KEY_3, Gdk.KEY_KP_3]:
-                self._switch_to_view("songs")
-            if keyval in [Gdk.KEY_4, Gdk.KEY_KP_4]:
                 self._switch_to_view("playlists")
         # No modifier
         else:

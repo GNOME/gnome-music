@@ -32,7 +32,6 @@ gnomemusic/views/albumsview.py
 gnomemusic/views/artistsview.py
 gnomemusic/views/playlistsview.py
 gnomemusic/views/searchview.py
-gnomemusic/views/songsview.py
 gnomemusic/widgets/albumwidget.py
 gnomemusic/widgets/discbox.py
 gnomemusic/widgets/playertoolbar.py
