@@ -110,37 +110,11 @@ class SongsView(Gtk.Box):
 
         info_box = list_row.get_first_child()
         duration_label = info_box.get_next_sibling()
-        star_box = duration_label.get_next_sibling()
-        star_image = star_box.get_first_child()
+        star_toggle = duration_label.get_next_sibling()
+        menu_button = star_toggle.get_next_sibling()
         title_label = info_box.get_first_child()
         album_label = title_label.get_next_sibling()
         artist_label = album_label.get_next_sibling()
-        menu_button = star_box.get_next_sibling()
-
-        def _on_star_toggle(
-                controller: Gtk.GestureClick, n_press: int, x: float,
-                y: float) -> None:
-            controller.set_state(Gtk.EventSequenceState.CLAIMED)
-            coresong.props.favorite = not coresong.props.favorite
-            star_image.props.favorite = coresong.props.favorite
-
-        star_click = Gtk.GestureClick()
-        star_click.props.button = 1
-        star_click.connect("released", _on_star_toggle)
-        star_image.add_controller(star_click)
-
-        def _on_star_enter(
-                controller: Gtk.EventControllerMotion, x: float,
-                y: float) -> None:
-            star_image.props.hover = True
-
-        def _on_star_leave(controller: Gtk.EventControllerMotion) -> None:
-            star_image.props.hover = False
-
-        star_hover = Gtk.EventControllerMotion()
-        star_hover.connect("enter", _on_star_enter)
-        star_hover.connect("leave", _on_star_leave)
-        star_image.add_controller(star_hover)
 
         song_menu = menu_button.props.popover
         song_menu.props.coreobject = coresong
@@ -151,27 +125,18 @@ class SongsView(Gtk.Box):
             "album", album_label, "label", GObject.BindingFlags.SYNC_CREATE)
         b3 = coresong.bind_property(
             "artist", artist_label, "label", GObject.BindingFlags.SYNC_CREATE)
-
-        b4 = coresong.bind_property(
-            "favorite", star_image, "favorite")
+        b4 = coresong.bind_property("favorite", star_toggle, "active")
 
         duration_label.props.label = utils.seconds_to_string(
             coresong.props.duration)
 
+        if not coresong.props.is_tracker:
+            star_toggle.props.visible = False
+
         self._list_item_bindings[list_item] = [b1, b2, b3, b4]
-        self._list_item_star_controllers[list_item] = [star_click, star_hover]
 
     def _unbind_list_item(
             self, factory: Gtk.SignalListItemFactory,
             list_item: Gtk.ListItem) -> None:
         bindings = self._list_item_bindings.pop(list_item)
         [binding.unbind() for binding in bindings]
-
-        list_row = list_item.props.child
-        info_box = list_row.get_first_child()
-        duration_label = info_box.get_next_sibling()
-        star_box = duration_label.get_next_sibling()
-        star_image = star_box.get_first_child()
-
-        controllers = self._list_item_star_controllers.pop(list_item)
-        [star_image.remove_controller(ctrl) for ctrl in controllers]

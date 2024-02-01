@@ -42,24 +42,6 @@
     padding-bottom: 0px;
 }
 
-/* We use background-image as a workaround on the StarImage widget to
-   enable transitions between the non-starred and starred icons. */
-.star {
-    background-image: -gtk-icontheme('non-starred-symbolic');
-    color: alpha(@theme_fg_color, 0.3);
-    transition: 100ms linear;
-}
-
-.star:hover {
-    color: alpha(@theme_fg_color, 0.6);
-}
-
-.star:selected {
-    background-image: -gtk-icontheme('starred-symbolic');
-    color: @theme_selected_bg_color;
-    transition: 100ms linear;
-}
-
 .grey-image {
     color: alpha(@theme_fg_color, 0.3);
 }
@@ -120,4 +102,25 @@ GtkListView at the moment */
 .songwidget,
 .songs-list row {
   padding: 12px;
+}
+
+/* Starring */
+button.star:hover {
+  opacity: 1;
+}
+
+@keyframes rotate_star {
+  from { -gtk-icon-transform: rotate(-72deg); }
+  to {}
+}
+@keyframes rotate_unstar {
+  from { -gtk-icon-transform: rotate(72deg); }
+  to {}
+}
+
+button.star.interacted.starred image {
+  animation: rotate_star 0.4s ease;
+}
+button.star.interacted:not(.starred) image {
+  animation: rotate_unstar 0.4s ease;
 }

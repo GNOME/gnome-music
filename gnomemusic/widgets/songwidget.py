@@ -32,7 +32,7 @@ from gi.repository import Gdk, GObject, Gtk
 from gnomemusic import utils
 from gnomemusic.coresong import CoreSong
 from gnomemusic.utils import SongStateIcon
-from gnomemusic.widgets.starimage import StarImage  # noqa: F401
+from gnomemusic.widgets.startoggle import StarToggle  # noqa: F401
 
 
 @Gtk.Template(resource_path='/org/gnome/Music/ui/SongWidget.ui')
@@ -66,8 +66,7 @@ class SongWidget(Gtk.ListBoxRow):
     _number_label = Gtk.Template.Child()
     _title_label = Gtk.Template.Child()
     _duration_label = Gtk.Template.Child()
-    _star_image = Gtk.Template.Child()
-    _star_stack = Gtk.Template.Child()
+    _star_toggle = Gtk.Template.Child()
     _play_icon = Gtk.Template.Child()
     _size_group = Gtk.Template.Child()
 
@@ -123,7 +122,7 @@ class SongWidget(Gtk.ListBoxRow):
             'show-song-number', self._number_label, 'visible',
             GObject.BindingFlags.SYNC_CREATE)
         self.props.coresong.bind_property(
-            "favorite", self._star_image, "favorite",
+            "favorite", self._star_toggle, "active",
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
         self.props.coresong.bind_property(
@@ -133,7 +132,7 @@ class SongWidget(Gtk.ListBoxRow):
             "notify::validation", self._on_validation_changed)
 
         if not self.props.coresong.props.is_tracker:
-            self._star_stack.props.visible_child_name = "empty"
+            self._star_toggle.props.visible = False
 
         self._drag_x = 0.
         self._drag_y = 0.
@@ -182,23 +181,6 @@ class SongWidget(Gtk.ListBoxRow):
 
         self.emit("widget-moved", source_position)
         return True
-
-    @Gtk.Template.Callback()
-    def _on_star_toggle(
-            self, controller: Gtk.GestureClick, n_press: int, x: float,
-            y: float) -> bool:
-        controller.set_state(Gtk.EventSequenceState.CLAIMED)
-        favorite = not self._star_image.favorite
-        self._star_image.props.favorite = favorite
-        return Gdk.EVENT_STOP
-
-    @Gtk.Template.Callback()
-    def _on_star_hover(self, controller, x, y):
-        self._star_image.props.hover = True
-
-    @Gtk.Template.Callback()
-    def _on_star_unhover(self, controller):
-        self._star_image.props.hover = False
 
     @GObject.Property
     def state(self):
