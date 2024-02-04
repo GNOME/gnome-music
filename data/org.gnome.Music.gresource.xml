@@ -40,5 +40,6 @@
     <file alias="deaf-symbolic.svg" preprocess="xml-stripblanks">icons/deaf-symbolic.svg</file>
     <file alias="music-playlist-symbolic.svg">icons/music-playlist-symbolic.svg</file>
     <file alias="music-artist-symbolic.svg">icons/music-artist-symbolic.svg</file>
+    <file alias="question-round-symbolic.svg" preprocess="xml-stripblanks">icons/question-round-symbolic.svg</file>
   </gresource>
 </gresources>

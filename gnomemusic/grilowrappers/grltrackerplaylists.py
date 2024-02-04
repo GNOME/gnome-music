@@ -91,7 +91,8 @@ class GrlTrackerPlaylists(GObject.GObject):
             "NeverPlayed": NeverPlayed(**args),
             "RecentlyPlayed": RecentlyPlayed(**args),
             "RecentlyAdded": RecentlyAdded(**args),
-            "Favorites": Favorites(**args)
+            "Favorites": Favorites(**args),
+            "InsufficientTagged": InsufficientTagged(**args),
         }
 
         for playlist in smart_playlists.values():
@@ -1105,6 +1106,71 @@ class Favorites(SmartPlaylist):
                 }
                 ?song nao:hasTag nao:predefined-tag-favorite .
             } ORDER BY DESC(?added)
+        """.replace('\n', ' ').strip() % {
+            "media_type": int(Grl.MediaType.AUDIO),
+            "location_filter": self._tracker_wrapper.location_filter(),
+            "miner_fs_busname": self._tracker_wrapper.props.miner_fs_busname,
+        }
+
+
+class InsufficientTagged(SmartPlaylist):
+    """Lacking tags to be displayed in the artist/album views"""
+
+    def __init__(self, **args):
+        super().__init__(**args)
+
+        self.props.tag_text = "INSUFFICIENT_TAGGED"
+        # TRANSLATORS: this is a playlist name indicating that the
+        # files are not tagged enough to be displayed in the albums
+        # or artists views.
+        self._title = _("Insufficiently Tagged")
+        self.props.icon_name = "question-round-symbolic"
+        self.props.query = """
+        SELECT
+            %(media_type)s AS ?type
+            ?song AS ?id
+            ?title
+            ?url
+            ?artist
+            ?album
+            ?duration
+            ?trackNumber
+            ?albumDiscNumber
+            nie:usageCounter(?song) AS ?playCount
+            ?tag AS ?favorite
+        WHERE {
+            SERVICE <dbus:%(miner_fs_busname)s> {
+                GRAPH tracker:Audio {
+                    SELECT
+                        ?song
+                        nie:title(?song) AS ?title
+                        nie:isStoredAs(?song) AS ?url
+                        nmm:artistName(nmm:artist(?song)) AS ?artist
+                        nie:title(nmm:musicAlbum(?song)) AS ?album
+                        nfo:duration(?song) AS ?duration
+                        nmm:trackNumber(?song) AS ?trackNumber
+                        nmm:setNumber(nmm:musicAlbumDisc(?song))
+                            AS ?albumDiscNumber
+                    WHERE {
+                        {
+                            ?song a nmm:MusicPiece .
+                            %(location_filter)s
+                            FILTER NOT EXISTS {
+                                ?song nmm:musicAlbum ?album
+                            }
+                        } UNION {
+                            ?song a nmm:MusicPiece .
+                            %(location_filter)s
+                            FILTER NOT EXISTS {
+                                ?song nmm:artist ?artist
+                            }
+                        }
+                    }
+                }
+            }
+            OPTIONAL { ?song nao:hasTag ?tag .
+                       FILTER (?tag = nao:predefined-tag-favorite) }
+        }
         """.replace('\n', ' ').strip() % {
             "media_type": int(Grl.MediaType.AUDIO),
             "location_filter": self._tracker_wrapper.location_filter(),
