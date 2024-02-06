@@ -966,30 +966,46 @@ class RecentlyPlayed(SmartPlaylist):
             nie:usageCounter(?song) AS ?playCount
             ?tag AS ?favorite
         WHERE {
-            SERVICE <dbus:%(miner_fs_busname)s> {
-                GRAPH tracker:Audio {
-                    SELECT
-                        ?song
-                        nie:title(?song) AS ?title
-                        nie:isStoredAs(?song) AS ?url
-                        nmm:artistName(nmm:artist(?song)) AS ?artist
-                        nie:title(nmm:musicAlbum(?song)) AS ?album
-                        nfo:duration(?song) AS ?duration
-                        nmm:trackNumber(?song) AS ?trackNumber
-                        nmm:setNumber(nmm:musicAlbumDisc(?song))
-                            AS ?albumDiscNumber
-                    WHERE {
-                        ?song a nmm:MusicPiece .
-                        %(location_filter)s
+            {
+                SELECT
+                    ?song
+                    ?title
+                    ?url
+                    ?artist
+                    ?album
+                    ?duration
+                    ?trackNumber
+                    ?albumDiscNumber
+                    ?playCount
+                    ?tag
+                    ?lastPlayed
+                WHERE {
+                    SERVICE <dbus:%(miner_fs_busname)s> {
+                        GRAPH tracker:Audio {
+                            SELECT
+                                ?song
+                                nie:title(?song) AS ?title
+                                nie:isStoredAs(?song) AS ?url
+                                nmm:artistName(nmm:artist(?song)) AS ?artist
+                                nie:title(nmm:musicAlbum(?song)) AS ?album
+                                nfo:duration(?song) AS ?duration
+                                nmm:trackNumber(?song) AS ?trackNumber
+                                nmm:setNumber(nmm:musicAlbumDisc(?song))
+                                    AS ?albumDiscNumber
+                            WHERE {
+                                ?song a nmm:MusicPiece .
+                                %(location_filter)s
+                            }
+                        }
                     }
-                }
+                    ?song nie:contentAccessed ?lastPlayed ;
+                        nie:usageCounter ?playCount .
+                    OPTIONAL { ?song nao:hasTag ?tag .
+                               FILTER (?tag = nao:predefined-tag-favorite) }
+                } ORDER BY DESC(?lastPlayed) LIMIT 50
             }
-            ?song nie:contentAccessed ?lastPlayed .
-            FILTER ( ?lastPlayed > '%(compare_date)s'^^xsd:dateTime
-                     && EXISTS { ?song nie:usageCounter ?count .} )
-            OPTIONAL { ?song nao:hasTag ?tag .
-                       FILTER (?tag = nao:predefined-tag-favorite) }
-        } ORDER BY DESC(?lastPlayed) LIMIT 50
+            FILTER (?lastPlayed > '%(compare_date)s'^^xsd:dateTime)
+        }
         """.replace('\n', ' ').strip() % {
             "media_type": int(Grl.MediaType.AUDIO),
             'compare_date': compare_date,
