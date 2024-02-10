@@ -64,7 +64,7 @@
           <object class="GtkBox" id="buttons">
             <property name="focusable">False</property>
             <property name="halign">center</property>
-            <property name="spacing">4</property>
+            <property name="spacing">12</property>
             <child>
               <object class="GtkButton" id="_prev_button">
                 <property name="sensitive">False</property>
@@ -175,6 +175,9 @@
           <object class="GtkMenuButton" id="_repeat_menu_button">
             <property name="focusable">True</property>
             <property name="receives_default">True</property>
+            <style>
+              <class name="flat"/>
+            </style>
             <child>
               <object class="GtkBox" id="replayBox">
                 <property name="focusable">False</property>
