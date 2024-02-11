@@ -37,6 +37,7 @@
     <file preprocess="xml-stripblanks">ui/Window.ui</file>
   </gresource>
   <gresource prefix="/org/gnome/Music/icons/scalable/actions">
+    <file alias="deaf-symbolic.svg" preprocess="xml-stripblanks">icons/deaf-symbolic.svg</file>
     <file alias="music-playlist-symbolic.svg">icons/music-playlist-symbolic.svg</file>
     <file alias="music-artist-symbolic.svg">icons/music-artist-symbolic.svg</file>
   </gresource>

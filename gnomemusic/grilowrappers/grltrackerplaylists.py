@@ -890,7 +890,7 @@ class NeverPlayed(SmartPlaylist):
         self.props.tag_text = "NEVER_PLAYED"
         # TRANSLATORS: this is a playlist name
         self._title = _("Never Played")
-        self.props.icon_name = "dialog-question-symbolic"
+        self.props.icon_name = "deaf-symbolic"
         self.props.query = """
         SELECT
             %(media_type)s AS ?type
