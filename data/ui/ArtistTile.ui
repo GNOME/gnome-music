@@ -5,7 +5,6 @@
     <child>
       <object class="GtkBox">
         <property name="orientation">horizontal</property>
-        <property name="margin-start">10</property>
         <child>
           <object class="GtkImage" id="_cover_image">
             <property name="halign">center</property>

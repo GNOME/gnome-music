@@ -4,7 +4,6 @@
     <child>
       <object class="GtkBox">
         <property name="orientation">horizontal</property>
-        <property name="margin-start">10</property>
         <child>
           <object class="GtkImage" id="_icon">
             <property name="focusable">False</property>
