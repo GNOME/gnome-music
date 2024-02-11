@@ -1,3 +1,37 @@
+Overview of changes in 46.beta
+==============================
+
+• Ported to Adwaita 1.4 and 1.6 widgets
+• Songs view removed
+• Preferences dialog added
+• Dropped old-style selection mode
+
+Bugs Fixed:
+ Port to new libadwaita widgets (#579)
+ Remove GOA use and LastFM support (#584)
+ Fix Tracker 3 queries (#578)
+ Fix jumping scrolling (#580)
+ Replace StarImage with StarToggle (#497)
+ Improve texture scaling (#513)
+ Add preferences dialog (#471)
+ Improve player duration query handling (#449)
+ Remove Songs view (#570)
+ Improve 'Recently Played' query (!1047)
+ Improve appdata (!1026)
+
+Thanks to our contributors this release:
+ Carlos Garnacho
+ Jean Felder
+ Feliks Weber
+ Marinus Schraal
+ Mpho Jele
+ Radek Crlík
+ Sabri Ünal
+ Shema Angelo Verlain
+ Tobias Bernard
+ Vincent Cottineau
+
+
 Overview of changes in 45.0
 ===========================
 
