@@ -38,6 +38,7 @@ gnomemusic/widgets/playertoolbar.py
 gnomemusic/widgets/playlistcontrols.py
 gnomemusic/widgets/playlistdialog.py
 gnomemusic/widgets/searchheaderbar.py
+gnomemusic/widgets/songwidgetmenu.py
 gnomemusic/widgets/startoggle.py
 gnomemusic/widgets/statusnavigationpage.py
 gnomemusic/window.py

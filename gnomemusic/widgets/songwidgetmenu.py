@@ -26,6 +26,7 @@ from __future__ import annotations
 from typing import Any, Optional, Union, cast
 import typing
 
+from gettext import gettext as _
 from gi.repository import Gio, GObject, Gtk
 
 from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
@@ -72,7 +73,8 @@ class SongWidgetMenu(Gtk.PopoverMenu):
         action_group = Gio.SimpleActionGroup()
         action_entries = [
             ("play", self._play_song),
-            ("add_playlist", self._add_to_playlist)
+            ("add_playlist", self._add_to_playlist),
+            ("open_location", self._open_location)
         ]
         if (isinstance(self._coreobject, Playlist)
                 and not self._coreobject.props.is_smart):
@@ -87,6 +89,12 @@ class SongWidgetMenu(Gtk.PopoverMenu):
             action_group.add_action(action)
 
         self.insert_action_group("songwidget", action_group)
+
+        open_menu_item = Gio.MenuItem.new(  # noqa: F841
+            _("_Open Location"), "songwidget.open_location")
+
+    def _open_location(self, action: Gio.SimpleAction, param: Any) -> None:
+        pass
 
     def _play_song(self, action: Gio.Simple, param: Any) -> None:
         self.popdown()
