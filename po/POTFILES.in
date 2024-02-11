@@ -12,7 +12,7 @@ data/ui/help-overlay.ui
 data/ui/PlayerToolbar.ui
 data/ui/PlaylistControls.ui
 data/ui/PlaylistDialog.ui
-data/ui/PrefencesDialog.ui
+data/ui/PreferencesDialog.ui
 data/ui/SearchHeaderBar.ui
 data/ui/SearchView.ui
 data/ui/SongWidgetMenu.ui
