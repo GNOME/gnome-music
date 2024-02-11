@@ -43,7 +43,7 @@ VCS_TAG = ''
 if get_option('profile') != 'default'
   git = find_program('git', required : false)
   if git.found()
-    VCS_TAG = run_command('git', 'rev-parse', '--short', 'HEAD').stdout().strip()
+    VCS_TAG = run_command('git', 'rev-parse', '--short', 'HEAD', check: true).stdout().strip()
   endif
   if VCS_TAG == ''
     VCS_TAG = '-devel'
@@ -103,6 +103,7 @@ local_config.set('pkgdatadir', join_paths(meson.current_build_dir(), 'data'))
 local_config.set('localedir', join_paths(get_option('prefix'), get_option('datadir'), 'locale'))
 local_config.set('pythondir', meson.current_source_dir())
 local_config.set('schemasdir', join_paths(meson.current_build_dir(), 'data'))
+local_config.set('version', meson.project_version() + VCS_TAG)
 
 local_config.set('local_build', 'True')
 
