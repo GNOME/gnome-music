@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2023-07-04 07:49+0000\n"
-"PO-Revision-Date: 2023-11-01 11:01+0100\n"
+"POT-Creation-Date: 2024-02-04 20:57+0000\n"
+"PO-Revision-Date: 2024-02-11 13:39+0100\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <f.t.public@gmail.com>\n"
 "Language: fur\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Editor: HaiPO 1.2 b1\n"
-"X-Generator: Poedit 3.4.1\n"
+"X-Generator: Poedit 3.4.2\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/about.py:243
-#: gnomemusic/application.py:61 gnomemusic/window.py:71
+#: data/org.gnome.Music.desktop.in.in:3 data/ui/StatusNavigationPage.ui:4
+#: gnomemusic/about.py:134 gnomemusic/application.py:58 gnomemusic/window.py:66
 msgid "Music"
 msgstr "Musiche"
 
@@ -42,7 +42,8 @@ msgstr ""
 "Cjate i tocs inte tô colezion locâl, dopre lis listis di riproduzion "
 "gjeneradis in automatic o cure une gnove."
 
-#: data/org.gnome.Music.appdata.xml.in.in:182
+#. developer_name tag deprecated with Appstream 1.0
+#: data/org.gnome.Music.appdata.xml.in.in:188
 msgid "The GNOME Music developers"
 msgstr "I svilupadôrs di GNOME Musiche"
 
@@ -107,17 +108,10 @@ msgstr ""
 "Abilite o disabilite la inibizion a sospindi il sisteme intant che si scolte "
 "la musiche"
 
-#: data/org.gnome.Music.gschema.xml:38
-msgid "Report music history to Last.fm"
-msgstr "Invie la cronologjie de musiche a Last.fm"
-
-#: data/org.gnome.Music.gschema.xml:39
-msgid ""
-"Enables or disables sending scrobbles and the “currently playing” info to "
-"Last.fm."
-msgstr ""
-"Al abilite o al disabilite l'inviâ i tiei gjenars di musiche preferide e lis "
-"informazions ce che tu stâs scoltant a Last.fm."
+#: data/ui/AlbumsSearchNavigationPage.ui:5 data/ui/SearchView.ui:98
+#: gnomemusic/views/albumsview.py:52
+msgid "Albums"
+msgstr "Album"
 
 #: data/ui/AlbumWidget.ui:84 data/ui/PlayerToolbar.ui:87
 #: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:170
@@ -137,50 +131,30 @@ msgstr "Zonte ai _tocs preferîts"
 msgid "_Add to Playlist…"
 msgstr "_Zonte ae liste di riproduzion…"
 
-#: data/ui/AppMenu.ui:23 data/ui/LastfmDialog.ui:8
-msgid "Last.fm Account"
-msgstr "Account Last.fm"
+#: data/ui/ArtistsSearchNavigationPage.ui:5 data/ui/SearchView.ui:41
+#: gnomemusic/views/artistsview.py:51
+msgid "Artists"
+msgstr "Artiscj"
 
-#: data/ui/AppMenu.ui:36
-msgid "Report Music Listening"
-msgstr "Invie la musiche che tu scoltis"
-
-#: data/ui/AppMenu.ui:58
-msgid "_Keyboard Shortcuts"
-msgstr "_Scurtis di tastiere"
-
-#: data/ui/AppMenu.ui:68
-msgid "_Help"
-msgstr "_Jutori"
-
-#: data/ui/AppMenu.ui:78
-msgid "_About Music"
-msgstr "_Informazions su Musiche"
-
-#: data/ui/EmptyView.ui:30
-msgid "Welcome to Music"
-msgstr "Benvignûts su Musiche"
-
-#: data/ui/HeaderBar.ui:17
+#: data/ui/HeaderBar.ui:14
 msgid "Menu"
 msgstr "Menù"
 
-#: data/ui/HeaderBar.ui:25 data/ui/SearchHeaderBar.ui:15
-msgid "Select"
-msgstr "Selezione"
-
-#: data/ui/HeaderBar.ui:31 data/ui/PlaylistDialog.ui:213
-#: data/ui/SearchHeaderBar.ui:20
-msgid "_Cancel"
-msgstr "_Anule"
-
-#: data/ui/HeaderBar.ui:43 data/ui/SearchHeaderBar.ui:32
+#: data/ui/HeaderBar.ui:22 data/ui/SearchHeaderBar.ui:12
 msgid "Search"
 msgstr "Cîr"
 
-#: data/ui/HeaderBar.ui:51
-msgid "Back"
-msgstr "Torne indaûr"
+#: data/ui/HeaderBar.ui:31
+msgid "Keyboard Shortcuts"
+msgstr "Scurtis di tastiere"
+
+#: data/ui/HeaderBar.ui:35
+msgid "Help"
+msgstr "Jutori"
+
+#: data/ui/HeaderBar.ui:39
+msgid "About Music"
+msgstr "Informazions su Musiche"
 
 #: data/ui/help-overlay.ui:11
 msgctxt "shortcut window"
@@ -267,26 +241,6 @@ msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Torne indaûr"
 
-#: data/ui/LastfmDialog.ui:21
-msgid ""
-"Last.fm is a music discovery service that gives you personalised "
-"recommendations based on the music you listen to."
-msgstr ""
-"Last.fm al è un servizi di scuvierte de musiche che ti da conseis "
-"personalizâts in base ae musiche che tu scoltis."
-
-#: data/ui/LastfmDialog.ui:31 gnomemusic/widgets/lastfmdialog.py:57
-msgid "Music Reporting Not Setup"
-msgstr "Segnalazion de musiche, no configurade"
-
-#: data/ui/LastfmDialog.ui:44 gnomemusic/widgets/lastfmdialog.py:60
-msgid "Login to your Last.fm account to report your music listening."
-msgstr "Jentre tal to account Last.fm par inviâ la musiche che tu scoltis."
-
-#: data/ui/LastfmDialog.ui:55 gnomemusic/widgets/lastfmdialog.py:58
-msgid "Login"
-msgstr "Jentre"
-
 #: data/ui/PlayerToolbar.ui:74
 msgid "Previous"
 msgstr "Precedent"
@@ -311,104 +265,87 @@ msgstr "Non de liste des musichis"
 msgid "_Done"
 msgstr "_Fat"
 
-#: data/ui/PlaylistDialog.ui:52
-msgid "Enter a name for your first playlist"
-msgstr "Scrîf un non pe tô prime liste di riproduzion"
-
-#: data/ui/PlaylistDialog.ui:77
-msgid "C_reate"
-msgstr "C_ree"
-
-#: data/ui/PlaylistDialog.ui:146
-msgid "New Playlist…"
-msgstr "Gnove liste di musichis…"
-
-#: data/ui/PlaylistDialog.ui:161
-msgid "Add"
-msgstr "Zonte"
-
-#: data/ui/PlaylistDialog.ui:202
+#: data/ui/PlaylistDialog.ui:16
 msgid "Add to Playlist"
 msgstr "Zonte ae liste des musichis"
 
-#: data/ui/PlaylistDialog.ui:222
+#: data/ui/PlaylistDialog.ui:27
+msgid "_Cancel"
+msgstr "_Anule"
+
+#: data/ui/PlaylistDialog.ui:36
 msgid "_Add"
 msgstr "_Zonte"
 
-#: data/ui/SearchView.ui:33 gnomemusic/views/artistsview.py:51
-msgid "Artists"
-msgstr "Artiscj"
+#: data/ui/PlaylistDialog.ui:91
+msgid "Enter a name for your first playlist"
+msgstr "Scrîf un non pe tô prime liste di riproduzion"
 
-#: data/ui/SearchView.ui:42 data/ui/SearchView.ui:84
+#: data/ui/PlaylistDialog.ui:116
+msgid "C_reate"
+msgstr "C_ree"
+
+#: data/ui/PlaylistDialog.ui:177
+msgid "New Playlist…"
+msgstr "Gnove liste di musichis…"
+
+#: data/ui/PlaylistDialog.ui:189
+msgid "Add"
+msgstr "Zonte"
+
+#: data/ui/SearchView.ui:55 data/ui/SearchView.ui:112
 msgid "View All"
 msgstr "Visualize dut"
 
-#: data/ui/SearchView.ui:75 gnomemusic/views/albumsview.py:56
-msgid "Albums"
-msgstr "Album"
-
-#: data/ui/SearchView.ui:117 gnomemusic/views/songsview.py:52
+#: data/ui/SearchView.ui:154 gnomemusic/views/songsview.py:52
 msgid "Songs"
 msgstr "Cjancçons"
-
-#: data/ui/SelectionBarMenuButton.ui:7
-msgid "Select All"
-msgstr "Selezione dut"
-
-#: data/ui/SelectionBarMenuButton.ui:11
-msgid "Select None"
-msgstr "Selezione nuie"
-
-#: data/ui/SelectionBarMenuButton.ui:19 gnomemusic/widgets/headerbar.py:69
-msgid "Click on items to select them"
-msgstr "Cliche sui elements par selezionaju"
-
-#: data/ui/SelectionToolbar.ui:8
-msgid "_Add to Playlist"
-msgstr "_Zonte ae liste des musichis"
 
 #: data/ui/SongWidgetMenu.ui:19
 msgid "_Remove from Playlist"
 msgstr "_Gjave de liste des musichis"
 
-#: gnomemusic/about.py:245
+#: data/ui/StatusNavigationPage.ui:36
+msgid "Welcome to Music"
+msgstr "Benvignûts su Musiche"
+
+#: gnomemusic/about.py:136
 msgid "The GNOME Project"
 msgstr "Il progjet GNOME"
 
-#: gnomemusic/about.py:249
+#. Translators should localize the following string which
+#. will be displayed at the bottom of the about box to give
+#. credit to the translator(s).
+#: gnomemusic/about.py:142
 msgid "translator-credits"
-msgstr "Fabio Tomat <f.t.public@gmail.com>, 2023"
+msgstr "Fabio Tomat <f.t.public@gmail.com>, 2024"
 
-#: gnomemusic/about.py:253
-msgid "Copyright The GNOME Music Developers"
-msgstr "Copyright i svilupadôrs di GNOME Musiche"
-
-#: gnomemusic/about.py:256
-msgid "Translated by"
-msgstr "Tradot di"
+#: gnomemusic/about.py:146
+msgid "© The GNOME Music Developers"
+msgstr "I svilupadôrs di © GNOME Musiche"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:894
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:838
 msgid "Most Played"
 msgstr "Plui scoltats"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:948
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:892
 msgid "Never Played"
 msgstr "Mai scoltât"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1001
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:945
 msgid "Recently Played"
 msgstr "Scoltât di recent"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1064
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1008
 msgid "Recently Added"
 msgstr "Zontât di recent"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1127
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1071
 msgid "Favorite Songs"
 msgstr "Tocs preferîts"
 
@@ -469,102 +406,44 @@ msgstr "Anule"
 msgid "{} removed from {}"
 msgstr "{} gjavât di {}"
 
-#: gnomemusic/utils.py:92
+#: gnomemusic/utils.py:90
 msgid "Unknown album"
 msgstr "Album no cognossût"
 
-#: gnomemusic/utils.py:113
+#: gnomemusic/utils.py:111
 msgid "Unknown Artist"
 msgstr "Artist no cognossût"
-
-#: gnomemusic/views/emptyview.py:65
-msgid "Your XDG Music directory is not set."
-msgstr "La tô cartele XDG di Musiche no je stabilide."
-
-# minuscul parce che al ven fûr la prime volte che si invie il program e il
-# test al è tal mieç di une frase:
-# Il contignût de tô cartele di musiche...
-#: gnomemusic/views/emptyview.py:72
-msgid "Music Folder"
-msgstr "cartele de musiche"
-
-# %s o ai viodût che al ven fûr "cartele di musiche"
-#. TRANSLATORS: This is a label to display a link to open user's music
-#. folder. {} will be replaced with the translated text 'Music folder'
-#: gnomemusic/views/emptyview.py:76
-msgid "The contents of your {} will appear here."
-msgstr "Il contignût de tô {} al vignarà mostrât achì."
-
-#: gnomemusic/views/emptyview.py:124
-msgid "No Music Found"
-msgstr "Nissune musiche cjatade"
-
-#: gnomemusic/views/emptyview.py:125
-msgid "Try a Different Search"
-msgstr "Prove une ricercje diferente"
-
-#: gnomemusic/views/emptyview.py:129
-msgid "GNOME Music could not connect to Tracker."
-msgstr "GNOME Musiche nol è rivât a conetisi al Tracker."
-
-#: gnomemusic/views/emptyview.py:131
-msgid "Your music files cannot be indexed without Tracker running."
-msgstr ""
-"I tiei files di musiche no puedin jessi metûts in tabele cence vê in "
-"esecuzion Tracker."
-
-#: gnomemusic/views/emptyview.py:137
-msgid "Your system Tracker version seems outdated."
-msgstr "La version di Tracker dal to sisteme e somee sorpassade."
-
-#: gnomemusic/views/emptyview.py:139
-msgid "Music needs Tracker version 3.0.0 or higher."
-msgstr "Musiche al à bisugne de version 3.0.0 (o plui resinte) di Tracker."
 
 #: gnomemusic/views/playlistsview.py:45
 msgid "Playlists"
 msgstr "Listis di musichis"
 
-#: gnomemusic/views/searchview.py:304
-msgid "Artists Results"
-msgstr "Risultâts artiscj"
+#: gnomemusic/views/searchview.py:220
+msgid "No Search Started"
+msgstr "Nissune ricercje scomençade"
 
-#: gnomemusic/views/searchview.py:318
-msgid "Albums Results"
-msgstr "Risultâts album"
+#: gnomemusic/views/searchview.py:222
+msgid "Use the searchbar to start searching for albums, artists or songs"
+msgstr ""
+"Dopre la sbare di ricercje par scomençâ a cirî albums, artiscj o cjançons"
 
-#: gnomemusic/widgets/albumwidget.py:245
+#: gnomemusic/views/searchview.py:226
+msgid "No Results Found"
+msgstr "Nissun risultât cjatât"
+
+#: gnomemusic/views/searchview.py:228
+msgid "Try a different search"
+msgstr "Prove cuntune ricercje divierse"
+
+#: gnomemusic/widgets/albumwidget.py:230
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} minût"
 msgstr[1] "{} minûts"
 
-#: gnomemusic/widgets/discbox.py:75
+#: gnomemusic/widgets/discbox.py:74
 msgid "Disc {}"
 msgstr "Disc {}"
-
-#: gnomemusic/widgets/headerbar.py:66
-msgid "Selected {} song"
-msgid_plural "Selected {} songs"
-msgstr[0] "Selezionât {} cjançon"
-msgstr[1] "Selezionâts {} cjançons"
-
-#: gnomemusic/widgets/lastfmdialog.py:64
-msgid "Your music listening is reported to Last.fm."
-msgstr "La musiche che tu scoltis e ven segnalade a Last.fm."
-
-#: gnomemusic/widgets/lastfmdialog.py:66
-msgid "Your music listening is not reported to Last.fm."
-msgstr "La musiche che tu scoltis no ven inviade a Last.fm."
-
-#. TRANSLATORS: displays the username of the Last.fm account
-#: gnomemusic/widgets/lastfmdialog.py:70
-msgid "Logged in as {}"
-msgstr "Jentrât come {}"
-
-#: gnomemusic/widgets/lastfmdialog.py:71
-msgid "Configure"
-msgstr "Configure"
 
 #: gnomemusic/widgets/playertoolbar.py:167
 msgid "Pause"
@@ -576,9 +455,145 @@ msgid_plural "{} Songs"
 msgstr[0] "{} Cjançon"
 msgstr[1] "{} Cjançons"
 
-#: gnomemusic/widgets/searchheaderbar.py:66
-msgid "Search songs, artists, albums and playlists"
-msgstr "Cîr cjançons, artiscj, albumbs e listis di riproduzion"
+#: gnomemusic/widgets/searchheaderbar.py:50
+msgid "Search songs, artists and albums"
+msgstr "Cîr cjançons, artiscj e albums"
+
+#. TRANSLATORS: These are verbs, to (un)mark something as a
+#. favorite.
+#: gnomemusic/widgets/startoggle.py:36
+msgid "Unstar"
+msgstr "Gjave preferît"
+
+#: gnomemusic/widgets/startoggle.py:36
+msgid "Star"
+msgstr "Preferît"
+
+#: gnomemusic/widgets/statusnavigationpage.py:51
+msgid "Your XDG Music directory is not set."
+msgstr "La tô cartele XDG di Musiche no je stabilide."
+
+# minuscul parce che al ven fûr la prime volte che si invie il program e il
+# test al è tal mieç di une frase:
+# Il contignût de tô cartele di musiche...
+#: gnomemusic/widgets/statusnavigationpage.py:58
+msgid "Music Folder"
+msgstr "cartele de musiche"
+
+# %s o ai viodût che al ven fûr "cartele di musiche"
+#. TRANSLATORS: This is a label to display a link to open user's music
+#. folder. {} will be replaced with the translated text 'Music folder'
+#: gnomemusic/widgets/statusnavigationpage.py:66
+msgid "The contents of your {} will appear here."
+msgstr "Il contignût de tô {} al vignarà mostrât achì."
+
+#: gnomemusic/widgets/statusnavigationpage.py:116
+msgid "No Music Found"
+msgstr "Nissune musiche cjatade"
+
+#: gnomemusic/widgets/statusnavigationpage.py:117
+msgid "Try a Different Search"
+msgstr "Prove une ricercje diferente"
+
+#: gnomemusic/widgets/statusnavigationpage.py:121
+msgid "GNOME Music could not connect to Tracker."
+msgstr "GNOME Musiche nol è rivât a conetisi al Tracker."
+
+#: gnomemusic/widgets/statusnavigationpage.py:123
+msgid "Your music files cannot be indexed without Tracker running."
+msgstr ""
+"I tiei files di musiche no puedin jessi metûts in tabele cence vê in "
+"esecuzion Tracker."
+
+#: gnomemusic/widgets/statusnavigationpage.py:129
+msgid "Your system Tracker version seems outdated."
+msgstr "La version di Tracker dal to sisteme e somee sorpassade."
+
+#: gnomemusic/widgets/statusnavigationpage.py:131
+msgid "Music needs Tracker version 3.0.0 or higher."
+msgstr "Musiche al à bisugne de version 3.0.0 (o plui resinte) di Tracker."
+
+#~ msgid "Report music history to Last.fm"
+#~ msgstr "Invie la cronologjie de musiche a Last.fm"
+
+#~ msgid ""
+#~ "Enables or disables sending scrobbles and the “currently playing” info to "
+#~ "Last.fm."
+#~ msgstr ""
+#~ "Al abilite o al disabilite l'inviâ i tiei gjenars di musiche preferide e "
+#~ "lis informazions ce che tu stâs scoltant a Last.fm."
+
+#~ msgid "Last.fm Account"
+#~ msgstr "Account Last.fm"
+
+#~ msgid "Report Music Listening"
+#~ msgstr "Invie la musiche che tu scoltis"
+
+#~ msgid "_Help"
+#~ msgstr "_Jutori"
+
+#~ msgid "Select"
+#~ msgstr "Selezione"
+
+#~ msgid "Back"
+#~ msgstr "Torne indaûr"
+
+#~ msgid ""
+#~ "Last.fm is a music discovery service that gives you personalised "
+#~ "recommendations based on the music you listen to."
+#~ msgstr ""
+#~ "Last.fm al è un servizi di scuvierte de musiche che ti da conseis "
+#~ "personalizâts in base ae musiche che tu scoltis."
+
+#~ msgid "Music Reporting Not Setup"
+#~ msgstr "Segnalazion de musiche, no configurade"
+
+#~ msgid "Login to your Last.fm account to report your music listening."
+#~ msgstr "Jentre tal to account Last.fm par inviâ la musiche che tu scoltis."
+
+#~ msgid "Login"
+#~ msgstr "Jentre"
+
+#~ msgid "Select All"
+#~ msgstr "Selezione dut"
+
+#~ msgid "Select None"
+#~ msgstr "Selezione nuie"
+
+#~ msgid "Click on items to select them"
+#~ msgstr "Cliche sui elements par selezionaju"
+
+#~ msgid "_Add to Playlist"
+#~ msgstr "_Zonte ae liste des musichis"
+
+#~ msgid "Copyright The GNOME Music Developers"
+#~ msgstr "Copyright i svilupadôrs di GNOME Musiche"
+
+#~ msgid "Translated by"
+#~ msgstr "Tradot di"
+
+#~ msgid "Artists Results"
+#~ msgstr "Risultâts artiscj"
+
+#~ msgid "Albums Results"
+#~ msgstr "Risultâts album"
+
+#~ msgid "Selected {} song"
+#~ msgid_plural "Selected {} songs"
+#~ msgstr[0] "Selezionât {} cjançon"
+#~ msgstr[1] "Selezionâts {} cjançons"
+
+#~ msgid "Your music listening is reported to Last.fm."
+#~ msgstr "La musiche che tu scoltis e ven segnalade a Last.fm."
+
+#~ msgid "Your music listening is not reported to Last.fm."
+#~ msgstr "La musiche che tu scoltis no ven inviade a Last.fm."
+
+#~ msgid "Logged in as {}"
+#~ msgstr "Jentrât come {}"
+
+#~ msgid "Configure"
+#~ msgstr "Configure"
 
 #~ msgid "A music player and management application for GNOME."
 #~ msgstr "Une aplicazion GNOME par sunâ e ministrâ le proprie musiche."
