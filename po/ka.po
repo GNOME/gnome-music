@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2024-01-02 14:38+0000\n"
-"PO-Revision-Date: 2024-01-03 19:11+0100\n"
+"POT-Creation-Date: 2024-02-11 20:43+0000\n"
+"PO-Revision-Date: 2024-02-12 15:08+0100\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <(nothing)>\n"
 "Language: ka\n"
@@ -19,8 +19,8 @@ msgstr ""
 "X-Generator: Poedit 3.3.2\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/about.py:243
-#: gnomemusic/application.py:61 gnomemusic/window.py:71
+#: data/org.gnome.Music.desktop.in.in:3 data/ui/StatusNavigationPage.ui:4
+#: gnomemusic/about.py:138 gnomemusic/application.py:59 gnomemusic/window.py:65
 msgid "Music"
 msgstr "მუსიკა"
 
@@ -89,7 +89,7 @@ msgstr ""
 "\"all\" (კოლექციის გამეორება, შემთხვევითობის გარეშე), \"shuffle\" (სიმღერის "
 "შემთხვევით არჩევა. ყველას დაკვრა ისედაც იგულისხმება)."
 
-#: data/org.gnome.Music.gschema.xml:28
+#: data/org.gnome.Music.gschema.xml:28 data/ui/PreferencesDialog.ui:27
 msgid "Enable ReplayGain"
 msgstr "ReplayGain-ის ჩართვა"
 
@@ -105,19 +105,13 @@ msgstr "სისტემის დაძინების გათიშვ�
 msgid "Enables or disables inhibiting system suspend while playing music"
 msgstr "მუსიკის დაკვრის მიმდინარეობისას სისტემის დაძინების აკრძალვა"
 
-#: data/org.gnome.Music.gschema.xml:38
-msgid "Report music history to Last.fm"
-msgstr "გადაეცით მოსმენილი მუსიკა Last.fm-ზე"
-
-#: data/org.gnome.Music.gschema.xml:39
-msgid ""
-"Enables or disables sending scrobbles and the “currently playing” info to "
-"Last.fm."
-msgstr ""
-"მიმდინარე სიმღერის შესახებ ინფორმაციის Last.fm-ზე გაგზავნის ჩართვა/გამორთვა."
+#: data/ui/AlbumsSearchNavigationPage.ui:5 data/ui/SearchView.ui:98
+#: gnomemusic/views/albumsview.py:52
+msgid "Albums"
+msgstr "ალბომები"
 
 #: data/ui/AlbumWidget.ui:84 data/ui/PlayerToolbar.ui:87
-#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:170
+#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:176
 msgid "Play"
 msgstr "დაკვრა"
 
@@ -134,59 +128,34 @@ msgstr "საყვარელი _სიმღერებში ჩამა
 msgid "_Add to Playlist…"
 msgstr "_დასაკრავი სიაში დამატება…"
 
-#: data/ui/AppMenu.ui:22 data/ui/LastfmDialog.ui:8
-msgid "Last.fm Account"
-msgstr "Last.fm-ის ანგარიში"
-
-#: data/ui/AppMenu.ui:35
-msgid "Report Music Listening"
-msgstr "გადაეცით მოსმენილი მუსიკა"
-
-#: data/ui/AppMenu.ui:57
-msgid "_Keyboard Shortcuts"
-msgstr "კლავიატურის მალსახმობები"
-
-#: data/ui/AppMenu.ui:67
-msgid "_Help"
-msgstr "_დახმარება"
-
-#: data/ui/AppMenu.ui:77
-msgid "_About Music"
-msgstr "Music-ის შესახებ"
-
-#: data/ui/ArtistsView.ui:9 data/ui/SearchView.ui:33
+#: data/ui/ArtistsSearchNavigationPage.ui:5 data/ui/SearchView.ui:41
 #: gnomemusic/views/artistsview.py:51
 msgid "Artists"
 msgstr "შემსრულებლები"
 
-#: data/ui/ArtistsView.ui:27
-msgid "Artist"
-msgstr "შემსრულებელი"
-
-#: data/ui/EmptyView.ui:30
-msgid "Welcome to Music"
-msgstr "მოგესალმებით Music-ში"
-
-#: data/ui/HeaderBar.ui:17
+#: data/ui/HeaderBar.ui:14
 msgid "Menu"
 msgstr "მენიუ"
 
-#: data/ui/HeaderBar.ui:25 data/ui/SearchHeaderBar.ui:15
-msgid "Select"
-msgstr "მონიშნეთ"
-
-#: data/ui/HeaderBar.ui:31 data/ui/PlaylistDialog.ui:213
-#: data/ui/SearchHeaderBar.ui:20
-msgid "_Cancel"
-msgstr "_გაუქმება"
-
-#: data/ui/HeaderBar.ui:43 data/ui/SearchHeaderBar.ui:32
+#: data/ui/HeaderBar.ui:22 data/ui/SearchHeaderBar.ui:12
 msgid "Search"
 msgstr "ძებნა"
 
-#: data/ui/HeaderBar.ui:51
-msgid "Back"
-msgstr "უკან"
+#: data/ui/HeaderBar.ui:31 data/ui/PreferencesDialog.ui:4
+msgid "Preferences"
+msgstr "პარამეტრები"
+
+#: data/ui/HeaderBar.ui:35
+msgid "Keyboard Shortcuts"
+msgstr "კლავიატურის მალსახმობები"
+
+#: data/ui/HeaderBar.ui:39
+msgid "Help"
+msgstr "დახმარება"
+
+#: data/ui/HeaderBar.ui:43
+msgid "About Music"
+msgstr "Music-ის შესახებ"
 
 #: data/ui/help-overlay.ui:11
 msgctxt "shortcut window"
@@ -273,26 +242,6 @@ msgctxt "shortcut window"
 msgid "Go back"
 msgstr "უკან გადასვლა"
 
-#: data/ui/LastfmDialog.ui:21
-msgid ""
-"Last.fm is a music discovery service that gives you personalised "
-"recommendations based on the music you listen to."
-msgstr ""
-"Last.fm არის მუსიკალური სერვისი, რომელიც გაძლევთ პერსონალურ რეკომენდაციებს "
-"თქვენს მიერ მოსმენილი მუსიკის საფუძველზე."
-
-#: data/ui/LastfmDialog.ui:31 gnomemusic/widgets/lastfmdialog.py:57
-msgid "Music Reporting Not Setup"
-msgstr "დაკრული მუსიკის გადაცემა მორგებული არაა"
-
-#: data/ui/LastfmDialog.ui:44 gnomemusic/widgets/lastfmdialog.py:60
-msgid "Login to your Last.fm account to report your music listening."
-msgstr "შედით Last.fm-ის თქვენს ანგარიშში დაკრული სიმღერების სიის გადასაცემად."
-
-#: data/ui/LastfmDialog.ui:55 gnomemusic/widgets/lastfmdialog.py:58
-msgid "Login"
-msgstr "შესვლა"
-
 #: data/ui/PlayerToolbar.ui:74
 msgid "Previous"
 msgstr "წინა"
@@ -317,146 +266,178 @@ msgstr "დასაკრავი სიის სახელი"
 msgid "_Done"
 msgstr "_დასრულებულია"
 
-#: data/ui/PlaylistDialog.ui:52
-msgid "Enter a name for your first playlist"
-msgstr "შეიყვანეთ თქვენი პირველი დასაკრავი სიის სახელი"
-
-#: data/ui/PlaylistDialog.ui:77
-msgid "C_reate"
-msgstr "_შექმნა"
-
-#: data/ui/PlaylistDialog.ui:146
-msgid "New Playlist…"
-msgstr "ახალი დასაკრავი სია…"
-
-#: data/ui/PlaylistDialog.ui:161
-msgid "Add"
-msgstr "დამატება"
-
-#: data/ui/PlaylistDialog.ui:202
+#: data/ui/PlaylistDialog.ui:16
 msgid "Add to Playlist"
 msgstr "დასაკრავი სიაში დამატება"
 
-#: data/ui/PlaylistDialog.ui:222
+#: data/ui/PlaylistDialog.ui:27
+msgid "_Cancel"
+msgstr "_გაუქმება"
+
+#: data/ui/PlaylistDialog.ui:36
 msgid "_Add"
 msgstr "_დამატება"
 
-#: data/ui/SearchView.ui:42 data/ui/SearchView.ui:84
+#: data/ui/PlaylistDialog.ui:91
+msgid "Enter a name for your first playlist"
+msgstr "შეიყვანეთ თქვენი პირველი დასაკრავი სიის სახელი"
+
+#: data/ui/PlaylistDialog.ui:116
+msgid "C_reate"
+msgstr "_შექმნა"
+
+#: data/ui/PlaylistDialog.ui:177
+msgid "New Playlist…"
+msgstr "ახალი დასაკრავი სია…"
+
+#: data/ui/PlaylistDialog.ui:189
+msgid "Add"
+msgstr "დამატება"
+
+#: data/ui/PreferencesDialog.ui:9
+msgid "Player Settings"
+msgstr "დამკვრელის მორგება"
+
+#: data/ui/PreferencesDialog.ui:12
+msgid "Repeat Mode"
+msgstr "გამეორების რეჟიმი"
+
+#: data/ui/PreferencesDialog.ui:16
+msgid "None"
+msgstr "არაფერი"
+
+#: data/ui/PreferencesDialog.ui:17
+msgid "Song"
+msgstr "სიმღერა"
+
+#: data/ui/PreferencesDialog.ui:18
+msgid "All"
+msgstr "ყველა"
+
+#: data/ui/PreferencesDialog.ui:19 gnomemusic/player.py:51
+msgid "Shuffle"
+msgstr "შემთხვევით"
+
+#: data/ui/PreferencesDialog.ui:28
+msgid "Balance loudness between songs if ReplayGain metadata is found"
+msgstr ""
+"ხმის სიძლიერის ბალანსი სიმღერებს შორის, თუ აღმოჩენილია ReplayGain "
+"მეტამონაცემები"
+
+#: data/ui/PreferencesDialog.ui:35
+msgid "Power Settings"
+msgstr "კვების პარამეტრები"
+
+#: data/ui/PreferencesDialog.ui:38
+msgid "Inhibit Suspend"
+msgstr "დაძინების გათიშვა"
+
+#: data/ui/PreferencesDialog.ui:39
+msgid "Only while playing"
+msgstr "მხოლოდ, დაკვრისას"
+
+#: data/ui/SearchView.ui:55 data/ui/SearchView.ui:112
 msgid "View All"
 msgstr "ყველას ნახვა"
 
-#: data/ui/SearchView.ui:75 gnomemusic/views/albumsview.py:56
-msgid "Albums"
-msgstr "ალბომები"
-
-#: data/ui/SearchView.ui:117 gnomemusic/views/songsview.py:52
+#: data/ui/SearchView.ui:154
 msgid "Songs"
 msgstr "სიმღერები"
-
-#: data/ui/SelectionBarMenuButton.ui:7
-msgid "Select All"
-msgstr "ყველას მონიშვნა"
-
-#: data/ui/SelectionBarMenuButton.ui:11
-msgid "Select None"
-msgstr "მონიშვნის მოხსნა"
-
-#: data/ui/SelectionBarMenuButton.ui:19 gnomemusic/widgets/headerbar.py:69
-msgid "Click on items to select them"
-msgstr "მოსანიშნად დააწკაპუნეთ ელემენტებზე"
-
-#: data/ui/SelectionToolbar.ui:8
-msgid "_Add to Playlist"
-msgstr "_დასაკრავი სიაში დამატება"
 
 #: data/ui/SongWidgetMenu.ui:19
 msgid "_Remove from Playlist"
 msgstr "_დასაკრავი სიიდან წაშლა"
 
-#: gnomemusic/about.py:245
+#: data/ui/StatusNavigationPage.ui:36
+msgid "Welcome to Music"
+msgstr "მოგესალმებით Music-ში"
+
+#: gnomemusic/about.py:140
 msgid "The GNOME Project"
 msgstr "პროექტი \"GNOME\""
 
-#: gnomemusic/about.py:249
+#. Translators should localize the following string which
+#. will be displayed at the bottom of the about box to give
+#. credit to the translator(s).
+#: gnomemusic/about.py:146
 msgid "translator-credits"
 msgstr "თემური დოღონაძე"
 
-#: gnomemusic/about.py:253
-msgid "Copyright The GNOME Music Developers"
-msgstr "GNOME Music-ის პროგრამისტები, ყველა უფლება დაცულია"
-
-#: gnomemusic/about.py:256
-msgid "Translated by"
-msgstr "თარგმნა"
+#: gnomemusic/about.py:150
+msgid "© The GNOME Music Developers"
+msgstr "© GNOME Music-ის პროგრამისტები"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:894
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:839
 msgid "Most Played"
 msgstr "ხშირად დაკრული"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:948
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:893
 msgid "Never Played"
 msgstr "არასდროს-დაკრული"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1001
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:946
 msgid "Recently Played"
 msgstr "ახლახანს დაკრული"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1064
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1025
 msgid "Recently Added"
 msgstr "ახლახანს დამატებული"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1127
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1088
 msgid "Favorite Songs"
 msgstr "საყვარელი სიმღერები"
 
-#: gnomemusic/gstplayer.py:408
+#. TRANSLATORS: this is a playlist name indicating that the
+#. files are not tagged enough to be displayed in the albums
+#. or artists views.
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1142
+msgid "Insufficiently Tagged"
+msgstr "არასაკმარისი ჭდეები"
+
+#: gnomemusic/gstplayer.py:418
 msgid "Unable to play the file"
 msgstr "ფაილის დაკვრის შეცდომა"
 
-#: gnomemusic/gstplayer.py:414
+#: gnomemusic/gstplayer.py:424
 msgid "_Find in {}"
 msgstr "{}-ში _მოძებნა"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:424
+#: gnomemusic/gstplayer.py:434
 msgid " and "
 msgstr " და "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:427
+#: gnomemusic/gstplayer.py:437
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:429
+#: gnomemusic/gstplayer.py:439
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "ფაილის დასაკრავად საჭიროა {}, მაგრამ დაყენებული არაა."
 
-#: gnomemusic/inhibitsuspend.py:63
+#: gnomemusic/inhibitsuspend.py:69
 msgid "Playing music"
 msgstr "მიმდინარეობს დაკვრა"
 
 #. Translators: "shuffle" causes tracks to play in random order.
-#: gnomemusic/player.py:44
+#: gnomemusic/player.py:48
 msgid "Shuffle/Repeat Off"
 msgstr "შემთხვევითი/გამეორება გამორთულია"
 
-#: gnomemusic/player.py:45
+#: gnomemusic/player.py:49
 msgid "Repeat Song"
 msgstr "სიმღერის გამეორება"
 
-#: gnomemusic/player.py:46
+#: gnomemusic/player.py:50
 msgid "Repeat All"
 msgstr "ყველას გამეორება"
-
-#: gnomemusic/player.py:47
-msgid "Shuffle"
-msgstr "შემთხვევით"
 
 #: gnomemusic/playlisttoast.py:55
 msgid "Playlist {} removed"
@@ -470,96 +451,46 @@ msgstr "დაბრუნება"
 msgid "{} removed from {}"
 msgstr "{} წაიშალა {}-დან"
 
-#: gnomemusic/utils.py:92
+#: gnomemusic/utils.py:89
 msgid "Unknown album"
 msgstr "უცნობი ალბომი"
 
-#: gnomemusic/utils.py:113
+#: gnomemusic/utils.py:110
 msgid "Unknown Artist"
 msgstr "უცნობი შემსრულებელი"
-
-#: gnomemusic/views/emptyview.py:65
-msgid "Your XDG Music directory is not set."
-msgstr "XDG Music-ის საქაღალდე მითითებული არაა."
-
-#: gnomemusic/views/emptyview.py:72
-msgid "Music Folder"
-msgstr "მუსიკის საქაღალდე"
-
-#. TRANSLATORS: This is a label to display a link to open user's music
-#. folder. {} will be replaced with the translated text 'Music folder'
-#: gnomemusic/views/emptyview.py:76
-msgid "The contents of your {} will appear here."
-msgstr "თქვენი {}-ის შემცველობა აქ გამოჩნდება."
-
-#: gnomemusic/views/emptyview.py:124
-msgid "No Music Found"
-msgstr "მუსიკა ნაპოვნი არაა"
-
-#: gnomemusic/views/emptyview.py:125
-msgid "Try a Different Search"
-msgstr "სცადეთ სხვა ძებნა"
-
-#: gnomemusic/views/emptyview.py:129
-msgid "GNOME Music could not connect to Tracker."
-msgstr "GNOME Music-ი ტრეკერს ვერ მიუერთდა."
-
-#: gnomemusic/views/emptyview.py:131
-msgid "Your music files cannot be indexed without Tracker running."
-msgstr "მუსიკის ფაილების ინდექსაცია გაშვებული ტრეკერის გარეშე შეუძლებელია."
-
-#: gnomemusic/views/emptyview.py:137
-msgid "Your system Tracker version seems outdated."
-msgstr "როგორც ჩანს თქვენი სისტემური ტრეკერი მოძველებულია."
-
-#: gnomemusic/views/emptyview.py:139
-msgid "Music needs Tracker version 3.0.0 or higher."
-msgstr "Music-ს ტრეკერის 3.0.0 ან უფრო ახალი ვერსია სჭირდება."
 
 #: gnomemusic/views/playlistsview.py:45
 msgid "Playlists"
 msgstr "დასაკრავი სიები"
 
-#: gnomemusic/views/searchview.py:304
-msgid "Artists Results"
-msgstr "ნაპოვნი შემსრულებლები"
+#: gnomemusic/views/searchview.py:220
+msgid "No Search Started"
+msgstr "ძებნა არ დაწყებულა"
 
-#: gnomemusic/views/searchview.py:318
-msgid "Albums Results"
-msgstr "ნაპოვნი ალბომები"
+#: gnomemusic/views/searchview.py:222
+msgid "Use the searchbar to start searching for albums, artists or songs"
+msgstr ""
+"გამოიყენეთ ძებნის პანელი ალბომების, შემსრულებლებისა და სიმღერების ძებნის "
+"დასაწყებად"
 
-#: gnomemusic/widgets/albumwidget.py:245
+#: gnomemusic/views/searchview.py:226
+msgid "No Results Found"
+msgstr "შედეგების გარეშე"
+
+#: gnomemusic/views/searchview.py:228
+msgid "Try a different search"
+msgstr "სცადეთ სხვა ძებნა"
+
+#: gnomemusic/widgets/albumwidget.py:230
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} წუთი"
 
-#: gnomemusic/widgets/discbox.py:75
+#: gnomemusic/widgets/discbox.py:74
 msgid "Disc {}"
 msgstr "დისკი {}"
 
-#: gnomemusic/widgets/headerbar.py:66
-msgid "Selected {} song"
-msgid_plural "Selected {} songs"
-msgstr[0] "არჩეულია {} სიმღერა"
-
-#: gnomemusic/widgets/lastfmdialog.py:64
-msgid "Your music listening is reported to Last.fm."
-msgstr "თქვენი მოსმენილი სიმღერების სახელები იგზავნება Last.fm-ზე."
-
-#: gnomemusic/widgets/lastfmdialog.py:66
-msgid "Your music listening is not reported to Last.fm."
-msgstr "თქვენი მოსმენილი სიმღერების სახელები არ იგზავნება Last.fm-ზე."
-
-#. TRANSLATORS: displays the username of the Last.fm account
-#: gnomemusic/widgets/lastfmdialog.py:70
-msgid "Logged in as {}"
-msgstr "შესული ბრძანდებით, როგორც {}"
-
-#: gnomemusic/widgets/lastfmdialog.py:71
-msgid "Configure"
-msgstr "მორგება"
-
-#: gnomemusic/widgets/playertoolbar.py:167
+#: gnomemusic/widgets/playertoolbar.py:173
 msgid "Pause"
 msgstr "შეჩერება"
 
@@ -568,9 +499,147 @@ msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} სიმღერა"
 
-#: gnomemusic/widgets/searchheaderbar.py:66
-msgid "Search songs, artists, albums and playlists"
-msgstr "მოძებნეთ სიმღერები, შემსრულებლები, ალბომები და დასაკრავი სიები"
+#: gnomemusic/widgets/searchheaderbar.py:50
+msgid "Search songs, artists and albums"
+msgstr "მოძებნეთ სიმღერები, შემსრულებლები და ალბომები"
+
+#. noqa: F841
+#: gnomemusic/widgets/songwidgetmenu.py:94
+msgid "_Open Location"
+msgstr "მდებარე_ობის გახსნა"
+
+#. TRANSLATORS: These are verbs, to (un)mark something as a
+#. favorite.
+#: gnomemusic/widgets/startoggle.py:36
+msgid "Unstar"
+msgstr "ვარსკვლავის მოხსნა"
+
+#: gnomemusic/widgets/startoggle.py:36
+msgid "Star"
+msgstr "ვარსკვლავი"
+
+#: gnomemusic/widgets/statusnavigationpage.py:51
+msgid "Your XDG Music directory is not set."
+msgstr "XDG Music-ის საქაღალდე მითითებული არაა."
+
+#: gnomemusic/widgets/statusnavigationpage.py:58
+msgid "Music Folder"
+msgstr "მუსიკის საქაღალდე"
+
+#. TRANSLATORS: This is a label to display a link to open user's music
+#. folder. {} will be replaced with the translated text 'Music folder'
+#: gnomemusic/widgets/statusnavigationpage.py:66
+msgid "The contents of your {} will appear here."
+msgstr "თქვენი {}-ის შემცველობა აქ გამოჩნდება."
+
+#: gnomemusic/widgets/statusnavigationpage.py:116
+msgid "No Music Found"
+msgstr "მუსიკა ნაპოვნი არაა"
+
+#: gnomemusic/widgets/statusnavigationpage.py:117
+msgid "Try a Different Search"
+msgstr "სცადეთ სხვა ძებნა"
+
+#: gnomemusic/widgets/statusnavigationpage.py:121
+msgid "GNOME Music could not connect to Tracker."
+msgstr "GNOME Music-ი ტრეკერს ვერ მიუერთდა."
+
+#: gnomemusic/widgets/statusnavigationpage.py:123
+msgid "Your music files cannot be indexed without Tracker running."
+msgstr "მუსიკის ფაილების ინდექსაცია გაშვებული ტრეკერის გარეშე შეუძლებელია."
+
+#: gnomemusic/widgets/statusnavigationpage.py:129
+msgid "Your system Tracker version seems outdated."
+msgstr "როგორც ჩანს თქვენი სისტემური ტრეკერი მოძველებულია."
+
+#: gnomemusic/widgets/statusnavigationpage.py:131
+msgid "Music needs Tracker version 3.0.0 or higher."
+msgstr "Music-ს ტრეკერის 3.0.0 ან უფრო ახალი ვერსია სჭირდება."
+
+#~ msgid "Report music history to Last.fm"
+#~ msgstr "გადაეცით მოსმენილი მუსიკა Last.fm-ზე"
+
+#~ msgid ""
+#~ "Enables or disables sending scrobbles and the “currently playing” info to "
+#~ "Last.fm."
+#~ msgstr ""
+#~ "მიმდინარე სიმღერის შესახებ ინფორმაციის Last.fm-ზე გაგზავნის ჩართვა/"
+#~ "გამორთვა."
+
+#~ msgid "Last.fm Account"
+#~ msgstr "Last.fm-ის ანგარიში"
+
+#~ msgid "Report Music Listening"
+#~ msgstr "გადაეცით მოსმენილი მუსიკა"
+
+#~ msgid "_Help"
+#~ msgstr "_დახმარება"
+
+#~ msgid "Artist"
+#~ msgstr "შემსრულებელი"
+
+#~ msgid "Select"
+#~ msgstr "მონიშნეთ"
+
+#~ msgid "Back"
+#~ msgstr "უკან"
+
+#~ msgid ""
+#~ "Last.fm is a music discovery service that gives you personalised "
+#~ "recommendations based on the music you listen to."
+#~ msgstr ""
+#~ "Last.fm არის მუსიკალური სერვისი, რომელიც გაძლევთ პერსონალურ "
+#~ "რეკომენდაციებს თქვენს მიერ მოსმენილი მუსიკის საფუძველზე."
+
+#~ msgid "Music Reporting Not Setup"
+#~ msgstr "დაკრული მუსიკის გადაცემა მორგებული არაა"
+
+#~ msgid "Login to your Last.fm account to report your music listening."
+#~ msgstr ""
+#~ "შედით Last.fm-ის თქვენს ანგარიშში დაკრული სიმღერების სიის გადასაცემად."
+
+#~ msgid "Login"
+#~ msgstr "შესვლა"
+
+#~ msgid "Select All"
+#~ msgstr "ყველას მონიშვნა"
+
+#~ msgid "Select None"
+#~ msgstr "მონიშვნის მოხსნა"
+
+#~ msgid "Click on items to select them"
+#~ msgstr "მოსანიშნად დააწკაპუნეთ ელემენტებზე"
+
+#~ msgid "_Add to Playlist"
+#~ msgstr "_დასაკრავი სიაში დამატება"
+
+#~ msgid "Copyright The GNOME Music Developers"
+#~ msgstr "GNOME Music-ის პროგრამისტები, ყველა უფლება დაცულია"
+
+#~ msgid "Translated by"
+#~ msgstr "თარგმნა"
+
+#~ msgid "Artists Results"
+#~ msgstr "ნაპოვნი შემსრულებლები"
+
+#~ msgid "Albums Results"
+#~ msgstr "ნაპოვნი ალბომები"
+
+#~ msgid "Selected {} song"
+#~ msgid_plural "Selected {} songs"
+#~ msgstr[0] "არჩეულია {} სიმღერა"
+
+#~ msgid "Your music listening is reported to Last.fm."
+#~ msgstr "თქვენი მოსმენილი სიმღერების სახელები იგზავნება Last.fm-ზე."
+
+#~ msgid "Your music listening is not reported to Last.fm."
+#~ msgstr "თქვენი მოსმენილი სიმღერების სახელები არ იგზავნება Last.fm-ზე."
+
+#~ msgid "Logged in as {}"
+#~ msgstr "შესული ბრძანდებით, როგორც {}"
+
+#~ msgid "Configure"
+#~ msgstr "მორგება"
 
 #~ msgid "A music player and management application for GNOME."
 #~ msgstr "მუსიკის დაკვრისა და მართვის აპლიკაცია GNOME-სთვის."
