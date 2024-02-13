@@ -51,6 +51,7 @@
                              "-Ddefault_index_single_dirs=",
                              "-Ddefault_index_recursive_dirs=&MUSIC",
                              "-Ddomain_prefix=org.gnome.Music.Devel",
+                             "-Dlandlock=disabled",
                              "-Dman=false",
                              "-Dminer_fs=true",
                              "-Dminer_fs_cache_location=$XDG_CACHE_HOME/gnome-music/miner/files",
