@@ -14,9 +14,6 @@
         "--socket=pulseaudio",
         "--filesystem=xdg-music",
         "--talk-name=org.freedesktop.Tracker3.Writeback",
-        "--talk-name=org.gnome.OnlineAccounts",
-        "--talk-name=org.gnome.ControlCenter",
-        "--talk-name=org.gnome.Settings",
         "--system-talk-name=org.freedesktop.login1",
         "--add-policy=Tracker3.dbus:org.freedesktop.Tracker3.Miner.Files=tracker:Audio"
     ],
