@@ -2,14 +2,14 @@
 # Copyright (C) 2013 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-music package.
 #
-# Matej Urbančič <mateju@src.gnome.org>, 2009–2023.
+# Matej Urbančič <mateju@src.gnome.org>, 2009–2024.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2023-07-29 08:38+0000\n"
-"PO-Revision-Date: 2023-07-29 15:46+0200\n"
+"POT-Creation-Date: 2024-02-14 23:57+0000\n"
+"PO-Revision-Date: 2024-02-19 10:22+0100\n"
 "Last-Translator: Matej Urbančič <mateju@src.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -19,11 +19,11 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || "
 "n%100==4 ? 3 : 0);\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.4.2\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/about.py:243
-#: gnomemusic/application.py:61 gnomemusic/window.py:71
+#: data/org.gnome.Music.desktop.in.in:3 data/ui/StatusNavigationPage.ui:4
+#: gnomemusic/about.py:138 gnomemusic/application.py:59 gnomemusic/window.py:65
 msgid "Music"
 msgstr "Glasba"
 
@@ -44,7 +44,8 @@ msgstr ""
 "Iskanje posnetkov v krajevnih zbirkah in uporaba samodejnega ali "
 "načrtovanega pripravljanja seznamov predvajanja."
 
-#: data/org.gnome.Music.appdata.xml.in.in:182
+#. developer_name tag deprecated with Appstream 1.0
+#: data/org.gnome.Music.appdata.xml.in.in:188
 msgid "The GNOME Music developers"
 msgstr "Razvijalci programa GNOME Glasba"
 
@@ -91,7 +92,7 @@ msgstr ""
 "seznam predvajanja brez mešanja) in »premešano« (vrstni red je premešan, "
 "ponovljene pa bodo vse skladbe)."
 
-#: data/org.gnome.Music.gschema.xml:28
+#: data/org.gnome.Music.gschema.xml:28 data/ui/PreferencesDialog.ui:27
 msgid "Enable ReplayGain"
 msgstr "_Omogoči ReplayGain"
 
@@ -109,20 +110,13 @@ msgstr ""
 "Preklopi možnost preprečevanja prehoda v stanje pripravljenosti med "
 "predvajanjem glasbe."
 
-#: data/org.gnome.Music.gschema.xml:38
-msgid "Report music history to Last.fm"
-msgstr "Pošiljaj zgodovino poslušane glasbe na Last.fm"
-
-#: data/org.gnome.Music.gschema.xml:39
-msgid ""
-"Enables or disables sending scrobbles and the “currently playing” info to "
-"Last.fm."
-msgstr ""
-"Omogoči oziroma onemogoči pošiljanje podatkov »trenutno predvajanih skladb« "
-"na Last.fm"
+#: data/ui/AlbumsSearchNavigationPage.ui:5 data/ui/SearchView.ui:98
+#: gnomemusic/views/albumsview.py:52
+msgid "Albums"
+msgstr "Albumi"
 
 #: data/ui/AlbumWidget.ui:84 data/ui/PlayerToolbar.ui:87
-#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:170
+#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:176
 msgid "Play"
 msgstr "Predvajaj"
 
@@ -139,50 +133,34 @@ msgstr "_Dodaj med priljubljene"
 msgid "_Add to Playlist…"
 msgstr "_Dodaj na seznam predvajanja …"
 
-#: data/ui/AppMenu.ui:23 data/ui/LastfmDialog.ui:8
-msgid "Last.fm Account"
-msgstr "Račun Last.fm"
+#: data/ui/ArtistsSearchNavigationPage.ui:5 data/ui/SearchView.ui:41
+#: gnomemusic/views/artistsview.py:51
+msgid "Artists"
+msgstr "Izvajalci"
 
-#: data/ui/AppMenu.ui:36
-msgid "Report Music Listening"
-msgstr "Poročaj o poslušanju glasbe"
-
-#: data/ui/AppMenu.ui:58
-msgid "_Keyboard Shortcuts"
-msgstr "_Tipkovne bližnjice"
-
-#: data/ui/AppMenu.ui:68
-msgid "_Help"
-msgstr "Pomo_č"
-
-#: data/ui/AppMenu.ui:78
-msgid "_About Music"
-msgstr "_O programu"
-
-#: data/ui/EmptyView.ui:30
-msgid "Welcome to Music"
-msgstr "Dobrodošli"
-
-#: data/ui/HeaderBar.ui:17
+#: data/ui/HeaderBar.ui:14
 msgid "Menu"
 msgstr "Meni"
 
-#: data/ui/HeaderBar.ui:25 data/ui/SearchHeaderBar.ui:15
-msgid "Select"
-msgstr "Izberi"
-
-#: data/ui/HeaderBar.ui:31 data/ui/PlaylistDialog.ui:213
-#: data/ui/SearchHeaderBar.ui:20
-msgid "_Cancel"
-msgstr "_Prekliči"
-
-#: data/ui/HeaderBar.ui:43 data/ui/SearchHeaderBar.ui:32
+#: data/ui/HeaderBar.ui:22 data/ui/SearchHeaderBar.ui:12
 msgid "Search"
 msgstr "Iskanje"
 
-#: data/ui/HeaderBar.ui:51
-msgid "Back"
-msgstr "Nazaj"
+#: data/ui/HeaderBar.ui:31 data/ui/PreferencesDialog.ui:4
+msgid "Preferences"
+msgstr "Možnosti"
+
+#: data/ui/HeaderBar.ui:35
+msgid "Keyboard Shortcuts"
+msgstr "Tipkovne bližnjice‫"
+
+#: data/ui/HeaderBar.ui:39
+msgid "Help"
+msgstr "Pomoč"
+
+#: data/ui/HeaderBar.ui:43
+msgid "About Music"
+msgstr "O programu"
 
 #: data/ui/help-overlay.ui:11
 msgctxt "shortcut window"
@@ -269,26 +247,6 @@ msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Skoči na predhodni pogled"
 
-#: data/ui/LastfmDialog.ui:21
-msgid ""
-"Last.fm is a music discovery service that gives you personalised "
-"recommendations based on the music you listen to."
-msgstr ""
-"Spletišče Last.fm je storitev odkrivanja glasbe, ki omogoča priporočila, "
-"oblikovana po glasbi, ki jo najpogosteje poslušate."
-
-#: data/ui/LastfmDialog.ui:31 gnomemusic/widgets/lastfmdialog.py:57
-msgid "Music Reporting Not Setup"
-msgstr "Omejitev poročanja o poslušanju glasbe"
-
-#: data/ui/LastfmDialog.ui:44 gnomemusic/widgets/lastfmdialog.py:60
-msgid "Login to your Last.fm account to report your music listening."
-msgstr "Prijavite se v račun Last.fm za poročanje o poslušanju glasbe"
-
-#: data/ui/LastfmDialog.ui:55 gnomemusic/widgets/lastfmdialog.py:58
-msgid "Login"
-msgstr "Prijava"
-
 #: data/ui/PlayerToolbar.ui:74
 msgid "Previous"
 msgstr "Predhodna"
@@ -313,126 +271,156 @@ msgstr "Ime seznama predvajanja"
 msgid "_Done"
 msgstr "_Končano"
 
-#: data/ui/PlaylistDialog.ui:52
-msgid "Enter a name for your first playlist"
-msgstr "Ime prvega seznama predvajanja"
-
-#: data/ui/PlaylistDialog.ui:77
-msgid "C_reate"
-msgstr "_Ustvari"
-
-#: data/ui/PlaylistDialog.ui:146
-msgid "New Playlist…"
-msgstr "Nov seznam predvajanja …"
-
-#: data/ui/PlaylistDialog.ui:161
-msgid "Add"
-msgstr "Dodaj"
-
-#: data/ui/PlaylistDialog.ui:202
+#: data/ui/PlaylistDialog.ui:16
 msgid "Add to Playlist"
 msgstr "Dodaj na seznam predvajanja"
 
-#: data/ui/PlaylistDialog.ui:222
+#: data/ui/PlaylistDialog.ui:27
+msgid "_Cancel"
+msgstr "_Prekliči"
+
+#: data/ui/PlaylistDialog.ui:36
 msgid "_Add"
 msgstr "_Dodaj"
 
-#: data/ui/SearchView.ui:33 gnomemusic/views/artistsview.py:51
-msgid "Artists"
-msgstr "Izvajalci"
+#: data/ui/PlaylistDialog.ui:91
+msgid "Enter a name for your first playlist"
+msgstr "Ime prvega seznama predvajanja"
 
-#: data/ui/SearchView.ui:42 data/ui/SearchView.ui:84
+#: data/ui/PlaylistDialog.ui:116
+msgid "C_reate"
+msgstr "_Ustvari"
+
+#: data/ui/PlaylistDialog.ui:177
+msgid "New Playlist…"
+msgstr "Nov seznam predvajanja …"
+
+#: data/ui/PlaylistDialog.ui:189
+msgid "Add"
+msgstr "Dodaj"
+
+#: data/ui/PreferencesDialog.ui:9
+msgid "Player Settings"
+msgstr "Nastavitve predvajalnika"
+
+#: data/ui/PreferencesDialog.ui:12
+msgid "Repeat Mode"
+msgstr "Način ponavljanja"
+
+#: data/ui/PreferencesDialog.ui:16
+msgid "None"
+msgstr "Brez"
+
+#: data/ui/PreferencesDialog.ui:17
+msgid "Song"
+msgstr "Skladba"
+
+#: data/ui/PreferencesDialog.ui:18
+msgid "All"
+msgstr "Vse"
+
+#: data/ui/PreferencesDialog.ui:19 gnomemusic/player.py:51
+msgid "Shuffle"
+msgstr "Premešaj"
+
+#: data/ui/PreferencesDialog.ui:28
+msgid "Balance loudness between songs if ReplayGain metadata is found"
+msgstr "Uravnaj glasnost med skladbami, če so vpisani metapodatki ReplayGain"
+
+#: data/ui/PreferencesDialog.ui:35
+msgid "Power Settings"
+msgstr "Nastavitve delovanja"
+
+#: data/ui/PreferencesDialog.ui:38
+msgid "Inhibit Suspend"
+msgstr "Prepreči sistemski prehod v pripravljenost"
+
+#: data/ui/PreferencesDialog.ui:39
+msgid "Only while playing"
+msgstr "Le med predvajanjem"
+
+#: data/ui/SearchView.ui:55 data/ui/SearchView.ui:112
 msgid "View All"
 msgstr "Pokaži vse"
 
-#: data/ui/SearchView.ui:75 gnomemusic/views/albumsview.py:56
-msgid "Albums"
-msgstr "Albumi"
-
-#: data/ui/SearchView.ui:117 gnomemusic/views/songsview.py:52
+#: data/ui/SearchView.ui:154
 msgid "Songs"
 msgstr "Skladbe"
-
-#: data/ui/SelectionBarMenuButton.ui:7
-msgid "Select All"
-msgstr "Izberi vse"
-
-#: data/ui/SelectionBarMenuButton.ui:11
-msgid "Select None"
-msgstr "Odstrani izbor"
-
-#: data/ui/SelectionBarMenuButton.ui:19 gnomemusic/widgets/headerbar.py:69
-msgid "Click on items to select them"
-msgstr "S klikom se predmeti izberejo."
-
-#: data/ui/SelectionToolbar.ui:8
-msgid "_Add to Playlist"
-msgstr "Dodaj na _seznam predvajanja"
 
 #: data/ui/SongWidgetMenu.ui:19
 msgid "_Remove from Playlist"
 msgstr "_Odstrani s seznama predvajanja"
 
-#: gnomemusic/about.py:245
+#: data/ui/StatusNavigationPage.ui:36
+msgid "Welcome to Music"
+msgstr "Dobrodošli"
+
+#: gnomemusic/about.py:140
 msgid "The GNOME Project"
 msgstr "Projekt GNOME"
 
-#: gnomemusic/about.py:249
+#. Translators should localize the following string which
+#. will be displayed at the bottom of the about box to give
+#. credit to the translator(s).
+#: gnomemusic/about.py:146
 msgid "translator-credits"
 msgstr "Matej Urbančič <mateju@src.gnome.org>"
 
-#: gnomemusic/about.py:253
-msgid "Copyright The GNOME Music Developers"
-msgstr "Avtorske pravice razvijalcev programa GNOME Glasba"
-
-#: gnomemusic/about.py:256
-msgid "Translated by"
-msgstr "Prevod:"
+#: gnomemusic/about.py:150
+msgid "© The GNOME Music Developers"
+msgstr "© Razvijalci programa GNOME Glasba"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:894
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:839
 msgid "Most Played"
 msgstr "Najpogosteje predvajano"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:948
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:893
 msgid "Never Played"
 msgstr "Nikoli predvajano"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1001
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:946
 msgid "Recently Played"
 msgstr "Nedavno predvajano"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1064
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1025
 msgid "Recently Added"
 msgstr "Nedavno dodano"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1127
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1088
 msgid "Favorite Songs"
 msgstr "Priljubljeni posnetki"
 
-#: gnomemusic/gstplayer.py:408
+#. TRANSLATORS: this is a playlist name indicating that the
+#. files are not tagged enough to be displayed in the albums
+#. or artists views.
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1142
+msgid "Insufficiently Tagged"
+msgstr "Neustrezno označeno"
+
+#: gnomemusic/gstplayer.py:418
 msgid "Unable to play the file"
 msgstr "Datoteke ni mogoče predvajati."
 
-#: gnomemusic/gstplayer.py:414
+#: gnomemusic/gstplayer.py:424
 msgid "_Find in {}"
 msgstr "_Najdi v {}"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:424
+#: gnomemusic/gstplayer.py:434
 msgid " and "
 msgstr "in "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:427
+#: gnomemusic/gstplayer.py:437
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:429
+#: gnomemusic/gstplayer.py:439
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "{} so zahtevani za predvajanje datoteke, vendar niso nameščeni."
@@ -440,26 +428,22 @@ msgstr[1] "{} je zahtevan za predvajanje datoteke, vendar ni nameščen."
 msgstr[2] "{} sta zahtevana za predvajanje datoteke, vendar nista nameščena."
 msgstr[3] "{} so zahtevani za predvajanje datoteke, vendar niso nameščeni."
 
-#: gnomemusic/inhibitsuspend.py:63
+#: gnomemusic/inhibitsuspend.py:69
 msgid "Playing music"
 msgstr "Predvajanje glasbe"
 
 #. Translators: "shuffle" causes tracks to play in random order.
-#: gnomemusic/player.py:44
+#: gnomemusic/player.py:48
 msgid "Shuffle/Repeat Off"
 msgstr "Onemogoči premešanje/ponavljanje"
 
-#: gnomemusic/player.py:45
+#: gnomemusic/player.py:49
 msgid "Repeat Song"
 msgstr "Ponovi skladbo"
 
-#: gnomemusic/player.py:46
+#: gnomemusic/player.py:50
 msgid "Repeat All"
 msgstr "Ponovi vse"
-
-#: gnomemusic/player.py:47
-msgid "Shuffle"
-msgstr "Premešaj"
 
 #: gnomemusic/playlisttoast.py:55
 msgid "Playlist {} removed"
@@ -473,67 +457,35 @@ msgstr "Razveljavi"
 msgid "{} removed from {}"
 msgstr "{} odstranjen iz {}"
 
-#: gnomemusic/utils.py:92
+#: gnomemusic/utils.py:89
 msgid "Unknown album"
 msgstr "Neznan album"
 
-#: gnomemusic/utils.py:113
+#: gnomemusic/utils.py:110
 msgid "Unknown Artist"
 msgstr "Neznan izvajalec"
-
-#: gnomemusic/views/emptyview.py:65
-msgid "Your XDG Music directory is not set."
-msgstr "Mapa glasbe XDG ni nastavljena."
-
-#: gnomemusic/views/emptyview.py:72
-msgid "Music Folder"
-msgstr "Glasbena mapa"
-
-#. TRANSLATORS: This is a label to display a link to open user's music
-#. folder. {} will be replaced with the translated text 'Music folder'
-#: gnomemusic/views/emptyview.py:76
-msgid "The contents of your {} will appear here."
-msgstr "Vsebina {} bo prikazana na tem mestu."
-
-#: gnomemusic/views/emptyview.py:124
-msgid "No Music Found"
-msgstr "Ni shranjene glasbe"
-
-#: gnomemusic/views/emptyview.py:125
-msgid "Try a Different Search"
-msgstr "Poskusite drugačno iskanje"
-
-#: gnomemusic/views/emptyview.py:129
-msgid "GNOME Music could not connect to Tracker."
-msgstr "Ni mogoče vzpostaviti povezave s programom Tracker."
-
-#: gnomemusic/views/emptyview.py:131
-msgid "Your music files cannot be indexed without Tracker running."
-msgstr ""
-"Glasbenih datotek brez zagnanega programa Tracker ni mogoče indeksirati."
-
-#: gnomemusic/views/emptyview.py:137
-msgid "Your system Tracker version seems outdated."
-msgstr "Sistemska različica paketa Tracker je videti zastarela."
-
-#: gnomemusic/views/emptyview.py:139
-msgid "Music needs Tracker version 3.0.0 or higher."
-msgstr ""
-"Program Music zahteva namestitev različice paketa Tracker 3.0.0 ali višje."
 
 #: gnomemusic/views/playlistsview.py:45
 msgid "Playlists"
 msgstr "Seznami predvajanja"
 
-#: gnomemusic/views/searchview.py:304
-msgid "Artists Results"
-msgstr "Izvajalci"
+#: gnomemusic/views/searchview.py:220
+msgid "No Search Started"
+msgstr "Ni še začetega iskanja"
 
-#: gnomemusic/views/searchview.py:318
-msgid "Albums Results"
-msgstr "Albumi"
+#: gnomemusic/views/searchview.py:222
+msgid "Use the searchbar to start searching for albums, artists or songs"
+msgstr "Iskalna vrstica omogoča hitro iskanje albumov, izvajalcev in skladb"
 
-#: gnomemusic/widgets/albumwidget.py:245
+#: gnomemusic/views/searchview.py:226
+msgid "No Results Found"
+msgstr "Ni najdenih zadetkov."
+
+#: gnomemusic/views/searchview.py:228
+msgid "Try a different search"
+msgstr "Poskusite drugačno iskanje"
+
+#: gnomemusic/widgets/albumwidget.py:230
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} minut"
@@ -541,36 +493,11 @@ msgstr[1] "{} minuta"
 msgstr[2] "{} minuti"
 msgstr[3] "{} minute"
 
-#: gnomemusic/widgets/discbox.py:75
+#: gnomemusic/widgets/discbox.py:74
 msgid "Disc {}"
 msgstr "Disk {}"
 
-#: gnomemusic/widgets/headerbar.py:66
-msgid "Selected {} song"
-msgid_plural "Selected {} songs"
-msgstr[0] "Izbranih je {} skladb"
-msgstr[1] "Izbrana je {} skladba"
-msgstr[2] "Izbrani sta {} skladbi"
-msgstr[3] "Izbrane so {} skladbe"
-
-#: gnomemusic/widgets/lastfmdialog.py:64
-msgid "Your music listening is reported to Last.fm."
-msgstr "Poročilo o poslušanju glasbe je poslano na Last.fm."
-
-#: gnomemusic/widgets/lastfmdialog.py:66
-msgid "Your music listening is not reported to Last.fm."
-msgstr "Podatki poslušanja glasbe niso posredovani na Last.fm."
-
-#. TRANSLATORS: displays the username of the Last.fm account
-#: gnomemusic/widgets/lastfmdialog.py:70
-msgid "Logged in as {}"
-msgstr "Trenutno je dejavna prijava {}"
-
-#: gnomemusic/widgets/lastfmdialog.py:71
-msgid "Configure"
-msgstr "Nastavi"
-
-#: gnomemusic/widgets/playertoolbar.py:167
+#: gnomemusic/widgets/playertoolbar.py:173
 msgid "Pause"
 msgstr "Premor"
 
@@ -582,9 +509,148 @@ msgstr[1] "{} skladba"
 msgstr[2] "{} skladbi"
 msgstr[3] "{} skladbe"
 
-#: gnomemusic/widgets/searchheaderbar.py:66
-msgid "Search songs, artists, albums and playlists"
-msgstr "Poišči skladbe, izvajalce, albume in sezname predvajanj"
+#: gnomemusic/widgets/searchheaderbar.py:50
+msgid "Search songs, artists and albums"
+msgstr "Iskanje skladb, izvajalcev in albumov"
+
+#. noqa: F841
+#: gnomemusic/widgets/songwidgetmenu.py:94
+msgid "_Open Location"
+msgstr "_Odpri mesto"
+
+#. TRANSLATORS: These are verbs, to (un)mark something as a
+#. favorite.
+#: gnomemusic/widgets/startoggle.py:36
+msgid "Unstar"
+msgstr "Odstrani zvezdico"
+
+#: gnomemusic/widgets/startoggle.py:36
+msgid "Star"
+msgstr "Označi z zvezdico"
+
+#: gnomemusic/widgets/statusnavigationpage.py:51
+msgid "Your XDG Music directory is not set."
+msgstr "Mapa glasbe XDG ni nastavljena."
+
+#: gnomemusic/widgets/statusnavigationpage.py:58
+msgid "Music Folder"
+msgstr "Glasbena mapa"
+
+#. TRANSLATORS: This is a label to display a link to open user's music
+#. folder. {} will be replaced with the translated text 'Music folder'
+#: gnomemusic/widgets/statusnavigationpage.py:66
+msgid "The contents of your {} will appear here."
+msgstr "Vsebina {} bo prikazana na tem mestu."
+
+#: gnomemusic/widgets/statusnavigationpage.py:116
+msgid "No Music Found"
+msgstr "Ni shranjene glasbe"
+
+#: gnomemusic/widgets/statusnavigationpage.py:117
+msgid "Try a Different Search"
+msgstr "Poskusite drugačno iskanje"
+
+#: gnomemusic/widgets/statusnavigationpage.py:121
+msgid "GNOME Music could not connect to Tracker."
+msgstr "Ni mogoče vzpostaviti povezave s programom Tracker."
+
+#: gnomemusic/widgets/statusnavigationpage.py:123
+msgid "Your music files cannot be indexed without Tracker running."
+msgstr ""
+"Glasbenih datotek brez zagnanega programa Tracker ni mogoče indeksirati."
+
+#: gnomemusic/widgets/statusnavigationpage.py:129
+msgid "Your system Tracker version seems outdated."
+msgstr "Sistemska različica paketa Tracker je videti zastarela."
+
+#: gnomemusic/widgets/statusnavigationpage.py:131
+msgid "Music needs Tracker version 3.0.0 or higher."
+msgstr ""
+"Program Music zahteva namestitev različice paketa Tracker 3.0.0 ali višje."
+
+#~ msgid "Report music history to Last.fm"
+#~ msgstr "Pošiljaj zgodovino poslušane glasbe na Last.fm"
+
+#~ msgid ""
+#~ "Enables or disables sending scrobbles and the “currently playing” info to "
+#~ "Last.fm."
+#~ msgstr ""
+#~ "Omogoči oziroma onemogoči pošiljanje podatkov »trenutno predvajanih "
+#~ "skladb« na Last.fm"
+
+#~ msgid "Last.fm Account"
+#~ msgstr "Račun Last.fm"
+
+#~ msgid "Report Music Listening"
+#~ msgstr "Poročaj o poslušanju glasbe"
+
+#~ msgid "_Help"
+#~ msgstr "Pomo_č"
+
+#~ msgid "Select"
+#~ msgstr "Izberi"
+
+#~ msgid "Back"
+#~ msgstr "Nazaj"
+
+#~ msgid ""
+#~ "Last.fm is a music discovery service that gives you personalised "
+#~ "recommendations based on the music you listen to."
+#~ msgstr ""
+#~ "Spletišče Last.fm je storitev odkrivanja glasbe, ki omogoča priporočila, "
+#~ "oblikovana po glasbi, ki jo najpogosteje poslušate."
+
+#~ msgid "Music Reporting Not Setup"
+#~ msgstr "Omejitev poročanja o poslušanju glasbe"
+
+#~ msgid "Login to your Last.fm account to report your music listening."
+#~ msgstr "Prijavite se v račun Last.fm za poročanje o poslušanju glasbe"
+
+#~ msgid "Login"
+#~ msgstr "Prijava"
+
+#~ msgid "Select All"
+#~ msgstr "Izberi vse"
+
+#~ msgid "Select None"
+#~ msgstr "Odstrani izbor"
+
+#~ msgid "Click on items to select them"
+#~ msgstr "S klikom se predmeti izberejo."
+
+#~ msgid "_Add to Playlist"
+#~ msgstr "Dodaj na _seznam predvajanja"
+
+#~ msgid "Copyright The GNOME Music Developers"
+#~ msgstr "Avtorske pravice razvijalcev programa GNOME Glasba"
+
+#~ msgid "Translated by"
+#~ msgstr "Prevod:"
+
+#~ msgid "Artists Results"
+#~ msgstr "Izvajalci"
+
+#~ msgid "Albums Results"
+#~ msgstr "Albumi"
+
+#~ msgid "Selected {} song"
+#~ msgid_plural "Selected {} songs"
+#~ msgstr[0] "Izbranih je {} skladb"
+#~ msgstr[1] "Izbrana je {} skladba"
+#~ msgstr[2] "Izbrani sta {} skladbi"
+#~ msgstr[3] "Izbrane so {} skladbe"
+
+#~ msgid "Your music listening is reported to Last.fm."
+#~ msgstr "Poročilo o poslušanju glasbe je poslano na Last.fm."
+
+#~ msgid "Your music listening is not reported to Last.fm."
+#~ msgstr "Podatki poslušanja glasbe niso posredovani na Last.fm."
+
+#~ msgid "Logged in as {}"
+#~ msgstr "Trenutno je dejavna prijava {}"
+
+#~ msgid "Configure"
+#~ msgstr "Nastavi"
 
 #~ msgid "A music player and management application for GNOME."
 #~ msgstr "Program GNOME za upravljanje in predvajanje glasbe."
@@ -743,9 +809,6 @@ msgstr "Poišči skladbe, izvajalce, albume in sezname predvajanj"
 #~ msgctxt "context menu item"
 #~ msgid "Play"
 #~ msgstr "Predvajaj"
-
-#~ msgid "All"
-#~ msgstr "Vse"
 
 #~ msgid "Artist"
 #~ msgstr "Izvajalec"
