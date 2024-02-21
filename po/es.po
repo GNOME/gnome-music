@@ -3,27 +3,26 @@
 # This file is distributed under the same license as the gnome-music package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2012-2021.
-# Daniel Mustieles García <daniel.mustieles@gmail.com>, 2021-2023.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2021-2024.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2023-07-04 07:49+0000\n"
-"PO-Revision-Date: 2023-08-08 08:11+0200\n"
-"Last-Translator: Daniel Mustieles García <daniel.mustieles@gmail.com>\n"
+"POT-Creation-Date: 2024-02-11 20:43+0000\n"
+"PO-Revision-Date: 2024-02-21 12:23+0100\n"
+"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Spanish - Spain <gnome-es-list@gnome.org>\n"
 "Language: es_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"X-Generator: Gtranslator 42.0\n"
+"X-Generator: Gtranslator 45.3\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/about.py:243
-#: gnomemusic/application.py:61 gnomemusic/window.py:71
+#: data/org.gnome.Music.desktop.in.in:3 data/ui/StatusNavigationPage.ui:4
+#: gnomemusic/about.py:138 gnomemusic/application.py:59 gnomemusic/window.py:65
 msgid "Music"
 msgstr "Música"
 
@@ -44,7 +43,8 @@ msgstr ""
 "Busque pistas en su colección local, use listas de reproducción generadas "
 "automáticamente o cree una nueva."
 
-#: data/org.gnome.Music.appdata.xml.in.in:182
+#. developer_name tag deprecated with Appstream 1.0
+#: data/org.gnome.Music.appdata.xml.in.in:188
 msgid "The GNOME Music developers"
 msgstr "Los desarrolladores de GNOME Música"
 
@@ -91,7 +91,7 @@ msgstr ""
 "«todas» (repetir la lista de reproducción, sin mezclar), «mezclar» (mezclar "
 "la lista de reproducción, se repiten todas)."
 
-#: data/org.gnome.Music.gschema.xml:28
+#: data/org.gnome.Music.gschema.xml:28 data/ui/PreferencesDialog.ui:27
 msgid "Enable ReplayGain"
 msgstr "Activar ReplayGain"
 
@@ -109,20 +109,13 @@ msgstr ""
 "Activa o desactiva la suspensión de inhibición el sistema al reproducir "
 "música"
 
-#: data/org.gnome.Music.gschema.xml:38
-msgid "Report music history to Last.fm"
-msgstr "Enviar histórico de música a Last.fm"
-
-#: data/org.gnome.Music.gschema.xml:39
-msgid ""
-"Enables or disables sending scrobbles and the “currently playing” info to "
-"Last.fm."
-msgstr ""
-"Activa o desactiva el envío de «scrobbles» e información de «reproduciendo "
-"actualmente» a Last.fm"
+#: data/ui/AlbumsSearchNavigationPage.ui:5 data/ui/SearchView.ui:98
+#: gnomemusic/views/albumsview.py:52
+msgid "Albums"
+msgstr "Álbumes"
 
 #: data/ui/AlbumWidget.ui:84 data/ui/PlayerToolbar.ui:87
-#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:170
+#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:176
 msgid "Play"
 msgstr "Reproducir"
 
@@ -139,50 +132,34 @@ msgstr "Añadir a canciones _favoritas"
 msgid "_Add to Playlist…"
 msgstr "_Añadir a la lista de reproducción…"
 
-#: data/ui/AppMenu.ui:23 data/ui/LastfmDialog.ui:8
-msgid "Last.fm Account"
-msgstr "Cuenta de Last.fm"
+#: data/ui/ArtistsSearchNavigationPage.ui:5 data/ui/SearchView.ui:41
+#: gnomemusic/views/artistsview.py:51
+msgid "Artists"
+msgstr "Artistas"
 
-#: data/ui/AppMenu.ui:36
-msgid "Report Music Listening"
-msgstr "Informar de música que se está escuchando"
-
-#: data/ui/AppMenu.ui:58
-msgid "_Keyboard Shortcuts"
-msgstr "_Atajos del teclado"
-
-#: data/ui/AppMenu.ui:68
-msgid "_Help"
-msgstr "_Ayuda"
-
-#: data/ui/AppMenu.ui:78
-msgid "_About Music"
-msgstr "_Acerca de Música"
-
-#: data/ui/EmptyView.ui:30
-msgid "Welcome to Music"
-msgstr "Bienvenido a Música"
-
-#: data/ui/HeaderBar.ui:17
+#: data/ui/HeaderBar.ui:14
 msgid "Menu"
 msgstr "Menú"
 
-#: data/ui/HeaderBar.ui:25 data/ui/SearchHeaderBar.ui:15
-msgid "Select"
-msgstr "Seleccionar"
-
-#: data/ui/HeaderBar.ui:31 data/ui/PlaylistDialog.ui:213
-#: data/ui/SearchHeaderBar.ui:20
-msgid "_Cancel"
-msgstr "_Cancelar"
-
-#: data/ui/HeaderBar.ui:43 data/ui/SearchHeaderBar.ui:32
+#: data/ui/HeaderBar.ui:22 data/ui/SearchHeaderBar.ui:12
 msgid "Search"
 msgstr "Buscar"
 
-#: data/ui/HeaderBar.ui:51
-msgid "Back"
-msgstr "Atrás"
+#: data/ui/HeaderBar.ui:31 data/ui/PreferencesDialog.ui:4
+msgid "Preferences"
+msgstr "Preferencias"
+
+#: data/ui/HeaderBar.ui:35
+msgid "Keyboard Shortcuts"
+msgstr "Atajos del teclado"
+
+#: data/ui/HeaderBar.ui:39
+msgid "Help"
+msgstr "Ayuda"
+
+#: data/ui/HeaderBar.ui:43
+msgid "About Music"
+msgstr "Acerca de Música"
 
 #: data/ui/help-overlay.ui:11
 msgctxt "shortcut window"
@@ -269,27 +246,6 @@ msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Retroceder"
 
-#: data/ui/LastfmDialog.ui:21
-msgid ""
-"Last.fm is a music discovery service that gives you personalised "
-"recommendations based on the music you listen to."
-msgstr ""
-"Last.fm es un servicio de descubrimiento de música que le ofrece "
-"recomendaciones personalizadas basadas en la música que escucha."
-
-#: data/ui/LastfmDialog.ui:31 gnomemusic/widgets/lastfmdialog.py:57
-msgid "Music Reporting Not Setup"
-msgstr "Informe de música no configurado"
-
-#: data/ui/LastfmDialog.ui:44 gnomemusic/widgets/lastfmdialog.py:60
-msgid "Login to your Last.fm account to report your music listening."
-msgstr ""
-"Inicie sesión en su cuneta de Last.fm para informar de la música que escucha."
-
-#: data/ui/LastfmDialog.ui:55 gnomemusic/widgets/lastfmdialog.py:58
-msgid "Login"
-msgstr "Iniciar sesión"
-
 #: data/ui/PlayerToolbar.ui:74
 msgid "Previous"
 msgstr "Anterior"
@@ -314,152 +270,180 @@ msgstr "Nombre de la lista de reproducción"
 msgid "_Done"
 msgstr "_Hecho"
 
-#: data/ui/PlaylistDialog.ui:52
-msgid "Enter a name for your first playlist"
-msgstr "Introduzca un nombre para su primera lista de reproducción"
-
-#: data/ui/PlaylistDialog.ui:77
-msgid "C_reate"
-msgstr "C_rear"
-
-#: data/ui/PlaylistDialog.ui:146
-msgid "New Playlist…"
-msgstr "Lista de reproducción nueva…"
-
-#: data/ui/PlaylistDialog.ui:161
-msgid "Add"
-msgstr "Añadir"
-
-#: data/ui/PlaylistDialog.ui:202
+#: data/ui/PlaylistDialog.ui:16
 msgid "Add to Playlist"
 msgstr "Añadir a la lista de reproducción"
 
-#: data/ui/PlaylistDialog.ui:222
+#: data/ui/PlaylistDialog.ui:27
+msgid "_Cancel"
+msgstr "_Cancelar"
+
+#: data/ui/PlaylistDialog.ui:36
 msgid "_Add"
 msgstr "_Añadir"
 
-#: data/ui/SearchView.ui:33 gnomemusic/views/artistsview.py:51
-msgid "Artists"
-msgstr "Artistas"
+#: data/ui/PlaylistDialog.ui:91
+msgid "Enter a name for your first playlist"
+msgstr "Introduzca un nombre para su primera lista de reproducción"
 
-#: data/ui/SearchView.ui:42 data/ui/SearchView.ui:84
+#: data/ui/PlaylistDialog.ui:116
+msgid "C_reate"
+msgstr "C_rear"
+
+#: data/ui/PlaylistDialog.ui:177
+msgid "New Playlist…"
+msgstr "Lista de reproducción nueva…"
+
+#: data/ui/PlaylistDialog.ui:189
+msgid "Add"
+msgstr "Añadir"
+
+#: data/ui/PreferencesDialog.ui:9
+msgid "Player Settings"
+msgstr "Configuración del reproductor"
+
+#: data/ui/PreferencesDialog.ui:12
+msgid "Repeat Mode"
+msgstr "Modo repetición"
+
+#: data/ui/PreferencesDialog.ui:16
+msgid "None"
+msgstr "Ninguno"
+
+#: data/ui/PreferencesDialog.ui:17
+msgid "Song"
+msgstr "Canción"
+
+#: data/ui/PreferencesDialog.ui:18
+msgid "All"
+msgstr "Todas"
+
+#: data/ui/PreferencesDialog.ui:19 gnomemusic/player.py:51
+msgid "Shuffle"
+msgstr "Mezclar"
+
+#: data/ui/PreferencesDialog.ui:28
+msgid "Balance loudness between songs if ReplayGain metadata is found"
+msgstr ""
+"Equilibrar el volumen entre canciones si se encuentran metadatos de "
+"ReplayGain"
+
+#: data/ui/PreferencesDialog.ui:35
+msgid "Power Settings"
+msgstr "Configuración de energía"
+
+#: data/ui/PreferencesDialog.ui:38
+msgid "Inhibit Suspend"
+msgstr "Inhibir la suspensión"
+
+#: data/ui/PreferencesDialog.ui:39
+msgid "Only while playing"
+msgstr "Sólo al reproducir"
+
+#: data/ui/SearchView.ui:55 data/ui/SearchView.ui:112
 msgid "View All"
 msgstr "Ver todo"
 
-#: data/ui/SearchView.ui:75 gnomemusic/views/albumsview.py:56
-msgid "Albums"
-msgstr "Álbumes"
-
-#: data/ui/SearchView.ui:117 gnomemusic/views/songsview.py:52
+#: data/ui/SearchView.ui:154
 msgid "Songs"
 msgstr "Canciones"
-
-#: data/ui/SelectionBarMenuButton.ui:7
-msgid "Select All"
-msgstr "Seleccionar todos"
-
-#: data/ui/SelectionBarMenuButton.ui:11
-msgid "Select None"
-msgstr "Seleccionar ninguno"
-
-#: data/ui/SelectionBarMenuButton.ui:19 gnomemusic/widgets/headerbar.py:69
-msgid "Click on items to select them"
-msgstr "Pulse sobre los elementos para seleccionarlos"
-
-#: data/ui/SelectionToolbar.ui:8
-msgid "_Add to Playlist"
-msgstr "Añadir a la _lista de reproducción"
 
 #: data/ui/SongWidgetMenu.ui:19
 msgid "_Remove from Playlist"
 msgstr "_Quitar de la lista de reproducción"
 
-#: gnomemusic/about.py:245
+#: data/ui/StatusNavigationPage.ui:36
+msgid "Welcome to Music"
+msgstr "Bienvenido a Música"
+
+#: gnomemusic/about.py:140
 msgid "The GNOME Project"
 msgstr "El Proyecto GNOME"
 
-#: gnomemusic/about.py:249
+#. Translators should localize the following string which
+#. will be displayed at the bottom of the about box to give
+#. credit to the translator(s).
+#: gnomemusic/about.py:146
 msgid "translator-credits"
 msgstr "Daniel Mustieles <daniel.mustieles@gmail.com>, 2012-2022"
 
-#: gnomemusic/about.py:253
-msgid "Copyright The GNOME Music Developers"
-msgstr "Copyright Desarrolladores de GNOME Música"
-
-#: gnomemusic/about.py:256
-msgid "Translated by"
-msgstr "Traducido por"
+#: gnomemusic/about.py:150
+msgid "© The GNOME Music Developers"
+msgstr "© Los desarrolladores de GNOME Música"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:894
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:839
 msgid "Most Played"
 msgstr "Más reproducidas"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:948
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:893
 msgid "Never Played"
 msgstr "No reproducidas nunca"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1001
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:946
 msgid "Recently Played"
 msgstr "Reproducidas recientemente"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1064
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1025
 msgid "Recently Added"
 msgstr "Añadidas recientemente"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1127
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1088
 msgid "Favorite Songs"
 msgstr "Canciones favoritas"
 
-#: gnomemusic/gstplayer.py:408
+#. TRANSLATORS: this is a playlist name indicating that the
+#. files are not tagged enough to be displayed in the albums
+#. or artists views.
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1142
+msgid "Insufficiently Tagged"
+msgstr "No etiquetado suficientemente"
+
+#: gnomemusic/gstplayer.py:418
 msgid "Unable to play the file"
 msgstr "No se puede reproducir el archivo"
 
-#: gnomemusic/gstplayer.py:414
+#: gnomemusic/gstplayer.py:424
 msgid "_Find in {}"
 msgstr "_Buscar en {}"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:424
+#: gnomemusic/gstplayer.py:434
 msgid " and "
 msgstr " y "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:427
+#: gnomemusic/gstplayer.py:437
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:429
+#: gnomemusic/gstplayer.py:439
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "Se necesita {} para reproducir el archivo, pero no está instalado."
 msgstr[1] ""
 "Se necesitan {} para reproducir el archivo, pero no están instalados."
 
-#: gnomemusic/inhibitsuspend.py:63
+#: gnomemusic/inhibitsuspend.py:69
 msgid "Playing music"
 msgstr "Reproducir música"
 
 #. Translators: "shuffle" causes tracks to play in random order.
-#: gnomemusic/player.py:44
+#: gnomemusic/player.py:48
 msgid "Shuffle/Repeat Off"
 msgstr "No mezclar ni repetir"
 
-#: gnomemusic/player.py:45
+#: gnomemusic/player.py:49
 msgid "Repeat Song"
 msgstr "Repetir canción"
 
-#: gnomemusic/player.py:46
+#: gnomemusic/player.py:50
 msgid "Repeat All"
 msgstr "Repetir todas"
-
-#: gnomemusic/player.py:47
-msgid "Shuffle"
-msgstr "Mezclar"
 
 #: gnomemusic/playlisttoast.py:55
 msgid "Playlist {} removed"
@@ -473,99 +457,46 @@ msgstr "Deshacer"
 msgid "{} removed from {}"
 msgstr "{} eliminado de {}"
 
-#: gnomemusic/utils.py:92
+#: gnomemusic/utils.py:89
 msgid "Unknown album"
 msgstr "Álbum desconocido"
 
-#: gnomemusic/utils.py:113
+#: gnomemusic/utils.py:110
 msgid "Unknown Artist"
 msgstr "Artista desconocido"
-
-#: gnomemusic/views/emptyview.py:65
-msgid "Your XDG Music directory is not set."
-msgstr "Su carpeta Música de XDG no está configurada"
-
-#: gnomemusic/views/emptyview.py:72
-msgid "Music Folder"
-msgstr "Carpeta de música"
-
-#. TRANSLATORS: This is a label to display a link to open user's music
-#. folder. {} will be replaced with the translated text 'Music folder'
-#: gnomemusic/views/emptyview.py:76
-msgid "The contents of your {} will appear here."
-msgstr "El contenido de su {} aparecerá aquí."
-
-#: gnomemusic/views/emptyview.py:124
-msgid "No Music Found"
-msgstr "No se encontró ningún registro"
-
-#: gnomemusic/views/emptyview.py:125
-msgid "Try a Different Search"
-msgstr "Abrir el cuadro de diálogo de buscar"
-
-#: gnomemusic/views/emptyview.py:129
-msgid "GNOME Music could not connect to Tracker."
-msgstr "GNOME Música no se ha podido conectar a Tracker."
-
-#: gnomemusic/views/emptyview.py:131
-msgid "Your music files cannot be indexed without Tracker running."
-msgstr ""
-"Sus archivos de música no se pueden indexar si Tracker no está en ejecución."
-
-#: gnomemusic/views/emptyview.py:137
-msgid "Your system Tracker version seems outdated."
-msgstr "Su versión de Tracker no está actualizada."
-
-#: gnomemusic/views/emptyview.py:139
-msgid "Music needs Tracker version 3.0.0 or higher."
-msgstr "Música necesita Tracker 3.0.0 o superior."
 
 #: gnomemusic/views/playlistsview.py:45
 msgid "Playlists"
 msgstr "Listas de reproducción"
 
-#: gnomemusic/views/searchview.py:304
-msgid "Artists Results"
-msgstr "Resultados de artistas"
+#: gnomemusic/views/searchview.py:220
+msgid "No Search Started"
+msgstr "No se ha iniciado la búsqueda"
 
-#: gnomemusic/views/searchview.py:318
-msgid "Albums Results"
-msgstr "Resultados de álbumes"
+#: gnomemusic/views/searchview.py:222
+msgid "Use the searchbar to start searching for albums, artists or songs"
+msgstr ""
+"Use la barra de búsqueda para empezar a buscar álbumes, artistas o canciones"
 
-#: gnomemusic/widgets/albumwidget.py:245
+#: gnomemusic/views/searchview.py:226
+msgid "No Results Found"
+msgstr "No se encontraron resultados"
+
+#: gnomemusic/views/searchview.py:228
+msgid "Try a different search"
+msgstr "Pruebe a hacer una búsqueda diferente"
+
+#: gnomemusic/widgets/albumwidget.py:230
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} minuto"
 msgstr[1] "{} minutos"
 
-#: gnomemusic/widgets/discbox.py:75
+#: gnomemusic/widgets/discbox.py:74
 msgid "Disc {}"
 msgstr "Disco {}"
 
-#: gnomemusic/widgets/headerbar.py:66
-msgid "Selected {} song"
-msgid_plural "Selected {} songs"
-msgstr[0] "{} canción seleccionada"
-msgstr[1] "{} canciones seleccionadas"
-
-#: gnomemusic/widgets/lastfmdialog.py:64
-msgid "Your music listening is reported to Last.fm."
-msgstr "La música que escucha se envía a Last.fm."
-
-#: gnomemusic/widgets/lastfmdialog.py:66
-msgid "Your music listening is not reported to Last.fm."
-msgstr "La música que escucha no se envía a Last.fm."
-
-#. TRANSLATORS: displays the username of the Last.fm account
-#: gnomemusic/widgets/lastfmdialog.py:70
-msgid "Logged in as {}"
-msgstr "Sesión iniciada como {}"
-
-#: gnomemusic/widgets/lastfmdialog.py:71
-msgid "Configure"
-msgstr "Configurar"
-
-#: gnomemusic/widgets/playertoolbar.py:167
+#: gnomemusic/widgets/playertoolbar.py:173
 msgid "Pause"
 msgstr "Pausar"
 
@@ -575,9 +506,147 @@ msgid_plural "{} Songs"
 msgstr[0] "{} canción"
 msgstr[1] "{} canciones"
 
-#: gnomemusic/widgets/searchheaderbar.py:66
-msgid "Search songs, artists, albums and playlists"
-msgstr "Buscar canciones, artistas, álbumes y listas de reproducción"
+#: gnomemusic/widgets/searchheaderbar.py:50
+msgid "Search songs, artists and albums"
+msgstr "Buscar canciones, artistas y álbumes"
+
+#. noqa: F841
+#: gnomemusic/widgets/songwidgetmenu.py:94
+msgid "_Open Location"
+msgstr "_Abrir lugar"
+
+#. TRANSLATORS: These are verbs, to (un)mark something as a
+#. favorite.
+#: gnomemusic/widgets/startoggle.py:36
+msgid "Unstar"
+msgstr "Quitar el destaque"
+
+#: gnomemusic/widgets/startoggle.py:36
+msgid "Star"
+msgstr "Destacar"
+
+#: gnomemusic/widgets/statusnavigationpage.py:51
+msgid "Your XDG Music directory is not set."
+msgstr "Su carpeta Música de XDG no está configurada"
+
+#: gnomemusic/widgets/statusnavigationpage.py:58
+msgid "Music Folder"
+msgstr "Carpeta de música"
+
+#. TRANSLATORS: This is a label to display a link to open user's music
+#. folder. {} will be replaced with the translated text 'Music folder'
+#: gnomemusic/widgets/statusnavigationpage.py:66
+msgid "The contents of your {} will appear here."
+msgstr "El contenido de su {} aparecerá aquí."
+
+#: gnomemusic/widgets/statusnavigationpage.py:116
+msgid "No Music Found"
+msgstr "No se encontró ningún registro"
+
+#: gnomemusic/widgets/statusnavigationpage.py:117
+msgid "Try a Different Search"
+msgstr "Abrir el cuadro de diálogo de buscar"
+
+#: gnomemusic/widgets/statusnavigationpage.py:121
+msgid "GNOME Music could not connect to Tracker."
+msgstr "GNOME Música no se ha podido conectar a Tracker."
+
+#: gnomemusic/widgets/statusnavigationpage.py:123
+msgid "Your music files cannot be indexed without Tracker running."
+msgstr ""
+"Sus archivos de música no se pueden indexar si Tracker no está en ejecución."
+
+#: gnomemusic/widgets/statusnavigationpage.py:129
+msgid "Your system Tracker version seems outdated."
+msgstr "Su versión de Tracker no está actualizada."
+
+#: gnomemusic/widgets/statusnavigationpage.py:131
+msgid "Music needs Tracker version 3.0.0 or higher."
+msgstr "Música necesita Tracker 3.0.0 o superior."
+
+#~ msgid "Report music history to Last.fm"
+#~ msgstr "Enviar histórico de música a Last.fm"
+
+#~ msgid ""
+#~ "Enables or disables sending scrobbles and the “currently playing” info to "
+#~ "Last.fm."
+#~ msgstr ""
+#~ "Activa o desactiva el envío de «scrobbles» e información de "
+#~ "«reproduciendo actualmente» a Last.fm"
+
+#~ msgid "Last.fm Account"
+#~ msgstr "Cuenta de Last.fm"
+
+#~ msgid "Report Music Listening"
+#~ msgstr "Informar de música que se está escuchando"
+
+#~ msgid "_Help"
+#~ msgstr "_Ayuda"
+
+#~ msgid "Select"
+#~ msgstr "Seleccionar"
+
+#~ msgid "Back"
+#~ msgstr "Atrás"
+
+#~ msgid ""
+#~ "Last.fm is a music discovery service that gives you personalised "
+#~ "recommendations based on the music you listen to."
+#~ msgstr ""
+#~ "Last.fm es un servicio de descubrimiento de música que le ofrece "
+#~ "recomendaciones personalizadas basadas en la música que escucha."
+
+#~ msgid "Music Reporting Not Setup"
+#~ msgstr "Informe de música no configurado"
+
+#~ msgid "Login to your Last.fm account to report your music listening."
+#~ msgstr ""
+#~ "Inicie sesión en su cuneta de Last.fm para informar de la música que "
+#~ "escucha."
+
+#~ msgid "Login"
+#~ msgstr "Iniciar sesión"
+
+#~ msgid "Select All"
+#~ msgstr "Seleccionar todos"
+
+#~ msgid "Select None"
+#~ msgstr "Seleccionar ninguno"
+
+#~ msgid "Click on items to select them"
+#~ msgstr "Pulse sobre los elementos para seleccionarlos"
+
+#~ msgid "_Add to Playlist"
+#~ msgstr "Añadir a la _lista de reproducción"
+
+#~ msgid "Copyright The GNOME Music Developers"
+#~ msgstr "Copyright Desarrolladores de GNOME Música"
+
+#~ msgid "Translated by"
+#~ msgstr "Traducido por"
+
+#~ msgid "Artists Results"
+#~ msgstr "Resultados de artistas"
+
+#~ msgid "Albums Results"
+#~ msgstr "Resultados de álbumes"
+
+#~ msgid "Selected {} song"
+#~ msgid_plural "Selected {} songs"
+#~ msgstr[0] "{} canción seleccionada"
+#~ msgstr[1] "{} canciones seleccionadas"
+
+#~ msgid "Your music listening is reported to Last.fm."
+#~ msgstr "La música que escucha se envía a Last.fm."
+
+#~ msgid "Your music listening is not reported to Last.fm."
+#~ msgstr "La música que escucha no se envía a Last.fm."
+
+#~ msgid "Logged in as {}"
+#~ msgstr "Sesión iniciada como {}"
+
+#~ msgid "Configure"
+#~ msgstr "Configurar"
 
 #~ msgid "A music player and management application for GNOME."
 #~ msgstr "Una aplicación para gestionar y reproducir música en GNOME."
@@ -686,9 +755,6 @@ msgstr "Buscar canciones, artistas, álbumes y listas de reproducción"
 
 #~ msgid "Hey DJ"
 #~ msgstr "Hola Dj"
-
-#~ msgid "All"
-#~ msgstr "Todas"
 
 #~ msgid "Artist"
 #~ msgstr "Artista"
