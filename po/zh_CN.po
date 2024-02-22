@@ -13,21 +13,21 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2023-07-04 07:49+0000\n"
-"PO-Revision-Date: 2023-08-05 15:22+0800\n"
+"POT-Creation-Date: 2024-02-11 20:43+0000\n"
+"PO-Revision-Date: 2024-02-21 12:40+0800\n"
 "Last-Translator: lumingzh <lumingzh@qq.com>\n"
 "Language-Team: Chinese - China <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0\n"
-"X-Generator: Gtranslator 42.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.4.2\n"
 "X-DamnedLies-Scope: partial\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/about.py:243
-#: gnomemusic/application.py:61 gnomemusic/window.py:71
+#: data/org.gnome.Music.desktop.in.in:3 data/ui/StatusNavigationPage.ui:4
+#: gnomemusic/about.py:138 gnomemusic/application.py:59 gnomemusic/window.py:65
 msgid "Music"
 msgstr "音乐"
 
@@ -47,7 +47,8 @@ msgid ""
 msgstr ""
 "在您的本地收藏中寻找音轨，使用自动生成的播放列表或者自行编辑生成播放列表。"
 
-#: data/org.gnome.Music.appdata.xml.in.in:182
+#. developer_name tag deprecated with Appstream 1.0
+#: data/org.gnome.Music.appdata.xml.in.in:188
 msgid "The GNOME Music developers"
 msgstr "GNOME“音乐”开发者"
 
@@ -92,7 +93,7 @@ msgstr ""
 "机）、“song”（重复当前歌曲）、“all”（重复播放列表，非随机）、“shuffle”（随机"
 "播放列表，假定重复全部）。"
 
-#: data/org.gnome.Music.gschema.xml:28
+#: data/org.gnome.Music.gschema.xml:28 data/ui/PreferencesDialog.ui:27
 msgid "Enable ReplayGain"
 msgstr "启用回放增益"
 
@@ -108,18 +109,13 @@ msgstr "阻止系统挂起"
 msgid "Enables or disables inhibiting system suspend while playing music"
 msgstr "播放音乐时是否阻止系统休眠"
 
-#: data/org.gnome.Music.gschema.xml:38
-msgid "Report music history to Last.fm"
-msgstr "将您的音乐历史记录报告给 Last.fm"
-
-#: data/org.gnome.Music.gschema.xml:39
-msgid ""
-"Enables or disables sending scrobbles and the “currently playing” info to "
-"Last.fm."
-msgstr "启用或禁用向 Last.fm 发送当前播放的曲目以及“正在播放”信息的功能。"
+#: data/ui/AlbumsSearchNavigationPage.ui:5 data/ui/SearchView.ui:98
+#: gnomemusic/views/albumsview.py:52
+msgid "Albums"
+msgstr "专辑"
 
 #: data/ui/AlbumWidget.ui:84 data/ui/PlayerToolbar.ui:87
-#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:170
+#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:176
 msgid "Play"
 msgstr "播放"
 
@@ -136,50 +132,34 @@ msgstr "添加至收藏歌曲(_F)"
 msgid "_Add to Playlist…"
 msgstr "添加到播放列表(_A)…"
 
-#: data/ui/AppMenu.ui:23 data/ui/LastfmDialog.ui:8
-msgid "Last.fm Account"
-msgstr "Last.fm 帐号"
+#: data/ui/ArtistsSearchNavigationPage.ui:5 data/ui/SearchView.ui:41
+#: gnomemusic/views/artistsview.py:51
+msgid "Artists"
+msgstr "艺术家"
 
-#: data/ui/AppMenu.ui:36
-msgid "Report Music Listening"
-msgstr "报告音乐收听情况"
-
-#: data/ui/AppMenu.ui:58
-msgid "_Keyboard Shortcuts"
-msgstr "键盘快捷键(_K)"
-
-#: data/ui/AppMenu.ui:68
-msgid "_Help"
-msgstr "帮助(_H)"
-
-#: data/ui/AppMenu.ui:78
-msgid "_About Music"
-msgstr "关于“音乐”(_A)"
-
-#: data/ui/EmptyView.ui:30
-msgid "Welcome to Music"
-msgstr "欢迎使用音乐应用"
-
-#: data/ui/HeaderBar.ui:17
+#: data/ui/HeaderBar.ui:14
 msgid "Menu"
 msgstr "菜单"
 
-#: data/ui/HeaderBar.ui:25 data/ui/SearchHeaderBar.ui:15
-msgid "Select"
-msgstr "选择"
-
-#: data/ui/HeaderBar.ui:31 data/ui/PlaylistDialog.ui:213
-#: data/ui/SearchHeaderBar.ui:20
-msgid "_Cancel"
-msgstr "取消(_C)"
-
-#: data/ui/HeaderBar.ui:43 data/ui/SearchHeaderBar.ui:32
+#: data/ui/HeaderBar.ui:22 data/ui/SearchHeaderBar.ui:12
 msgid "Search"
 msgstr "搜索"
 
-#: data/ui/HeaderBar.ui:51
-msgid "Back"
-msgstr "后退"
+#: data/ui/HeaderBar.ui:31 data/ui/PreferencesDialog.ui:4
+msgid "Preferences"
+msgstr "首选项"
+
+#: data/ui/HeaderBar.ui:35
+msgid "Keyboard Shortcuts"
+msgstr "键盘快捷键"
+
+#: data/ui/HeaderBar.ui:39
+msgid "Help"
+msgstr "帮助"
+
+#: data/ui/HeaderBar.ui:43
+msgid "About Music"
+msgstr "关于“音乐”"
 
 #: data/ui/help-overlay.ui:11
 msgctxt "shortcut window"
@@ -266,24 +246,6 @@ msgctxt "shortcut window"
 msgid "Go back"
 msgstr "返回"
 
-#: data/ui/LastfmDialog.ui:21
-msgid ""
-"Last.fm is a music discovery service that gives you personalised "
-"recommendations based on the music you listen to."
-msgstr "Last.fm 是一项音乐发现服务，可根据您的所收听的音乐为您提供个性化推荐。"
-
-#: data/ui/LastfmDialog.ui:31 gnomemusic/widgets/lastfmdialog.py:57
-msgid "Music Reporting Not Setup"
-msgstr "音乐报告没有设置"
-
-#: data/ui/LastfmDialog.ui:44 gnomemusic/widgets/lastfmdialog.py:60
-msgid "Login to your Last.fm account to report your music listening."
-msgstr "登录您的 Last.fm 帐号以便报告您的音乐收听情况。"
-
-#: data/ui/LastfmDialog.ui:55 gnomemusic/widgets/lastfmdialog.py:58
-msgid "Login"
-msgstr "登录"
-
 #: data/ui/PlayerToolbar.ui:74
 msgid "Previous"
 msgstr "上一首"
@@ -308,71 +270,98 @@ msgstr "播放列表名"
 msgid "_Done"
 msgstr "完成(_D)"
 
-#: data/ui/PlaylistDialog.ui:52
-msgid "Enter a name for your first playlist"
-msgstr "输入您首个播放列表的名称"
-
-#: data/ui/PlaylistDialog.ui:77
-msgid "C_reate"
-msgstr "创建(_R)"
-
-#: data/ui/PlaylistDialog.ui:146
-msgid "New Playlist…"
-msgstr "新建播放列表…"
-
-#: data/ui/PlaylistDialog.ui:161
-msgid "Add"
-msgstr "添加"
-
-#: data/ui/PlaylistDialog.ui:202
+#: data/ui/PlaylistDialog.ui:16
 msgid "Add to Playlist"
 msgstr "添加到播放列表"
 
-#: data/ui/PlaylistDialog.ui:222
+#: data/ui/PlaylistDialog.ui:27
+msgid "_Cancel"
+msgstr "取消(_C)"
+
+#: data/ui/PlaylistDialog.ui:36
 msgid "_Add"
 msgstr "添加(_A)"
 
-#: data/ui/SearchView.ui:33 gnomemusic/views/artistsview.py:51
-msgid "Artists"
-msgstr "艺术家"
+#: data/ui/PlaylistDialog.ui:91
+msgid "Enter a name for your first playlist"
+msgstr "输入您首个播放列表的名称"
 
-#: data/ui/SearchView.ui:42 data/ui/SearchView.ui:84
+#: data/ui/PlaylistDialog.ui:116
+msgid "C_reate"
+msgstr "创建(_R)"
+
+#: data/ui/PlaylistDialog.ui:177
+msgid "New Playlist…"
+msgstr "新建播放列表…"
+
+#: data/ui/PlaylistDialog.ui:189
+msgid "Add"
+msgstr "添加"
+
+#: data/ui/PreferencesDialog.ui:9
+msgid "Player Settings"
+msgstr "播放器设置"
+
+#: data/ui/PreferencesDialog.ui:12
+msgid "Repeat Mode"
+msgstr "重复模式"
+
+#: data/ui/PreferencesDialog.ui:16
+msgid "None"
+msgstr "无"
+
+#: data/ui/PreferencesDialog.ui:17
+msgid "Song"
+msgstr "歌曲"
+
+#: data/ui/PreferencesDialog.ui:18
+msgid "All"
+msgstr "全部"
+
+#: data/ui/PreferencesDialog.ui:19 gnomemusic/player.py:51
+msgid "Shuffle"
+msgstr "随机播放"
+
+#: data/ui/PreferencesDialog.ui:28
+msgid "Balance loudness between songs if ReplayGain metadata is found"
+msgstr "如果找到了 ReplayGain 元数据，则平衡歌曲之间的响度"
+
+#: data/ui/PreferencesDialog.ui:35
+msgid "Power Settings"
+msgstr "电源设置"
+
+#: data/ui/PreferencesDialog.ui:38
+msgid "Inhibit Suspend"
+msgstr "禁止挂起"
+
+#: data/ui/PreferencesDialog.ui:39
+msgid "Only while playing"
+msgstr "只在播放的时候"
+
+#: data/ui/SearchView.ui:55 data/ui/SearchView.ui:112
 msgid "View All"
 msgstr "查看所有"
 
-#: data/ui/SearchView.ui:75 gnomemusic/views/albumsview.py:56
-msgid "Albums"
-msgstr "专辑"
-
-#: data/ui/SearchView.ui:117 gnomemusic/views/songsview.py:52
+#: data/ui/SearchView.ui:154
 msgid "Songs"
 msgstr "歌曲"
-
-#: data/ui/SelectionBarMenuButton.ui:7
-msgid "Select All"
-msgstr "全选"
-
-#: data/ui/SelectionBarMenuButton.ui:11
-msgid "Select None"
-msgstr "全不选"
-
-#: data/ui/SelectionBarMenuButton.ui:19 gnomemusic/widgets/headerbar.py:69
-msgid "Click on items to select them"
-msgstr "点击条目以选中它们"
-
-#: data/ui/SelectionToolbar.ui:8
-msgid "_Add to Playlist"
-msgstr "添加到播放列表(_A)"
 
 #: data/ui/SongWidgetMenu.ui:19
 msgid "_Remove from Playlist"
 msgstr "从播放列表移除(_R)"
 
-#: gnomemusic/about.py:245
+#: data/ui/StatusNavigationPage.ui:36
+msgid "Welcome to Music"
+msgstr "欢迎使用音乐应用"
+
+#: gnomemusic/about.py:140
 msgid "The GNOME Project"
 msgstr "GNOME 项目"
 
-#: gnomemusic/about.py:249
+#. Translators should localize the following string which
+#. will be displayed at the bottom of the about box to give
+#. credit to the translator(s).
+#: gnomemusic/about.py:146
 msgid "translator-credits"
 msgstr ""
 "tuhaihe <1132321739qq@gmail.com>, 2013\n"
@@ -384,82 +373,81 @@ msgstr ""
 "lumingzh <lumingzh@qq.com>, 2022\n"
 "Boyuan Yang <byang@debian.org>, 2022"
 
-#: gnomemusic/about.py:253
-msgid "Copyright The GNOME Music Developers"
-msgstr "版权所有 GNOME“音乐”开发者"
-
-#: gnomemusic/about.py:256
-msgid "Translated by"
-msgstr "翻译贡献者"
+#: gnomemusic/about.py:150
+msgid "© The GNOME Music Developers"
+msgstr "© GNOME “音乐”开发者"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:894
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:839
 msgid "Most Played"
 msgstr "最多播放"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:948
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:893
 msgid "Never Played"
 msgstr "从未播放"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1001
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:946
 msgid "Recently Played"
 msgstr "最近播放"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1064
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1025
 msgid "Recently Added"
 msgstr "最近添加"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1127
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1088
 msgid "Favorite Songs"
 msgstr "收藏歌曲"
 
-#: gnomemusic/gstplayer.py:408
+#. TRANSLATORS: this is a playlist name indicating that the
+#. files are not tagged enough to be displayed in the albums
+#. or artists views.
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1142
+msgid "Insufficiently Tagged"
+msgstr "标记不足"
+
+#: gnomemusic/gstplayer.py:418
 msgid "Unable to play the file"
 msgstr "无法播放该文件"
 
-#: gnomemusic/gstplayer.py:414
+#: gnomemusic/gstplayer.py:424
 msgid "_Find in {}"
 msgstr "在 {} 中查找(_F)"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:424
+#: gnomemusic/gstplayer.py:434
 msgid " and "
 msgstr " 和 "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:427
+#: gnomemusic/gstplayer.py:437
 msgid ", "
 msgstr "、 "
 
-#: gnomemusic/gstplayer.py:429
+#: gnomemusic/gstplayer.py:439
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "需要 {} 来播放该文件，但它尚未安装。"
 
-#: gnomemusic/inhibitsuspend.py:63
+#: gnomemusic/inhibitsuspend.py:69
 msgid "Playing music"
 msgstr "正在播放音乐"
 
 #. Translators: "shuffle" causes tracks to play in random order.
-#: gnomemusic/player.py:44
+#: gnomemusic/player.py:48
 msgid "Shuffle/Repeat Off"
 msgstr "关闭“随机/重复播放”"
 
-#: gnomemusic/player.py:45
+#: gnomemusic/player.py:49
 msgid "Repeat Song"
 msgstr "重复播放"
 
-#: gnomemusic/player.py:46
+#: gnomemusic/player.py:50
 msgid "Repeat All"
 msgstr "全部重播"
-
-#: gnomemusic/player.py:47
-msgid "Shuffle"
-msgstr "随机播放"
 
 #: gnomemusic/playlisttoast.py:55
 msgid "Playlist {} removed"
@@ -473,96 +461,44 @@ msgstr "撤消"
 msgid "{} removed from {}"
 msgstr "{} 已从 {} 移除"
 
-#: gnomemusic/utils.py:92
+#: gnomemusic/utils.py:89
 msgid "Unknown album"
 msgstr "未知专辑"
 
-#: gnomemusic/utils.py:113
+#: gnomemusic/utils.py:110
 msgid "Unknown Artist"
 msgstr "未知艺术家"
-
-#: gnomemusic/views/emptyview.py:65
-msgid "Your XDG Music directory is not set."
-msgstr "您的 XDG 音乐目录没有设置。"
-
-#: gnomemusic/views/emptyview.py:72
-msgid "Music Folder"
-msgstr "音乐文件夹"
-
-#. TRANSLATORS: This is a label to display a link to open user's music
-#. folder. {} will be replaced with the translated text 'Music folder'
-#: gnomemusic/views/emptyview.py:76
-msgid "The contents of your {} will appear here."
-msgstr "{} 的内容将会显示在此处。"
-
-#: gnomemusic/views/emptyview.py:124
-msgid "No Music Found"
-msgstr "未找到音乐"
-
-#: gnomemusic/views/emptyview.py:125
-msgid "Try a Different Search"
-msgstr "尝试不同的搜索"
-
-#: gnomemusic/views/emptyview.py:129
-msgid "GNOME Music could not connect to Tracker."
-msgstr "GNOME 音乐无法连接到 Tracker。"
-
-#: gnomemusic/views/emptyview.py:131
-msgid "Your music files cannot be indexed without Tracker running."
-msgstr "在 Tracker 未运行时无法对你的音乐文件进行索引。"
-
-#: gnomemusic/views/emptyview.py:137
-msgid "Your system Tracker version seems outdated."
-msgstr "您的系统 Tracker 版本似乎已过时。"
-
-#: gnomemusic/views/emptyview.py:139
-msgid "Music needs Tracker version 3.0.0 or higher."
-msgstr "音乐需要 Tracker 版本 3.0.0 或更高。"
 
 #: gnomemusic/views/playlistsview.py:45
 msgid "Playlists"
 msgstr "播放列表"
 
-#: gnomemusic/views/searchview.py:304
-msgid "Artists Results"
-msgstr "艺术家结果"
+#: gnomemusic/views/searchview.py:220
+msgid "No Search Started"
+msgstr "未开始搜索"
 
-#: gnomemusic/views/searchview.py:318
-msgid "Albums Results"
-msgstr "专辑结果"
+#: gnomemusic/views/searchview.py:222
+msgid "Use the searchbar to start searching for albums, artists or songs"
+msgstr "使用搜索栏来搜索专辑、艺术家或歌曲"
 
-#: gnomemusic/widgets/albumwidget.py:245
+#: gnomemusic/views/searchview.py:226
+msgid "No Results Found"
+msgstr "未找到结果"
+
+#: gnomemusic/views/searchview.py:228
+msgid "Try a different search"
+msgstr "尝试不同的搜索"
+
+#: gnomemusic/widgets/albumwidget.py:230
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} 分钟"
 
-#: gnomemusic/widgets/discbox.py:75
+#: gnomemusic/widgets/discbox.py:74
 msgid "Disc {}"
 msgstr "唱片 {}"
 
-#: gnomemusic/widgets/headerbar.py:66
-msgid "Selected {} song"
-msgid_plural "Selected {} songs"
-msgstr[0] "已选中 {} 首歌曲"
-
-#: gnomemusic/widgets/lastfmdialog.py:64
-msgid "Your music listening is reported to Last.fm."
-msgstr "您的音乐收听情况将报告给 Last.fm。"
-
-#: gnomemusic/widgets/lastfmdialog.py:66
-msgid "Your music listening is not reported to Last.fm."
-msgstr "您的音乐收听情况不会报告给 Last.fm。"
-
-#. TRANSLATORS: displays the username of the Last.fm account
-#: gnomemusic/widgets/lastfmdialog.py:70
-msgid "Logged in as {}"
-msgstr "以 {} 登录"
-
-#: gnomemusic/widgets/lastfmdialog.py:71
-msgid "Configure"
-msgstr "设置"
-
-#: gnomemusic/widgets/playertoolbar.py:167
+#: gnomemusic/widgets/playertoolbar.py:173
 msgid "Pause"
 msgstr "暂停"
 
@@ -571,9 +507,140 @@ msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} 首歌曲"
 
-#: gnomemusic/widgets/searchheaderbar.py:66
-msgid "Search songs, artists, albums and playlists"
-msgstr "搜索歌曲、艺术家、专辑和播放列表"
+#: gnomemusic/widgets/searchheaderbar.py:50
+msgid "Search songs, artists and albums"
+msgstr "搜索歌曲、艺术家、和专辑"
+
+#. noqa: F841
+#: gnomemusic/widgets/songwidgetmenu.py:94
+msgid "_Open Location"
+msgstr "打开位置(_O)"
+
+#. TRANSLATORS: These are verbs, to (un)mark something as a
+#. favorite.
+#: gnomemusic/widgets/startoggle.py:36
+msgid "Unstar"
+msgstr "取消星标"
+
+#: gnomemusic/widgets/startoggle.py:36
+msgid "Star"
+msgstr "星标"
+
+#: gnomemusic/widgets/statusnavigationpage.py:51
+msgid "Your XDG Music directory is not set."
+msgstr "您的 XDG 音乐目录没有设置。"
+
+#: gnomemusic/widgets/statusnavigationpage.py:58
+msgid "Music Folder"
+msgstr "音乐文件夹"
+
+#. TRANSLATORS: This is a label to display a link to open user's music
+#. folder. {} will be replaced with the translated text 'Music folder'
+#: gnomemusic/widgets/statusnavigationpage.py:66
+msgid "The contents of your {} will appear here."
+msgstr "{} 的内容将会显示在此处。"
+
+#: gnomemusic/widgets/statusnavigationpage.py:116
+msgid "No Music Found"
+msgstr "未找到音乐"
+
+#: gnomemusic/widgets/statusnavigationpage.py:117
+msgid "Try a Different Search"
+msgstr "尝试不同的搜索"
+
+#: gnomemusic/widgets/statusnavigationpage.py:121
+msgid "GNOME Music could not connect to Tracker."
+msgstr "GNOME 音乐无法连接到 Tracker。"
+
+#: gnomemusic/widgets/statusnavigationpage.py:123
+msgid "Your music files cannot be indexed without Tracker running."
+msgstr "在 Tracker 未运行时无法对你的音乐文件进行索引。"
+
+#: gnomemusic/widgets/statusnavigationpage.py:129
+msgid "Your system Tracker version seems outdated."
+msgstr "您的系统 Tracker 版本似乎已过时。"
+
+#: gnomemusic/widgets/statusnavigationpage.py:131
+msgid "Music needs Tracker version 3.0.0 or higher."
+msgstr "音乐需要 Tracker 版本 3.0.0 或更高。"
+
+#~ msgid "Report music history to Last.fm"
+#~ msgstr "将您的音乐历史记录报告给 Last.fm"
+
+#~ msgid ""
+#~ "Enables or disables sending scrobbles and the “currently playing” info to "
+#~ "Last.fm."
+#~ msgstr "启用或禁用向 Last.fm 发送当前播放的曲目以及“正在播放”信息的功能。"
+
+#~ msgid "Last.fm Account"
+#~ msgstr "Last.fm 帐号"
+
+#~ msgid "Report Music Listening"
+#~ msgstr "报告音乐收听情况"
+
+#~ msgid "_Help"
+#~ msgstr "帮助(_H)"
+
+#~ msgid "Select"
+#~ msgstr "选择"
+
+#~ msgid "Back"
+#~ msgstr "后退"
+
+#~ msgid ""
+#~ "Last.fm is a music discovery service that gives you personalised "
+#~ "recommendations based on the music you listen to."
+#~ msgstr ""
+#~ "Last.fm 是一项音乐发现服务，可根据您的所收听的音乐为您提供个性化推荐。"
+
+#~ msgid "Music Reporting Not Setup"
+#~ msgstr "音乐报告没有设置"
+
+#~ msgid "Login to your Last.fm account to report your music listening."
+#~ msgstr "登录您的 Last.fm 帐号以便报告您的音乐收听情况。"
+
+#~ msgid "Login"
+#~ msgstr "登录"
+
+#~ msgid "Select All"
+#~ msgstr "全选"
+
+#~ msgid "Select None"
+#~ msgstr "全不选"
+
+#~ msgid "Click on items to select them"
+#~ msgstr "点击条目以选中它们"
+
+#~ msgid "_Add to Playlist"
+#~ msgstr "添加到播放列表(_A)"
+
+#~ msgid "Copyright The GNOME Music Developers"
+#~ msgstr "版权所有 GNOME“音乐”开发者"
+
+#~ msgid "Translated by"
+#~ msgstr "翻译贡献者"
+
+#~ msgid "Artists Results"
+#~ msgstr "艺术家结果"
+
+#~ msgid "Albums Results"
+#~ msgstr "专辑结果"
+
+#~ msgid "Selected {} song"
+#~ msgid_plural "Selected {} songs"
+#~ msgstr[0] "已选中 {} 首歌曲"
+
+#~ msgid "Your music listening is reported to Last.fm."
+#~ msgstr "您的音乐收听情况将报告给 Last.fm。"
+
+#~ msgid "Your music listening is not reported to Last.fm."
+#~ msgstr "您的音乐收听情况不会报告给 Last.fm。"
+
+#~ msgid "Logged in as {}"
+#~ msgstr "以 {} 登录"
+
+#~ msgid "Configure"
+#~ msgstr "设置"
 
 #~ msgid "A music player and management application for GNOME."
 #~ msgstr "GNOME 音乐播放及管理程序。"
@@ -672,9 +739,6 @@ msgstr "搜索歌曲、艺术家、专辑和播放列表"
 
 #~ msgid "Hey DJ"
 #~ msgstr "嘿 DJ"
-
-#~ msgid "All"
-#~ msgstr "全部"
 
 #~ msgid "Artist"
 #~ msgstr "艺术家"
