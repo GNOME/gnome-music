@@ -1,13 +1,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>, 2013, 2014, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
+# SPDX-FileCopyrightText: 2013, 2014, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024 Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2023-07-04 07:49+0000\n"
-"PO-Revision-Date: 2023-09-14 20:28+0300\n"
+"POT-Creation-Date: 2024-02-11 20:43+0000\n"
+"PO-Revision-Date: 2024-02-25 01:17+0200\n"
 "Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
 "Language-Team: Latvian <lata-l10n@googlegroups.com>\n"
 "Language: lv\n"
@@ -16,11 +16,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 :"
 " 2);\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 23.08.1\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/about.py:243
-#: gnomemusic/application.py:61 gnomemusic/window.py:71
+#: data/org.gnome.Music.desktop.in.in:3 data/ui/StatusNavigationPage.ui:4
+#: gnomemusic/about.py:138 gnomemusic/application.py:59 gnomemusic/window.py:65
 msgid "Music"
 msgstr "Mūzika"
 
@@ -41,7 +41,8 @@ msgstr ""
 "Atrodi celiņus savā lokālajā kolekcijā, automātiski veido repertuārus vai "
 "izveido jaunus."
 
-#: data/org.gnome.Music.appdata.xml.in.in:182
+#. developer_name tag deprecated with Appstream 1.0
+#: data/org.gnome.Music.appdata.xml.in.in:188
 msgid "The GNOME Music developers"
 msgstr "GNOME Mūzikas izstrādātāji"
 
@@ -87,7 +88,7 @@ msgstr ""
 "“song” (atkārtot atskaņoto dziesmu), “all” (atkārtot visu repertuāru, "
 "nemaisīt), “shuffle” (samaisīt repertuāru, arī atkārtot)."
 
-#: data/org.gnome.Music.gschema.xml:28
+#: data/org.gnome.Music.gschema.xml:28 data/ui/PreferencesDialog.ui:27
 msgid "Enable ReplayGain"
 msgstr "Ieslēgt ReplayGain"
 
@@ -103,20 +104,13 @@ msgstr "Nomākt sistēmas iesnaušanu"
 msgid "Enables or disables inhibiting system suspend while playing music"
 msgstr "Ieslēdz vai izslēdz sistēmas iesnaušanas nomākšanu, kad atskaņo mūziku"
 
-#: data/org.gnome.Music.gschema.xml:38
-msgid "Report music history to Last.fm"
-msgstr "Ziņot Last.fm par mūzikas vēsturi"
-
-#: data/org.gnome.Music.gschema.xml:39
-msgid ""
-"Enables or disables sending scrobbles and the “currently playing” info to "
-"Last.fm."
-msgstr ""
-"Ieslēdz vai izslēdz scrobbles un “palšaik atskaņo” informācijas sūtīšanu uz "
-"Last.fm."
+#: data/ui/AlbumsSearchNavigationPage.ui:5 data/ui/SearchView.ui:98
+#: gnomemusic/views/albumsview.py:52
+msgid "Albums"
+msgstr "Albumi"
 
 #: data/ui/AlbumWidget.ui:84 data/ui/PlayerToolbar.ui:87
-#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:170
+#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:176
 msgid "Play"
 msgstr "Atskaņot"
 
@@ -133,50 +127,38 @@ msgstr "Pievienot _iecienītajām dziesmām"
 msgid "_Add to Playlist…"
 msgstr "_Pievienot repertuāram…"
 
-#: data/ui/AppMenu.ui:23 data/ui/LastfmDialog.ui:8
-msgid "Last.fm Account"
-msgstr "Last.fm konts"
+#: data/ui/ArtistsSearchNavigationPage.ui:5 data/ui/SearchView.ui:41
+#: gnomemusic/views/artistsview.py:51
+msgid "Artists"
+msgstr "Izpildītāji"
 
-#: data/ui/AppMenu.ui:36
-msgid "Report Music Listening"
-msgstr "Ziņot par mūzikas klausīšanos"
-
-#: data/ui/AppMenu.ui:58
-msgid "_Keyboard Shortcuts"
-msgstr "_Tastatūras īsinājumtaustiņi"
-
-#: data/ui/AppMenu.ui:68
-msgid "_Help"
-msgstr "_Palīdzība"
-
-#: data/ui/AppMenu.ui:78
-msgid "_About Music"
-msgstr "P_ar mūziku"
-
-#: data/ui/EmptyView.ui:30
-msgid "Welcome to Music"
-msgstr "Laipni lūdzam Mūzikā"
-
-#: data/ui/HeaderBar.ui:17
+#: data/ui/HeaderBar.ui:14
 msgid "Menu"
 msgstr "Izvēlne"
 
-#: data/ui/HeaderBar.ui:25 data/ui/SearchHeaderBar.ui:15
-msgid "Select"
-msgstr "Izvēlēties"
-
-#: data/ui/HeaderBar.ui:31 data/ui/PlaylistDialog.ui:213
-#: data/ui/SearchHeaderBar.ui:20
-msgid "_Cancel"
-msgstr "At_celt"
-
-#: data/ui/HeaderBar.ui:43 data/ui/SearchHeaderBar.ui:32
+#: data/ui/HeaderBar.ui:22 data/ui/SearchHeaderBar.ui:12
 msgid "Search"
 msgstr "Meklēt"
 
-#: data/ui/HeaderBar.ui:51
-msgid "Back"
-msgstr "Atpakaļ"
+#: data/ui/HeaderBar.ui:31 data/ui/PreferencesDialog.ui:4
+msgid "Preferences"
+msgstr "Iestatījumi"
+
+#: data/ui/HeaderBar.ui:35
+#| msgid "_Keyboard Shortcuts"
+msgid "Keyboard Shortcuts"
+msgstr "Tastatūras īsinājumtaustiņi"
+
+#: data/ui/HeaderBar.ui:39
+#| msgctxt "shortcut window"
+#| msgid "Help"
+msgid "Help"
+msgstr "Palīdzība"
+
+#: data/ui/HeaderBar.ui:43
+#| msgid "_About Music"
+msgid "About Music"
+msgstr "Par Mūziku"
 
 #: data/ui/help-overlay.ui:11
 msgctxt "shortcut window"
@@ -263,27 +245,6 @@ msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Iet atpakaļ"
 
-#: data/ui/LastfmDialog.ui:21
-msgid ""
-"Last.fm is a music discovery service that gives you personalised "
-"recommendations based on the music you listen to."
-msgstr ""
-"Last.fm ir mūzikas atklāšanas pakalpojums, kas jums dod personalizētus "
-"ieteikumus balstoties uz tā, kādu mūziku jūs klausāties."
-
-#: data/ui/LastfmDialog.ui:31 gnomemusic/widgets/lastfmdialog.py:57
-msgid "Music Reporting Not Setup"
-msgstr "Mūzikas ziņošana nav iestatīta"
-
-#: data/ui/LastfmDialog.ui:44 gnomemusic/widgets/lastfmdialog.py:60
-msgid "Login to your Last.fm account to report your music listening."
-msgstr ""
-"Ierakstieties savā Last.fm kontā, lai ziņotu par savu mūzikas klausīšanos."
-
-#: data/ui/LastfmDialog.ui:55 gnomemusic/widgets/lastfmdialog.py:58
-msgid "Login"
-msgstr "Ierakstīties"
-
 #: data/ui/PlayerToolbar.ui:74
 msgid "Previous"
 msgstr "Iepriekšējais"
@@ -308,152 +269,182 @@ msgstr "Repertuāra nosaukums"
 msgid "_Done"
 msgstr "_Gatavs"
 
-#: data/ui/PlaylistDialog.ui:52
-msgid "Enter a name for your first playlist"
-msgstr "Ievadiet sava pirmā repertuāra nosaukumu"
-
-#: data/ui/PlaylistDialog.ui:77
-msgid "C_reate"
-msgstr "Iz_veidot"
-
-#: data/ui/PlaylistDialog.ui:146
-msgid "New Playlist…"
-msgstr "Jauns repertuārs…"
-
-#: data/ui/PlaylistDialog.ui:161
-msgid "Add"
-msgstr "Pievienot"
-
-#: data/ui/PlaylistDialog.ui:202
+#: data/ui/PlaylistDialog.ui:16
 msgid "Add to Playlist"
 msgstr "Pievienot repertuāram"
 
-#: data/ui/PlaylistDialog.ui:222
+#: data/ui/PlaylistDialog.ui:27
+msgid "_Cancel"
+msgstr "At_celt"
+
+#: data/ui/PlaylistDialog.ui:36
 msgid "_Add"
 msgstr "_Pievienot"
 
-#: data/ui/SearchView.ui:33 gnomemusic/views/artistsview.py:51
-msgid "Artists"
-msgstr "Izpildītāji"
+#: data/ui/PlaylistDialog.ui:91
+msgid "Enter a name for your first playlist"
+msgstr "Ievadiet sava pirmā repertuāra nosaukumu"
 
-#: data/ui/SearchView.ui:42 data/ui/SearchView.ui:84
+#: data/ui/PlaylistDialog.ui:116
+msgid "C_reate"
+msgstr "Iz_veidot"
+
+#: data/ui/PlaylistDialog.ui:177
+msgid "New Playlist…"
+msgstr "Jauns repertuārs…"
+
+#: data/ui/PlaylistDialog.ui:189
+msgid "Add"
+msgstr "Pievienot"
+
+#: data/ui/PreferencesDialog.ui:9
+msgid "Player Settings"
+msgstr "Atskaņotāja iestatījumi"
+
+#: data/ui/PreferencesDialog.ui:12
+#| msgid "Repeat Song"
+msgid "Repeat Mode"
+msgstr "Atkārtošanas režīms"
+
+#: data/ui/PreferencesDialog.ui:16
+msgid "None"
+msgstr "Nekas"
+
+#: data/ui/PreferencesDialog.ui:17
+#| msgid "Songs"
+msgid "Song"
+msgstr "Dziesma"
+
+#: data/ui/PreferencesDialog.ui:18
+msgid "All"
+msgstr "Visi"
+
+#: data/ui/PreferencesDialog.ui:19 gnomemusic/player.py:51
+msgid "Shuffle"
+msgstr "Sajaukt"
+
+#: data/ui/PreferencesDialog.ui:28
+msgid "Balance loudness between songs if ReplayGain metadata is found"
+msgstr "Balansēt skaļumu starp dziesmām, ja ir atrasti ReplayGain metadati"
+
+#: data/ui/PreferencesDialog.ui:35
+msgid "Power Settings"
+msgstr "Barošanas iestatījumi"
+
+#: data/ui/PreferencesDialog.ui:38
+#| msgid "Inhibit system suspend"
+msgid "Inhibit Suspend"
+msgstr "Nomākt iesnaušanu"
+
+#: data/ui/PreferencesDialog.ui:39
+msgid "Only while playing"
+msgstr "Tikai, kad atskaņo"
+
+#: data/ui/SearchView.ui:55 data/ui/SearchView.ui:112
 msgid "View All"
 msgstr "Rādīt visu"
 
-#: data/ui/SearchView.ui:75 gnomemusic/views/albumsview.py:56
-msgid "Albums"
-msgstr "Albumi"
-
-#: data/ui/SearchView.ui:117 gnomemusic/views/songsview.py:52
+#: data/ui/SearchView.ui:154
 msgid "Songs"
 msgstr "Dziesmas"
-
-#: data/ui/SelectionBarMenuButton.ui:7
-msgid "Select All"
-msgstr "Izvēlēties visu"
-
-#: data/ui/SelectionBarMenuButton.ui:11
-msgid "Select None"
-msgstr "Iezīmēt neko"
-
-#: data/ui/SelectionBarMenuButton.ui:19 gnomemusic/widgets/headerbar.py:69
-msgid "Click on items to select them"
-msgstr "Spiediet uz vienumiem, lai tos izvēlētos"
-
-#: data/ui/SelectionToolbar.ui:8
-msgid "_Add to Playlist"
-msgstr "_Pievienot repertuāram"
 
 #: data/ui/SongWidgetMenu.ui:19
 msgid "_Remove from Playlist"
 msgstr "Izņemt no _repertuāra"
 
-#: gnomemusic/about.py:245
+#: data/ui/StatusNavigationPage.ui:36
+msgid "Welcome to Music"
+msgstr "Laipni lūdzam Mūzikā"
+
+#: gnomemusic/about.py:140
 msgid "The GNOME Project"
 msgstr "GNOME projekts"
 
-#: gnomemusic/about.py:249
+#. Translators should localize the following string which
+#. will be displayed at the bottom of the about box to give
+#. credit to the translator(s).
+#: gnomemusic/about.py:146
 msgid "translator-credits"
 msgstr "Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>"
 
-#: gnomemusic/about.py:253
-msgid "Copyright The GNOME Music Developers"
-msgstr "Autortiesības pieder GNOME Mūzikas izstrādātājiem"
-
-#: gnomemusic/about.py:256
-msgid "Translated by"
-msgstr "Tulkojuši"
+#: gnomemusic/about.py:150
+#| msgid "The GNOME Music developers"
+msgid "© The GNOME Music Developers"
+msgstr "© GNOME Mūzikas izstrādātāji"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:894
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:839
 msgid "Most Played"
 msgstr "Visbiežāk atskaņotās"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:948
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:893
 msgid "Never Played"
 msgstr "Nekad neatskaņotās"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1001
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:946
 msgid "Recently Played"
 msgstr "Nesen atskaņotās"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1064
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1025
 msgid "Recently Added"
 msgstr "Nesen pievienotās"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1127
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1088
 msgid "Favorite Songs"
 msgstr "Iecienītās dziesmas"
 
-#: gnomemusic/gstplayer.py:408
+#. TRANSLATORS: this is a playlist name indicating that the
+#. files are not tagged enough to be displayed in the albums
+#. or artists views.
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1142
+msgid "Insufficiently Tagged"
+msgstr "Nepietiekami tagoti"
+
+#: gnomemusic/gstplayer.py:418
 msgid "Unable to play the file"
 msgstr "Neizdevās atskaņot datni"
 
-#: gnomemusic/gstplayer.py:414
+#: gnomemusic/gstplayer.py:424
 msgid "_Find in {}"
 msgstr "_Meklēt mapē {}"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:424
+#: gnomemusic/gstplayer.py:434
 msgid " and "
 msgstr " un "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:427
+#: gnomemusic/gstplayer.py:437
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:429
+#: gnomemusic/gstplayer.py:439
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "Lai atskaņotu datni, nepieciešams {}, bet tas nav uzinstalēts."
 msgstr[1] "Lai atskaņotu datni, nepieciešami {}, bet tie nav uzinstalēti."
 msgstr[2] "Lai atskaņotu datni, nepieciešami {}, bet tie nav uzinstalēti."
 
-#: gnomemusic/inhibitsuspend.py:63
+#: gnomemusic/inhibitsuspend.py:69
 msgid "Playing music"
 msgstr "Atskaņo mūziku"
 
 #. Translators: "shuffle" causes tracks to play in random order.
-#: gnomemusic/player.py:44
+#: gnomemusic/player.py:48
 msgid "Shuffle/Repeat Off"
 msgstr "Izslēgt jaukšanu/atkārtošanu"
 
-#: gnomemusic/player.py:45
+#: gnomemusic/player.py:49
 msgid "Repeat Song"
 msgstr "Atkārtot dziesmu"
 
-#: gnomemusic/player.py:46
+#: gnomemusic/player.py:50
 msgid "Repeat All"
 msgstr "Atkārtot visas"
-
-#: gnomemusic/player.py:47
-msgid "Shuffle"
-msgstr "Sajaukt"
 
 #: gnomemusic/playlisttoast.py:55
 msgid "Playlist {} removed"
@@ -467,100 +458,50 @@ msgstr "Atsaukt"
 msgid "{} removed from {}"
 msgstr "{} izņemts no {}"
 
-#: gnomemusic/utils.py:92
+#: gnomemusic/utils.py:89
 msgid "Unknown album"
 msgstr "Nezināms albums"
 
-#: gnomemusic/utils.py:113
+#: gnomemusic/utils.py:110
 msgid "Unknown Artist"
 msgstr "Nezināms izpildītājs"
-
-#: gnomemusic/views/emptyview.py:65
-msgid "Your XDG Music directory is not set."
-msgstr "Jūsu XDG mūzikas direktorija nav iestatīta."
-
-#: gnomemusic/views/emptyview.py:72
-msgid "Music Folder"
-msgstr "Mūzikas mape"
-
-#. TRANSLATORS: This is a label to display a link to open user's music
-#. folder. {} will be replaced with the translated text 'Music folder'
-#: gnomemusic/views/emptyview.py:76
-msgid "The contents of your {} will appear here."
-msgstr "Jūsu {} saturs parādīsies šeit"
-
-#: gnomemusic/views/emptyview.py:124
-msgid "No Music Found"
-msgstr "Nav atrasta mūzika"
-
-#: gnomemusic/views/emptyview.py:125
-msgid "Try a Different Search"
-msgstr "Mēģiniet ar citu meklējamo vārdu"
-
-#: gnomemusic/views/emptyview.py:129
-msgid "GNOME Music could not connect to Tracker."
-msgstr "GNOME Mūzika nevarēja savienoties ar Tracker."
-
-#: gnomemusic/views/emptyview.py:131
-msgid "Your music files cannot be indexed without Tracker running."
-msgstr "Nevar indeksēt jūsu mūzikas datnes, ja nedarbojas Tracker."
-
-#: gnomemusic/views/emptyview.py:137
-msgid "Your system Tracker version seems outdated."
-msgstr "Jūsu sistēmas Tracker versija ir novecojusi."
-
-#: gnomemusic/views/emptyview.py:139
-msgid "Music needs Tracker version 3.0.0 or higher."
-msgstr "Mūzikai vajag Tracker vismaz versiju 3.0.0."
 
 #: gnomemusic/views/playlistsview.py:45
 msgid "Playlists"
 msgstr "Repertuāri"
 
-#: gnomemusic/views/searchview.py:304
-msgid "Artists Results"
-msgstr "Izpildītāju rezultāti"
+#: gnomemusic/views/searchview.py:220
+msgid "No Search Started"
+msgstr "Meklēšana nav sākta"
 
-#: gnomemusic/views/searchview.py:318
-msgid "Albums Results"
-msgstr "Albumu rezultāti"
+#: gnomemusic/views/searchview.py:222
+msgid "Use the searchbar to start searching for albums, artists or songs"
+msgstr ""
+"Izmantojiet meklēšanas joslu, lai sāktu meklēt albumus, izpildītājus vai"
+" dziesmas"
 
-#: gnomemusic/widgets/albumwidget.py:245
+#: gnomemusic/views/searchview.py:226
+#| msgid "No Music Found"
+msgid "No Results Found"
+msgstr "Nav atrastu rezultātu"
+
+#: gnomemusic/views/searchview.py:228
+#| msgid "Try a Different Search"
+msgid "Try a different search"
+msgstr "Mēģiniet ar citu meklējamo vārdu"
+
+#: gnomemusic/widgets/albumwidget.py:230
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} minūte"
 msgstr[1] "{} minūtes"
 msgstr[2] "{} minūšu"
 
-#: gnomemusic/widgets/discbox.py:75
+#: gnomemusic/widgets/discbox.py:74
 msgid "Disc {}"
 msgstr "Disks (}"
 
-#: gnomemusic/widgets/headerbar.py:66
-msgid "Selected {} song"
-msgid_plural "Selected {} songs"
-msgstr[0] "Izvēlēta {} dziesma"
-msgstr[1] "Izvēlētas {} dziesmas"
-msgstr[2] "Izvēlētas {} dziesmas"
-
-#: gnomemusic/widgets/lastfmdialog.py:64
-msgid "Your music listening is reported to Last.fm."
-msgstr "Jūsu mūzikas klausīšanās tiek ziņota uz Last.fm."
-
-#: gnomemusic/widgets/lastfmdialog.py:66
-msgid "Your music listening is not reported to Last.fm."
-msgstr "Jūsu mūzikas klausīšanās netiek tiek ziņota uz Last.fm."
-
-#. TRANSLATORS: displays the username of the Last.fm account
-#: gnomemusic/widgets/lastfmdialog.py:70
-msgid "Logged in as {}"
-msgstr "Ierakstījies kā {}"
-
-#: gnomemusic/widgets/lastfmdialog.py:71
-msgid "Configure"
-msgstr "Konfigurēt"
-
-#: gnomemusic/widgets/playertoolbar.py:167
+#: gnomemusic/widgets/playertoolbar.py:173
 msgid "Pause"
 msgstr "Pauzēt"
 
@@ -571,9 +512,147 @@ msgstr[0] "{} dziesma"
 msgstr[1] "{} dziesmas"
 msgstr[2] "{} dziesmu"
 
-#: gnomemusic/widgets/searchheaderbar.py:66
-msgid "Search songs, artists, albums and playlists"
-msgstr "Meklēt dziesmas, izpildītājus, albumus un repertuārus"
+#: gnomemusic/widgets/searchheaderbar.py:50
+#| msgid "Search songs, artists, albums and playlists"
+msgid "Search songs, artists and albums"
+msgstr "Meklēt dziesmas, izpildītājus un albumus"
+
+#. noqa: F841
+#: gnomemusic/widgets/songwidgetmenu.py:94
+msgid "_Open Location"
+msgstr "_Atvērt vietu"
+
+#. TRANSLATORS: These are verbs, to (un)mark something as a
+#. favorite.
+#: gnomemusic/widgets/startoggle.py:36
+msgid "Unstar"
+msgstr "Noņemt zvaigzni"
+
+#: gnomemusic/widgets/startoggle.py:36
+msgid "Star"
+msgstr "Pievienot zvaigzni"
+
+#: gnomemusic/widgets/statusnavigationpage.py:51
+msgid "Your XDG Music directory is not set."
+msgstr "Jūsu XDG mūzikas direktorija nav iestatīta."
+
+#: gnomemusic/widgets/statusnavigationpage.py:58
+msgid "Music Folder"
+msgstr "Mūzikas mape"
+
+#. TRANSLATORS: This is a label to display a link to open user's music
+#. folder. {} will be replaced with the translated text 'Music folder'
+#: gnomemusic/widgets/statusnavigationpage.py:66
+msgid "The contents of your {} will appear here."
+msgstr "Jūsu {} saturs parādīsies šeit"
+
+#: gnomemusic/widgets/statusnavigationpage.py:116
+msgid "No Music Found"
+msgstr "Nav atrasta mūzika"
+
+#: gnomemusic/widgets/statusnavigationpage.py:117
+msgid "Try a Different Search"
+msgstr "Mēģiniet ar citu meklējamo vārdu"
+
+#: gnomemusic/widgets/statusnavigationpage.py:121
+msgid "GNOME Music could not connect to Tracker."
+msgstr "GNOME Mūzika nevarēja savienoties ar Tracker."
+
+#: gnomemusic/widgets/statusnavigationpage.py:123
+msgid "Your music files cannot be indexed without Tracker running."
+msgstr "Nevar indeksēt jūsu mūzikas datnes, ja nedarbojas Tracker."
+
+#: gnomemusic/widgets/statusnavigationpage.py:129
+msgid "Your system Tracker version seems outdated."
+msgstr "Jūsu sistēmas Tracker versija ir novecojusi."
+
+#: gnomemusic/widgets/statusnavigationpage.py:131
+msgid "Music needs Tracker version 3.0.0 or higher."
+msgstr "Mūzikai vajag Tracker vismaz versiju 3.0.0."
+
+#~ msgid "Report music history to Last.fm"
+#~ msgstr "Ziņot Last.fm par mūzikas vēsturi"
+
+#~ msgid ""
+#~ "Enables or disables sending scrobbles and the “currently playing” info to "
+#~ "Last.fm."
+#~ msgstr ""
+#~ "Ieslēdz vai izslēdz scrobbles un “palšaik atskaņo” informācijas sūtīšanu "
+#~ "uz Last.fm."
+
+#~ msgid "Last.fm Account"
+#~ msgstr "Last.fm konts"
+
+#~ msgid "Report Music Listening"
+#~ msgstr "Ziņot par mūzikas klausīšanos"
+
+#~ msgid "_Help"
+#~ msgstr "_Palīdzība"
+
+#~ msgid "Select"
+#~ msgstr "Izvēlēties"
+
+#~ msgid "Back"
+#~ msgstr "Atpakaļ"
+
+#~ msgid ""
+#~ "Last.fm is a music discovery service that gives you personalised "
+#~ "recommendations based on the music you listen to."
+#~ msgstr ""
+#~ "Last.fm ir mūzikas atklāšanas pakalpojums, kas jums dod personalizētus "
+#~ "ieteikumus balstoties uz tā, kādu mūziku jūs klausāties."
+
+#~ msgid "Music Reporting Not Setup"
+#~ msgstr "Mūzikas ziņošana nav iestatīta"
+
+#~ msgid "Login to your Last.fm account to report your music listening."
+#~ msgstr ""
+#~ "Ierakstieties savā Last.fm kontā, lai ziņotu par savu mūzikas klausīšanos."
+
+#~ msgid "Login"
+#~ msgstr "Ierakstīties"
+
+#~ msgid "Select All"
+#~ msgstr "Izvēlēties visu"
+
+#~ msgid "Select None"
+#~ msgstr "Iezīmēt neko"
+
+#~ msgid "Click on items to select them"
+#~ msgstr "Spiediet uz vienumiem, lai tos izvēlētos"
+
+#~ msgid "_Add to Playlist"
+#~ msgstr "_Pievienot repertuāram"
+
+#~ msgid "Copyright The GNOME Music Developers"
+#~ msgstr "Autortiesības pieder GNOME Mūzikas izstrādātājiem"
+
+#~ msgid "Translated by"
+#~ msgstr "Tulkojuši"
+
+#~ msgid "Artists Results"
+#~ msgstr "Izpildītāju rezultāti"
+
+#~ msgid "Albums Results"
+#~ msgstr "Albumu rezultāti"
+
+#~ msgid "Selected {} song"
+#~ msgid_plural "Selected {} songs"
+#~ msgstr[0] "Izvēlēta {} dziesma"
+#~ msgstr[1] "Izvēlētas {} dziesmas"
+#~ msgstr[2] "Izvēlētas {} dziesmas"
+
+#~ msgid "Your music listening is reported to Last.fm."
+#~ msgstr "Jūsu mūzikas klausīšanās tiek ziņota uz Last.fm."
+
+#~ msgid "Your music listening is not reported to Last.fm."
+#~ msgstr "Jūsu mūzikas klausīšanās netiek tiek ziņota uz Last.fm."
+
+#~ msgid "Logged in as {}"
+#~ msgstr "Ierakstījies kā {}"
+
+#~ msgid "Configure"
+#~ msgstr "Konfigurēt"
 
 #~ msgid "A music player and management application for GNOME."
 #~ msgstr "Mūzikas atskaņošanas un pārvaldības lietotne GNOME vidē."
@@ -680,9 +759,6 @@ msgstr "Meklēt dziesmas, izpildītājus, albumus un repertuārus"
 #~ msgid "Hey DJ"
 #~ msgstr "Eu DJ"
 
-#~ msgid "All"
-#~ msgstr "Visi"
-
 #~ msgid "Artist"
 #~ msgstr "Izpildītājs"
 
@@ -742,3 +818,4 @@ msgstr "Meklēt dziesmas, izpildītājus, albumus un repertuārus"
 
 #~ msgid "Select Playlist"
 #~ msgstr "Izvēlieties repertuāru"
+
