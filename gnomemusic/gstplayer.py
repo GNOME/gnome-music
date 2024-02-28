@@ -130,9 +130,15 @@ class GstPlayer(GObject.GObject):
 
     def _on_replaygain_setting_changed(
             self, settings: Gio.Settings, key: str) -> None:
-        value = settings.get_value(key)
-        if value:
+        value = settings.get_string(key)
+
+        if value != "disabled":
             self._player.set_property("audio-filter", self._filter_bin)
+
+            if value == "album":
+                self._rg_volume.props.album_mode = True
+            else:
+                self._rg_volume.props.album_mode = False
         else:
             self._player.set_property("audio-filter", None)
 

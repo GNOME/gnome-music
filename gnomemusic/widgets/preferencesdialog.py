@@ -35,9 +35,10 @@ class PreferencesDialog(Adw.PreferencesDialog):
         self._repeatmode_row.connect(
             "notify::selected", self._update_repeate_mode)
 
-        self._settings.bind(
-            "replaygain", self._replay_gain_row, "active",
-            Gio.SettingsBindFlags.DEFAULT)
+        self._replay_gain_row.props.selected = self._settings.get_enum(
+            "replaygain")
+        self._replay_gain_row.connect(
+            "notify::selected", self._update_replaygain)
 
         self._settings.bind(
             "inhibit-suspend", self._inhibit_suspend_row, "active",
@@ -46,3 +47,7 @@ class PreferencesDialog(Adw.PreferencesDialog):
     def _update_repeate_mode(
             self, row: Adw.ComboRow, value: GObject.ParamSpecInt) -> None:
         self._settings.set_enum("repeat", row.props.selected)
+
+    def _update_replaygain(
+            self, row: Adw.ComboRow, value: GObject.ParamSpecInt) -> None:
+        self._settings.set_enum("replaygain", row.props.selected)

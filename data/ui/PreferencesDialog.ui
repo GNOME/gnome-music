@@ -23,9 +23,18 @@
               </object>
             </child>
             <child>
-              <object class="AdwSwitchRow" id="_replay_gain_row">
-                <property name="title" translatable="true">Enable ReplayGain</property>
+              <object class="AdwComboRow" id="_replay_gain_row">
+                <property name="title" translatable="true">ReplayGain</property>
                 <property name="subtitle" translatable="true">Balance loudness between songs if ReplayGain metadata is found</property>
+                <property name="model">
+                  <object class="GtkStringList">
+                    <items>
+                      <item translatable="true">Disabled</item>
+                      <item translatable="true">Album</item>
+                      <item translatable="true">Track</item>
+                    </items>
+                  </object>
+                </property>
               </object>
             </child>
           </object>

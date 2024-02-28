@@ -6,6 +6,11 @@
         <value nick="all" value="2"/>
         <value nick="shuffle" value="3"/>
     </enum>
+    <enum id="org.gnome.Music.ReplayGain">
+        <value nick="disabled" value="0"/>
+        <value nick="album" value="1"/>
+        <value nick="track" value="2"/>
+    </enum>
     <schema path="/org/gnome/Music/" id="org.gnome.Music" gettext-domain="org.gnome.Music">
         <key type="ai" name="window-size">
             <default>[768, 600]</default>
@@ -23,10 +28,11 @@
             <!-- Translators: Don't translate allowed values, just the description in the brackets -->
             <description>Value identifies whether to repeat or randomize playback through the collection. Allowed values are: “none” (repeat and shuffle are off), “song” (repeat current song), “all” (repeat playlist, no shuffle), “shuffle” (shuffle playlist, presumes repeat all).</description>
         </key>
-        <key type="b" name="replaygain">
-            <default>false</default>
+        <key enum="org.gnome.Music.ReplayGain" name="replaygain">
+            <default>'disabled'</default>
             <summary>Enable ReplayGain</summary>
-            <description>Enables or disables ReplayGain for albums</description>
+            <!-- Translators: Don't translate allowed values, just the description in the brackets -->
+            <description>Enables or disables ReplayGain for albums or track. Allowed values are: “disabled” (disables replaygain), “album” (replaygain per album), “track” (replaygain per track).</description>
         </key>
         <key type="b" name="inhibit-suspend">
             <default>false</default>
