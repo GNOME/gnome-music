@@ -1,14 +1,14 @@
 # Korean translation for gnome-music.
 # Copyright (C) 2013 gnome-music's authors and many contributors.
 # This file is distributed under the same license as the gnome-music package.
-# Seong-ho Cho <shcho@gnome.org>, 2013-2023.
+# Seong-ho Cho <shcho@gnome.org>, 2013-2024.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2023-07-04 07:49+0000\n"
-"PO-Revision-Date: 2023-08-27 02:04+0900\n"
+"POT-Creation-Date: 2024-02-11 20:43+0000\n"
+"PO-Revision-Date: 2024-03-02 02:49+0900\n"
 "Last-Translator: Seong-ho Cho <darkcircle.0426@gmail.com>\n"
 "Language-Team: Korean <gnome-kr@googlegroups.com>\n"
 "Language: ko\n"
@@ -16,11 +16,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 2.3.1\n"
+"X-Generator: Poedit 3.4.2\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/about.py:243
-#: gnomemusic/application.py:61 gnomemusic/window.py:71
+#: data/org.gnome.Music.desktop.in.in:3 data/ui/StatusNavigationPage.ui:4
+#: gnomemusic/about.py:138 gnomemusic/application.py:59 gnomemusic/window.py:65
 msgid "Music"
 msgstr "음악"
 
@@ -31,7 +31,7 @@ msgstr "음악 모음을 재생하고 정리합니다"
 
 #: data/org.gnome.Music.appdata.xml.in.in:9
 msgid "An easy and pleasant way to play your music."
-msgstr "음악을 들을 수 있는 쉽고 즐거운 수단."
+msgstr "음악을 들을 수 있는 쉽고 즐거운 수단입니다."
 
 #: data/org.gnome.Music.appdata.xml.in.in:12
 msgid ""
@@ -41,7 +41,8 @@ msgstr ""
 "로컬 모음집에서 트랙을 찾거나 자동으로 미리 만든 재생 목록을 활용하거나 새 목"
 "록을 구성합니다."
 
-#: data/org.gnome.Music.appdata.xml.in.in:182
+#. developer_name tag deprecated with Appstream 1.0
+#: data/org.gnome.Music.appdata.xml.in.in:188
 msgid "The GNOME Music developers"
 msgstr "The GNOME Music developers"
 
@@ -82,14 +83,14 @@ msgid ""
 "“song” (repeat current song), “all” (repeat playlist, no shuffle), "
 "“shuffle” (shuffle playlist, presumes repeat all)."
 msgstr ""
-"모아놓은 음악을 반복 재생할지 무작위로 재생할지 나타내는 값입니다. 사용할 수 "
-"있는 값은 “none”(반복 및 임의 재생 끔), “song”(현재 노래 반복), “all”(재생 목"
-"록 반복, 임의 재생 안함), “shuffle”(재생 목록 임의 재생, 모든 곡 반복으로 간"
-"주)입니다."
+"모아놓은 음악을 반복 재생할 지 무작위로 재생할 지 나타내는 값입니다. 사용할 "
+"수 있는 값은 “none”(반복 및 임의 재생 끔), “song”(현재 노래 반복), “all”(재"
+"생 목록 반복, 임의 재생 안함), “shuffle”(재생 목록 임의 재생, 모든 곡 반복으"
+"로 간주)입니다."
 
-#: data/org.gnome.Music.gschema.xml:28
+#: data/org.gnome.Music.gschema.xml:28 data/ui/PreferencesDialog.ui:27
 msgid "Enable ReplayGain"
-msgstr "리플레이 게인 활성화"
+msgstr "리플레이 게인 활성"
 
 #: data/org.gnome.Music.gschema.xml:29
 msgid "Enables or disables ReplayGain for albums"
@@ -105,18 +106,13 @@ msgstr ""
 "음악을 재생하는 동안 시스템 대기모드 진입 중단 여부를 활성화하거나 비활성화합"
 "니다"
 
-#: data/org.gnome.Music.gschema.xml:38
-msgid "Report music history to Last.fm"
-msgstr "last.fm에 음악 재생 기록 보고"
-
-#: data/org.gnome.Music.gschema.xml:39
-msgid ""
-"Enables or disables sending scrobbles and the “currently playing” info to "
-"Last.fm."
-msgstr "last.fm에 음악 취향과 “현재 재생 중” 정보 보내기를 켜거나 끕니다."
+#: data/ui/AlbumsSearchNavigationPage.ui:5 data/ui/SearchView.ui:98
+#: gnomemusic/views/albumsview.py:52
+msgid "Albums"
+msgstr "앨범"
 
 #: data/ui/AlbumWidget.ui:84 data/ui/PlayerToolbar.ui:87
-#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:170
+#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:176
 msgid "Play"
 msgstr "재생"
 
@@ -133,50 +129,34 @@ msgstr "즐겨찾는 곡 추가(_F)"
 msgid "_Add to Playlist…"
 msgstr "재생 목록에 추가(_A)…"
 
-#: data/ui/AppMenu.ui:23 data/ui/LastfmDialog.ui:8
-msgid "Last.fm Account"
-msgstr "last.fm 계정"
+#: data/ui/ArtistsSearchNavigationPage.ui:5 data/ui/SearchView.ui:41
+#: gnomemusic/views/artistsview.py:51
+msgid "Artists"
+msgstr "음악가"
 
-#: data/ui/AppMenu.ui:36
-msgid "Report Music Listening"
-msgstr "감상 음악 보고"
-
-#: data/ui/AppMenu.ui:58
-msgid "_Keyboard Shortcuts"
-msgstr "키보드 바로 가기 키(_K)"
-
-#: data/ui/AppMenu.ui:68
-msgid "_Help"
-msgstr "도움말(_H)"
-
-#: data/ui/AppMenu.ui:78
-msgid "_About Music"
-msgstr "음악 정보(_A)"
-
-#: data/ui/EmptyView.ui:30
-msgid "Welcome to Music"
-msgstr "그놈 음악 사용을 환영합니다"
-
-#: data/ui/HeaderBar.ui:17
+#: data/ui/HeaderBar.ui:14
 msgid "Menu"
 msgstr "메뉴"
 
-#: data/ui/HeaderBar.ui:25 data/ui/SearchHeaderBar.ui:15
-msgid "Select"
-msgstr "선택"
-
-#: data/ui/HeaderBar.ui:31 data/ui/PlaylistDialog.ui:213
-#: data/ui/SearchHeaderBar.ui:20
-msgid "_Cancel"
-msgstr "취소(_C)"
-
-#: data/ui/HeaderBar.ui:43 data/ui/SearchHeaderBar.ui:32
+#: data/ui/HeaderBar.ui:22 data/ui/SearchHeaderBar.ui:12
 msgid "Search"
 msgstr "검색"
 
-#: data/ui/HeaderBar.ui:51
-msgid "Back"
-msgstr "뒤로"
+#: data/ui/HeaderBar.ui:31 data/ui/PreferencesDialog.ui:4
+msgid "Preferences"
+msgstr "기본 설정"
+
+#: data/ui/HeaderBar.ui:35
+msgid "Keyboard Shortcuts"
+msgstr "키보드 바로 가기 키"
+
+#: data/ui/HeaderBar.ui:39
+msgid "Help"
+msgstr "도움말"
+
+#: data/ui/HeaderBar.ui:43
+msgid "About Music"
+msgstr "음악 정보"
 
 #: data/ui/help-overlay.ui:11
 msgctxt "shortcut window"
@@ -263,25 +243,6 @@ msgctxt "shortcut window"
 msgid "Go back"
 msgstr "뒤로"
 
-#: data/ui/LastfmDialog.ui:21
-msgid ""
-"Last.fm is a music discovery service that gives you personalised "
-"recommendations based on the music you listen to."
-msgstr ""
-"last.fm은 감상곡에 따라 개인화 추천 서비스를 제공하는 음악 검색 서비스입니다."
-
-#: data/ui/LastfmDialog.ui:31 gnomemusic/widgets/lastfmdialog.py:57
-msgid "Music Reporting Not Setup"
-msgstr "음악 보고를 설정하지 않음"
-
-#: data/ui/LastfmDialog.ui:44 gnomemusic/widgets/lastfmdialog.py:60
-msgid "Login to your Last.fm account to report your music listening."
-msgstr "감상 음악을 보고하려면 last.fm 계정으로 로그인하십시오."
-
-#: data/ui/LastfmDialog.ui:55 gnomemusic/widgets/lastfmdialog.py:58
-msgid "Login"
-msgstr "로그인"
-
 #: data/ui/PlayerToolbar.ui:74
 msgid "Previous"
 msgstr "이전"
@@ -306,150 +267,177 @@ msgstr "재생 목록 이름"
 msgid "_Done"
 msgstr "완료(_D)"
 
-#: data/ui/PlaylistDialog.ui:52
-msgid "Enter a name for your first playlist"
-msgstr "첫 재생 목록 이름을 입력하십시오"
-
-#: data/ui/PlaylistDialog.ui:77
-msgid "C_reate"
-msgstr "만들기(_R)"
-
-#: data/ui/PlaylistDialog.ui:146
-msgid "New Playlist…"
-msgstr "새 재생 목록…"
-
-#: data/ui/PlaylistDialog.ui:161
-msgid "Add"
-msgstr "추가"
-
-#: data/ui/PlaylistDialog.ui:202
+#: data/ui/PlaylistDialog.ui:16
 msgid "Add to Playlist"
 msgstr "재생 목록에 추가"
 
-#: data/ui/PlaylistDialog.ui:222
+#: data/ui/PlaylistDialog.ui:27
+msgid "_Cancel"
+msgstr "취소(_C)"
+
+#: data/ui/PlaylistDialog.ui:36
 msgid "_Add"
 msgstr "추가(_A)"
 
-#: data/ui/SearchView.ui:33 gnomemusic/views/artistsview.py:51
-msgid "Artists"
-msgstr "음악가"
+#: data/ui/PlaylistDialog.ui:91
+msgid "Enter a name for your first playlist"
+msgstr "첫 재생 목록 이름을 입력하십시오"
 
-#: data/ui/SearchView.ui:42 data/ui/SearchView.ui:84
+#: data/ui/PlaylistDialog.ui:116
+msgid "C_reate"
+msgstr "만들기(_R)"
+
+#: data/ui/PlaylistDialog.ui:177
+msgid "New Playlist…"
+msgstr "새 재생 목록…"
+
+#: data/ui/PlaylistDialog.ui:189
+msgid "Add"
+msgstr "추가"
+
+#: data/ui/PreferencesDialog.ui:9
+msgid "Player Settings"
+msgstr "재생기 설정"
+
+#: data/ui/PreferencesDialog.ui:12
+msgid "Repeat Mode"
+msgstr "반복 모드"
+
+#: data/ui/PreferencesDialog.ui:16
+msgid "None"
+msgstr "없음"
+
+#: data/ui/PreferencesDialog.ui:17
+msgid "Song"
+msgstr "곡"
+
+#: data/ui/PreferencesDialog.ui:18
+msgid "All"
+msgstr "모두"
+
+#: data/ui/PreferencesDialog.ui:19 gnomemusic/player.py:51
+msgid "Shuffle"
+msgstr "뒤섞기"
+
+#: data/ui/PreferencesDialog.ui:28
+msgid "Balance loudness between songs if ReplayGain metadata is found"
+msgstr "리플레이 게인 메타데이터가 있을 경우 곡간 음량 균형 조정"
+
+#: data/ui/PreferencesDialog.ui:35
+msgid "Power Settings"
+msgstr "전원 설정"
+
+#: data/ui/PreferencesDialog.ui:38
+msgid "Inhibit Suspend"
+msgstr "대기 모드 진입 방지"
+
+#: data/ui/PreferencesDialog.ui:39
+msgid "Only while playing"
+msgstr "재생하는 동안에만"
+
+#: data/ui/SearchView.ui:55 data/ui/SearchView.ui:112
 msgid "View All"
 msgstr "모두 보기"
 
-#: data/ui/SearchView.ui:75 gnomemusic/views/albumsview.py:56
-msgid "Albums"
-msgstr "앨범"
-
-#: data/ui/SearchView.ui:117 gnomemusic/views/songsview.py:52
+#: data/ui/SearchView.ui:154
 msgid "Songs"
 msgstr "노래"
-
-#: data/ui/SelectionBarMenuButton.ui:7
-msgid "Select All"
-msgstr "모두 선택"
-
-#: data/ui/SelectionBarMenuButton.ui:11
-msgid "Select None"
-msgstr "선택 안함"
-
-#: data/ui/SelectionBarMenuButton.ui:19 gnomemusic/widgets/headerbar.py:69
-msgid "Click on items to select them"
-msgstr "선택할 항목을 누르십시오"
-
-#: data/ui/SelectionToolbar.ui:8
-msgid "_Add to Playlist"
-msgstr "재생 목록에 추가(_A)"
 
 #: data/ui/SongWidgetMenu.ui:19
 msgid "_Remove from Playlist"
 msgstr "재생 목록에서 제거(_R)"
 
-#: gnomemusic/about.py:245
+#: data/ui/StatusNavigationPage.ui:36
+msgid "Welcome to Music"
+msgstr "그놈 음악 사용을 환영합니다"
+
+#: gnomemusic/about.py:140
 msgid "The GNOME Project"
 msgstr "그놈 프로젝트"
 
-#: gnomemusic/about.py:249
+#. Translators should localize the following string which
+#. will be displayed at the bottom of the about box to give
+#. credit to the translator(s).
+#: gnomemusic/about.py:146
 msgid "translator-credits"
 msgstr "조성호 <shcho@gnome.org>"
 
-#: gnomemusic/about.py:253
-msgid "Copyright The GNOME Music Developers"
-msgstr "Copyright The GNOME Music Developers"
-
-#: gnomemusic/about.py:256
-msgid "Translated by"
-msgstr "번역자"
+#: gnomemusic/about.py:150
+#| msgid "The GNOME Music developers"
+msgid "© The GNOME Music Developers"
+msgstr "© The GNOME Music Developers"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:894
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:839
 msgid "Most Played"
 msgstr "가장 많이 재생함"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:948
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:893
 msgid "Never Played"
 msgstr "재생 안함"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1001
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:946
 msgid "Recently Played"
 msgstr "최근 재생함"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1064
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1025
 msgid "Recently Added"
 msgstr "최근 추가함"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1127
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1088
 msgid "Favorite Songs"
 msgstr "즐겨찾는 곡"
 
-#: gnomemusic/gstplayer.py:408
+#. TRANSLATORS: this is a playlist name indicating that the
+#. files are not tagged enough to be displayed in the albums
+#. or artists views.
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1142
+msgid "Insufficiently Tagged"
+msgstr "충분치 못한 태깅"
+
+#: gnomemusic/gstplayer.py:418
 msgid "Unable to play the file"
 msgstr "파일을 재생할 수 없습니다"
 
-#: gnomemusic/gstplayer.py:414
+#: gnomemusic/gstplayer.py:424
 msgid "_Find in {}"
 msgstr "{}에서 찾기(_F)"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:424
+#: gnomemusic/gstplayer.py:434
 msgid " and "
 msgstr " 및 "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:427
+#: gnomemusic/gstplayer.py:437
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:429
+#: gnomemusic/gstplayer.py:439
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "파일을 재생하려면 {}이(가) 필요하지만 설치하지 않았습니다."
 
-#: gnomemusic/inhibitsuspend.py:63
+#: gnomemusic/inhibitsuspend.py:69
 msgid "Playing music"
 msgstr "음악 재생 중"
 
 #. Translators: "shuffle" causes tracks to play in random order.
-#: gnomemusic/player.py:44
+#: gnomemusic/player.py:48
 msgid "Shuffle/Repeat Off"
 msgstr "뒤섞기/반복 끔"
 
-#: gnomemusic/player.py:45
+#: gnomemusic/player.py:49
 msgid "Repeat Song"
 msgstr "한 곡만 반복"
 
-#: gnomemusic/player.py:46
+#: gnomemusic/player.py:50
 msgid "Repeat All"
 msgstr "모두 반복"
-
-#: gnomemusic/player.py:47
-msgid "Shuffle"
-msgstr "뒤섞기"
 
 #: gnomemusic/playlisttoast.py:55
 msgid "Playlist {} removed"
@@ -463,96 +451,44 @@ msgstr "실행 취소"
 msgid "{} removed from {}"
 msgstr "{} 항목을 {}에서 제거했습니다"
 
-#: gnomemusic/utils.py:92
+#: gnomemusic/utils.py:89
 msgid "Unknown album"
 msgstr "알 수 없는 앨범"
 
-#: gnomemusic/utils.py:113
+#: gnomemusic/utils.py:110
 msgid "Unknown Artist"
 msgstr "알 수 없는 음악가"
-
-#: gnomemusic/views/emptyview.py:65
-msgid "Your XDG Music directory is not set."
-msgstr "XDG 음악 디렉터리를 설정하지 않았습니다."
-
-#: gnomemusic/views/emptyview.py:72
-msgid "Music Folder"
-msgstr "음악 폴더"
-
-#. TRANSLATORS: This is a label to display a link to open user's music
-#. folder. {} will be replaced with the translated text 'Music folder'
-#: gnomemusic/views/emptyview.py:76
-msgid "The contents of your {} will appear here."
-msgstr "{} 내용은 여기에 나타납니다."
-
-#: gnomemusic/views/emptyview.py:124
-msgid "No Music Found"
-msgstr "음악이 없습니다"
-
-#: gnomemusic/views/emptyview.py:125
-msgid "Try a Different Search"
-msgstr "다른 단어/문장으로 검색해보십시오"
-
-#: gnomemusic/views/emptyview.py:129
-msgid "GNOME Music could not connect to Tracker."
-msgstr "그놈 음악을 트래커에 연결할 수 없습니다."
-
-#: gnomemusic/views/emptyview.py:131
-msgid "Your music files cannot be indexed without Tracker running."
-msgstr "트래커를 실행하지 않으면 음악 파일을 색인 처리할 수 없습니다."
-
-#: gnomemusic/views/emptyview.py:137
-msgid "Your system Tracker version seems outdated."
-msgstr "시스템에 설치한 트래커 버전이 오래됐습니다."
-
-#: gnomemusic/views/emptyview.py:139
-msgid "Music needs Tracker version 3.0.0 or higher."
-msgstr "그놈 음악에서는 버전 3.0.0 이상의 트래커가 필요합니다."
 
 #: gnomemusic/views/playlistsview.py:45
 msgid "Playlists"
 msgstr "재생 목록"
 
-#: gnomemusic/views/searchview.py:304
-msgid "Artists Results"
-msgstr "음악가 결과"
+#: gnomemusic/views/searchview.py:220
+msgid "No Search Started"
+msgstr "시작한 검색 없음"
 
-#: gnomemusic/views/searchview.py:318
-msgid "Albums Results"
-msgstr "앨범 결과"
+#: gnomemusic/views/searchview.py:222
+msgid "Use the searchbar to start searching for albums, artists or songs"
+msgstr "앨범, 음악가, 곡 검색을 시작하려면 검색 표시줄을 활용 하십시오"
 
-#: gnomemusic/widgets/albumwidget.py:245
+#: gnomemusic/views/searchview.py:226
+msgid "No Results Found"
+msgstr "결과가 없습니다"
+
+#: gnomemusic/views/searchview.py:228
+msgid "Try a different search"
+msgstr "다른 단어/문장으로 검색해보십시오"
+
+#: gnomemusic/widgets/albumwidget.py:230
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{}분"
 
-#: gnomemusic/widgets/discbox.py:75
+#: gnomemusic/widgets/discbox.py:74
 msgid "Disc {}"
 msgstr "디스크 {}"
 
-#: gnomemusic/widgets/headerbar.py:66
-msgid "Selected {} song"
-msgid_plural "Selected {} songs"
-msgstr[0] "음악 {}곡 선택함"
-
-#: gnomemusic/widgets/lastfmdialog.py:64
-msgid "Your music listening is reported to Last.fm."
-msgstr "감상 음악을 last.fm으로 보고합니다."
-
-#: gnomemusic/widgets/lastfmdialog.py:66
-msgid "Your music listening is not reported to Last.fm."
-msgstr "감상 음악을 last.fm으로 보고하지 않습니다."
-
-#. TRANSLATORS: displays the username of the Last.fm account
-#: gnomemusic/widgets/lastfmdialog.py:70
-msgid "Logged in as {}"
-msgstr "{} 사용자로 로그인했습니다"
-
-#: gnomemusic/widgets/lastfmdialog.py:71
-msgid "Configure"
-msgstr "설정"
-
-#: gnomemusic/widgets/playertoolbar.py:167
+#: gnomemusic/widgets/playertoolbar.py:173
 msgid "Pause"
 msgstr "일시 정지"
 
@@ -561,9 +497,141 @@ msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "노래 {}곡"
 
-#: gnomemusic/widgets/searchheaderbar.py:66
-msgid "Search songs, artists, albums and playlists"
-msgstr "곡, 음악가, 앨범, 재생 목록을 검색합니다"
+#: gnomemusic/widgets/searchheaderbar.py:50
+msgid "Search songs, artists and albums"
+msgstr "곡, 음악가, 앨범을 검색합니다"
+
+#. noqa: F841
+#: gnomemusic/widgets/songwidgetmenu.py:94
+msgid "_Open Location"
+msgstr "위치 열기(_O)"
+
+#. TRANSLATORS: These are verbs, to (un)mark something as a
+#. favorite.
+#: gnomemusic/widgets/startoggle.py:36
+msgid "Unstar"
+msgstr "별 표시 해제"
+
+#: gnomemusic/widgets/startoggle.py:36
+msgid "Star"
+msgstr "별 표시"
+
+#: gnomemusic/widgets/statusnavigationpage.py:51
+msgid "Your XDG Music directory is not set."
+msgstr "XDG 음악 디렉터리를 설정하지 않았습니다."
+
+#: gnomemusic/widgets/statusnavigationpage.py:58
+msgid "Music Folder"
+msgstr "음악 폴더"
+
+#. TRANSLATORS: This is a label to display a link to open user's music
+#. folder. {} will be replaced with the translated text 'Music folder'
+#: gnomemusic/widgets/statusnavigationpage.py:66
+msgid "The contents of your {} will appear here."
+msgstr "{} 내용은 여기에 나타납니다."
+
+#: gnomemusic/widgets/statusnavigationpage.py:116
+msgid "No Music Found"
+msgstr "음악이 없습니다"
+
+#: gnomemusic/widgets/statusnavigationpage.py:117
+msgid "Try a Different Search"
+msgstr "다른 단어/문장으로 검색해보십시오"
+
+#: gnomemusic/widgets/statusnavigationpage.py:121
+msgid "GNOME Music could not connect to Tracker."
+msgstr "그놈 음악을 트래커에 연결할 수 없습니다."
+
+#: gnomemusic/widgets/statusnavigationpage.py:123
+msgid "Your music files cannot be indexed without Tracker running."
+msgstr "트래커를 실행하지 않으면 음악 파일을 색인 처리할 수 없습니다."
+
+#: gnomemusic/widgets/statusnavigationpage.py:129
+msgid "Your system Tracker version seems outdated."
+msgstr "시스템에 설치한 트래커 버전이 오래됐습니다."
+
+#: gnomemusic/widgets/statusnavigationpage.py:131
+msgid "Music needs Tracker version 3.0.0 or higher."
+msgstr "그놈 음악에서는 버전 3.0.0 이상의 트래커가 필요합니다."
+
+#~ msgid "Report music history to Last.fm"
+#~ msgstr "last.fm에 음악 재생 기록 보고"
+
+#~ msgid ""
+#~ "Enables or disables sending scrobbles and the “currently playing” info to "
+#~ "Last.fm."
+#~ msgstr "last.fm에 음악 취향과 “현재 재생 중” 정보 보내기를 켜거나 끕니다."
+
+#~ msgid "Last.fm Account"
+#~ msgstr "last.fm 계정"
+
+#~ msgid "Report Music Listening"
+#~ msgstr "감상 음악 보고"
+
+#~ msgid "_Help"
+#~ msgstr "도움말(_H)"
+
+#~ msgid "Select"
+#~ msgstr "선택"
+
+#~ msgid "Back"
+#~ msgstr "뒤로"
+
+#~ msgid ""
+#~ "Last.fm is a music discovery service that gives you personalised "
+#~ "recommendations based on the music you listen to."
+#~ msgstr ""
+#~ "last.fm은 감상곡에 따라 개인화 추천 서비스를 제공하는 음악 검색 서비스입니"
+#~ "다."
+
+#~ msgid "Music Reporting Not Setup"
+#~ msgstr "음악 보고를 설정하지 않음"
+
+#~ msgid "Login to your Last.fm account to report your music listening."
+#~ msgstr "감상 음악을 보고하려면 last.fm 계정으로 로그인하십시오."
+
+#~ msgid "Login"
+#~ msgstr "로그인"
+
+#~ msgid "Select All"
+#~ msgstr "모두 선택"
+
+#~ msgid "Select None"
+#~ msgstr "선택 안함"
+
+#~ msgid "Click on items to select them"
+#~ msgstr "선택할 항목을 누르십시오"
+
+#~ msgid "_Add to Playlist"
+#~ msgstr "재생 목록에 추가(_A)"
+
+#~ msgid "Copyright The GNOME Music Developers"
+#~ msgstr "Copyright The GNOME Music Developers"
+
+#~ msgid "Translated by"
+#~ msgstr "번역자"
+
+#~ msgid "Artists Results"
+#~ msgstr "음악가 결과"
+
+#~ msgid "Albums Results"
+#~ msgstr "앨범 결과"
+
+#~ msgid "Selected {} song"
+#~ msgid_plural "Selected {} songs"
+#~ msgstr[0] "음악 {}곡 선택함"
+
+#~ msgid "Your music listening is reported to Last.fm."
+#~ msgstr "감상 음악을 last.fm으로 보고합니다."
+
+#~ msgid "Your music listening is not reported to Last.fm."
+#~ msgstr "감상 음악을 last.fm으로 보고하지 않습니다."
+
+#~ msgid "Logged in as {}"
+#~ msgstr "{} 사용자로 로그인했습니다"
+
+#~ msgid "Configure"
+#~ msgstr "설정"
 
 #~ msgid "A music player and management application for GNOME."
 #~ msgstr "그놈용 음악 재생기 및 관리 프로그램."
@@ -666,9 +734,6 @@ msgstr "곡, 음악가, 앨범, 재생 목록을 검색합니다"
 
 #~ msgid "Hey DJ"
 #~ msgstr "안녕 DJ~"
-
-#~ msgid "All"
-#~ msgstr "모두"
 
 #~ msgid "Artist"
 #~ msgstr "음악가"
