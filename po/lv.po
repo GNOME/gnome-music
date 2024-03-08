@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2024-02-11 20:43+0000\n"
-"PO-Revision-Date: 2024-02-25 01:17+0200\n"
+"POT-Creation-Date: 2024-02-24 23:18+0000\n"
+"PO-Revision-Date: 2024-03-08 22:24+0200\n"
 "Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
 "Language-Team: Latvian <lata-l10n@googlegroups.com>\n"
 "Language: lv\n"
@@ -145,18 +145,14 @@ msgid "Preferences"
 msgstr "Iestatījumi"
 
 #: data/ui/HeaderBar.ui:35
-#| msgid "_Keyboard Shortcuts"
 msgid "Keyboard Shortcuts"
 msgstr "Tastatūras īsinājumtaustiņi"
 
 #: data/ui/HeaderBar.ui:39
-#| msgctxt "shortcut window"
-#| msgid "Help"
 msgid "Help"
 msgstr "Palīdzība"
 
 #: data/ui/HeaderBar.ui:43
-#| msgid "_About Music"
 msgid "About Music"
 msgstr "Par Mūziku"
 
@@ -302,7 +298,6 @@ msgid "Player Settings"
 msgstr "Atskaņotāja iestatījumi"
 
 #: data/ui/PreferencesDialog.ui:12
-#| msgid "Repeat Song"
 msgid "Repeat Mode"
 msgstr "Atkārtošanas režīms"
 
@@ -311,7 +306,6 @@ msgid "None"
 msgstr "Nekas"
 
 #: data/ui/PreferencesDialog.ui:17
-#| msgid "Songs"
 msgid "Song"
 msgstr "Dziesma"
 
@@ -332,7 +326,6 @@ msgid "Power Settings"
 msgstr "Barošanas iestatījumi"
 
 #: data/ui/PreferencesDialog.ui:38
-#| msgid "Inhibit system suspend"
 msgid "Inhibit Suspend"
 msgstr "Nomākt iesnaušanu"
 
@@ -368,7 +361,6 @@ msgid "translator-credits"
 msgstr "Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>"
 
 #: gnomemusic/about.py:150
-#| msgid "The GNOME Music developers"
 msgid "© The GNOME Music Developers"
 msgstr "© GNOME Mūzikas izstrādātāji"
 
@@ -477,16 +469,14 @@ msgstr "Meklēšana nav sākta"
 #: gnomemusic/views/searchview.py:222
 msgid "Use the searchbar to start searching for albums, artists or songs"
 msgstr ""
-"Izmantojiet meklēšanas joslu, lai sāktu meklēt albumus, izpildītājus vai"
-" dziesmas"
+"Izmantojiet meklēšanas joslu, lai sāktu meklēt albumus, izpildītājus vai "
+"dziesmas"
 
 #: gnomemusic/views/searchview.py:226
-#| msgid "No Music Found"
 msgid "No Results Found"
 msgstr "Nav atrastu rezultātu"
 
 #: gnomemusic/views/searchview.py:228
-#| msgid "Try a Different Search"
 msgid "Try a different search"
 msgstr "Mēģiniet ar citu meklējamo vārdu"
 
@@ -513,7 +503,6 @@ msgstr[1] "{} dziesmas"
 msgstr[2] "{} dziesmu"
 
 #: gnomemusic/widgets/searchheaderbar.py:50
-#| msgid "Search songs, artists, albums and playlists"
 msgid "Search songs, artists and albums"
 msgstr "Meklēt dziesmas, izpildītājus un albumus"
 
@@ -534,7 +523,7 @@ msgstr "Pievienot zvaigzni"
 
 #: gnomemusic/widgets/statusnavigationpage.py:51
 msgid "Your XDG Music directory is not set."
-msgstr "Jūsu XDG mūzikas direktorija nav iestatīta."
+msgstr "Jūsu XDG mūzikas direktorijs nav iestatīts."
 
 #: gnomemusic/widgets/statusnavigationpage.py:58
 msgid "Music Folder"
