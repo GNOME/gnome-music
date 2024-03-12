@@ -8,7 +8,7 @@
   <shortdesc xml:lang="en">Music player and management application</shortdesc>
   <description>Music is the new GNOME music playing application.</description>
 
-  <homepage rdf:resource="https://wiki.gnome.org/Apps/Music" />
+  <homepage rdf:resource="https://apps.gnome.org/Music/" />
   <download-page rdf:resource="https://download.gnome.org/sources/gnome-music/" />
   <bug-database rdf:resource="https://gitlab.gnome.org/GNOME/gnome-music/issues" />
 
