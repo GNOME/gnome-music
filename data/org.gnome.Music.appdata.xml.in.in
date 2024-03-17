@@ -28,6 +28,32 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="46.0" date="2024-03-17">
+      <description>
+        <p>
+          This release introduces a preferences dialog exposing options
+          previously hidden, like suspend inhibition and ReplayGain settings.
+          It also updates to the freshest styling for navigation and dialogs.
+        </p>
+        <p>
+          Other notable changes include:
+        </p>
+        <ul>
+          <li>Fix jumpiness in scrolling larger collections</li>
+          <li>
+            Add an automated item in playlists view for song files that do not
+            contain the necessary tags to be shown in the albums and artists
+            views.
+          </li>
+          <li>
+            Drop LastFM support due to removal of the provider from GNOME
+            Online Accounts
+          </li>
+          <li>Removal of the songs view</li>
+          <li>Drop global selection mode</li>
+        </ul>
+      </description>
+    </release>
     <release version="45.0" date="2023-09-16">
       <description>
         <p>Minor quality of life improvements</p>
