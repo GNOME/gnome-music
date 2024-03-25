@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
 "POT-Creation-Date: 2024-02-14 23:57+0000\n"
-"PO-Revision-Date: 2024-02-19 10:22+0100\n"
+"PO-Revision-Date: 2024-03-25 22:31+0100\n"
 "Last-Translator: Matej Urbančič <mateju@src.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -94,7 +94,7 @@ msgstr ""
 
 #: data/org.gnome.Music.gschema.xml:28 data/ui/PreferencesDialog.ui:27
 msgid "Enable ReplayGain"
-msgstr "_Omogoči ReplayGain"
+msgstr "Omogoči ReplayGain"
 
 #: data/org.gnome.Music.gschema.xml:29
 msgid "Enables or disables ReplayGain for albums"
@@ -185,7 +185,7 @@ msgstr "Pokaže pomoč"
 #: data/ui/help-overlay.ui:32
 msgctxt "shortcut window"
 msgid "Shortcuts"
-msgstr "Tipkovne bližnjice"
+msgstr "Pokaže tipkovne bližnjice"
 
 #: data/ui/help-overlay.ui:40
 msgctxt "shortcut window"
@@ -309,23 +309,23 @@ msgstr "Način ponavljanja"
 
 #: data/ui/PreferencesDialog.ui:16
 msgid "None"
-msgstr "Brez"
+msgstr "Brez ponavljanja"
 
 #: data/ui/PreferencesDialog.ui:17
 msgid "Song"
-msgstr "Skladba"
+msgstr "Ponovi skladbo"
 
 #: data/ui/PreferencesDialog.ui:18
 msgid "All"
-msgstr "Vse"
+msgstr "Ponovi vse"
 
 #: data/ui/PreferencesDialog.ui:19 gnomemusic/player.py:51
 msgid "Shuffle"
-msgstr "Premešaj"
+msgstr "Vsebino premešaj"
 
 #: data/ui/PreferencesDialog.ui:28
 msgid "Balance loudness between songs if ReplayGain metadata is found"
-msgstr "Uravnaj glasnost med skladbami, če so vpisani metapodatki ReplayGain"
+msgstr "Uravna glasnost med skladbami, če so vpisani metapodatki ReplayGain"
 
 #: data/ui/PreferencesDialog.ui:35
 msgid "Power Settings"
@@ -337,7 +337,7 @@ msgstr "Prepreči sistemski prehod v pripravljenost"
 
 #: data/ui/PreferencesDialog.ui:39
 msgid "Only while playing"
-msgstr "Le med predvajanjem"
+msgstr "Prepreči le med predvajanjem"
 
 #: data/ui/SearchView.ui:55 data/ui/SearchView.ui:112
 msgid "View All"
@@ -534,7 +534,7 @@ msgstr "Mapa glasbe XDG ni nastavljena."
 
 #: gnomemusic/widgets/statusnavigationpage.py:58
 msgid "Music Folder"
-msgstr "Glasbena mapa"
+msgstr "mape Glasba"
 
 #. TRANSLATORS: This is a label to display a link to open user's music
 #. folder. {} will be replaced with the translated text 'Music folder'
