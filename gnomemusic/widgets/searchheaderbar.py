@@ -22,6 +22,9 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from __future__ import annotations
+from typing import Any
+
 from gettext import gettext as _
 from gi.repository import Adw, GObject, Gtk
 
@@ -39,6 +42,7 @@ class SearchHeaderBar(Adw.Bin):
 
     search_mode_active = GObject.Property(type=bool, default=False)
     search_state = GObject.Property(type=int, default=0)
+    search_text = GObject.Property(type=str)
 
     def __init__(self, application):
         super().__init__()
@@ -58,6 +62,8 @@ class SearchHeaderBar(Adw.Bin):
             "search-mode-active", self._search_button, "active",
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
+        self.bind_property("search-text", self._entry, "text")
+        self.connect("notify::search-text", self._on_search_text_changed)
 
         self.connect(
             "notify::search-mode-active", self._on_search_mode_changed)
@@ -103,3 +109,7 @@ class SearchHeaderBar(Adw.Bin):
             style_context.add_class("error")
         else:
             style_context.remove_class("error")
+
+    def _on_search_text_changed(
+            self, searchheaderbar: SearchHeaderBar, data: Any) -> None:
+        self._entry.set_position(len(self._entry.props.text))

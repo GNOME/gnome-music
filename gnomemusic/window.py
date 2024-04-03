@@ -288,6 +288,7 @@ class Window(Adw.ApplicationWindow):
                      or modifiers == 0)
                 and not self.views[View.PLAYLIST].rename_active):
             self._search.props.search_mode_active = True
+            self._search_view.props.search_text = chr(key_unic)
 
     def _switch_to_view(self, view_name: str) -> None:
         """Switch the view switcher to another page"""

@@ -69,6 +69,7 @@ class SearchView(Adw.NavigationPage):
 
     search_mode_active = GObject.Property(type=bool, default=False)
     search_state = GObject.Property(type=int, default=Search.State.NONE)
+    search_text = GObject.Property(type=str)
 
     _album_header = Gtk.Template.Child()
     _album_flowbox = Gtk.Template.Child()
@@ -102,6 +103,9 @@ class SearchView(Adw.NavigationPage):
 
         self._search_headerbar = SearchHeaderBar(self._application)
         self._search_toolbar_view.add_top_bar(self._search_headerbar)
+
+        self.bind_property(
+            "search-text", self._search_headerbar, "search-text")
 
         self.bind_property(
             "search-state", self._search_headerbar, "search-state",
