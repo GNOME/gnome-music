@@ -216,6 +216,7 @@ class Window(Adw.ApplicationWindow):
         search_active = self._search.props.search_mode_active
         rename_active = (self.views[View.PLAYLIST] is not None
                          and self.views[View.PLAYLIST].rename_active)
+        unicode_char = chr(Gdk.keyval_to_unicode(keyval))
 
         # Ctrl+<KEY>
         if control_mask == modifiers:
@@ -282,16 +283,15 @@ class Window(Adw.ApplicationWindow):
                     self._search.props.search_mode_active = False
 
         # Open the search bar when typing printable chars.
-        key_unic = Gdk.keyval_to_unicode(keyval)
         if ((not search_active
                 and self._is_main_view_active()
                 and not keyval == Gdk.KEY_space)
-                and GLib.unichar_isprint(chr(key_unic))
+                and GLib.unichar_isprint(unicode_char)
                 and (modifiers == shift_mask
                      or modifiers == 0)
                 and not rename_active):
             self._search.props.search_mode_active = True
-            self._search_view.props.search_text = chr(key_unic)
+            self._search_view.props.search_text = unicode_char
 
     def _switch_to_view(self, view_name: str) -> None:
         """Switch the view switcher to another page"""
