@@ -291,6 +291,10 @@ class Window(Adw.ApplicationWindow):
                 and not rename_active):
             self._search.props.search_mode_active = True
             self._search_view.props.search_text = unicode_char
+        else:
+            return Gdk.EVENT_PROPAGATE
+
+        return Gdk.EVENT_STOP
 
     def _switch_to_view(self, view_name: str) -> None:
         """Switch the view switcher to another page"""
