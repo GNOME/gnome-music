@@ -213,12 +213,15 @@ class Window(Adw.ApplicationWindow):
         shift_mask = Gdk.ModifierType.SHIFT_MASK
         alt_mask = Gdk.ModifierType.ALT_MASK
 
-        # Ctrl+<KEY>
         search_active = self._search.props.search_mode_active
+        rename_active = (self.views[View.PLAYLIST] is not None
+                         and self.views[View.PLAYLIST].rename_active)
+
+        # Ctrl+<KEY>
         if control_mask == modifiers:
             # Open search bar on Ctrl + F
             if (keyval == Gdk.KEY_f
-                    and not self.views[View.PLAYLIST].rename_active
+                    and not rename_active
                     and not search_active):
                 self._search.props.search_mode_active = True
             # Play / Pause on Ctrl + SPACE
@@ -270,7 +273,7 @@ class Window(Adw.ApplicationWindow):
             if (keyval == Gdk.KEY_Delete
                     and self._is_main_view_active()
                     and active_view_stack_name == "playlists"
-                    and not self.views[View.PLAYLIST].rename_active):
+                    and not rename_active):
                 self.activate_action("playlist_delete", None)
 
             # Close the search bar after Esc is pressed
@@ -286,7 +289,7 @@ class Window(Adw.ApplicationWindow):
                 and GLib.unichar_isprint(chr(key_unic))
                 and (modifiers == shift_mask
                      or modifiers == 0)
-                and not self.views[View.PLAYLIST].rename_active):
+                and not rename_active):
             self._search.props.search_mode_active = True
             self._search_view.props.search_text = chr(key_unic)
 
