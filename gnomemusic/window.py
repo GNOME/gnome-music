@@ -219,71 +219,70 @@ class Window(Adw.ApplicationWindow):
         unicode_char = chr(Gdk.keyval_to_unicode(keyval))
         active_view_stack_name = self._stack.props.visible_child_name
 
-        # Ctrl+<KEY>
-        if control_mask == modifiers:
-            # Open search bar on Ctrl + F
-            if (keyval == Gdk.KEY_f
-                    and not rename_active
-                    and not search_active):
-                self._search.props.search_mode_active = True
-            # Play / Pause on Ctrl + SPACE
-            if keyval == Gdk.KEY_space:
-                self._player.play_pause()
-            # Play previous on Ctrl + B
-            if keyval == Gdk.KEY_b:
-                self._player.previous()
-            # Play next on Ctrl + N
-            if keyval == Gdk.KEY_n:
-                self._player.next()
-            # Toggle repeat on Ctrl + R
-            if keyval == Gdk.KEY_r:
-                if self._player.props.repeat_mode == RepeatMode.SONG:
-                    self._player.props.repeat_mode = RepeatMode.NONE
-                else:
-                    self._player.props.repeat_mode = RepeatMode.SONG
-            # Toggle shuffle on Ctrl + S
-            if keyval == Gdk.KEY_s:
-                if self._player.props.repeat_mode == RepeatMode.SHUFFLE:
-                    self._player.props.repeat_mode = RepeatMode.NONE
-                else:
-                    self._player.props.repeat_mode = RepeatMode.SHUFFLE
-        # Alt+<KEY>
-        elif modifiers == alt_mask:
-            # Headerbar switching
-            if keyval in [Gdk.KEY_1, Gdk.KEY_KP_1]:
-                self._switch_to_view("albums")
-            if keyval in [Gdk.KEY_2, Gdk.KEY_KP_2]:
-                self._switch_to_view("artists")
-            if keyval in [Gdk.KEY_3, Gdk.KEY_KP_3]:
-                self._switch_to_view("playlists")
-        # No modifier
-        else:
-            if (keyval == Gdk.KEY_AudioPlay
-                    or keyval == Gdk.KEY_AudioPause):
-                self._player.play_pause()
-
-            if keyval == Gdk.KEY_AudioStop:
-                self._player.stop()
-
-            if keyval == Gdk.KEY_AudioPrev:
-                self._player.previous()
-
-            if keyval == Gdk.KEY_AudioNext:
-                self._player.next()
-
-            if (keyval == Gdk.KEY_Delete
-                    and self._is_main_view_active()
-                    and active_view_stack_name == "playlists"
-                    and not rename_active):
-                self.activate_action("playlist_delete", None)
-
-            # Close the search bar after Esc is pressed
-            if keyval == Gdk.KEY_Escape:
-                if search_active:
-                    self._search.props.search_mode_active = False
-
+        # Ctrl + F: Open search bar
+        if (modifiers == control_mask
+                and keyval == Gdk.KEY_f
+                and not rename_active
+                and not search_active):
+            self._search.props.search_mode_active = True
+        # Ctrl + Space: Play / Pause
+        elif (modifiers == control_mask
+                and keyval == Gdk.KEY_space):
+            self._player.play_pause()
+        # Ctrl + B: Previous
+        elif (modifiers == control_mask
+                and keyval == Gdk.KEY_b):
+            self._player.previous()
+        # Ctrl + N: Next
+        elif (modifiers == control_mask
+                and keyval == Gdk.KEY_n):
+            self._player.next()
+        # Ctrl + R: Toggle repeat
+        elif (modifiers == control_mask
+                and keyval == Gdk.KEY_r):
+            if self._player.props.repeat_mode == RepeatMode.SONG:
+                self._player.props.repeat_mode = RepeatMode.NONE
+            else:
+                self._player.props.repeat_mode = RepeatMode.SONG
+        # Ctrl + S: Toggle shuffle
+        elif (modifiers == control_mask
+                and keyval == Gdk.KEY_s):
+            if self._player.props.repeat_mode == RepeatMode.SHUFFLE:
+                self._player.props.repeat_mode = RepeatMode.NONE
+            else:
+                self._player.props.repeat_mode = RepeatMode.SHUFFLE
+        # Alt + 1 : Switch to albums view
+        elif (modifiers == alt_mask
+                and keyval in [Gdk.KEY_1, Gdk.KEY_KP_1]):
+            self._switch_to_view("albums")
+        # Alt + 2 : Switch to artists view
+        elif (modifiers == alt_mask
+                and keyval in [Gdk.KEY_2, Gdk.KEY_KP_2]):
+            self._switch_to_view("artists")
+        # Alt + 3 : Switch to playlists view
+        elif (modifiers == alt_mask
+                and keyval in [Gdk.KEY_3, Gdk.KEY_KP_3]):
+            self._switch_to_view("playlists")
+        elif (keyval == Gdk.KEY_AudioPlay
+                or keyval == Gdk.KEY_AudioPause):
+            self._player.play_pause()
+        elif keyval == Gdk.KEY_AudioStop:
+            self._player.stop()
+        elif keyval == Gdk.KEY_AudioPrev:
+            self._player.previous()
+        elif keyval == Gdk.KEY_AudioNext:
+            self._player.next()
+        elif (keyval == Gdk.KEY_Delete
+                and self._is_main_view_active()
+                and active_view_stack_name == "playlists"
+                and not rename_active):
+            self.activate_action("playlist_delete", None)
+        # Close the search bar after Esc is pressed
+        elif (keyval == Gdk.KEY_Escape
+                and search_active):
+            self._search.props.search_mode_active = False
         # Open the search bar when typing printable chars.
-        if ((not search_active
+        elif ((not search_active
                 and self._is_main_view_active()
                 and not keyval == Gdk.KEY_space)
                 and GLib.unichar_isprint(unicode_char)
