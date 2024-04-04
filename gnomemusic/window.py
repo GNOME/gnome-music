@@ -217,6 +217,7 @@ class Window(Adw.ApplicationWindow):
         rename_active = (self.views[View.PLAYLIST] is not None
                          and self.views[View.PLAYLIST].rename_active)
         unicode_char = chr(Gdk.keyval_to_unicode(keyval))
+        active_view_stack_name = self._stack.props.visible_child_name
 
         # Ctrl+<KEY>
         if control_mask == modifiers:
@@ -270,7 +271,6 @@ class Window(Adw.ApplicationWindow):
             if keyval == Gdk.KEY_AudioNext:
                 self._player.next()
 
-            active_view_stack_name = self._stack.props.visible_child_name
             if (keyval == Gdk.KEY_Delete
                     and self._is_main_view_active()
                     and active_view_stack_name == "playlists"
