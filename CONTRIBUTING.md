@@ -185,7 +185,7 @@ class Widget(Gtk.Widget):
 
 Music is fairly strict on the format and contents of commit messages. New contributors often struggle with this.
 
-The GNOME wiki has a good [intro](https://wiki.gnome.org/Git/CommitMessages) on what a proper commit message is and this is a **must read** for first-time contributors.
+The GNOME Handbook has a good [intro](https://handbook.gnome.org/development/commit-messages.html) on what a proper commit message is and this is a **must read** for first-time contributors.
 
 It is always recommended to look at other Music commit messages as well to get an idea of what a good commit message is specific to Music.
 
