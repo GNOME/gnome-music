@@ -1,10 +1,10 @@
-Music is the GNOME music playing application.
+# Music
 
-# Where can I find more?
+Play and organize your music collection with Music, a GNOME app.
 
-Music has a wiki page at https://wiki.gnome.org/Apps/Music.
+![screenshot](https://gitlab.gnome.org/GNOME/gnome-music/-/raw/master/data/screenshots/gnome-music-1.png)
 
-You can join the developers on IRC: [#gnome-music](irc://irc.libera.chat/gnome-music) on [Libera Chat](https://wiki.gnome.org/GettingInTouch/IRC).
+You can join the developers on [Matrix](https://handbook.gnome.org/get-in-touch/matrix.html): [#gnome-music:gnome.org](https://matrix.to/#/#gnome-music:gnome.org).
 
 ## Contributing
 
