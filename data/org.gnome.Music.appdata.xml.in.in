@@ -222,6 +222,7 @@
   <url type="help">https://help.gnome.org/users/gnome-music/stable/</url>
   <url type="translate">https://l10n.gnome.org/module/gnome-music/</url>
   <url type="vcs-browser">https://gitlab.gnome.org/GNOME/gnome-music</url>
+  <url type="contribute">https://welcome.gnome.org/app/Music/</url>
   <kudos>
     <kudo>HiDpiIcon</kudo>
     <kudo>ModernToolkit</kudo>
