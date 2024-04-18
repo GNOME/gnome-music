@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2024-02-04 20:57+0000\n"
-"PO-Revision-Date: 2024-02-11 13:39+0100\n"
+"POT-Creation-Date: 2024-03-20 13:10+0000\n"
+"PO-Revision-Date: 2024-04-18 10:56+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <f.t.public@gmail.com>\n"
 "Language: fur\n"
@@ -21,7 +21,7 @@ msgstr ""
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
 #: data/org.gnome.Music.desktop.in.in:3 data/ui/StatusNavigationPage.ui:4
-#: gnomemusic/about.py:134 gnomemusic/application.py:58 gnomemusic/window.py:66
+#: gnomemusic/about.py:138 gnomemusic/application.py:59 gnomemusic/window.py:65
 msgid "Music"
 msgstr "Musiche"
 
@@ -43,7 +43,7 @@ msgstr ""
 "gjeneradis in automatic o cure une gnove."
 
 #. developer_name tag deprecated with Appstream 1.0
-#: data/org.gnome.Music.appdata.xml.in.in:188
+#: data/org.gnome.Music.appdata.xml.in.in:214
 msgid "The GNOME Music developers"
 msgstr "I svilupadôrs di GNOME Musiche"
 
@@ -90,7 +90,7 @@ msgstr ""
 "cjançons, cence messedâ), “shuffle” (messedâ l'ordin de liste des cjançons, "
 "si intint ancje ripeti dutis)."
 
-#: data/org.gnome.Music.gschema.xml:28
+#: data/org.gnome.Music.gschema.xml:28 data/ui/PreferencesDialog.ui:27
 msgid "Enable ReplayGain"
 msgstr "Abilite ReplayGain"
 
@@ -114,7 +114,7 @@ msgid "Albums"
 msgstr "Album"
 
 #: data/ui/AlbumWidget.ui:84 data/ui/PlayerToolbar.ui:87
-#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:170
+#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:176
 msgid "Play"
 msgstr "Sune"
 
@@ -144,15 +144,19 @@ msgstr "Menù"
 msgid "Search"
 msgstr "Cîr"
 
-#: data/ui/HeaderBar.ui:31
+#: data/ui/HeaderBar.ui:31 data/ui/PreferencesDialog.ui:4
+msgid "Preferences"
+msgstr "Preferencis"
+
+#: data/ui/HeaderBar.ui:35
 msgid "Keyboard Shortcuts"
 msgstr "Scurtis di tastiere"
 
-#: data/ui/HeaderBar.ui:35
+#: data/ui/HeaderBar.ui:39
 msgid "Help"
 msgstr "Jutori"
 
-#: data/ui/HeaderBar.ui:39
+#: data/ui/HeaderBar.ui:43
 msgid "About Music"
 msgstr "Informazions su Musiche"
 
@@ -293,11 +297,52 @@ msgstr "Gnove liste di musichis…"
 msgid "Add"
 msgstr "Zonte"
 
+#: data/ui/PreferencesDialog.ui:9
+msgid "Player Settings"
+msgstr "Impostazions riprodutôr"
+
+#: data/ui/PreferencesDialog.ui:12
+msgid "Repeat Mode"
+msgstr "Modalitât ripetizion"
+
+#: data/ui/PreferencesDialog.ui:16
+msgid "None"
+msgstr "Nissun"
+
+#: data/ui/PreferencesDialog.ui:17
+msgid "Song"
+msgstr "Cjancçon"
+
+#: data/ui/PreferencesDialog.ui:18
+msgid "All"
+msgstr "Dut"
+
+#: data/ui/PreferencesDialog.ui:19 gnomemusic/player.py:51
+msgid "Shuffle"
+msgstr "Messede"
+
+#: data/ui/PreferencesDialog.ui:28
+msgid "Balance loudness between songs if ReplayGain metadata is found"
+msgstr ""
+"Belance il volum tra lis cjançons se al ven cjatât il metadât ReplayGain"
+
+#: data/ui/PreferencesDialog.ui:35
+msgid "Power Settings"
+msgstr "Impostazions alimentazion"
+
+#: data/ui/PreferencesDialog.ui:38
+msgid "Inhibit Suspend"
+msgstr "Inibìs la sospension"
+
+#: data/ui/PreferencesDialog.ui:39
+msgid "Only while playing"
+msgstr "Dome intant de riproduzion"
+
 #: data/ui/SearchView.ui:55 data/ui/SearchView.ui:112
 msgid "View All"
 msgstr "Visualize dut"
 
-#: data/ui/SearchView.ui:154 gnomemusic/views/songsview.py:52
+#: data/ui/SearchView.ui:154
 msgid "Songs"
 msgstr "Cjancçons"
 
@@ -309,90 +354,93 @@ msgstr "_Gjave de liste des musichis"
 msgid "Welcome to Music"
 msgstr "Benvignûts su Musiche"
 
-#: gnomemusic/about.py:136
+#: gnomemusic/about.py:140
 msgid "The GNOME Project"
 msgstr "Il progjet GNOME"
 
 #. Translators should localize the following string which
 #. will be displayed at the bottom of the about box to give
 #. credit to the translator(s).
-#: gnomemusic/about.py:142
+#: gnomemusic/about.py:146
 msgid "translator-credits"
 msgstr "Fabio Tomat <f.t.public@gmail.com>, 2024"
 
-#: gnomemusic/about.py:146
+#: gnomemusic/about.py:150
 msgid "© The GNOME Music Developers"
 msgstr "I svilupadôrs di © GNOME Musiche"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:838
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:839
 msgid "Most Played"
 msgstr "Plui scoltats"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:892
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:893
 msgid "Never Played"
 msgstr "Mai scoltât"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:945
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:946
 msgid "Recently Played"
 msgstr "Scoltât di recent"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1008
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1025
 msgid "Recently Added"
 msgstr "Zontât di recent"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1071
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1088
 msgid "Favorite Songs"
 msgstr "Tocs preferîts"
 
-#: gnomemusic/gstplayer.py:408
+#. TRANSLATORS: this is a playlist name indicating that the
+#. files are not tagged enough to be displayed in the albums
+#. or artists views.
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1142
+msgid "Insufficiently Tagged"
+msgstr "Etichetât in mût insuficient"
+
+#: gnomemusic/gstplayer.py:418
 msgid "Unable to play the file"
 msgstr "Impussibil riprodusi il file"
 
-#: gnomemusic/gstplayer.py:414
+#: gnomemusic/gstplayer.py:424
 msgid "_Find in {}"
 msgstr "_Cjate in {}"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:424
+#: gnomemusic/gstplayer.py:434
 msgid " and "
 msgstr " e "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:427
+#: gnomemusic/gstplayer.py:437
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:429
+#: gnomemusic/gstplayer.py:439
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "Al covente {} par riprodusi il file, ma nol è instalât."
 msgstr[1] "A coventin {} par riprodusi il file, ma no son instalâts."
 
-#: gnomemusic/inhibitsuspend.py:63
+#: gnomemusic/inhibitsuspend.py:69
 msgid "Playing music"
 msgstr "Riproduzion musiche"
 
 #. Translators: "shuffle" causes tracks to play in random order.
-#: gnomemusic/player.py:44
+#: gnomemusic/player.py:48
 msgid "Shuffle/Repeat Off"
 msgstr "Messede/ripet studâts"
 
-#: gnomemusic/player.py:45
+#: gnomemusic/player.py:49
 msgid "Repeat Song"
 msgstr "Ripet cjançon"
 
-#: gnomemusic/player.py:46
+#: gnomemusic/player.py:50
 msgid "Repeat All"
 msgstr "Ripet dut"
-
-#: gnomemusic/player.py:47
-msgid "Shuffle"
-msgstr "Messede"
 
 #: gnomemusic/playlisttoast.py:55
 msgid "Playlist {} removed"
@@ -406,11 +454,11 @@ msgstr "Anule"
 msgid "{} removed from {}"
 msgstr "{} gjavât di {}"
 
-#: gnomemusic/utils.py:90
+#: gnomemusic/utils.py:89
 msgid "Unknown album"
 msgstr "Album no cognossût"
 
-#: gnomemusic/utils.py:111
+#: gnomemusic/utils.py:110
 msgid "Unknown Artist"
 msgstr "Artist no cognossût"
 
@@ -445,7 +493,7 @@ msgstr[1] "{} minûts"
 msgid "Disc {}"
 msgstr "Disc {}"
 
-#: gnomemusic/widgets/playertoolbar.py:167
+#: gnomemusic/widgets/playertoolbar.py:173
 msgid "Pause"
 msgstr "Pause"
 
@@ -458,6 +506,11 @@ msgstr[1] "{} Cjançons"
 #: gnomemusic/widgets/searchheaderbar.py:50
 msgid "Search songs, artists and albums"
 msgstr "Cîr cjançons, artiscj e albums"
+
+#. noqa: F841
+#: gnomemusic/widgets/songwidgetmenu.py:94
+msgid "_Open Location"
+msgstr "_Vierç posizion"
 
 #. TRANSLATORS: These are verbs, to (un)mark something as a
 #. favorite.
@@ -701,9 +754,6 @@ msgstr "Musiche al à bisugne de version 3.0.0 (o plui resinte) di Tracker."
 
 #~ msgid "Hey DJ"
 #~ msgstr "Hey DJ"
-
-#~ msgid "All"
-#~ msgstr "Dut"
 
 #~ msgid "Artist"
 #~ msgstr "Artist"
