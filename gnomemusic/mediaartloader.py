@@ -76,11 +76,11 @@ class MediaArtLoader(GObject.GObject):
         else:
             stream.read_bytes_async(
                 self._chunksize, GLib.PRIORITY_DEFAULT_IDLE, None,
-                self._read_bytes_async_cb)
+                self._read_bytes_async_cb, thumb_file)
 
     def _read_bytes_async_cb(
             self, stream: Gio.FileInputStream,
-            result: Gio.AsyncResult) -> None:
+            result: Gio.AsyncResult, thumb_file: Gio.File) -> None:
         try:
             gbytes = stream.read_bytes_finish(result)
         except GLib.Error as error:
@@ -96,12 +96,16 @@ class MediaArtLoader(GObject.GObject):
 
             stream.read_bytes_async(
                 self._chunksize, GLib.PRIORITY_DEFAULT_IDLE, None,
-                self._read_bytes_async_cb)
+                self._read_bytes_async_cb, thumb_file)
         else:
             # FIXME: Use GTask to load textures async.
-            # See pygobject#114 for bytes conversion.
-            self._texture = Gdk.Texture.new_from_bytes(
-                GLib.Bytes(bytes(self._bytearray)))
+            try:
+                # See pygobject#114 for bytes conversion.
+                self._texture = Gdk.Texture.new_from_bytes(
+                    GLib.Bytes(bytes(self._bytearray)))
+            except GLib.Error as error:
+                self._log.warning("Error: {}, {} in file: {}".format(
+                    error.domain, error.message, thumb_file.get_uri()))
 
             self._bytearray = bytearray()
 
