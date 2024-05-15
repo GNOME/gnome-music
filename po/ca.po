@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2024-03-20 13:10+0000\n"
-"PO-Revision-Date: 2024-03-25 23:27+0100\n"
+"POT-Creation-Date: 2024-03-26 06:44+0000\n"
+"PO-Revision-Date: 2024-05-15 22:04+0200\n"
 "Last-Translator: Jordi Mas i Hernandez <jmas@softcatala.org>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
 "Language: ca\n"
@@ -328,10 +328,12 @@ msgstr "Mescla"
 #: data/ui/PreferencesDialog.ui:28
 msgid "Balance loudness between songs if ReplayGain metadata is found"
 msgstr ""
+"Equilibra la sonoritat entre les cançons si es troben les metadades de "
+"ReplayGain"
 
 #: data/ui/PreferencesDialog.ui:35
 msgid "Power Settings"
-msgstr ""
+msgstr "Paràmetres de l'energia"
 
 #: data/ui/PreferencesDialog.ui:38
 msgid "Inhibit Suspend"
