@@ -42,7 +42,7 @@
             ]
         },
         {
-            "name": "tracker-miners",
+            "name": "LocalSearch",
             "buildsystem": "meson",
             "config-opts": [ "-Dbattery_detection=none",
                              "-Ddefault_index_single_dirs=",
@@ -57,7 +57,8 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://gitlab.gnome.org/GNOME/tracker-miners.git"
+                    "url": "https://gitlab.gnome.org/GNOME/localsearch.git",
+                    "branch": "main"
                 }
             ]
         },
