@@ -60,6 +60,9 @@
                     "url": "https://gitlab.gnome.org/GNOME/localsearch.git",
                     "branch": "main"
                 }
+            ],
+            "cleanup": [
+                "/share/dbus-1/services/org.gnome.Music.Devel.LocalSearch3.service"
             ]
         },
         {
