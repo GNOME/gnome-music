@@ -74,8 +74,7 @@ class DBusInterface:
                     'interface': interface.name, 'args': args}
 
             self._con.register_object(
-                object_path=self._path, interface_info=interface,
-                method_call_closure=self._on_method_call)
+                self._path, interface, self._on_method_call, None, None)
 
         self._method_inargs = method_inargs
         self._method_outargs = method_outargs
