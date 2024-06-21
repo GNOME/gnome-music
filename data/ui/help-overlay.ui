@@ -87,14 +87,8 @@
             </child>
             <child>
               <object class="GtkShortcutsShortcut">
-                <property name="title" translatable="yes" context="shortcut window">Go to Songs</property>
-                <property name="accelerator">&lt;Alt&gt;3</property>
-              </object>
-            </child>
-            <child>
-              <object class="GtkShortcutsShortcut">
                 <property name="title" translatable="yes" context="shortcut window">Go to Playlists</property>
-                <property name="accelerator">&lt;Alt&gt;4</property>
+                <property name="accelerator">&lt;Alt&gt;3</property>
               </object>
             </child>
             <child>
