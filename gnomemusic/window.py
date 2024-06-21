@@ -207,7 +207,9 @@ class Window(Adw.ApplicationWindow):
         return self._navigation_view
 
     @Gtk.Template.Callback()
-    def _on_key_press(self, controller, keyval, keycode, state):
+    def _on_key_press(
+            self, controller: Gtk.EventControllerKey, keyval: int,
+            keycode: int, state: Gdk.ModifierType) -> bool:
         modifiers = state & Gtk.accelerator_get_default_mod_mask()
         control_mask = Gdk.ModifierType.CONTROL_MASK
         shift_mask = Gdk.ModifierType.SHIFT_MASK
