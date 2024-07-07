@@ -473,11 +473,15 @@ class Playlist(GObject.GObject):
                 self.thaw_notify()
 
         query = """
-        INSERT OR REPLACE {
+        DELETE {
+            ?playlist nie:title ?title .
+        }
+        INSERT {
             ?playlist nie:title "%(title)s"
         }
         WHERE {
             ?playlist a nmm:Playlist ;
+                      nie:title ?title ;
                       a nfo:MediaList .
             OPTIONAL {
                 ?playlist nfo:hasMediaFileListEntry ?entry .
@@ -541,12 +545,16 @@ class Playlist(GObject.GObject):
 
             self._notificationmanager.push_loading()
             update_query = """
-            INSERT OR REPLACE {
-                ?entry nfo:listPosition ?position .
+            DELETE {
+                ?entry nfo:listPosition ?old_position .
+            }
+            INSERT {
+                ?entry nfo:listPosition ?new_position .
             }
             WHERE {
                 SELECT ?entry
-                       (?old_position - 1) AS ?position
+                       ?old_position
+                       (?old_position - 1) AS ?new_position
                 WHERE {
                     ?entry a nfo:MediaFileListEntry ;
                              nfo:listPosition ?old_position .
@@ -569,16 +577,20 @@ class Playlist(GObject.GObject):
                     }
                 }
             };
-            INSERT OR REPLACE {
+            DELETE {
+                ?playlist nfo:entryCounter ?old_counter .
+            }
+            INSERT {
                 ?playlist nfo:entryCounter ?new_counter .
             }
             WHERE {
                 SELECT ?playlist
+                       ?old_counter
                        (?counter - 1) AS ?new_counter
                 WHERE {
                     ?playlist a nmm:Playlist ;
                               a nfo:MediaList ;
-                                nfo:entryCounter ?counter .
+                                nfo:entryCounter ?old_counter .
                     FILTER (
                         ?playlist = <%(playlist_id)s>
                     )
@@ -654,7 +666,10 @@ class Playlist(GObject.GObject):
 
         for coresong in coresongs:
             query = """
-            INSERT OR REPLACE {
+            DELETE {
+                ?playlist nfo:entryCounter ?counter .
+            }
+            INSERT {
                 _:entry a nfo:MediaFileListEntry ;
                           nfo:entryUrl "%(song_uri)s" ;
                           nfo:listPosition ?position .
@@ -663,6 +678,7 @@ class Playlist(GObject.GObject):
             }
             WHERE {
                 SELECT ?playlist
+                       ?counter
                        (?counter + 1) AS ?position
                 WHERE {
                     ?playlist a nmm:Playlist ;
@@ -695,11 +711,14 @@ class Playlist(GObject.GObject):
         self._model.insert(new_position, coresong)
 
         main_query = """
-        INSERT OR REPLACE {
-        ?entry
-            nfo:listPosition %(position)s
+        DELETE {
+            ?entry nfo:listPosition ?old_position .
+        }
+        INSERT {
+            ?entry nfo:listPosition %(position)s .
         }
         WHERE {
+            ?entry nfo:listPosition ?old_position .
             ?playlist a nmm:Playlist ;
                       a nfo:MediaList ;
                         nfo:hasMediaFileListEntry ?entry .
