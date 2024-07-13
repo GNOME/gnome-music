@@ -207,7 +207,7 @@ class GrlTrackerPlaylists(GObject.GObject):
         """
         def _create_cb(conn, res, data):
             try:
-                result = conn.update_blank_finish(res)
+                result = conn.update_finish(res)
             except GLib.Error as error:
                 self._log.warning(
                     "Unable to create playlist {}: {}".format(
@@ -250,7 +250,7 @@ class GrlTrackerPlaylists(GObject.GObject):
             """.replace("\n", " ").strip() % {
                 "title": Tracker.sparql_escape_string(playlist_title)
         }
-        self._tracker.update_blank_async(query, None, _create_cb, None)
+        self._tracker.update_async(query, None, _create_cb, None)
 
     def check_smart_playlist_change(self):
         """Check if smart playlists need to be updated.
@@ -693,8 +693,7 @@ class Playlist(GObject.GObject):
                 "playlist_id": self.props.pl_id,
                 "song_uri": coresong.props.media.get_url()}
 
-            self._tracker.update_blank_async(
-                query, None, _add_to_model, coresong)
+            self._tracker.update_async(query, None, _add_to_model, coresong)
 
     def reorder(self, previous_position, new_position):
         """Changes the order of a songs in the playlist.
