@@ -480,15 +480,10 @@ class Playlist(GObject.GObject):
             ?playlist nie:title "%(title)s"
         }
         WHERE {
+            BIND ( <%(playlist_id)s> AS ?playlist ) .
             ?playlist a nmm:Playlist ;
-                      nie:title ?title ;
+                        nie:title ?title ;
                       a nfo:MediaList .
-            OPTIONAL {
-                ?playlist nfo:hasMediaFileListEntry ?entry .
-            }
-            FILTER (
-                ?playlist = <%(playlist_id)s>
-            )
         }
         """.replace("\n", " ").strip() % {
             'title': Tracker.sparql_escape_string(new_name),
