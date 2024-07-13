@@ -189,15 +189,10 @@ class GrlTrackerPlaylists(GObject.GObject):
 
         self._notificationmanager.push_loading()
         query = """
-        DELETE {
-            ?playlist a rdfs:Resource .
-        }
-        WHERE {
-            ?playlist a nmm:Playlist ;
-                      a nfo:MediaList .
-            FILTER (
-                ?playlist = <%(playlist_id)s>
-            )
+        DELETE WHERE {
+            <%(playlist_id)s> a rdfs:Resource ;
+                              a nmm:Playlist ;
+                              a nfo:MediaList .
         }
         """.replace("\n", " ").strip() % {
             "playlist_id": playlist.props.pl_id
