@@ -702,9 +702,14 @@ class Playlist(GObject.GObject):
         :param int previous_position: preivous song position
         :param int new_position: new song position
         """
-        def _position_changed_cb(conn, res, position):
-            # FIXME: Check for failure.
-            conn.update_finish(res)
+        def _position_changed_cb(
+                connection: Tracker.SparqlConnection, result: Gio.AsyncResult,
+                position: int) -> None:
+            try:
+                connection.update_finish(result)
+            except GLib.Error as error:
+                self._log.warning("Unable to reorder song {}: {}".format(
+                    position, error.message))
 
         coresong = self._model.get_item(previous_position)
         self._model.remove(previous_position)
