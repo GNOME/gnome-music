@@ -717,14 +717,11 @@ class Playlist(GObject.GObject):
             ?entry nfo:listPosition %(position)s .
         }
         WHERE {
-            ?entry nfo:listPosition ?old_position .
-            ?playlist a nmm:Playlist ;
-                      a nfo:MediaList ;
-                        nfo:hasMediaFileListEntry ?entry .
-            FILTER (
-                ?playlist = <%(playlist_id)s> &&
-                ?entry = <%(song_id)s>
-            )
+            ?entry nfo:listPosition ?old_position ;
+                   nfo:entryUrl "%(song_url)s" .
+            <%(playlist_id)s> a nmm:Playlist ;
+                              a nfo:MediaList ;
+                                nfo:hasMediaFileListEntry ?entry .
         }
         """.replace("\n", " ").strip()
 
@@ -735,7 +732,7 @@ class Playlist(GObject.GObject):
             coresong = self._model.get_item(position)
             query = main_query % {
                 "playlist_id": self.props.pl_id,
-                "song_id": coresong.props.media.get_id(),
+                "song_url": coresong.props.media.get_url(),
                 "position": position
             }
             self._tracker.update_async(
