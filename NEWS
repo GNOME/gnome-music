@@ -1,3 +1,22 @@
+Overview of changes in 46.1
+===========================
+
+• Fix search dropping the first character
+
+Bugs fixed:
+ Handle bad image formats graciously (#605)
+ Fix first char dropping on search (#553)
+ Fix PyGObject change fallout
+ Incorrect/missing URLs in app metadata (#599)
+
+Thanks to our contributors this release:
+ Andre Klapper
+ Debanga Sarma
+ Marinus Schraal
+ Michael Catanzaro
+ Vaishnavi Nawghare
+
+
 Overview of changes in 46.0
 ===========================
 
