@@ -30,7 +30,6 @@ import typing
 
 from gi.repository import GLib, GObject, Gdk, Gio
 
-from gnomemusic.asyncqueue import AsyncQueue
 from gnomemusic.musiclogger import MusicLogger
 from gnomemusic.mediaartloader import MediaArtLoader
 if typing.TYPE_CHECKING:
@@ -70,7 +69,6 @@ class TextureCache(GObject.GObject):
     # numbers combined.
     _MAX_CACHE_SIZE = 800
 
-    _async_queue = AsyncQueue("TextureCache")
     _cleanup_id = 0
     _log = MusicLogger()
     _memory_monitor = Gio.MemoryMonitor.dup_default()
@@ -96,12 +94,6 @@ class TextureCache(GObject.GObject):
         """Disconnect ongoing lookup callback
         """
         if self._art_loading_id != 0:
-            # FIXME: It would be better to have AsyncQueue handle
-            # this transparently, but this lookup creates a new
-            # MediaArtLoader every time even for the same URI.
-            # AQ has no way to find out if it is for the same URI
-            # currently.
-            self._async_queue.queue_remove(self._art_loader)
             self._art_loader.disconnect(self._art_loading_id)
             self._art_loading_id = 0
 
@@ -124,7 +116,7 @@ class TextureCache(GObject.GObject):
         self._art_loader = MediaArtLoader()
         self._art_loading_id = self._art_loader.connect(
             "finished", self._on_art_loading_finished, uri)
-        self._async_queue.queue(self._art_loader, uri)
+        self._art_loader.start(uri)
 
     @classmethod
     def _low_memory_warning(
