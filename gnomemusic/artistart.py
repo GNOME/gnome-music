@@ -22,12 +22,12 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+import asyncio
+
 import gi
 gi.require_version("MediaArt", "2.0")
-from gi.repository import GObject, MediaArt
+from gi.repository import GLib, GObject, Gio, MediaArt
 
-from gnomemusic.asyncqueue import AsyncQueue
-from gnomemusic.fileexistsasync import FileExistsAsync
 from gnomemusic.griloartqueue import GriloArtQueue
 from gnomemusic.utils import CoreObjectType
 
@@ -35,8 +35,6 @@ from gnomemusic.utils import CoreObjectType
 class ArtistArt(GObject.GObject):
     """Artist art retrieval object
     """
-
-    _async_queue = AsyncQueue("ArtistArt")
 
     def __init__(self, application, coreartist):
         """Initialize.
@@ -52,22 +50,25 @@ class ArtistArt(GObject.GObject):
 
         self._grilo_art_queue = GriloArtQueue(application)
 
-        self._in_cache()
+        asyncio.create_task(self._in_cache())
 
-    def _in_cache(self):
+    async def _in_cache(self) -> None:
         success, thumb_file = MediaArt.get_file(self._artist, None, "artist")
 
         if not success:
             return
 
-        def on_file_exists_async_finished(obj, result):
-            if result:
-                self._coreartist.props.thumbnail = thumb_file.get_uri()
-            else:
-                self._grilo_art_queue.queue(
-                    self._coreartist, CoreObjectType.ARTIST)
+        try:
+            result = await thumb_file.query_info_async(
+                Gio.FILE_ATTRIBUTE_STANDARD_TYPE, Gio.FileQueryInfoFlags.NONE,
+                GLib.PRIORITY_DEFAULT_IDLE)
+        except GLib.Error:
+            # This indicates that the file has not been created, so
+            # there is no art in the MediaArt cache.
+            result = False
 
-        file_exists_async = FileExistsAsync()
-        file_exists_async.connect(
-            "finished", on_file_exists_async_finished)
-        self._async_queue.queue(file_exists_async, thumb_file)
+        if result:
+            self._coreartist.props.thumbnail = thumb_file.get_uri()
+        else:
+            self._grilo_art_queue.queue(
+                self._coreartist, CoreObjectType.ARTIST)
