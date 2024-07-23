@@ -30,9 +30,11 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+import asyncio
 from typing import Optional
 from gettext import gettext as _
 
+from gi.events import GLibEventLoopPolicy
 from gi.repository import Adw, Gtk, Gio, GLib, Gdk, GObject
 
 from gnomemusic.about import show_about
@@ -59,6 +61,8 @@ class Application(Adw.Application):
         GLib.set_application_name(_("Music"))
         GLib.set_prgname(application_id)
         GLib.setenv("PULSE_PROP_media.role", "music", True)
+
+        asyncio.set_event_loop_policy(GLibEventLoopPolicy())
 
         self._version = version
         self._window = None

@@ -25,6 +25,7 @@
 from __future__ import annotations
 from typing import Optional
 
+import asyncio
 from gi.repository import Gdk, Gio, GLib, GObject
 
 from gnomemusic.musiclogger import MusicLogger
@@ -44,80 +45,67 @@ class MediaArtLoader(GObject.GObject):
 
     _chunksize = 32768
     _log = MusicLogger()
+    _sem = asyncio.Semaphore(10)
 
     def __init__(self) -> None:
         """Intialize MediaArtLoader
         """
         super().__init__()
 
-        self._bytearray = bytearray()
         self._texture: Optional[Gdk.Texture] = None
 
-    def start(self, uri: str) -> None:
+    async def _start(self, uri: str) -> None:
         """Start the cache query
 
         :param str uri: The MediaArt uri
         """
         thumb_file = Gio.File.new_for_uri(uri)
         if thumb_file:
-            thumb_file.read_async(
-                GLib.PRIORITY_DEFAULT_IDLE, None, self._open_stream)
-        else:
-            self.emit("finished", self._texture)
+            async with self._sem:
+                try:
+                    stream = await thumb_file.read_async(
+                        GLib.PRIORITY_DEFAULT_IDLE)
+                except GLib.Error as error:
+                    self._log.warning(
+                        "Error: {}, {}".format(error.domain, error.message))
+                    self.emit("finished", self._texture)
+                    return
 
-    def _open_stream(
-            self, thumb_file: Gio.File, result: Gio.AsyncResult) -> None:
-        try:
-            stream = thumb_file.read_finish(result)
-        except GLib.Error as error:
-            self._log.warning(
-                "Error: {}, {}".format(error.domain, error.message))
-            self.emit("finished", self._texture)
-        else:
-            stream.read_bytes_async(
-                self._chunksize, GLib.PRIORITY_DEFAULT_IDLE, None,
-                self._read_bytes_async_cb, thumb_file)
+                barray = bytearray()
+                loop = True
+                while loop:
+                    try:
+                        gbytes = await stream.read_bytes_async(
+                            self._chunksize, GLib.PRIORITY_DEFAULT_IDLE)
+                    except GLib.Error as error:
+                        self._log.warning(
+                            "Error: {}, {}".format(
+                                error.domain, error.message))
+                        await stream.close_async(GLib.PRIORITY_DEFAULT)
+                        self.emit("finished", self._texture)
+                        return
 
-    def _read_bytes_async_cb(
-            self, stream: Gio.FileInputStream,
-            result: Gio.AsyncResult, thumb_file: Gio.File) -> None:
-        try:
-            gbytes = stream.read_bytes_finish(result)
-        except GLib.Error as error:
-            self._log.warning(
-                "Error: {}, {}".format(error.domain, error.message))
-            stream.close_async(
-                GLib.PRIORITY_DEFAULT_IDLE, None, self._close_stream)
-            return
+                    gbytes_size = gbytes.get_size()
+                    if gbytes_size > 0:
+                        barray += gbytes.unref_to_data()
+                    else:
+                        loop = False
 
-        gbytes_size = gbytes.get_size()
-        if gbytes_size > 0:
-            self._bytearray += gbytes.unref_to_data()
+                try:
+                    # See pygobject#114 for bytes conversion.
+                    self._texture = Gdk.Texture.new_from_bytes(
+                        GLib.Bytes(bytes(barray)))
+                except GLib.Error as error:
+                    self._log.warning("Error: {}, {} in file: {}".format(
+                        error.domain, error.message, thumb_file.get_uri()))
 
-            stream.read_bytes_async(
-                self._chunksize, GLib.PRIORITY_DEFAULT_IDLE, None,
-                self._read_bytes_async_cb, thumb_file)
-        else:
-            # FIXME: Use GTask to load textures async.
-            try:
-                # See pygobject#114 for bytes conversion.
-                self._texture = Gdk.Texture.new_from_bytes(
-                    GLib.Bytes(bytes(self._bytearray)))
-            except GLib.Error as error:
-                self._log.warning("Error: {}, {} in file: {}".format(
-                    error.domain, error.message, thumb_file.get_uri()))
-
-            self._bytearray = bytearray()
-
-            stream.close_async(
-                GLib.PRIORITY_DEFAULT_IDLE, None, self._close_stream)
-
-    def _close_stream(
-            self, stream: Gio.InputStream, result: Gio.AsyncResult) -> None:
-        try:
-            stream.close_finish(result)
-        except GLib.Error as error:
-            self._log.warning(
-                "Error: {}, {}".format(error.domain, error.message))
+                await stream.close_async(GLib.PRIORITY_DEFAULT)
 
         self.emit("finished", self._texture)
+
+    def start(self, uri: str) -> None:
+        """Start the cache query
+
+        :param str uri: The MediaArt uri
+        """
+        asyncio.create_task(self._start(uri))
