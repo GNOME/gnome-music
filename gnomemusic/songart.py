@@ -22,21 +22,19 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+import asyncio
+
 import gi
 gi.require_version("MediaArt", "2.0")
-from gi.repository import GObject, MediaArt
+from gi.repository import GLib, GObject, Gio, MediaArt
 
-from gnomemusic.asyncqueue import AsyncQueue
 from gnomemusic.embeddedart import EmbeddedArt
-from gnomemusic.fileexistsasync import FileExistsAsync
 from gnomemusic.storeart import StoreArt
 
 
 class SongArt(GObject.GObject):
     """SongArt retrieval object
     """
-
-    _async_queue = AsyncQueue("SongArt")
 
     def __init__(self, application, coresong):
         """Initialize SongArt
@@ -51,29 +49,32 @@ class SongArt(GObject.GObject):
         self._album = self._coresong.props.album
         self._artist = self._coresong.props.artist
 
-        self._in_cache()
+        asyncio.create_task(self._in_cache())
 
     def _on_embedded_art_found(self, embeddedart, found):
         if found:
-            self._in_cache()
+            asyncio.create_task(self._in_cache())
         else:
             self._coregrilo.get_song_art(self._coresong, StoreArt())
 
-    def _in_cache(self):
+    async def _in_cache(self) -> None:
         success, thumb_file = MediaArt.get_file(
             self._artist, self._album, "album")
         if not success:
             return
 
-        def on_file_exists_async_finished(obj, result):
-            if result:
-                self._coresong.props.thumbnail = thumb_file.get_uri()
-            else:
-                embedded = EmbeddedArt()
-                embedded.connect("art-found", self._on_embedded_art_found)
-                embedded.query(self._coresong, self._album)
+        try:
+            result = await thumb_file.query_info_async(
+                Gio.FILE_ATTRIBUTE_STANDARD_TYPE, Gio.FileQueryInfoFlags.NONE,
+                GLib.PRIORITY_DEFAULT_IDLE)
+        except GLib.Error:
+            # This indicates that the file has not been created, so
+            # there is no art in the MediaArt cache.
+            result = False
 
-        file_exists_async = FileExistsAsync()
-        file_exists_async.connect(
-            "finished", on_file_exists_async_finished)
-        self._async_queue.queue(file_exists_async, thumb_file)
+        if result:
+            self._coresong.props.thumbnail = thumb_file.get_uri()
+        else:
+            embedded = EmbeddedArt()
+            embedded.connect("art-found", self._on_embedded_art_found)
+            embedded.query(self._coresong, self._album)
