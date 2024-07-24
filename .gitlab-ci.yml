@@ -6,22 +6,32 @@ stages:
   - deploy
 
 variables:
+  APP_ID: "org.gnome.Music.Devel"
+  FLATPAK_MODULE: "gnome-music"
+  MANIFEST_PATH: "org.gnome.Music.json"
+  RUNTIME_REPO: "https://nightly.gnome.org/gnome-nightly.flatpakrepo"
   BUNDLE: "gnome-music-dev.flatpak"
   GIT_SUBMODULE_STRATEGY: normal
 
 flatpak:
-    extends: .flatpak
+    extends: .flatpak@x86_64
     stage: build-flatpak
-    variables:
-        APP_ID: "org.gnome.Music.Devel"
-        FLATPAK_MODULE: "gnome-music"
-        MANIFEST_PATH: "org.gnome.Music.json"
-        RUNTIME_REPO: "https://nightly.gnome.org/gnome-nightly.flatpakrepo"
+
+flatpak-aarch64:
+    extends: .flatpak@aarch64
+    stage: build-flatpak
 
 nightly:
     extends: .publish_nightly
     dependencies:
         - flatpak
+
+nightly-aarch64:
+    extends: .publish_nightly
+    needs:
+        - flatpak-aarch64
+    dependencies:
+        - flatpak-aarch64
 
 flake8:
   stage: check
