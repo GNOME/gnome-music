@@ -52,6 +52,7 @@ class MediaArtLoader(GObject.GObject):
         """
         super().__init__()
 
+        self._cancel = Gio.Cancellable()
         self._texture: Optional[Gdk.Texture] = None
 
     async def _start(self, uri: str) -> None:
@@ -64,8 +65,10 @@ class MediaArtLoader(GObject.GObject):
             async with self._sem:
                 try:
                     stream = await thumb_file.read_async(
-                        GLib.PRIORITY_DEFAULT_IDLE)
+                        GLib.PRIORITY_DEFAULT_IDLE, self._cancel)
                 except GLib.Error as error:
+                    if "Operation was cancelled" in str(error.message):
+                        return
                     self._log.warning(
                         "Error: {}, {}".format(error.domain, error.message))
                     self.emit("finished", self._texture)
@@ -76,8 +79,11 @@ class MediaArtLoader(GObject.GObject):
                 while loop:
                     try:
                         gbytes = await stream.read_bytes_async(
-                            self._chunksize, GLib.PRIORITY_DEFAULT_IDLE)
+                            self._chunksize, GLib.PRIORITY_DEFAULT_IDLE,
+                            self._cancel)
                     except GLib.Error as error:
+                        if "Operation was cancelled" in str(error.message):
+                            return
                         self._log.warning(
                             "Error: {}, {}".format(
                                 error.domain, error.message))
@@ -109,3 +115,8 @@ class MediaArtLoader(GObject.GObject):
         :param str uri: The MediaArt uri
         """
         asyncio.create_task(self._start(uri))
+
+    def cancel(self) -> None:
+        """Cancel the cache query
+        """
+        self._cancel.cancel()

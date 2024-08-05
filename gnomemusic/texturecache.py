@@ -95,6 +95,7 @@ class TextureCache(GObject.GObject):
         """
         if self._art_loading_id != 0:
             self._art_loader.disconnect(self._art_loading_id)
+            self._art_loader.cancel()
             self._art_loading_id = 0
 
     def lookup(self, uri: str) -> None:
