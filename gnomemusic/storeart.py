@@ -22,12 +22,24 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from __future__ import annotations
+from typing import Union
+import asyncio
+import typing
+
 import gi
 gi.require_versions({"MediaArt": "2.0", "Soup": "3.0"})
 from gi.repository import Gio, GLib, GObject, MediaArt, Soup, GdkPixbuf
 
 from gnomemusic.musiclogger import MusicLogger
 from gnomemusic.utils import CoreObjectType
+if typing.TYPE_CHECKING:
+    from gnomemusic.corealbum import CoreAlbum
+    from gnomemusic.coreartist import CoreArtist
+    from gnomemusic.coresong import CoreSong
+
+if typing.TYPE_CHECKING:
+    CoreObject = Union[CoreAlbum, CoreArtist, CoreSong]
 
 
 class StoreArt(GObject.Object):
@@ -37,6 +49,8 @@ class StoreArt(GObject.Object):
     __gsignals__ = {
         "finished": (GObject.SignalFlags.RUN_FIRST, None, ())
     }
+
+    _sem = asyncio.Semaphore(10)
 
     def __init__(self):
         """Initialize StoreArtistArt
@@ -52,7 +66,9 @@ class StoreArt(GObject.Object):
         self._log = MusicLogger()
         self._soup_session = Soup.Session.new()
 
-    def start(self, coreobject, uri, coreobjecttype):
+    async def _start(
+            self, coreobject: CoreObject, uri: str,
+            coreobjecttype: CoreObjectType) -> None:
         self._coreobject = coreobject
 
         if (uri is None
@@ -78,90 +94,59 @@ class StoreArt(GObject.Object):
             self.emit("finished")
             return
 
-        cache_dir = GLib.build_filenamev(
-            [GLib.get_user_cache_dir(), "media-art"])
-        cache_dir_file = Gio.File.new_for_path(cache_dir)
-        cache_dir_file.query_info_async(
-            Gio.FILE_ATTRIBUTE_ACCESS_CAN_READ, Gio.FileQueryInfoFlags.NONE,
-            GLib.PRIORITY_DEFAULT_IDLE, None, self._cache_dir_info_read, uri)
+        async with self._sem:
+            cache_dir = GLib.build_filenamev(
+                [GLib.get_user_cache_dir(), "media-art"])
+            cache_dir_file = Gio.File.new_for_path(cache_dir)
 
-    def _cache_dir_info_read(self, cache_dir_file, res, uri):
-        try:
-            cache_dir_file.query_info_finish(res)
-        except GLib.Error:
-            # directory does not exist yet
             try:
-                cache_dir_file.make_directory(None)
+                await cache_dir_file.query_info_async(
+                    Gio.FILE_ATTRIBUTE_ACCESS_CAN_READ,
+                    Gio.FileQueryInfoFlags.NONE, GLib.PRIORITY_DEFAULT_IDLE)
+            except GLib.Error:
+                # directory does not exist yet
+                try:
+                    cache_dir_file.make_directory(None)
+                except GLib.Error as error:
+                    self._log.warning(
+                        "Error: {}, {}".format(error.domain, error.message))
+                    self.emit("finished")
+                    return
+
+            msg = Soup.Message.new("GET", uri)
+            gbytes = await self._soup_session.send_and_read_async(
+                msg, GLib.PRIORITY_DEFAULT)
+            istream = Gio.MemoryInputStream.new_from_bytes(gbytes)
+            pixbuf = await GdkPixbuf.Pixbuf.new_from_stream_async(istream)
+
+            try:
+                ostream = await self._file.create_async(
+                    Gio.FileCreateFlags.NONE, GLib.PRIORITY_DEFAULT_IDLE)
             except GLib.Error as error:
-                self._log.warning(
-                    "Error: {}, {}".format(error.domain, error.message))
+                # File already exists.
+                self._log.info(f"Error: {error.domain}, {error.message}")
                 self.emit("finished")
                 return
+            else:
+                _, buffer = pixbuf.save_to_bufferv("jpeg")
+                try:
+                    await ostream.write_async(
+                        buffer, GLib.PRIORITY_DEFAULT_IDLE)
+                except GLib.Error as error:
+                    raise
+                self._coreobject.props.thumbnail = self._file.get_uri()
 
-        msg = Soup.Message.new("GET", uri)
-        self._soup_session.send_and_read_async(
-            msg, GLib.PRIORITY_DEFAULT, None, self._read_callback)
+        self.emit("finished")
 
-    def _read_callback(
-            self, session: Soup.Session, result: Gio.AsyncResult) -> None:
-        try:
-            bytes = session.send_and_read_finish(result)
-        except GLib.Error as error:
-            self._log.debug(
-                f"Failed to get remote art: {error.domain}, {error.message}")
-            self.emit("finished")
+    def start(
+            self, coreobject: CoreObject, uri: str,
+            coreobjecttype: CoreObjectType) -> None:
+        """Start storing the art from the given URI
 
-        istream = Gio.MemoryInputStream.new_from_bytes(bytes)
-        GdkPixbuf.Pixbuf.new_from_stream_async(
-            istream, None, self._pixbuf_from_stream_finished)
-
-    def _pixbuf_from_stream_finished(
-            self, stream: Gio.MemoryInputStream,
-            result: Gio.AsyncResult) -> None:
-        try:
-            pixbuf = GdkPixbuf.Pixbuf.new_from_stream_finish(result)
-        except GLib.Error as error:
-            self._log.warning(f"Error: {error.domain}, {error.message}")
-            self.emit("finished")
-        else:
-            self._file.create_async(
-                Gio.FileCreateFlags.NONE, GLib.PRIORITY_DEFAULT_IDLE, None,
-                self._output_stream_created, pixbuf)
-        finally:
-            stream.close_async(
-                GLib.PRIORITY_DEFAULT_IDLE, None, self._stream_closed)
-
-    def _output_stream_created(
-            self, stream: Gio.FileOutputStream, result: Gio.AsyncResult,
-            pixbuf: GdkPixbuf.Pixbuf) -> None:
-        try:
-            output_stream = stream.create_finish(result)
-        except GLib.Error as error:
-            # File already exists.
-            self._log.info(f"Error: {error.domain}, {error.message}")
-            self.emit("finished")
-        else:
-            pixbuf.save_to_streamv_async(
-                output_stream, "jpeg", None, None, None,
-                self._output_stream_saved, output_stream)
-
-    def _output_stream_saved(
-            self, pixbuf: GdkPixbuf.Pixbuf, result: Gio.AsyncResult,
-            output_stream: Gio.FileOutputStream) -> None:
-        try:
-            pixbuf.save_to_stream_finish(result)
-        except GLib.Error as error:
-            self._log.warning(f"Error: {error.domain}, {error.message}")
-        else:
-            self._coreobject.props.thumbnail = self._file.get_uri()
-        finally:
-            self.emit("finished")
-            output_stream.close_async(
-                GLib.PRIORITY_DEFAULT_IDLE, None, self._stream_closed)
-
-    def _stream_closed(
-            self, stream: Gio.OutputStream, result: Gio.AsyncResult) -> None:
-        try:
-            stream.close_finish(result)
-        except GLib.Error as error:
-            self._log.warning(f"Error: {error.domain}, {error.message}")
+        :param coreobject: Any of CoreSong, CoreAlbum or CoreArtist
+            the URI is relevant for
+        :param str uri: The URI containing the art
+        :param CoreObjectType coreobjecttype: The type of the
+            coreobject
+        """
+        asyncio.create_task(self._start(coreobject, uri, coreobjecttype))
