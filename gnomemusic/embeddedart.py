@@ -22,6 +22,8 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+import asyncio
+
 import gi
 gi.require_versions({"GstPbutils": "1.0", "GstTag": "1.0", "MediaArt": "2.0"})
 from gi.repository import (
@@ -144,65 +146,44 @@ class EmbeddedArt(GObject.GObject):
             if not success:
                 continue
 
-            istream = Gio.MemoryInputStream.new_from_data(map_info.data)
-            GdkPixbuf.Pixbuf.new_from_stream_async(
-                istream, None, self._pixbuf_from_stream_finished)
+            asyncio.create_task(self._save_pixbuf(map_info.data))
             discoverer.stop()
             return
 
         discoverer.stop()
         self._lookup_cover_in_directory()
 
-    def _pixbuf_from_stream_finished(
-            self, stream: Gio.MemoryInputStream,
-            result: Gio.AsyncResult) -> None:
+    async def _save_pixbuf(self, data: bytes) -> None:
+        istream = Gio.MemoryInputStream.new_from_data(data)
         try:
-            pixbuf = GdkPixbuf.Pixbuf.new_from_stream_finish(result)
+            pixbuf = await GdkPixbuf.Pixbuf.new_from_stream_async(istream)
         except GLib.Error as error:
             self._log.warning(f"Error: {error.domain}, {error.message}")
             self._lookup_cover_in_directory()
-        else:
-            self._file.create_async(
-                Gio.FileCreateFlags.NONE, GLib.PRIORITY_DEFAULT_IDLE, None,
-                self._output_stream_created, pixbuf)
+            return
         finally:
-            stream.close_async(
-                GLib.PRIORITY_DEFAULT_IDLE, None, self._stream_closed)
+            await istream.close_async(GLib.PRIORITY_DEFAULT)
 
-    def _output_stream_created(
-            self, stream: Gio.FileOutputStream, result: Gio.AsyncResult,
-            pixbuf: GdkPixbuf.Pixbuf) -> None:
         try:
-            output_stream = stream.create_finish(result)
+            ostream = await self._file.create_async(
+                Gio.FileCreateFlags.NONE, GLib.PRIORITY_DEFAULT_IDLE)
         except GLib.Error as error:
             # File already exists.
             self._log.info(f"Error: {error.domain}, {error.message}")
             self.emit("art-found", True)
+            return
         else:
-            pixbuf.save_to_streamv_async(
-                output_stream, "jpeg", None, None, None,
-                self._output_stream_saved, output_stream)
+            _, buffer = pixbuf.save_to_bufferv("jpeg")
+            try:
+                await ostream.write_async(buffer, GLib.PRIORITY_DEFAULT_IDLE)
+            except GLib.Error as error:
+                self._log.info(f"Error: {error.domain}, {error.message}")
+                self._lookup_cover_in_directory()
+                return
+            finally:
+                await ostream.close_async(GLib.PRIORITY_DEFAULT)
 
-    def _output_stream_saved(
-            self, pixbuf: GdkPixbuf.Pixbuf, result: Gio.AsyncResult,
-            output_stream: Gio.FileOutputStream) -> None:
-        try:
-            pixbuf.save_to_stream_finish(result)
-        except GLib.Error as error:
-            self._log.warning(f"Error: {error.domain}, {error.message}")
-            self._lookup_cover_in_directory()
-        else:
-            self.emit("art-found", True)
-        finally:
-            output_stream.close_async(
-                GLib.PRIORITY_DEFAULT_IDLE, None, self._stream_closed)
-
-    def _stream_closed(
-            self, stream: Gio.OutputStream, result: Gio.AsyncResult) -> None:
-        try:
-            stream.close_finish(result)
-        except GLib.Error as error:
-            self._log.warning(f"Error: {error.domain}, {error.message}")
+        self.emit("art-found", True)
 
     def _lookup_cover_in_directory(self):
         # Find local art in cover.jpeg files.
