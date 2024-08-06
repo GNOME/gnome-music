@@ -151,7 +151,7 @@ class EmbeddedArt(GObject.GObject):
             return
 
         discoverer.stop()
-        self._lookup_cover_in_directory()
+        asyncio.create_task(self._lookup_cover_in_directory())
 
     async def _save_pixbuf(self, data: bytes) -> None:
         istream = Gio.MemoryInputStream.new_from_data(data)
@@ -159,7 +159,7 @@ class EmbeddedArt(GObject.GObject):
             pixbuf = await GdkPixbuf.Pixbuf.new_from_stream_async(istream)
         except GLib.Error as error:
             self._log.warning(f"Error: {error.domain}, {error.message}")
-            self._lookup_cover_in_directory()
+            asyncio.create_task(self._lookup_cover_in_directory())
             return
         finally:
             await istream.close_async(GLib.PRIORITY_DEFAULT)
@@ -178,28 +178,26 @@ class EmbeddedArt(GObject.GObject):
                 await ostream.write_async(buffer, GLib.PRIORITY_DEFAULT_IDLE)
             except GLib.Error as error:
                 self._log.info(f"Error: {error.domain}, {error.message}")
-                self._lookup_cover_in_directory()
+                asyncio.create_task(self._lookup_cover_in_directory())
                 return
             finally:
                 await ostream.close_async(GLib.PRIORITY_DEFAULT)
 
         self.emit("art-found", True)
 
-    def _lookup_cover_in_directory(self):
-        # Find local art in cover.jpeg files.
-        self._media_art.uri_async(
-            MediaArt.Type.ALBUM, MediaArt.ProcessFlags.NONE,
-            self._coreobject.props.url, self._artist, self._album,
-            GLib.PRIORITY_DEFAULT_IDLE, None, self._uri_async_cb, None)
-
-    def _uri_async_cb(self, src, result, data):
+    async def _lookup_cover_in_directory(self) -> None:
+        """Find local art in cover.jpeg files."""
         try:
-            success = self._media_art.uri_finish(result)
+            success = await self._media_art.uri_async(
+                MediaArt.Type.ALBUM, MediaArt.ProcessFlags.NONE,
+                self._coreobject.props.url, self._artist, self._album,
+                GLib.PRIORITY_DEFAULT_IDLE)
             if success:
                 self.emit("art-found", True)
                 return
         except GLib.Error as error:
-            if MediaArt.Error(error.code) == MediaArt.Error.SYMLINK_FAILED:
+            if error.matches(
+                    MediaArt.error_quark(), MediaArt.Error.SYMLINK_FAILED):
                 # This error indicates that the coverart has already
                 # been linked by another concurrent lookup.
                 self.emit("art-found", True)
