@@ -30,7 +30,6 @@ import gi
 gi.require_versions({"Grl": "0.3", "Tracker": "3.0"})
 from gi.repository import Grl, Gio, Gtk, GLib, GObject, Tracker
 
-from gnomemusic.asyncqueue import AsyncQueue
 from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.coreartist import CoreArtist
 from gnomemusic.coredisc import CoreDisc
@@ -105,7 +104,6 @@ class GrlTrackerWrapper(GObject.GObject):
         """
         super().__init__()
 
-        self._async_queue = AsyncQueue("GrlTrackerWrapper")
         self._application: Application = application
         cm: CoreModel = application.props.coremodel
         self._log: MusicLogger = application.props.log
