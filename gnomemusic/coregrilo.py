@@ -241,35 +241,29 @@ class CoreGrilo(GObject.GObject):
         for wrapper in self._search_wrappers.values():
             wrapper.search(text)
 
-    def get_song_art(self, coresong, storeart=None):
+    def get_song_art(self, coresong):
         """Retrieve song art for the given CoreSong
 
         :param CoreSong coresong: CoreSong to retrieve art for
-        :param StoreArt storeart: StoreArt instance or None
         """
         if "grl-tracker3-source" in self._wrappers:
-            self._wrappers["grl-tracker3-source"].get_song_art(
-                coresong, storeart)
+            self._wrappers["grl-tracker3-source"].get_song_art(coresong)
 
-    def get_album_art(self, corealbum, storeart=None):
+    def get_album_art(self, corealbum):
         """Retrieve album art for the given CoreAlbum
 
         :param CoreAlbum corealbum: CoreAlbum to retrieve art for
-        :param StoreArt storeart: StoreArt instance or None
         """
         if "grl-tracker3-source" in self._wrappers:
-            self._wrappers["grl-tracker3-source"].get_album_art(
-                corealbum, storeart)
+            self._wrappers["grl-tracker3-source"].get_album_art(corealbum)
 
-    def get_artist_art(self, coreartist, storeart=None):
+    def get_artist_art(self, coreartist):
         """Retrieve artist art for the given CoreArtist
 
         :param CoreArtist coreartist: CoreArtist to retrieve art for
-        :param StoreArt storeart: StoreArt instance or None
         """
         if "grl-tracker3-source" in self._wrappers:
-            self._wrappers["grl-tracker3-source"].get_artist_art(
-                coreartist, storeart)
+            self._wrappers["grl-tracker3-source"].get_artist_art(coreartist)
 
     def stage_playlist_deletion(self, playlist):
         """Prepares playlist deletion.
