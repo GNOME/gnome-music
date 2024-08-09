@@ -29,7 +29,6 @@ gi.require_version("MediaArt", "2.0")
 from gi.repository import GLib, GObject, Gio, MediaArt
 
 from gnomemusic.embeddedart import EmbeddedArt
-from gnomemusic.storeart import StoreArt
 
 
 class SongArt(GObject.GObject):
@@ -55,7 +54,7 @@ class SongArt(GObject.GObject):
         if found:
             asyncio.create_task(self._in_cache())
         else:
-            self._coregrilo.get_song_art(self._coresong, StoreArt())
+            self._coregrilo.get_song_art(self._coresong)
 
     async def _in_cache(self) -> None:
         success, thumb_file = MediaArt.get_file(

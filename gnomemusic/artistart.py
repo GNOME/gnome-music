@@ -28,9 +28,6 @@ import gi
 gi.require_version("MediaArt", "2.0")
 from gi.repository import GLib, GObject, Gio, MediaArt
 
-from gnomemusic.griloartqueue import GriloArtQueue
-from gnomemusic.utils import CoreObjectType
-
 
 class ArtistArt(GObject.GObject):
     """Artist art retrieval object
@@ -47,8 +44,6 @@ class ArtistArt(GObject.GObject):
         self._coreartist = coreartist
         self._coregrilo = application.props.coregrilo
         self._artist = self._coreartist.props.artist
-
-        self._grilo_art_queue = GriloArtQueue(application)
 
         asyncio.create_task(self._in_cache())
 
@@ -70,5 +65,4 @@ class ArtistArt(GObject.GObject):
         if result:
             self._coreartist.props.thumbnail = thumb_file.get_uri()
         else:
-            self._grilo_art_queue.queue(
-                self._coreartist, CoreObjectType.ARTIST)
+            self._coregrilo.get_artist_art(self._coreartist)
