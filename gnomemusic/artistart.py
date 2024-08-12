@@ -54,15 +54,15 @@ class ArtistArt(GObject.GObject):
             return
 
         try:
-            result = await thumb_file.query_info_async(
+            await thumb_file.query_info_async(
                 Gio.FILE_ATTRIBUTE_STANDARD_TYPE, Gio.FileQueryInfoFlags.NONE,
                 GLib.PRIORITY_DEFAULT_IDLE)
-        except GLib.Error:
-            # This indicates that the file has not been created, so
-            # there is no art in the MediaArt cache.
-            result = False
-
-        if result:
-            self._coreartist.props.thumbnail = thumb_file.get_uri()
+        except GLib.Error as error:
+            if error.matches(Gio.io_error_quark(), Gio.IOErrorEnum.NOT_FOUND):
+                # This indicates that the file has not been created, so
+                # there is no art in the MediaArt cache.
+                self._coregrilo.get_artist_art(self._coreartist)
+            else:
+                raise
         else:
-            self._coregrilo.get_artist_art(self._coreartist)
+            self._coreartist.props.thumbnail = thumb_file.get_uri()
