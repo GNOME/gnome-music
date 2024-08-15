@@ -28,10 +28,14 @@ import gi
 gi.require_version("MediaArt", "2.0")
 from gi.repository import GLib, GObject, Gio, MediaArt
 
+from gnomemusic.asynciolimiter import StrictLimiter
+
 
 class ArtistArt(GObject.GObject):
     """Artist art retrieval object
     """
+
+    _limiter = StrictLimiter(2 / 1)
 
     def __init__(self, application, coreartist):
         """Initialize.
@@ -59,6 +63,7 @@ class ArtistArt(GObject.GObject):
                 GLib.PRIORITY_DEFAULT_IDLE)
         except GLib.Error as error:
             if error.matches(Gio.io_error_quark(), Gio.IOErrorEnum.NOT_FOUND):
+                await self._limiter.wait()
                 # This indicates that the file has not been created, so
                 # there is no art in the MediaArt cache.
                 self._coregrilo.get_artist_art(self._coreartist)
