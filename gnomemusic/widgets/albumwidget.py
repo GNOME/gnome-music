@@ -23,7 +23,7 @@
 # delete this exception statement from your version.
 
 from __future__ import annotations
-from gettext import ngettext
+from gettext import gettext as _, ngettext
 from typing import Optional, Union
 import typing
 
@@ -155,6 +155,7 @@ class AlbumWidget(Adw.Bin):
         self._album_model = self._corealbum.props.model
         self._model_signal_id = self._album_model.connect_after(
             "items-changed", self._on_model_items_changed)
+        self._disc_list_box.set_header_func(self._set_disc_header)
         self._disc_list_box.bind_model(self._album_model, self._create_widget)
 
         self._album_model.items_changed(0, 0, 0)
@@ -187,6 +188,16 @@ class AlbumWidget(Adw.Bin):
         """
         self._active_coreobject = coreobject
 
+    def _set_disc_header(
+            self, row: Gtk.ListBoxRow, before: Gtk.ListBoxRow) -> None:
+        header_label = _(f"Disc {row.props.disc_nr}")
+        header = Gtk.Label(label=header_label)
+        header.props.xalign = 0.0
+        header.props.halign = Gtk.Align.FILL
+        header.add_css_class("disc-label")
+        header.add_css_class("heading")
+        row.set_header(header)
+
     def _create_widget(self, disc: CoreDisc) -> DiscBox:
         disc_box = DiscBox(self._application, self._corealbum, disc)
         disc_box.connect('song-activated', self._song_activated)
@@ -199,11 +210,11 @@ class AlbumWidget(Adw.Bin):
         n_items: int = model.get_n_items()
         if n_items == 1:
             discbox = self._disc_list_box.get_row_at_index(0)
-            discbox.props.show_disc_label = False
+            discbox.get_header().props.visible = False
         else:
             for i in range(n_items):
                 discbox = self._disc_list_box.get_row_at_index(i)
-                discbox.props.show_disc_label = True
+                discbox.get_header().props.visible = True
 
         empty_album = (n_items == 0)
         self._play_button.props.sensitive = not empty_album

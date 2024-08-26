@@ -23,7 +23,6 @@
 # delete this exception statement from your version.
 
 from __future__ import annotations
-from gettext import gettext as _
 import typing
 
 from gi.repository import Gdk, Gio, GObject, Gtk
@@ -45,14 +44,13 @@ class DiscBox(Gtk.ListBoxRow):
     """
     __gtype_name__ = 'DiscBox'
 
-    _disc_label = Gtk.Template.Child()
     _list_box = Gtk.Template.Child()
 
     __gsignals__ = {
         'song-activated': (GObject.SignalFlags.RUN_FIRST, None, (Gtk.Widget,))
     }
 
-    show_disc_label = GObject.Property(type=bool, default=False)
+    disc_nr = GObject.Property(type=int, default=1)
 
     def __init__(
             self, application: Application, corealbum: CoreAlbum,
@@ -70,11 +68,8 @@ class DiscBox(Gtk.ListBoxRow):
         self._coredisc = coredisc
         self._model: Gio.ListModel = coredisc.props.model
 
-        disc_nr: int = coredisc.props.disc_nr
-        self._disc_label.props.label = _("Disc {}").format(disc_nr)
-
-        self.bind_property(
-            'show-disc-label', self._disc_label, 'visible',
+        self._coredisc.bind_property(
+            "disc-nr", self, "disc-nr",
             GObject.BindingFlags.SYNC_CREATE)
 
         self._list_box.bind_model(self._model, self._create_widget)
