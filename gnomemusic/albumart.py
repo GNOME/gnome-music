@@ -28,12 +28,15 @@ import gi
 gi.require_version("MediaArt", "2.0")
 from gi.repository import GLib, GObject, Gio, MediaArt
 
+from gnomemusic.asynciolimiter import StrictLimiter
 from gnomemusic.embeddedart import EmbeddedArt
 
 
 class AlbumArt(GObject.GObject):
     """AlbumArt retrieval object
     """
+
+    _limiter = StrictLimiter(5 / 1)
 
     def __init__(self, application, corealbum):
         """Initialize AlbumArt
@@ -76,4 +79,5 @@ class AlbumArt(GObject.GObject):
         else:
             embedded = EmbeddedArt()
             embedded.connect("art-found", self._on_embedded_art_found)
+            await self._limiter.wait()
             embedded.query(self._corealbum, self._album)
