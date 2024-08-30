@@ -1,32 +1,20 @@
-# Copyright 2019 The GNOME Music developers
-# GNOME Music is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
+# Copyright 2024 The GNOME Music developers
 #
-# GNOME Music is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License along
-# with GNOME Music; if not, write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-#
-# The GNOME Music authors hereby grant permission for non-GPL compatible
-# GStreamer plugins to be used and distributed together with GStreamer
-# and GNOME Music.  This permission is above and beyond the permissions
-# granted by the GPL license by which GNOME Music is covered.  If you
-# modify this code, you may extend this exception to your version of the
-# code, but you are not obligated to do so.  If you do not wish to do so,
-# delete this exception statement from your version.
+# SPDX-License-Identifier: GPL-2.0-or-later WITH GStreamer-exception-2008
 
+from __future__ import annotations
+from typing import Optional
+import asyncio
 import os
+import typing
 
 from gi.repository import GLib, Gio, GObject
 
 from gnomemusic.gstplayer import Playback
 from gnomemusic.musiclogger import MusicLogger
+
+if typing.TYPE_CHECKING:
+    from gnomemusic.player import Player
 
 
 class PauseOnSuspend(GObject.GObject):
@@ -36,7 +24,7 @@ class PauseOnSuspend(GObject.GObject):
     and inhibit suspend before pause.
     """
 
-    def __init__(self, player):
+    def __init__(self, player: Player) -> None:
         """Initialize pause on supend handling
 
         :param Player player: Player object
@@ -46,22 +34,39 @@ class PauseOnSuspend(GObject.GObject):
         self._log = MusicLogger()
 
         self._player = player
-        self._init_pause_on_suspend()
 
-        self._connection = None
-        self._file_descriptor = -1
-        self._suspend_proxy = None
-        self._previous_state = self._player.props.state
+        self._conn_signal_id: int
+        self._file_descriptor: int = -1
+        self._suspend_proxy: Optional[Gio.DBusProxy] = None
+        self._previous_state: Playback = self._player.props.state
         self._player.connect("notify::state", self._on_player_state_changed)
 
-    def _on_player_state_changed(self, klass, arguments):
+        asyncio.create_task(self._init_pause_on_suspend())
+
+    async def _init_pause_on_suspend(self) -> None:
+        try:
+            self._suspend_proxy = await Gio.DBusProxy.new_for_bus(
+                Gio.BusType.SYSTEM,
+                Gio.DBusProxyFlags.DO_NOT_LOAD_PROPERTIES,
+                None,
+                "org.freedesktop.login1",
+                "/org/freedesktop/login1",
+                "org.freedesktop.login1.Manager")
+        except GLib.Error as error:
+            self._log.warning(
+                f"Error: Failed to contact logind daemon: {error.message}")
+
+    def _on_player_state_changed(self, player: Player, state: int) -> None:
+        if not self._suspend_proxy:
+            return
+
         new_state = self._player.props.state
         if self._previous_state == new_state:
             return
 
         if (new_state == Playback.PLAYING
                 and self._file_descriptor == -1):
-            self._take_lock()
+            asyncio.create_task(self._take_lock())
 
         if (self._previous_state == Playback.PLAYING
                 and new_state != Playback.LOADING):
@@ -69,7 +74,10 @@ class PauseOnSuspend(GObject.GObject):
 
         self._previous_state = new_state
 
-    def _take_lock(self):
+    async def _take_lock(self) -> None:
+        if not self._suspend_proxy:
+            return
+
         variant = GLib.Variant(
             "(ssss)",
             (
@@ -80,47 +88,28 @@ class PauseOnSuspend(GObject.GObject):
             )
         )
 
-        self._suspend_proxy.call(
-            "Inhibit", variant, Gio.DBusCallFlags.NONE,
-            -1, None, self._on_inhibit)
+        try:
+            var = await self._suspend_proxy.call_with_unix_fd_list(
+                "Inhibit", variant, Gio.DBusCallFlags.NONE, -1)
+            self._file_descriptor = var.out_fd_list.get(0)
+            self._conn_signal_id = self._suspend_proxy.connect(
+                "g-signal", self._pause_playing)
+        except GLib.Error as error:
+            self._log.warning(
+                f"Error: Failed to finish proxy call: {error.message}")
 
-    def _on_inhibit(self, proxy, task, data=None):
+    def _release_lock(self) -> None:
         if not self._suspend_proxy:
             return
 
-        try:
-            var = self._suspend_proxy.call_with_unix_fd_list_finish(task)
-            self._file_descriptor = var.out_fd_list.get(0)
-            self._connection = self._suspend_proxy.connect(
-                "g-signal", self._pause_playing)
-        except GLib.Error as e:
-            self._log.warning(
-                "Error: Failed to finish proxy call: {}".format(e.message))
-
-    def _release_lock(self):
         if self._file_descriptor >= 0:
             os.close(self._file_descriptor)
             self._file_descriptor = -1
-            self._suspend_proxy.disconnect(self._connection)
+            self._suspend_proxy.disconnect(self._conn_signal_id)
 
-    def _init_pause_on_suspend(self):
-        Gio.DBusProxy.new_for_bus(
-            Gio.BusType.SYSTEM,
-            Gio.DBusProxyFlags.DO_NOT_LOAD_PROPERTIES, None,
-            "org.freedesktop.login1",
-            "/org/freedesktop/login1",
-            "org.freedesktop.login1.Manager", None,
-            self._suspend_proxy_ready)
-
-    def _suspend_proxy_ready(self, proxy, result, data=None):
-        try:
-            self._suspend_proxy = proxy.new_finish(result)
-        except GLib.Error as e:
-            self._log.warning(
-                "Error: Failed to contact logind daemon: {}".format(e.message))
-            return
-
-    def _pause_playing(self, proxy, sender, signal, parameters):
+    def _pause_playing(
+            self, proxy: Gio.DBusProxy, sender: Optional[str], signal: str,
+            parameters: GLib.Variant) -> None:
         if signal != "PrepareForSleep":
             return
 
@@ -129,4 +118,4 @@ class PauseOnSuspend(GObject.GObject):
             self._player.pause()
             self._release_lock()
         else:
-            self._take_lock()
+            asyncio.create_task(self._take_lock())

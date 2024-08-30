@@ -80,7 +80,6 @@ class Application(Adw.Application):
         self._player = Player(self)
 
         InhibitSuspend(self)
-        PauseOnSuspend(self._player)
 
     @GObject.Property(
         type=CoreGrilo, default=None, flags=GObject.ParamFlags.READABLE)
@@ -215,5 +214,7 @@ class Application(Adw.Application):
             if self.props.application_id == "org.gnome.Music.Devel":
                 self._window.get_style_context().add_class('devel')
             MPRIS(self)
+
+        PauseOnSuspend(self._player)
 
         self._window.present()
