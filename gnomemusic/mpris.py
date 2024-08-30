@@ -22,6 +22,7 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+import asyncio
 import re
 
 from gi.repository import Gio, GLib
@@ -41,17 +42,19 @@ class DBusInterface:
         :param str path: object path
         :param GtkApplication application: The Application object
         """
+        self._con: Gio.DBusConnection
         self._log = application.props.log
         self._path = path
         self._signals = None
-        Gio.bus_get(Gio.BusType.SESSION, None, self._bus_get_sync, name)
 
-    def _bus_get_sync(self, source, res, name):
+        asyncio.create_task(self._get_bus(name))
+
+    async def _get_bus(self, name: str) -> None:
         try:
-            self._con = Gio.bus_get_finish(res)
-        except GLib.Error as e:
+            self._con = await Gio.bus_get(Gio.BusType.SESSION, None)
+        except GLib.Error as error:
             self._log.warning(
-                "Unable to connect to to session bus: {}".format(e.message))
+                f"Unable to connect to the session bus: {error.message}")
             return
 
         Gio.bus_own_name_on_connection(
