@@ -22,7 +22,9 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from __future__ import annotations
 import re
+import typing
 
 from gi.repository import Gio, GLib
 
@@ -30,6 +32,12 @@ from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
 from gnomemusic.gstplayer import Playback
 from gnomemusic.player import RepeatMode
 from gnomemusic.widgets.songwidget import SongWidget
+
+if typing.TYPE_CHECKING:
+    from gi.repository import GObject
+
+    from gnomemusic.coresong import CoreSong
+    from gnomemusic.player import Player
 
 
 class DBusInterface:
@@ -317,6 +325,8 @@ class MPRIS(DBusInterface):
         self._previous_loop_status = ""
         self._previous_mpris_playlist = self._get_active_playlist()
         self._previous_playback_status = "Stopped"
+        self._thumbnail_id = 0
+        self._current_coresong = None
 
     def _get_playback_status(self):
         state = self._player.props.state
@@ -375,10 +385,31 @@ class MPRIS(DBusInterface):
             metadata['xesam:trackNumber'] = GLib.Variant('i', track_nr)
 
         art_url = coresong.props.thumbnail
-        if art_url != "generic":
+        if (art_url == "generic"
+                and self._current_coresong == coresong):
+            self._thumbnail_id = coresong.connect(
+                "notify::thumbnail", self._on_thumbnail_changed)
+        else:
             metadata['mpris:artUrl'] = GLib.Variant('s', art_url)
 
         return metadata
+
+    def _on_thumbnail_changed(
+            self, coresong: CoreSong, param: GObject.ParamSpecString) -> None:
+        """Updates MPRIS metadata when a song's thumbnail changes.
+
+        :param coresong: The song with the new thumbnail.
+        :param param_spec: Metadata about the changed property.
+        :param user_data: Optional; unused.
+        """
+        if coresong != self._player.props.current_song:
+            return
+
+        properties = {}
+        properties["Metadata"] = GLib.Variant(
+            "a{sv}", self._get_metadata(coresong))
+        self._properties_changed(
+            MPRIS.MEDIA_PLAYER2_PLAYER_IFACE, properties, [])
 
     def _get_song_dbus_path(self, coresong=None, index=None):
         """Convert a Grilo media to a D-Bus path
@@ -461,7 +492,14 @@ class MPRIS(DBusInterface):
             current_core_object)
         return (True, mpris_playlist)
 
-    def _on_current_song_changed(self, player):
+    def _on_current_song_changed(self, player: Player) -> None:
+        if (self._thumbnail_id != 0
+                and self._current_coresong):
+            self._current_coresong.disconnect(self._thumbnail_id)
+            self._thumbnail_id = 0
+
+        self._current_coresong = player.props.current_song
+
         # In repeat song mode, no metadata has changed if the
         # player was already started
         if self._player.props.repeat_mode == RepeatMode.SONG:
