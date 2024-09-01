@@ -93,6 +93,7 @@ class GrlTrackerPlaylists(GObject.GObject):
             "RecentlyAdded": RecentlyAdded(**args),
             "Favorites": Favorites(**args),
             "InsufficientTagged": InsufficientTagged(**args),
+            "AllSongs": AllSongs(**args),
         }
 
         for playlist in smart_playlists.values():
@@ -1197,6 +1198,59 @@ class InsufficientTagged(SmartPlaylist):
             OPTIONAL { ?song nao:hasTag ?tag .
                        FILTER (?tag = nao:predefined-tag-favorite) }
         }
+        """.replace('\n', ' ').strip() % {
+            "media_type": int(Grl.MediaType.AUDIO),
+            "location_filter": self._tracker_wrapper.location_filter(),
+            "miner_fs_busname": self._tracker_wrapper.props.miner_fs_busname,
+        }
+
+
+class AllSongs(SmartPlaylist):
+    """All Songs smart playlist"""
+
+    def __init__(self, **args):
+        super().__init__(**args)
+
+        self.props.tag_text = "ALL_SONGS"
+        # TRANSLATORS: this is a playlist name
+        self._title = _("All Songs")
+        self.props.icon_name = "folder-music-symbolic"
+
+        self.props.query = """
+        SELECT
+            %(media_type)s AS ?type
+            ?song AS ?id
+            ?title
+            ?url
+            ?artist
+            ?album
+            ?duration
+            ?trackNumber
+            ?albumDiscNumber
+            nie:usageCounter(?song) AS ?playCount
+            ?tag AS ?favorite
+        WHERE {
+            SERVICE <dbus:%(miner_fs_busname)s> {
+                GRAPH tracker:Audio {
+                    SELECT
+                        ?song
+                        nie:title(?song) AS ?title
+                        nie:isStoredAs(?song) AS ?url
+                        nmm:artistName(nmm:artist(?song)) AS ?artist
+                        nie:title(nmm:musicAlbum(?song)) AS ?album
+                        nfo:duration(?song) AS ?duration
+                        nmm:trackNumber(?song) AS ?trackNumber
+                        nmm:setNumber(nmm:musicAlbumDisc(?song))
+                            AS ?albumDiscNumber
+                    WHERE {
+                        ?song a nmm:MusicPiece .
+                        %(location_filter)s
+                    }
+                }
+            }
+            OPTIONAL { ?song nao:hasTag ?tag .
+                       FILTER (?tag = nao:predefined-tag-favorite) }
+        } ORDER BY ?artist ?album ?trackNumber
         """.replace('\n', ' ').strip() % {
             "media_type": int(Grl.MediaType.AUDIO),
             "location_filter": self._tracker_wrapper.location_filter(),
