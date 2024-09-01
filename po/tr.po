@@ -1,5 +1,5 @@
 # Turkish translation for gnome-music.
-# Copyright (C) 2013-2023 gnome-music's COPYRIGHT HOLDER
+# Copyright (C) 2013-2024 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-music package.
 #
 # Gökhan Gurbetoğlu <ggurbet@gmail.com>, 2014, 2015.
@@ -8,16 +8,16 @@
 # Osman Karagöz <osmank3@gmail.com>, 2017.
 # Furkan Tokaç <developmentft@gmail.com>, 2017.
 # Doğa Deniz Arıcı <bluegreenbrain@gmail.com>, 2018.
-# Sabri Ünal <libreajans@gmail.com>, 2019-2020, 2023-2024.
+# Sabri Ünal <yakushabb@gmail.com>, 2019, 2020, 2023, 2024.
 # Emin Tufan Çetin <etcetin@gmail.com>, 2013-2022, 2024.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2024-03-20 13:10+0000\n"
-"PO-Revision-Date: 2024-05-07 11:38+0300\n"
-"Last-Translator: Sabri Ünal <yakushabb@gmail.com>\n"
+"POT-Creation-Date: 2024-06-21 10:22+0000\n"
+"PO-Revision-Date: 2024-02-13 18:01+0300\n"
+"Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Turkish <takim@gnome.org.tr>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
@@ -59,11 +59,10 @@ msgstr "GNOME Müzik Geliştiricileri"
 msgid "Music Player"
 msgstr "Müzik Çalar"
 
-# https://gitlab.gnome.org/GNOME/glib/-/issues/443 hatası sebebiyle ingilizce hallerini de koruyalım.
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.Music.desktop.in.in:13
 msgid "Music;Player;"
-msgstr "Music;Player;Müzik;Çalar;Çalıcı;"
+msgstr "Müzik;Çalar;Çalıcı;"
 
 #: data/org.gnome.Music.gschema.xml:12
 msgid "Window size"
@@ -89,9 +88,9 @@ msgstr "Çalma yineleme kipi"
 #: data/org.gnome.Music.gschema.xml:24
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
-"collection. Allowed values are: “none” (repeat and shuffle are off), "
-"“song” (repeat current song), “all” (repeat playlist, no shuffle), "
-"“shuffle” (shuffle playlist, presumes repeat all)."
+"collection. Allowed values are: “none” (repeat and shuffle are off), “song” "
+"(repeat current song), “all” (repeat playlist, no shuffle), “shuffle” "
+"(shuffle playlist, presumes repeat all)."
 msgstr ""
 "Bu değer, derlemdeki parçaların yinelemeli mi yoksa karışık mı çalınacağını "
 "belirtir. İzin verilen değerler şunlardır: “none” (yineleme ve karıştırma "
@@ -240,15 +239,10 @@ msgstr "Sanatçılara git"
 
 #: data/ui/help-overlay.ui:90
 msgctxt "shortcut window"
-msgid "Go to Songs"
-msgstr "Şarkılara git"
-
-#: data/ui/help-overlay.ui:96
-msgctxt "shortcut window"
 msgid "Go to Playlists"
 msgstr "Çalma Listelerine git"
 
-#: data/ui/help-overlay.ui:102
+#: data/ui/help-overlay.ui:96
 msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Geri git"
@@ -473,19 +467,19 @@ msgstr "Bilinmeyen Sanatçı"
 msgid "Playlists"
 msgstr "Çalma Listeleri"
 
-#: gnomemusic/views/searchview.py:220
+#: gnomemusic/views/searchview.py:224
 msgid "No Search Started"
 msgstr "Arama Başlatılmadı"
 
-#: gnomemusic/views/searchview.py:222
+#: gnomemusic/views/searchview.py:226
 msgid "Use the searchbar to start searching for albums, artists or songs"
 msgstr "Albüm, sanatçı ya da şarkı aramak için arama çubuğunu kullan"
 
-#: gnomemusic/views/searchview.py:226
+#: gnomemusic/views/searchview.py:230
 msgid "No Results Found"
 msgstr "Sonuç Bulunamadı"
 
-#: gnomemusic/views/searchview.py:228
+#: gnomemusic/views/searchview.py:232
 msgid "Try a different search"
 msgstr "Başka arama deneyin"
 
@@ -507,7 +501,7 @@ msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} Şarkı"
 
-#: gnomemusic/widgets/searchheaderbar.py:50
+#: gnomemusic/widgets/searchheaderbar.py:54
 msgid "Search songs, artists and albums"
 msgstr "Şarkıları, sanatçıları ve albümleri ara"
 
@@ -563,87 +557,3 @@ msgstr "Sisteminizin Tracker sürümü eski görünüyor."
 #: gnomemusic/widgets/statusnavigationpage.py:131
 msgid "Music needs Tracker version 3.0.0 or higher."
 msgstr "Müzik, Trackerʼın 3.0.0 sürümünü veya üstünü gerektirmektedir."
-
-#~ msgid "Report music history to Last.fm"
-#~ msgstr "Müzik geçmişini Last.fm’e bildir"
-
-#~ msgid ""
-#~ "Enables or disables sending scrobbles and the “currently playing” info to "
-#~ "Last.fm."
-#~ msgstr ""
-#~ "Last.fm’e skroplamaları ve “şu anda çalan” bilgilerini göndermeyi "
-#~ "etkinleştirir veya devre dışı bırakır."
-
-#~ msgid "Last.fm Account"
-#~ msgstr "Last.fm Hesabı"
-
-#~ msgid "Report Music Listening"
-#~ msgstr "Müzik Dinlemeyi Bildir"
-
-#~ msgid "_Help"
-#~ msgstr "_Yardım"
-
-#~ msgid "Artist"
-#~ msgstr "Sanatçı"
-
-#~ msgid "Select"
-#~ msgstr "Seç"
-
-#~ msgid "Back"
-#~ msgstr "Geri"
-
-#~ msgid ""
-#~ "Last.fm is a music discovery service that gives you personalised "
-#~ "recommendations based on the music you listen to."
-#~ msgstr ""
-#~ "Last.fm, dinlediğiniz müziğe göre kişiselleştirilmiş öneriler sunan müzik "
-#~ "keşif hizmetidir."
-
-#~ msgid "Music Reporting Not Setup"
-#~ msgstr "Müzik Bildirimi Kurulmadı"
-
-#~ msgid "Login to your Last.fm account to report your music listening."
-#~ msgstr "Müzik dinlemenizi bildirmek için Last.fm hesabınıza giriş yapın."
-
-#~ msgid "Login"
-#~ msgstr "Giriş"
-
-#~ msgid "Select All"
-#~ msgstr "Tümünü Seç"
-
-#~ msgid "Select None"
-#~ msgstr "Hiçbirini Seçme"
-
-#~ msgid "Click on items to select them"
-#~ msgstr "Seçmek için ögelere tıklayın"
-
-#~ msgid "_Add to Playlist"
-#~ msgstr "Çalma Listesine _Ekle"
-
-#~ msgid "Copyright The GNOME Music Developers"
-#~ msgstr "Telif Hakkı GNOME Müzik Geliştiricileri"
-
-#~ msgid "Translated by"
-#~ msgstr "Çeviren"
-
-#~ msgid "Artists Results"
-#~ msgstr "Sanatçı Sonuçları"
-
-#~ msgid "Albums Results"
-#~ msgstr "Albüm Sonuçları"
-
-#~ msgid "Selected {} song"
-#~ msgid_plural "Selected {} songs"
-#~ msgstr[0] "{} şarkı seçildi"
-
-#~ msgid "Your music listening is reported to Last.fm."
-#~ msgstr "Müzik dinlemeniz Last.fm’e bildirildi."
-
-#~ msgid "Your music listening is not reported to Last.fm."
-#~ msgstr "Müzik dinlemeniz Last.fm’e bildirilmedi."
-
-#~ msgid "Logged in as {}"
-#~ msgstr "{} olarak giriş yapıldı"
-
-#~ msgid "Configure"
-#~ msgstr "Yapılandır"
