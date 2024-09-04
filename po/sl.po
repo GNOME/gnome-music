@@ -8,18 +8,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2024-02-14 23:57+0000\n"
-"PO-Revision-Date: 2024-03-25 22:31+0100\n"
-"Last-Translator: Matej Urbančič <mateju@src.gnome.org>\n"
+"POT-Creation-Date: 2024-09-03 21:12+0000\n"
+"PO-Revision-Date: 2024-09-04 16:16+0200\n"
+"Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || "
-"n%100==4 ? 3 : 0);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
+"%100==4 ? 3 : 0);\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 2.2.1\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
 #: data/org.gnome.Music.desktop.in.in:3 data/ui/StatusNavigationPage.ui:4
@@ -45,7 +45,7 @@ msgstr ""
 "načrtovanega pripravljanja seznamov predvajanja."
 
 #. developer_name tag deprecated with Appstream 1.0
-#: data/org.gnome.Music.appdata.xml.in.in:188
+#: data/org.gnome.Music.appdata.xml.in.in:214
 msgid "The GNOME Music developers"
 msgstr "Razvijalci programa GNOME Glasba"
 
@@ -58,28 +58,28 @@ msgstr "Predvajalnik glasbe"
 msgid "Music;Player;"
 msgstr "Glasba;Predvajalnik;Music;Albumi;izvajalci;skladbe;"
 
-#: data/org.gnome.Music.gschema.xml:12
+#: data/org.gnome.Music.gschema.xml:17
 msgid "Window size"
 msgstr "Velikost okna"
 
-#: data/org.gnome.Music.gschema.xml:13
+#: data/org.gnome.Music.gschema.xml:18
 msgid "Window size (width and height)."
 msgstr "Velikost okna (širina in višina)."
 
-#: data/org.gnome.Music.gschema.xml:17
+#: data/org.gnome.Music.gschema.xml:22
 msgid "Window maximized"
 msgstr "Razpeto okno"
 
-#: data/org.gnome.Music.gschema.xml:18
+#: data/org.gnome.Music.gschema.xml:23
 msgid "Window maximized state."
 msgstr "Razpeto stanje okna."
 
-#: data/org.gnome.Music.gschema.xml:22
+#: data/org.gnome.Music.gschema.xml:27
 msgid "Playback repeat mode"
 msgstr "Način ponavljanja predvajanja"
 
 #. Translators: Don't translate allowed values, just the description in the brackets
-#: data/org.gnome.Music.gschema.xml:24
+#: data/org.gnome.Music.gschema.xml:29
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
 "collection. Allowed values are: “none” (repeat and shuffle are off), "
@@ -92,19 +92,27 @@ msgstr ""
 "seznam predvajanja brez mešanja) in »premešano« (vrstni red je premešan, "
 "ponovljene pa bodo vse skladbe)."
 
-#: data/org.gnome.Music.gschema.xml:28 data/ui/PreferencesDialog.ui:27
+#: data/org.gnome.Music.gschema.xml:33
 msgid "Enable ReplayGain"
 msgstr "Omogoči ReplayGain"
 
-#: data/org.gnome.Music.gschema.xml:29
-msgid "Enables or disables ReplayGain for albums"
-msgstr "Omogoči ali onemogoči podporo ReplayGain za albume"
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: data/org.gnome.Music.gschema.xml:35
+msgid ""
+"Enables or disables ReplayGain for albums or track. Allowed values are: "
+"“disabled” (disables replaygain), “album” (replaygain per album), "
+"“track” (replaygain per track)."
+msgstr ""
+"Omogoči ali onemogoči funkcijo ReplayGain za albume ali posnetek. Dovoljene "
+"vrednosti so: »onemogočeno« (onemogoči ponovno predvajanje), "
+"»album« (povečanje ponovnega predvajanja na album), »skladba« (povečanje "
+"ponovnega predvajanja na posnetek)."
 
-#: data/org.gnome.Music.gschema.xml:33
+#: data/org.gnome.Music.gschema.xml:39
 msgid "Inhibit system suspend"
 msgstr "Prepreči sistemski prehod v pripravljenost"
 
-#: data/org.gnome.Music.gschema.xml:34
+#: data/org.gnome.Music.gschema.xml:40
 msgid "Enables or disables inhibiting system suspend while playing music"
 msgstr ""
 "Preklopi možnost preprečevanja prehoda v stanje pripravljenosti med "
@@ -169,8 +177,8 @@ msgstr "Splošno"
 
 #: data/ui/help-overlay.ui:14
 msgctxt "shortcut window"
-msgid "Close window"
-msgstr "Zapre okno"
+msgid "Preferences"
+msgstr "Možnosti"
 
 #: data/ui/help-overlay.ui:20
 msgctxt "shortcut window"
@@ -187,55 +195,55 @@ msgctxt "shortcut window"
 msgid "Shortcuts"
 msgstr "Pokaže tipkovne bližnjice"
 
-#: data/ui/help-overlay.ui:40
+#: data/ui/help-overlay.ui:38
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Konča program"
+
+#: data/ui/help-overlay.ui:46
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Predvajanje"
 
-#: data/ui/help-overlay.ui:43
+#: data/ui/help-overlay.ui:49
 msgctxt "shortcut window"
 msgid "Play/Pause"
 msgstr "Preklopi Predvajanje/Premor"
 
-#: data/ui/help-overlay.ui:49
+#: data/ui/help-overlay.ui:55
 msgctxt "shortcut window"
 msgid "Next song"
 msgstr "Skoči na naslednjo skladbo"
 
-#: data/ui/help-overlay.ui:55
+#: data/ui/help-overlay.ui:61
 msgctxt "shortcut window"
 msgid "Previous song"
 msgstr "Skoči na predhodno skladbo"
 
-#: data/ui/help-overlay.ui:61
+#: data/ui/help-overlay.ui:67
 msgctxt "shortcut window"
 msgid "Toggle repeat"
 msgstr "Preklopi ponavljanje"
 
-#: data/ui/help-overlay.ui:67
+#: data/ui/help-overlay.ui:73
 msgctxt "shortcut window"
 msgid "Toggle shuffle"
 msgstr "Preklopi premešanje"
 
-#: data/ui/help-overlay.ui:75
+#: data/ui/help-overlay.ui:81
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "Upravljanje"
 
-#: data/ui/help-overlay.ui:78
+#: data/ui/help-overlay.ui:84
 msgctxt "shortcut window"
 msgid "Go to Albums"
 msgstr "Skoči na pogled albumov"
 
-#: data/ui/help-overlay.ui:84
+#: data/ui/help-overlay.ui:90
 msgctxt "shortcut window"
 msgid "Go to Artists"
 msgstr "Skoči na pogled izvajalcev"
-
-#: data/ui/help-overlay.ui:90
-msgctxt "shortcut window"
-msgid "Go to Songs"
-msgstr "Skoči na pogled skladb"
 
 #: data/ui/help-overlay.ui:96
 msgctxt "shortcut window"
@@ -323,19 +331,35 @@ msgstr "Ponovi vse"
 msgid "Shuffle"
 msgstr "Vsebino premešaj"
 
+#: data/ui/PreferencesDialog.ui:27
+msgid "ReplayGain"
+msgstr "Pridobitev glasnosti (ReplayGain)"
+
 #: data/ui/PreferencesDialog.ui:28
 msgid "Balance loudness between songs if ReplayGain metadata is found"
 msgstr "Uravna glasnost med skladbami, če so vpisani metapodatki ReplayGain"
 
-#: data/ui/PreferencesDialog.ui:35
+#: data/ui/PreferencesDialog.ui:32
+msgid "Disabled"
+msgstr "Onemogočeno"
+
+#: data/ui/PreferencesDialog.ui:33
+msgid "Album"
+msgstr "Album"
+
+#: data/ui/PreferencesDialog.ui:34
+msgid "Track"
+msgstr "Skladba/posnetek"
+
+#: data/ui/PreferencesDialog.ui:44
 msgid "Power Settings"
 msgstr "Nastavitve delovanja"
 
-#: data/ui/PreferencesDialog.ui:38
+#: data/ui/PreferencesDialog.ui:47
 msgid "Inhibit Suspend"
 msgstr "Prepreči sistemski prehod v pripravljenost"
 
-#: data/ui/PreferencesDialog.ui:39
+#: data/ui/PreferencesDialog.ui:48
 msgid "Only while playing"
 msgstr "Prepreči le med predvajanjem"
 
@@ -371,56 +395,56 @@ msgid "© The GNOME Music Developers"
 msgstr "© Razvijalci programa GNOME Glasba"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:839
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:849
 msgid "Most Played"
 msgstr "Najpogosteje predvajano"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:893
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:903
 msgid "Never Played"
 msgstr "Nikoli predvajano"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:946
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:956
 msgid "Recently Played"
 msgstr "Nedavno predvajano"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1025
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1035
 msgid "Recently Added"
 msgstr "Nedavno dodano"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1088
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1098
 msgid "Favorite Songs"
 msgstr "Priljubljeni posnetki"
 
 #. TRANSLATORS: this is a playlist name indicating that the
 #. files are not tagged enough to be displayed in the albums
 #. or artists views.
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1142
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1152
 msgid "Insufficiently Tagged"
 msgstr "Neustrezno označeno"
 
-#: gnomemusic/gstplayer.py:418
+#: gnomemusic/gstplayer.py:424
 msgid "Unable to play the file"
 msgstr "Datoteke ni mogoče predvajati."
 
-#: gnomemusic/gstplayer.py:424
+#: gnomemusic/gstplayer.py:430
 msgid "_Find in {}"
 msgstr "_Najdi v {}"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:434
+#: gnomemusic/gstplayer.py:440
 msgid " and "
 msgstr "in "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:437
+#: gnomemusic/gstplayer.py:443
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:439
+#: gnomemusic/gstplayer.py:445
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "{} so zahtevani za predvajanje datoteke, vendar niso nameščeni."
@@ -469,19 +493,19 @@ msgstr "Neznan izvajalec"
 msgid "Playlists"
 msgstr "Seznami predvajanja"
 
-#: gnomemusic/views/searchview.py:220
+#: gnomemusic/views/searchview.py:224
 msgid "No Search Started"
 msgstr "Ni še začetega iskanja"
 
-#: gnomemusic/views/searchview.py:222
+#: gnomemusic/views/searchview.py:226
 msgid "Use the searchbar to start searching for albums, artists or songs"
 msgstr "Iskalna vrstica omogoča hitro iskanje albumov, izvajalcev in skladb"
 
-#: gnomemusic/views/searchview.py:226
+#: gnomemusic/views/searchview.py:230
 msgid "No Results Found"
 msgstr "Ni najdenih zadetkov."
 
-#: gnomemusic/views/searchview.py:228
+#: gnomemusic/views/searchview.py:232
 msgid "Try a different search"
 msgstr "Poskusite drugačno iskanje"
 
@@ -509,7 +533,7 @@ msgstr[1] "{} skladba"
 msgstr[2] "{} skladbi"
 msgstr[3] "{} skladbe"
 
-#: gnomemusic/widgets/searchheaderbar.py:50
+#: gnomemusic/widgets/searchheaderbar.py:54
 msgid "Search songs, artists and albums"
 msgstr "Iskanje skladb, izvajalcev in albumov"
 
@@ -567,436 +591,3 @@ msgstr "Sistemska različica paketa Tracker je videti zastarela."
 msgid "Music needs Tracker version 3.0.0 or higher."
 msgstr ""
 "Program Music zahteva namestitev različice paketa Tracker 3.0.0 ali višje."
-
-#~ msgid "Report music history to Last.fm"
-#~ msgstr "Pošiljaj zgodovino poslušane glasbe na Last.fm"
-
-#~ msgid ""
-#~ "Enables or disables sending scrobbles and the “currently playing” info to "
-#~ "Last.fm."
-#~ msgstr ""
-#~ "Omogoči oziroma onemogoči pošiljanje podatkov »trenutno predvajanih "
-#~ "skladb« na Last.fm"
-
-#~ msgid "Last.fm Account"
-#~ msgstr "Račun Last.fm"
-
-#~ msgid "Report Music Listening"
-#~ msgstr "Poročaj o poslušanju glasbe"
-
-#~ msgid "_Help"
-#~ msgstr "Pomo_č"
-
-#~ msgid "Select"
-#~ msgstr "Izberi"
-
-#~ msgid "Back"
-#~ msgstr "Nazaj"
-
-#~ msgid ""
-#~ "Last.fm is a music discovery service that gives you personalised "
-#~ "recommendations based on the music you listen to."
-#~ msgstr ""
-#~ "Spletišče Last.fm je storitev odkrivanja glasbe, ki omogoča priporočila, "
-#~ "oblikovana po glasbi, ki jo najpogosteje poslušate."
-
-#~ msgid "Music Reporting Not Setup"
-#~ msgstr "Omejitev poročanja o poslušanju glasbe"
-
-#~ msgid "Login to your Last.fm account to report your music listening."
-#~ msgstr "Prijavite se v račun Last.fm za poročanje o poslušanju glasbe"
-
-#~ msgid "Login"
-#~ msgstr "Prijava"
-
-#~ msgid "Select All"
-#~ msgstr "Izberi vse"
-
-#~ msgid "Select None"
-#~ msgstr "Odstrani izbor"
-
-#~ msgid "Click on items to select them"
-#~ msgstr "S klikom se predmeti izberejo."
-
-#~ msgid "_Add to Playlist"
-#~ msgstr "Dodaj na _seznam predvajanja"
-
-#~ msgid "Copyright The GNOME Music Developers"
-#~ msgstr "Avtorske pravice razvijalcev programa GNOME Glasba"
-
-#~ msgid "Translated by"
-#~ msgstr "Prevod:"
-
-#~ msgid "Artists Results"
-#~ msgstr "Izvajalci"
-
-#~ msgid "Albums Results"
-#~ msgstr "Albumi"
-
-#~ msgid "Selected {} song"
-#~ msgid_plural "Selected {} songs"
-#~ msgstr[0] "Izbranih je {} skladb"
-#~ msgstr[1] "Izbrana je {} skladba"
-#~ msgstr[2] "Izbrani sta {} skladbi"
-#~ msgstr[3] "Izbrane so {} skladbe"
-
-#~ msgid "Your music listening is reported to Last.fm."
-#~ msgstr "Poročilo o poslušanju glasbe je poslano na Last.fm."
-
-#~ msgid "Your music listening is not reported to Last.fm."
-#~ msgstr "Podatki poslušanja glasbe niso posredovani na Last.fm."
-
-#~ msgid "Logged in as {}"
-#~ msgstr "Trenutno je dejavna prijava {}"
-
-#~ msgid "Configure"
-#~ msgstr "Nastavi"
-
-#~ msgid "A music player and management application for GNOME."
-#~ msgstr "Program GNOME za upravljanje in predvajanje glasbe."
-
-#~ msgid "Visit GNOME Music website"
-#~ msgstr "Spletna stran programa GNOME Glasba"
-
-#~ msgid ""
-#~ "GNOME Music is free software; you can redistribute it and/or modify it "
-#~ "under the terms of the GNU General Public License as published by the "
-#~ "Free Software Foundation; either version 2 of the License, or (at your "
-#~ "option) any later version.\n"
-#~ "\n"
-#~ "GNOME Music is distributed in the hope that it will be useful, but "
-#~ "WITHOUT ANY WARRANTY; without even the implied warranty of "
-#~ "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General "
-#~ "Public License for more details.\n"
-#~ "\n"
-#~ "You should have received a copy of the GNU General Public License along "
-#~ "with GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
-#~ "Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
-#~ "\n"
-#~ "The GNOME Music authors hereby grant permission for non-GPL compatible "
-#~ "GStreamer plugins to be used and distributed together with GStreamer and "
-#~ "GNOME Music.  This permission is above and beyond the permissions granted "
-#~ "by the GPL license by which GNOME Music is covered.  If you modify this "
-#~ "code, you may extend this exception to your version of the code, but you "
-#~ "are not obligated to do so.  If you do not wish to do so, delete this "
-#~ "exception statement from your version."
-#~ msgstr ""
-#~ "Program GNOME Music je prosta programska oprema; dovoljeno je razširjanje "
-#~ "in spreminjanje pod pogoji Splošnega Javnega Dovoljenja (GNU), kot je "
-#~ "objavljena pri Free Software Foundation; različice 2 ali katerekoli "
-#~ "kasnejše.\n"
-#~ "\n"
-#~ "Program se razširja v upanju, da bo koristen, vendar pa brez VSAKRŠNEGA "
-#~ "JAMSTVA; tudi brez posredne zagotovitve CENOVNE VREDNOSTI ali PRIMERNOSTI "
-#~ "ZA DOLOČEN NAMEN. Za več podrobnosti si oglejte dovoljenje.\n"
-#~ "\n"
-#~ "\n"
-#~ "Skupaj s programom bi morali prejeti tudi kopijo Splošnega Javnega "
-#~ "dovoljenja GNU /GNU GPL). V primeru, da je niste, si oglejte <http://www."
-#~ "gnu.org/licenses/>.\n"
-#~ "\n"
-#~ "Avtorji programa GNOME Music dovolijo uporabo in razširjanje z "
-#~ "dovoljenjem neskladnih vstavkov programa GStreamer. Dovoljenje presega "
-#~ "Splošno Javno dovoljenje, s katerim je avtorsko zaščiten program GNOME "
-#~ "Music. V kolikor boste spreminjali to kodo, lahko razširite izjemo na "
-#~ "različico kode, vendar tega niste dolžni narediti. Če tega ne želite, "
-#~ "izbrišite izjavo izjeme iz vaše različice."
-
-#~ msgid "The contents of your Music Folder will appear here"
-#~ msgstr "Vsebina glasbene mape bo prikazana na tem mestu."
-
-#~ msgid "GNOME Music"
-#~ msgstr "GNOME Glasba"
-
-#~ msgid "Window position"
-#~ msgstr "Položaj okna"
-
-#~ msgid "Window position (x and y)."
-#~ msgstr "Položaj okna (osi x in y)."
-
-#~ msgid "Loading"
-#~ msgstr "Nalaganje"
-
-#~ msgid "Add to Playlist…"
-#~ msgstr "Dodaj na seznam predvajanja …"
-
-#~ msgid "Remove From Playlist"
-#~ msgstr "Odstrani s seznama predvajanja"
-
-#~ msgid ""
-#~ "An easy way to play your music. Automatically discover music on your "
-#~ "computer, the local network and internet services."
-#~ msgstr ""
-#~ "Enostaven način za predvajanje glasbe. Samodejno odkrivanje glasbe na "
-#~ "računalniku, v krajevnem omrežju in prek internetnih storitev."
-
-#~ msgid ""
-#~ "Find tracks in your local collection, get music from DLNA servers or try "
-#~ "something new with the Jamendo and Magnatune services."
-#~ msgstr ""
-#~ "Iskanje posnetkov v zbirki, pridobivanje glasbe prek strežnikov DLNA in "
-#~ "iskanje s storitvami Jamendo in Magnatune."
-
-#~ msgid "Inital state has been displayed"
-#~ msgstr "Začetno stanje je onemogočeno"
-
-#~ msgid "Set to true when initial state has been displayed"
-#~ msgstr "Izbrana možnost določa, da je bilo začetno stanje prikazano."
-
-#~ msgid ""
-#~ "GNOME Music is free software; you can redistribute it and/or modify it "
-#~ "under the terms of the GNU General Public License as published by the "
-#~ "Free Software Foundation; either version 2 of the License, or (at your "
-#~ "option) any later version.\n"
-#~ "\n"
-#~ "GNOME Music is distributed in the hope that it will be useful, but "
-#~ "WITHOUT ANY WARRANTY; without even the implied warranty of "
-#~ "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General "
-#~ "Public License for more details.\n"
-#~ "\n"
-#~ "You should have received a copy of the GNU General Public License along "
-#~ "with GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
-#~ "Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
-#~ "\n"
-#~ "The GNOME Music authors hereby grant permission for non-GPL compatible "
-#~ "GStreamer plugins to be used and distributed together with GStreamer and "
-#~ "GNOME Music.  This permission is above and beyond the permissions granted "
-#~ "by the GPL license by which GNOME Music is covered.  If you modify this "
-#~ "code, you may extend this exception to your version of the code, but you "
-#~ "are not obligated to do so.  If you do not wish to do so, delete this "
-#~ "exception statement from your version.\n"
-#~ "\n"
-#~ "“Magic of the vinyl” by Sami Pyylampi image is licensed by CC-BY-SA 2.0 "
-#~ "https://www.flickr.com/photos/_spy_/12270839403"
-#~ msgstr ""
-#~ "GNOME Glasba je prosta programska oprema; program lahko razširjate in/ali "
-#~ "spreminjate pod pogoji Splošnega Javnega Dovoljenja GNU (angleško: GNU "
-#~ "General Public License), kot je objavljen s strani ustanove Free Software "
-#~ "Foundation; različice 2 ali (po želji) katerekoli kasnejše različice.\n"
-#~ "\n"
-#~ "Program se razširja v upanju, da bo uporabniku koristen, vendar BREZ "
-#~ "VSAKRŠNE GARANCIJE; tudi brez posrednega zagotovila JAMSTVA CENOVNE "
-#~ "VREDNOSTI in PRIMERNOSTI ZA DOLOČENO UPORABO. Za več podrobnosti si "
-#~ "poglejte določila Splošnega Javnega Dovoljenja GNU.\n"
-#~ "\n"
-#~ "Kopijo tega dokumenta bi morali prejeti skupaj s programom, v kolikor pa "
-#~ "je niste, si dovoljenje poglejte na spletni strani <http://www.gnu.org/"
-#~ "licenses>, oziroma pišite na naslov organizacije Free Software "
-#~ "Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 "
-#~ "USA.\n"
-#~ "\n"
-#~ "Avtorji programa GNOME Music dovoljujejo uporabo ne-GPL skladnih vstavkov "
-#~ "GStreamer skupaj s programom. To dovoljenje presega dovoljenja GPL, ki "
-#~ "pokriva program. V kolikor spreminjate to kodo, lahko razširite izjemo na "
-#~ "vašo različico kode, ni pa to nujno. Če ne želite, izbrišite to trditev "
-#~ "iz vaše različice.\n"
-#~ "\n"
-#~ "Slika Samija Pyylampija »Magic of the vinyl« je objavljena z dovoljenjem "
-#~ "CC-BY-SA 2.0 https://www.flickr.com/photos/_spy_/12270839403"
-
-#~ msgid "Hey DJ"
-#~ msgstr "Hej, DJ"
-
-#~ msgid "Released"
-#~ msgstr "Izdano"
-
-#~ msgid "Running Length"
-#~ msgstr "Skupna dolžina"
-
-#~ msgid "Composer"
-#~ msgstr "Skladatelj"
-
-#~ msgctxt "context menu item"
-#~ msgid "Play"
-#~ msgstr "Predvajaj"
-
-#~ msgid "Artist"
-#~ msgstr "Izvajalec"
-
-#~ msgid "Album"
-#~ msgstr "Album"
-
-#~ msgid "Track Title"
-#~ msgstr "Naslov skladbe"
-
-#~ msgid "Local"
-#~ msgstr "Krajevno"
-
-#~ msgid "Sources"
-#~ msgstr "Viri"
-
-#~ msgid "Match"
-#~ msgstr "Se sklada"
-
-#~ msgid "Untitled"
-#~ msgstr "Neimenovano"
-
-#~ msgid "@icon@"
-#~ msgstr "@icon@"
-
-#~ msgid "_Quit"
-#~ msgstr "_Končaj"
-
-#~ msgid "Music is the new GNOME music playing application."
-#~ msgstr "Glasba je program za predvajanje glasbe za namizje GNOME."
-
-#~ msgid "org.gnome.Music"
-#~ msgstr "org.gnome.Music"
-
-#~ msgid "Selected %d item"
-#~ msgid_plural "Selected %d items"
-#~ msgstr[0] "Izbranih je %d predmetov"
-#~ msgstr[1] "Izbran je %d predmet"
-#~ msgstr[2] "Izbrana sta %d predmeta"
-#~ msgstr[3] "Izbrani so %d predmeti"
-
-#~ msgid "Empty"
-#~ msgstr "Prazno"
-
-#~ msgid "Search mode"
-#~ msgstr "Iskalni način"
-
-#~ msgid "If true, the search bar is shown."
-#~ msgstr "Izbrana možnost določa prikaz iskalne vrstice."
-
-#~ msgid "Notifications mode"
-#~ msgstr "Način obvestil"
-
-#~ msgid "Enables or disables playback notifications"
-#~ msgstr "Omogoči prikaz obvestil predvajanja"
-
-#~ msgid "%d min"
-#~ msgstr "%d min"
-
-#~ msgid "Select Playlist"
-#~ msgstr "Izbor seznama predvajanja"
-
-#~ msgid "the|a|an"
-#~ msgstr "the|a|an"
-
-#~ msgid ""
-#~ "Value identifies whether to repeat or randomize playback through the "
-#~ "collection. Allowed values are: \"none\" (repeat and shuffle are off), "
-#~ "\"song\" (repeat current song), \"all\" (repeat playlist, no shuffle), "
-#~ "\"shuffle\" (shuffle playlist, presumes repeat all)."
-#~ msgstr ""
-#~ "Vrednost določa, ali naj se predvajanje posnetkov izvaja naključno ali "
-#~ "ponavljajoče. Dovoljene možnosti so: \"brez\" (ponavljanje in mešanje "
-#~ "skladb je onemogočeno, \"posnetek\" (ponavljaj trenutni posnetek) , "
-#~ "\"vse\" (ponavljaj seznam predvajanja brez mešanja) in "
-#~ "\"premešano\" (vrstni red je premešan, ponovljene pa bodo vse skladbe)."
-
-#~ msgid "Max chars to display in track name on Artist view"
-#~ msgstr "Največje število znakov naslova sledi v pogledu izvajalca"
-
-#~ msgid ""
-#~ "This setting modifies the amount of chars for track title on Artist view "
-#~ "before its been ellipsized. Set this to -1 to disable"
-#~ msgstr ""
-#~ "Nastavitev določa število znakov naslova sledi v pogledu izvajalcev, "
-#~ "preden je okrajšan. Vrednost -1 onemogoči nastavitev."
-
-#~ msgid "the a an"
-#~ msgstr "the a an"
-
-#~ msgid "All Artists"
-#~ msgstr "Vsi izvajalci"
-
-#~ msgid "Copyright © 2013 GNOME Music Developers"
-#~ msgstr "Avtorske pravice © 2013 Razvijalci programa GNOME Music"
-
-#~ msgid ""
-#~ "GNOME Music is free software; you can redistribute it and/or modify it "
-#~ "under the terms of the GNU General Public License as published by the "
-#~ "Free Software Foundation; either version 2 of the License, or (at your "
-#~ "option) any later version.\n"
-#~ "\n"
-#~ "GNOME Music is distributed in the hope that it will be useful, but "
-#~ "WITHOUT ANY WARRANTY; without even the implied warranty of "
-#~ "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General "
-#~ "Public License for more details.\n"
-#~ "\n"
-#~ "You should have received a copy of the GNU General Public License along "
-#~ "with GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
-#~ "Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
-#~ "\n"
-#~ "The GNOME Music authors hereby grant permission for non-GPL compatible "
-#~ "GStreamer plugins to be used and distributed together with GStreamer and "
-#~ "GNOME Music.  This permission is above and beyond the permissions granted "
-#~ "by the GPL license by which GNOME Music is covered.  If you modify this "
-#~ "code, you may extend this exception to your version of the code, but you "
-#~ "are not obligated to do so.  If you do not wish to do so, delete this "
-#~ "exception statement from your version.\n"
-#~ "\n"
-#~ "\"Magic of the vinyl\" by Sami Pyylampi image is licensed by CC-BY-SA 2.0 "
-#~ "https://www.flickr.com/photos/_spy_/12270839403\n"
-#~ msgstr ""
-#~ "Program Gnome Music je opredeljen kot prosta programska oprema; lahko ga "
-#~ "razširjate in/ali spreminjate pod pogoji Splošnega Javnega Dovoljenja GNU "
-#~ "(angleško: GNU General Public License), kot ga je objavila ustanova Free "
-#~ "Software Foundation; različice 3 ali (po želji) katerekoli kasnejše "
-#~ "različice.\n"
-#~ "\n"
-#~ "Program se razširja v upanju, da bo uporabniku koristen, vendar BREZ "
-#~ "VSAKRŠNE GARANCIJE; tudi brez posrednega zagotovila JAMSTVA CENOVNE "
-#~ "VREDNOSTI in PRIMERNOSTI ZA DOLOČENO UPORABO. Za več podrobnosti si "
-#~ "poglejte določila Splošnega Javnega Dovoljenja GNU.\n"
-#~ "\n"
-#~ "Kopijo tega dokumenta bi morali prejeti skupaj s programom, v kolikor pa "
-#~ "je niste, si dovoljenje poglejte na spletni strani <http://www.gnu.org/"
-#~ "licenses>.\n"
-#~ "\n"
-#~ "Avtorji programa GNOME Music dovoljujejo uporabo ne-GPL skladnih vstavkov "
-#~ "GStreamer skupaj s programom. To dovoljenje presega dovoljenja GPL, ki "
-#~ "pokriva program. V kolikor spreminjate to kodo, lahko razširite izjomo na "
-#~ "vašo različico kodo, ni pa to nujno. Če ne želite, izbrišite to trditev "
-#~ "iz vaše različice.\n"
-#~ "\n"
-#~ "Slika Samija Pyylampija \"Magic of the vinyl\" je objavljena z "
-#~ "dovoljenjem CC-BY-SA 2.0 https://www.flickr.com/photos/_spy_/12270839403\n"
-
-#~ msgid "Cancel"
-#~ msgstr "Prekliči"
-
-#~ msgid "Not playing"
-#~ msgstr "Ni predvajanja"
-
-#~ msgid "by %s, from %s"
-#~ msgstr "%s (album %s)"
-
-#~ msgid ""
-#~ "No Music found!\n"
-#~ " Put some files into the folder %s"
-#~ msgstr ""
-#~ "Posnetkov ni mogoče najti!\n"
-#~ " Nekaj datotek je treba kopirati v mapo %s"
-
-#~ msgid "_New Playlist"
-#~ msgstr "_Nov seznam predvajanja"
-
-#~ msgid "Load More"
-#~ msgstr "Naloži dodatne"
-
-#~ msgid "Now _Playing"
-#~ msgstr "_Predvajanje"
-
-#~ msgid "<span color='grey'>Released</span>"
-#~ msgstr "<span color='grey'>Objavljeno</span>"
-
-#~ msgid "<span color='grey'>Running Length</span>"
-#~ msgstr "<span color='grey'>Dolžina predvajanja</span>"
-
-#~ msgid "----"
-#~ msgstr "----"
-
-#~ msgid "--:--"
-#~ msgstr "--:--"
-
-#~ msgid "00:00"
-#~ msgstr "00:00"
-
-#~ msgid "/"
-#~ msgstr "/"
-
-#~ msgid "If true, do randomized playback through the collection"
-#~ msgstr "Izbrana možnost določa naključno predvajanje posnetkov v zbirki"
