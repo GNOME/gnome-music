@@ -7,22 +7,22 @@
 # Mingcong Bai <jeffbai@aosc.xyz>, 2018.
 # Dingzhong Chen <wsxy162@gmail.com>, 2018, 2019.
 # Cheng Lu <chenglu1990@gmail.com>, 2016, 2020.
-# lumingzh <lumingzh@qq.com>, 2022-2023.
+# lumingzh <lumingzh@qq.com>, 2022-2024.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2024-02-11 20:43+0000\n"
-"PO-Revision-Date: 2024-02-21 12:40+0800\n"
+"POT-Creation-Date: 2024-09-03 21:12+0000\n"
+"PO-Revision-Date: 2024-09-04 20:30+0800\n"
 "Last-Translator: lumingzh <lumingzh@qq.com>\n"
-"Language-Team: Chinese - China <i18n-zh@googlegroups.com>\n"
+"Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Gtranslator 46.1\n"
 "X-DamnedLies-Scope: partial\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
@@ -45,12 +45,12 @@ msgid ""
 "Find tracks in your local collection, use automatically generated playlists "
 "or curate a fresh one."
 msgstr ""
-"在您的本地收藏中寻找音轨，使用自动生成的播放列表或者自行编辑生成播放列表。"
+"在您的本地收藏中寻找曲目，使用自动生成的播放列表或者自行编辑生成播放列表。"
 
 #. developer_name tag deprecated with Appstream 1.0
-#: data/org.gnome.Music.appdata.xml.in.in:188
+#: data/org.gnome.Music.appdata.xml.in.in:214
 msgid "The GNOME Music developers"
-msgstr "GNOME“音乐”开发者"
+msgstr "GNOME 音乐开发者"
 
 #: data/org.gnome.Music.desktop.in.in:4
 msgid "Music Player"
@@ -61,28 +61,28 @@ msgstr "音乐播放器"
 msgid "Music;Player;"
 msgstr "Music;Player;音乐;播放器;"
 
-#: data/org.gnome.Music.gschema.xml:12
+#: data/org.gnome.Music.gschema.xml:17
 msgid "Window size"
 msgstr "窗口大小"
 
-#: data/org.gnome.Music.gschema.xml:13
+#: data/org.gnome.Music.gschema.xml:18
 msgid "Window size (width and height)."
 msgstr "窗口大小（宽度与高度）。"
 
-#: data/org.gnome.Music.gschema.xml:17
+#: data/org.gnome.Music.gschema.xml:22
 msgid "Window maximized"
 msgstr "窗口最大化"
 
-#: data/org.gnome.Music.gschema.xml:18
+#: data/org.gnome.Music.gschema.xml:23
 msgid "Window maximized state."
 msgstr "窗口最大化状态。"
 
-#: data/org.gnome.Music.gschema.xml:22
+#: data/org.gnome.Music.gschema.xml:27
 msgid "Playback repeat mode"
 msgstr "重复播放模式"
 
 #. Translators: Don't translate allowed values, just the description in the brackets
-#: data/org.gnome.Music.gschema.xml:24
+#: data/org.gnome.Music.gschema.xml:29
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
 "collection. Allowed values are: “none” (repeat and shuffle are off), "
@@ -93,19 +93,25 @@ msgstr ""
 "机）、“song”（重复当前歌曲）、“all”（重复播放列表，非随机）、“shuffle”（随机"
 "播放列表，假定重复全部）。"
 
-#: data/org.gnome.Music.gschema.xml:28 data/ui/PreferencesDialog.ui:27
+#: data/org.gnome.Music.gschema.xml:33
 msgid "Enable ReplayGain"
 msgstr "启用回放增益"
 
-#: data/org.gnome.Music.gschema.xml:29
-msgid "Enables or disables ReplayGain for albums"
-msgstr "启用或禁用专辑的回放增益"
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: data/org.gnome.Music.gschema.xml:35
+msgid ""
+"Enables or disables ReplayGain for albums or track. Allowed values are: "
+"“disabled” (disables replaygain), “album” (replaygain per album), "
+"“track” (replaygain per track)."
+msgstr ""
+"为专辑或曲目启用或禁用回放增益。允许的值为：“disabled”（禁用回放增"
+"益），“album”（专辑回放增益），“track”（曲目回放增益）。"
 
-#: data/org.gnome.Music.gschema.xml:33
+#: data/org.gnome.Music.gschema.xml:39
 msgid "Inhibit system suspend"
 msgstr "阻止系统挂起"
 
-#: data/org.gnome.Music.gschema.xml:34
+#: data/org.gnome.Music.gschema.xml:40
 msgid "Enables or disables inhibiting system suspend while playing music"
 msgstr "播放音乐时是否阻止系统休眠"
 
@@ -159,7 +165,7 @@ msgstr "帮助"
 
 #: data/ui/HeaderBar.ui:43
 msgid "About Music"
-msgstr "关于“音乐”"
+msgstr "关于音乐"
 
 #: data/ui/help-overlay.ui:11
 msgctxt "shortcut window"
@@ -168,8 +174,8 @@ msgstr "常规"
 
 #: data/ui/help-overlay.ui:14
 msgctxt "shortcut window"
-msgid "Close window"
-msgstr "关闭窗口"
+msgid "Preferences"
+msgstr "首选项"
 
 #: data/ui/help-overlay.ui:20
 msgctxt "shortcut window"
@@ -186,55 +192,55 @@ msgctxt "shortcut window"
 msgid "Shortcuts"
 msgstr "快捷键"
 
-#: data/ui/help-overlay.ui:40
+#: data/ui/help-overlay.ui:38
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "退出"
+
+#: data/ui/help-overlay.ui:46
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "播放"
 
-#: data/ui/help-overlay.ui:43
+#: data/ui/help-overlay.ui:49
 msgctxt "shortcut window"
 msgid "Play/Pause"
 msgstr "播放/暂停"
 
-#: data/ui/help-overlay.ui:49
+#: data/ui/help-overlay.ui:55
 msgctxt "shortcut window"
 msgid "Next song"
 msgstr "下一首歌曲"
 
-#: data/ui/help-overlay.ui:55
+#: data/ui/help-overlay.ui:61
 msgctxt "shortcut window"
 msgid "Previous song"
 msgstr "上一首歌曲"
 
-#: data/ui/help-overlay.ui:61
+#: data/ui/help-overlay.ui:67
 msgctxt "shortcut window"
 msgid "Toggle repeat"
 msgstr "重复播放"
 
-#: data/ui/help-overlay.ui:67
+#: data/ui/help-overlay.ui:73
 msgctxt "shortcut window"
 msgid "Toggle shuffle"
 msgstr "随机播放"
 
-#: data/ui/help-overlay.ui:75
+#: data/ui/help-overlay.ui:81
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "导航"
 
-#: data/ui/help-overlay.ui:78
+#: data/ui/help-overlay.ui:84
 msgctxt "shortcut window"
 msgid "Go to Albums"
 msgstr "转到专辑"
 
-#: data/ui/help-overlay.ui:84
+#: data/ui/help-overlay.ui:90
 msgctxt "shortcut window"
 msgid "Go to Artists"
 msgstr "转到艺术家"
-
-#: data/ui/help-overlay.ui:90
-msgctxt "shortcut window"
-msgid "Go to Songs"
-msgstr "转到歌曲"
 
 #: data/ui/help-overlay.ui:96
 msgctxt "shortcut window"
@@ -322,19 +328,35 @@ msgstr "全部"
 msgid "Shuffle"
 msgstr "随机播放"
 
+#: data/ui/PreferencesDialog.ui:27
+msgid "ReplayGain"
+msgstr "回放增益"
+
 #: data/ui/PreferencesDialog.ui:28
 msgid "Balance loudness between songs if ReplayGain metadata is found"
-msgstr "如果找到了 ReplayGain 元数据，则平衡歌曲之间的响度"
+msgstr "如果找到了回放增益元数据，则平衡歌曲之间的响度"
 
-#: data/ui/PreferencesDialog.ui:35
+#: data/ui/PreferencesDialog.ui:32
+msgid "Disabled"
+msgstr "已禁用"
+
+#: data/ui/PreferencesDialog.ui:33
+msgid "Album"
+msgstr "专辑"
+
+#: data/ui/PreferencesDialog.ui:34
+msgid "Track"
+msgstr "曲目"
+
+#: data/ui/PreferencesDialog.ui:44
 msgid "Power Settings"
 msgstr "电源设置"
 
-#: data/ui/PreferencesDialog.ui:38
+#: data/ui/PreferencesDialog.ui:47
 msgid "Inhibit Suspend"
 msgstr "禁止挂起"
 
-#: data/ui/PreferencesDialog.ui:39
+#: data/ui/PreferencesDialog.ui:48
 msgid "Only while playing"
 msgstr "只在播放的时候"
 
@@ -370,64 +392,64 @@ msgstr ""
 "Mingcong Bai <jeffbai@aosc.xyz>, 2018\n"
 "Dingzhong Chen <wsxy162@gmail.com>, 2018, 2019\n"
 "Cheng Lu <chenglu1990@gmail.com>, 2016, 2020\n"
-"lumingzh <lumingzh@qq.com>, 2022\n"
+"lumingzh <lumingzh@qq.com>, 2022-2024\n"
 "Boyuan Yang <byang@debian.org>, 2022"
 
 #: gnomemusic/about.py:150
 msgid "© The GNOME Music Developers"
-msgstr "© GNOME “音乐”开发者"
+msgstr "© GNOME 音乐开发者"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:839
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:849
 msgid "Most Played"
 msgstr "最多播放"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:893
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:903
 msgid "Never Played"
 msgstr "从未播放"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:946
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:956
 msgid "Recently Played"
 msgstr "最近播放"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1025
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1035
 msgid "Recently Added"
 msgstr "最近添加"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1088
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1098
 msgid "Favorite Songs"
 msgstr "收藏歌曲"
 
 #. TRANSLATORS: this is a playlist name indicating that the
 #. files are not tagged enough to be displayed in the albums
 #. or artists views.
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1142
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1152
 msgid "Insufficiently Tagged"
 msgstr "标记不足"
 
-#: gnomemusic/gstplayer.py:418
+#: gnomemusic/gstplayer.py:424
 msgid "Unable to play the file"
 msgstr "无法播放该文件"
 
-#: gnomemusic/gstplayer.py:424
+#: gnomemusic/gstplayer.py:430
 msgid "_Find in {}"
 msgstr "在 {} 中查找(_F)"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:434
+#: gnomemusic/gstplayer.py:440
 msgid " and "
 msgstr " 和 "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:437
+#: gnomemusic/gstplayer.py:443
 msgid ", "
 msgstr "、 "
 
-#: gnomemusic/gstplayer.py:439
+#: gnomemusic/gstplayer.py:445
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "需要 {} 来播放该文件，但它尚未安装。"
@@ -439,7 +461,7 @@ msgstr "正在播放音乐"
 #. Translators: "shuffle" causes tracks to play in random order.
 #: gnomemusic/player.py:48
 msgid "Shuffle/Repeat Off"
-msgstr "关闭“随机/重复播放”"
+msgstr "关闭随机/重复播放"
 
 #: gnomemusic/player.py:49
 msgid "Repeat Song"
@@ -473,19 +495,19 @@ msgstr "未知艺术家"
 msgid "Playlists"
 msgstr "播放列表"
 
-#: gnomemusic/views/searchview.py:220
+#: gnomemusic/views/searchview.py:224
 msgid "No Search Started"
 msgstr "未开始搜索"
 
-#: gnomemusic/views/searchview.py:222
+#: gnomemusic/views/searchview.py:226
 msgid "Use the searchbar to start searching for albums, artists or songs"
 msgstr "使用搜索栏来搜索专辑、艺术家或歌曲"
 
-#: gnomemusic/views/searchview.py:226
+#: gnomemusic/views/searchview.py:230
 msgid "No Results Found"
 msgstr "未找到结果"
 
-#: gnomemusic/views/searchview.py:228
+#: gnomemusic/views/searchview.py:232
 msgid "Try a different search"
 msgstr "尝试不同的搜索"
 
@@ -507,7 +529,7 @@ msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} 首歌曲"
 
-#: gnomemusic/widgets/searchheaderbar.py:50
+#: gnomemusic/widgets/searchheaderbar.py:54
 msgid "Search songs, artists and albums"
 msgstr "搜索歌曲、艺术家、和专辑"
 
@@ -563,6 +585,17 @@ msgstr "您的系统 Tracker 版本似乎已过时。"
 #: gnomemusic/widgets/statusnavigationpage.py:131
 msgid "Music needs Tracker version 3.0.0 or higher."
 msgstr "音乐需要 Tracker 版本 3.0.0 或更高。"
+
+#~ msgid "Enables or disables ReplayGain for albums"
+#~ msgstr "启用或禁用专辑的回放增益"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Close window"
+#~ msgstr "关闭窗口"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Go to Songs"
+#~ msgstr "转到歌曲"
 
 #~ msgid "Report music history to Last.fm"
 #~ msgstr "将您的音乐历史记录报告给 Last.fm"
@@ -743,12 +776,6 @@ msgstr "音乐需要 Tracker 版本 3.0.0 或更高。"
 #~ msgid "Artist"
 #~ msgstr "艺术家"
 
-#~ msgid "Album"
-#~ msgstr "专辑"
-
-#~ msgid "Track Title"
-#~ msgstr "音轨标题"
-
 #~ msgid "Local"
 #~ msgstr "本地"
 
@@ -763,9 +790,6 @@ msgstr "音乐需要 Tracker 版本 3.0.0 或更高。"
 
 #~ msgid "Untitled"
 #~ msgstr "无标题"
-
-#~ msgid "_Quit"
-#~ msgstr "退出(_Q)"
 
 #~ msgid "Music is the new GNOME music playing application."
 #~ msgstr "“音乐”是一款新的 GNOME 音乐播放应用。"
