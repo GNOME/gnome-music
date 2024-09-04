@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2024-02-11 20:43+0000\n"
-"PO-Revision-Date: 2024-03-02 02:49+0900\n"
+"POT-Creation-Date: 2024-09-03 21:12+0000\n"
+"PO-Revision-Date: 2024-09-04 21:41+0900\n"
 "Last-Translator: Seong-ho Cho <darkcircle.0426@gmail.com>\n"
 "Language-Team: Korean <gnome-kr@googlegroups.com>\n"
 "Language: ko\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 3.5\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
 #: data/org.gnome.Music.desktop.in.in:3 data/ui/StatusNavigationPage.ui:4
@@ -42,7 +42,7 @@ msgstr ""
 "록을 구성합니다."
 
 #. developer_name tag deprecated with Appstream 1.0
-#: data/org.gnome.Music.appdata.xml.in.in:188
+#: data/org.gnome.Music.appdata.xml.in.in:214
 msgid "The GNOME Music developers"
 msgstr "The GNOME Music developers"
 
@@ -55,52 +55,59 @@ msgstr "음악 재생기"
 msgid "Music;Player;"
 msgstr "Music;음악;Player;재생기;"
 
-#: data/org.gnome.Music.gschema.xml:12
+#: data/org.gnome.Music.gschema.xml:17
 msgid "Window size"
 msgstr "창 크기"
 
-#: data/org.gnome.Music.gschema.xml:13
+#: data/org.gnome.Music.gschema.xml:18
 msgid "Window size (width and height)."
 msgstr "창 크기(너비 및 높이)."
 
-#: data/org.gnome.Music.gschema.xml:17
+#: data/org.gnome.Music.gschema.xml:22
 msgid "Window maximized"
 msgstr "창 최대화"
 
-#: data/org.gnome.Music.gschema.xml:18
+#: data/org.gnome.Music.gschema.xml:23
 msgid "Window maximized state."
 msgstr "창 최대화 상태."
 
-#: data/org.gnome.Music.gschema.xml:22
+#: data/org.gnome.Music.gschema.xml:27
 msgid "Playback repeat mode"
 msgstr "재생 반복 모드"
 
 #. Translators: Don't translate allowed values, just the description in the brackets
-#: data/org.gnome.Music.gschema.xml:24
+#: data/org.gnome.Music.gschema.xml:29
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
-"collection. Allowed values are: “none” (repeat and shuffle are off), "
-"“song” (repeat current song), “all” (repeat playlist, no shuffle), "
-"“shuffle” (shuffle playlist, presumes repeat all)."
+"collection. Allowed values are: “none” (repeat and shuffle are off), “song” "
+"(repeat current song), “all” (repeat playlist, no shuffle), “shuffle” "
+"(shuffle playlist, presumes repeat all)."
 msgstr ""
 "모아놓은 음악을 반복 재생할 지 무작위로 재생할 지 나타내는 값입니다. 사용할 "
 "수 있는 값은 “none”(반복 및 임의 재생 끔), “song”(현재 노래 반복), “all”(재"
 "생 목록 반복, 임의 재생 안함), “shuffle”(재생 목록 임의 재생, 모든 곡 반복으"
 "로 간주)입니다."
 
-#: data/org.gnome.Music.gschema.xml:28 data/ui/PreferencesDialog.ui:27
+#: data/org.gnome.Music.gschema.xml:33
 msgid "Enable ReplayGain"
 msgstr "리플레이 게인 활성"
 
-#: data/org.gnome.Music.gschema.xml:29
-msgid "Enables or disables ReplayGain for albums"
-msgstr "앨범의 리플레이 게인을 켜거나 끕니다"
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: data/org.gnome.Music.gschema.xml:35
+msgid ""
+"Enables or disables ReplayGain for albums or track. Allowed values are: "
+"“disabled” (disables replaygain), “album” (replaygain per album), “track” "
+"(replaygain per track)."
+msgstr ""
+"앨범 또는 트랙의 리플레이 게인 사용 여부를 설정합니다. 가능한 값은 \"비활성"
+"\" (리플레이 게인 사용 안함), \"앨범\" (앨범 단위 리플레이 게인 사용), \"트랙"
+"\" (트랙 단위 리플레이 게인 사용)이 있습니다."
 
-#: data/org.gnome.Music.gschema.xml:33
+#: data/org.gnome.Music.gschema.xml:39
 msgid "Inhibit system suspend"
 msgstr "시스템 대기 모드 진입 중단"
 
-#: data/org.gnome.Music.gschema.xml:34
+#: data/org.gnome.Music.gschema.xml:40
 msgid "Enables or disables inhibiting system suspend while playing music"
 msgstr ""
 "음악을 재생하는 동안 시스템 대기모드 진입 중단 여부를 활성화하거나 비활성화합"
@@ -165,8 +172,8 @@ msgstr "일반"
 
 #: data/ui/help-overlay.ui:14
 msgctxt "shortcut window"
-msgid "Close window"
-msgstr "창 닫기"
+msgid "Preferences"
+msgstr "기본 설정"
 
 #: data/ui/help-overlay.ui:20
 msgctxt "shortcut window"
@@ -183,55 +190,55 @@ msgctxt "shortcut window"
 msgid "Shortcuts"
 msgstr "바로 가기 키"
 
-#: data/ui/help-overlay.ui:40
+#: data/ui/help-overlay.ui:38
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "끝내기"
+
+#: data/ui/help-overlay.ui:46
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "재생"
 
-#: data/ui/help-overlay.ui:43
+#: data/ui/help-overlay.ui:49
 msgctxt "shortcut window"
 msgid "Play/Pause"
 msgstr "재생/일시 정지"
 
-#: data/ui/help-overlay.ui:49
+#: data/ui/help-overlay.ui:55
 msgctxt "shortcut window"
 msgid "Next song"
 msgstr "다음 곡"
 
-#: data/ui/help-overlay.ui:55
+#: data/ui/help-overlay.ui:61
 msgctxt "shortcut window"
 msgid "Previous song"
 msgstr "이전 곡"
 
-#: data/ui/help-overlay.ui:61
+#: data/ui/help-overlay.ui:67
 msgctxt "shortcut window"
 msgid "Toggle repeat"
 msgstr "반복 재생 전환"
 
-#: data/ui/help-overlay.ui:67
+#: data/ui/help-overlay.ui:73
 msgctxt "shortcut window"
 msgid "Toggle shuffle"
 msgstr "임의 재생 모드 전환"
 
-#: data/ui/help-overlay.ui:75
+#: data/ui/help-overlay.ui:81
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "탐색"
 
-#: data/ui/help-overlay.ui:78
+#: data/ui/help-overlay.ui:84
 msgctxt "shortcut window"
 msgid "Go to Albums"
 msgstr "앨범으로 이동"
 
-#: data/ui/help-overlay.ui:84
+#: data/ui/help-overlay.ui:90
 msgctxt "shortcut window"
 msgid "Go to Artists"
 msgstr "음악가로 이동"
-
-#: data/ui/help-overlay.ui:90
-msgctxt "shortcut window"
-msgid "Go to Songs"
-msgstr "즐겨찾는 곡으로 이동"
 
 #: data/ui/help-overlay.ui:96
 msgctxt "shortcut window"
@@ -319,19 +326,35 @@ msgstr "모두"
 msgid "Shuffle"
 msgstr "뒤섞기"
 
+#: data/ui/PreferencesDialog.ui:27
+msgid "ReplayGain"
+msgstr "리플레이 게인"
+
 #: data/ui/PreferencesDialog.ui:28
 msgid "Balance loudness between songs if ReplayGain metadata is found"
 msgstr "리플레이 게인 메타데이터가 있을 경우 곡간 음량 균형 조정"
 
-#: data/ui/PreferencesDialog.ui:35
+#: data/ui/PreferencesDialog.ui:32
+msgid "Disabled"
+msgstr "비활성"
+
+#: data/ui/PreferencesDialog.ui:33
+msgid "Album"
+msgstr "앨범"
+
+#: data/ui/PreferencesDialog.ui:34
+msgid "Track"
+msgstr "트랙"
+
+#: data/ui/PreferencesDialog.ui:44
 msgid "Power Settings"
 msgstr "전원 설정"
 
-#: data/ui/PreferencesDialog.ui:38
+#: data/ui/PreferencesDialog.ui:47
 msgid "Inhibit Suspend"
 msgstr "대기 모드 진입 방지"
 
-#: data/ui/PreferencesDialog.ui:39
+#: data/ui/PreferencesDialog.ui:48
 msgid "Only while playing"
 msgstr "재생하는 동안에만"
 
@@ -363,61 +386,60 @@ msgid "translator-credits"
 msgstr "조성호 <shcho@gnome.org>"
 
 #: gnomemusic/about.py:150
-#| msgid "The GNOME Music developers"
 msgid "© The GNOME Music Developers"
 msgstr "© The GNOME Music Developers"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:839
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:849
 msgid "Most Played"
 msgstr "가장 많이 재생함"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:893
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:903
 msgid "Never Played"
 msgstr "재생 안함"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:946
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:956
 msgid "Recently Played"
 msgstr "최근 재생함"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1025
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1035
 msgid "Recently Added"
 msgstr "최근 추가함"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1088
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1098
 msgid "Favorite Songs"
 msgstr "즐겨찾는 곡"
 
 #. TRANSLATORS: this is a playlist name indicating that the
 #. files are not tagged enough to be displayed in the albums
 #. or artists views.
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1142
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1152
 msgid "Insufficiently Tagged"
 msgstr "충분치 못한 태깅"
 
-#: gnomemusic/gstplayer.py:418
+#: gnomemusic/gstplayer.py:424
 msgid "Unable to play the file"
 msgstr "파일을 재생할 수 없습니다"
 
-#: gnomemusic/gstplayer.py:424
+#: gnomemusic/gstplayer.py:430
 msgid "_Find in {}"
 msgstr "{}에서 찾기(_F)"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:434
+#: gnomemusic/gstplayer.py:440
 msgid " and "
 msgstr " 및 "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:437
+#: gnomemusic/gstplayer.py:443
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:439
+#: gnomemusic/gstplayer.py:445
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "파일을 재생하려면 {}이(가) 필요하지만 설치하지 않았습니다."
@@ -463,19 +485,19 @@ msgstr "알 수 없는 음악가"
 msgid "Playlists"
 msgstr "재생 목록"
 
-#: gnomemusic/views/searchview.py:220
+#: gnomemusic/views/searchview.py:224
 msgid "No Search Started"
 msgstr "시작한 검색 없음"
 
-#: gnomemusic/views/searchview.py:222
+#: gnomemusic/views/searchview.py:226
 msgid "Use the searchbar to start searching for albums, artists or songs"
 msgstr "앨범, 음악가, 곡 검색을 시작하려면 검색 표시줄을 활용 하십시오"
 
-#: gnomemusic/views/searchview.py:226
+#: gnomemusic/views/searchview.py:230
 msgid "No Results Found"
 msgstr "결과가 없습니다"
 
-#: gnomemusic/views/searchview.py:228
+#: gnomemusic/views/searchview.py:232
 msgid "Try a different search"
 msgstr "다른 단어/문장으로 검색해보십시오"
 
@@ -497,7 +519,7 @@ msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "노래 {}곡"
 
-#: gnomemusic/widgets/searchheaderbar.py:50
+#: gnomemusic/widgets/searchheaderbar.py:54
 msgid "Search songs, artists and albums"
 msgstr "곡, 음악가, 앨범을 검색합니다"
 
@@ -553,6 +575,17 @@ msgstr "시스템에 설치한 트래커 버전이 오래됐습니다."
 #: gnomemusic/widgets/statusnavigationpage.py:131
 msgid "Music needs Tracker version 3.0.0 or higher."
 msgstr "그놈 음악에서는 버전 3.0.0 이상의 트래커가 필요합니다."
+
+#~ msgid "Enables or disables ReplayGain for albums"
+#~ msgstr "앨범의 리플레이 게인을 켜거나 끕니다"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Close window"
+#~ msgstr "창 닫기"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Go to Songs"
+#~ msgstr "즐겨찾는 곡으로 이동"
 
 #~ msgid "Report music history to Last.fm"
 #~ msgstr "last.fm에 음악 재생 기록 보고"
@@ -738,12 +771,6 @@ msgstr "그놈 음악에서는 버전 3.0.0 이상의 트래커가 필요합니�
 #~ msgid "Artist"
 #~ msgstr "음악가"
 
-#~ msgid "Album"
-#~ msgstr "앨범"
-
-#~ msgid "Track Title"
-#~ msgstr "트랙 제목"
-
 #~ msgid "Local"
 #~ msgstr "로컬"
 
@@ -758,9 +785,6 @@ msgstr "그놈 음악에서는 버전 3.0.0 이상의 트래커가 필요합니�
 
 #~ msgid "Untitled"
 #~ msgstr "제목 없음"
-
-#~ msgid "_Quit"
-#~ msgstr "끝내기(_Q)"
 
 #~ msgid "Music is the new GNOME music playing application."
 #~ msgstr "음악은 새로운 그놈 음악 재생 프로그램입니다."
