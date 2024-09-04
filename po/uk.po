@@ -9,17 +9,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2024-02-11 20:43+0000\n"
-"PO-Revision-Date: 2024-02-13 20:46+0200\n"
+"POT-Creation-Date: 2024-09-03 21:12+0000\n"
+"PO-Revision-Date: 2024-09-04 20:02+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
-"Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
+"Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2\n"
-"X-Generator: Lokalize 23.04.1\n"
+"X-Generator: Lokalize 23.04.3\n"
 "X-Project-Style: gnome\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
@@ -46,7 +46,7 @@ msgstr ""
 "створеними списками відтворення або створюйте вручну нові списки відтворення."
 
 #. developer_name tag deprecated with Appstream 1.0
-#: data/org.gnome.Music.appdata.xml.in.in:188
+#: data/org.gnome.Music.appdata.xml.in.in:214
 msgid "The GNOME Music developers"
 msgstr "Розробники Музики GNOME"
 
@@ -59,53 +59,60 @@ msgstr "Програвач музики"
 msgid "Music;Player;"
 msgstr "Музика;Програвач;Плеєр;"
 
-#: data/org.gnome.Music.gschema.xml:12
+#: data/org.gnome.Music.gschema.xml:17
 msgid "Window size"
 msgstr "Розмір вікна"
 
-#: data/org.gnome.Music.gschema.xml:13
+#: data/org.gnome.Music.gschema.xml:18
 msgid "Window size (width and height)."
 msgstr "Розмір вікна (ширина і висота)."
 
-#: data/org.gnome.Music.gschema.xml:17
+#: data/org.gnome.Music.gschema.xml:22
 msgid "Window maximized"
 msgstr "Вікно розгорнуто"
 
-#: data/org.gnome.Music.gschema.xml:18
+#: data/org.gnome.Music.gschema.xml:23
 msgid "Window maximized state."
 msgstr "Стан розгорнутого вікна."
 
-#: data/org.gnome.Music.gschema.xml:22
+#: data/org.gnome.Music.gschema.xml:27
 msgid "Playback repeat mode"
 msgstr "Режим повторного програвання"
 
 #. Translators: Don't translate allowed values, just the description in the brackets
-#: data/org.gnome.Music.gschema.xml:24
+#: data/org.gnome.Music.gschema.xml:29
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
-"collection. Allowed values are: “none” (repeat and shuffle are off), "
-"“song” (repeat current song), “all” (repeat playlist, no shuffle), "
-"“shuffle” (shuffle playlist, presumes repeat all)."
+"collection. Allowed values are: “none” (repeat and shuffle are off), “song” "
+"(repeat current song), “all” (repeat playlist, no shuffle), “shuffle” "
+"(shuffle playlist, presumes repeat all)."
 msgstr ""
 "Значення, яке визначає, чи програвати збірку повторно, чи навмання. "
-"Допустимі значення: «none» (без повторювання і перемішування), "
-"«song» (повторювати одну пісню), «all» (повторювати список композицій, без "
+"Допустимі значення: «none» (без повторювання і перемішування), «song» "
+"(повторювати одну пісню), «all» (повторювати список композицій, без "
 "змішування), «shuffle» (перемішати композиції у списку, допускаються "
 "повторювання)."
 
-#: data/org.gnome.Music.gschema.xml:28 data/ui/PreferencesDialog.ui:27
+#: data/org.gnome.Music.gschema.xml:33
 msgid "Enable ReplayGain"
 msgstr "Увімкнути ReplayGain"
 
-#: data/org.gnome.Music.gschema.xml:29
-msgid "Enables or disables ReplayGain for albums"
-msgstr "Вмикає або вимикає ReplayGain для альбомів"
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: data/org.gnome.Music.gschema.xml:35
+msgid ""
+"Enables or disables ReplayGain for albums or track. Allowed values are: "
+"“disabled” (disables replaygain), “album” (replaygain per album), “track” "
+"(replaygain per track)."
+msgstr ""
+"Вмикає або вимикає ReplayGain для альбомів або композиції. Дозволені"
+" значення: “disabled” (вимикає replaygain), “album” (replaygain на рівні"
+" альбому), “track” (replaygain на рівні композиції)."
 
-#: data/org.gnome.Music.gschema.xml:33
+#: data/org.gnome.Music.gschema.xml:39
 msgid "Inhibit system suspend"
 msgstr "Пригнічення зупинки системи"
 
-#: data/org.gnome.Music.gschema.xml:34
+#: data/org.gnome.Music.gschema.xml:40
 msgid "Enables or disables inhibiting system suspend while playing music"
 msgstr ""
 "Вмикає або вимикає пригнічення зупинки системи під час програвання музики"
@@ -151,18 +158,14 @@ msgid "Preferences"
 msgstr "Налаштування"
 
 #: data/ui/HeaderBar.ui:35
-#| msgid "_Keyboard Shortcuts"
 msgid "Keyboard Shortcuts"
 msgstr "Клавіатурні скорочення"
 
 #: data/ui/HeaderBar.ui:39
-#| msgctxt "shortcut window"
-#| msgid "Help"
 msgid "Help"
 msgstr "Довідка"
 
 #: data/ui/HeaderBar.ui:43
-#| msgid "_About Music"
 msgid "About Music"
 msgstr "Про «Музику»"
 
@@ -172,9 +175,10 @@ msgid "General"
 msgstr "Загальне"
 
 #: data/ui/help-overlay.ui:14
+#| msgid "Preferences"
 msgctxt "shortcut window"
-msgid "Close window"
-msgstr "Закрити вікно"
+msgid "Preferences"
+msgstr "Налаштування"
 
 #: data/ui/help-overlay.ui:20
 msgctxt "shortcut window"
@@ -191,55 +195,55 @@ msgctxt "shortcut window"
 msgid "Shortcuts"
 msgstr "Скорочення"
 
-#: data/ui/help-overlay.ui:40
+#: data/ui/help-overlay.ui:38
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Вийти"
+
+#: data/ui/help-overlay.ui:46
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Відтворення"
 
-#: data/ui/help-overlay.ui:43
+#: data/ui/help-overlay.ui:49
 msgctxt "shortcut window"
 msgid "Play/Pause"
 msgstr "Програти/призупинити"
 
-#: data/ui/help-overlay.ui:49
+#: data/ui/help-overlay.ui:55
 msgctxt "shortcut window"
 msgid "Next song"
 msgstr "Наступна пісня"
 
-#: data/ui/help-overlay.ui:55
+#: data/ui/help-overlay.ui:61
 msgctxt "shortcut window"
 msgid "Previous song"
 msgstr "Попередня пісня"
 
-#: data/ui/help-overlay.ui:61
+#: data/ui/help-overlay.ui:67
 msgctxt "shortcut window"
 msgid "Toggle repeat"
 msgstr "Перемкнути повторення"
 
-#: data/ui/help-overlay.ui:67
+#: data/ui/help-overlay.ui:73
 msgctxt "shortcut window"
 msgid "Toggle shuffle"
 msgstr "Перемкнути довільний порядок"
 
-#: data/ui/help-overlay.ui:75
+#: data/ui/help-overlay.ui:81
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "Пересування"
 
-#: data/ui/help-overlay.ui:78
+#: data/ui/help-overlay.ui:84
 msgctxt "shortcut window"
 msgid "Go to Albums"
 msgstr "Перейти до альбомів"
 
-#: data/ui/help-overlay.ui:84
+#: data/ui/help-overlay.ui:90
 msgctxt "shortcut window"
 msgid "Go to Artists"
 msgstr "Перейти до виконавців"
-
-#: data/ui/help-overlay.ui:90
-msgctxt "shortcut window"
-msgid "Go to Songs"
-msgstr "Перейти до пісень"
 
 #: data/ui/help-overlay.ui:96
 msgctxt "shortcut window"
@@ -308,7 +312,6 @@ msgid "Player Settings"
 msgstr "Параметри програвача"
 
 #: data/ui/PreferencesDialog.ui:12
-#| msgid "Repeat Song"
 msgid "Repeat Mode"
 msgstr "Режим повтору"
 
@@ -317,7 +320,6 @@ msgid "None"
 msgstr "Немає"
 
 #: data/ui/PreferencesDialog.ui:17
-#| msgid "Songs"
 msgid "Song"
 msgstr "Song"
 
@@ -329,20 +331,37 @@ msgstr "Усі"
 msgid "Shuffle"
 msgstr "У довільному порядку"
 
+#: data/ui/PreferencesDialog.ui:27
+#| msgid "Enable ReplayGain"
+msgid "ReplayGain"
+msgstr "ReplayGain"
+
 #: data/ui/PreferencesDialog.ui:28
 msgid "Balance loudness between songs if ReplayGain metadata is found"
 msgstr "Баланс гучності між композиціями, якщо виявлено метадані ReplayGain"
 
-#: data/ui/PreferencesDialog.ui:35
+#: data/ui/PreferencesDialog.ui:32
+msgid "Disabled"
+msgstr "Вимкнено"
+
+#: data/ui/PreferencesDialog.ui:33
+#| msgid "Albums"
+msgid "Album"
+msgstr "Альбом"
+
+#: data/ui/PreferencesDialog.ui:34
+msgid "Track"
+msgstr "Композиція"
+
+#: data/ui/PreferencesDialog.ui:44
 msgid "Power Settings"
 msgstr "Параметри живлення"
 
-#: data/ui/PreferencesDialog.ui:38
-#| msgid "Inhibit system suspend"
+#: data/ui/PreferencesDialog.ui:47
 msgid "Inhibit Suspend"
 msgstr "Заборонити присипляння"
 
-#: data/ui/PreferencesDialog.ui:39
+#: data/ui/PreferencesDialog.ui:48
 msgid "Only while playing"
 msgstr "Лише під час відтворення"
 
@@ -377,61 +396,60 @@ msgstr ""
 "Юрій Чорноіван <yurchor@ukr.net>, 2020–2022"
 
 #: gnomemusic/about.py:150
-#| msgid "The GNOME Music developers"
 msgid "© The GNOME Music Developers"
 msgstr "© Розробники «Музики» GNOME"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:839
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:849
 msgid "Most Played"
 msgstr "Часто слухали"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:893
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:903
 msgid "Never Played"
 msgstr "Ніколи не слухали"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:946
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:956
 msgid "Recently Played"
 msgstr "Недавно слухали"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1025
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1035
 msgid "Recently Added"
 msgstr "Недавно додано"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1088
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1098
 msgid "Favorite Songs"
 msgstr "Улюблені пісні"
 
 #. TRANSLATORS: this is a playlist name indicating that the
 #. files are not tagged enough to be displayed in the albums
 #. or artists views.
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1142
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1152
 msgid "Insufficiently Tagged"
 msgstr "Недостатньо міток"
 
-#: gnomemusic/gstplayer.py:418
+#: gnomemusic/gstplayer.py:424
 msgid "Unable to play the file"
 msgstr "Неможливо відтворити файл"
 
-#: gnomemusic/gstplayer.py:424
+#: gnomemusic/gstplayer.py:430
 msgid "_Find in {}"
 msgstr "_Знайти в {}"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:434
+#: gnomemusic/gstplayer.py:440
 msgid " and "
 msgstr " і "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:437
+#: gnomemusic/gstplayer.py:443
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:439
+#: gnomemusic/gstplayer.py:445
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "Потрібний {}, щоб програти файл, але його не встановлено."
@@ -480,23 +498,21 @@ msgstr "Невідомий виконавець"
 msgid "Playlists"
 msgstr "Списки композицій"
 
-#: gnomemusic/views/searchview.py:220
+#: gnomemusic/views/searchview.py:224
 msgid "No Search Started"
 msgstr "Пошук не розпочато"
 
-#: gnomemusic/views/searchview.py:222
+#: gnomemusic/views/searchview.py:226
 msgid "Use the searchbar to start searching for albums, artists or songs"
 msgstr ""
-"Скористайтеся панеллю пошуку, щоб розпочати пошук альбомів, виконавців або"
-" композицій"
+"Скористайтеся панеллю пошуку, щоб розпочати пошук альбомів, виконавців або "
+"композицій"
 
-#: gnomemusic/views/searchview.py:226
-#| msgid "No Music Found"
+#: gnomemusic/views/searchview.py:230
 msgid "No Results Found"
 msgstr "Нічого не знайдено"
 
-#: gnomemusic/views/searchview.py:228
-#| msgid "Try a Different Search"
+#: gnomemusic/views/searchview.py:232
 msgid "Try a different search"
 msgstr "Спробуйте інші критерії пошуку"
 
@@ -524,8 +540,7 @@ msgstr[1] "{} пісні"
 msgstr[2] "{} пісень"
 msgstr[3] "{} пісня"
 
-#: gnomemusic/widgets/searchheaderbar.py:50
-#| msgid "Search songs, artists, albums and playlists"
+#: gnomemusic/widgets/searchheaderbar.py:54
 msgid "Search songs, artists and albums"
 msgstr "Пошук композицій, виконавців і альбомів"
 
@@ -581,6 +596,17 @@ msgstr "Схоже, версія програми Tracker застаріла."
 #: gnomemusic/widgets/statusnavigationpage.py:131
 msgid "Music needs Tracker version 3.0.0 or higher."
 msgstr "Для роботи «Музики» потрібна програма Tracker версії 3.0.0 або вище."
+
+#~ msgid "Enables or disables ReplayGain for albums"
+#~ msgstr "Вмикає або вимикає ReplayGain для альбомів"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Close window"
+#~ msgstr "Закрити вікно"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Go to Songs"
+#~ msgstr "Перейти до пісень"
 
 #~ msgid "Report music history to Last.fm"
 #~ msgstr "Надсилати журнал відтворення на Last.fm"
