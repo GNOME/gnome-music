@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2024-02-11 20:43+0000\n"
-"PO-Revision-Date: 2024-02-16 00:58+0330\n"
+"POT-Creation-Date: 2024-09-03 21:12+0000\n"
+"PO-Revision-Date: 2024-09-05 16:08+0330\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <>\n"
 "Language: fa\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6 data/org.gnome.Music.desktop.in.in:3
 #: data/ui/StatusNavigationPage.ui:4 gnomemusic/about.py:138
@@ -43,7 +43,7 @@ msgstr ""
 "خودکار یا ساختن سیاهه‌ای تازه."
 
 #. developer_name tag deprecated with Appstream 1.0
-#: data/org.gnome.Music.appdata.xml.in.in:188
+#: data/org.gnome.Music.appdata.xml.in.in:214
 msgid "The GNOME Music developers"
 msgstr "توسعه‌دهندگان آهنگ‌های گنوم"
 
@@ -56,28 +56,28 @@ msgstr "پخش‌کنندهٔ آهنگ"
 msgid "Music;Player;"
 msgstr "Music;Player;پخش‌کننده‌;موزیک;آهنگ;موسیقی;"
 
-#: data/org.gnome.Music.gschema.xml:12
+#: data/org.gnome.Music.gschema.xml:17
 msgid "Window size"
 msgstr "اندازهٔ پنجره"
 
-#: data/org.gnome.Music.gschema.xml:13
+#: data/org.gnome.Music.gschema.xml:18
 msgid "Window size (width and height)."
 msgstr "اندازهٔ پنجره (پهنا و بلندا)"
 
-#: data/org.gnome.Music.gschema.xml:17
+#: data/org.gnome.Music.gschema.xml:22
 msgid "Window maximized"
 msgstr "پنجره بیشینه شد"
 
-#: data/org.gnome.Music.gschema.xml:18
+#: data/org.gnome.Music.gschema.xml:23
 msgid "Window maximized state."
 msgstr "حالت بیشینهٔ پنجره."
 
-#: data/org.gnome.Music.gschema.xml:22
+#: data/org.gnome.Music.gschema.xml:27
 msgid "Playback repeat mode"
 msgstr "حالت تکرار پخش"
 
 #. Translators: Don't translate allowed values, just the description in the brackets
-#: data/org.gnome.Music.gschema.xml:24
+#: data/org.gnome.Music.gschema.xml:29
 msgid ""
 "Value identifies whether to repeat or randomize playback through the collection. "
 "Allowed values are: “none” (repeat and shuffle are off), “song” (repeat current "
@@ -89,19 +89,25 @@ msgstr ""
 "می‌شود)، «all» (سیاههٔ پخش بدون بر زدن تکرار می‌شود)، «shuffle» (بر زدن سیاههٔ پخش "
 "با حفظ تکرار همه)."
 
-#: data/org.gnome.Music.gschema.xml:28 data/ui/PreferencesDialog.ui:27
-msgid "Enable ReplayGain"
-msgstr "فعال‌سازی ReplayGain"
-
-#: data/org.gnome.Music.gschema.xml:29
-msgid "Enables or disables ReplayGain for albums"
-msgstr "به یا از کار انداختن ReplayGain برای آلبوم‌ها"
-
 #: data/org.gnome.Music.gschema.xml:33
+msgid "Enable ReplayGain"
+msgstr "به کار انداختن ReplayGain"
+
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: data/org.gnome.Music.gschema.xml:35
+msgid ""
+"Enables or disables ReplayGain for albums or track. Allowed values are: "
+"“disabled” (disables replaygain), “album” (replaygain per album), "
+"“track” (replaygain per track)."
+msgstr ""
+"به یا از کار انداختن ReplayGain برای آلبوم‌ها یا قطعه‌ها. مقدارهای ممکن: "
+"«disabled»، «album» و «track»"
+
+#: data/org.gnome.Music.gschema.xml:39
 msgid "Inhibit system suspend"
 msgstr "جلوگیری از تعلیق سامانه"
 
-#: data/org.gnome.Music.gschema.xml:34
+#: data/org.gnome.Music.gschema.xml:40
 msgid "Enables or disables inhibiting system suspend while playing music"
 msgstr "به یا از کار انداختن جلوگیری از تعلیق سامانه هنگام پخش آهنگ"
 
@@ -164,8 +170,8 @@ msgstr "عمومی"
 
 #: data/ui/help-overlay.ui:14
 msgctxt "shortcut window"
-msgid "Close window"
-msgstr "بستن پنجره"
+msgid "Preferences"
+msgstr "ترجیحات"
 
 #: data/ui/help-overlay.ui:20
 msgctxt "shortcut window"
@@ -182,55 +188,55 @@ msgctxt "shortcut window"
 msgid "Shortcuts"
 msgstr "میان‌برها"
 
-#: data/ui/help-overlay.ui:40
+#: data/ui/help-overlay.ui:38
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "خروج"
+
+#: data/ui/help-overlay.ui:46
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "پخش"
 
-#: data/ui/help-overlay.ui:43
+#: data/ui/help-overlay.ui:49
 msgctxt "shortcut window"
 msgid "Play/Pause"
 msgstr "پخش/مکث"
 
-#: data/ui/help-overlay.ui:49
+#: data/ui/help-overlay.ui:55
 msgctxt "shortcut window"
 msgid "Next song"
 msgstr "آهنگ بعد"
 
-#: data/ui/help-overlay.ui:55
+#: data/ui/help-overlay.ui:61
 msgctxt "shortcut window"
 msgid "Previous song"
 msgstr "آهنگ پیشین"
 
-#: data/ui/help-overlay.ui:61
+#: data/ui/help-overlay.ui:67
 msgctxt "shortcut window"
 msgid "Toggle repeat"
 msgstr "تغییر وضعیت تکرار"
 
-#: data/ui/help-overlay.ui:67
+#: data/ui/help-overlay.ui:73
 msgctxt "shortcut window"
 msgid "Toggle shuffle"
 msgstr "تغییر وضعیت بر زدن"
 
-#: data/ui/help-overlay.ui:75
+#: data/ui/help-overlay.ui:81
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "ناوبری"
 
-#: data/ui/help-overlay.ui:78
+#: data/ui/help-overlay.ui:84
 msgctxt "shortcut window"
 msgid "Go to Albums"
 msgstr "رفتن به آلبوم‌ها"
 
-#: data/ui/help-overlay.ui:84
+#: data/ui/help-overlay.ui:90
 msgctxt "shortcut window"
 msgid "Go to Artists"
 msgstr "رفتن به هنرمندان"
-
-#: data/ui/help-overlay.ui:90
-msgctxt "shortcut window"
-msgid "Go to Songs"
-msgstr "رفتن به آهنگ‌ها"
 
 #: data/ui/help-overlay.ui:96
 msgctxt "shortcut window"
@@ -318,19 +324,35 @@ msgstr "همه"
 msgid "Shuffle"
 msgstr "بر زدن"
 
+#: data/ui/PreferencesDialog.ui:27
+msgid "ReplayGain"
+msgstr "ReplayGain"
+
 #: data/ui/PreferencesDialog.ui:28
 msgid "Balance loudness between songs if ReplayGain metadata is found"
 msgstr "تعادل بلندی بین آوازها در صورت یافتن فرادادهٔ ReplayGain"
 
-#: data/ui/PreferencesDialog.ui:35
+#: data/ui/PreferencesDialog.ui:32
+msgid "Disabled"
+msgstr "از کار افتاده"
+
+#: data/ui/PreferencesDialog.ui:33
+msgid "Album"
+msgstr "آلبوم"
+
+#: data/ui/PreferencesDialog.ui:34
+msgid "Track"
+msgstr "فطعه"
+
+#: data/ui/PreferencesDialog.ui:44
 msgid "Power Settings"
 msgstr "تنظیمات نیرو"
 
-#: data/ui/PreferencesDialog.ui:38
+#: data/ui/PreferencesDialog.ui:47
 msgid "Inhibit Suspend"
 msgstr "جلوگیری از تعلیق"
 
-#: data/ui/PreferencesDialog.ui:39
+#: data/ui/PreferencesDialog.ui:48
 msgid "Only while playing"
 msgstr "فقط هنگام پخش"
 
@@ -366,56 +388,56 @@ msgid "© The GNOME Music Developers"
 msgstr "© توسعه‌دهندگان آهنگ‌های گنوم"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:839
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:849
 msgid "Most Played"
 msgstr "بیش‌ترین پخش شده"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:893
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:903
 msgid "Never Played"
 msgstr "هرگز پخش نشده"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:946
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:956
 msgid "Recently Played"
 msgstr "اخیراً پخش شده"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1025
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1035
 msgid "Recently Added"
 msgstr "اخیراً اضافه شده"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1088
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1098
 msgid "Favorite Songs"
 msgstr "آوازهای محبوب"
 
 #. TRANSLATORS: this is a playlist name indicating that the
 #. files are not tagged enough to be displayed in the albums
 #. or artists views.
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1142
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1152
 msgid "Insufficiently Tagged"
 msgstr "برچسب‌های ناکافی"
 
-#: gnomemusic/gstplayer.py:418
+#: gnomemusic/gstplayer.py:424
 msgid "Unable to play the file"
 msgstr "نمی‌توان پرونده را پخش کرد"
 
-#: gnomemusic/gstplayer.py:424
+#: gnomemusic/gstplayer.py:430
 msgid "_Find in {}"
 msgstr "_یافتن در {}"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:434
+#: gnomemusic/gstplayer.py:440
 msgid " and "
 msgstr " و "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:437
+#: gnomemusic/gstplayer.py:443
 msgid ", "
 msgstr "، "
 
-#: gnomemusic/gstplayer.py:439
+#: gnomemusic/gstplayer.py:445
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "برای پخش پرونده نیاز به {} است، ولی نصب نشده."
@@ -461,19 +483,19 @@ msgstr "هنرمند ناشناس"
 msgid "Playlists"
 msgstr "سیاهه‌های پخش"
 
-#: gnomemusic/views/searchview.py:220
+#: gnomemusic/views/searchview.py:224
 msgid "No Search Started"
 msgstr "هیچ جست‌وجویی آغاز نشده"
 
-#: gnomemusic/views/searchview.py:222
+#: gnomemusic/views/searchview.py:226
 msgid "Use the searchbar to start searching for albums, artists or songs"
 msgstr "استفاده از نوار جست‌وجو برای آغاز جست‌وجوی آلبوم‌ها، هنرمندان یا آوازها"
 
-#: gnomemusic/views/searchview.py:226
+#: gnomemusic/views/searchview.py:230
 msgid "No Results Found"
 msgstr "هیچ نتیجه‌ای پیدا نشد"
 
-#: gnomemusic/views/searchview.py:228
+#: gnomemusic/views/searchview.py:232
 msgid "Try a different search"
 msgstr "جست‌وجویی دیگر را بیازمایید"
 
@@ -495,7 +517,7 @@ msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} آهنگ"
 
-#: gnomemusic/widgets/searchheaderbar.py:50
+#: gnomemusic/widgets/searchheaderbar.py:54
 msgid "Search songs, artists and albums"
 msgstr "جست‌وجوی آوازها، هنرمندان و آلبوم‌ها"
 
@@ -520,7 +542,7 @@ msgstr "شاخهٔ آهنگ XDGتان تنظیم نشده است."
 
 #: gnomemusic/widgets/statusnavigationpage.py:58
 msgid "Music Folder"
-msgstr "شاخهٔ موسیقی"
+msgstr "شاخهٔ آهنگ‌ها"
 
 #. TRANSLATORS: This is a label to display a link to open user's music
 #. folder. {} will be replaced with the translated text 'Music folder'
@@ -551,6 +573,17 @@ msgstr "به نظر نگارش ردیاب سامانه‌تان قدیمی اس�
 #: gnomemusic/widgets/statusnavigationpage.py:131
 msgid "Music needs Tracker version 3.0.0 or higher."
 msgstr "آهنگ‌ها به نگارش ۳٫۰٫۰ یا بالاتر ردیاب نیاز دارد."
+
+#~ msgid "Enables or disables ReplayGain for albums"
+#~ msgstr "به یا از کار انداختن ReplayGain برای آلبوم‌ها"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Close window"
+#~ msgstr "بستن پنجره"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Go to Songs"
+#~ msgstr "رفتن به آهنگ‌ها"
 
 #~ msgid "_Help"
 #~ msgstr "_راهنما"
@@ -754,12 +787,6 @@ msgstr "آهنگ‌ها به نگارش ۳٫۰٫۰ یا بالاتر ردیاب 
 #~ msgid "Artist"
 #~ msgstr "هنرمند"
 
-#~ msgid "Album"
-#~ msgstr "آلبوم"
-
-#~ msgid "Track Title"
-#~ msgstr "نام آهنگ"
-
 #~ msgid "Local"
 #~ msgstr "محلی"
 
@@ -781,9 +808,6 @@ msgstr "آهنگ‌ها به نگارش ۳٫۰٫۰ یا بالاتر ردیاب 
 
 #~ msgid "Empty"
 #~ msgstr "خالی"
-
-#~ msgid "_Quit"
-#~ msgstr "_خروج"
 
 #~ msgid "Select Playlist"
 #~ msgstr "انتخاب فهرست‌پخش"
