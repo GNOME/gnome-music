@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2024-03-20 13:10+0000\n"
-"PO-Revision-Date: 2024-05-01 00:18+0300\n"
+"POT-Creation-Date: 2024-09-03 21:12+0000\n"
+"PO-Revision-Date: 2024-09-05 23:03+0300\n"
 "Last-Translator: Efstathios Iosifidis <eiosifidis@gnome.org>\n"
 "Language-Team: Greek, Modern (1453-) <gnome-el-list@gnome.org>\n"
 "Language: el\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 3.4.4\n"
 "X-Project-Style: gnome\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
@@ -59,28 +59,28 @@ msgstr "Αναπαραγωγή μουσικής"
 msgid "Music;Player;"
 msgstr "Μουσική;Αναπαραγωγή;Music;Player;"
 
-#: data/org.gnome.Music.gschema.xml:12
+#: data/org.gnome.Music.gschema.xml:17
 msgid "Window size"
 msgstr "Μέγεθος παραθύρου"
 
-#: data/org.gnome.Music.gschema.xml:13
+#: data/org.gnome.Music.gschema.xml:18
 msgid "Window size (width and height)."
 msgstr "Μέγεθος παραθύρου (πλάτος και ύψος)."
 
-#: data/org.gnome.Music.gschema.xml:17
+#: data/org.gnome.Music.gschema.xml:22
 msgid "Window maximized"
 msgstr "Μεγιστοποιημένο παράθυρο"
 
-#: data/org.gnome.Music.gschema.xml:18
+#: data/org.gnome.Music.gschema.xml:23
 msgid "Window maximized state."
 msgstr "Κατάσταση μεγιστοποιημένου παραθύρου."
 
-#: data/org.gnome.Music.gschema.xml:22
+#: data/org.gnome.Music.gschema.xml:27
 msgid "Playback repeat mode"
 msgstr "Λειτουργία επανάληψης αναπαραγωγής"
 
 #. Translators: Don't translate allowed values, just the description in the brackets
-#: data/org.gnome.Music.gschema.xml:24
+#: data/org.gnome.Music.gschema.xml:29
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
 "collection. Allowed values are: “none” (repeat and shuffle are off), “song” "
@@ -93,19 +93,26 @@ msgstr ""
 "λίστας αναπαραγωγής, χωρίς τυχαία σειρά), «shuffle» (τυχαία σειρά λίστας "
 "αναπαραγωγής, προϋποθέτει την επανάληψη όλων)."
 
-#: data/org.gnome.Music.gschema.xml:28 data/ui/PreferencesDialog.ui:27
+#: data/org.gnome.Music.gschema.xml:33
 msgid "Enable ReplayGain"
 msgstr "Ενεργοποίηση του ReplayGain"
 
-#: data/org.gnome.Music.gschema.xml:29
-msgid "Enables or disables ReplayGain for albums"
-msgstr "Ενεργοποιεί ή απενεργοποιεί το ReplayGain για συλλογές"
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: data/org.gnome.Music.gschema.xml:35
+msgid ""
+"Enables or disables ReplayGain for albums or track. Allowed values are: "
+"“disabled” (disables replaygain), “album” (replaygain per album), “track” "
+"(replaygain per track)."
+msgstr ""
+"Ενεργοποιεί ή απενεργοποιεί το ReplayGain για άλμπουμ ή κομμάτι. Οι "
+"επιτρεπόμενες τιμές είναι: «disabled» (απενεργοποιεί το replaygain), “album” "
+"(replaygain ανά άλμπουμ), “track” (replaygain ανά κομμάτι)."
 
-#: data/org.gnome.Music.gschema.xml:33
+#: data/org.gnome.Music.gschema.xml:39
 msgid "Inhibit system suspend"
 msgstr "Αναστολή συστήματος αναστολής"
 
-#: data/org.gnome.Music.gschema.xml:34
+#: data/org.gnome.Music.gschema.xml:40
 msgid "Enables or disables inhibiting system suspend while playing music"
 msgstr ""
 "Ενεργοποίηση ή απενεργοποίηση την αναστολή συστήματος αναστολής κατά την "
@@ -170,8 +177,8 @@ msgstr "Γενικά"
 
 #: data/ui/help-overlay.ui:14
 msgctxt "shortcut window"
-msgid "Close window"
-msgstr "Κλείσιμο παραθύρου"
+msgid "Preferences"
+msgstr "Προτιμήσεις"
 
 #: data/ui/help-overlay.ui:20
 msgctxt "shortcut window"
@@ -188,55 +195,55 @@ msgctxt "shortcut window"
 msgid "Shortcuts"
 msgstr "Συντομεύσεις"
 
-#: data/ui/help-overlay.ui:40
+#: data/ui/help-overlay.ui:38
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Έξοδος"
+
+#: data/ui/help-overlay.ui:46
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Αναπαραγωγή"
 
-#: data/ui/help-overlay.ui:43
+#: data/ui/help-overlay.ui:49
 msgctxt "shortcut window"
 msgid "Play/Pause"
 msgstr "Αναπαραγωγή/Παύση"
 
-#: data/ui/help-overlay.ui:49
+#: data/ui/help-overlay.ui:55
 msgctxt "shortcut window"
 msgid "Next song"
 msgstr "Επόμενο τραγούδι"
 
-#: data/ui/help-overlay.ui:55
+#: data/ui/help-overlay.ui:61
 msgctxt "shortcut window"
 msgid "Previous song"
 msgstr "Προηγούμενο τραγούδι"
 
-#: data/ui/help-overlay.ui:61
+#: data/ui/help-overlay.ui:67
 msgctxt "shortcut window"
 msgid "Toggle repeat"
 msgstr "Εναλλαγή επανάληψης"
 
-#: data/ui/help-overlay.ui:67
+#: data/ui/help-overlay.ui:73
 msgctxt "shortcut window"
 msgid "Toggle shuffle"
 msgstr "Εναλλαγή τυχαίας σειράς"
 
-#: data/ui/help-overlay.ui:75
+#: data/ui/help-overlay.ui:81
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "Περιήγηση"
 
-#: data/ui/help-overlay.ui:78
+#: data/ui/help-overlay.ui:84
 msgctxt "shortcut window"
 msgid "Go to Albums"
 msgstr "Μετάβαση στους δίσκους"
 
-#: data/ui/help-overlay.ui:84
+#: data/ui/help-overlay.ui:90
 msgctxt "shortcut window"
 msgid "Go to Artists"
 msgstr "Μετάβαση στους καλλιτέχνες"
-
-#: data/ui/help-overlay.ui:90
-msgctxt "shortcut window"
-msgid "Go to Songs"
-msgstr "Μετάβαση στα τραγούδια"
 
 #: data/ui/help-overlay.ui:96
 msgctxt "shortcut window"
@@ -324,21 +331,37 @@ msgstr "Όλα"
 msgid "Shuffle"
 msgstr "Τυχαία σειρά"
 
+#: data/ui/PreferencesDialog.ui:27
+msgid "ReplayGain"
+msgstr "ReplayGain"
+
 #: data/ui/PreferencesDialog.ui:28
 msgid "Balance loudness between songs if ReplayGain metadata is found"
 msgstr ""
 "Ισορροπία της έντασης μεταξύ των τραγουδιών εάν βρεθούν μεταδεδομένα "
 "ReplayGain"
 
-#: data/ui/PreferencesDialog.ui:35
+#: data/ui/PreferencesDialog.ui:32
+msgid "Disabled"
+msgstr "Απενεργοποιημένο"
+
+#: data/ui/PreferencesDialog.ui:33
+msgid "Album"
+msgstr "Δίσκος"
+
+#: data/ui/PreferencesDialog.ui:34
+msgid "Track"
+msgstr "Κομμάτι"
+
+#: data/ui/PreferencesDialog.ui:44
 msgid "Power Settings"
 msgstr "Ρυθμίσεις τροφοδοσίας"
 
-#: data/ui/PreferencesDialog.ui:38
+#: data/ui/PreferencesDialog.ui:47
 msgid "Inhibit Suspend"
 msgstr "Αναστολή συστήματος αναστολής"
 
-#: data/ui/PreferencesDialog.ui:39
+#: data/ui/PreferencesDialog.ui:48
 msgid "Only while playing"
 msgstr "Μόνο κατά τη διάρκεια της αναπαραγωγής"
 
@@ -379,56 +402,56 @@ msgid "© The GNOME Music Developers"
 msgstr "© Οι προγραμματιστές του GNOME Music"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:839
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:849
 msgid "Most Played"
 msgstr "Το περισσότερο παιγμένο"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:893
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:903
 msgid "Never Played"
 msgstr "Δεν παίχτηκε ποτέ"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:946
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:956
 msgid "Recently Played"
 msgstr "Παίχτηκε πρόσφατα"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1025
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1035
 msgid "Recently Added"
 msgstr "Προστέθηκε πρόσφατα"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1088
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1098
 msgid "Favorite Songs"
 msgstr "Αγαπημένα τραγούδια"
 
 #. TRANSLATORS: this is a playlist name indicating that the
 #. files are not tagged enough to be displayed in the albums
 #. or artists views.
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1142
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1152
 msgid "Insufficiently Tagged"
 msgstr "Ανεπαρκής ετικέτα"
 
-#: gnomemusic/gstplayer.py:418
+#: gnomemusic/gstplayer.py:424
 msgid "Unable to play the file"
 msgstr "Αδύνατη η αναπαραγωγή του αρχείου"
 
-#: gnomemusic/gstplayer.py:424
+#: gnomemusic/gstplayer.py:430
 msgid "_Find in {}"
 msgstr "Εύ_ρεση στο {}"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:434
+#: gnomemusic/gstplayer.py:440
 msgid " and "
 msgstr " και "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:437
+#: gnomemusic/gstplayer.py:443
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:439
+#: gnomemusic/gstplayer.py:445
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] ""
@@ -477,21 +500,21 @@ msgstr "Άγνωστος καλλιτέχνης"
 msgid "Playlists"
 msgstr "Λίστες αναπαραγωγής"
 
-#: gnomemusic/views/searchview.py:220
+#: gnomemusic/views/searchview.py:224
 msgid "No Search Started"
 msgstr "Δεν ξεκίνησε αναζήτηση"
 
-#: gnomemusic/views/searchview.py:222
+#: gnomemusic/views/searchview.py:226
 msgid "Use the searchbar to start searching for albums, artists or songs"
 msgstr ""
 "Χρησιμοποιήστε τη γραμμή αναζήτησης για να ξεκινήσετε την αναζήτηση άλμπουμ, "
 "καλλιτεχνών ή τραγουδιών"
 
-#: gnomemusic/views/searchview.py:226
+#: gnomemusic/views/searchview.py:230
 msgid "No Results Found"
 msgstr "Δεν βρέθηκαν αποτελέσματα"
 
-#: gnomemusic/views/searchview.py:228
+#: gnomemusic/views/searchview.py:232
 msgid "Try a different search"
 msgstr "Δοκιμάστε διαφορετική αναζήτηση"
 
@@ -515,7 +538,7 @@ msgid_plural "{} Songs"
 msgstr[0] "{} τραγούδι"
 msgstr[1] "{} τραγούδια"
 
-#: gnomemusic/widgets/searchheaderbar.py:50
+#: gnomemusic/widgets/searchheaderbar.py:54
 msgid "Search songs, artists and albums"
 msgstr "Αναζήτηση τραγουδιών, καλλιτεχνών και άλμπουμ"
 
@@ -573,6 +596,17 @@ msgstr "Η έκδοση Tracker του συστήματος είναι παρω�
 #: gnomemusic/widgets/statusnavigationpage.py:131
 msgid "Music needs Tracker version 3.0.0 or higher."
 msgstr "Η Μουσική χρειάζεται έκδοση Tracker 3.0.0 ή μεγαλύτερη."
+
+#~ msgid "Enables or disables ReplayGain for albums"
+#~ msgstr "Ενεργοποιεί ή απενεργοποιεί το ReplayGain για συλλογές"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Close window"
+#~ msgstr "Κλείσιμο παραθύρου"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Go to Songs"
+#~ msgstr "Μετάβαση στα τραγούδια"
 
 #~ msgid "Report music history to Last.fm"
 #~ msgstr "Αναφορά ιστορικού μουσικής στην Last.fm"
@@ -769,12 +803,6 @@ msgstr "Η Μουσική χρειάζεται έκδοση Tracker 3.0.0 ή μ�
 #~ msgid "Artist"
 #~ msgstr "Καλλιτέχνης"
 
-#~ msgid "Album"
-#~ msgstr "Δίσκος"
-
-#~ msgid "Track Title"
-#~ msgstr "Τίτλος κομματιού"
-
 #~ msgid "Local"
 #~ msgstr "Τοπικά"
 
@@ -789,9 +817,6 @@ msgstr "Η Μουσική χρειάζεται έκδοση Tracker 3.0.0 ή μ�
 
 #~ msgid "Untitled"
 #~ msgstr "Χωρίς τίτλο"
-
-#~ msgid "_Quit"
-#~ msgstr "Έ_ξοδος"
 
 #~ msgid "Music is the new GNOME music playing application."
 #~ msgstr "Η Μουσική είναι η νέα εφαρμογή του GNOME για αναπαραγωγή μουσικής."
