@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2024-02-11 20:43+0000\n"
-"PO-Revision-Date: 2024-02-12 15:08+0100\n"
+"POT-Creation-Date: 2024-09-03 21:12+0000\n"
+"PO-Revision-Date: 2024-09-08 04:34+0200\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <(nothing)>\n"
 "Language: ka\n"
@@ -42,7 +42,7 @@ msgstr ""
 "დასაკრავი სიები. ან შექმენით საკუთარი."
 
 #. developer_name tag deprecated with Appstream 1.0
-#: data/org.gnome.Music.appdata.xml.in.in:188
+#: data/org.gnome.Music.appdata.xml.in.in:214
 msgid "The GNOME Music developers"
 msgstr "GNOME Music-ის პროგრამისტები"
 
@@ -55,28 +55,28 @@ msgstr "მედია დამკვრელი"
 msgid "Music;Player;"
 msgstr "Music;Player;"
 
-#: data/org.gnome.Music.gschema.xml:12
+#: data/org.gnome.Music.gschema.xml:17
 msgid "Window size"
 msgstr "ფანჯრის ზომა"
 
-#: data/org.gnome.Music.gschema.xml:13
+#: data/org.gnome.Music.gschema.xml:18
 msgid "Window size (width and height)."
 msgstr "ფანჯრის ზომა (სიგანე, სიმაღლე)"
 
-#: data/org.gnome.Music.gschema.xml:17
+#: data/org.gnome.Music.gschema.xml:22
 msgid "Window maximized"
 msgstr "გადიდებული ფანჯარა"
 
-#: data/org.gnome.Music.gschema.xml:18
+#: data/org.gnome.Music.gschema.xml:23
 msgid "Window maximized state."
 msgstr "ფანჯრის სრულად გაშლილი მდგომარეობა."
 
-#: data/org.gnome.Music.gschema.xml:22
+#: data/org.gnome.Music.gschema.xml:27
 msgid "Playback repeat mode"
 msgstr "დაკვრის გამეორების რეჟიმი"
 
 #. Translators: Don't translate allowed values, just the description in the brackets
-#: data/org.gnome.Music.gschema.xml:24
+#: data/org.gnome.Music.gschema.xml:29
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
 "collection. Allowed values are: “none” (repeat and shuffle are off), "
@@ -89,19 +89,27 @@ msgstr ""
 "\"all\" (კოლექციის გამეორება, შემთხვევითობის გარეშე), \"shuffle\" (სიმღერის "
 "შემთხვევით არჩევა. ყველას დაკვრა ისედაც იგულისხმება)."
 
-#: data/org.gnome.Music.gschema.xml:28 data/ui/PreferencesDialog.ui:27
+#: data/org.gnome.Music.gschema.xml:33
 msgid "Enable ReplayGain"
 msgstr "ReplayGain-ის ჩართვა"
 
-#: data/org.gnome.Music.gschema.xml:29
-msgid "Enables or disables ReplayGain for albums"
-msgstr "ალბომებისთვის ReplayGain-ის ჩართვა/გამორთვა"
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: data/org.gnome.Music.gschema.xml:35
+msgid ""
+"Enables or disables ReplayGain for albums or track. Allowed values are: "
+"“disabled” (disables replaygain), “album” (replaygain per album), "
+"“track” (replaygain per track)."
+msgstr ""
+"ჩართავს ან გამორთავს ReplayGain-ს ალბომებისთვის ან ტრეკისთვის. დაშვებული "
+"მნიშვნელობებია: \"გათიშულია\" (გათიშავს replaygain-ს), "
+"\"ალბომი\" (replaygain თითოეული ალბომისთვის), ან \"ტრეკი\" (replaygain "
+"თითოეული ტრეკისთვის)."
 
-#: data/org.gnome.Music.gschema.xml:33
+#: data/org.gnome.Music.gschema.xml:39
 msgid "Inhibit system suspend"
 msgstr "სისტემის დაძინების გათიშვა"
 
-#: data/org.gnome.Music.gschema.xml:34
+#: data/org.gnome.Music.gschema.xml:40
 msgid "Enables or disables inhibiting system suspend while playing music"
 msgstr "მუსიკის დაკვრის მიმდინარეობისას სისტემის დაძინების აკრძალვა"
 
@@ -164,8 +172,8 @@ msgstr "მთავარი"
 
 #: data/ui/help-overlay.ui:14
 msgctxt "shortcut window"
-msgid "Close window"
-msgstr "ფანჯრის დახურვა"
+msgid "Preferences"
+msgstr "მორგება"
 
 #: data/ui/help-overlay.ui:20
 msgctxt "shortcut window"
@@ -182,55 +190,55 @@ msgctxt "shortcut window"
 msgid "Shortcuts"
 msgstr "მალსახმობები"
 
-#: data/ui/help-overlay.ui:40
+#: data/ui/help-overlay.ui:38
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "გასვლა"
+
+#: data/ui/help-overlay.ui:46
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "დაკვრა"
 
-#: data/ui/help-overlay.ui:43
+#: data/ui/help-overlay.ui:49
 msgctxt "shortcut window"
 msgid "Play/Pause"
 msgstr "დაკვრა/პაუზა"
 
-#: data/ui/help-overlay.ui:49
+#: data/ui/help-overlay.ui:55
 msgctxt "shortcut window"
 msgid "Next song"
 msgstr "შემდეგი სიმღერა"
 
-#: data/ui/help-overlay.ui:55
+#: data/ui/help-overlay.ui:61
 msgctxt "shortcut window"
 msgid "Previous song"
 msgstr "წინა სიმღერა"
 
-#: data/ui/help-overlay.ui:61
+#: data/ui/help-overlay.ui:67
 msgctxt "shortcut window"
 msgid "Toggle repeat"
 msgstr "გამეორების გადართვა"
 
-#: data/ui/help-overlay.ui:67
+#: data/ui/help-overlay.ui:73
 msgctxt "shortcut window"
 msgid "Toggle shuffle"
 msgstr "შემთხვევითობის გადართვა"
 
-#: data/ui/help-overlay.ui:75
+#: data/ui/help-overlay.ui:81
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "ნავიგაცია"
 
-#: data/ui/help-overlay.ui:78
+#: data/ui/help-overlay.ui:84
 msgctxt "shortcut window"
 msgid "Go to Albums"
 msgstr "ალბომებზე გადასვლა"
 
-#: data/ui/help-overlay.ui:84
+#: data/ui/help-overlay.ui:90
 msgctxt "shortcut window"
 msgid "Go to Artists"
 msgstr "შემსრულებლებზე გადასვლა"
-
-#: data/ui/help-overlay.ui:90
-msgctxt "shortcut window"
-msgid "Go to Songs"
-msgstr "სიმღერებზე გადართვა"
 
 #: data/ui/help-overlay.ui:96
 msgctxt "shortcut window"
@@ -318,21 +326,38 @@ msgstr "ყველა"
 msgid "Shuffle"
 msgstr "შემთხვევით"
 
+#: data/ui/PreferencesDialog.ui:27
+#| msgid "Enable ReplayGain"
+msgid "ReplayGain"
+msgstr "ReplayGain"
+
 #: data/ui/PreferencesDialog.ui:28
 msgid "Balance loudness between songs if ReplayGain metadata is found"
 msgstr ""
 "ხმის სიძლიერის ბალანსი სიმღერებს შორის, თუ აღმოჩენილია ReplayGain "
 "მეტამონაცემები"
 
-#: data/ui/PreferencesDialog.ui:35
+#: data/ui/PreferencesDialog.ui:32
+msgid "Disabled"
+msgstr "გამორთული"
+
+#: data/ui/PreferencesDialog.ui:33
+msgid "Album"
+msgstr "ალბომი"
+
+#: data/ui/PreferencesDialog.ui:34
+msgid "Track"
+msgstr "ტრეკი"
+
+#: data/ui/PreferencesDialog.ui:44
 msgid "Power Settings"
 msgstr "კვების პარამეტრები"
 
-#: data/ui/PreferencesDialog.ui:38
+#: data/ui/PreferencesDialog.ui:47
 msgid "Inhibit Suspend"
 msgstr "დაძინების გათიშვა"
 
-#: data/ui/PreferencesDialog.ui:39
+#: data/ui/PreferencesDialog.ui:48
 msgid "Only while playing"
 msgstr "მხოლოდ, დაკვრისას"
 
@@ -368,56 +393,56 @@ msgid "© The GNOME Music Developers"
 msgstr "© GNOME Music-ის პროგრამისტები"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:839
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:849
 msgid "Most Played"
 msgstr "ხშირად დაკრული"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:893
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:903
 msgid "Never Played"
 msgstr "არასდროს-დაკრული"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:946
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:956
 msgid "Recently Played"
 msgstr "ახლახანს დაკრული"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1025
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1035
 msgid "Recently Added"
 msgstr "ახლახანს დამატებული"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1088
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1098
 msgid "Favorite Songs"
 msgstr "საყვარელი სიმღერები"
 
 #. TRANSLATORS: this is a playlist name indicating that the
 #. files are not tagged enough to be displayed in the albums
 #. or artists views.
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1142
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1152
 msgid "Insufficiently Tagged"
 msgstr "არასაკმარისი ჭდეები"
 
-#: gnomemusic/gstplayer.py:418
+#: gnomemusic/gstplayer.py:424
 msgid "Unable to play the file"
 msgstr "ფაილის დაკვრის შეცდომა"
 
-#: gnomemusic/gstplayer.py:424
+#: gnomemusic/gstplayer.py:430
 msgid "_Find in {}"
 msgstr "{}-ში _მოძებნა"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:434
+#: gnomemusic/gstplayer.py:440
 msgid " and "
 msgstr " და "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:437
+#: gnomemusic/gstplayer.py:443
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:439
+#: gnomemusic/gstplayer.py:445
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "ფაილის დასაკრავად საჭიროა {}, მაგრამ დაყენებული არაა."
@@ -463,21 +488,21 @@ msgstr "უცნობი შემსრულებელი"
 msgid "Playlists"
 msgstr "დასაკრავი სიები"
 
-#: gnomemusic/views/searchview.py:220
+#: gnomemusic/views/searchview.py:224
 msgid "No Search Started"
 msgstr "ძებნა არ დაწყებულა"
 
-#: gnomemusic/views/searchview.py:222
+#: gnomemusic/views/searchview.py:226
 msgid "Use the searchbar to start searching for albums, artists or songs"
 msgstr ""
 "გამოიყენეთ ძებნის პანელი ალბომების, შემსრულებლებისა და სიმღერების ძებნის "
 "დასაწყებად"
 
-#: gnomemusic/views/searchview.py:226
+#: gnomemusic/views/searchview.py:230
 msgid "No Results Found"
 msgstr "შედეგების გარეშე"
 
-#: gnomemusic/views/searchview.py:228
+#: gnomemusic/views/searchview.py:232
 msgid "Try a different search"
 msgstr "სცადეთ სხვა ძებნა"
 
@@ -499,7 +524,7 @@ msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} სიმღერა"
 
-#: gnomemusic/widgets/searchheaderbar.py:50
+#: gnomemusic/widgets/searchheaderbar.py:54
 msgid "Search songs, artists and albums"
 msgstr "მოძებნეთ სიმღერები, შემსრულებლები და ალბომები"
 
@@ -555,6 +580,17 @@ msgstr "როგორც ჩანს თქვენი სისტემუ
 #: gnomemusic/widgets/statusnavigationpage.py:131
 msgid "Music needs Tracker version 3.0.0 or higher."
 msgstr "Music-ს ტრეკერის 3.0.0 ან უფრო ახალი ვერსია სჭირდება."
+
+#~ msgid "Enables or disables ReplayGain for albums"
+#~ msgstr "ალბომებისთვის ReplayGain-ის ჩართვა/გამორთვა"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Close window"
+#~ msgstr "ფანჯრის დახურვა"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Go to Songs"
+#~ msgstr "სიმღერებზე გადართვა"
 
 #~ msgid "Report music history to Last.fm"
 #~ msgstr "გადაეცით მოსმენილი მუსიკა Last.fm-ზე"
