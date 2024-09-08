@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2024-02-11 20:43+0000\n"
-"PO-Revision-Date: 2024-03-02 11:31+0100\n"
+"POT-Creation-Date: 2024-09-03 21:12+0000\n"
+"PO-Revision-Date: 2024-09-08 09:29+0200\n"
 "Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
 "Language-Team: Hungarian <openscope at fsf dot hu>\n"
 "Language: hu\n"
@@ -44,7 +44,7 @@ msgstr ""
 "előállított lejátszólistákat vagy állítson össze egyet."
 
 #. developer_name tag deprecated with Appstream 1.0
-#: data/org.gnome.Music.appdata.xml.in.in:188
+#: data/org.gnome.Music.appdata.xml.in.in:214
 msgid "The GNOME Music developers"
 msgstr "A GNOME Zene fejlesztői"
 
@@ -57,33 +57,33 @@ msgstr "Zenelejátszó"
 msgid "Music;Player;"
 msgstr "Zene;Lejátszó;"
 
-#: data/org.gnome.Music.gschema.xml:12
+#: data/org.gnome.Music.gschema.xml:17
 msgid "Window size"
 msgstr "Ablakméret"
 
-#: data/org.gnome.Music.gschema.xml:13
+#: data/org.gnome.Music.gschema.xml:18
 msgid "Window size (width and height)."
 msgstr "Ablak mérete (szélesség és magasság)."
 
-#: data/org.gnome.Music.gschema.xml:17
+#: data/org.gnome.Music.gschema.xml:22
 msgid "Window maximized"
 msgstr "Ablak teljes méretű"
 
-#: data/org.gnome.Music.gschema.xml:18
+#: data/org.gnome.Music.gschema.xml:23
 msgid "Window maximized state."
 msgstr "Az ablak maximalizált állapota."
 
-#: data/org.gnome.Music.gschema.xml:22
+#: data/org.gnome.Music.gschema.xml:27
 msgid "Playback repeat mode"
 msgstr "Lejátszás ismétlési módja"
 
 #. Translators: Don't translate allowed values, just the description in the brackets
-#: data/org.gnome.Music.gschema.xml:24
+#: data/org.gnome.Music.gschema.xml:29
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
-"collection. Allowed values are: “none” (repeat and shuffle are off), "
-"“song” (repeat current song), “all” (repeat playlist, no shuffle), "
-"“shuffle” (shuffle playlist, presumes repeat all)."
+"collection. Allowed values are: “none” (repeat and shuffle are off), “song” "
+"(repeat current song), “all” (repeat playlist, no shuffle), “shuffle” "
+"(shuffle playlist, presumes repeat all)."
 msgstr ""
 "Az érték megadja, hogy a gyűjtemény lejátszását ismételni vagy "
 "véletlenszerűsíteni kell. Engedélyezett értékek: „none” (ismétlés és keverés "
@@ -91,19 +91,27 @@ msgstr ""
 "ismétlése, nincs keverés), „shuffle” (véletlenszerű lejátszólista, "
 "feltételezi az összes ismétlését)."
 
-#: data/org.gnome.Music.gschema.xml:28 data/ui/PreferencesDialog.ui:27
-msgid "Enable ReplayGain"
-msgstr "ReplayGain engedélyezése"
-
-#: data/org.gnome.Music.gschema.xml:29
-msgid "Enables or disables ReplayGain for albums"
-msgstr "Engedélyezi vagy letiltja a ReplayGain használatát az albumoknál"
-
 #: data/org.gnome.Music.gschema.xml:33
+msgid "Enable ReplayGain"
+msgstr "Automatikus hangosítás engedélyezése"
+
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: data/org.gnome.Music.gschema.xml:35
+msgid ""
+"Enables or disables ReplayGain for albums or track. Allowed values are: "
+"“disabled” (disables replaygain), “album” (replaygain per album), “track” "
+"(replaygain per track)."
+msgstr ""
+"Engedélyezi vagy letiltja az automatikus hangosítás használatát az albumoknál"
+" vagy számoknál. A megengedett értékek: „disabled” (letiltja az automatikus"
+" hangosítást), „album” (albumonkénti automatikus hangosítás), „track”"
+" (számonkénti automatikus hangosítás)."
+
+#: data/org.gnome.Music.gschema.xml:39
 msgid "Inhibit system suspend"
 msgstr "Rendszer felfüggesztésének megakadályozása"
 
-#: data/org.gnome.Music.gschema.xml:34
+#: data/org.gnome.Music.gschema.xml:40
 msgid "Enables or disables inhibiting system suspend while playing music"
 msgstr ""
 "Engedélyezi vagy letiltja a rendszer felfüggesztésének megakadályozását "
@@ -150,18 +158,14 @@ msgid "Preferences"
 msgstr "Beállítások"
 
 #: data/ui/HeaderBar.ui:35
-#| msgid "_Keyboard Shortcuts"
 msgid "Keyboard Shortcuts"
 msgstr "Gyorsbillentyűk"
 
 #: data/ui/HeaderBar.ui:39
-#| msgctxt "shortcut window"
-#| msgid "Help"
 msgid "Help"
 msgstr "Súgó"
 
 #: data/ui/HeaderBar.ui:43
-#| msgid "_About Music"
 msgid "About Music"
 msgstr "A Zene névjegye"
 
@@ -171,9 +175,10 @@ msgid "General"
 msgstr "Általános"
 
 #: data/ui/help-overlay.ui:14
+#| msgid "Preferences"
 msgctxt "shortcut window"
-msgid "Close window"
-msgstr "Ablak bezárása"
+msgid "Preferences"
+msgstr "Beállítások"
 
 #: data/ui/help-overlay.ui:20
 msgctxt "shortcut window"
@@ -190,55 +195,55 @@ msgctxt "shortcut window"
 msgid "Shortcuts"
 msgstr "Gyorsbillentyűk"
 
-#: data/ui/help-overlay.ui:40
+#: data/ui/help-overlay.ui:38
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Kilépés"
+
+#: data/ui/help-overlay.ui:46
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Lejátszás"
 
-#: data/ui/help-overlay.ui:43
+#: data/ui/help-overlay.ui:49
 msgctxt "shortcut window"
 msgid "Play/Pause"
 msgstr "Lejátszás/szünet"
 
-#: data/ui/help-overlay.ui:49
+#: data/ui/help-overlay.ui:55
 msgctxt "shortcut window"
 msgid "Next song"
 msgstr "Következő szám"
 
-#: data/ui/help-overlay.ui:55
+#: data/ui/help-overlay.ui:61
 msgctxt "shortcut window"
 msgid "Previous song"
 msgstr "Előző szám"
 
-#: data/ui/help-overlay.ui:61
+#: data/ui/help-overlay.ui:67
 msgctxt "shortcut window"
 msgid "Toggle repeat"
 msgstr "Ismétlés ki/be"
 
-#: data/ui/help-overlay.ui:67
+#: data/ui/help-overlay.ui:73
 msgctxt "shortcut window"
 msgid "Toggle shuffle"
 msgstr "Véletlenszerű lejátszás ki/be"
 
-#: data/ui/help-overlay.ui:75
+#: data/ui/help-overlay.ui:81
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "Navigáció"
 
-#: data/ui/help-overlay.ui:78
+#: data/ui/help-overlay.ui:84
 msgctxt "shortcut window"
 msgid "Go to Albums"
 msgstr "Ugrás az albumokhoz"
 
-#: data/ui/help-overlay.ui:84
+#: data/ui/help-overlay.ui:90
 msgctxt "shortcut window"
 msgid "Go to Artists"
 msgstr "Ugrás az előadókhoz"
-
-#: data/ui/help-overlay.ui:90
-msgctxt "shortcut window"
-msgid "Go to Songs"
-msgstr "Ugrás a számokhoz"
 
 #: data/ui/help-overlay.ui:96
 msgctxt "shortcut window"
@@ -307,7 +312,6 @@ msgid "Player Settings"
 msgstr "Lejátszóbeállítások"
 
 #: data/ui/PreferencesDialog.ui:12
-#| msgid "Repeat Song"
 msgid "Repeat Mode"
 msgstr "Ismétlési mód"
 
@@ -316,7 +320,6 @@ msgid "None"
 msgstr "Nincs"
 
 #: data/ui/PreferencesDialog.ui:17
-#| msgid "Songs"
 msgid "Song"
 msgstr "Szám"
 
@@ -328,21 +331,39 @@ msgstr "Összes"
 msgid "Shuffle"
 msgstr "Véletlen sorrend"
 
+#: data/ui/PreferencesDialog.ui:27
+#| msgid "Enable ReplayGain"
+msgid "ReplayGain"
+msgstr "Automatikus hangosítás"
+
 #: data/ui/PreferencesDialog.ui:28
 msgid "Balance loudness between songs if ReplayGain metadata is found"
 msgstr ""
-"Hangosság kiegyenlítése a számok között, ha ReplayGain metaadatok találhatók"
+"Hangosság kiegyenlítése a számok között, ha automatikus hangosítási"
+" metaadatok találhatók"
 
-#: data/ui/PreferencesDialog.ui:35
+#: data/ui/PreferencesDialog.ui:32
+msgid "Disabled"
+msgstr "Letiltva"
+
+#: data/ui/PreferencesDialog.ui:33
+#| msgid "Albums"
+msgid "Album"
+msgstr "Album"
+
+#: data/ui/PreferencesDialog.ui:34
+msgid "Track"
+msgstr "Szám"
+
+#: data/ui/PreferencesDialog.ui:44
 msgid "Power Settings"
 msgstr "Energiagazdálkodási beállítások"
 
-#: data/ui/PreferencesDialog.ui:38
-#| msgid "Inhibit system suspend"
+#: data/ui/PreferencesDialog.ui:47
 msgid "Inhibit Suspend"
 msgstr "Felfüggesztés megakadályozása"
 
-#: data/ui/PreferencesDialog.ui:39
+#: data/ui/PreferencesDialog.ui:48
 msgid "Only while playing"
 msgstr "Csak lejátszás közben"
 
@@ -376,61 +397,60 @@ msgstr ""
 "Úr Balázs <ur dot balazs at fsf dot hu>, 2022, 2024."
 
 #: gnomemusic/about.py:150
-#| msgid "The GNOME Music developers"
 msgid "© The GNOME Music Developers"
 msgstr "© A GNOME Zene fejlesztői"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:839
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:849
 msgid "Most Played"
 msgstr "Legtöbbet lejátszott"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:893
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:903
 msgid "Never Played"
 msgstr "Sosem lejátszott"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:946
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:956
 msgid "Recently Played"
 msgstr "Legutóbb lejátszott"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1025
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1035
 msgid "Recently Added"
 msgstr "Legutóbb hozzáadott"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1088
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1098
 msgid "Favorite Songs"
 msgstr "Kedvenc számok"
 
 #. TRANSLATORS: this is a playlist name indicating that the
 #. files are not tagged enough to be displayed in the albums
 #. or artists views.
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1142
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1152
 msgid "Insufficiently Tagged"
 msgstr "Hiányosan címkézve"
 
-#: gnomemusic/gstplayer.py:418
+#: gnomemusic/gstplayer.py:424
 msgid "Unable to play the file"
 msgstr "Nem lehet lejátszani a fájlt"
 
-#: gnomemusic/gstplayer.py:424
+#: gnomemusic/gstplayer.py:430
 msgid "_Find in {}"
 msgstr "_Keresés ebben: {}"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:434
+#: gnomemusic/gstplayer.py:440
 msgid " and "
 msgstr " és "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:437
+#: gnomemusic/gstplayer.py:443
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:439
+#: gnomemusic/gstplayer.py:445
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "{} szükséges a fájl lejátszásához, de nincs telepítve."
@@ -477,21 +497,19 @@ msgstr "Ismeretlen előadó"
 msgid "Playlists"
 msgstr "Lejátszólisták"
 
-#: gnomemusic/views/searchview.py:220
+#: gnomemusic/views/searchview.py:224
 msgid "No Search Started"
 msgstr "Nincs keresés indítva"
 
-#: gnomemusic/views/searchview.py:222
+#: gnomemusic/views/searchview.py:226
 msgid "Use the searchbar to start searching for albums, artists or songs"
 msgstr "Használja a keresősávot az albumok, előadók és számok kereséséhez"
 
-#: gnomemusic/views/searchview.py:226
-#| msgid "No Music Found"
+#: gnomemusic/views/searchview.py:230
 msgid "No Results Found"
 msgstr "Nincs találat"
 
-#: gnomemusic/views/searchview.py:228
-#| msgid "Try a Different Search"
+#: gnomemusic/views/searchview.py:232
 msgid "Try a different search"
 msgstr "Próbáljon egy másik keresést"
 
@@ -516,8 +534,7 @@ msgid_plural "{} Songs"
 msgstr[0] "{} szám"
 msgstr[1] "{} szám"
 
-#: gnomemusic/widgets/searchheaderbar.py:50
-#| msgid "Search songs, artists, albums and playlists"
+#: gnomemusic/widgets/searchheaderbar.py:54
 msgid "Search songs, artists and albums"
 msgstr "Számok, előadók és albumok keresése"
 
