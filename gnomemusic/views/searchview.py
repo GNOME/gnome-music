@@ -150,16 +150,6 @@ class SearchView(Adw.NavigationPage):
         self._set_empty_status_page()
         self._stack.props.visible_child_name = "status"
 
-    def _core_filter(self, coreitem, coremodel, nr_items):
-        if coremodel.get_n_items() <= 5:
-            return True
-
-        for i in range(nr_items):
-            if coremodel.get_item(i) == coreitem:
-                return True
-
-        return False
-
     def _create_song_widget(self, coresong: CoreSong) -> Gtk.ListBoxRow:
         song_widget = SongWidget(coresong, False, True)
         song_widget.props.show_song_number = False
