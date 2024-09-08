@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2024-02-11 20:43+0000\n"
-"PO-Revision-Date: 2024-02-22 20:21+0200\n"
+"POT-Creation-Date: 2024-09-03 21:12+0000\n"
+"PO-Revision-Date: 2024-09-08 10:48+0300\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: suomi <lokalisointi-lista@googlegroups.com>\n"
 "Language: fi\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 3.4.4\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
 #: data/org.gnome.Music.desktop.in.in:3 data/ui/StatusNavigationPage.ui:4
@@ -42,7 +42,7 @@ msgstr ""
 "soittolistoja tai valikoi itse parhaat kappaleet soittolistalle."
 
 #. developer_name tag deprecated with Appstream 1.0
-#: data/org.gnome.Music.appdata.xml.in.in:188
+#: data/org.gnome.Music.appdata.xml.in.in:214
 msgid "The GNOME Music developers"
 msgstr "Gnomen musiikkisoittimen kehittäjät"
 
@@ -55,52 +55,59 @@ msgstr "Musiikkisoitin"
 msgid "Music;Player;"
 msgstr "Music;Player;Musiikkisoitin;Musiikki;"
 
-#: data/org.gnome.Music.gschema.xml:12
+#: data/org.gnome.Music.gschema.xml:17
 msgid "Window size"
 msgstr "Ikkunan koko"
 
-#: data/org.gnome.Music.gschema.xml:13
+#: data/org.gnome.Music.gschema.xml:18
 msgid "Window size (width and height)."
 msgstr "Ikkunan koko (leveys ja korkeus)."
 
-#: data/org.gnome.Music.gschema.xml:17
+#: data/org.gnome.Music.gschema.xml:22
 msgid "Window maximized"
 msgstr "Suurennettu ikkuna"
 
-#: data/org.gnome.Music.gschema.xml:18
+#: data/org.gnome.Music.gschema.xml:23
 msgid "Window maximized state."
 msgstr "Suurennetun ikkunan tila."
 
-#: data/org.gnome.Music.gschema.xml:22
+#: data/org.gnome.Music.gschema.xml:27
 msgid "Playback repeat mode"
 msgstr "Toiston kertaustila"
 
 #. Translators: Don't translate allowed values, just the description in the brackets
-#: data/org.gnome.Music.gschema.xml:24
+#: data/org.gnome.Music.gschema.xml:29
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
-"collection. Allowed values are: “none” (repeat and shuffle are off), "
-"“song” (repeat current song), “all” (repeat playlist, no shuffle), "
-"“shuffle” (shuffle playlist, presumes repeat all)."
+"collection. Allowed values are: “none” (repeat and shuffle are off), “song” "
+"(repeat current song), “all” (repeat playlist, no shuffle), “shuffle” "
+"(shuffle playlist, presumes repeat all)."
 msgstr ""
 "Arvo esittää, kerrataanko tai sekoitetaanko toistoa kokoelmaa käyttäen. "
-"Sallitut arvot ovat: \"none\" (ei kertausta tai sekoitusta), "
-"\"song\" (kertaa nykyistä kappaletta), \"all\" (kertaa soittolistaa, ei "
-"sekoitusta) ja \"shuffle\" (sekoita soittolista, kertaus kaiken suhteen)."
+"Sallitut arvot ovat: \"none\" (ei kertausta tai sekoitusta), \"song\" "
+"(kertaa nykyistä kappaletta), \"all\" (kertaa soittolistaa, ei sekoitusta) "
+"ja \"shuffle\" (sekoita soittolista, kertaus kaiken suhteen)."
 
-#: data/org.gnome.Music.gschema.xml:28 data/ui/PreferencesDialog.ui:27
+#: data/org.gnome.Music.gschema.xml:33
 msgid "Enable ReplayGain"
 msgstr "Käytä ReplayGainia"
 
-#: data/org.gnome.Music.gschema.xml:29
-msgid "Enables or disables ReplayGain for albums"
-msgstr "Ottaa käyttöön/poistaa käytöstä ReplayGainin albumeille"
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: data/org.gnome.Music.gschema.xml:35
+msgid ""
+"Enables or disables ReplayGain for albums or track. Allowed values are: "
+"“disabled” (disables replaygain), “album” (replaygain per album), “track” "
+"(replaygain per track)."
+msgstr ""
+"Määrittää ReplayGainin albumi- tai kappalekohtaisesti. Sallitut arvot: "
+"“disabled” (replaygain ei käytössä), “album” (replaygain albumikohtaisesti), "
+"“track” (replaygain kappalekohtaisesti)."
 
-#: data/org.gnome.Music.gschema.xml:33
+#: data/org.gnome.Music.gschema.xml:39
 msgid "Inhibit system suspend"
 msgstr "Estä järjestelmän valmiustila"
 
-#: data/org.gnome.Music.gschema.xml:34
+#: data/org.gnome.Music.gschema.xml:40
 msgid "Enables or disables inhibiting system suspend while playing music"
 msgstr ""
 "Ottaa käyttöön tai poistaa käytöstä järjestelmän valmiustilaan siirtymisen "
@@ -165,8 +172,8 @@ msgstr "Yleiset"
 
 #: data/ui/help-overlay.ui:14
 msgctxt "shortcut window"
-msgid "Close window"
-msgstr "Sulje ikkuna"
+msgid "Preferences"
+msgstr "Asetukset"
 
 #: data/ui/help-overlay.ui:20
 msgctxt "shortcut window"
@@ -183,55 +190,55 @@ msgctxt "shortcut window"
 msgid "Shortcuts"
 msgstr "Pikanäppäimet"
 
-#: data/ui/help-overlay.ui:40
+#: data/ui/help-overlay.ui:38
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Lopeta"
+
+#: data/ui/help-overlay.ui:46
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Toista"
 
-#: data/ui/help-overlay.ui:43
+#: data/ui/help-overlay.ui:49
 msgctxt "shortcut window"
 msgid "Play/Pause"
 msgstr "Toista/keskeytä"
 
-#: data/ui/help-overlay.ui:49
+#: data/ui/help-overlay.ui:55
 msgctxt "shortcut window"
 msgid "Next song"
 msgstr "Seuraava kappale"
 
-#: data/ui/help-overlay.ui:55
+#: data/ui/help-overlay.ui:61
 msgctxt "shortcut window"
 msgid "Previous song"
 msgstr "Edellinen kappale"
 
-#: data/ui/help-overlay.ui:61
+#: data/ui/help-overlay.ui:67
 msgctxt "shortcut window"
 msgid "Toggle repeat"
 msgstr "Kertaus päälle/pois"
 
-#: data/ui/help-overlay.ui:67
+#: data/ui/help-overlay.ui:73
 msgctxt "shortcut window"
 msgid "Toggle shuffle"
 msgstr "Sekoitus päälle/pois"
 
-#: data/ui/help-overlay.ui:75
+#: data/ui/help-overlay.ui:81
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "Liikkuminen"
 
-#: data/ui/help-overlay.ui:78
+#: data/ui/help-overlay.ui:84
 msgctxt "shortcut window"
 msgid "Go to Albums"
 msgstr "Siirry albumeihin"
 
-#: data/ui/help-overlay.ui:84
+#: data/ui/help-overlay.ui:90
 msgctxt "shortcut window"
 msgid "Go to Artists"
 msgstr "Siirry esittäjiin"
-
-#: data/ui/help-overlay.ui:90
-msgctxt "shortcut window"
-msgid "Go to Songs"
-msgstr "Siirry kappaleisiin"
 
 #: data/ui/help-overlay.ui:96
 msgctxt "shortcut window"
@@ -319,21 +326,38 @@ msgstr "Kaikki"
 msgid "Shuffle"
 msgstr "Sekoita"
 
+#: data/ui/PreferencesDialog.ui:27
+#| msgid "Enable ReplayGain"
+msgid "ReplayGain"
+msgstr "ReplayGain"
+
 #: data/ui/PreferencesDialog.ui:28
 msgid "Balance loudness between songs if ReplayGain metadata is found"
 msgstr ""
 "Tasapainota äänenvoimakkuutta kappaleiden välillä, jos ReplayGain-metatiedot "
 "löytyvät"
 
-#: data/ui/PreferencesDialog.ui:35
+#: data/ui/PreferencesDialog.ui:32
+msgid "Disabled"
+msgstr "Ei käytössä"
+
+#: data/ui/PreferencesDialog.ui:33
+msgid "Album"
+msgstr "Albumi"
+
+#: data/ui/PreferencesDialog.ui:34
+msgid "Track"
+msgstr "Kappale"
+
+#: data/ui/PreferencesDialog.ui:44
 msgid "Power Settings"
 msgstr "Virranhallinnan asetukset"
 
-#: data/ui/PreferencesDialog.ui:38
+#: data/ui/PreferencesDialog.ui:47
 msgid "Inhibit Suspend"
 msgstr "Estä valmiustila"
 
-#: data/ui/PreferencesDialog.ui:39
+#: data/ui/PreferencesDialog.ui:48
 msgid "Only while playing"
 msgstr "Vain soittaessa"
 
@@ -369,56 +393,56 @@ msgid "© The GNOME Music Developers"
 msgstr "© Gnomen musiikkisoittimen kehittäjät"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:839
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:849
 msgid "Most Played"
 msgstr "Eniten toistettu"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:893
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:903
 msgid "Never Played"
 msgstr "Ei koskaan toistettu"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:946
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:956
 msgid "Recently Played"
 msgstr "Äskettäin toistettu"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1025
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1035
 msgid "Recently Added"
 msgstr "Äskettäin lisätty"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1088
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1098
 msgid "Favorite Songs"
 msgstr "Suosikkikappaleet"
 
 #. TRANSLATORS: this is a playlist name indicating that the
 #. files are not tagged enough to be displayed in the albums
 #. or artists views.
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1142
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1152
 msgid "Insufficiently Tagged"
 msgstr "Puutteellisesti merkitty"
 
-#: gnomemusic/gstplayer.py:418
+#: gnomemusic/gstplayer.py:424
 msgid "Unable to play the file"
 msgstr "Tiedoston toistaminen epäonnistui"
 
-#: gnomemusic/gstplayer.py:424
+#: gnomemusic/gstplayer.py:430
 msgid "_Find in {}"
 msgstr "_Etsi sovelluksella {}"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:434
+#: gnomemusic/gstplayer.py:440
 msgid " and "
 msgstr " ja "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:437
+#: gnomemusic/gstplayer.py:443
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:439
+#: gnomemusic/gstplayer.py:445
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "{} vaaditaan tiedoston toistamiseksi, mutta sitä ei ole asennettu."
@@ -465,19 +489,19 @@ msgstr "Tuntematon esittäjä"
 msgid "Playlists"
 msgstr "Soittolistat"
 
-#: gnomemusic/views/searchview.py:220
+#: gnomemusic/views/searchview.py:224
 msgid "No Search Started"
 msgstr "Hakua ei ole käynnistetty"
 
-#: gnomemusic/views/searchview.py:222
+#: gnomemusic/views/searchview.py:226
 msgid "Use the searchbar to start searching for albums, artists or songs"
 msgstr "Käytä hakupalkkia etsiäksesi albumeita, esittäjiä tai kappaleita"
 
-#: gnomemusic/views/searchview.py:226
+#: gnomemusic/views/searchview.py:230
 msgid "No Results Found"
 msgstr "Tuloksia ei löytynyt"
 
-#: gnomemusic/views/searchview.py:228
+#: gnomemusic/views/searchview.py:232
 msgid "Try a different search"
 msgstr "Yritä eri hakuehdoilla"
 
@@ -501,7 +525,7 @@ msgid_plural "{} Songs"
 msgstr[0] "{} kappale"
 msgstr[1] "{} kappaletta"
 
-#: gnomemusic/widgets/searchheaderbar.py:50
+#: gnomemusic/widgets/searchheaderbar.py:54
 msgid "Search songs, artists and albums"
 msgstr "Etsi kappaleita, esittäjiä ja albumeita"
 
@@ -557,6 +581,17 @@ msgstr "Järjestelmään asennettu Tracker vaikuttaa olevan vanhentunut."
 #: gnomemusic/widgets/statusnavigationpage.py:131
 msgid "Music needs Tracker version 3.0.0 or higher."
 msgstr "Musiikki tarvitsee Trackerin version 3.0.0 tai uudemman."
+
+#~ msgid "Enables or disables ReplayGain for albums"
+#~ msgstr "Ottaa käyttöön/poistaa käytöstä ReplayGainin albumeille"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Close window"
+#~ msgstr "Sulje ikkuna"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Go to Songs"
+#~ msgstr "Siirry kappaleisiin"
 
 #~ msgid "Report music history to Last.fm"
 #~ msgstr "Raportoi kuunteluhistoria Last.fm:ään"
@@ -704,12 +739,6 @@ msgstr "Musiikki tarvitsee Trackerin version 3.0.0 tai uudemman."
 #~ msgid "Artist"
 #~ msgstr "Esittäjä"
 
-#~ msgid "Album"
-#~ msgstr "Albumi"
-
-#~ msgid "Track Title"
-#~ msgstr "Kappaleen nimi"
-
 #~ msgid "Local"
 #~ msgstr "Paikalliset"
 
@@ -806,9 +835,6 @@ msgstr "Musiikki tarvitsee Trackerin version 3.0.0 tai uudemman."
 
 #~ msgid "New"
 #~ msgstr "Uusi"
-
-#~ msgid "Quit"
-#~ msgstr "Lopeta"
 
 #~ msgid "A GNOME 3 application to listen and manage music playlists"
 #~ msgstr "Gnome 3 -sovellus musiikin kuunteluun ja soittolistojen hallintaan"
