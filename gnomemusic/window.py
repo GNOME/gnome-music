@@ -70,6 +70,7 @@ class Window(Adw.ApplicationWindow):
         WindowPlacement(self)
 
         self._headerbar = HeaderBar(self._app)
+        self._search_view: Optional[SearchView] = None
         self._status_navpage = StatusNavigationPage(app)
         self._playlist_dialog: Optional[PlaylistDialog] = None
 
@@ -285,6 +286,7 @@ class Window(Adw.ApplicationWindow):
             self._search.props.search_mode_active = False
         # Open the search bar when typing printable chars.
         elif ((not search_active
+                and self._search_view is not None
                 and self._is_main_view_active()
                 and not keyval == Gdk.KEY_space)
                 and GLib.unichar_isprint(unicode_char)
