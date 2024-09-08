@@ -97,6 +97,7 @@ class SearchHeaderBar(Adw.Bin):
         elif search_state == Search.State.RESULT:
             self._set_error_style(False)
         elif search_state == Search.State.NONE:
+            self._set_error_style(False)
             self._entry.props.text = ""
 
     def _set_error_style(self, error):
