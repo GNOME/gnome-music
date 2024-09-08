@@ -230,7 +230,8 @@ class SearchView(Adw.NavigationPage):
                        or self._album_model.get_n_items() > 0)
         if items_found:
             self.props.search_state = Search.State.RESULT
-        else:
+        elif (not items_found
+              and len(self.props.search_text) > 0):
             self.props.search_state = Search.State.NO_RESULT
 
     @Gtk.Template.Callback()
