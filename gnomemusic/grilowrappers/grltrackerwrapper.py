@@ -161,6 +161,8 @@ class GrlTrackerWrapper(GObject.GObject):
             Grl.ResolutionFlags.FULL | Grl.ResolutionFlags.IDLE_RELAY)
 
         self._content_changed_id: int = 0
+        self._grilo_search_operation_ids: List[int] = []
+
         self.props.source = source
 
         self._initial_songs_fill()
@@ -897,6 +899,10 @@ class GrlTrackerWrapper(GObject.GObject):
             GLib.utf8_normalize(
                 GLib.utf8_casefold(text, -1), -1, GLib.NormalizeMode.NFKD))
 
+        for operation_id in self._grilo_search_operation_ids:
+            Grl.operation_cancel(operation_id)
+            self._grilo_search_operation_ids.remove(operation_id)
+
         if text == "":
             self._artists_search.set_filter(Gtk.AnyFilter())
             self._albums_search.set_filter(Gtk.AnyFilter())
@@ -966,7 +972,10 @@ class GrlTrackerWrapper(GObject.GObject):
                 source: Grl.Source, op_id: int, media: Optional[Grl.Media],
                 remaining: int, error: Optional[GLib.Error]) -> None:
             if error:
-                self._log.warning("Error: {}".format(error))
+                if error.code != Grl.CoreError.OPERATION_CANCELLED:
+                    self._log.warning("Error: {}".format(error))
+                    self._albums_search.set_filter(Gtk.AnyFilter())
+                    self._grilo_search_operation_ids.remove(op_id)
                 self._notificationmanager.pop_loading()
                 return
 
@@ -975,12 +984,14 @@ class GrlTrackerWrapper(GObject.GObject):
                 custom_filter.set_filter_func(artist_filter)
                 self._artists_search.set_filter(custom_filter)
                 self._notificationmanager.pop_loading()
+                self._grilo_search_operation_ids.remove(op_id)
                 return
 
             artist_filter_ids.append(media.get_id())
 
-        self.props.source.query(
+        op_id = self.props.source.query(
             query, [Grl.METADATA_KEY_ID], self._fast_options, artist_search_cb)
+        self._grilo_search_operation_ids.append(op_id)
 
         # Album search
         self._notificationmanager.push_loading()
@@ -1037,7 +1048,10 @@ class GrlTrackerWrapper(GObject.GObject):
                 source: Grl.Source, op_id: int, media: Optional[Grl.Media],
                 remaining: int, error: Optional[GLib.Error]) -> None:
             if error:
-                self._log.warning("Error: {}".format(error))
+                if error.code != Grl.CoreError.OPERATION_CANCELLED:
+                    self._log.warning("Error: {}".format(error))
+                    self._albums_search.set_filter(Gtk.AnyFilter())
+                    self._grilo_search_operation_ids.remove(op_id)
                 self._notificationmanager.pop_loading()
                 return
 
@@ -1046,12 +1060,14 @@ class GrlTrackerWrapper(GObject.GObject):
                 custom_filter.set_filter_func(album_filter)
                 self._albums_search.set_filter(custom_filter)
                 self._notificationmanager.pop_loading()
+                self._grilo_search_operation_ids.remove(op_id)
                 return
 
             album_filter_ids.append(media.get_id())
 
-        self.props.source.query(
+        op_id = self.props.source.query(
             query, [Grl.METADATA_KEY_ID], self._fast_options, albums_search_cb)
+        self._grilo_search_operation_ids.append(op_id)
 
         # Song search
         self._notificationmanager.push_loading()
@@ -1113,7 +1129,10 @@ class GrlTrackerWrapper(GObject.GObject):
                 source: Grl.Source, op_id: int, media: Optional[Grl.Media],
                 remaining: int, error: Optional[GLib.Error]) -> None:
             if error:
-                self._log.warning("Error: {}".format(error))
+                if error.code != Grl.CoreError.OPERATION_CANCELLED:
+                    self._log.warning("Error: {}".format(error))
+                    self._albums_search.set_filter(Gtk.AnyFilter())
+                    self._grilo_search_operation_ids.remove(op_id)
                 self._notificationmanager.pop_loading()
                 return
 
@@ -1122,12 +1141,14 @@ class GrlTrackerWrapper(GObject.GObject):
                 custom_filter.set_filter_func(songs_filter)
                 self._songs_search.set_filter(custom_filter)
                 self._notificationmanager.pop_loading()
+                self._grilo_search_operation_ids.remove(op_id)
                 return
 
             filter_ids.append(media.get_id())
 
-        self.props.source.query(
+        op_id = self.props.source.query(
             query, [Grl.METADATA_KEY_ID], self._fast_options, songs_search_cb)
+        self._grilo_search_operation_ids.append(op_id)
 
     def _get_album_for_media_id_query(
             self, media_id: str, song: bool = True) -> str:
