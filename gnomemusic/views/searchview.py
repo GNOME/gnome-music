@@ -195,7 +195,8 @@ class SearchView(Adw.NavigationPage):
         self._check_visibility()
 
     def _on_navigation_view_replaced(self, view: Adw.NavigationView) -> None:
-        self._search_headerbar.clear_entry()
+        if view.props.visible_page.props.tag != self.props.tag:
+            self.props.search_state = Search.State.NONE
 
     def _on_search_state_changed(
             self, searchview: SearchView, state: GObject.GParamInt) -> None:

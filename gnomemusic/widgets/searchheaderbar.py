@@ -71,10 +71,6 @@ class SearchHeaderBar(Adw.Bin):
 
         self._entry.connect("search-changed", self._search_entry_changed)
 
-    def clear_entry(self) -> None:
-        """Empty the search entry"""
-        self._entry.props.text = ""
-
     def _search_entry_changed(self, widget: Gtk.SearchEntry) -> bool:
         search_term = self._entry.get_text()
         self._coregrilo.search(search_term)
