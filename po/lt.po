@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2024-02-11 20:43+0000\n"
-"PO-Revision-Date: 2024-02-26 22:18+0200\n"
+"POT-Creation-Date: 2024-09-08 16:40+0000\n"
+"PO-Revision-Date: 2024-09-08 22:02+0300\n"
 "Last-Translator: Aurimas Černius <aurisc4@gmail.com>\n"
 "Language-Team: Lietuvių <gnome-lt@lists.akl.lt>\n"
 "Language: lt\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "(n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 3.4.4\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
 #: data/org.gnome.Music.desktop.in.in:3 data/ui/StatusNavigationPage.ui:4
@@ -43,7 +43,7 @@ msgstr ""
 "grojaraščius arba kurkite naujus."
 
 #. developer_name tag deprecated with Appstream 1.0
-#: data/org.gnome.Music.appdata.xml.in.in:188
+#: data/org.gnome.Music.appdata.xml.in.in:214
 msgid "The GNOME Music developers"
 msgstr "GNOME Muzikos kūrėjai"
 
@@ -56,52 +56,59 @@ msgstr "Muzikos grotuvas"
 msgid "Music;Player;"
 msgstr "Muzika;Grotuvas;"
 
-#: data/org.gnome.Music.gschema.xml:12
+#: data/org.gnome.Music.gschema.xml:17
 msgid "Window size"
 msgstr "Lango dydis"
 
-#: data/org.gnome.Music.gschema.xml:13
+#: data/org.gnome.Music.gschema.xml:18
 msgid "Window size (width and height)."
 msgstr "Lango dydis (plotis ir aukštis)."
 
-#: data/org.gnome.Music.gschema.xml:17
+#: data/org.gnome.Music.gschema.xml:22
 msgid "Window maximized"
 msgstr "Langas išdidintas"
 
-#: data/org.gnome.Music.gschema.xml:18
+#: data/org.gnome.Music.gschema.xml:23
 msgid "Window maximized state."
 msgstr "Lango išdidinimo būsena."
 
-#: data/org.gnome.Music.gschema.xml:22
+#: data/org.gnome.Music.gschema.xml:27
 msgid "Playback repeat mode"
 msgstr "Grojimo kartojimo veiksena"
 
 #. Translators: Don't translate allowed values, just the description in the brackets
-#: data/org.gnome.Music.gschema.xml:24
+#: data/org.gnome.Music.gschema.xml:29
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
-"collection. Allowed values are: “none” (repeat and shuffle are off), "
-"“song” (repeat current song), “all” (repeat playlist, no shuffle), "
-"“shuffle” (shuffle playlist, presumes repeat all)."
+"collection. Allowed values are: “none” (repeat and shuffle are off), “song” "
+"(repeat current song), “all” (repeat playlist, no shuffle), “shuffle” "
+"(shuffle playlist, presumes repeat all)."
 msgstr ""
 "Vertė nurodo, ar kartoti bei atsitiktine tvarka šokinėti per kolekciją. "
-"Galimos vertės yra: „none“ (kartojimas ir maišymas yra išjungti), "
-"„song“ (kartoti dabartinę dainą), „all“ (kartoti grojaraštį, nemaišyti), "
-"„shuffle“ (maišyti grojaraštį, kartoja viską)."
+"Galimos vertės yra: „none“ (kartojimas ir maišymas yra išjungti), „song“ "
+"(kartoti dabartinę dainą), „all“ (kartoti grojaraštį, nemaišyti), „shuffle“ "
+"(maišyti grojaraštį, kartoja viską)."
 
-#: data/org.gnome.Music.gschema.xml:28 data/ui/PreferencesDialog.ui:27
+#: data/org.gnome.Music.gschema.xml:33
 msgid "Enable ReplayGain"
 msgstr "Įjungti ReplayGain"
 
-#: data/org.gnome.Music.gschema.xml:29
-msgid "Enables or disables ReplayGain for albums"
-msgstr "Įjungia arba išjungia ReplayGain albumams"
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: data/org.gnome.Music.gschema.xml:35
+msgid ""
+"Enables or disables ReplayGain for albums or track. Allowed values are: "
+"“disabled” (disables replaygain), “album” (replaygain per album), “track” "
+"(replaygain per track)."
+msgstr ""
+"Įjungia ar išjungia ReplayGain almumams ar takeliui. Galimo vertės yra: "
+"„disabled“ (išjungia replaygain), „album“ (replaygain albumui), „track“ "
+"(replaygain takeliui)."
 
-#: data/org.gnome.Music.gschema.xml:33
+#: data/org.gnome.Music.gschema.xml:39
 msgid "Inhibit system suspend"
 msgstr "Neleisti užmigdyti sistemos"
 
-#: data/org.gnome.Music.gschema.xml:34
+#: data/org.gnome.Music.gschema.xml:40
 msgid "Enables or disables inhibiting system suspend while playing music"
 msgstr "Įjungia arba išjungia sistemos užmigdymo draudimą, kol grojama muzika"
 
@@ -164,8 +171,8 @@ msgstr "Bendra"
 
 #: data/ui/help-overlay.ui:14
 msgctxt "shortcut window"
-msgid "Close window"
-msgstr "Užverti langą"
+msgid "Preferences"
+msgstr "Nuostatos"
 
 #: data/ui/help-overlay.ui:20
 msgctxt "shortcut window"
@@ -182,55 +189,55 @@ msgctxt "shortcut window"
 msgid "Shortcuts"
 msgstr "Trumpiniai"
 
-#: data/ui/help-overlay.ui:40
+#: data/ui/help-overlay.ui:38
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Išeiti"
+
+#: data/ui/help-overlay.ui:46
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Grojimas"
 
-#: data/ui/help-overlay.ui:43
+#: data/ui/help-overlay.ui:49
 msgctxt "shortcut window"
 msgid "Play/Pause"
 msgstr "Groti/Pristabdyti"
 
-#: data/ui/help-overlay.ui:49
+#: data/ui/help-overlay.ui:55
 msgctxt "shortcut window"
 msgid "Next song"
 msgstr "Kita daina"
 
-#: data/ui/help-overlay.ui:55
+#: data/ui/help-overlay.ui:61
 msgctxt "shortcut window"
 msgid "Previous song"
 msgstr "Ankstesnė daina"
 
-#: data/ui/help-overlay.ui:61
+#: data/ui/help-overlay.ui:67
 msgctxt "shortcut window"
 msgid "Toggle repeat"
 msgstr "Perjungti kartojimą"
 
-#: data/ui/help-overlay.ui:67
+#: data/ui/help-overlay.ui:73
 msgctxt "shortcut window"
 msgid "Toggle shuffle"
 msgstr "Perjungti maišymą"
 
-#: data/ui/help-overlay.ui:75
+#: data/ui/help-overlay.ui:81
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "Naršymas"
 
-#: data/ui/help-overlay.ui:78
+#: data/ui/help-overlay.ui:84
 msgctxt "shortcut window"
 msgid "Go to Albums"
 msgstr "Pereiti į albumus"
 
-#: data/ui/help-overlay.ui:84
+#: data/ui/help-overlay.ui:90
 msgctxt "shortcut window"
 msgid "Go to Artists"
 msgstr "Pereiti į atlikėjus"
-
-#: data/ui/help-overlay.ui:90
-msgctxt "shortcut window"
-msgid "Go to Songs"
-msgstr "Pereiti į dainas"
 
 #: data/ui/help-overlay.ui:96
 msgctxt "shortcut window"
@@ -318,19 +325,35 @@ msgstr "Visi"
 msgid "Shuffle"
 msgstr "Maišyti"
 
+#: data/ui/PreferencesDialog.ui:27
+msgid "ReplayGain"
+msgstr "ReplayGain"
+
 #: data/ui/PreferencesDialog.ui:28
 msgid "Balance loudness between songs if ReplayGain metadata is found"
 msgstr "Balansuoti garsumą tarp dainų jei randami ReplayGain meta duomenys."
 
-#: data/ui/PreferencesDialog.ui:35
+#: data/ui/PreferencesDialog.ui:32
+msgid "Disabled"
+msgstr "Išjungta"
+
+#: data/ui/PreferencesDialog.ui:33
+msgid "Album"
+msgstr "Albumai"
+
+#: data/ui/PreferencesDialog.ui:34
+msgid "Track"
+msgstr "Takelis"
+
+#: data/ui/PreferencesDialog.ui:44
 msgid "Power Settings"
 msgstr "Energijos nuostatos"
 
-#: data/ui/PreferencesDialog.ui:38
+#: data/ui/PreferencesDialog.ui:47
 msgid "Inhibit Suspend"
 msgstr "Neleisti užmigdyti sistemos"
 
-#: data/ui/PreferencesDialog.ui:39
+#: data/ui/PreferencesDialog.ui:48
 msgid "Only while playing"
 msgstr "Tik grojant"
 
@@ -368,56 +391,56 @@ msgid "© The GNOME Music Developers"
 msgstr "© GNOME Muzikos kūrėjai"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:839
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:849
 msgid "Most Played"
 msgstr "Dažniausiai grojama"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:893
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:903
 msgid "Never Played"
 msgstr "Niekada negrota"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:946
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:956
 msgid "Recently Played"
 msgstr "Neseniai grota"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1025
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1035
 msgid "Recently Added"
 msgstr "Neseniai pridėta"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1088
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1098
 msgid "Favorite Songs"
 msgstr "Mėgiama daina"
 
 #. TRANSLATORS: this is a playlist name indicating that the
 #. files are not tagged enough to be displayed in the albums
 #. or artists views.
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1142
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1152
 msgid "Insufficiently Tagged"
 msgstr "Nepakankamai pažymėta"
 
-#: gnomemusic/gstplayer.py:418
+#: gnomemusic/gstplayer.py:424
 msgid "Unable to play the file"
 msgstr "Nepavyksta groti failo"
 
-#: gnomemusic/gstplayer.py:424
+#: gnomemusic/gstplayer.py:430
 msgid "_Find in {}"
 msgstr "_Rasti {}"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:434
+#: gnomemusic/gstplayer.py:440
 msgid " and "
 msgstr " ir "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:437
+#: gnomemusic/gstplayer.py:443
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:439
+#: gnomemusic/gstplayer.py:445
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "Failui pagroti reikalingas {}, bet jis neįdiegtas."
@@ -465,19 +488,19 @@ msgstr "Nežinomas atlikėjas"
 msgid "Playlists"
 msgstr "Grojaraščiai"
 
-#: gnomemusic/views/searchview.py:220
+#: gnomemusic/views/searchview.py:224
 msgid "No Search Started"
 msgstr "Nepaleista paieška"
 
-#: gnomemusic/views/searchview.py:222
+#: gnomemusic/views/searchview.py:226
 msgid "Use the searchbar to start searching for albums, artists or songs"
 msgstr "Naudokite paieškos juostą albumų, atlikėjų ar dainų paieškai pradėti"
 
-#: gnomemusic/views/searchview.py:226
+#: gnomemusic/views/searchview.py:230
 msgid "No Results Found"
 msgstr "Nerasta rezultatų"
 
-#: gnomemusic/views/searchview.py:228
+#: gnomemusic/views/searchview.py:232
 msgid "Try a different search"
 msgstr "Bandykite kitą paiešką"
 
@@ -503,7 +526,7 @@ msgstr[0] "{} daina"
 msgstr[1] "{} dainos"
 msgstr[2] "{} dainų"
 
-#: gnomemusic/widgets/searchheaderbar.py:50
+#: gnomemusic/widgets/searchheaderbar.py:54
 msgid "Search songs, artists and albums"
 msgstr "Ieškoti dainų, atlikėjų bei albumų"
 
@@ -560,6 +583,17 @@ msgstr "Jūsų sistemos Tracker versija atrodo pasenusi."
 #: gnomemusic/widgets/statusnavigationpage.py:131
 msgid "Music needs Tracker version 3.0.0 or higher."
 msgstr "Muzikai reikia Tracker versijos 3.0.0 arba naujesnės."
+
+#~ msgid "Enables or disables ReplayGain for albums"
+#~ msgstr "Įjungia arba išjungia ReplayGain albumams"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Close window"
+#~ msgstr "Užverti langą"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Go to Songs"
+#~ msgstr "Pereiti į dainas"
 
 #~ msgid "Report music history to Last.fm"
 #~ msgstr "Pranešti muzikos istoriją Last.fm"
@@ -756,12 +790,6 @@ msgstr "Muzikai reikia Tracker versijos 3.0.0 arba naujesnės."
 #~ msgid "Artist"
 #~ msgstr "Atlikėjai"
 
-#~ msgid "Album"
-#~ msgstr "Albumai"
-
-#~ msgid "Track Title"
-#~ msgstr "Takelio pavadinimas"
-
 #~ msgid "Local"
 #~ msgstr "Vietinis"
 
@@ -776,9 +804,6 @@ msgstr "Muzikai reikia Tracker versijos 3.0.0 arba naujesnės."
 
 #~ msgid "Untitled"
 #~ msgstr "Nepavadinta"
-
-#~ msgid "_Quit"
-#~ msgstr "_Išeiti"
 
 #~ msgid "Music is the new GNOME music playing application."
 #~ msgstr "Muzika yra nauja GNOME muzikos grojimo programa."
