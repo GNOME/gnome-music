@@ -77,9 +77,9 @@ class SearchHeaderBar(Adw.Bin):
 
     def _search_entry_changed(self, widget: Gtk.SearchEntry) -> bool:
         search_term = self._entry.get_text()
-        if search_term != "":
-            self._coregrilo.search(search_term)
-        else:
+        self._coregrilo.search(search_term)
+
+        if search_term == "":
             self._set_error_style(False)
             self.props.search_state = Search.State.NONE
 

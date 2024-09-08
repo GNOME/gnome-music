@@ -897,6 +897,12 @@ class GrlTrackerWrapper(GObject.GObject):
             GLib.utf8_normalize(
                 GLib.utf8_casefold(text, -1), -1, GLib.NormalizeMode.NFKD))
 
+        if text == "":
+            self._artists_search.set_filter(Gtk.AnyFilter())
+            self._albums_search.set_filter(Gtk.AnyFilter())
+            self._songs_search.set_filter(Gtk.AnyFilter())
+            return
+
         # Artist search
         self._notificationmanager.push_loading()
 

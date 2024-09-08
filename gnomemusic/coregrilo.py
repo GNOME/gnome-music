@@ -235,7 +235,14 @@ class CoreGrilo(GObject.GObject):
         """
         self._tracker_wrapper.update_tag(media, tag)
 
-    def search(self, text):
+    def search(self, text: str) -> None:
+        """Search for the given string in the wrappers
+
+        If an empty string is provided, the wrapper should
+        reset to an empty state.
+
+        :param str text: The search string
+        """
         for wrapper in self._wrappers.values():
             wrapper.search(text)
         for wrapper in self._search_wrappers.values():
