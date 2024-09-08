@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2024-02-22 18:22+0000\n"
-"PO-Revision-Date: 2024-02-24 16:29+0000\n"
-"Last-Translator: Bruce Cowan <bruce@bcowan.me.uk>\n"
+"POT-Creation-Date: 2024-09-03 21:12+0000\n"
+"PO-Revision-Date: 2024-09-04 12:25+0100\n"
+"Last-Translator: Andi Chandler <andi@gowling.com>\n"
 "Language-Team: English - United Kingdom <en@li.org>\n"
 "Language: en_GB\n"
 "MIME-Version: 1.0\n"
@@ -46,7 +46,7 @@ msgstr ""
 "or curate a fresh one."
 
 #. developer_name tag deprecated with Appstream 1.0
-#: data/org.gnome.Music.appdata.xml.in.in:188
+#: data/org.gnome.Music.appdata.xml.in.in:214
 msgid "The GNOME Music developers"
 msgstr "The GNOME Music developers"
 
@@ -59,28 +59,28 @@ msgstr "Music Player"
 msgid "Music;Player;"
 msgstr "Music;Player;"
 
-#: data/org.gnome.Music.gschema.xml:12
+#: data/org.gnome.Music.gschema.xml:17
 msgid "Window size"
 msgstr "Window size"
 
-#: data/org.gnome.Music.gschema.xml:13
+#: data/org.gnome.Music.gschema.xml:18
 msgid "Window size (width and height)."
 msgstr "Window size (width and height)."
 
-#: data/org.gnome.Music.gschema.xml:17
+#: data/org.gnome.Music.gschema.xml:22
 msgid "Window maximized"
 msgstr "Window maximised"
 
-#: data/org.gnome.Music.gschema.xml:18
+#: data/org.gnome.Music.gschema.xml:23
 msgid "Window maximized state."
 msgstr "Window maximised state."
 
-#: data/org.gnome.Music.gschema.xml:22
+#: data/org.gnome.Music.gschema.xml:27
 msgid "Playback repeat mode"
 msgstr "Playback repeat mode"
 
 #. Translators: Don't translate allowed values, just the description in the brackets
-#: data/org.gnome.Music.gschema.xml:24
+#: data/org.gnome.Music.gschema.xml:29
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
 "collection. Allowed values are: “none” (repeat and shuffle are off), "
@@ -92,19 +92,26 @@ msgstr ""
 "“song” (repeat current song), “all” (repeat playlist, no shuffle), "
 "“shuffle” (shuffle playlist, presumes repeat all)."
 
-#: data/org.gnome.Music.gschema.xml:28 data/ui/PreferencesDialog.ui:27
+#: data/org.gnome.Music.gschema.xml:33
 msgid "Enable ReplayGain"
 msgstr "Enable ReplayGain"
 
-#: data/org.gnome.Music.gschema.xml:29
-msgid "Enables or disables ReplayGain for albums"
-msgstr "Enables or disables ReplayGain for albums"
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: data/org.gnome.Music.gschema.xml:35
+msgid ""
+"Enables or disables ReplayGain for albums or track. Allowed values are: "
+"“disabled” (disables replaygain), “album” (replaygain per album), "
+"“track” (replaygain per track)."
+msgstr ""
+"Enables or disables ReplayGain for albums or track. Allowed values are: "
+"“disabled” (disables replaygain), “album” (replaygain per album), "
+"“track” (replaygain per track)."
 
-#: data/org.gnome.Music.gschema.xml:33
+#: data/org.gnome.Music.gschema.xml:39
 msgid "Inhibit system suspend"
 msgstr "Inhibit system suspend"
 
-#: data/org.gnome.Music.gschema.xml:34
+#: data/org.gnome.Music.gschema.xml:40
 msgid "Enables or disables inhibiting system suspend while playing music"
 msgstr "Enables or disables inhibiting system suspend while playing music"
 
@@ -166,9 +173,10 @@ msgid "General"
 msgstr "General"
 
 #: data/ui/help-overlay.ui:14
+#| msgid "Preferences"
 msgctxt "shortcut window"
-msgid "Close window"
-msgstr "Close window"
+msgid "Preferences"
+msgstr "Preferences"
 
 #: data/ui/help-overlay.ui:20
 msgctxt "shortcut window"
@@ -185,55 +193,56 @@ msgctxt "shortcut window"
 msgid "Shortcuts"
 msgstr "Shortcuts"
 
-#: data/ui/help-overlay.ui:40
+#: data/ui/help-overlay.ui:38
+#| msgid "Quit"
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Quit"
+
+#: data/ui/help-overlay.ui:46
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Playback"
 
-#: data/ui/help-overlay.ui:43
+#: data/ui/help-overlay.ui:49
 msgctxt "shortcut window"
 msgid "Play/Pause"
 msgstr "Play/Pause"
 
-#: data/ui/help-overlay.ui:49
+#: data/ui/help-overlay.ui:55
 msgctxt "shortcut window"
 msgid "Next song"
 msgstr "Next song"
 
-#: data/ui/help-overlay.ui:55
+#: data/ui/help-overlay.ui:61
 msgctxt "shortcut window"
 msgid "Previous song"
 msgstr "Previous song"
 
-#: data/ui/help-overlay.ui:61
+#: data/ui/help-overlay.ui:67
 msgctxt "shortcut window"
 msgid "Toggle repeat"
 msgstr "Toggle repeat"
 
-#: data/ui/help-overlay.ui:67
+#: data/ui/help-overlay.ui:73
 msgctxt "shortcut window"
 msgid "Toggle shuffle"
 msgstr "Toggle shuffle"
 
-#: data/ui/help-overlay.ui:75
+#: data/ui/help-overlay.ui:81
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "Navigation"
 
-#: data/ui/help-overlay.ui:78
+#: data/ui/help-overlay.ui:84
 msgctxt "shortcut window"
 msgid "Go to Albums"
 msgstr "Go to Albums"
 
-#: data/ui/help-overlay.ui:84
+#: data/ui/help-overlay.ui:90
 msgctxt "shortcut window"
 msgid "Go to Artists"
 msgstr "Go to Artists"
-
-#: data/ui/help-overlay.ui:90
-msgctxt "shortcut window"
-msgid "Go to Songs"
-msgstr "Go to Songs"
 
 #: data/ui/help-overlay.ui:96
 msgctxt "shortcut window"
@@ -321,19 +330,37 @@ msgstr "All"
 msgid "Shuffle"
 msgstr "Shuffle"
 
+#: data/ui/PreferencesDialog.ui:27
+#| msgid "Enable ReplayGain"
+msgid "ReplayGain"
+msgstr "ReplayGain"
+
 #: data/ui/PreferencesDialog.ui:28
 msgid "Balance loudness between songs if ReplayGain metadata is found"
 msgstr "Balance loudness between songs if ReplayGain metadata is found"
 
-#: data/ui/PreferencesDialog.ui:35
+#: data/ui/PreferencesDialog.ui:32
+msgid "Disabled"
+msgstr "Disabled"
+
+#: data/ui/PreferencesDialog.ui:33
+msgid "Album"
+msgstr "Album"
+
+#: data/ui/PreferencesDialog.ui:34
+#| msgid "Track Title"
+msgid "Track"
+msgstr "Track"
+
+#: data/ui/PreferencesDialog.ui:44
 msgid "Power Settings"
 msgstr "Power Settings"
 
-#: data/ui/PreferencesDialog.ui:38
+#: data/ui/PreferencesDialog.ui:47
 msgid "Inhibit Suspend"
 msgstr "Inhibit Suspend"
 
-#: data/ui/PreferencesDialog.ui:39
+#: data/ui/PreferencesDialog.ui:48
 msgid "Only while playing"
 msgstr "Only while playing"
 
@@ -371,56 +398,56 @@ msgid "© The GNOME Music Developers"
 msgstr "© The GNOME Music Developers"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:839
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:849
 msgid "Most Played"
 msgstr "Most Played"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:893
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:903
 msgid "Never Played"
 msgstr "Never Played"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:946
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:956
 msgid "Recently Played"
 msgstr "Recently Played"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1025
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1035
 msgid "Recently Added"
 msgstr "Recently Added"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1088
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1098
 msgid "Favorite Songs"
 msgstr "Favourite Songs"
 
 #. TRANSLATORS: this is a playlist name indicating that the
 #. files are not tagged enough to be displayed in the albums
 #. or artists views.
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1142
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1152
 msgid "Insufficiently Tagged"
 msgstr "Insufficiently Tagged"
 
-#: gnomemusic/gstplayer.py:418
+#: gnomemusic/gstplayer.py:424
 msgid "Unable to play the file"
 msgstr "Unable to play the file"
 
-#: gnomemusic/gstplayer.py:424
+#: gnomemusic/gstplayer.py:430
 msgid "_Find in {}"
 msgstr "_Find in {}"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:434
+#: gnomemusic/gstplayer.py:440
 msgid " and "
 msgstr " and "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:437
+#: gnomemusic/gstplayer.py:443
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:439
+#: gnomemusic/gstplayer.py:445
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "{} is required to play the file, but is not installed."
@@ -467,19 +494,19 @@ msgstr "Unknown Artist"
 msgid "Playlists"
 msgstr "Playlists"
 
-#: gnomemusic/views/searchview.py:220
+#: gnomemusic/views/searchview.py:224
 msgid "No Search Started"
 msgstr "No Search Started"
 
-#: gnomemusic/views/searchview.py:222
+#: gnomemusic/views/searchview.py:226
 msgid "Use the searchbar to start searching for albums, artists or songs"
 msgstr "Use the searchbar to start searching for albums, artists or songs"
 
-#: gnomemusic/views/searchview.py:226
+#: gnomemusic/views/searchview.py:230
 msgid "No Results Found"
 msgstr "No Results Found"
 
-#: gnomemusic/views/searchview.py:228
+#: gnomemusic/views/searchview.py:232
 msgid "Try a different search"
 msgstr "Try a different search"
 
@@ -503,7 +530,7 @@ msgid_plural "{} Songs"
 msgstr[0] "{} Song"
 msgstr[1] "{} Songs"
 
-#: gnomemusic/widgets/searchheaderbar.py:50
+#: gnomemusic/widgets/searchheaderbar.py:54
 msgid "Search songs, artists and albums"
 msgstr "Search songs, artists and albums"
 
@@ -559,6 +586,17 @@ msgstr "Your system Tracker version seems outdated."
 #: gnomemusic/widgets/statusnavigationpage.py:131
 msgid "Music needs Tracker version 3.0.0 or higher."
 msgstr "Music needs Tracker version 3.0.0 or higher."
+
+#~ msgid "Enables or disables ReplayGain for albums"
+#~ msgstr "Enables or disables ReplayGain for albums"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Close window"
+#~ msgstr "Close window"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Go to Songs"
+#~ msgstr "Go to Songs"
 
 #~ msgid "Report music history to Last.fm"
 #~ msgstr "Report music history to Last.fm"
@@ -772,12 +810,6 @@ msgstr "Music needs Tracker version 3.0.0 or higher."
 #~ msgid "Artist"
 #~ msgstr "Artist"
 
-#~ msgid "Album"
-#~ msgstr "Album"
-
-#~ msgid "Track Title"
-#~ msgstr "Track Title"
-
 #~ msgid "Local"
 #~ msgstr "Local"
 
@@ -863,9 +895,6 @@ msgstr "Music needs Tracker version 3.0.0 or higher."
 
 #~ msgid "New"
 #~ msgstr "New"
-
-#~ msgid "Quit"
-#~ msgstr "Quit"
 
 #~ msgid "A GNOME 3 application to listen and manage music playlists"
 #~ msgstr "A GNOME 3 application to listen and manage music playlists"
