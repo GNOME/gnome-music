@@ -7,8 +7,8 @@
 msgid ""
 msgstr "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2024-02-11 20:43+0000\n"
-"PO-Revision-Date: 2024-02-14 10:00+0100\n"
+"POT-Creation-Date: 2024-09-03 21:12+0000\n"
+"PO-Revision-Date: 2024-09-08 10:00+0100\n"
 "Last-Translator: Asier Sarasua Garmendia <asiersarasua@ni.eus>\n"
 "Language-Team: Basque <librezale@librezale.eus>\n"
 "Language: eu\n"
@@ -39,7 +39,7 @@ msgid ""
 msgstr "Bilatu pistak zure bilduma lokalean, erabili automatikoki sortutako erreprodukzio-zerrendak edo sortu zerrenda berria."
 
 #. developer_name tag deprecated with Appstream 1.0
-#: data/org.gnome.Music.appdata.xml.in.in:188
+#: data/org.gnome.Music.appdata.xml.in.in:214
 msgid "The GNOME Music developers"
 msgstr "GNOME Musika aplikazioaren garatzaileak"
 
@@ -52,48 +52,52 @@ msgstr "Musika-erreproduzitzailea"
 msgid "Music;Player;"
 msgstr "Musika;Erreproduzitzailea;"
 
-#: data/org.gnome.Music.gschema.xml:12
+#: data/org.gnome.Music.gschema.xml:17
 msgid "Window size"
 msgstr "Leihoaren tamaina"
 
-#: data/org.gnome.Music.gschema.xml:13
+#: data/org.gnome.Music.gschema.xml:18
 msgid "Window size (width and height)."
 msgstr "Leihoaren tamaina (zabalera eta altuera)."
 
-#: data/org.gnome.Music.gschema.xml:17
+#: data/org.gnome.Music.gschema.xml:22
 msgid "Window maximized"
 msgstr "Leihoa maximizatuta"
 
-#: data/org.gnome.Music.gschema.xml:18
+#: data/org.gnome.Music.gschema.xml:23
 msgid "Window maximized state."
 msgstr "Leiho maximizatuaren egoera."
 
-#: data/org.gnome.Music.gschema.xml:22
+#: data/org.gnome.Music.gschema.xml:27
 msgid "Playback repeat mode"
 msgstr "Erreprodukzioa errepikatzeko modua"
 
 #. Translators: Don't translate allowed values, just the description in the brackets
-#: data/org.gnome.Music.gschema.xml:24
+#: data/org.gnome.Music.gschema.xml:29
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
-"collection. Allowed values are: “none” (repeat and shuffle are off), "
-"“song” (repeat current song), “all” (repeat playlist, no shuffle), "
-"“shuffle” (shuffle playlist, presumes repeat all)."
+"collection. Allowed values are: “none” (repeat and shuffle are off), “song” "
+"(repeat current song), “all” (repeat playlist, no shuffle), “shuffle” "
+"(shuffle playlist, presumes repeat all)."
 msgstr "Balioak erreprodukzioa errepikatuko edo ausaz erreproduzituko den bilduman zehar zehazten du. Balio erabilgarriak: “none” (errepikatzea edo ausaz erreproduzitzea desgaituta), “song” (errepikatu uneko abestia), “all” (errepikatu erreprodukzio-zerrenda, ez-ausaz) eta “shuffle” (ausaz erreproduzitu zerrenda, osoa errepikatuko duela suposatzen da)."
 
-#: data/org.gnome.Music.gschema.xml:28 data/ui/PreferencesDialog.ui:27
+#: data/org.gnome.Music.gschema.xml:33
 msgid "Enable ReplayGain"
 msgstr "Gaitu 'ReplayGain' (erreprodukzioaren irabazia)"
 
-#: data/org.gnome.Music.gschema.xml:29
-msgid "Enables or disables ReplayGain for albums"
-msgstr "Albumen erreprodukzioen irabazia (ReplayGain) gaitzen/desgaitzen du"
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: data/org.gnome.Music.gschema.xml:35
+msgid ""
+"Enables or disables ReplayGain for albums or track. Allowed values are: "
+"“disabled” (disables replaygain), “album” (replaygain per album), “track” "
+"(replaygain per track)."
+msgstr "ReplayGain gaitzen edo desgaitzen du albumetan edo pistetan. Onartutako balioak: “disabled” (replaygain desgaitzen du), “album” (replaygain albumean), “track” (replaygain pistan)."
 
-#: data/org.gnome.Music.gschema.xml:33
+#: data/org.gnome.Music.gschema.xml:39
 msgid "Inhibit system suspend"
 msgstr "Galarazi sistema esekitzea"
 
-#: data/org.gnome.Music.gschema.xml:34
+#: data/org.gnome.Music.gschema.xml:40
 msgid "Enables or disables inhibiting system suspend while playing music"
 msgstr "Musika erreproduzitzen ari den bitartean sistema eseki dadin galarazten du"
 
@@ -156,8 +160,8 @@ msgstr "Orokorra"
 
 #: data/ui/help-overlay.ui:14
 msgctxt "shortcut window"
-msgid "Close window"
-msgstr "Itxi leihoa"
+msgid "Preferences"
+msgstr "Hobespenak"
 
 #: data/ui/help-overlay.ui:20
 msgctxt "shortcut window"
@@ -174,55 +178,55 @@ msgctxt "shortcut window"
 msgid "Shortcuts"
 msgstr "Lasterbideak"
 
-#: data/ui/help-overlay.ui:40
+#: data/ui/help-overlay.ui:38
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Irten"
+
+#: data/ui/help-overlay.ui:46
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Erreproduzitu"
 
-#: data/ui/help-overlay.ui:43
+#: data/ui/help-overlay.ui:49
 msgctxt "shortcut window"
 msgid "Play/Pause"
 msgstr "Erreproduzitu/pausarazi"
 
-#: data/ui/help-overlay.ui:49
+#: data/ui/help-overlay.ui:55
 msgctxt "shortcut window"
 msgid "Next song"
 msgstr "Hurrengoa abestia"
 
-#: data/ui/help-overlay.ui:55
+#: data/ui/help-overlay.ui:61
 msgctxt "shortcut window"
 msgid "Previous song"
 msgstr "Aurreko abestia"
 
-#: data/ui/help-overlay.ui:61
+#: data/ui/help-overlay.ui:67
 msgctxt "shortcut window"
 msgid "Toggle repeat"
 msgstr "Txandakatu errepikatzea"
 
-#: data/ui/help-overlay.ui:67
+#: data/ui/help-overlay.ui:73
 msgctxt "shortcut window"
 msgid "Toggle shuffle"
 msgstr "Txandakatu ausazkoa"
 
-#: data/ui/help-overlay.ui:75
+#: data/ui/help-overlay.ui:81
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "Nabigazioa"
 
-#: data/ui/help-overlay.ui:78
+#: data/ui/help-overlay.ui:84
 msgctxt "shortcut window"
 msgid "Go to Albums"
 msgstr "Joan albumetara"
 
-#: data/ui/help-overlay.ui:84
+#: data/ui/help-overlay.ui:90
 msgctxt "shortcut window"
 msgid "Go to Artists"
 msgstr "Joan artistetara"
-
-#: data/ui/help-overlay.ui:90
-msgctxt "shortcut window"
-msgid "Go to Songs"
-msgstr "Joan abestietara"
 
 #: data/ui/help-overlay.ui:96
 msgctxt "shortcut window"
@@ -268,7 +272,7 @@ msgstr "_Utzi"
 
 #: data/ui/PlaylistDialog.ui:36
 msgid "_Add"
-msgstr "_Gehitu"
+msgstr "G_ehitu"
 
 #: data/ui/PlaylistDialog.ui:91
 msgid "Enter a name for your first playlist"
@@ -310,19 +314,35 @@ msgstr "Denak"
 msgid "Shuffle"
 msgstr "Ausaz"
 
+#: data/ui/PreferencesDialog.ui:27
+msgid "ReplayGain"
+msgstr "ReplayGain"
+
 #: data/ui/PreferencesDialog.ui:28
 msgid "Balance loudness between songs if ReplayGain metadata is found"
 msgstr "Orekatu abestien arteko ozentasuna ReplayGain metadaturik aurkitzen bada"
 
-#: data/ui/PreferencesDialog.ui:35
+#: data/ui/PreferencesDialog.ui:32
+msgid "Disabled"
+msgstr "Desgaituta"
+
+#: data/ui/PreferencesDialog.ui:33
+msgid "Album"
+msgstr "Albuma"
+
+#: data/ui/PreferencesDialog.ui:34
+msgid "Track"
+msgstr "Pista"
+
+#: data/ui/PreferencesDialog.ui:44
 msgid "Power Settings"
 msgstr "Energiaren ezarpenak"
 
-#: data/ui/PreferencesDialog.ui:38
+#: data/ui/PreferencesDialog.ui:47
 msgid "Inhibit Suspend"
 msgstr "Galarazi esekitzea"
 
-#: data/ui/PreferencesDialog.ui:39
+#: data/ui/PreferencesDialog.ui:48
 msgid "Only while playing"
 msgstr "Erreproduzitzean soilik"
 
@@ -351,63 +371,63 @@ msgstr "GNOME proiektua"
 #. credit to the translator(s).
 #: gnomemusic/about.py:146
 msgid "translator-credits"
-msgstr "translator-credits"
+msgstr "Asier Sarasua Garmendia <asiersarasua@ni.eus>"
 
 #: gnomemusic/about.py:150
 msgid "© The GNOME Music Developers"
 msgstr "© The GNOME Musika aplikazioaren garatzaileak"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:839
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:849
 msgid "Most Played"
 msgstr "Gehien erreproduzitua"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:893
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:903
 msgid "Never Played"
 msgstr "Inoiz erreproduzitu gabea"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:946
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:956
 msgid "Recently Played"
 msgstr "Azken aldian erreproduzitua"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1025
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1035
 msgid "Recently Added"
 msgstr "Azken aldian gehitua"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1088
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1098
 msgid "Favorite Songs"
 msgstr "Gogoko abestiak"
 
 #. TRANSLATORS: this is a playlist name indicating that the
 #. files are not tagged enough to be displayed in the albums
 #. or artists views.
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1142
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1152
 msgid "Insufficiently Tagged"
 msgstr "Gutxi etiketatua"
 
-#: gnomemusic/gstplayer.py:418
+#: gnomemusic/gstplayer.py:424
 msgid "Unable to play the file"
 msgstr "Ezin da fitxategia erreproduzitu"
 
-#: gnomemusic/gstplayer.py:424
+#: gnomemusic/gstplayer.py:430
 msgid "_Find in {}"
 msgstr "_Bilatu hemen: {}"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:434
+#: gnomemusic/gstplayer.py:440
 msgid " and "
 msgstr " eta "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:437
+#: gnomemusic/gstplayer.py:443
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:439
+#: gnomemusic/gstplayer.py:445
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "{} behar da fitxategia erreproduzitzeko, baina ez dago instalatuta."
@@ -454,21 +474,21 @@ msgstr "Artista ezezaguna"
 msgid "Playlists"
 msgstr "Erreprodukzio-zerrendak"
 
-#: gnomemusic/views/searchview.py:220
+#: gnomemusic/views/searchview.py:224
 msgid "No Search Started"
 msgstr "Ez da bilaketa abiarazi"
 
-#: gnomemusic/views/searchview.py:222
+#: gnomemusic/views/searchview.py:226
 msgid "Use the searchbar to start searching for albums, artists or songs"
 msgstr "Erabili bilaketa-barra albumak, artistak edo abestiak bilatzeko"
 
-#: gnomemusic/views/searchview.py:226
+#: gnomemusic/views/searchview.py:230
 msgid "No Results Found"
 msgstr "Ez da emaitzarik aurkitu"
 
-#: gnomemusic/views/searchview.py:228
+#: gnomemusic/views/searchview.py:232
 msgid "Try a different search"
-msgstr "Saiatu bestelako bilaketa"
+msgstr "Saiatu bestelako bilaketa bat"
 
 #: gnomemusic/widgets/albumwidget.py:230
 msgid "{} minute"
@@ -490,7 +510,7 @@ msgid_plural "{} Songs"
 msgstr[0] "Abesti {}"
 msgstr[1] "{} abesti"
 
-#: gnomemusic/widgets/searchheaderbar.py:50
+#: gnomemusic/widgets/searchheaderbar.py:54
 msgid "Search songs, artists and albums"
 msgstr "Bilatu abestiak, artistak eta albumak"
 
@@ -546,6 +566,17 @@ msgstr "Zure sistemako Tracker bertsioa zaharkituta dagoela dirudi."
 #: gnomemusic/widgets/statusnavigationpage.py:131
 msgid "Music needs Tracker version 3.0.0 or higher."
 msgstr "Musika aplikazioak Tracker 3.0.0 bertsioa edo berriagoa behar du."
+
+#~ msgid "Enables or disables ReplayGain for albums"
+#~ msgstr "Albumen erreprodukzioen irabazia (ReplayGain) gaitzen/desgaitzen du"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Close window"
+#~ msgstr "Itxi leihoa"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Go to Songs"
+#~ msgstr "Joan abestietara"
 
 #~ msgid "Report music history to Last.fm"
 #~ msgstr "Igorri musika-historia Last.fm guneari"
@@ -740,12 +771,6 @@ msgstr "Musika aplikazioak Tracker 3.0.0 bertsioa edo berriagoa behar du."
 
 #~ msgid "Artist"
 #~ msgstr "Artista"
-
-#~ msgid "Album"
-#~ msgstr "Albuma"
-
-#~ msgid "Track Title"
-#~ msgstr "Pistaren titulua"
 
 #~ msgid "Local"
 #~ msgstr "Lokala"
