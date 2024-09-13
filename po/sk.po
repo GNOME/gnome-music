@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2024-02-11 20:43+0000\n"
-"PO-Revision-Date: 2024-05-30 21:48+0200\n"
+"POT-Creation-Date: 2024-09-08 16:40+0000\n"
+"PO-Revision-Date: 2024-09-13 21:03+0200\n"
 "Last-Translator: Jose Riha <jose1711@gmail.com>\n"
 "Language-Team: Slovak <gnome-sk-list@gnome.org>\n"
 "Language: sk\n"
@@ -43,7 +43,7 @@ msgstr ""
 "zoznamy skladieb alebo vytvorte svoj vlastný."
 
 #. developer_name tag deprecated with Appstream 1.0
-#: data/org.gnome.Music.appdata.xml.in.in:188
+#: data/org.gnome.Music.appdata.xml.in.in:214
 msgid "The GNOME Music developers"
 msgstr "Vývojári aplikácie Hudba prostredia GNOME"
 
@@ -56,33 +56,33 @@ msgstr "Prehrávač hudby"
 msgid "Music;Player;"
 msgstr "Hudba;Hudobný;Prehrávač;"
 
-#: data/org.gnome.Music.gschema.xml:12
+#: data/org.gnome.Music.gschema.xml:17
 msgid "Window size"
 msgstr "Veľkosť okna"
 
-#: data/org.gnome.Music.gschema.xml:13
+#: data/org.gnome.Music.gschema.xml:18
 msgid "Window size (width and height)."
 msgstr "Veľkosť okna (šírka a výška)."
 
-#: data/org.gnome.Music.gschema.xml:17
+#: data/org.gnome.Music.gschema.xml:22
 msgid "Window maximized"
 msgstr "Maximalizované okno"
 
-#: data/org.gnome.Music.gschema.xml:18
+#: data/org.gnome.Music.gschema.xml:23
 msgid "Window maximized state."
 msgstr "Maximalizovaný stav okna."
 
-#: data/org.gnome.Music.gschema.xml:22
+#: data/org.gnome.Music.gschema.xml:27
 msgid "Playback repeat mode"
 msgstr "Režim opakovaného prehrávania"
 
 #. Translators: Don't translate allowed values, just the description in the brackets
-#: data/org.gnome.Music.gschema.xml:24
+#: data/org.gnome.Music.gschema.xml:29
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
-"collection. Allowed values are: “none” (repeat and shuffle are off), "
-"“song” (repeat current song), “all” (repeat playlist, no shuffle), "
-"“shuffle” (shuffle playlist, presumes repeat all)."
+"collection. Allowed values are: “none” (repeat and shuffle are off), “song” "
+"(repeat current song), “all” (repeat playlist, no shuffle), “shuffle” "
+"(shuffle playlist, presumes repeat all)."
 msgstr ""
 "Hodnota, ktorá udáva, či sa má opakovať alebo zamiešať prehrávanie zbierky. "
 "Dovolené hodnoty sú: „none“(opakovanie a zamiešanie je vypnuté), "
@@ -90,19 +90,26 @@ msgstr ""
 "zamiešania), „shuffle“(zamiešanie zoznamu skladieb, použije sa opakovanie "
 "všetkých skladieb)."
 
-#: data/org.gnome.Music.gschema.xml:28 data/ui/PreferencesDialog.ui:27
+#: data/org.gnome.Music.gschema.xml:33
 msgid "Enable ReplayGain"
 msgstr "Povoliť ReplayGain"
 
-#: data/org.gnome.Music.gschema.xml:29
-msgid "Enables or disables ReplayGain for albums"
-msgstr "Povolí alebo zakáže ReplayGain pre albumy"
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: data/org.gnome.Music.gschema.xml:35
+msgid ""
+"Enables or disables ReplayGain for albums or track. Allowed values are: "
+"“disabled” (disables replaygain), “album” (replaygain per album), “track” "
+"(replaygain per track)."
+msgstr ""
+"Povolí alebo zakáže ReplayGain pre albumy alebo skladby. Platné hodnoty sú: "
+"„disabled“ (zakáže replaygain), „album“ (replaygain pre album), „track“ "
+"(replaygain pre skladbu)."
 
-#: data/org.gnome.Music.gschema.xml:33
+#: data/org.gnome.Music.gschema.xml:39
 msgid "Inhibit system suspend"
 msgstr "Potlačiť uspatie systému"
 
-#: data/org.gnome.Music.gschema.xml:34
+#: data/org.gnome.Music.gschema.xml:40
 msgid "Enables or disables inhibiting system suspend while playing music"
 msgstr "Povolí alebo zakáže potlačenie uspatia systému počas prehrávania hudby"
 
@@ -150,18 +157,14 @@ msgid "Preferences"
 msgstr "Predvoľby"
 
 #: data/ui/HeaderBar.ui:35
-#| msgid "_Keyboard Shortcuts"
 msgid "Keyboard Shortcuts"
 msgstr "Klávesové skratky"
 
 #: data/ui/HeaderBar.ui:39
-#| msgctxt "shortcut window"
-#| msgid "Help"
 msgid "Help"
 msgstr "Pomocník"
 
 #: data/ui/HeaderBar.ui:43
-#| msgid "_About Music"
 msgid "About Music"
 msgstr "O aplikácii Hudba"
 
@@ -171,9 +174,10 @@ msgid "General"
 msgstr "Všeobecné"
 
 #: data/ui/help-overlay.ui:14
+#| msgid "Preferences"
 msgctxt "shortcut window"
-msgid "Close window"
-msgstr "Zavrieť okna"
+msgid "Preferences"
+msgstr "Predvoľby"
 
 #: data/ui/help-overlay.ui:20
 msgctxt "shortcut window"
@@ -190,56 +194,57 @@ msgctxt "shortcut window"
 msgid "Shortcuts"
 msgstr "Skratky"
 
-#: data/ui/help-overlay.ui:40
+#: data/ui/help-overlay.ui:38
+#| msgid "_Quit"
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Ukončiť"
+
+#: data/ui/help-overlay.ui:46
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Prehrávanie"
 
-#: data/ui/help-overlay.ui:43
+#: data/ui/help-overlay.ui:49
 msgctxt "shortcut window"
 msgid "Play/Pause"
 msgstr "Prehrať/pozastaviť"
 
 # DK: skladba
-#: data/ui/help-overlay.ui:49
+#: data/ui/help-overlay.ui:55
 msgctxt "shortcut window"
 msgid "Next song"
 msgstr "Nasledujúca skladba"
 
-#: data/ui/help-overlay.ui:55
+#: data/ui/help-overlay.ui:61
 msgctxt "shortcut window"
 msgid "Previous song"
 msgstr "Predchádzajúca skladba"
 
-#: data/ui/help-overlay.ui:61
+#: data/ui/help-overlay.ui:67
 msgctxt "shortcut window"
 msgid "Toggle repeat"
 msgstr "Prepnúť opakovanie"
 
-#: data/ui/help-overlay.ui:67
+#: data/ui/help-overlay.ui:73
 msgctxt "shortcut window"
 msgid "Toggle shuffle"
 msgstr "Prepnúť zamiešanie"
 
-#: data/ui/help-overlay.ui:75
+#: data/ui/help-overlay.ui:81
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "Navigácia"
 
-#: data/ui/help-overlay.ui:78
+#: data/ui/help-overlay.ui:84
 msgctxt "shortcut window"
 msgid "Go to Albums"
 msgstr "Prejsť na albumy"
 
-#: data/ui/help-overlay.ui:84
+#: data/ui/help-overlay.ui:90
 msgctxt "shortcut window"
 msgid "Go to Artists"
 msgstr "Prejsť na interpretov"
-
-#: data/ui/help-overlay.ui:90
-msgctxt "shortcut window"
-msgid "Go to Songs"
-msgstr "Prejsť na skladby"
 
 # gtk button
 #: data/ui/help-overlay.ui:96
@@ -311,7 +316,6 @@ msgid "Player Settings"
 msgstr "Nastavenia prehrávača"
 
 #: data/ui/PreferencesDialog.ui:12
-#| msgid "Repeat Song"
 msgid "Repeat Mode"
 msgstr "Režim opakovania"
 
@@ -320,7 +324,6 @@ msgid "None"
 msgstr "Žiadny"
 
 #: data/ui/PreferencesDialog.ui:17
-#| msgid "Songs"
 msgid "Song"
 msgstr "Skladba"
 
@@ -333,21 +336,37 @@ msgstr "Všetko"
 msgid "Shuffle"
 msgstr "Zamiešať"
 
+#: data/ui/PreferencesDialog.ui:27
+#| msgid "Enable ReplayGain"
+msgid "ReplayGain"
+msgstr "ReplayGain"
+
 #: data/ui/PreferencesDialog.ui:28
 msgid "Balance loudness between songs if ReplayGain metadata is found"
-msgstr ""
-"Vyvážiť hlasitosť medzi skladbami, ak sa nájdu metadáta ReplayGain"
+msgstr "Vyvážiť hlasitosť medzi skladbami, ak sa nájdu metadáta ReplayGain"
 
-#: data/ui/PreferencesDialog.ui:35
+#: data/ui/PreferencesDialog.ui:32
+msgid "Disabled"
+msgstr "Zakázané"
+
+#: data/ui/PreferencesDialog.ui:33
+msgid "Album"
+msgstr "Album"
+
+#: data/ui/PreferencesDialog.ui:34
+#| msgid "Track Title"
+msgid "Track"
+msgstr "Skladba"
+
+#: data/ui/PreferencesDialog.ui:44
 msgid "Power Settings"
 msgstr "Nastavenia napájania"
 
-#: data/ui/PreferencesDialog.ui:38
-#| msgid "Inhibit system suspend"
+#: data/ui/PreferencesDialog.ui:47
 msgid "Inhibit Suspend"
 msgstr "Potlačiť spánok"
 
-#: data/ui/PreferencesDialog.ui:39
+#: data/ui/PreferencesDialog.ui:48
 msgid "Only while playing"
 msgstr "Iba počas prehrávania"
 
@@ -380,61 +399,60 @@ msgid "translator-credits"
 msgstr "Dušan Kazik <prescott66@gmail.com>"
 
 #: gnomemusic/about.py:150
-#| msgid "The GNOME Music developers"
 msgid "© The GNOME Music Developers"
 msgstr "© Vývojári aplikácie Hudba prostredia GNOME"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:839
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:849
 msgid "Most Played"
 msgstr "Najviac prehrávané"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:893
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:903
 msgid "Never Played"
 msgstr "Nikdy neprehraté"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:946
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:956
 msgid "Recently Played"
 msgstr "Nedávno prehrávané"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1025
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1035
 msgid "Recently Added"
 msgstr "Nedávno pridané"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1088
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1098
 msgid "Favorite Songs"
 msgstr "Obľúbené skladby"
 
 #. TRANSLATORS: this is a playlist name indicating that the
 #. files are not tagged enough to be displayed in the albums
 #. or artists views.
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1142
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1152
 msgid "Insufficiently Tagged"
 msgstr "Nedostatočne otagované"
 
-#: gnomemusic/gstplayer.py:418
+#: gnomemusic/gstplayer.py:424
 msgid "Unable to play the file"
 msgstr "Nie je možné prehrať tento súbor"
 
-#: gnomemusic/gstplayer.py:424
+#: gnomemusic/gstplayer.py:430
 msgid "_Find in {}"
 msgstr "_Nájsť v aplikácii {}"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:434
+#: gnomemusic/gstplayer.py:440
 msgid " and "
 msgstr " a "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:437
+#: gnomemusic/gstplayer.py:443
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:439
+#: gnomemusic/gstplayer.py:445
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] ""
@@ -486,22 +504,20 @@ msgstr "Neznámy interpret"
 msgid "Playlists"
 msgstr "Zoznamy skladieb"
 
-#: gnomemusic/views/searchview.py:220
+#: gnomemusic/views/searchview.py:224
 msgid "No Search Started"
 msgstr "Vyhľadávanie nebolo zahájené"
 
-#: gnomemusic/views/searchview.py:222
+#: gnomemusic/views/searchview.py:226
 msgid "Use the searchbar to start searching for albums, artists or songs"
 msgstr ""
 "Pomocou vyhľadávacieho pola začnite hľadať albumy, interpretov alebo skladby"
 
-#: gnomemusic/views/searchview.py:226
-#| msgid "No Music Found"
+#: gnomemusic/views/searchview.py:230
 msgid "No Results Found"
 msgstr "Nenašli sa žiadne výsledky"
 
-#: gnomemusic/views/searchview.py:228
-#| msgid "Try a Different Search"
+#: gnomemusic/views/searchview.py:232
 msgid "Try a different search"
 msgstr "Skúste vyhľadať niečo iné"
 
@@ -528,7 +544,7 @@ msgstr[0] "{} skladieb"
 msgstr[1] "{} skladba"
 msgstr[2] "{} skladby"
 
-#: gnomemusic/widgets/searchheaderbar.py:50
+#: gnomemusic/widgets/searchheaderbar.py:54
 msgid "Search songs, artists and albums"
 msgstr "Hľadajte skladby, interpretov a albumy"
 
@@ -584,6 +600,17 @@ msgstr "Zdá sa, že verzia vášho systémového sledovača je zastaralá."
 #: gnomemusic/widgets/statusnavigationpage.py:131
 msgid "Music needs Tracker version 3.0.0 or higher."
 msgstr "Aplikácia Hudba vyžaduje verziu sledovača 3.0.0 alebo vyššiu."
+
+#~ msgid "Enables or disables ReplayGain for albums"
+#~ msgstr "Povolí alebo zakáže ReplayGain pre albumy"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Close window"
+#~ msgstr "Zavrieť okna"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Go to Songs"
+#~ msgstr "Prejsť na skladby"
 
 #~ msgid "Report music history to Last.fm"
 #~ msgstr "Nahlásiť históriu hudby službe Last.fm"
@@ -800,12 +827,6 @@ msgstr "Aplikácia Hudba vyžaduje verziu sledovača 3.0.0 alebo vyššiu."
 #~ msgid "Artist"
 #~ msgstr "Interpret"
 
-#~ msgid "Album"
-#~ msgstr "Album"
-
-#~ msgid "Track Title"
-#~ msgstr "Názov stopy"
-
 #~ msgid "Local"
 #~ msgstr "Miestne"
 
@@ -830,9 +851,6 @@ msgstr "Aplikácia Hudba vyžaduje verziu sledovača 3.0.0 alebo vyššiu."
 
 #~ msgid "Empty"
 #~ msgstr "Prázdne"
-
-#~ msgid "_Quit"
-#~ msgstr "U_končiť"
 
 # dialog title
 #~ msgid "Select Playlist"
