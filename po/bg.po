@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2024-09-05 18:28+0000\n"
-"PO-Revision-Date: 2024-09-04 21:08+0200\n"
+"POT-Creation-Date: 2024-09-16 11:01+0000\n"
+"PO-Revision-Date: 2024-09-16 17:41+0200\n"
 "Last-Translator: twlvnn kraftwerk <kraft_werk@tutanota.com>\n"
 "Language-Team: Bulgarian <dict-notifications@fsa-bg.org>\n"
 "Language: bg\n"
@@ -24,7 +24,7 @@ msgstr ""
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
 #: data/org.gnome.Music.desktop.in.in:3 data/ui/StatusNavigationPage.ui:4
-#: gnomemusic/about.py:138 gnomemusic/application.py:59 gnomemusic/window.py:65
+#: gnomemusic/about.py:139 gnomemusic/application.py:59 gnomemusic/window.py:65
 msgid "Music"
 msgstr "Музика"
 
@@ -46,7 +46,7 @@ msgstr ""
 "ръчно създадени списъци за изпълнение."
 
 #. developer_name tag deprecated with Appstream 1.0
-#: data/org.gnome.Music.appdata.xml.in.in:214
+#: data/org.gnome.Music.appdata.xml.in.in:226
 msgid "The GNOME Music developers"
 msgstr "Разработчиците на „Музика на GNOME“"
 
@@ -380,14 +380,14 @@ msgstr "_Изваждане от списък"
 msgid "Welcome to Music"
 msgstr "Добре дошли в „Музика“"
 
-#: gnomemusic/about.py:140
+#: gnomemusic/about.py:141
 msgid "The GNOME Project"
 msgstr "Проектът GNOME"
 
 #. Translators should localize the following string which
 #. will be displayed at the bottom of the about box to give
 #. credit to the translator(s).
-#: gnomemusic/about.py:146
+#: gnomemusic/about.py:147
 msgid "translator-credits"
 msgstr ""
 "Александър Шопов &lt;<a href='mailto:ash@kambanaria.org'>ash@kambanaria.org</"
@@ -403,41 +403,46 @@ msgstr ""
 "Докладвайте за грешки в превода в <a href='https://fsa-bg.org/project/gtp/"
 "newticket'>съответния раздел</a>."
 
-#: gnomemusic/about.py:150
+#: gnomemusic/about.py:151
 msgid "© The GNOME Music Developers"
 msgstr "Разработчиците на „Музика на GNOME“"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:849
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:850
 msgid "Most Played"
 msgstr "Най-слушани"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:903
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:904
 msgid "Never Played"
 msgstr "Никога слушани"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:956
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:957
 msgid "Recently Played"
 msgstr "Скоро слушани"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1035
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1036
 msgid "Recently Added"
 msgstr "Скоро добавени"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1098
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1099
 msgid "Favorite Songs"
 msgstr "Любими песни"
 
 #. TRANSLATORS: this is a playlist name indicating that the
 #. files are not tagged enough to be displayed in the albums
 #. or artists views.
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1152
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1153
 msgid "Insufficiently Tagged"
 msgstr "Недостатъчно етикирани"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1216
+msgid "All Songs"
+msgstr "Всички песни"
 
 #: gnomemusic/gstplayer.py:424
 msgid "Unable to play the file"
