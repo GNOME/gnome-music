@@ -28,6 +28,18 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="47.0" date="2024-09-16">
+      <description>
+        <p>Add track based ReplayGain</p>
+      </description>
+    </release>
+    <release version="46.1" date="2024-07-16">
+      <description>
+        <p>
+          Fix search dropping the first character and other minor improvements.
+        </p>
+      </description>
+    </release>
     <release version="46.0" date="2024-03-17">
       <description>
         <p>

@@ -29,6 +29,7 @@ def show_about(app_id, version, parent):
         "Adrian Solom",
         "Alberto Fanjul",
         "Alexander Mikhaylenko",
+        "Alpesh Jamgade",
         "Andre Klapper",
         "Andreas Nilsson",
         "Apostol Bakalov",
