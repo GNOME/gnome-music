@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2024-09-03 21:12+0000\n"
-"PO-Revision-Date: 2024-09-08 09:29+0200\n"
+"POT-Creation-Date: 2024-09-16 11:01+0000\n"
+"PO-Revision-Date: 2024-09-16 13:21+0200\n"
 "Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
 "Language-Team: Hungarian <openscope at fsf dot hu>\n"
 "Language: hu\n"
@@ -22,7 +22,7 @@ msgstr ""
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
 #: data/org.gnome.Music.desktop.in.in:3 data/ui/StatusNavigationPage.ui:4
-#: gnomemusic/about.py:138 gnomemusic/application.py:59 gnomemusic/window.py:65
+#: gnomemusic/about.py:139 gnomemusic/application.py:59 gnomemusic/window.py:65
 msgid "Music"
 msgstr "Zene"
 
@@ -44,7 +44,7 @@ msgstr ""
 "előállított lejátszólistákat vagy állítson össze egyet."
 
 #. developer_name tag deprecated with Appstream 1.0
-#: data/org.gnome.Music.appdata.xml.in.in:214
+#: data/org.gnome.Music.appdata.xml.in.in:226
 msgid "The GNOME Music developers"
 msgstr "A GNOME Zene fejlesztői"
 
@@ -102,10 +102,10 @@ msgid ""
 "“disabled” (disables replaygain), “album” (replaygain per album), “track” "
 "(replaygain per track)."
 msgstr ""
-"Engedélyezi vagy letiltja az automatikus hangosítás használatát az albumoknál"
-" vagy számoknál. A megengedett értékek: „disabled” (letiltja az automatikus"
-" hangosítást), „album” (albumonkénti automatikus hangosítás), „track”"
-" (számonkénti automatikus hangosítás)."
+"Engedélyezi vagy letiltja az automatikus hangosítás használatát az "
+"albumoknál vagy számoknál. A megengedett értékek: „disabled” (letiltja az "
+"automatikus hangosítást), „album” (albumonkénti automatikus hangosítás), "
+"„track” (számonkénti automatikus hangosítás)."
 
 #: data/org.gnome.Music.gschema.xml:39
 msgid "Inhibit system suspend"
@@ -175,7 +175,6 @@ msgid "General"
 msgstr "Általános"
 
 #: data/ui/help-overlay.ui:14
-#| msgid "Preferences"
 msgctxt "shortcut window"
 msgid "Preferences"
 msgstr "Beállítások"
@@ -332,22 +331,20 @@ msgid "Shuffle"
 msgstr "Véletlen sorrend"
 
 #: data/ui/PreferencesDialog.ui:27
-#| msgid "Enable ReplayGain"
 msgid "ReplayGain"
 msgstr "Automatikus hangosítás"
 
 #: data/ui/PreferencesDialog.ui:28
 msgid "Balance loudness between songs if ReplayGain metadata is found"
 msgstr ""
-"Hangosság kiegyenlítése a számok között, ha automatikus hangosítási"
-" metaadatok találhatók"
+"Hangosság kiegyenlítése a számok között, ha automatikus hangosítási "
+"metaadatok találhatók"
 
 #: data/ui/PreferencesDialog.ui:32
 msgid "Disabled"
 msgstr "Letiltva"
 
 #: data/ui/PreferencesDialog.ui:33
-#| msgid "Albums"
 msgid "Album"
 msgstr "Album"
 
@@ -383,54 +380,60 @@ msgstr "_Eltávolítás a lejátszólistáról"
 msgid "Welcome to Music"
 msgstr "Üdvözli a Zene"
 
-#: gnomemusic/about.py:140
+#: gnomemusic/about.py:141
 msgid "The GNOME Project"
 msgstr "A GNOME projekt"
 
 #. Translators should localize the following string which
 #. will be displayed at the bottom of the about box to give
 #. credit to the translator(s).
-#: gnomemusic/about.py:146
+#: gnomemusic/about.py:147
 msgid "translator-credits"
 msgstr ""
 "Meskó Balázs <mesko dot balazs at fsf dot hu>, 2024.\n"
 "Úr Balázs <ur dot balazs at fsf dot hu>, 2022, 2024."
 
-#: gnomemusic/about.py:150
+#: gnomemusic/about.py:151
 msgid "© The GNOME Music Developers"
 msgstr "© A GNOME Zene fejlesztői"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:849
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:850
 msgid "Most Played"
 msgstr "Legtöbbet lejátszott"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:903
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:904
 msgid "Never Played"
 msgstr "Sosem lejátszott"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:956
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:957
 msgid "Recently Played"
 msgstr "Legutóbb lejátszott"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1035
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1036
 msgid "Recently Added"
 msgstr "Legutóbb hozzáadott"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1098
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1099
 msgid "Favorite Songs"
 msgstr "Kedvenc számok"
 
 #. TRANSLATORS: this is a playlist name indicating that the
 #. files are not tagged enough to be displayed in the albums
 #. or artists views.
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1152
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1153
 msgid "Insufficiently Tagged"
 msgstr "Hiányosan címkézve"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1216
+#| msgid "Songs"
+msgid "All Songs"
+msgstr "Összes szám"
 
 #: gnomemusic/gstplayer.py:424
 msgid "Unable to play the file"
@@ -592,3 +595,4 @@ msgstr "A rendszer Tracker verziója elavultnak tűnik."
 #: gnomemusic/widgets/statusnavigationpage.py:131
 msgid "Music needs Tracker version 3.0.0 or higher."
 msgstr "A Zene a Tracker 3.0.0 vagy újabb verzióját igényli."
+
