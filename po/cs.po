@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2024-09-03 21:12+0000\n"
-"PO-Revision-Date: 2024-09-05 23:58+0200\n"
+"POT-Creation-Date: 2024-09-16 11:01+0000\n"
+"PO-Revision-Date: 2024-09-16 18:10+0200\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -19,11 +19,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Poedit 3.4.4\n"
+"X-Generator: Poedit 3.5\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
 #: data/org.gnome.Music.desktop.in.in:3 data/ui/StatusNavigationPage.ui:4
-#: gnomemusic/about.py:138 gnomemusic/application.py:59 gnomemusic/window.py:65
+#: gnomemusic/about.py:139 gnomemusic/application.py:59 gnomemusic/window.py:65
 msgid "Music"
 msgstr "Hudba"
 
@@ -45,7 +45,7 @@ msgstr ""
 "vygenerované seznamy skladeb nebo si vytvořte své vlastní."
 
 #. developer_name tag deprecated with Appstream 1.0
-#: data/org.gnome.Music.appdata.xml.in.in:214
+#: data/org.gnome.Music.appdata.xml.in.in:226
 msgid "The GNOME Music developers"
 msgstr "Vývojáři Hudby GNOME"
 
@@ -330,7 +330,6 @@ msgid "Shuffle"
 msgstr "Náhodně zamíchat"
 
 #: data/ui/PreferencesDialog.ui:27
-#| msgid "Enable ReplayGain"
 msgid "ReplayGain"
 msgstr "ReplayGain"
 
@@ -344,7 +343,6 @@ msgid "Disabled"
 msgstr "Zakázáno"
 
 #: data/ui/PreferencesDialog.ui:33
-#| msgid "Albums"
 msgid "Album"
 msgstr "Album"
 
@@ -380,52 +378,57 @@ msgstr "Odeb_rat ze seznamu k přehrání"
 msgid "Welcome to Music"
 msgstr "Vítejte v Hudbě"
 
-#: gnomemusic/about.py:140
+#: gnomemusic/about.py:141
 msgid "The GNOME Project"
 msgstr "Projekt GNOME"
 
 #. Translators should localize the following string which
 #. will be displayed at the bottom of the about box to give
 #. credit to the translator(s).
-#: gnomemusic/about.py:146
+#: gnomemusic/about.py:147
 msgid "translator-credits"
 msgstr "Marek Černocký <marek@manet.cz>"
 
-#: gnomemusic/about.py:150
+#: gnomemusic/about.py:151
 msgid "© The GNOME Music Developers"
 msgstr "© Vývojáři Hudby GNOME"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:849
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:850
 msgid "Most Played"
 msgstr "Nejčastěji přehráváno"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:903
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:904
 msgid "Never Played"
 msgstr "Nikdy nepřehráno"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:956
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:957
 msgid "Recently Played"
 msgstr "Nedávno přehráno"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1035
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1036
 msgid "Recently Added"
 msgstr "Nedávno přidáno"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1098
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1099
 msgid "Favorite Songs"
 msgstr "Oblíbené skladby"
 
 #. TRANSLATORS: this is a playlist name indicating that the
 #. files are not tagged enough to be displayed in the albums
 #. or artists views.
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1152
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1153
 msgid "Insufficiently Tagged"
 msgstr "Nedostatečně označeno"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1216
+msgid "All Songs"
+msgstr "Všechny skladby"
 
 #: gnomemusic/gstplayer.py:424
 msgid "Unable to play the file"
