@@ -49,22 +49,20 @@ class StatusNavigationPage(Adw.NavigationPage):
             assert music_folder is not None
         except (TypeError, AssertionError):
             self._content_text = _("Your XDG Music directory is not set.")
-            return
-
-        music_folder = Tracker.sparql_escape_string(
-            GLib.filename_to_uri(music_folder))
-
-        href_text = "<a href='{}'>{}</a>".format(
-            music_folder, _("Music Folder"))
+        else:
+            music_folder = Tracker.sparql_escape_string(
+                GLib.filename_to_uri(music_folder))
+            href_text = "<a href='{}'>{}</a>".format(
+                music_folder, _("Music Folder"))
+            # TRANSLATORS: This is a label to display a link to open
+            # a user's music folder. {} will be replaced with the
+            # translated text 'Music folder'
+            folder_text = _("The contents of your {} will appear here.")
+            self._content_text = folder_text.format(href_text)
 
         self._headerbar = HeaderBar(application)
         self._headerbar.props.state = HeaderBar.State.EMPTY
         self._toolbar.add_top_bar(self._headerbar)
-
-        # TRANSLATORS: This is a label to display a link to open user's music
-        # folder. {} will be replaced with the translated text 'Music folder'
-        folder_text = _("The contents of your {} will appear here.")
-        self._content_text = folder_text.format(href_text)
 
         # Hack to get to AdwClamp, so it can be hidden for the
         # initial state.
