@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2024-02-24 23:18+0000\n"
-"PO-Revision-Date: 2024-03-08 22:24+0200\n"
+"POT-Creation-Date: 2024-09-16 16:14+0000\n"
+"PO-Revision-Date: 2024-10-01 15:43+0300\n"
 "Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
 "Language-Team: Latvian <lata-l10n@googlegroups.com>\n"
 "Language: lv\n"
@@ -16,11 +16,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 :"
 " 2);\n"
-"X-Generator: Lokalize 23.08.1\n"
+"X-Generator: Lokalize 23.08.5\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
 #: data/org.gnome.Music.desktop.in.in:3 data/ui/StatusNavigationPage.ui:4
-#: gnomemusic/about.py:138 gnomemusic/application.py:59 gnomemusic/window.py:65
+#: gnomemusic/about.py:139 gnomemusic/application.py:59 gnomemusic/window.py:65
 msgid "Music"
 msgstr "Mūzika"
 
@@ -42,7 +42,7 @@ msgstr ""
 "izveido jaunus."
 
 #. developer_name tag deprecated with Appstream 1.0
-#: data/org.gnome.Music.appdata.xml.in.in:188
+#: data/org.gnome.Music.appdata.xml.in.in:226
 msgid "The GNOME Music developers"
 msgstr "GNOME Mūzikas izstrādātāji"
 
@@ -55,52 +55,60 @@ msgstr "Mūzikas atskaņotājs"
 msgid "Music;Player;"
 msgstr "Mūzika;Atskaņotājs;"
 
-#: data/org.gnome.Music.gschema.xml:12
+#: data/org.gnome.Music.gschema.xml:17
 msgid "Window size"
 msgstr "Loga izmērs"
 
-#: data/org.gnome.Music.gschema.xml:13
+#: data/org.gnome.Music.gschema.xml:18
 msgid "Window size (width and height)."
 msgstr "Loga izmērs (platums un augstums)."
 
-#: data/org.gnome.Music.gschema.xml:17
+#: data/org.gnome.Music.gschema.xml:22
 msgid "Window maximized"
 msgstr "Logs maksimizēts"
 
-#: data/org.gnome.Music.gschema.xml:18
+#: data/org.gnome.Music.gschema.xml:23
 msgid "Window maximized state."
 msgstr "Loga stāvoklis — maksimizēts."
 
-#: data/org.gnome.Music.gschema.xml:22
+#: data/org.gnome.Music.gschema.xml:27
 msgid "Playback repeat mode"
 msgstr "Atskaņot atkārtošanās režīmā"
 
 #. Translators: Don't translate allowed values, just the description in the brackets
-#: data/org.gnome.Music.gschema.xml:24
+#: data/org.gnome.Music.gschema.xml:29
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
-"collection. Allowed values are: “none” (repeat and shuffle are off), "
-"“song” (repeat current song), “all” (repeat playlist, no shuffle), "
-"“shuffle” (shuffle playlist, presumes repeat all)."
+"collection. Allowed values are: “none” (repeat and shuffle are off), “song” "
+"(repeat current song), “all” (repeat playlist, no shuffle), “shuffle” "
+"(shuffle playlist, presumes repeat all)."
 msgstr ""
 "Vērtība nosaka, vai kolekciju atskaņot atkārtojot vai nejauši samaisot. "
 "Atļautās vērtības ir “none” (atkārtošana un samaisīšana ir izslēgta) , "
 "“song” (atkārtot atskaņoto dziesmu), “all” (atkārtot visu repertuāru, "
 "nemaisīt), “shuffle” (samaisīt repertuāru, arī atkārtot)."
 
-#: data/org.gnome.Music.gschema.xml:28 data/ui/PreferencesDialog.ui:27
+#: data/org.gnome.Music.gschema.xml:33
 msgid "Enable ReplayGain"
 msgstr "Ieslēgt ReplayGain"
 
-#: data/org.gnome.Music.gschema.xml:29
-msgid "Enables or disables ReplayGain for albums"
-msgstr "Ieslēdz vai izslēdz ReplayGain albumiem"
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: data/org.gnome.Music.gschema.xml:35
+msgid ""
+"Enables or disables ReplayGain for albums or track. Allowed values are: "
+"“disabled” (disables replaygain), “album” (replaygain per album), “track” "
+"(replaygain per track)."
+msgstr ""
+"Ieslēdz vai izslēdz ReplayGain albumiem vai celiņiem. Atļautās vērtības:"
+" “disabled” (izslēdz replaygain), “album” (replaygain katram albumam),"
+" “track” "
+"(replaygain katram celiņam)."
 
-#: data/org.gnome.Music.gschema.xml:33
+#: data/org.gnome.Music.gschema.xml:39
 msgid "Inhibit system suspend"
 msgstr "Nomākt sistēmas iesnaušanu"
 
-#: data/org.gnome.Music.gschema.xml:34
+#: data/org.gnome.Music.gschema.xml:40
 msgid "Enables or disables inhibiting system suspend while playing music"
 msgstr "Ieslēdz vai izslēdz sistēmas iesnaušanas nomākšanu, kad atskaņo mūziku"
 
@@ -162,9 +170,10 @@ msgid "General"
 msgstr "Vispārīgi"
 
 #: data/ui/help-overlay.ui:14
+#| msgid "Preferences"
 msgctxt "shortcut window"
-msgid "Close window"
-msgstr "Aizvērt logu"
+msgid "Preferences"
+msgstr "Iestatījumi"
 
 #: data/ui/help-overlay.ui:20
 msgctxt "shortcut window"
@@ -181,55 +190,56 @@ msgctxt "shortcut window"
 msgid "Shortcuts"
 msgstr "Saīsnes"
 
-#: data/ui/help-overlay.ui:40
+#: data/ui/help-overlay.ui:38
+#| msgid "_Quit"
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Iziet"
+
+#: data/ui/help-overlay.ui:46
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Atskaņošana"
 
-#: data/ui/help-overlay.ui:43
+#: data/ui/help-overlay.ui:49
 msgctxt "shortcut window"
 msgid "Play/Pause"
 msgstr "Atskaņot / pauzēt"
 
-#: data/ui/help-overlay.ui:49
+#: data/ui/help-overlay.ui:55
 msgctxt "shortcut window"
 msgid "Next song"
 msgstr "Nākamā dziesma"
 
-#: data/ui/help-overlay.ui:55
+#: data/ui/help-overlay.ui:61
 msgctxt "shortcut window"
 msgid "Previous song"
 msgstr "Iepriekšējā dziesma"
 
-#: data/ui/help-overlay.ui:61
+#: data/ui/help-overlay.ui:67
 msgctxt "shortcut window"
 msgid "Toggle repeat"
 msgstr "Pārslēgt atkārtošanu"
 
-#: data/ui/help-overlay.ui:67
+#: data/ui/help-overlay.ui:73
 msgctxt "shortcut window"
 msgid "Toggle shuffle"
 msgstr "Pārslēgt sajaukšanu"
 
-#: data/ui/help-overlay.ui:75
+#: data/ui/help-overlay.ui:81
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "Navigācija"
 
-#: data/ui/help-overlay.ui:78
+#: data/ui/help-overlay.ui:84
 msgctxt "shortcut window"
 msgid "Go to Albums"
 msgstr "Iet uz albumiem"
 
-#: data/ui/help-overlay.ui:84
+#: data/ui/help-overlay.ui:90
 msgctxt "shortcut window"
 msgid "Go to Artists"
 msgstr "Iet uz izpildītājiem"
-
-#: data/ui/help-overlay.ui:90
-msgctxt "shortcut window"
-msgid "Go to Songs"
-msgstr "Iet uz dziesmām"
 
 #: data/ui/help-overlay.ui:96
 msgctxt "shortcut window"
@@ -317,19 +327,37 @@ msgstr "Visi"
 msgid "Shuffle"
 msgstr "Sajaukt"
 
+#: data/ui/PreferencesDialog.ui:27
+#| msgid "Enable ReplayGain"
+msgid "ReplayGain"
+msgstr "ReplayGain"
+
 #: data/ui/PreferencesDialog.ui:28
 msgid "Balance loudness between songs if ReplayGain metadata is found"
 msgstr "Balansēt skaļumu starp dziesmām, ja ir atrasti ReplayGain metadati"
 
-#: data/ui/PreferencesDialog.ui:35
+#: data/ui/PreferencesDialog.ui:32
+msgid "Disabled"
+msgstr "Izslēgts"
+
+#: data/ui/PreferencesDialog.ui:33
+msgid "Album"
+msgstr "Albums"
+
+#: data/ui/PreferencesDialog.ui:34
+#| msgid "Track Title"
+msgid "Track"
+msgstr "Celiņš"
+
+#: data/ui/PreferencesDialog.ui:44
 msgid "Power Settings"
 msgstr "Barošanas iestatījumi"
 
-#: data/ui/PreferencesDialog.ui:38
+#: data/ui/PreferencesDialog.ui:47
 msgid "Inhibit Suspend"
 msgstr "Nomākt iesnaušanu"
 
-#: data/ui/PreferencesDialog.ui:39
+#: data/ui/PreferencesDialog.ui:48
 msgid "Only while playing"
 msgstr "Tikai, kad atskaņo"
 
@@ -349,72 +377,72 @@ msgstr "Izņemt no _repertuāra"
 msgid "Welcome to Music"
 msgstr "Laipni lūdzam Mūzikā"
 
-#: gnomemusic/about.py:140
+#: gnomemusic/about.py:141
 msgid "The GNOME Project"
 msgstr "GNOME projekts"
 
 #. Translators should localize the following string which
 #. will be displayed at the bottom of the about box to give
 #. credit to the translator(s).
-#: gnomemusic/about.py:146
+#: gnomemusic/about.py:147
 msgid "translator-credits"
 msgstr "Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>"
 
-#: gnomemusic/about.py:150
+#: gnomemusic/about.py:151
 msgid "© The GNOME Music Developers"
 msgstr "© GNOME Mūzikas izstrādātāji"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:839
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:849
 msgid "Most Played"
 msgstr "Visbiežāk atskaņotās"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:893
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:903
 msgid "Never Played"
 msgstr "Nekad neatskaņotās"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:946
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:956
 msgid "Recently Played"
 msgstr "Nesen atskaņotās"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1025
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1035
 msgid "Recently Added"
 msgstr "Nesen pievienotās"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1088
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1098
 msgid "Favorite Songs"
 msgstr "Iecienītās dziesmas"
 
 #. TRANSLATORS: this is a playlist name indicating that the
 #. files are not tagged enough to be displayed in the albums
 #. or artists views.
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1142
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1152
 msgid "Insufficiently Tagged"
 msgstr "Nepietiekami tagoti"
 
-#: gnomemusic/gstplayer.py:418
+#: gnomemusic/gstplayer.py:424
 msgid "Unable to play the file"
 msgstr "Neizdevās atskaņot datni"
 
-#: gnomemusic/gstplayer.py:424
+#: gnomemusic/gstplayer.py:430
 msgid "_Find in {}"
 msgstr "_Meklēt mapē {}"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:434
+#: gnomemusic/gstplayer.py:440
 msgid " and "
 msgstr " un "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:437
+#: gnomemusic/gstplayer.py:443
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:439
+#: gnomemusic/gstplayer.py:445
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "Lai atskaņotu datni, nepieciešams {}, bet tas nav uzinstalēts."
@@ -462,21 +490,21 @@ msgstr "Nezināms izpildītājs"
 msgid "Playlists"
 msgstr "Repertuāri"
 
-#: gnomemusic/views/searchview.py:220
+#: gnomemusic/views/searchview.py:224
 msgid "No Search Started"
 msgstr "Meklēšana nav sākta"
 
-#: gnomemusic/views/searchview.py:222
+#: gnomemusic/views/searchview.py:226
 msgid "Use the searchbar to start searching for albums, artists or songs"
 msgstr ""
 "Izmantojiet meklēšanas joslu, lai sāktu meklēt albumus, izpildītājus vai "
 "dziesmas"
 
-#: gnomemusic/views/searchview.py:226
+#: gnomemusic/views/searchview.py:230
 msgid "No Results Found"
 msgstr "Nav atrastu rezultātu"
 
-#: gnomemusic/views/searchview.py:228
+#: gnomemusic/views/searchview.py:232
 msgid "Try a different search"
 msgstr "Mēģiniet ar citu meklējamo vārdu"
 
@@ -502,7 +530,7 @@ msgstr[0] "{} dziesma"
 msgstr[1] "{} dziesmas"
 msgstr[2] "{} dziesmu"
 
-#: gnomemusic/widgets/searchheaderbar.py:50
+#: gnomemusic/widgets/searchheaderbar.py:54
 msgid "Search songs, artists and albums"
 msgstr "Meklēt dziesmas, izpildītājus un albumus"
 
@@ -558,6 +586,17 @@ msgstr "Jūsu sistēmas Tracker versija ir novecojusi."
 #: gnomemusic/widgets/statusnavigationpage.py:131
 msgid "Music needs Tracker version 3.0.0 or higher."
 msgstr "Mūzikai vajag Tracker vismaz versiju 3.0.0."
+
+#~ msgid "Enables or disables ReplayGain for albums"
+#~ msgstr "Ieslēdz vai izslēdz ReplayGain albumiem"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Close window"
+#~ msgstr "Aizvērt logu"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Go to Songs"
+#~ msgstr "Iet uz dziesmām"
 
 #~ msgid "Report music history to Last.fm"
 #~ msgstr "Ziņot Last.fm par mūzikas vēsturi"
@@ -751,12 +790,6 @@ msgstr "Mūzikai vajag Tracker vismaz versiju 3.0.0."
 #~ msgid "Artist"
 #~ msgstr "Izpildītājs"
 
-#~ msgid "Album"
-#~ msgstr "Albums"
-
-#~ msgid "Track Title"
-#~ msgstr "Celiņa nosaukums"
-
 #~ msgid "Local"
 #~ msgstr "Lokāls"
 
@@ -771,9 +804,6 @@ msgstr "Mūzikai vajag Tracker vismaz versiju 3.0.0."
 
 #~ msgid "Untitled"
 #~ msgstr "Nenosaukts"
-
-#~ msgid "_Quit"
-#~ msgstr "I_ziet"
 
 #~ msgid "Music is the new GNOME music playing application."
 #~ msgstr "Mūzika ir jaunā GNOME mūzikas atskaņošanas lietotne."
