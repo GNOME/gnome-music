@@ -41,6 +41,10 @@ class ArtistTile(Gtk.Box):
 
     __gtype_name__ = 'ArtistTile'
 
+    __gsignals__ = {
+        "clicked": (GObject.SignalFlags.RUN_FIRST, None, ())
+    }
+
     _cover_image = Gtk.Template.Child()
     _label = Gtk.Template.Child()
 
@@ -59,6 +63,15 @@ class ArtistTile(Gtk.Box):
 
         self.bind_property('text', self._label, 'label')
         self.bind_property('text', self._label, 'tooltip-text')
+
+        ctrl = Gtk.GestureClick()
+        ctrl.connect("pressed", self._on_button_pressed)
+        self.add_controller(ctrl)
+
+    def _on_button_pressed(
+            self, gesture: Gtk.GestureClick, n_press: int, x: float,
+            y: float) -> None:
+        self.emit("clicked")
 
     @GObject.Property(
         type=CoreArtist, flags=GObject.ParamFlags.READWRITE, default=None)

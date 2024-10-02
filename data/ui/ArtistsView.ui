@@ -8,7 +8,6 @@
           <object class="GtkScrolledWindow">
             <child>
               <object class="GtkListView" id="_sidebar">
-                <property name="single-click-activate">true</property>
                 <signal name="activate" handler="_on_artist_activated"/>
                 <style>
                   <class name="navigation-sidebar"/>

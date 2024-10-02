@@ -89,6 +89,11 @@ class ArtistsView(Adw.Bin):
             list_item: Gtk.ListItem) -> None:
         list_item.props.child = ArtistTile()
 
+        def _on_clicked(artist_tile: ArtistTile) -> None:
+            self._sidebar.emit("activate", list_item.props.position)
+
+        list_item.props.child.connect("clicked", _on_clicked)
+
     def _on_list_view_bind(
             self, factory: Gtk.SignalListItemFactory,
             list_item: Gtk.ListItem) -> None:
