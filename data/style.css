@@ -19,6 +19,11 @@
   padding: 6px;
 }
 
+gridview > child:hover,child:selected {
+
+	background-color: color-mix(in srgb, currentColor 7%, transparent);
+}
+
 /* By default in Adwaita dark this is not transparent */
 .tile {
     background-color: transparent;
