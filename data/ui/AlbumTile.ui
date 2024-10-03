@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk" version="4.0"/>
-  <object class="GtkBox" id="_album_cover">
+  <template class="AlbumTile" parent="GtkBox">
     <property name="has_tooltip">True</property>
     <property name="valign">start</property>
     <property name="orientation">vertical</property>
@@ -14,7 +14,7 @@
       </object>
     </child>
     <child>
-      <object class="GtkLabel">
+      <object class="GtkLabel" id="_album_label">
         <property name="justify">center</property>
         <property name="wrap">True</property>
         <property name="ellipsize">middle</property>
@@ -32,5 +32,5 @@
         </style>
       </object>
     </child>
-  </object>
+  </template>
 </interface>

@@ -27,11 +27,9 @@ import typing
 
 from gettext import gettext as _
 from gi.repository import Adw, GObject, Gtk
-from typing import Dict, List
 
-from gnomemusic.coverpaintable import CoverPaintable
-from gnomemusic.utils import ArtSize, DefaultIconType
 from gnomemusic.widgets.albumnavigationpage import AlbumNavigationPage
+from gnomemusic.widgets.albumtile import AlbumTile
 if typing.TYPE_CHECKING:
     from gnomemusic.application import Application
 
@@ -66,15 +64,9 @@ class AlbumsView(Adw.Bin):
         self._window = application.props.window
         self._navigation_view = self._window.props.navigation_view
 
-        self._list_item_bindings: Dict[
-            Gtk.ListItem, List[GObject.Binding]] = {}
-        self._list_item_star_controllers: Dict[
-            Gtk.ListItem, List[GObject.Binding]] = {}
-
         list_item_factory = Gtk.SignalListItemFactory()
         list_item_factory.connect("setup", self._setup_list_item)
         list_item_factory.connect("bind", self._bind_list_item)
-        list_item_factory.connect("unbind", self._unbind_list_item)
 
         self._gridview.props.factory = list_item_factory
 
@@ -93,37 +85,11 @@ class AlbumsView(Adw.Bin):
     def _setup_list_item(
             self, factory: Gtk.SignalListItemFactory,
             list_item: Gtk.ListItem) -> None:
-        builder = Gtk.Builder.new_from_resource(
-            "/org/gnome/Music/ui/AlbumCoverListItem.ui")
-        list_item.props.child = builder.get_object("_album_cover")
-        cover_image = list_item.props.child.get_first_child()
-        cover_image.set_size_request(
-            ArtSize.MEDIUM.width, ArtSize.MEDIUM.height)
-        cover_image.props.paintable = CoverPaintable(
-            self, ArtSize.MEDIUM, icon_type=DefaultIconType.ALBUM)
+        list_item.props.child = AlbumTile()
 
     def _bind_list_item(
             self, factory: Gtk.SignalListItemFactory,
             list_item: Gtk.ListItem) -> None:
-        album_cover = list_item.props.child
         corealbum = list_item.props.item
-
-        cover_image = album_cover.get_first_child()
-        album_label = album_cover.get_first_child().get_next_sibling()
-        artist_label = album_label.get_next_sibling()
-
-        b1 = corealbum.bind_property(
-            "corealbum", cover_image.props.paintable, "coreobject",
-            GObject.BindingFlags.SYNC_CREATE)
-        b2 = corealbum.bind_property(
-            "title", album_label, "label", GObject.BindingFlags.SYNC_CREATE)
-        b3 = corealbum.bind_property(
-            "artist", artist_label, "label", GObject.BindingFlags.SYNC_CREATE)
-
-        self._list_item_bindings[list_item] = [b1, b2, b3]
-
-    def _unbind_list_item(
-            self, factory: Gtk.SignalListItemFactory,
-            list_item: Gtk.ListItem) -> None:
-        bindings = self._list_item_bindings.pop(list_item)
-        [binding.unbind() for binding in bindings]
+        album_tile = list_item.props.child
+        album_tile.props.corealbum = corealbum
