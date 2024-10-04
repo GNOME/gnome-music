@@ -76,8 +76,9 @@ class AlbumsView(Adw.Bin):
 
         self._gridview.connect("activate", self._on_album_activated)
 
-    def _on_album_activated(self, widget, position):
-        corealbum = widget.props.model[position]
+    def _on_album_activated(
+            self, gridview: Gtk.GridView, position: int) -> None:
+        corealbum = gridview.props.model[position]
 
         album_page = AlbumNavigationPage(self._application, corealbum)
         self._navigation_view.push(album_page)
