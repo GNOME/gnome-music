@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop-application">
-  <id>@appid@.desktop</id>
+  <id>@appid@</id>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-2.0+ and LGPL-2.0+ and CC-BY-SA-4.0</project_license>
+  <developer id="org.gnome">
+    <name>The GNOME Project</name>
+  </developer>
   <name>Music</name>
   <summary>Play and organize your music collection</summary>
   <description>
@@ -27,6 +30,35 @@
       <image type="source">https://gitlab.gnome.org/GNOME/gnome-music/raw/HEAD/data/screenshots/gnome-music-4.png</image>
     </screenshot>
   </screenshots>
+  <branding>
+    <color type="primary" scheme_preference="light">#f6d32d</color>
+    <color type="primary" scheme_preference="dark">#e5870a</color>
+  </branding>
+  <url type="homepage">@package_url@</url>
+  <url type="bugtracker">@package_url_bug@</url>
+  <url type="donation">https://www.gnome.org/donate</url>
+  <url type="help">https://help.gnome.org/users/gnome-music/stable/</url>
+  <url type="translate">https://l10n.gnome.org/module/gnome-music/</url>
+  <url type="vcs-browser">https://gitlab.gnome.org/GNOME/gnome-music</url>
+  <url type="contribute">https://welcome.gnome.org/app/Music/</url>
+  <url type="contact">https://matrix.to/#/#gnome-music:gnome.org</url>
+  <content_rating type="oars-1.1" />
+  <requires>
+    <display_length compare="ge">404</display_length>
+  </requires>
+  <recommends>
+    <internet>first-run</internet>
+    <display_length compare="ge">800</display_length>
+  </recommends>
+  <supports>
+    <control>keyboard</control>
+    <control>pointing</control>
+    <control>touch</control>
+  </supports>
+  <project_group>GNOME</project_group>
+  <launchable type="desktop-id">@appid@.desktop</launchable>
+  <translation type="gettext">@appid@</translation>
+  <update_contact>mschraal@gnome.org</update_contact>
   <releases>
     <release version="47.0" date="2024-09-16">
       <description>
@@ -221,26 +253,4 @@
     </release>
     <release version="3.32.0" date="2019-03-13" />
   </releases>
-  <project_group>GNOME</project_group>
-  <!-- developer_name tag deprecated with Appstream 1.0 -->
-  <developer_name>The GNOME Music developers</developer_name>
-  <developer id="org.gnome">
-    <name>The GNOME Music developers</name>
-  </developer>
-  <launchable type="desktop-id">@appid@.desktop</launchable>
-  <url type="homepage">@package_url@</url>
-  <url type="bugtracker">@package_url_bug@</url>
-  <url type="donation">https://www.gnome.org/donate/</url>
-  <url type="help">https://help.gnome.org/users/gnome-music/stable/</url>
-  <url type="translate">https://l10n.gnome.org/module/gnome-music/</url>
-  <url type="vcs-browser">https://gitlab.gnome.org/GNOME/gnome-music</url>
-  <url type="contribute">https://welcome.gnome.org/app/Music/</url>
-  <kudos>
-    <kudo>HiDpiIcon</kudo>
-    <kudo>ModernToolkit</kudo>
-    <kudo>UserDocs</kudo>
-  </kudos>
-  <update_contact>mschraal@gnome.org</update_contact>
-  <translation type="gettext">@appid@</translation>
-  <content_rating type="oars-1.1" />
 </component>

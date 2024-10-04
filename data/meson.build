@@ -50,11 +50,11 @@ appdata_conf.set('package_url', PACKAGE_URL)
 appdata_conf.set('package_url_bug', PACKAGE_URL_BUG)
 appdata_file = i18n.merge_file(
   input: configure_file(
-    output: PROJECT_RDNN_NAME + '.appdata.xml.in',
-    input: PROJECT_RDNN_NAME + '.appdata.xml.in.in',
+    output: PROJECT_RDNN_NAME + '.metainfo.xml.in',
+    input: PROJECT_RDNN_NAME + '.metainfo.xml.in.in',
     configuration: appdata_conf
   ),
-  output: APPLICATION_ID + '.appdata.xml',
+  output: APPLICATION_ID + '.metainfo.xml',
   po_dir: join_paths(meson.project_source_root(), 'po'),
   install: true,
   install_dir: join_paths(get_option('prefix'), get_option('datadir'), 'metainfo')
