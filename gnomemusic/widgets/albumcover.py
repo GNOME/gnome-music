@@ -22,68 +22,33 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-import gi
-gi.require_version('Grl', '0.3')
 from gi.repository import GObject, Gtk
 
 from gnomemusic.corealbum import CoreAlbum
-from gnomemusic.coverpaintable import CoverPaintable
-from gnomemusic.utils import ArtSize, DefaultIconType
-from gnomemusic.widgets.twolinetip import TwoLineTip
+from gnomemusic.widgets.albumtile import AlbumTile
 
 
-@Gtk.Template(resource_path='/org/gnome/Music/ui/AlbumCover.ui')
+@Gtk.Template(resource_path="/org/gnome/Music/ui/AlbumCover.ui")
 class AlbumCover(Gtk.FlowBoxChild):
-    """Cover tile as used in AlbumsView
+    """FlowBoxChild wrapper for AlbumTile
 
     Includes cover, album title and artist name.
     """
 
-    __gtype_name__ = 'AlbumCover'
+    __gtype_name__ = "AlbumCover"
 
-    _cover_image = Gtk.Template.Child()
-    _title_label = Gtk.Template.Child()
-    _artist_label = Gtk.Template.Child()
-
-    def __init__(self, corealbum):
+    def __init__(self, corealbum: CoreAlbum) -> None:
         """Initialize the AlbumCover
 
-        :param Grl.Media media: The media object to use
+        :param CoreAlbum corealbum: The corealbum to display
         """
         super().__init__()
 
         self._corealbum = corealbum
-        self._retrieved = False
 
-        self._tooltip = TwoLineTip()
-
-        artist = self._corealbum.props.artist
-        title = self._corealbum.props.title
-
-        self._tooltip.props.title = artist
-        self._tooltip.props.subtitle = title
-
-        self._artist_label.props.label = artist
-        self._title_label.props.label = title
-
-        self.connect('query-tooltip', self._on_tooltip_query)
-
-        self._cover_image.set_size_request(
-            ArtSize.MEDIUM.width, ArtSize.MEDIUM.height)
-        self._cover_image.props.paintable = CoverPaintable(
-            self, ArtSize.MEDIUM, DefaultIconType.ALBUM)
-
-    def retrieve(self):
-        """Start retrieving the actual album cover
-
-        Cover retrieval is an expensive operation, so use this call to
-        start the retrieval process when needed.
-        """
-        if self._retrieved:
-            return
-
-        self._retrieved = True
-        self._cover_image.props.paintable.props.coreobject = self._corealbum
+        album_tile = AlbumTile()
+        album_tile.props.corealbum = corealbum
+        self.props.child = album_tile
 
     @GObject.Property(type=CoreAlbum, flags=GObject.ParamFlags.READABLE)
     def corealbum(self):
@@ -93,9 +58,3 @@ class AlbumCover(Gtk.FlowBoxChild):
         :rtype: CoreAlbum
         """
         return self._corealbum
-
-    @Gtk.Template.Callback()
-    def _on_tooltip_query(self, widget, x, y, kb, tooltip, data=None):
-        tooltip.set_custom(self._tooltip)
-
-        return True

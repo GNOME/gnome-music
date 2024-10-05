@@ -160,7 +160,6 @@ class SearchView(Adw.NavigationPage):
 
     def _create_album_cover(self, corealbum: CoreAlbum) -> AlbumCover:
         album_cover = AlbumCover(corealbum)
-        album_cover.retrieve()
 
         return album_cover
 
