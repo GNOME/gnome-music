@@ -29,6 +29,11 @@ gridview > child:hover,child:selected {
     background-color: transparent;
 }
 
+/* SearchView FlowBox tiles */
+.tile:hover {
+    background-color: var(--border-color);
+}
+
 .playlist-icon {
     padding: 10px;
     border-radius: 50%;
