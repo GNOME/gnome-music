@@ -188,5 +188,8 @@
         </property>
       </object>
     </property>
+    <style>
+      <class name="view"/>
+    </style>
   </template>
 </interface>
