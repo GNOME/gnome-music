@@ -11,12 +11,12 @@
 /* AlbumsView */
 
 #albums gridview {
-  padding: 18px;
+    padding: 18px;
 }
 
 #albums gridview > child {
-  margin: 9px;
-  padding: 6px;
+    margin: 9px;
+    padding: 6px;
 }
 
 #albums gridview > child:hover,child:selected {
