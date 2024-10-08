@@ -1,11 +1,6 @@
-/* AlbumCover */
-.albumcover-title-label {
-    color: @theme_fg_color;
-}
-
+/* AlbumCover/AlbumTile */
 .albumcover-artist-label {
     font-size: smaller;
-    color: @theme_fg_color;
 }
 
 /* AlbumsView */
