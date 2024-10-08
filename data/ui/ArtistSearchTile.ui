@@ -10,6 +10,9 @@
         <child>
           <object class="GtkImage" id="_cover_image">
             <property name="hexpand">True</property>
+            <style>
+              <class name="tile-image"/>
+            </style>
           </object>
         </child>
         <child>

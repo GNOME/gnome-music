@@ -28,6 +28,11 @@
     background-color: var(--border-color);
 }
 
+/* Cover images in large tiles in AlbumsView and SearchView */
+.tile-image {
+    margin: 6px;
+}
+
 .playlist-icon {
     padding: 10px;
     border-radius: 50%;
