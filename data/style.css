@@ -19,9 +19,8 @@
   padding: 6px;
 }
 
-gridview > child:hover,child:selected {
-
-	background-color: color-mix(in srgb, currentColor 7%, transparent);
+#albums gridview > child:hover,child:selected {
+    background-color: var(--border-color);
 }
 
 /* SearchView FlowBox tiles */
