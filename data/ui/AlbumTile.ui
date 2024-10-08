@@ -29,7 +29,7 @@
         <property name="ellipsize">middle</property>
         <property name="max_width_chars">20</property>
         <style>
-          <class name="albumcover-artist-label"/>
+          <class name="artist-label"/>
           <class name="dim-label"/>
         </style>
       </object>
