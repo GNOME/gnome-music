@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2024-09-16 11:01+0000\n"
-"PO-Revision-Date: 2024-09-16 17:47+0200\n"
+"POT-Creation-Date: 2024-10-15 08:34+0000\n"
+"PO-Revision-Date: 2024-10-15 21:28+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -21,42 +21,37 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Generator: Poedit 2.2.1\n"
 
-#: data/org.gnome.Music.appdata.xml.in.in:6
-#: data/org.gnome.Music.desktop.in.in:3 data/ui/StatusNavigationPage.ui:4
-#: gnomemusic/about.py:139 gnomemusic/application.py:59 gnomemusic/window.py:65
+#: data/org.gnome.Music.desktop.in.in:3
+#: data/org.gnome.Music.metainfo.xml.in.in:9 data/ui/StatusNavigationPage.ui:4
+#: gnomemusic/about.py:139 gnomemusic/application.py:61 gnomemusic/window.py:65
 msgid "Music"
 msgstr "Glasba"
 
-#: data/org.gnome.Music.appdata.xml.in.in:7
+#: data/org.gnome.Music.desktop.in.in:4
+msgid "Music Player"
+msgstr "Predvajalnik glasbe"
+
 #: data/org.gnome.Music.desktop.in.in:5
+#: data/org.gnome.Music.metainfo.xml.in.in:10
 msgid "Play and organize your music collection"
 msgstr "Predvajanje in upravljanje glasbene zbirke"
 
-#: data/org.gnome.Music.appdata.xml.in.in:9
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/org.gnome.Music.desktop.in.in:13
+msgid "Music;Player;"
+msgstr "Glasba;Predvajalnik;Music;Albumi;izvajalci;skladbe;"
+
+#: data/org.gnome.Music.metainfo.xml.in.in:12
 msgid "An easy and pleasant way to play your music."
 msgstr "Enostaven in uporabniku prijazen način predvajanja glasbe."
 
-#: data/org.gnome.Music.appdata.xml.in.in:12
+#: data/org.gnome.Music.metainfo.xml.in.in:15
 msgid ""
 "Find tracks in your local collection, use automatically generated playlists "
 "or curate a fresh one."
 msgstr ""
 "Iskanje posnetkov v krajevnih zbirkah in uporaba samodejnega ali "
 "načrtovanega pripravljanja seznamov predvajanja."
-
-#. developer_name tag deprecated with Appstream 1.0
-#: data/org.gnome.Music.appdata.xml.in.in:226
-msgid "The GNOME Music developers"
-msgstr "Razvijalci programa GNOME Glasba"
-
-#: data/org.gnome.Music.desktop.in.in:4
-msgid "Music Player"
-msgstr "Predvajalnik glasbe"
-
-#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
-#: data/org.gnome.Music.desktop.in.in:13
-msgid "Music;Player;"
-msgstr "Glasba;Predvajalnik;Music;Albumi;izvajalci;skladbe;"
 
 #: data/org.gnome.Music.gschema.xml:17
 msgid "Window size"
@@ -119,7 +114,7 @@ msgstr ""
 "predvajanjem glasbe."
 
 #: data/ui/AlbumsSearchNavigationPage.ui:5 data/ui/SearchView.ui:98
-#: gnomemusic/views/albumsview.py:52
+#: gnomemusic/views/albumsview.py:30
 msgid "Albums"
 msgstr "Albumi"
 
@@ -498,33 +493,34 @@ msgstr "Neznan izvajalec"
 msgid "Playlists"
 msgstr "Seznami predvajanja"
 
-#: gnomemusic/views/searchview.py:224
+#: gnomemusic/views/searchview.py:214
 msgid "No Search Started"
 msgstr "Ni še začetega iskanja"
 
-#: gnomemusic/views/searchview.py:226
+#: gnomemusic/views/searchview.py:216
 msgid "Use the searchbar to start searching for albums, artists or songs"
 msgstr "Iskalna vrstica omogoča hitro iskanje albumov, izvajalcev in skladb"
 
-#: gnomemusic/views/searchview.py:230
+#: gnomemusic/views/searchview.py:220
 msgid "No Results Found"
 msgstr "Ni najdenih zadetkov."
 
-#: gnomemusic/views/searchview.py:232
+#: gnomemusic/views/searchview.py:222
 msgid "Try a different search"
 msgstr "Poskusite drugačno iskanje"
 
-#: gnomemusic/widgets/albumwidget.py:230
+#: gnomemusic/widgets/albumwidget.py:193
+#, python-brace-format
+msgid "Disc {row.props.disc_nr}"
+msgstr "Disk {row.props.disc_nr}"
+
+#: gnomemusic/widgets/albumwidget.py:241
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} minut"
 msgstr[1] "{} minuta"
 msgstr[2] "{} minuti"
 msgstr[3] "{} minute"
-
-#: gnomemusic/widgets/discbox.py:74
-msgid "Disc {}"
-msgstr "Disk {}"
 
 #: gnomemusic/widgets/playertoolbar.py:173
 msgid "Pause"
