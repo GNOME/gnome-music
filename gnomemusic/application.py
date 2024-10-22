@@ -188,6 +188,9 @@ class Application(Adw.Application):
     def _preferences_dialog(
             self, action: Gio.SimpleAction,
             param_type: GLib.VariantType) -> None:
+        if self._window.props.visible_dialog:
+            return
+
         pref_dialog = PreferencesDialog(self)
         pref_dialog.present(self._window)
 
