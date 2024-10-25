@@ -1,0 +1,14 @@
+# Inputs: id, song, position
+DELETE {
+  ?entry nfo:listPosition ?old_position .
+}
+INSERT {
+  ?entry nfo:listPosition ~position .
+}
+WHERE {
+  ?entry nfo:listPosition ?old_position ;
+         nfo:entryUrl ~song .
+  ~id a nmm:Playlist ;
+      a nfo:MediaList ;
+        nfo:hasMediaFileListEntry ?entry .
+}

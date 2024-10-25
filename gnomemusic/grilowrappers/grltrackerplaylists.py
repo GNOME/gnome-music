@@ -334,6 +334,9 @@ class Playlist(GObject.GObject):
         self._fast_options.set_resolution_flags(
             Grl.ResolutionFlags.FAST_ONLY | Grl.ResolutionFlags.IDLE_RELAY)
 
+        self._reorder_stmt = self._tracker.load_statement_from_gresource(
+            "/org/gnome/Music/queries/playlist_reorder_songs.rq")
+
         self._songs_todelete = []
 
     @GObject.Property(type=Gio.ListStore, default=None)
@@ -694,51 +697,36 @@ class Playlist(GObject.GObject):
     def reorder(self, previous_position, new_position):
         """Changes the order of a songs in the playlist.
 
-        :param int previous_position: preivous song position
+        :param int previous_position: previous song position
         :param int new_position: new song position
         """
         def _position_changed_cb(
-                connection: Tracker.SparqlConnection, result: Gio.AsyncResult,
-                position: int) -> None:
+                stmt: Tracker.SparqlStatement, result: Gio.AsyncResult,
+                position) -> None:
             try:
-                connection.update_finish(result)
+                stmt.update_finish(result)
             except GLib.Error as error:
-                self._log.warning("Unable to reorder song {}: {}".format(
-                    position, error.message))
+                self._log.warning(
+                    f"Unable to reorder song in position {position}:"
+                    f" {error.message}")
 
         coresong = self._model.get_item(previous_position)
         self._model.remove(previous_position)
         self._model.insert(new_position, coresong)
-
-        main_query = """
-        DELETE {
-            ?entry nfo:listPosition ?old_position .
-        }
-        INSERT {
-            ?entry nfo:listPosition %(position)s .
-        }
-        WHERE {
-            ?entry nfo:listPosition ?old_position ;
-                   nfo:entryUrl "%(song_url)s" .
-            <%(playlist_id)s> a nmm:Playlist ;
-                              a nfo:MediaList ;
-                                nfo:hasMediaFileListEntry ?entry .
-        }
-        """.replace("\n", " ").strip()
 
         first_pos = min(previous_position, new_position)
         last_pos = max(previous_position, new_position)
 
         for position in range(first_pos, last_pos + 1):
             coresong = self._model.get_item(position)
-            query = main_query % {
-                "playlist_id": self.props.pl_id,
-                "song_url": coresong.props.media.get_url(),
-                "position": position
-            }
-            self._tracker.update_async(
-                query, None, _position_changed_cb, position)
 
+            self._reorder_stmt.bind_string("id", self.props.pl_id)
+            self._reorder_stmt.bind_double("position", float(position + 1))
+            self._reorder_stmt.bind_string(
+                "song", coresong.props.media.get_url())
+
+            self._reorder_stmt.update_async(
+                None, _position_changed_cb, position)
 
 class SmartPlaylist(Playlist):
     """Base class for smart playlists"""
