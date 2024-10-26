@@ -582,7 +582,7 @@ class Playlist(GObject.GObject):
             WHERE {
                 SELECT ?playlist
                        ?old_counter
-                       (?counter - 1) AS ?new_counter
+                       (?old_counter - 1) AS ?new_counter
                 WHERE {
                     ?playlist a nmm:Playlist ;
                               a nfo:MediaList ;
