@@ -694,39 +694,47 @@ class Playlist(GObject.GObject):
 
             self._tracker.update_async(query, None, _add_to_model, coresong)
 
-    def reorder(self, previous_position, new_position):
+    def reorder(self, previous_position: int, new_position: int) -> None:
         """Changes the order of a songs in the playlist.
 
         :param int previous_position: previous song position
         :param int new_position: new song position
         """
         def _position_changed_cb(
-                stmt: Tracker.SparqlStatement, result: Gio.AsyncResult,
-                position) -> None:
+                stmt: Tracker.SparqlStatement,
+                result: Gio.AsyncResult) -> None:
             try:
                 stmt.update_finish(result)
             except GLib.Error as error:
-                self._log.warning(
-                    f"Unable to reorder song in position {position}:"
-                    f" {error.message}")
+                self._log.warning(f"Unable to reorder songs: {error.message}")
 
         coresong = self._model.get_item(previous_position)
         self._model.remove(previous_position)
         self._model.insert(new_position, coresong)
 
-        first_pos = min(previous_position, new_position)
-        last_pos = max(previous_position, new_position)
+        # Unlike ListModel, MediaList starts counting from 1
+        previous_position += 1
+        new_position += 1
 
-        for position in range(first_pos, last_pos + 1):
-            coresong = self._model.get_item(position)
+        # Set the item to be reordered to position 0 (unused in
+        # a MediaFileListEntry) and bump or drop the remaining items
+        # in between. Then set the initial item from 0 to position.
+        change_list = []
+        change_list.append((previous_position, 0))
+        if previous_position > new_position:
+            for position in reversed(range(new_position, previous_position)):
+                change_list.append((position, position + 1))
+        elif previous_position < new_position:
+            for position in range(previous_position, new_position):
+                change_list.append((position + 1, position))
+        change_list.append((0, new_position))
 
-            self._reorder_stmt.bind_string("id", self.props.pl_id)
-            self._reorder_stmt.bind_double("position", float(position + 1))
-            self._reorder_stmt.bind_string(
-                "song", coresong.props.media.get_url())
+        self._reorder_stmt.bind_string("id", self.props.pl_id)
+        for old, new in change_list:
+            self._reorder_stmt.bind_double("new_position", float(new))
+            self._reorder_stmt.bind_double("old_position", float(old))
+            self._reorder_stmt.update_async(None, _position_changed_cb)
 
-            self._reorder_stmt.update_async(
-                None, _position_changed_cb, position)
 
 class SmartPlaylist(Playlist):
     """Base class for smart playlists"""
