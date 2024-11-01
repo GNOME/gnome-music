@@ -1319,7 +1319,7 @@ class GrlTrackerWrapper(GObject.GObject):
         self._tracker_playlists.stage_playlist_deletion(playlist)
 
     def finish_playlist_deletion(
-            self, playlist: Optional[Playlist], deleted: bool) -> None:
+            self, playlist: Playlist, deleted: bool) -> None:
         """Finishes playlist deletion.
 
         :param Playlist playlist: playlist

@@ -22,6 +22,8 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from __future__ import annotations
+
 import time
 
 from gettext import gettext as _
@@ -75,6 +77,9 @@ class GrlTrackerPlaylists(GObject.GObject):
         self._fast_options = Grl.OperationOptions()
         self._fast_options.set_resolution_flags(
             Grl.ResolutionFlags.FAST_ONLY | Grl.ResolutionFlags.IDLE_RELAY)
+
+        self._pl_delete_stmt = self._tracker.load_statement_from_gresource(
+            "/org/gnome/Music/queries/playlist_delete.rq")
 
         self._initial_playlists_fill()
 
@@ -154,7 +159,8 @@ class GrlTrackerPlaylists(GObject.GObject):
         playlists_filter.set_filter_func(self._playlists_filter)
         self._model_filter.set_filter(playlists_filter)
 
-    def finish_playlist_deletion(self, playlist, deleted):
+    def finish_playlist_deletion(
+            self, playlist: Playlist, deleted: bool) -> None:
         """Removes playlist from the list of playlists to delete
 
         :param Playlist playlist: playlist
@@ -171,12 +177,15 @@ class GrlTrackerPlaylists(GObject.GObject):
             self._user_model_filter.set_filter(user_playlists_filter)
             return
 
-        def _delete_cb(conn, res, data):
+        def _delete_cb(
+                stmt: Tracker.SparqlStatement,
+                result: Gio.AsyncResult) -> None:
             try:
-                conn.update_finish(res)
+                stmt.update_finish(result)
             except GLib.Error as error:
-                self._log.warning("Unable to delete playlist {}: {}".format(
-                    playlist.props.title, error.message))
+                self._log.warning(
+                    f"Unable to delete playlist {playlist.props.title}:"
+                    f" {error.message}")
             else:
                 for idx, playlist_model in enumerate(self._model):
                     if playlist_model is playlist:
@@ -189,16 +198,9 @@ class GrlTrackerPlaylists(GObject.GObject):
             self._notificationmanager.pop_loading()
 
         self._notificationmanager.push_loading()
-        query = """
-        DELETE WHERE {
-            <%(playlist_id)s> a rdfs:Resource ;
-                              a nmm:Playlist ;
-                              a nfo:MediaList .
-        }
-        """.replace("\n", " ").strip() % {
-            "playlist_id": playlist.props.pl_id
-        }
-        self._tracker.update_async(query, None, _delete_cb, None)
+
+        self._pl_delete_stmt.bind_string("playlist", playlist.props.pl_id)
+        self._pl_delete_stmt.update_async(None, _delete_cb)
 
     def create_playlist(self, playlist_title, callback):
         """Creates a new user playlist.
