@@ -700,11 +700,10 @@ class Playlist(GObject.GObject):
         :param int previous_position: previous song position
         :param int new_position: new song position
         """
-        def _position_changed_cb(
-                stmt: Tracker.SparqlStatement,
-                result: Gio.AsyncResult) -> None:
+        def _batch_execute_cb(
+                batch: Tracker.Batch, result: Gio.AsyncResult) -> None:
             try:
-                stmt.update_finish(result)
+                batch.execute_finish(result)
             except GLib.Error as error:
                 self._log.warning(f"Unable to reorder songs: {error.message}")
 
@@ -729,11 +728,13 @@ class Playlist(GObject.GObject):
                 change_list.append((position + 1, position))
         change_list.append((0, new_position))
 
-        self._reorder_stmt.bind_string("id", self.props.pl_id)
+        batch = self._tracker.create_batch()
         for old, new in change_list:
-            self._reorder_stmt.bind_double("new_position", float(new))
-            self._reorder_stmt.bind_double("old_position", float(old))
-            self._reorder_stmt.update_async(None, _position_changed_cb)
+            batch.add_statement(
+                self._reorder_stmt, ["id", "new_position", "old_position"],
+                [self.props.pl_id, float(new), float(old)])
+
+        batch.execute_async(None, _batch_execute_cb)
 
 
 class SmartPlaylist(Playlist):
