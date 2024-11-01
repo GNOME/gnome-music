@@ -1,0 +1,11 @@
+DELETE {
+  ~playlist nie:title ?title .
+}
+INSERT {
+  ~playlist nie:title ~title .
+}
+WHERE {
+  ~playlist a nmm:Playlist ;
+              nie:title ?title ;
+            a nfo:MediaList .
+}
