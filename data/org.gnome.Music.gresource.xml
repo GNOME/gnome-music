@@ -41,6 +41,7 @@
     <file alias="question-round-symbolic.svg" preprocess="xml-stripblanks">icons/question-round-symbolic.svg</file>
   </gresource>
   <gresource prefix="/org/gnome/Music">
+    <file>queries/playlist_add_song.rq</file>
     <file>queries/playlist_reorder_songs.rq</file>
   </gresource>
 </gresources>
