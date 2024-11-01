@@ -1,0 +1,21 @@
+# Inputs: playlist, uri
+DELETE {
+  ~playlist nfo:entryCounter ?counter .
+}
+INSERT {
+  _:entry a nfo:MediaFileListEntry ;
+            nfo:entryUrl ~uri ;
+            nfo:listPosition ?position .
+  ~playlist nfo:entryCounter ?position ;
+            nfo:hasMediaFileListEntry _:entry .
+}
+WHERE {
+  SELECT
+    ?counter
+    (?counter + 1) AS ?position
+  WHERE {
+    ~playlist a nmm:Playlist ;
+              a nfo:MediaList ;
+                nfo:entryCounter ?counter .
+  }
+}

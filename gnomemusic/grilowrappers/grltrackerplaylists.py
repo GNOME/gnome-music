@@ -334,6 +334,8 @@ class Playlist(GObject.GObject):
         self._fast_options.set_resolution_flags(
             Grl.ResolutionFlags.FAST_ONLY | Grl.ResolutionFlags.IDLE_RELAY)
 
+        self._add_song_stmt = self._tracker.load_statement_from_gresource(
+            "/org/gnome/Music/queries/playlist_add_song.rq")
         self._reorder_stmt = self._tracker.load_statement_from_gresource(
             "/org/gnome/Music/queries/playlist_reorder_songs.rq")
 
@@ -644,55 +646,30 @@ class Playlist(GObject.GObject):
 
         :param list coresongs: list of Coresong
         """
-        def _add_to_model(
-                connection: Tracker.SparqlConnection, result: Gio.AsyncResult,
-                coresong: CoreSong) -> None:
-            if self._model is None:
-                return
-
+        def _update_cb(
+                stmt: Tracker.SparqlStatement,
+                result: Gio.AsyncResult, coresong: CoreSong) -> None:
             try:
-                connection.update_finish(result)
+                stmt.update_finish(result)
             except GLib.Error as error:
                 self._log.warning(
-                    "Unable to add to playlist {} song {}: {}".format(
-                        self.props.title, coresong.props.title, error.message))
+                    f"Unable to add a song to playlist {self.props.title}:"
+                    f" {error.message}")
             else:
+                if self._model is None:
+                    return
+
                 media = coresong.props.media
                 coresong_copy = CoreSong(self._application, media)
                 self._bind_to_main_song(coresong_copy)
                 self._model.append(coresong_copy)
                 self.props.count = self._model.get_n_items()
 
+        self._add_song_stmt.bind_string("playlist", self.props.pl_id)
         for coresong in coresongs:
-            query = """
-            DELETE {
-                ?playlist nfo:entryCounter ?counter .
-            }
-            INSERT {
-                _:entry a nfo:MediaFileListEntry ;
-                          nfo:entryUrl "%(song_uri)s" ;
-                          nfo:listPosition ?position .
-                ?playlist nfo:entryCounter ?position ;
-                          nfo:hasMediaFileListEntry _:entry .
-            }
-            WHERE {
-                SELECT ?playlist
-                       ?counter
-                       (?counter + 1) AS ?position
-                WHERE {
-                    ?playlist a nmm:Playlist ;
-                              a nfo:MediaList ;
-                                nfo:entryCounter ?counter .
-                    FILTER (
-                        ?playlist = <%(playlist_id)s>
-                    )
-                }
-            }
-            """.replace("\n", " ").strip() % {
-                "playlist_id": self.props.pl_id,
-                "song_uri": coresong.props.media.get_url()}
-
-            self._tracker.update_async(query, None, _add_to_model, coresong)
+            self._add_song_stmt.bind_string(
+                "uri", coresong.props.media.get_url())
+            self._add_song_stmt.update_async(None, _update_cb, coresong)
 
     def reorder(self, previous_position: int, new_position: int) -> None:
         """Changes the order of a songs in the playlist.
