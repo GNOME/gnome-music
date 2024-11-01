@@ -336,6 +336,8 @@ class Playlist(GObject.GObject):
 
         self._add_song_stmt = self._tracker.load_statement_from_gresource(
             "/org/gnome/Music/queries/playlist_add_song.rq")
+        self._rename_title_stmt = self._tracker.load_statement_from_gresource(
+            "/org/gnome/Music/queries/playlist_rename_title.rq")
         self._reorder_stmt = self._tracker.load_statement_from_gresource(
             "/org/gnome/Music/queries/playlist_reorder_songs.rq")
 
@@ -458,46 +460,31 @@ class Playlist(GObject.GObject):
         return self._title
 
     @title.setter  # type: ignore
-    def title(self, new_name):
+    def title(self, new_name: str) -> None:
         """Rename a playlist
 
         :param str new_name: new playlist name
         """
         self._notificationmanager.push_loading()
 
-        def update_cb(conn, res, data):
+        def _update_title_cb(
+                stmt: Tracker.SparqlStatement,
+                result: Gio.AsyncResult) -> None:
             try:
-                conn.update_finish(res)
-            except GLib.Error as e:
+                stmt.update_finish(result)
+            except GLib.Error as error:
                 self._log.warning(
-                    "Unable to rename playlist from {} to {}: {}".format(
-                        self._title, new_name, e.message))
+                    f"Unable to rename playlist from {self._title} to"
+                    f" {new_name}: {error.message}")
             else:
                 self._title = new_name
+                self.notify("title")
             finally:
                 self._notificationmanager.pop_loading()
-                self.thaw_notify()
 
-        query = """
-        DELETE {
-            ?playlist nie:title ?title .
-        }
-        INSERT {
-            ?playlist nie:title "%(title)s"
-        }
-        WHERE {
-            BIND ( <%(playlist_id)s> AS ?playlist ) .
-            ?playlist a nmm:Playlist ;
-                        nie:title ?title ;
-                      a nfo:MediaList .
-        }
-        """.replace("\n", " ").strip() % {
-            'title': Tracker.sparql_escape_string(new_name),
-            'playlist_id': self.props.pl_id
-        }
-
-        self.freeze_notify()
-        self._tracker.update_async(query, None, update_cb, None)
+        self._rename_title_stmt.bind_string("playlist", self.props.pl_id)
+        self._rename_title_stmt.bind_string("title", new_name)
+        self._rename_title_stmt.update_async(None, _update_title_cb)
 
     def stage_song_deletion(self, coresong, index):
         """Adds a song to the list of songs to delete

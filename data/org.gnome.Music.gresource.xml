@@ -42,6 +42,7 @@
   </gresource>
   <gresource prefix="/org/gnome/Music">
     <file>queries/playlist_add_song.rq</file>
+    <file>queries/playlist_rename_title.rq</file>
     <file>queries/playlist_reorder_songs.rq</file>
   </gresource>
 </gresources>
