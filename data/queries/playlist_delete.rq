@@ -1,0 +1,5 @@
+DELETE WHERE {
+  ~playlist a rdfs:Resource ;
+            a nmm:Playlist ;
+            a nfo:MediaList .
+}
