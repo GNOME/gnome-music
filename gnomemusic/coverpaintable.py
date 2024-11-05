@@ -75,51 +75,74 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
         self._style_manager.connect("notify::dark", self._on_dark_changed)
 
     def do_snapshot(self, snapshot: Gtk.Snapshot, w: int, h: int) -> None:
-        if self._icon_type == DefaultIconType.ARTIST:
-            radius = 90.0
-        elif self._art_size == ArtSize.SMALL:
-            radius = 4.5
+        if self._texture is not None:
+            self._snapshot_texture(self._texture, snapshot, w, h)
         else:
-            radius = 9.0
+            self._snapshot_fallback_icon(snapshot, w, h)
 
+    def _snapshot_texture(
+            self, texture: Gdk.Texture, snapshot: Gtk.Snapshot, w: int,
+            h: int) -> None:
         w_s = w
         h_s = h
-        if self._texture is not None:
-            ratio = self._texture.get_height() / self._texture.get_width()
-            # Scale down the image according to the biggest axis
-            if ratio > 1:
-                w = int(w / ratio)
-            else:
-                h = int(h * ratio)
+        ratio = texture.get_height() / texture.get_width()
+        # Scale down the image according to the biggest axis
+        if ratio > 1:
+            w = int(w / ratio)
+        else:
+            h = int(h * ratio)
+
+        scale_factor = self._widget.props.scale_factor
+
+        snapshot.save()
+        snapshot.scale(1.0 / scale_factor, 1.0 / scale_factor)
 
         rect = Graphene.Rect().init((w_s - w) / 2, (h_s - h) / 2, w, h)
+        rect = rect.scale(scale_factor, scale_factor)
         rounded_rect = Gsk.RoundedRect()
-        rounded_rect.init_from_rect(rect, radius)
+        rounded_rect.init_from_rect(rect, self._radius() * scale_factor)
         snapshot.push_rounded_clip(rounded_rect)
 
-        if self._texture is not None:
-            snapshot.append_scaled_texture(
-                self._texture, Gsk.ScalingFilter.TRILINEAR, rect)
-        else:
-            i_s = 1 / 3  # Icon scale
-            icon_pt = self._icon_theme.lookup_icon(
-                self._icon_type.value, None, w * i_s,
-                self._widget.props.scale_factor, 0, 0)
-
-            bg_color = Gdk.RGBA()
-            bg_color.parse("rgba(95%, 95%, 95%, 1)")
-            if self._style_manager.props.dark:
-                bg_color.parse("rgba(30%, 30%, 30%, 1)")
-
-            snapshot.append_color(bg_color, Graphene.Rect().init(0, 0, w, h))
-            snapshot.translate(
-                Graphene.Point().init(
-                    (w / 2) - (w * (i_s / 2)), (h / 2) - (h * (i_s / 2))))
-            snapshot.push_opacity(0.7)
-            icon_pt.snapshot(snapshot, w * i_s, h * i_s)
-            snapshot.pop()
+        snapshot.append_scaled_texture(
+            texture, Gsk.ScalingFilter.TRILINEAR, rect)
 
         snapshot.pop()
+        snapshot.restore()
+
+    def _snapshot_fallback_icon(
+            self, snapshot: Gtk.Snapshot, w: int, h: int) -> None:
+        rounded_rect = Gsk.RoundedRect()
+        rounded_rect.init_from_rect(
+            Graphene.Rect().init(0, 0, w, h), self._radius())
+        snapshot.push_rounded_clip(rounded_rect)
+
+        i_s = 1 / 3  # Icon scale
+        icon_pt = self._icon_theme.lookup_icon(
+            self._icon_type.value, None, w * i_s,
+            self._widget.props.scale_factor, 0, 0)
+
+        bg_color = Gdk.RGBA()
+        bg_color.parse("rgba(95%, 95%, 95%, 1)")
+        if self._style_manager.props.dark:
+            bg_color.parse("rgba(30%, 30%, 30%, 1)")
+
+        snapshot.append_color(bg_color, Graphene.Rect().init(0, 0, w, h))
+        snapshot.translate(
+            Graphene.Point().init(
+                (w / 2) - (w * (i_s / 2)), (h / 2) - (h * (i_s / 2))))
+        snapshot.push_opacity(0.7)
+        icon_pt.snapshot(snapshot, w * i_s, h * i_s)
+        snapshot.pop()
+
+        snapshot.pop()
+
+    def _radius(self) -> float:
+        if self._icon_type == DefaultIconType.ARTIST:
+            return 90.0
+        elif self._art_size == ArtSize.SMALL:
+            return 4.5
+        else:
+            return 9.0
 
     def _on_dark_changed(
             self, style_manager: Adw.StyleManager,
