@@ -23,6 +23,7 @@
 # delete this exception statement from your version.
 
 from __future__ import annotations
+from collections.abc import Callable
 
 import time
 
@@ -78,6 +79,8 @@ class GrlTrackerPlaylists(GObject.GObject):
         self._fast_options.set_resolution_flags(
             Grl.ResolutionFlags.FAST_ONLY | Grl.ResolutionFlags.IDLE_RELAY)
 
+        self._pl_create_stmt = self._tracker.load_statement_from_gresource(
+            "/org/gnome/Music/queries/playlist_create.rq")
         self._pl_delete_stmt = self._tracker.load_statement_from_gresource(
             "/org/gnome/Music/queries/playlist_delete.rq")
 
@@ -202,26 +205,27 @@ class GrlTrackerPlaylists(GObject.GObject):
         self._pl_delete_stmt.bind_string("playlist", playlist.props.pl_id)
         self._pl_delete_stmt.update_async(None, _delete_cb)
 
-    def create_playlist(self, playlist_title, callback):
+    def create_playlist(self, playlist_title: str, callback: Callable) -> None:
         """Creates a new user playlist.
 
         :param str playlist_title: playlist title
-        :param callback: function to perform once, the playlist is created
+        :param callback: function to perform once the playlist is created
         """
-        def _create_cb(conn, res, data):
+        def _create_cb(
+                stmt: Tracker.SparqlStatement, result: Gio.AsyncResult,
+                pl_urn: str) -> None:
             try:
-                result = conn.update_blank_finish(res)
+                stmt.update_finish(result)
             except GLib.Error as error:
                 self._log.warning(
-                    "Unable to create playlist {}: {}".format(
-                        playlist_title, error.message))
+                    f"Unable to create playlist {playlist_title}:"
+                    f" {error.message}")
                 self._notificationmanager.pop_loading()
                 if callback is not None:
                     callback(None)
 
                 return
 
-            playlist_urn = result[0][0]['playlist']
             query = """
             SELECT
                 %(media_type)s AS ?type
@@ -235,7 +239,7 @@ class GrlTrackerPlaylists(GObject.GObject):
                 }
             """.replace("\n", " ").strip() % {
                 "media_type": int(Grl.MediaType.CONTAINER),
-                "playlist_urn": playlist_urn
+                "playlist_urn": pl_urn
             }
 
             self._source.query(
@@ -243,17 +247,11 @@ class GrlTrackerPlaylists(GObject.GObject):
                 self._add_user_playlist, callback)
 
         self._notificationmanager.push_loading()
-        query = """
-            INSERT {
-                _:playlist a nmm:Playlist ;
-                           a nfo:MediaList ;
-                             nie:title "%(title)s" ;
-                             nfo:entryCounter 0 .
-            }
-            """.replace("\n", " ").strip() % {
-                "title": Tracker.sparql_escape_string(playlist_title)
-        }
-        self._tracker.update_blank_async(query, None, _create_cb, None)
+
+        pl_urn = f"urn:gnomemusic:playlist:{playlist_title}"
+        self._pl_create_stmt.bind_string("title", playlist_title)
+        self._pl_create_stmt.bind_string("playlist", pl_urn)
+        self._pl_create_stmt.update_async(None, _create_cb, pl_urn)
 
     def check_smart_playlist_change(self):
         """Check if smart playlists need to be updated.

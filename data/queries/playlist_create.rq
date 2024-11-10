@@ -1,0 +1,6 @@
+INSERT {
+  ~playlist a nmm:Playlist ;
+            a nfo:MediaList ;
+              nie:title ~title ;
+              nfo:entryCounter 0 .
+}
