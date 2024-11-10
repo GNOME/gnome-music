@@ -336,6 +336,8 @@ class Playlist(GObject.GObject):
 
         self._add_song_stmt = self._tracker.load_statement_from_gresource(
             "/org/gnome/Music/queries/playlist_add_song.rq")
+        self._delete_song_stmt = self._tracker.load_statement_from_gresource(
+            "/org/gnome/Music/queries/playlist_delete_song.rq")
         self._rename_title_stmt = self._tracker.load_statement_from_gresource(
             "/org/gnome/Music/queries/playlist_rename_title.rq")
         self._reorder_stmt = self._tracker.load_statement_from_gresource(
@@ -513,13 +515,14 @@ class Playlist(GObject.GObject):
         :param int position: Song position in the playlist, starts from
         zero
         """
-        def update_cb(conn, res):
+        def update_cb(
+                stmt: Tracker.SparqlStatment, result: Gio.AsyncResult) -> None:
             try:
-                conn.update_finish(res)
+                stmt.update_finish(result)
             except GLib.Error as e:
                 self._log.warning(
-                    "Unable to remove song from playlist {}: {}".format(
-                        self.props.title, e.message))
+                    f"Unable to remove song from playlist {self.props.title}:"
+                    f" {e.message}")
 
             self._notificationmanager.pop_loading()
 
@@ -532,77 +535,10 @@ class Playlist(GObject.GObject):
                 return
 
             self._notificationmanager.push_loading()
-            update_query = """
-            DELETE {
-                ?entry nfo:listPosition ?old_position .
-            }
-            INSERT {
-                ?entry nfo:listPosition ?new_position .
-            }
-            WHERE {
-                SELECT ?entry
-                       ?old_position
-                       (?old_position - 1) AS ?new_position
-                WHERE {
-                    ?entry a nfo:MediaFileListEntry ;
-                             nfo:listPosition ?old_position .
-                    ?playlist nfo:hasMediaFileListEntry ?entry .
-                    FILTER (?old_position > ?removed_position)
-                    {
-                        SELECT ?playlist
-                               ?removed_position
-                        WHERE {
-                            ?playlist a nmm:Playlist ;
-                                      a nfo:MediaList ;
-                                        nfo:hasMediaFileListEntry
-                                        ?removed_entry .
-                            ?removed_entry nfo:listPosition ?removed_position .
-                            FILTER (
-                                ?playlist = <%(playlist_id)s> &&
-                                ?removed_entry = <%(entry_id)s>
-                            )
-                        }
-                    }
-                }
-            };
-            DELETE {
-                ?playlist nfo:entryCounter ?old_counter .
-            }
-            INSERT {
-                ?playlist nfo:entryCounter ?new_counter .
-            }
-            WHERE {
-                SELECT ?playlist
-                       ?old_counter
-                       (?old_counter - 1) AS ?new_counter
-                WHERE {
-                    ?playlist a nmm:Playlist ;
-                              a nfo:MediaList ;
-                                nfo:entryCounter ?old_counter .
-                    FILTER (
-                        ?playlist = <%(playlist_id)s>
-                    )
-                }
-            };
-            DELETE {
-                ?playlist nfo:hasMediaFileListEntry ?entry .
-                ?entry a rdfs:Resource .
-            }
-            WHERE {
-                ?playlist a nmm:Playlist ;
-                          a nfo:MediaList ;
-                            nfo:hasMediaFileListEntry ?entry .
-                FILTER (
-                    ?playlist = <%(playlist_id)s> &&
-                    ?entry = <%(entry_id)s>
-                )
-            }
-            """.replace("\n", " ").strip() % {
-                "playlist_id": self.props.pl_id,
-                "entry_id": media.get_id()
-            }
 
-            self._tracker.update_async(update_query, None, update_cb)
+            self._delete_song_stmt.bind_string("playlist", self.props.pl_id)
+            self._delete_song_stmt.bind_string("entry", media.get_id())
+            self._delete_song_stmt.update_async(None, update_cb)
 
         entry_query = """
         SELECT

@@ -1,0 +1,54 @@
+# Inputs: ~entry, ~playlist
+DELETE {
+  ?entry nfo:listPosition ?old_position .
+}
+INSERT {
+  ?entry nfo:listPosition ?new_position .
+}
+WHERE {
+  SELECT
+    ?entry
+    ?old_position
+    (?old_position - 1) AS ?new_position
+  WHERE {
+    ?entry a nfo:MediaFileListEntry ;
+             nfo:listPosition ?old_position .
+    ~playlist nfo:hasMediaFileListEntry ?entry .
+    FILTER (?old_position > ?removed_position)
+    {
+      SELECT
+        ?removed_position
+      WHERE {
+        ~playlist a nmm:Playlist ;
+                  a nfo:MediaList ;
+                    nfo:hasMediaFileListEntry ~entry .
+        ~entry nfo:listPosition ?removed_position .
+      }
+    }
+  }
+};
+DELETE {
+  ~playlist nfo:entryCounter ?old_counter .
+}
+INSERT {
+  ~playlist nfo:entryCounter ?new_counter .
+}
+WHERE {
+  SELECT
+  ?old_counter
+  (?old_counter - 1) AS ?new_counter
+  WHERE {
+    ~playlist a nmm:Playlist ;
+              a nfo:MediaList ;
+                nfo:entryCounter ?old_counter .
+  }
+};
+DELETE {
+  ~playlist nfo:hasMediaFileListEntry ~entry .
+  ~entry a rdfs:Resource .
+}
+WHERE {
+  ~playlist a nmm:Playlist ;
+            a nfo:MediaList ;
+              nfo:hasMediaFileListEntry ~entry .
+}
