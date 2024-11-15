@@ -1,0 +1,38 @@
+# Inputs: playlist, miner_fs_busname, location_filter
+SELECT
+  ?song AS ?id
+  ?url
+  ?title
+  ?artist
+  ?album
+  ?duration
+  ?tag
+  nie:contentAccessed(?song) AS ?lastPlayed
+  nie:usageCounter(?song) AS ?playCount
+WHERE {
+  ~playlist a nmm:Playlist ;
+            a nfo:MediaList ;
+              nfo:hasMediaFileListEntry ?entry .
+  ?entry a nfo:MediaFileListEntry ;
+           nfo:entryUrl ?url .
+  SERVICE <dbus:{bus_name}> {
+    GRAPH tracker:Audio {
+      SELECT
+        ?song
+        nie:title(?song) AS ?title
+        nmm:artistName(nmm:artist(?song)) AS ?artist
+        nie:title(nmm:musicAlbum(?song)) AS ?album
+        nfo:duration(?song) AS ?duration
+        ?url
+      WHERE {
+        ?song a nmm:MusicPiece ;
+                nie:isStoredAs ?url .
+        {location_filter}
+      }
+    }
+  }
+  OPTIONAL {
+      ?song nao:hasTag ?tag .
+      FILTER( ?tag = nao:predefined-tag-favorite )
+  }
+}
