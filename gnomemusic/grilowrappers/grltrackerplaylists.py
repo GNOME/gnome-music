@@ -567,19 +567,16 @@ class Playlist(GObject.GObject):
             %(media_type)s AS ?type
             ?entry AS ?id
             WHERE {
-                ?playlist a nmm:Playlist ;
-                          a nfo:MediaList ;
-                            nfo:hasMediaFileListEntry ?entry .
-                ?entry a nfo:MediaFileListEntry .
-                FILTER (
-                    %(filter_clause_pl)s &&
-                    nfo:listPosition(?entry) = %(position)s
-                )
+                %(playlist_id)s a nmm:Playlist ;
+                                a nfo:MediaList ;
+                                  nfo:hasMediaFileListEntry ?entry .
+                ?entry a nfo:MediaFileListEntry ;
+                         nfo:listPosition %(position)s .
             }
         """.replace("\n", " ").strip() % {
             "media_type": int(Grl.MediaType.AUDIO),
             "position": position + 1,
-            "filter_clause_pl": f"?playlist = <{self.props.pl_id}>",
+            "playlist_id": self.props.pl_id
         }
 
         self._source.query(
