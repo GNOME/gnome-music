@@ -80,7 +80,8 @@ class CoreSong(GObject.GObject):
         self._thumbnail: Optional[str] = None
 
         self.props.grlid = media.get_source() + media.get_id()
-        self._is_tracker: bool = media.get_source() == "grl-tracker3-source"
+        self._is_tracker: bool = media.get_source() in [
+            "grl-tracker3-source", "gnome-music"]
         self.props.validation = CoreSong.Validation.PENDING
         self.update(media)
         self.update_shuffle_pos()

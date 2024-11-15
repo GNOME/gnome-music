@@ -338,12 +338,27 @@ class Playlist(GObject.GObject):
             "/org/gnome/Music/queries/playlist_add_song.rq")
         self._delete_song_stmt = self._tracker.load_statement_from_gresource(
             "/org/gnome/Music/queries/playlist_delete_song.rq")
+        prep_stmt = self._prepare_statement(
+            "/org/gnome/Music/queries/playlist_query_songs.rq")
+        self._pl_songs_stmt = self._tracker.query_statement(prep_stmt)
         self._rename_title_stmt = self._tracker.load_statement_from_gresource(
             "/org/gnome/Music/queries/playlist_rename_title.rq")
         self._reorder_stmt = self._tracker.load_statement_from_gresource(
             "/org/gnome/Music/queries/playlist_reorder_songs.rq")
 
         self._songs_todelete = []
+
+    def _prepare_statement(self, resource_path: str) -> str:
+        """Helper to insert bus name and location filter in query"""
+        gbytes = Gio.resources_lookup_data(
+            resource_path, Gio.ResourceLookupFlags.NONE)
+        query_str = gbytes.get_data().decode("utf-8")
+        query_str = query_str.replace(
+            "{bus_name}", self._tracker_wrapper.props.miner_fs_busname)
+        query_str = query_str.replace(
+            "{location_filter}", self._tracker_wrapper.location_filter())
+
+        return query_str
 
     @GObject.Property(type=Gio.ListStore, default=None)
     def model(self):
@@ -361,76 +376,83 @@ class Playlist(GObject.GObject):
     def _populate_model(self):
         self._notificationmanager.push_loading()
 
-        query = """
-        SELECT
-            %(media_type)s AS ?type
-            ?song AS ?id
-            ?url
-            ?title
-            ?artist
-            ?album
-            ?duration
-            ?tag AS ?favorite
-            nie:contentAccessed(?song) AS ?lastPlayed
-            nie:usageCounter(?song) AS ?playCount
-        WHERE {
-            ?playlist a nmm:Playlist ;
-                      a nfo:MediaList ;
-                        nfo:hasMediaFileListEntry ?entry .
-            ?entry a nfo:MediaFileListEntry ;
-                     nfo:entryUrl ?url .
-            SERVICE <dbus:%(miner_fs_busname)s> {
-                GRAPH tracker:Audio {
-                    SELECT
-                        ?song
-                        nie:title(?song) AS ?title
-                        nmm:artistName(nmm:artist(?song)) AS ?artist
-                        nie:title(nmm:musicAlbum(?song)) AS ?album
-                        nfo:duration(?song) AS ?duration
-                        ?url
-                    WHERE {
-                        ?song a nmm:MusicPiece ;
-                              nie:isStoredAs ?url .
-                        %(location_filter)s
-                    }
-                }
-            }
-            OPTIONAL {
-                ?song nao:hasTag ?tag .
-                FILTER( ?tag = nao:predefined-tag-favorite )
-            }
-            FILTER (
-                %(filter_clause)s
-            )
-        }
-        ORDER BY nfo:listPosition(?entry)
-        """.replace('\n', ' ').strip() % {
-            "media_type": int(Grl.MediaType.AUDIO),
-            "filter_clause": f"?playlist = <{self.props.pl_id}>",
-            "location_filter": self._tracker_wrapper.location_filter(),
-            "miner_fs_busname": self._tracker_wrapper.props.miner_fs_busname,
-        }
+        def _cursor_next_async(
+                cursor: Tracker.SparqlCursor, result: Gio.AsyncResult) -> None:
+            try:
+                has_next = cursor.next_finish(result)
+            except GLib.Error as error:
+                self._log.warning(
+                    f"Cursor next for {self._title} failed: {error.message}")
+                return
 
-        def _add_to_playlist_cb(
-                source, op_id, media, remaining, user_data, error):
-            if not media:
+            if not has_next:
+                cursor.close()
+
                 self.props.count = self._model.get_n_items()
                 self.emit("playlist-loaded")
                 self._notificationmanager.pop_loading()
                 return
 
+            media = self._create_grilo_media_from_cursor(cursor)
             coresong = CoreSong(self._application, media)
             self._bind_to_main_song(coresong)
             if coresong not in self._songs_todelete:
                 self._model.append(coresong)
 
-        options = Grl.OperationOptions()
-        options.set_resolution_flags(
-            Grl.ResolutionFlags.FAST_ONLY | Grl.ResolutionFlags.IDLE_RELAY)
+            cursor.next_async(None, _cursor_next_async)
 
-        self._source.query(
-            query, self._METADATA_PLAYLIST_KEYS, options, _add_to_playlist_cb,
-            None)
+        def _on_songs_queried(
+                stmt: Tracker.SparlStatement, result: Gio.AsyncResult) -> None:
+            try:
+                cursor = stmt.execute_finish(result)
+            except GLib.Error as error:
+                self._log.warning(
+                    f"Statement error: {error.message}")
+                return
+
+            cursor.next_async(None, _cursor_next_async)
+
+        self._pl_songs_stmt.bind_string("playlist", self.props.pl_id)
+        self._pl_songs_stmt.execute_async(None, _on_songs_queried)
+
+    def _create_grilo_media_from_cursor(
+            self, cursor: Tracker.SparqlCursor) -> Grl.Media:
+        vars = {}
+        for column in range(cursor.get_n_columns()):
+            type = cursor.get_value_type(column)
+            if type == Tracker.SparqlValueType.UNBOUND:
+                value = None
+            elif type == Tracker.SparqlValueType.INTEGER:
+                value = cursor.get_integer(column)
+            elif type == Tracker.SparqlValueType.DOUBLE:
+                value = cursor.get_double(column)
+            elif type == Tracker.SparqlValueType.DATETIME:
+                value = cursor.get_datetime(column)
+            elif type == Tracker.SparqlValueType.BOOLEAN:
+                value = cursor.get_boolean(column)
+            else:
+                value, _ = cursor.get_string(column)
+
+            vars[cursor.get_variable_name(column)] = value
+
+        media = Grl.Media.audio_new()
+        media.set_source("gnome-music")
+        media.set_id(vars["id"])
+        media.set_url(vars["url"])
+        media.set_title(vars["title"])
+        media.set_artist(vars["artist"])
+        media.set_album(vars["album"])
+        media.set_duration(int(vars["duration"]))
+        media.set_favourite(vars["tag"] is not None)
+        last_played = vars["lastPlayed"]
+        if last_played is not None:
+            media.set_last_played(last_played)
+
+        play_count = vars["playCount"]
+        if play_count is not None:
+            media.set_play_count(int(play_count))
+
+        return media
 
     def _bind_to_main_song(self, coresong):
         main_coresong = self._songs_hash[coresong.props.media.get_id()]
