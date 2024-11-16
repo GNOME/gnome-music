@@ -47,6 +47,7 @@
     <file>queries/playlist_delete_song.rq</file>
     <file>queries/playlist_rename_title.rq</file>
     <file>queries/playlist_reorder_songs.rq</file>
+    <file>queries/playlist_query_delete_entry.rq</file>
     <file>queries/playlist_query_songs.rq</file>
   </gresource>
 </gresources>
