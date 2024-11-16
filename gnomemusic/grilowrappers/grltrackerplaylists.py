@@ -338,6 +338,8 @@ class Playlist(GObject.GObject):
             "/org/gnome/Music/queries/playlist_add_song.rq")
         self._delete_song_stmt = self._tracker.load_statement_from_gresource(
             "/org/gnome/Music/queries/playlist_delete_song.rq")
+        self._pl_del_entry_stmt = self._tracker.load_statement_from_gresource(
+            "/org/gnome/Music/queries/playlist_query_delete_entry.rq")
         prep_stmt = self._prepare_statement(
             "/org/gnome/Music/queries/playlist_query_songs.rq")
         self._pl_songs_stmt = self._tracker.query_statement(prep_stmt)
@@ -547,7 +549,7 @@ class Playlist(GObject.GObject):
         :param int position: Song position in the playlist, starts from
         zero
         """
-        def update_cb(
+        def _update_async(
                 stmt: Tracker.SparqlStatment, result: Gio.AsyncResult) -> None:
             try:
                 stmt.update_finish(result)
@@ -556,42 +558,42 @@ class Playlist(GObject.GObject):
                     f"Unable to remove song from playlist {self.props.title}:"
                     f" {e.message}")
 
-            self._notificationmanager.pop_loading()
-
-        def entry_retrieved_cb(source, op_id, media, remaining, error):
-            if error:
-                self._log.warning("Error: {}".format(error))
+        def _cursor_next_async(
+                cursor: Tracker.SparqlCursor, result: Gio.AsyncResult) -> None:
+            try:
+                has_next = cursor.next_finish(result)
+            except GLib.Error as error:
+                cursor.close()
+                self._log.warning(f"Unable to iterate cursor: {error.message}")
                 return
 
-            if not media:
+            if not has_next:
+                cursor.close()
+                self._songs_todelete.remove(coresong)
                 return
 
-            self._notificationmanager.push_loading()
-
-            self._delete_song_stmt.bind_string("playlist", self.props.pl_id)
+            media = self._create_grilo_media_from_cursor(cursor)
             self._delete_song_stmt.bind_string("entry", media.get_id())
-            self._delete_song_stmt.update_async(None, update_cb)
+            self._delete_song_stmt.bind_string("playlist", self.props.pl_id)
+            self._delete_song_stmt.update_async(None, _update_async)
 
-        entry_query = """
-        SELECT
-            %(media_type)s AS ?type
-            ?entry AS ?id
-            WHERE {
-                %(playlist_id)s a nmm:Playlist ;
-                                a nfo:MediaList ;
-                                  nfo:hasMediaFileListEntry ?entry .
-                ?entry a nfo:MediaFileListEntry ;
-                         nfo:listPosition %(position)s .
-            }
-        """.replace("\n", " ").strip() % {
-            "media_type": int(Grl.MediaType.AUDIO),
-            "position": position + 1,
-            "playlist_id": self.props.pl_id
-        }
+            cursor.next_async(None, _cursor_next_async)
 
-        self._source.query(
-            entry_query, [Grl.METADATA_KEY_ID], self._fast_options,
-            entry_retrieved_cb)
+        def _entry_retrieved(
+                stmt: Tracker.SparqlStatement,
+                result: Gio.AsyncResult) -> None:
+            try:
+                cursor = stmt.execute_finish(result)
+            except GLib.Error as error:
+                cursor.close()
+                self._log.warning(f"No entry to delete: {error.message}")
+                return
+
+            cursor.next_async(None, _cursor_next_async)
+
+        self._pl_del_entry_stmt.bind_string("playlist_id", self.props.pl_id)
+        self._pl_del_entry_stmt.bind_string("position", str(position + 1))
+        self._pl_del_entry_stmt.execute_async(None, _entry_retrieved)
 
     def add_songs(self, coresongs):
         """Adds songs to the playlist

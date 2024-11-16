@@ -1,0 +1,10 @@
+# Inputs: playlist, position
+SELECT
+  ?entry AS ?id
+  WHERE {
+  ~playlist_id a nmm:Playlist ;
+               a nfo:MediaList ;
+                 nfo:hasMediaFileListEntry ?entry .
+  ?entry a nfo:MediaFileListEntry ;
+           nfo:listPosition ~position .
+}
