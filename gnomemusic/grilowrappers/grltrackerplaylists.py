@@ -437,20 +437,30 @@ class Playlist(GObject.GObject):
 
         media = Grl.Media.audio_new()
         media.set_source("gnome-music")
-        media.set_id(vars["id"])
-        media.set_url(vars["url"])
-        media.set_title(vars["title"])
-        media.set_artist(vars["artist"])
-        media.set_album(vars["album"])
-        media.set_duration(int(vars["duration"]))
-        media.set_favourite(vars["tag"] is not None)
-        last_played = vars["lastPlayed"]
-        if last_played is not None:
-            media.set_last_played(last_played)
 
-        play_count = vars["playCount"]
-        if play_count is not None:
-            media.set_play_count(int(play_count))
+        for key in vars.keys():
+            if key == "id":
+                media.set_id(vars["id"])
+            elif key == "url":
+                media.set_url(vars["url"])
+            elif key == "title":
+                media.set_title(vars["title"])
+            elif key == "artist":
+                media.set_artist(vars["artist"])
+            elif key == "album":
+                media.set_album(vars["album"])
+            elif key == "duration":
+                media.set_duration(int(vars["duration"]))
+            elif key == "tag":
+                media.set_favourite(vars["tag"] is not None)
+            elif key == "lastPlayed":
+                last_played = vars["lastPlayed"]
+                if last_played is not None:
+                    media.set_last_played(last_played)
+            elif key == "playCount":
+                play_count = vars["playCount"]
+                if play_count is not None:
+                    media.set_play_count(int(play_count))
 
         return media
 
