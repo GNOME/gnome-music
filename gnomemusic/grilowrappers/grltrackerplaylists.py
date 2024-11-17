@@ -24,6 +24,7 @@
 
 from __future__ import annotations
 from collections.abc import Callable
+from typing import Optional
 
 import time
 
@@ -39,12 +40,7 @@ import gnomemusic.utils as utils
 
 class GrlTrackerPlaylists(GObject.GObject):
 
-    _METADATA_PLAYLIST_KEYS = [
-        Grl.METADATA_KEY_CHILDCOUNT,
-        Grl.METADATA_KEY_CREATION_DATE,
-        Grl.METADATA_KEY_ID,
-        Grl.METADATA_KEY_TITLE
-    ]
+    __gtype_name__ = "GrlTrackerPlaylists"
 
     def __init__(self, source, application, tracker_wrapper, songs_hash):
         """Initialize GrlTrackerPlaylists.
@@ -124,7 +120,7 @@ class GrlTrackerPlaylists(GObject.GObject):
 
             media = utils.create_grilo_media_from_cursor(
                 cursor, Grl.MediaType.CONTAINER)
-            self._add_user_playlist(self._source, 0, media, 0)
+            self._add_user_playlist(media)
 
             cursor.next_async(None, _cursor_next_async)
 
@@ -142,20 +138,13 @@ class GrlTrackerPlaylists(GObject.GObject):
         self._pl_query_all_stmt.execute_async(None, _execute_async)
 
     def _add_user_playlist(
-            self, source, op_id, media, remaining, data=None, error=None):
-        if error:
-            self._log.warning("Error: {}".format(error))
-            self._notificationmanager.pop_loading()
-            return
-        if not media:
-            self._notificationmanager.pop_loading()
-            return
-
+            self, media: Grl.Media,
+            callback: Optional[Callable] = None) -> None:
         playlist = Playlist(
             media=media, source=self._source, application=self._application,
             tracker_wrapper=self._tracker_wrapper, songs_hash=self._songs_hash)
         self._model.append(playlist)
-        callback = data
+
         if callback is not None:
             callback(playlist)
 
@@ -225,6 +214,36 @@ class GrlTrackerPlaylists(GObject.GObject):
         :param str playlist_title: playlist title
         :param callback: function to perform once the playlist is created
         """
+        def _cursor_next_async(
+                cursor: Tracker.SparqlCursor, result: Gio.AsyncResult) -> None:
+            try:
+                has_next = cursor.next_finish(result)
+            except GLib.Error as error:
+                cursor.close()
+                self._log.warning(f"Cursor iteration error: {error.message}")
+                return
+
+            if not has_next:
+                cursor.close()
+                return
+
+            media = utils.create_grilo_media_from_cursor(
+                cursor, Grl.MediaType.CONTAINER)
+            self._add_user_playlist(media, callback)
+
+            cursor.next_async(None, _cursor_next_async)
+
+        def _execute_async(
+                stmt: Tracker.SparqlStatment, result: Gio.AsyncResult) -> None:
+            try:
+                cursor = stmt.execute_finish(result)
+            except GLib.Error as error:
+                cursor.close()
+                self._log.warning(f"Playlist create error: {error.message}")
+                return
+
+            cursor.next_async(None, _cursor_next_async)
+
         def _create_cb(
                 stmt: Tracker.SparqlStatement, result: Gio.AsyncResult,
                 pl_urn: str) -> None:
@@ -234,33 +253,15 @@ class GrlTrackerPlaylists(GObject.GObject):
                 self._log.warning(
                     f"Unable to create playlist {playlist_title}:"
                     f" {error.message}")
-                self._notificationmanager.pop_loading()
                 if callback is not None:
                     callback(None)
 
                 return
 
-            query = """
-            SELECT
-                %(media_type)s AS ?type
-                ?playlist AS ?id
-                nie:title(?playlist) AS ?title
-                nrl:added(?playlist) AS ?creationDate
-                nfo:entryCounter(?playlist) AS ?childCount
-                WHERE
-                {
-                    BIND ( <%(playlist_urn)s> AS ?playlist )
-                }
-            """.replace("\n", " ").strip() % {
-                "media_type": int(Grl.MediaType.CONTAINER),
-                "playlist_urn": pl_urn
-            }
-
-            self._source.query(
-                query, self._METADATA_PLAYLIST_KEYS, self._fast_options,
-                self._add_user_playlist, callback)
-
-        self._notificationmanager.push_loading()
+            self._pl_query_stmt = self._tracker.load_statement_from_gresource(
+                "/org/gnome/Music/queries/playlist_query_playlist.rq")
+            self._pl_query_stmt.bind_string("playlist", pl_urn)
+            self._pl_query_stmt.execute_async(None, _execute_async)
 
         pl_urn = f"urn:gnomemusic:playlist:{playlist_title}"
         self._pl_create_stmt.bind_string("title", playlist_title)
@@ -285,21 +286,11 @@ class GrlTrackerPlaylists(GObject.GObject):
 class Playlist(GObject.GObject):
     """ Base class of all playlists """
 
+    __gtype_name__ = "Playlist"
+
     __gsignals__ = {
         "playlist-loaded": (GObject.SignalFlags.RUN_FIRST, None, ()),
     }
-
-    _METADATA_PLAYLIST_KEYS = [
-        Grl.METADATA_KEY_ALBUM,
-        Grl.METADATA_KEY_ARTIST,
-        Grl.METADATA_KEY_DURATION,
-        Grl.METADATA_KEY_FAVOURITE,
-        Grl.METADATA_KEY_ID,
-        Grl.METADATA_KEY_LAST_PLAYED,
-        Grl.METADATA_KEY_PLAY_COUNT,
-        Grl.METADATA_KEY_TITLE,
-        Grl.METADATA_KEY_URL
-    ]
 
     count = GObject.Property(type=int, default=0)
     creation_date = GObject.Property(type=GLib.DateTime, default=None)
