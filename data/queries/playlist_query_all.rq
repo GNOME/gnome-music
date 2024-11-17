@@ -1,0 +1,12 @@
+SELECT DISTINCT
+    ?playlist AS ?id
+    ?title
+    ?creationDate
+    ?childCount
+WHERE
+{
+    ?playlist a nmm:Playlist ;
+                nie:title ?title ;
+                nrl:added ?creationDate;
+                nfo:entryCounter ?childCount .
+}

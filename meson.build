@@ -17,8 +17,8 @@ if not py_installation.found()
 endif
 
 # Python 3.7 is needed for postponed evalution of annotations
-if not py_installation.language_version().version_compare('>= 3.7')
-  error('Python 3.7 or newer is required.')
+if not py_installation.language_version().version_compare('>= 3.9')
+  error('Python 3.9 or newer is required.')
 endif
 
 # Constants

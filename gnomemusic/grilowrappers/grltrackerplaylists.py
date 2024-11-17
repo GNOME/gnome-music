@@ -83,6 +83,8 @@ class GrlTrackerPlaylists(GObject.GObject):
             "/org/gnome/Music/queries/playlist_create.rq")
         self._pl_delete_stmt = self._tracker.load_statement_from_gresource(
             "/org/gnome/Music/queries/playlist_delete.rq")
+        self._pl_query_all_stmt = self._tracker.load_statement_from_gresource(
+            "/org/gnome/Music/queries/playlist_query_all.rq")
 
         self._initial_playlists_fill()
 
@@ -107,25 +109,37 @@ class GrlTrackerPlaylists(GObject.GObject):
         for playlist in smart_playlists.values():
             self._model.append(playlist)
 
-        self._notificationmanager.push_loading()
-        query = """
-        SELECT DISTINCT
-            %(media_type)s AS ?type
-            ?playlist AS ?id
-            nie:title(?playlist) AS ?title
-            nrl:added(?playlist) AS ?creationDate
-            nfo:entryCounter(?playlist) AS ?childCount
-        WHERE
-        {
-            ?playlist a nmm:Playlist .
-        }
-        """.replace("\n", " ").strip() % {
-            "media_type": int(Grl.MediaType.CONTAINER),
-        }
+        def _cursor_next_async(
+                cursor: Tracker.SparqlCursor, result: Gio.AsyncResult) -> None:
+            try:
+                has_next = cursor.next_finish(result)
+            except GLib.Error as error:
+                cursor.close()
+                self._log.warning(f"Cursor iteration error: {error.message}")
+                return
 
-        self._source.query(
-            query, self._METADATA_PLAYLIST_KEYS, self._fast_options,
-            self._add_user_playlist)
+            if not has_next:
+                cursor.close()
+                return
+
+            media = utils.create_grilo_media_from_cursor(
+                cursor, Grl.MediaType.CONTAINER)
+            self._add_user_playlist(self._source, 0, media, 0)
+
+            cursor.next_async(None, _cursor_next_async)
+
+        def _execute_async(
+                stmt: Tracker.SparqlStatment, result: Gio.AsyncResult) -> None:
+            try:
+                cursor = stmt.execute_finish(result)
+            except GLib.Error as error:
+                cursor.close()
+                self._log.warning(f"Playlist add cursor fail: {error.message}")
+                return
+
+            cursor.next_async(None, _cursor_next_async)
+
+        self._pl_query_all_stmt.execute_async(None, _execute_async)
 
     def _add_user_playlist(
             self, source, op_id, media, remaining, data=None, error=None):
@@ -395,7 +409,8 @@ class Playlist(GObject.GObject):
                 self._notificationmanager.pop_loading()
                 return
 
-            media = self._create_grilo_media_from_cursor(cursor)
+            media = utils.create_grilo_media_from_cursor(
+                cursor, Grl.MediaType.AUDIO)
             coresong = CoreSong(self._application, media)
             self._bind_to_main_song(coresong)
             if coresong not in self._songs_todelete:
@@ -416,55 +431,6 @@ class Playlist(GObject.GObject):
 
         self._pl_songs_stmt.bind_string("playlist", self.props.pl_id)
         self._pl_songs_stmt.execute_async(None, _on_songs_queried)
-
-    def _create_grilo_media_from_cursor(
-            self, cursor: Tracker.SparqlCursor) -> Grl.Media:
-        vars = {}
-        for column in range(cursor.get_n_columns()):
-            type = cursor.get_value_type(column)
-            if type == Tracker.SparqlValueType.UNBOUND:
-                value = None
-            elif type == Tracker.SparqlValueType.INTEGER:
-                value = cursor.get_integer(column)
-            elif type == Tracker.SparqlValueType.DOUBLE:
-                value = cursor.get_double(column)
-            elif type == Tracker.SparqlValueType.DATETIME:
-                value = cursor.get_datetime(column)
-            elif type == Tracker.SparqlValueType.BOOLEAN:
-                value = cursor.get_boolean(column)
-            else:
-                value, _ = cursor.get_string(column)
-
-            vars[cursor.get_variable_name(column)] = value
-
-        media = Grl.Media.audio_new()
-        media.set_source("gnome-music")
-
-        for key in vars.keys():
-            if key == "id":
-                media.set_id(vars["id"])
-            elif key == "url":
-                media.set_url(vars["url"])
-            elif key == "title":
-                media.set_title(vars["title"])
-            elif key == "artist":
-                media.set_artist(vars["artist"])
-            elif key == "album":
-                media.set_album(vars["album"])
-            elif key == "duration":
-                media.set_duration(int(vars["duration"]))
-            elif key == "tag":
-                media.set_favourite(vars["tag"] is not None)
-            elif key == "lastPlayed":
-                last_played = vars["lastPlayed"]
-                if last_played is not None:
-                    media.set_last_played(last_played)
-            elif key == "playCount":
-                play_count = vars["playCount"]
-                if play_count is not None:
-                    media.set_play_count(int(play_count))
-
-        return media
 
     def _bind_to_main_song(self, coresong):
         main_coresong = self._songs_hash[coresong.props.media.get_id()]
@@ -572,7 +538,8 @@ class Playlist(GObject.GObject):
                 self._songs_todelete.remove(coresong)
                 return
 
-            media = self._create_grilo_media_from_cursor(cursor)
+            media = utils.create_grilo_media_from_cursor(
+                cursor, Grl.MediaType.AUDIO)
             self._delete_song_stmt.bind_string("entry", media.get_id())
             self._delete_song_stmt.bind_string("playlist", self.props.pl_id)
             self._delete_song_stmt.update_async(None, _update_async)

@@ -22,13 +22,16 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from __future__ import annotations
 from enum import Enum, IntEnum
-from typing import List, Union
+from typing import Any, List, Union
 import re
 import unicodedata
 
 from gettext import gettext as _
-from gi.repository import Gio, GLib, Gtk
+import gi
+gi.require_version("Tracker", "3.0")
+from gi.repository import Gio, Grl, GLib, Gtk, Tracker
 
 from gnomemusic.musiclogger import MusicLogger
 
@@ -208,3 +211,70 @@ def natural_sort_names(name_a: str, name_b: str) -> int:
         return Gtk.Ordering.LARGER
     else:
         return Gtk.Ordering.EQUAL
+
+
+def create_grilo_media_from_cursor(
+        cursor: Tracker.SparqlCursor, grl_type: Grl.MediaType) -> Grl.Media:
+    """Iterate a TinySparql cursor to create a Grl.Media
+
+    :param Tracker.SparqlCursor cursor: The cursor
+    :param Grl.MediaType grl_type: The Grilo media type
+    :returns: Grilo media
+    :rtype: Grl.Media
+    """
+    vars: dict[str, Any] = {}
+    for column in range(cursor.get_n_columns()):
+        vtype = cursor.get_value_type(column)
+        if vtype == Tracker.SparqlValueType.UNBOUND:
+            value = None
+        elif vtype == Tracker.SparqlValueType.INTEGER:
+            value = cursor.get_integer(column)
+        elif vtype == Tracker.SparqlValueType.DOUBLE:
+            value = cursor.get_double(column)
+        elif vtype == Tracker.SparqlValueType.DATETIME:
+            value = cursor.get_datetime(column)
+        elif vtype == Tracker.SparqlValueType.BOOLEAN:
+            value = cursor.get_boolean(column)
+        else:
+            value, _ = cursor.get_string(column)
+
+        vars[cursor.get_variable_name(column)] = value
+
+    if grl_type == Grl.MediaType.CONTAINER:
+        media = Grl.Media.container_new()
+    elif grl_type == Grl.MediaType.AUDIO:
+        media = Grl.Media.audio_new()
+
+    media.set_source("gnome-music")
+
+    for key in vars.keys():
+        if key == "id":
+            media.set_id(vars["id"])
+        elif key == "url":
+            media.set_url(vars["url"])
+        elif key == "title":
+            media.set_title(vars["title"])
+        elif key == "artist":
+            media.set_artist(vars["artist"])
+        elif key == "album":
+            media.set_album(vars["album"])
+        elif key == "duration":
+            media.set_duration(int(vars["duration"]))
+        elif key == "tag":
+            media.set_favourite(vars["tag"] is not None)
+        elif key == "lastPlayed":
+            last_played = vars["lastPlayed"]
+            if last_played is not None:
+                media.set_last_played(last_played)
+        elif key == "playCount":
+            play_count = vars["playCount"]
+            if play_count is not None:
+                media.set_play_count(int(play_count))
+        elif key == "childCount":
+            media.set_childcount(int(vars["childCount"]))
+        elif key == "creationDate":
+            creation_date = vars["creationDate"]
+            if creation_date is not None:
+                media.set_creation_date(creation_date)
+
+    return media
