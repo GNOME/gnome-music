@@ -274,6 +274,14 @@ class PlayerPlaylist(GObject.GObject):
 
         return None
 
+    def end(self) -> None:
+        """End play of this playlist
+
+        Resets all song state
+        """
+        for song in self._model:
+            song.props.state = SongWidget.State.UNPLAYED
+
     def _update_model_recent(self):
         recent_size = self._coremodel.props.recent_playlist_size
         offset = max(0, self._position - recent_size)
@@ -527,6 +535,8 @@ class Player(GObject.GObject):
     def stop(self):
         """Stop"""
         self._gst_player.props.state = Playback.STOPPED
+        self._app.props.window.set_player_visible(False)
+        self._playlist.end()
 
     def next(self):
         """"Play next song
