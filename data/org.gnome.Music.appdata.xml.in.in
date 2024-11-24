@@ -28,6 +28,11 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="47.1" date="2024-11-24">
+      <description>
+        <p>Fix MPRIS art not showing</p>
+      </description>
+    </release>
     <release version="47.0" date="2024-09-16">
       <description>
         <p>Add track based ReplayGain</p>

@@ -1,3 +1,15 @@
+Overview of changes in 47.1
+===========================
+
+Bugs fixed:
+ Do not open multiple preferences windows using keyboard shortcut
+ Show MPRIS albumart on delayed retrieval
+
+Thanks to our contributors this release:
+ Alireza Shabani
+ Marinus Schraal
+
+
 Overview of changes in 47.0
 ===========================
 
