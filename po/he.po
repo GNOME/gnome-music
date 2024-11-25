@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNOME Music\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2024-09-16 16:13+0000\n"
-"PO-Revision-Date: 2024-10-12 15:04+0300\n"
+"POT-Creation-Date: 2024-11-06 05:25+0000\n"
+"PO-Revision-Date: 2024-11-25 11:18+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew\n"
 "Language: he\n"
@@ -21,41 +21,37 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Generator: Poedit 3.4.2\n"
 
-#: data/org.gnome.Music.appdata.xml.in.in:6 data/org.gnome.Music.desktop.in.in:3
-#: data/ui/StatusNavigationPage.ui:4 gnomemusic/about.py:139
-#: gnomemusic/application.py:59 gnomemusic/window.py:65
+#: data/org.gnome.Music.desktop.in.in:3
+#: data/org.gnome.Music.metainfo.xml.in.in:9 data/ui/StatusNavigationPage.ui:4
+#: gnomemusic/about.py:139 gnomemusic/application.py:61 gnomemusic/window.py:65
 msgid "Music"
 msgstr "מוזיקה"
 
-#: data/org.gnome.Music.appdata.xml.in.in:7 data/org.gnome.Music.desktop.in.in:5
+#: data/org.gnome.Music.desktop.in.in:4
+msgid "Music Player"
+msgstr "נגן מוזיקה"
+
+#: data/org.gnome.Music.desktop.in.in:5
+#: data/org.gnome.Music.metainfo.xml.in.in:10
 msgid "Play and organize your music collection"
 msgstr "לנגן ולארגן את אוסף המוזיקה שלך"
 
-#: data/org.gnome.Music.appdata.xml.in.in:9
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/org.gnome.Music.desktop.in.in:13
+msgid "Music;Player;"
+msgstr "מוזיקה;מוסיקה;נגן;"
+
+#: data/org.gnome.Music.metainfo.xml.in.in:12
 msgid "An easy and pleasant way to play your music."
 msgstr "דרך קלה ונעימה לנגן את המוזיקה שלך."
 
-#: data/org.gnome.Music.appdata.xml.in.in:12
+#: data/org.gnome.Music.metainfo.xml.in.in:15
 msgid ""
 "Find tracks in your local collection, use automatically generated playlists "
 "or curate a fresh one."
 msgstr ""
 "איתור רצועות באוסף המקומי שלך, נעשה שימוש ברשימות נגינה שנוצרות אוטומטית או "
 "שאפשר להכין אחת חדשה."
-
-#. developer_name tag deprecated with Appstream 1.0
-#: data/org.gnome.Music.appdata.xml.in.in:226
-msgid "The GNOME Music developers"
-msgstr "מפתח GNOME Music"
-
-#: data/org.gnome.Music.desktop.in.in:4
-msgid "Music Player"
-msgstr "נגן מוזיקה"
-
-#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
-#: data/org.gnome.Music.desktop.in.in:13
-msgid "Music;Player;"
-msgstr "מוזיקה;מוסיקה;נגן;"
 
 #: data/org.gnome.Music.gschema.xml:17
 msgid "Window size"
@@ -114,7 +110,7 @@ msgid "Enables or disables inhibiting system suspend while playing music"
 msgstr "Enables or disables inhibiting system suspend while playing music"
 
 #: data/ui/AlbumsSearchNavigationPage.ui:5 data/ui/SearchView.ui:98
-#: gnomemusic/views/albumsview.py:52
+#: gnomemusic/views/albumsview.py:30
 msgid "Albums"
 msgstr "אלבומים"
 
@@ -494,33 +490,34 @@ msgstr "אמן לא ידוע"
 msgid "Playlists"
 msgstr "רשימות נגינה"
 
-#: gnomemusic/views/searchview.py:224
+#: gnomemusic/views/searchview.py:214
 msgid "No Search Started"
 msgstr "לא החל חיפוש"
 
-#: gnomemusic/views/searchview.py:226
+#: gnomemusic/views/searchview.py:216
 msgid "Use the searchbar to start searching for albums, artists or songs"
 msgstr "יש להשתמש בשורת החיפוש על מנת לחפש אלבומים, אומנים או שירים"
 
-#: gnomemusic/views/searchview.py:230
+#: gnomemusic/views/searchview.py:220
 msgid "No Results Found"
 msgstr "לא נמצאו תוצאות"
 
-#: gnomemusic/views/searchview.py:232
+#: gnomemusic/views/searchview.py:222
 msgid "Try a different search"
 msgstr "יש לנסות חיפוש שונה"
 
-#: gnomemusic/widgets/albumwidget.py:230
+#: gnomemusic/widgets/albumwidget.py:193
+#, python-brace-format
+msgid "Disc {row.props.disc_nr}"
+msgstr "תקליטור {row.props.disc_nr}"
+
+#: gnomemusic/widgets/albumwidget.py:241
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "דקה"
 msgstr[1] "‫{} דקות"
 msgstr[2] "‫{} דקות"
 msgstr[3] "{} דקות"
-
-#: gnomemusic/widgets/discbox.py:74
-msgid "Disc {}"
-msgstr "דיסק {}"
 
 #: gnomemusic/widgets/playertoolbar.py:173
 msgid "Pause"
@@ -590,6 +587,12 @@ msgstr "נראה כי גרסת ה־Tracker שבמערכת שלך אינה עדכ
 #: gnomemusic/widgets/statusnavigationpage.py:131
 msgid "Music needs Tracker version 3.0.0 or higher."
 msgstr "יישום המוזיקה דורש Tracker בגרסה 3.0.0 ומעלה."
+
+#~ msgid "The GNOME Music developers"
+#~ msgstr "מפתח GNOME Music"
+
+#~ msgid "Disc {}"
+#~ msgstr "דיסק {}"
 
 #~ msgid "Enables or disables ReplayGain for albums"
 #~ msgstr "Enables or disables ReplayGain for albums"
