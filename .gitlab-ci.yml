@@ -32,8 +32,8 @@ nightly:
 #       dist-job-name: "build-release-tarball"
 #       tarball-artifact-path: "${TARBALL_ARTIFACT_PATH}"
 
-stages:
-  - check
+# stages:
+#   - check
 
 # variables:
 #   APP_ID: "org.gnome.Music.Devel"
