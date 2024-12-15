@@ -1,0 +1,4 @@
+[wrap-git]
+directory = shared-modules
+url = https://github.com/flathub/shared-modules.git
+revision = c937a6608497a990a56a22b444a062f949df5a0c
