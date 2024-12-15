@@ -7,13 +7,13 @@ include:
       tarball-artifact-path: "${TARBALL_ARTIFACT_PATH}"
 
 variables:
-  FLATPAK_MODULE: 'gnome-font-viewer'
+  FLATPAK_MODULE: 'gnome-music'
   TARBALL_ARTIFACT_PATH: ".flatpak-builder/build/${FLATPAK_MODULE}/_flatpak_build/meson-dist/${CI_PROJECT_NAME}-${CI_COMMIT_TAG}.tar.xz"
 
 flatpak:
   extends: '.flatpak'
   variables:
-    MANIFEST_PATH: 'build-aux/flatpak/org.gnome.Music.json'
+    MANIFEST_PATH: 'org.gnome.Music.json'
     RUNTIME_REPO: 'https://sdk.gnome.org/gnome-nightly.flatpakrepo'
     APP_ID: 'org.gnome.Music.Devel'
     BUNDLE: 'gnome-music-dev.flatpak'
