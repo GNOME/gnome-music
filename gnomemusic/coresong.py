@@ -61,10 +61,10 @@ class CoreSong(GObject.GObject):
 
     class Validation(IntEnum):
         """Enum for song validation"""
-        PENDING: int = 0
-        IN_PROGRESS: int = 1
-        FAILED: int = 2
-        SUCCEEDED: int = 3
+        PENDING = 0
+        IN_PROGRESS = 1
+        FAILED = 2
+        SUCCEEDED = 3
 
     def __init__(self, application: Application, media: Grl.Media) -> None:
         """Initiate the CoreSong object
