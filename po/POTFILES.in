@@ -20,7 +20,7 @@ data/ui/StatusNavigationPage.ui
 gnomemusic/__init__.py
 gnomemusic/about.py
 gnomemusic/application.py
-gnomemusic/grilowrappers/grlsmartplaylist.py
+gnomemusic/grilowrappers/smartplaylist.py
 gnomemusic/gstplayer.py
 gnomemusic/inhibitsuspend.py
 gnomemusic/mpris.py
