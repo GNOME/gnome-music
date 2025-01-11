@@ -15,54 +15,49 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2024-09-03 21:12+0000\n"
-"PO-Revision-Date: 2024-09-05 08:00+0300\n"
-"Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
+"POT-Creation-Date: 2024-10-22 13:10+0000\n"
+"PO-Revision-Date: 2024-12-01 00:19+0300\n"
+"Last-Translator: Sabri Ünal <yakushabb@gmail.com>\n"
 "Language-Team: Turkish <takim@gnome.org.tr>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 3.5\n"
 "X-POOTLE-MTIME: 1433363480.000000\n"
 
-#: data/org.gnome.Music.appdata.xml.in.in:6
-#: data/org.gnome.Music.desktop.in.in:3 data/ui/StatusNavigationPage.ui:4
-#: gnomemusic/about.py:138 gnomemusic/application.py:59 gnomemusic/window.py:65
+#: data/org.gnome.Music.desktop.in.in:3
+#: data/org.gnome.Music.metainfo.xml.in.in:9 data/ui/StatusNavigationPage.ui:4
+#: gnomemusic/about.py:139 gnomemusic/application.py:61 gnomemusic/window.py:65
 msgid "Music"
 msgstr "Müzik"
 
-#: data/org.gnome.Music.appdata.xml.in.in:7
+#: data/org.gnome.Music.desktop.in.in:4
+msgid "Music Player"
+msgstr "Müzik Çalar"
+
 #: data/org.gnome.Music.desktop.in.in:5
+#: data/org.gnome.Music.metainfo.xml.in.in:10
 msgid "Play and organize your music collection"
 msgstr "Müzik derleminizi çalın ve yönetin"
 
-#: data/org.gnome.Music.appdata.xml.in.in:9
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/org.gnome.Music.desktop.in.in:13
+msgid "Music;Player;"
+msgstr "Müzik;Çalar;Çalıcı;"
+
+#: data/org.gnome.Music.metainfo.xml.in.in:12
 msgid "An easy and pleasant way to play your music."
 msgstr "Müziğinizi dinlemenin kolay ve hoş yolu."
 
-#: data/org.gnome.Music.appdata.xml.in.in:12
+#: data/org.gnome.Music.metainfo.xml.in.in:15
 msgid ""
 "Find tracks in your local collection, use automatically generated playlists "
 "or curate a fresh one."
 msgstr ""
 "Yerel derleminizdeki parçaları bulun,  kendiliğinden oluşturulan çalma "
 "listelerini kullanın veya yenisini oluşturun."
-
-#. developer_name tag deprecated with Appstream 1.0
-#: data/org.gnome.Music.appdata.xml.in.in:214
-msgid "The GNOME Music developers"
-msgstr "GNOME Müzik Geliştiricileri"
-
-#: data/org.gnome.Music.desktop.in.in:4
-msgid "Music Player"
-msgstr "Müzik Çalar"
-
-#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
-#: data/org.gnome.Music.desktop.in.in:13
-msgid "Music;Player;"
-msgstr "Müzik;Çalar;Çalıcı;"
 
 #: data/org.gnome.Music.gschema.xml:17
 msgid "Window size"
@@ -88,9 +83,9 @@ msgstr "Çalma yineleme kipi"
 #: data/org.gnome.Music.gschema.xml:29
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
-"collection. Allowed values are: “none” (repeat and shuffle are off), “song” "
-"(repeat current song), “all” (repeat playlist, no shuffle), “shuffle” "
-"(shuffle playlist, presumes repeat all)."
+"collection. Allowed values are: “none” (repeat and shuffle are off), "
+"“song” (repeat current song), “all” (repeat playlist, no shuffle), "
+"“shuffle” (shuffle playlist, presumes repeat all)."
 msgstr ""
 "Bu değer, derlemdeki parçaların yinelemeli mi yoksa karışık mı çalınacağını "
 "belirtir. İzin verilen değerler şunlardır: “none” (yineleme ve karıştırma "
@@ -105,12 +100,13 @@ msgstr "ReplayGain’i etkinleştir"
 #: data/org.gnome.Music.gschema.xml:35
 msgid ""
 "Enables or disables ReplayGain for albums or track. Allowed values are: "
-"“disabled” (disables replaygain), “album” (replaygain per album), “track” "
-"(replaygain per track)."
+"“disabled” (disables replaygain), “album” (replaygain per album), "
+"“track” (replaygain per track)."
 msgstr ""
-"Albümler ya da parça için ReplayGain’i etkinleştirir ya da devre dışı bırakır. "
-"İzin verilen değerler: “disabled” (replaygain’i devre dışı bırakır), “album” "
-"(albüm başına replaygain), “track” (parça başına replaygain)."
+"Albümler ya da parça için ReplayGain’i etkinleştirir ya da devre dışı "
+"bırakır. İzin verilen değerler: “disabled” (replaygain’i devre dışı "
+"bırakır), “album” (albüm başına replaygain), “track” (parça başına "
+"replaygain)."
 
 #: data/org.gnome.Music.gschema.xml:39
 msgid "Inhibit system suspend"
@@ -123,7 +119,7 @@ msgstr ""
 "dışı bırak"
 
 #: data/ui/AlbumsSearchNavigationPage.ui:5 data/ui/SearchView.ui:98
-#: gnomemusic/views/albumsview.py:52
+#: gnomemusic/views/albumsview.py:30
 msgid "Albums"
 msgstr "Albümler"
 
@@ -384,52 +380,57 @@ msgstr "Çalma Listesinden _Kaldır"
 msgid "Welcome to Music"
 msgstr "Müzikʼe Hoş Geldiniz"
 
-#: gnomemusic/about.py:140
+#: gnomemusic/about.py:141
 msgid "The GNOME Project"
 msgstr "GNOME Projesi"
 
 #. Translators should localize the following string which
 #. will be displayed at the bottom of the about box to give
 #. credit to the translator(s).
-#: gnomemusic/about.py:146
+#: gnomemusic/about.py:147
 msgid "translator-credits"
 msgstr "Emin Tufan Çetin <etcetin@gmail.com>"
 
-#: gnomemusic/about.py:150
+#: gnomemusic/about.py:151
 msgid "© The GNOME Music Developers"
 msgstr "© GNOME Müzik Geliştiricileri"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:849
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:850
 msgid "Most Played"
 msgstr "En Çok Çalınanlar"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:903
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:904
 msgid "Never Played"
 msgstr "Hiç Çalınmayanlar"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:956
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:957
 msgid "Recently Played"
 msgstr "Son Çalınanlar"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1035
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1036
 msgid "Recently Added"
 msgstr "Yeni Eklenenler"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1098
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1099
 msgid "Favorite Songs"
 msgstr "Gözde Şarkılar"
 
 #. TRANSLATORS: this is a playlist name indicating that the
 #. files are not tagged enough to be displayed in the albums
 #. or artists views.
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1152
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1153
 msgid "Insufficiently Tagged"
 msgstr "Yetersiz Etiketlenme"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:1216
+msgid "All Songs"
+msgstr "Tüm Şarkılar"
 
 #: gnomemusic/gstplayer.py:424
 msgid "Unable to play the file"
@@ -495,30 +496,31 @@ msgstr "Bilinmeyen Sanatçı"
 msgid "Playlists"
 msgstr "Çalma Listeleri"
 
-#: gnomemusic/views/searchview.py:224
+#: gnomemusic/views/searchview.py:214
 msgid "No Search Started"
 msgstr "Arama Başlatılmadı"
 
-#: gnomemusic/views/searchview.py:226
+#: gnomemusic/views/searchview.py:216
 msgid "Use the searchbar to start searching for albums, artists or songs"
 msgstr "Albüm, sanatçı ya da şarkı aramak için arama çubuğunu kullan"
 
-#: gnomemusic/views/searchview.py:230
+#: gnomemusic/views/searchview.py:220
 msgid "No Results Found"
 msgstr "Sonuç Bulunamadı"
 
-#: gnomemusic/views/searchview.py:232
+#: gnomemusic/views/searchview.py:222
 msgid "Try a different search"
 msgstr "Başka arama deneyin"
 
-#: gnomemusic/widgets/albumwidget.py:230
+#: gnomemusic/widgets/albumwidget.py:193
+#, python-brace-format
+msgid "Disc {row.props.disc_nr}"
+msgstr "Disk {row.props.disc_nr}"
+
+#: gnomemusic/widgets/albumwidget.py:241
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} dakika"
-
-#: gnomemusic/widgets/discbox.py:74
-msgid "Disc {}"
-msgstr "Disk {}"
 
 #: gnomemusic/widgets/playertoolbar.py:173
 msgid "Pause"
@@ -585,6 +587,12 @@ msgstr "Sisteminizin Tracker sürümü eski görünüyor."
 #: gnomemusic/widgets/statusnavigationpage.py:131
 msgid "Music needs Tracker version 3.0.0 or higher."
 msgstr "Müzik, Trackerʼın 3.0.0 sürümünü veya üstünü gerektirmektedir."
+
+#~ msgid "The GNOME Music developers"
+#~ msgstr "GNOME Müzik Geliştiricileri"
+
+#~ msgid "Disc {}"
+#~ msgstr "Disk {}"
 
 #~ msgid "Enables or disables ReplayGain for albums"
 #~ msgstr "Albümler için ReplayGain’i etkinleştirir ya da devre dışı bırakır"
