@@ -1,0 +1,579 @@
+# Interlingua translation for gnome-music.
+# Copyright (C) 2025 gnome-music's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-music package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# FULL NAME <EMAIL@ADDRESS>, 2025.
+# Emilio Sepúlveda <emism.translations@gmail.com>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-music master\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
+"POT-Creation-Date: 2025-01-15 14:05+0000\n"
+"PO-Revision-Date: 2025-02-05 13:19-0300\n"
+"Last-Translator: Emilio Sepúlveda <emism.translations@gmail.com>\n"
+"Language-Team: Interlingua <softinterlingua@gmail.com>\n"
+"Language: ia\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-DL-Lang: ia\n"
+"X-DL-Module: gnome-music\n"
+"X-DL-Branch: master\n"
+"X-DL-Domain: po\n"
+"X-DL-State: None\n"
+"X-Generator: Gtranslator 47.1\n"
+
+#: data/org.gnome.Music.desktop.in.in:3
+#: data/org.gnome.Music.metainfo.xml.in.in:9 data/ui/StatusNavigationPage.ui:4
+#: gnomemusic/about.py:139 gnomemusic/application.py:61 gnomemusic/window.py:65
+msgid "Music"
+msgstr "Musica"
+
+#: data/org.gnome.Music.desktop.in.in:4
+msgid "Music Player"
+msgstr "Reproductor de musica"
+
+#: data/org.gnome.Music.desktop.in.in:5
+#: data/org.gnome.Music.metainfo.xml.in.in:10
+msgid "Play and organize your music collection"
+msgstr "Reproduce e organisa tu collection de musica"
+
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/org.gnome.Music.desktop.in.in:13
+msgid "Music;Player;"
+msgstr "Musica;Reproductor;"
+
+#: data/org.gnome.Music.metainfo.xml.in.in:12
+msgid "An easy and pleasant way to play your music."
+msgstr "Un maniera facile e agradabile de ascoltar tu musica"
+
+#: data/org.gnome.Music.metainfo.xml.in.in:15
+msgid ""
+"Find tracks in your local collection, use automatically generated playlists "
+"or curate a fresh one."
+msgstr ""
+"Trova pistas in tu collection local, usa listas de reproduction generate "
+"automaticamente o cura un nove lista."
+
+#: data/org.gnome.Music.gschema.xml:17
+msgid "Window size"
+msgstr "Dimension de fenestra"
+
+#: data/org.gnome.Music.gschema.xml:18
+msgid "Window size (width and height)."
+msgstr "Dimension de fenestra (largor e altor)."
+
+#: data/org.gnome.Music.gschema.xml:22
+msgid "Window maximized"
+msgstr "Fenestra maximisate"
+
+#: data/org.gnome.Music.gschema.xml:23
+msgid "Window maximized state."
+msgstr "Stato de fenestra maximisate."
+
+#: data/org.gnome.Music.gschema.xml:27
+msgid "Playback repeat mode"
+msgstr "Modo de repeter reproduction"
+
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: data/org.gnome.Music.gschema.xml:29
+msgid ""
+"Value identifies whether to repeat or randomize playback through the "
+"collection. Allowed values are: “none” (repeat and shuffle are off), “song” "
+"(repeat current song), “all” (repeat playlist, no shuffle), “shuffle” "
+"(shuffle playlist, presumes repeat all)."
+msgstr ""
+
+#: data/org.gnome.Music.gschema.xml:33
+msgid "Enable ReplayGain"
+msgstr "Habilitar ReplayGain"
+
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: data/org.gnome.Music.gschema.xml:35
+msgid ""
+"Enables or disables ReplayGain for albums or track. Allowed values are: "
+"“disabled” (disables replaygain), “album” (replaygain per album), “track” "
+"(replaygain per track)."
+msgstr ""
+
+#: data/org.gnome.Music.gschema.xml:39
+msgid "Inhibit system suspend"
+msgstr ""
+
+#: data/org.gnome.Music.gschema.xml:40
+msgid "Enables or disables inhibiting system suspend while playing music"
+msgstr ""
+
+#: data/ui/AlbumsSearchNavigationPage.ui:5 data/ui/SearchView.ui:98
+#: gnomemusic/views/albumsview.py:30
+msgid "Albums"
+msgstr "Albumes"
+
+#: data/ui/AlbumWidget.ui:84 data/ui/PlayerToolbar.ui:87
+#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:176
+msgid "Play"
+msgstr "Reproducer"
+
+#: data/ui/AlbumWidget.ui:130 data/ui/PlaylistControls.ui:5
+#: data/ui/SongWidgetMenu.ui:11
+msgid "_Play"
+msgstr "Re_producer"
+
+#: data/ui/AlbumWidget.ui:134
+msgid "Add to _Favorite Songs"
+msgstr "Adder al cantiones _favorite"
+
+#: data/ui/AlbumWidget.ui:138 data/ui/SongWidgetMenu.ui:15
+msgid "_Add to Playlist…"
+msgstr "_Adder al lista de reproduction…"
+
+#: data/ui/ArtistsSearchNavigationPage.ui:5 data/ui/SearchView.ui:41
+#: gnomemusic/views/artistsview.py:51
+msgid "Artists"
+msgstr "Artistas"
+
+#: data/ui/HeaderBar.ui:14
+msgid "Menu"
+msgstr "Menu"
+
+#: data/ui/HeaderBar.ui:22 data/ui/SearchHeaderBar.ui:12
+msgid "Search"
+msgstr ""
+
+#: data/ui/HeaderBar.ui:31 data/ui/PreferencesDialog.ui:4
+msgid "Preferences"
+msgstr "Preferentias"
+
+#: data/ui/HeaderBar.ui:35
+msgid "Keyboard Shortcuts"
+msgstr "Commandos curte de claviero"
+
+#: data/ui/HeaderBar.ui:39
+msgid "Help"
+msgstr "Adjuta"
+
+#: data/ui/HeaderBar.ui:43
+msgid "About Music"
+msgstr "A proposito de Musica"
+
+#: data/ui/help-overlay.ui:11
+msgctxt "shortcut window"
+msgid "General"
+msgstr "General"
+
+#: data/ui/help-overlay.ui:14
+msgctxt "shortcut window"
+msgid "Preferences"
+msgstr "Preferentias"
+
+#: data/ui/help-overlay.ui:20
+msgctxt "shortcut window"
+msgid "Search"
+msgstr ""
+
+#: data/ui/help-overlay.ui:26
+msgctxt "shortcut window"
+msgid "Help"
+msgstr "Adjuta"
+
+#: data/ui/help-overlay.ui:32
+msgctxt "shortcut window"
+msgid "Shortcuts"
+msgstr "Commandos curte"
+
+#: data/ui/help-overlay.ui:38
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Quitar"
+
+#: data/ui/help-overlay.ui:46
+msgctxt "shortcut window"
+msgid "Playback"
+msgstr "Reproduction"
+
+#: data/ui/help-overlay.ui:49
+msgctxt "shortcut window"
+msgid "Play/Pause"
+msgstr "Reproducer/Pausar"
+
+#: data/ui/help-overlay.ui:55
+msgctxt "shortcut window"
+msgid "Next song"
+msgstr "Cantion sequente"
+
+#: data/ui/help-overlay.ui:61
+msgctxt "shortcut window"
+msgid "Previous song"
+msgstr "Cantion precedente"
+
+#: data/ui/help-overlay.ui:67
+msgctxt "shortcut window"
+msgid "Toggle repeat"
+msgstr "Commutar repetition"
+
+#: data/ui/help-overlay.ui:73
+msgctxt "shortcut window"
+msgid "Toggle shuffle"
+msgstr "Commutar miscer"
+
+#: data/ui/help-overlay.ui:81
+msgctxt "shortcut window"
+msgid "Navigation"
+msgstr "Navigation"
+
+#: data/ui/help-overlay.ui:84
+msgctxt "shortcut window"
+msgid "Go to Albums"
+msgstr "Vader al albumes"
+
+#: data/ui/help-overlay.ui:90
+msgctxt "shortcut window"
+msgid "Go to Artists"
+msgstr "Vader al artistas"
+
+#: data/ui/help-overlay.ui:96
+msgctxt "shortcut window"
+msgid "Go to Playlists"
+msgstr "Vader al listas de reproductin"
+
+#: data/ui/help-overlay.ui:102
+msgctxt "shortcut window"
+msgid "Go back"
+msgstr "Vader retro"
+
+#: data/ui/PlayerToolbar.ui:74
+msgid "Previous"
+msgstr "Precedente"
+
+#: data/ui/PlayerToolbar.ui:106
+msgid "Next"
+msgstr "Sequente"
+
+#: data/ui/PlaylistControls.ui:9
+msgid "_Delete"
+msgstr "_Supprimer"
+
+#: data/ui/PlaylistControls.ui:13
+msgid "_Rename…"
+msgstr "_Renominar…"
+
+#: data/ui/PlaylistControls.ui:28
+msgid "Playlist Name"
+msgstr "Nomine de lista de reproduction"
+
+#: data/ui/PlaylistControls.ui:62
+msgid "_Done"
+msgstr ""
+
+#: data/ui/PlaylistDialog.ui:16
+msgid "Add to Playlist"
+msgstr "Adder al lista de reproduction"
+
+#: data/ui/PlaylistDialog.ui:27
+msgid "_Cancel"
+msgstr "_Cancellar"
+
+#: data/ui/PlaylistDialog.ui:36
+msgid "_Add"
+msgstr "_Adder"
+
+#: data/ui/PlaylistDialog.ui:91
+msgid "Enter a name for your first playlist"
+msgstr "Entra un nomine pro tu prime lista de reproduction"
+
+#: data/ui/PlaylistDialog.ui:116
+msgid "C_reate"
+msgstr "C_rear"
+
+#: data/ui/PlaylistDialog.ui:177
+msgid "New Playlist…"
+msgstr "Nove lista de reproduction…"
+
+#: data/ui/PlaylistDialog.ui:189
+msgid "Add"
+msgstr "Adder"
+
+#: data/ui/PreferencesDialog.ui:9
+msgid "Player Settings"
+msgstr "Configurationes de reprductor"
+
+#: data/ui/PreferencesDialog.ui:12
+msgid "Repeat Mode"
+msgstr "Modo de repetition"
+
+#: data/ui/PreferencesDialog.ui:16
+msgid "None"
+msgstr "Necun"
+
+#: data/ui/PreferencesDialog.ui:17
+msgid "Song"
+msgstr "Cantion"
+
+#: data/ui/PreferencesDialog.ui:18
+msgid "All"
+msgstr "Tot"
+
+#: data/ui/PreferencesDialog.ui:19 gnomemusic/player.py:51
+msgid "Shuffle"
+msgstr "Miscer"
+
+#: data/ui/PreferencesDialog.ui:27
+msgid "ReplayGain"
+msgstr "ReplayGain"
+
+#: data/ui/PreferencesDialog.ui:28
+msgid "Balance loudness between songs if ReplayGain metadata is found"
+msgstr ""
+
+#: data/ui/PreferencesDialog.ui:32
+msgid "Disabled"
+msgstr "Dishabilitate"
+
+#: data/ui/PreferencesDialog.ui:33
+msgid "Album"
+msgstr "Album"
+
+#: data/ui/PreferencesDialog.ui:34
+msgid "Track"
+msgstr "Pista"
+
+#: data/ui/PreferencesDialog.ui:44
+msgid "Power Settings"
+msgstr ""
+
+#: data/ui/PreferencesDialog.ui:47
+msgid "Inhibit Suspend"
+msgstr ""
+
+#: data/ui/PreferencesDialog.ui:48
+msgid "Only while playing"
+msgstr ""
+
+#: data/ui/SearchView.ui:55 data/ui/SearchView.ui:112
+msgid "View All"
+msgstr "Vider toto"
+
+#: data/ui/SearchView.ui:154
+msgid "Songs"
+msgstr "Cantos"
+
+#: data/ui/SongWidgetMenu.ui:19
+msgid "_Remove from Playlist"
+msgstr "_Remover desde le lista de reproduction"
+
+#: data/ui/StatusNavigationPage.ui:36
+msgid "Welcome to Music"
+msgstr "Benvenite a Musica"
+
+#: gnomemusic/about.py:141
+msgid "The GNOME Project"
+msgstr "Le projecto GNOME"
+
+#. Translators should localize the following string which
+#. will be displayed at the bottom of the about box to give
+#. credit to the translator(s).
+#: gnomemusic/about.py:147
+msgid "translator-credits"
+msgstr "Emilio Sepúlveda <emism.translations@gmail.com>"
+
+#: gnomemusic/about.py:151
+msgid "© The GNOME Music Developers"
+msgstr "© Le disveloppatores de GNOME Music"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/smartplaylist.py:128
+msgid "Most Played"
+msgstr "Plus reproducite"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/smartplaylist.py:182
+msgid "Never Played"
+msgstr "Nunquam reproducite"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/smartplaylist.py:235
+msgid "Recently Played"
+msgstr "Reproducite recentemente"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/smartplaylist.py:314
+msgid "Recently Added"
+msgstr "Addite recentemente"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/smartplaylist.py:377
+msgid "Favorite Songs"
+msgstr "Cantiones favorite"
+
+#. TRANSLATORS: this is a playlist name indicating that the
+#. files are not tagged enough to be displayed in the albums
+#. or artists views.
+#: gnomemusic/grilowrappers/smartplaylist.py:431
+msgid "Insufficiently Tagged"
+msgstr ""
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/smartplaylist.py:494
+msgid "All Songs"
+msgstr "Tote le cantiones"
+
+#: gnomemusic/gstplayer.py:424
+msgid "Unable to play the file"
+msgstr "Impossibile de reproducer le file"
+
+#: gnomemusic/gstplayer.py:430
+msgid "_Find in {}"
+msgstr "_Trovar in {}"
+
+#. TRANSLATORS: separator for two codecs
+#: gnomemusic/gstplayer.py:440
+msgid " and "
+msgstr "e"
+
+#. TRANSLATORS: separator for a list of codecs
+#: gnomemusic/gstplayer.py:443
+msgid ", "
+msgstr ", "
+
+#: gnomemusic/gstplayer.py:445
+msgid "{} is required to play the file, but is not installed."
+msgid_plural "{} are required to play the file, but are not installed."
+msgstr[0] ""
+msgstr[1] ""
+
+#: gnomemusic/inhibitsuspend.py:69
+msgid "Playing music"
+msgstr "Musica in reproduction"
+
+#. Translators: "shuffle" causes tracks to play in random order.
+#: gnomemusic/player.py:48
+msgid "Shuffle/Repeat Off"
+msgstr ""
+
+#: gnomemusic/player.py:49
+msgid "Repeat Song"
+msgstr "Repeter cantion"
+
+#: gnomemusic/player.py:50
+msgid "Repeat All"
+msgstr "Repeter toto"
+
+#: gnomemusic/playlisttoast.py:55
+msgid "Playlist {} removed"
+msgstr "Lista de reproduction {} removite"
+
+#: gnomemusic/playlisttoast.py:56 gnomemusic/songtoast.py:65
+msgid "Undo"
+msgstr "Disfacer"
+
+#: gnomemusic/songtoast.py:64
+msgid "{} removed from {}"
+msgstr "{} removite desde {}"
+
+#: gnomemusic/utils.py:92
+msgid "Unknown album"
+msgstr "Album non cognoscite"
+
+#: gnomemusic/utils.py:113
+msgid "Unknown Artist"
+msgstr "Artista non cognoscite"
+
+#: gnomemusic/views/playlistsview.py:45
+msgid "Playlists"
+msgstr "Listas de reproduction"
+
+#: gnomemusic/views/searchview.py:214
+msgid "No Search Started"
+msgstr ""
+
+#: gnomemusic/views/searchview.py:216
+msgid "Use the searchbar to start searching for albums, artists or songs"
+msgstr ""
+
+#: gnomemusic/views/searchview.py:220
+msgid "No Results Found"
+msgstr "Necun resultatos trovate"
+
+#: gnomemusic/views/searchview.py:222
+msgid "Try a different search"
+msgstr "Trova un cerca differente"
+
+#: gnomemusic/widgets/albumwidget.py:193
+#, python-brace-format
+msgid "Disc {row.props.disc_nr}"
+msgstr "Disco {row.props.disc_nr}"
+
+#: gnomemusic/widgets/albumwidget.py:241
+msgid "{} minute"
+msgid_plural "{} minutes"
+msgstr[0] "{} minuta"
+msgstr[1] "{} minutas"
+
+#: gnomemusic/widgets/playertoolbar.py:173
+msgid "Pause"
+msgstr "Pausar"
+
+#: gnomemusic/widgets/playlistcontrols.py:130
+msgid "{} Song"
+msgid_plural "{} Songs"
+msgstr[0] "{} cantion"
+msgstr[1] "{} cantiones"
+
+#: gnomemusic/widgets/searchheaderbar.py:54
+msgid "Search songs, artists and albums"
+msgstr "Cerca cantiones, artistas e albumes"
+
+#. noqa: F841
+#: gnomemusic/widgets/songwidgetmenu.py:94
+msgid "_Open Location"
+msgstr ""
+
+#. TRANSLATORS: These are verbs, to (un)mark something as a
+#. favorite.
+#: gnomemusic/widgets/startoggle.py:36
+msgid "Unstar"
+msgstr ""
+
+#: gnomemusic/widgets/startoggle.py:36
+msgid "Star"
+msgstr ""
+
+#: gnomemusic/widgets/statusnavigationpage.py:51
+msgid "Your XDG Music directory is not set."
+msgstr "Tu directorio de musica XDG non es definite."
+
+#: gnomemusic/widgets/statusnavigationpage.py:58
+msgid "Music Folder"
+msgstr "Dossier de musica"
+
+#. TRANSLATORS: This is a label to display a link to open user's music
+#. folder. {} will be replaced with the translated text 'Music folder'
+#: gnomemusic/widgets/statusnavigationpage.py:66
+msgid "The contents of your {} will appear here."
+msgstr "Le contentos de tu {} apparera hic."
+
+#: gnomemusic/widgets/statusnavigationpage.py:116
+msgid "No Music Found"
+msgstr "Necun musica trovate"
+
+#: gnomemusic/widgets/statusnavigationpage.py:117
+msgid "Try a Different Search"
+msgstr "Trova un cerca differente"
+
+#: gnomemusic/widgets/statusnavigationpage.py:121
+msgid "GNOME Music could not connect to Tracker."
+msgstr "GNOME Music non pote connecter a Tracker."
+
+#: gnomemusic/widgets/statusnavigationpage.py:123
+msgid "Your music files cannot be indexed without Tracker running."
+msgstr ""
+
+#: gnomemusic/widgets/statusnavigationpage.py:129
+msgid "Your system Tracker version seems outdated."
+msgstr ""
+
+#: gnomemusic/widgets/statusnavigationpage.py:131
+msgid "Music needs Tracker version 3.0.0 or higher."
+msgstr "Musica necessita Tracker version 3.0.0 o superior."
