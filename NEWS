@@ -1,3 +1,23 @@
+Overview of changes in 48.beta
+==============================
+
+• Use PyGObject asyncio
+• Support HiDPI covers
+• Fix styling issues
+• Improve search reliability
+
+Bugs fixed:
+ Show MRPIS art on delayed retrieval (#611)
+
+Thanks to our contributors this release:
+ Alireza Shabani
+ Brage Fuglseth
+ Jean Felder
+ Marinus Schraal
+ Tau Gärtli
+ Walt Shabani
+
+
 Overview of changes in 47.0
 ===========================
 
