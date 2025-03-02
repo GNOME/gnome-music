@@ -1,15 +1,15 @@
 # Korean translation for gnome-music.
 # Copyright (C) 2013 gnome-music's authors and many contributors.
 # This file is distributed under the same license as the gnome-music package.
-# Seong-ho Cho <shcho@gnome.org>, 2013-2024.
+# Seong-ho Cho <shcho@gnome.org>, 2013-2025.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2024-09-03 21:12+0000\n"
-"PO-Revision-Date: 2024-09-04 21:41+0900\n"
-"Last-Translator: Seong-ho Cho <darkcircle.0426@gmail.com>\n"
+"POT-Creation-Date: 2025-02-27 22:52+0000\n"
+"PO-Revision-Date: 2025-03-01 03:59+0900\n"
+"Last-Translator: Seong-ho Cho <shcho@gnome.org>\n"
 "Language-Team: Korean <gnome-kr@googlegroups.com>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
@@ -18,42 +18,37 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Poedit 3.5\n"
 
-#: data/org.gnome.Music.appdata.xml.in.in:6
-#: data/org.gnome.Music.desktop.in.in:3 data/ui/StatusNavigationPage.ui:4
-#: gnomemusic/about.py:138 gnomemusic/application.py:59 gnomemusic/window.py:65
+#: data/org.gnome.Music.desktop.in.in:3
+#: data/org.gnome.Music.metainfo.xml.in.in:9 data/ui/StatusNavigationPage.ui:4
+#: gnomemusic/about.py:142 gnomemusic/application.py:61 gnomemusic/window.py:65
 msgid "Music"
 msgstr "음악"
 
-#: data/org.gnome.Music.appdata.xml.in.in:7
+#: data/org.gnome.Music.desktop.in.in:4
+msgid "Music Player"
+msgstr "음악 재생기"
+
 #: data/org.gnome.Music.desktop.in.in:5
+#: data/org.gnome.Music.metainfo.xml.in.in:10
 msgid "Play and organize your music collection"
 msgstr "음악 모음을 재생하고 정리합니다"
 
-#: data/org.gnome.Music.appdata.xml.in.in:9
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/org.gnome.Music.desktop.in.in:13
+msgid "Music;Player;"
+msgstr "Music;음악;Player;재생기;"
+
+#: data/org.gnome.Music.metainfo.xml.in.in:12
 msgid "An easy and pleasant way to play your music."
 msgstr "음악을 들을 수 있는 쉽고 즐거운 수단입니다."
 
-#: data/org.gnome.Music.appdata.xml.in.in:12
+#: data/org.gnome.Music.metainfo.xml.in.in:15
 msgid ""
 "Find tracks in your local collection, use automatically generated playlists "
 "or curate a fresh one."
 msgstr ""
 "로컬 모음집에서 트랙을 찾거나 자동으로 미리 만든 재생 목록을 활용하거나 새 목"
 "록을 구성합니다."
-
-#. developer_name tag deprecated with Appstream 1.0
-#: data/org.gnome.Music.appdata.xml.in.in:214
-msgid "The GNOME Music developers"
-msgstr "The GNOME Music developers"
-
-#: data/org.gnome.Music.desktop.in.in:4
-msgid "Music Player"
-msgstr "음악 재생기"
-
-#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
-#: data/org.gnome.Music.desktop.in.in:13
-msgid "Music;Player;"
-msgstr "Music;음악;Player;재생기;"
 
 #: data/org.gnome.Music.gschema.xml:17
 msgid "Window size"
@@ -99,9 +94,9 @@ msgid ""
 "“disabled” (disables replaygain), “album” (replaygain per album), “track” "
 "(replaygain per track)."
 msgstr ""
-"앨범 또는 트랙의 리플레이 게인 사용 여부를 설정합니다. 가능한 값은 \"비활성"
-"\" (리플레이 게인 사용 안함), \"앨범\" (앨범 단위 리플레이 게인 사용), \"트랙"
-"\" (트랙 단위 리플레이 게인 사용)이 있습니다."
+"앨범 또는 트랙의 리플레이 게인 사용 여부를 설정합니다. 가능한 값은 “비활성” "
+"(리플레이 게인 사용 안함), “앨범” (앨범 단위 리플레이 게인 사용), “트랙” (트"
+"랙 단위 리플레이 게인 사용)이 있습니다."
 
 #: data/org.gnome.Music.gschema.xml:39
 msgid "Inhibit system suspend"
@@ -114,7 +109,7 @@ msgstr ""
 "니다"
 
 #: data/ui/AlbumsSearchNavigationPage.ui:5 data/ui/SearchView.ui:98
-#: gnomemusic/views/albumsview.py:52
+#: gnomemusic/views/albumsview.py:30
 msgid "Albums"
 msgstr "앨범"
 
@@ -364,7 +359,7 @@ msgstr "모두 보기"
 
 #: data/ui/SearchView.ui:154
 msgid "Songs"
-msgstr "노래"
+msgstr "곡"
 
 #: data/ui/SongWidgetMenu.ui:19
 msgid "_Remove from Playlist"
@@ -374,52 +369,57 @@ msgstr "재생 목록에서 제거(_R)"
 msgid "Welcome to Music"
 msgstr "그놈 음악 사용을 환영합니다"
 
-#: gnomemusic/about.py:140
+#: gnomemusic/about.py:144
 msgid "The GNOME Project"
 msgstr "그놈 프로젝트"
 
 #. Translators should localize the following string which
 #. will be displayed at the bottom of the about box to give
 #. credit to the translator(s).
-#: gnomemusic/about.py:146
+#: gnomemusic/about.py:150
 msgid "translator-credits"
 msgstr "조성호 <shcho@gnome.org>"
 
-#: gnomemusic/about.py:150
+#: gnomemusic/about.py:154
 msgid "© The GNOME Music Developers"
 msgstr "© The GNOME Music Developers"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:849
+#: gnomemusic/grilowrappers/smartplaylist.py:128
 msgid "Most Played"
 msgstr "가장 많이 재생함"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:903
+#: gnomemusic/grilowrappers/smartplaylist.py:182
 msgid "Never Played"
 msgstr "재생 안함"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:956
+#: gnomemusic/grilowrappers/smartplaylist.py:235
 msgid "Recently Played"
 msgstr "최근 재생함"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1035
+#: gnomemusic/grilowrappers/smartplaylist.py:314
 msgid "Recently Added"
 msgstr "최근 추가함"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1098
+#: gnomemusic/grilowrappers/smartplaylist.py:377
 msgid "Favorite Songs"
 msgstr "즐겨찾는 곡"
 
 #. TRANSLATORS: this is a playlist name indicating that the
 #. files are not tagged enough to be displayed in the albums
 #. or artists views.
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1152
+#: gnomemusic/grilowrappers/smartplaylist.py:431
 msgid "Insufficiently Tagged"
 msgstr "충분치 못한 태깅"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/smartplaylist.py:494
+msgid "All Songs"
+msgstr "모든 곡"
 
 #: gnomemusic/gstplayer.py:424
 msgid "Unable to play the file"
@@ -473,11 +473,11 @@ msgstr "실행 취소"
 msgid "{} removed from {}"
 msgstr "{} 항목을 {}에서 제거했습니다"
 
-#: gnomemusic/utils.py:89
+#: gnomemusic/utils.py:92
 msgid "Unknown album"
 msgstr "알 수 없는 앨범"
 
-#: gnomemusic/utils.py:110
+#: gnomemusic/utils.py:113
 msgid "Unknown Artist"
 msgstr "알 수 없는 음악가"
 
@@ -485,30 +485,31 @@ msgstr "알 수 없는 음악가"
 msgid "Playlists"
 msgstr "재생 목록"
 
-#: gnomemusic/views/searchview.py:224
+#: gnomemusic/views/searchview.py:214
 msgid "No Search Started"
 msgstr "시작한 검색 없음"
 
-#: gnomemusic/views/searchview.py:226
+#: gnomemusic/views/searchview.py:216
 msgid "Use the searchbar to start searching for albums, artists or songs"
 msgstr "앨범, 음악가, 곡 검색을 시작하려면 검색 표시줄을 활용 하십시오"
 
-#: gnomemusic/views/searchview.py:230
+#: gnomemusic/views/searchview.py:220
 msgid "No Results Found"
 msgstr "결과가 없습니다"
 
-#: gnomemusic/views/searchview.py:232
+#: gnomemusic/views/searchview.py:222
 msgid "Try a different search"
 msgstr "다른 단어/문장으로 검색해보십시오"
 
-#: gnomemusic/widgets/albumwidget.py:230
+#: gnomemusic/widgets/albumwidget.py:193
+#, python-brace-format
+msgid "Disc {row.props.disc_nr}"
+msgstr "디스크 {row.props.disc_nr}"
+
+#: gnomemusic/widgets/albumwidget.py:241
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{}분"
-
-#: gnomemusic/widgets/discbox.py:74
-msgid "Disc {}"
-msgstr "디스크 {}"
 
 #: gnomemusic/widgets/playertoolbar.py:173
 msgid "Pause"
@@ -575,6 +576,12 @@ msgstr "시스템에 설치한 트래커 버전이 오래됐습니다."
 #: gnomemusic/widgets/statusnavigationpage.py:131
 msgid "Music needs Tracker version 3.0.0 or higher."
 msgstr "그놈 음악에서는 버전 3.0.0 이상의 트래커가 필요합니다."
+
+#~ msgid "The GNOME Music developers"
+#~ msgstr "The GNOME Music developers"
+
+#~ msgid "Disc {}"
+#~ msgstr "디스크 {}"
 
 #~ msgid "Enables or disables ReplayGain for albums"
 #~ msgstr "앨범의 리플레이 게인을 켜거나 끕니다"
