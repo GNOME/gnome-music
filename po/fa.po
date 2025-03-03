@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the gnome-music package.
 # royaniva <royaniva@outlook.com >, 2013.
 # Arash Mousavi <mousavi.arash@gmail.com>, 2013-2017.
-# Danial Behzadi <dani.behzi@ubuntu.com>, 2018-2024.
+# Danial Behzadi <dani.behzi@ubuntu.com>, 2018-2025.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2024-09-03 21:12+0000\n"
-"PO-Revision-Date: 2024-09-05 16:08+0330\n"
+"POT-Creation-Date: 2025-02-12 22:49+0000\n"
+"PO-Revision-Date: 2025-03-03 19:38+0330\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <>\n"
 "Language: fa\n"
@@ -18,43 +18,38 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.5\n"
 
-#: data/org.gnome.Music.appdata.xml.in.in:6 data/org.gnome.Music.desktop.in.in:3
-#: data/ui/StatusNavigationPage.ui:4 gnomemusic/about.py:138
-#: gnomemusic/application.py:59 gnomemusic/window.py:65
+#: data/org.gnome.Music.desktop.in.in:3 data/org.gnome.Music.metainfo.xml.in.in:9
+#: data/ui/StatusNavigationPage.ui:4 gnomemusic/about.py:142
+#: gnomemusic/application.py:61 gnomemusic/window.py:65
 msgid "Music"
 msgstr "آهنگ‌ها"
 
-#: data/org.gnome.Music.appdata.xml.in.in:7 data/org.gnome.Music.desktop.in.in:5
+#: data/org.gnome.Music.desktop.in.in:4
+msgid "Music Player"
+msgstr "پخش‌کنندهٔ آهنگ"
+
+#: data/org.gnome.Music.desktop.in.in:5 data/org.gnome.Music.metainfo.xml.in.in:10
 msgid "Play and organize your music collection"
 msgstr "پخش و سازمان‌دهی مجموعه آهنگ‌هایتان"
 
-#: data/org.gnome.Music.appdata.xml.in.in:9
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/org.gnome.Music.desktop.in.in:13
+msgid "Music;Player;"
+msgstr "Music;Player;پخش‌کننده‌;موزیک;آهنگ;موسیقی;"
+
+#: data/org.gnome.Music.metainfo.xml.in.in:12
 msgid "An easy and pleasant way to play your music."
 msgstr "راهی آسان و دلپذیر برای پخش آهنگ‌هایتان."
 
-#: data/org.gnome.Music.appdata.xml.in.in:12
+#: data/org.gnome.Music.metainfo.xml.in.in:15
 msgid ""
 "Find tracks in your local collection, use automatically generated playlists or "
 "curate a fresh one."
 msgstr ""
 "یافتن قطعه‌ها در مجموعهٔ محلّیتان با استفاده از سیاهه‌های پخش ایجاد شده به صورت "
 "خودکار یا ساختن سیاهه‌ای تازه."
-
-#. developer_name tag deprecated with Appstream 1.0
-#: data/org.gnome.Music.appdata.xml.in.in:214
-msgid "The GNOME Music developers"
-msgstr "توسعه‌دهندگان آهنگ‌های گنوم"
-
-#: data/org.gnome.Music.desktop.in.in:4
-msgid "Music Player"
-msgstr "پخش‌کنندهٔ آهنگ"
-
-#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
-#: data/org.gnome.Music.desktop.in.in:13
-msgid "Music;Player;"
-msgstr "Music;Player;پخش‌کننده‌;موزیک;آهنگ;موسیقی;"
 
 #: data/org.gnome.Music.gschema.xml:17
 msgid "Window size"
@@ -97,11 +92,12 @@ msgstr "به کار انداختن ReplayGain"
 #: data/org.gnome.Music.gschema.xml:35
 msgid ""
 "Enables or disables ReplayGain for albums or track. Allowed values are: "
-"“disabled” (disables replaygain), “album” (replaygain per album), "
-"“track” (replaygain per track)."
+"“disabled” (disables replaygain), “album” (replaygain per album), “track” "
+"(replaygain per track)."
 msgstr ""
-"به یا از کار انداختن ReplayGain برای آلبوم‌ها یا قطعه‌ها. مقدارهای ممکن: "
-"«disabled»، «album» و «track»"
+"به یا از کار انداختن ReplayGain برای آلبوم‌ها یا قطعه‌ها. مقدارهای ممکن:«disabled» "
+"(از کار انداختن replaygain)، «album» (به کار افتاده برای آلبوم) و «track» (به "
+"کار افتاده برای هر قطعه)."
 
 #: data/org.gnome.Music.gschema.xml:39
 msgid "Inhibit system suspend"
@@ -112,7 +108,7 @@ msgid "Enables or disables inhibiting system suspend while playing music"
 msgstr "به یا از کار انداختن جلوگیری از تعلیق سامانه هنگام پخش آهنگ"
 
 #: data/ui/AlbumsSearchNavigationPage.ui:5 data/ui/SearchView.ui:98
-#: gnomemusic/views/albumsview.py:52
+#: gnomemusic/views/albumsview.py:30
 msgid "Albums"
 msgstr "آلبوم‌ها"
 
@@ -372,52 +368,57 @@ msgstr "_برداشتن از سیاههٔ پخش"
 msgid "Welcome to Music"
 msgstr "به آهنگ‌ها خوش آمدید"
 
-#: gnomemusic/about.py:140
+#: gnomemusic/about.py:144
 msgid "The GNOME Project"
 msgstr "پروژهٔ گنوم"
 
 #. Translators should localize the following string which
 #. will be displayed at the bottom of the about box to give
 #. credit to the translator(s).
-#: gnomemusic/about.py:146
+#: gnomemusic/about.py:150
 msgid "translator-credits"
 msgstr "دانیال بهزادی <dani.behzi@ubuntu.com>"
 
-#: gnomemusic/about.py:150
+#: gnomemusic/about.py:154
 msgid "© The GNOME Music Developers"
 msgstr "© توسعه‌دهندگان آهنگ‌های گنوم"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:849
+#: gnomemusic/grilowrappers/smartplaylist.py:128
 msgid "Most Played"
 msgstr "بیش‌ترین پخش شده"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:903
+#: gnomemusic/grilowrappers/smartplaylist.py:182
 msgid "Never Played"
 msgstr "هرگز پخش نشده"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:956
+#: gnomemusic/grilowrappers/smartplaylist.py:235
 msgid "Recently Played"
 msgstr "اخیراً پخش شده"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1035
+#: gnomemusic/grilowrappers/smartplaylist.py:314
 msgid "Recently Added"
 msgstr "اخیراً اضافه شده"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1098
+#: gnomemusic/grilowrappers/smartplaylist.py:377
 msgid "Favorite Songs"
 msgstr "آوازهای محبوب"
 
 #. TRANSLATORS: this is a playlist name indicating that the
 #. files are not tagged enough to be displayed in the albums
 #. or artists views.
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1152
+#: gnomemusic/grilowrappers/smartplaylist.py:431
 msgid "Insufficiently Tagged"
 msgstr "برچسب‌های ناکافی"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/smartplaylist.py:494
+msgid "All Songs"
+msgstr "همهٔ آوازها"
 
 #: gnomemusic/gstplayer.py:424
 msgid "Unable to play the file"
@@ -471,11 +472,11 @@ msgstr "برگردان"
 msgid "{} removed from {}"
 msgstr "{} از {} برداشته شد"
 
-#: gnomemusic/utils.py:89
+#: gnomemusic/utils.py:92
 msgid "Unknown album"
 msgstr "آلبوم ناشناس"
 
-#: gnomemusic/utils.py:110
+#: gnomemusic/utils.py:113
 msgid "Unknown Artist"
 msgstr "هنرمند ناشناس"
 
@@ -483,30 +484,31 @@ msgstr "هنرمند ناشناس"
 msgid "Playlists"
 msgstr "سیاهه‌های پخش"
 
-#: gnomemusic/views/searchview.py:224
+#: gnomemusic/views/searchview.py:214
 msgid "No Search Started"
 msgstr "هیچ جست‌وجویی آغاز نشده"
 
-#: gnomemusic/views/searchview.py:226
+#: gnomemusic/views/searchview.py:216
 msgid "Use the searchbar to start searching for albums, artists or songs"
 msgstr "استفاده از نوار جست‌وجو برای آغاز جست‌وجوی آلبوم‌ها، هنرمندان یا آوازها"
 
-#: gnomemusic/views/searchview.py:230
+#: gnomemusic/views/searchview.py:220
 msgid "No Results Found"
 msgstr "هیچ نتیجه‌ای پیدا نشد"
 
-#: gnomemusic/views/searchview.py:232
+#: gnomemusic/views/searchview.py:222
 msgid "Try a different search"
 msgstr "جست‌وجویی دیگر را بیازمایید"
 
-#: gnomemusic/widgets/albumwidget.py:230
+#: gnomemusic/widgets/albumwidget.py:193
+#, python-brace-format
+msgid "Disc {row.props.disc_nr}"
+msgstr "دیسک {row.props.disc_nr}"
+
+#: gnomemusic/widgets/albumwidget.py:241
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} دقیقه"
-
-#: gnomemusic/widgets/discbox.py:74
-msgid "Disc {}"
-msgstr "دیسک {}"
 
 #: gnomemusic/widgets/playertoolbar.py:173
 msgid "Pause"
@@ -573,6 +575,12 @@ msgstr "به نظر نگارش ردیاب سامانه‌تان قدیمی اس�
 #: gnomemusic/widgets/statusnavigationpage.py:131
 msgid "Music needs Tracker version 3.0.0 or higher."
 msgstr "آهنگ‌ها به نگارش ۳٫۰٫۰ یا بالاتر ردیاب نیاز دارد."
+
+#~ msgid "The GNOME Music developers"
+#~ msgstr "توسعه‌دهندگان آهنگ‌های گنوم"
+
+#~ msgid "Disc {}"
+#~ msgstr "دیسک {}"
 
 #~ msgid "Enables or disables ReplayGain for albums"
 #~ msgstr "به یا از کار انداختن ReplayGain برای آلبوم‌ها"
