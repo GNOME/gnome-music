@@ -4,14 +4,14 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2021-2024.
-# Daniel Mustieles García <daniel.mustieles@gmail.com>, 2024.
+# Daniel Mustieles García <daniel.mustieles@gmail.com>, 2024-2025.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2024-09-03 21:12+0000\n"
-"PO-Revision-Date: 2024-09-05 12:41+0200\n"
+"POT-Creation-Date: 2025-02-12 22:49+0000\n"
+"PO-Revision-Date: 2025-03-03 16:26+0100\n"
 "Last-Translator: Daniel Mustieles García <daniel.mustieles@gmail.com>\n"
 "Language-Team: Spanish - Spain <gnome-es-list@gnome.org>\n"
 "Language: es_ES\n"
@@ -19,44 +19,39 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"X-Generator: Gtranslator 46.1\n"
+"X-Generator: Gtranslator 47.1\n"
 
-#: data/org.gnome.Music.appdata.xml.in.in:6
-#: data/org.gnome.Music.desktop.in.in:3 data/ui/StatusNavigationPage.ui:4
-#: gnomemusic/about.py:138 gnomemusic/application.py:59 gnomemusic/window.py:65
+#: data/org.gnome.Music.desktop.in.in:3
+#: data/org.gnome.Music.metainfo.xml.in.in:9 data/ui/StatusNavigationPage.ui:4
+#: gnomemusic/about.py:142 gnomemusic/application.py:61 gnomemusic/window.py:65
 msgid "Music"
 msgstr "Música"
 
-#: data/org.gnome.Music.appdata.xml.in.in:7
+#: data/org.gnome.Music.desktop.in.in:4
+msgid "Music Player"
+msgstr "Reproductor de música"
+
 #: data/org.gnome.Music.desktop.in.in:5
+#: data/org.gnome.Music.metainfo.xml.in.in:10
 msgid "Play and organize your music collection"
 msgstr "Reproducir y organizar su colección de música"
 
-#: data/org.gnome.Music.appdata.xml.in.in:9
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/org.gnome.Music.desktop.in.in:13
+msgid "Music;Player;"
+msgstr "Música;Reproductor;"
+
+#: data/org.gnome.Music.metainfo.xml.in.in:12
 msgid "An easy and pleasant way to play your music."
 msgstr "Una forma fácil y agradable de reproducir su música."
 
-#: data/org.gnome.Music.appdata.xml.in.in:12
+#: data/org.gnome.Music.metainfo.xml.in.in:15
 msgid ""
 "Find tracks in your local collection, use automatically generated playlists "
 "or curate a fresh one."
 msgstr ""
 "Busque pistas en su colección local, use listas de reproducción generadas "
 "automáticamente o cree una nueva."
-
-#. developer_name tag deprecated with Appstream 1.0
-#: data/org.gnome.Music.appdata.xml.in.in:214
-msgid "The GNOME Music developers"
-msgstr "Los desarrolladores de GNOME Música"
-
-#: data/org.gnome.Music.desktop.in.in:4
-msgid "Music Player"
-msgstr "Reproductor de música"
-
-#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
-#: data/org.gnome.Music.desktop.in.in:13
-msgid "Music;Player;"
-msgstr "Música;Reproductor;"
 
 #: data/org.gnome.Music.gschema.xml:17
 msgid "Window size"
@@ -82,15 +77,15 @@ msgstr "Modo de repetición de la reproducción"
 #: data/org.gnome.Music.gschema.xml:29
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
-"collection. Allowed values are: “none” (repeat and shuffle are off), "
-"“song” (repeat current song), “all” (repeat playlist, no shuffle), "
-"“shuffle” (shuffle playlist, presumes repeat all)."
+"collection. Allowed values are: “none” (repeat and shuffle are off), “song” "
+"(repeat current song), “all” (repeat playlist, no shuffle), “shuffle” "
+"(shuffle playlist, presumes repeat all)."
 msgstr ""
 "Valor que indica si se debe repetir o aleatorizar la reproducción de la "
 "colección. Los valores admitidos son: «ninguno» (las opciones de repetir y "
-"mezclar están desactivadas), «canción» (repetir la canción actual), "
-"«todas» (repetir la lista de reproducción, sin mezclar), «mezclar» (mezclar "
-"la lista de reproducción, se repiten todas)."
+"mezclar están desactivadas), «canción» (repetir la canción actual), «todas» "
+"(repetir la lista de reproducción, sin mezclar), «mezclar» (mezclar la lista "
+"de reproducción, se repiten todas)."
 
 #: data/org.gnome.Music.gschema.xml:33
 msgid "Enable ReplayGain"
@@ -100,8 +95,8 @@ msgstr "Activar ReplayGain"
 #: data/org.gnome.Music.gschema.xml:35
 msgid ""
 "Enables or disables ReplayGain for albums or track. Allowed values are: "
-"“disabled” (disables replaygain), “album” (replaygain per album), "
-"“track” (replaygain per track)."
+"“disabled” (disables replaygain), “album” (replaygain per album), “track” "
+"(replaygain per track)."
 msgstr ""
 "Activa o desactiva ReplayGain para álbumes o una pista. Los valores "
 "permitidos son “disabled” (desactiva replaygain), “album” (replaygain por "
@@ -118,7 +113,7 @@ msgstr ""
 "música"
 
 #: data/ui/AlbumsSearchNavigationPage.ui:5 data/ui/SearchView.ui:98
-#: gnomemusic/views/albumsview.py:52
+#: gnomemusic/views/albumsview.py:30
 msgid "Albums"
 msgstr "Álbumes"
 
@@ -380,52 +375,57 @@ msgstr "_Quitar de la lista de reproducción"
 msgid "Welcome to Music"
 msgstr "Bienvenido a Música"
 
-#: gnomemusic/about.py:140
+#: gnomemusic/about.py:144
 msgid "The GNOME Project"
 msgstr "El Proyecto GNOME"
 
 #. Translators should localize the following string which
 #. will be displayed at the bottom of the about box to give
 #. credit to the translator(s).
-#: gnomemusic/about.py:146
+#: gnomemusic/about.py:150
 msgid "translator-credits"
 msgstr "Daniel Mustieles <daniel.mustieles@gmail.com>, 2012-2022"
 
-#: gnomemusic/about.py:150
+#: gnomemusic/about.py:154
 msgid "© The GNOME Music Developers"
 msgstr "© Los desarrolladores de GNOME Música"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:849
+#: gnomemusic/grilowrappers/smartplaylist.py:128
 msgid "Most Played"
 msgstr "Más reproducidas"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:903
+#: gnomemusic/grilowrappers/smartplaylist.py:182
 msgid "Never Played"
 msgstr "No reproducidas nunca"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:956
+#: gnomemusic/grilowrappers/smartplaylist.py:235
 msgid "Recently Played"
 msgstr "Reproducidas recientemente"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1035
+#: gnomemusic/grilowrappers/smartplaylist.py:314
 msgid "Recently Added"
 msgstr "Añadidas recientemente"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1098
+#: gnomemusic/grilowrappers/smartplaylist.py:377
 msgid "Favorite Songs"
 msgstr "Canciones favoritas"
 
 #. TRANSLATORS: this is a playlist name indicating that the
 #. files are not tagged enough to be displayed in the albums
 #. or artists views.
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1152
+#: gnomemusic/grilowrappers/smartplaylist.py:431
 msgid "Insufficiently Tagged"
 msgstr "No etiquetado suficientemente"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/smartplaylist.py:494
+msgid "All Songs"
+msgstr "Todas las canciones"
 
 #: gnomemusic/gstplayer.py:424
 msgid "Unable to play the file"
@@ -481,11 +481,11 @@ msgstr "Deshacer"
 msgid "{} removed from {}"
 msgstr "{} eliminado de {}"
 
-#: gnomemusic/utils.py:89
+#: gnomemusic/utils.py:92
 msgid "Unknown album"
 msgstr "Álbum desconocido"
 
-#: gnomemusic/utils.py:110
+#: gnomemusic/utils.py:113
 msgid "Unknown Artist"
 msgstr "Artista desconocido"
 
@@ -493,32 +493,33 @@ msgstr "Artista desconocido"
 msgid "Playlists"
 msgstr "Listas de reproducción"
 
-#: gnomemusic/views/searchview.py:224
+#: gnomemusic/views/searchview.py:214
 msgid "No Search Started"
 msgstr "No se ha iniciado la búsqueda"
 
-#: gnomemusic/views/searchview.py:226
+#: gnomemusic/views/searchview.py:216
 msgid "Use the searchbar to start searching for albums, artists or songs"
 msgstr ""
 "Use la barra de búsqueda para empezar a buscar álbumes, artistas o canciones"
 
-#: gnomemusic/views/searchview.py:230
+#: gnomemusic/views/searchview.py:220
 msgid "No Results Found"
 msgstr "No se encontraron resultados"
 
-#: gnomemusic/views/searchview.py:232
+#: gnomemusic/views/searchview.py:222
 msgid "Try a different search"
 msgstr "Pruebe a hacer una búsqueda diferente"
 
-#: gnomemusic/widgets/albumwidget.py:230
+#: gnomemusic/widgets/albumwidget.py:193
+#, python-brace-format
+msgid "Disc {row.props.disc_nr}"
+msgstr "Disco {row.props.disc_nr}"
+
+#: gnomemusic/widgets/albumwidget.py:241
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} minuto"
 msgstr[1] "{} minutos"
-
-#: gnomemusic/widgets/discbox.py:74
-msgid "Disc {}"
-msgstr "Disco {}"
 
 #: gnomemusic/widgets/playertoolbar.py:173
 msgid "Pause"
@@ -587,6 +588,12 @@ msgstr "Su versión de Tracker no está actualizada."
 #: gnomemusic/widgets/statusnavigationpage.py:131
 msgid "Music needs Tracker version 3.0.0 or higher."
 msgstr "Música necesita Tracker 3.0.0 o superior."
+
+#~ msgid "The GNOME Music developers"
+#~ msgstr "Los desarrolladores de GNOME Música"
+
+#~ msgid "Disc {}"
+#~ msgstr "Disco {}"
 
 #~ msgid "Enables or disables ReplayGain for albums"
 #~ msgstr "Activa o desactiva ReplayGain para los álbumes"
