@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2025-01-12 20:34+0000\n"
-"PO-Revision-Date: 2025-01-15 12:48+0300\n"
+"POT-Creation-Date: 2025-02-25 15:19+0000\n"
+"PO-Revision-Date: 2025-03-06 10:38+0300\n"
 "Last-Translator: Artur So <arturios2005@mail.ru>\n"
 "Language-Team: Русский <gnome-cyr@gnome.org>\n"
 "Language: ru\n"
@@ -26,7 +26,7 @@ msgstr ""
 
 #: data/org.gnome.Music.desktop.in.in:3
 #: data/org.gnome.Music.metainfo.xml.in.in:9 data/ui/StatusNavigationPage.ui:4
-#: gnomemusic/about.py:139 gnomemusic/application.py:61 gnomemusic/window.py:65
+#: gnomemusic/about.py:142 gnomemusic/application.py:61 gnomemusic/window.py:65
 msgid "Music"
 msgstr "Музыка"
 
@@ -53,7 +53,7 @@ msgid ""
 "Find tracks in your local collection, use automatically generated playlists "
 "or curate a fresh one."
 msgstr ""
-"Ищите треки в вашей коллекции, пользуйтесь автоматическими списками "
+"Ищите песни в вашей коллекции, пользуйтесь автоматическими списками "
 "воспроизведения или соберите свой свежий."
 
 #: data/org.gnome.Music.gschema.xml:17
@@ -283,7 +283,7 @@ msgstr "Добавить в список воспроизведения"
 
 #: data/ui/PlaylistDialog.ui:27
 msgid "_Cancel"
-msgstr "_Отмена"
+msgstr "_Отменить"
 
 #: data/ui/PlaylistDialog.ui:36
 msgid "_Add"
@@ -348,7 +348,7 @@ msgstr "Альбом"
 
 #: data/ui/PreferencesDialog.ui:34
 msgid "Track"
-msgstr "Трек"
+msgstr "Песня"
 
 #: data/ui/PreferencesDialog.ui:44
 msgid "Power Settings"
@@ -378,14 +378,14 @@ msgstr "_Удалить из списка воспроизведения"
 msgid "Welcome to Music"
 msgstr "Добро пожаловать в Музыку"
 
-#: gnomemusic/about.py:141
+#: gnomemusic/about.py:144
 msgid "The GNOME Project"
 msgstr "Проект GNOME"
 
 #. Translators should localize the following string which
 #. will be displayed at the bottom of the about box to give
 #. credit to the translator(s).
-#: gnomemusic/about.py:147
+#: gnomemusic/about.py:150
 msgid "translator-credits"
 msgstr ""
 "Andrew Archer <razandale@gmail.com>, 2014\n"
@@ -396,14 +396,14 @@ msgstr ""
 "Артемий Судаков <finziyr@yandex.ru>, 2020\n"
 "Aleksandr Melman <alexmelman88@gmail.com>, 2022"
 
-#: gnomemusic/about.py:151
+#: gnomemusic/about.py:154
 msgid "© The GNOME Music Developers"
 msgstr "Разработчики приложения Музыка GNOME"
 
 #. TRANSLATORS: this is a playlist name
 #: gnomemusic/grilowrappers/smartplaylist.py:128
 msgid "Most Played"
-msgstr "Часто воспроизводимое"
+msgstr "Часто воспроизводилось"
 
 #. TRANSLATORS: this is a playlist name
 #: gnomemusic/grilowrappers/smartplaylist.py:182
@@ -569,13 +569,13 @@ msgstr "Переменная директории XDG Музыки не уста
 
 #: gnomemusic/widgets/statusnavigationpage.py:58
 msgid "Music Folder"
-msgstr "Папка Музыка"
+msgstr "Музыка"
 
 #. TRANSLATORS: This is a label to display a link to open user's music
 #. folder. {} will be replaced with the translated text 'Music folder'
 #: gnomemusic/widgets/statusnavigationpage.py:66
 msgid "The contents of your {} will appear here."
-msgstr "Содержимое {} появится здесь."
+msgstr "Содержимое папки {} появится здесь."
 
 #: gnomemusic/widgets/statusnavigationpage.py:116
 msgid "No Music Found"
