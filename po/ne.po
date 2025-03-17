@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music gnome 3.14\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2022-08-27 13:27+0000\n"
-"PO-Revision-Date: 2022-09-08 02:34+0545\n"
+"POT-Creation-Date: 2025-03-10 19:41+0000\n"
+"PO-Revision-Date: 2025-03-17 11:51+0545\n"
 "Last-Translator: Pawan Chitrakar <chautari@gmail.com>\n"
 "Language-Team: Nepali Translation Team <chautari@gmail.com>\n"
 "Language: ne\n"
@@ -16,99 +16,99 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.5\n"
 
-#: data/org.gnome.Music.appdata.xml.in.in:6 data/org.gnome.Music.desktop.in.in:3
-#: gnomemusic/about.py:236 gnomemusic/application.py:61 gnomemusic/window.py:71
+#: data/org.gnome.Music.desktop.in.in:3 data/org.gnome.Music.metainfo.xml.in.in:9
+#: data/ui/StatusNavigationPage.ui:4 gnomemusic/about.py:142 gnomemusic/application.py:61
+#: gnomemusic/window.py:65
 msgid "Music"
 msgstr "सङ्गीत"
-
-#: data/org.gnome.Music.appdata.xml.in.in:7 data/org.gnome.Music.desktop.in.in:5
-msgid "Play and organize your music collection"
-msgstr "तपाईँको सङ्गीत सङ्ग्रह बजाउनुहोस् र सङ्गठित गर्नुहोस्"
-
-#: data/org.gnome.Music.appdata.xml.in.in:9
-msgid "An easy and pleasant way to play your music."
-msgstr "तपाईंको संगीत बजाउने सजिलो र रमाइलो तरिका।"
-
-#: data/org.gnome.Music.appdata.xml.in.in:12
-msgid ""
-"Find tracks in your local collection, use automatically generated playlists or curate a "
-"fresh one."
-msgstr ""
-"तपाईँको स्थानीय सङ्कलनमा ट्रयाकहरू फेला पार्नुहोस्, स्वचालित रूपमा सिर्जना गरिएको बजाउने सूची प्रयोग "
-"गर्नुहोस् वा नया सिर्जना गर्नुहोस् ।"
-
-#: data/org.gnome.Music.appdata.xml.in.in:167
-msgid "The GNOME Music developers"
-msgstr "जिनोम सङ्गीत विकासकर्ता"
 
 #: data/org.gnome.Music.desktop.in.in:4
 msgid "Music Player"
 msgstr "सङ्गीत बजाउने"
 
+#: data/org.gnome.Music.desktop.in.in:5 data/org.gnome.Music.metainfo.xml.in.in:10
+msgid "Play and organize your music collection"
+msgstr "तपाईँको सङ्गीत सङ्ग्रह बजाउनुहोस् र सङ्गठित गर्नुहोस्"
+
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.Music.desktop.in.in:13
 msgid "Music;Player;"
-msgstr "सङ्गीत प्लेयर."
+msgstr "सङ्गीत; प्लेयर;"
 
-#: data/org.gnome.Music.gschema.xml:12
+#: data/org.gnome.Music.metainfo.xml.in.in:12
+msgid "An easy and pleasant way to play your music."
+msgstr "तपाईंको संगीत बजाउने सजिलो र रमाइलो तरिका।."
+
+#: data/org.gnome.Music.metainfo.xml.in.in:15
+msgid ""
+"Find tracks in your local collection, use automatically generated playlists or curate a "
+"fresh one."
+msgstr ""
+"तपाईँको स्थानीय सङ्कलनमा ट्रयाकहरू फेला पार्नुहोस्, स्वचालित रूपमा सिर्जना गरिएको बजाउने सूची प्रयोग "
+"गर्नुहोस् वा नया सिर्जना गर्नुहोस् ।."
+
+#: data/org.gnome.Music.gschema.xml:17
 msgid "Window size"
 msgstr "सञ्झ्याल साइज"
 
-#: data/org.gnome.Music.gschema.xml:13
+#: data/org.gnome.Music.gschema.xml:18
 msgid "Window size (width and height)."
 msgstr "सञ्झ्यालको उचाइ र चौडाई."
 
-#: data/org.gnome.Music.gschema.xml:17
+#: data/org.gnome.Music.gschema.xml:22
 msgid "Window maximized"
 msgstr "सञ्झ्यालको अधिकतम स्थिति"
 
-#: data/org.gnome.Music.gschema.xml:18
+#: data/org.gnome.Music.gschema.xml:23
 msgid "Window maximized state."
 msgstr "सञ्झ्यालको अधिकतम स्थिति."
 
-#: data/org.gnome.Music.gschema.xml:22
+#: data/org.gnome.Music.gschema.xml:27
 msgid "Playback repeat mode"
 msgstr "मोड दोहोर्याउनुहोस्"
 
 #. Translators: Don't translate allowed values, just the description in the brackets
-#: data/org.gnome.Music.gschema.xml:24
+#: data/org.gnome.Music.gschema.xml:29
 msgid ""
 "Value identifies whether to repeat or randomize playback through the collection. Allowed "
-"values are: “none” (repeat and shuffle are off), “song” (repeat current song), "
-"“all” (repeat playlist, no shuffle), “shuffle” (shuffle playlist, presumes repeat all)."
+"values are: “none” (repeat and shuffle are off), “song” (repeat current song), “all” "
+"(repeat playlist, no shuffle), “shuffle” (shuffle playlist, presumes repeat all)."
 msgstr ""
 "मानले संग्रहको माध्यमबाट प्लेब्याक दोहोर्याउने वा अनियमित गर्ने कि नगर्ने पहिचान गर्दछ। अनुमति प्राप्त "
-"मानहरू हुन्: \"कुनै पनि छैन\" (पुनरावृत्ति र शफल बन्द छन्), \"गीत\" (पुनरावृत्ति हालको गीत), \"सबै"
-"\" (प्लेलिस्ट दोहोर्याउनुहोस्, कुनै शफल छैन), \"शफल\" (शफल प्लेलिस्ट, सबै दोहोर्याउनुहोस् अनुमान गर्नुहोस्)।"
+"मानहरू हुन्: \"कुनै पनि छैन\" (पुनरावृत्ति र शफल बन्द छन्), \"गीत\" (पुनरावृत्ति हालको गीत), \"सबै\" "
+"(प्लेलिस्ट दोहोर्याउनुहोस्, कुनै शफल छैन), \"शफल\" (शफल प्लेलिस्ट, सबै दोहोर्याउनुहोस् अनुमान गर्नुहोस्)।."
 
-#: data/org.gnome.Music.gschema.xml:28
+#: data/org.gnome.Music.gschema.xml:33
 msgid "Enable ReplayGain"
 msgstr "पुन: प्लेगेन सक्षम पार्नुहोस्"
 
-#: data/org.gnome.Music.gschema.xml:29
-msgid "Enables or disables ReplayGain for albums"
-msgstr "एल्बमका लागि पुन: प्लेगेन सक्षम वा अक्षम पार्दछ"
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: data/org.gnome.Music.gschema.xml:35
+msgid ""
+"Enables or disables ReplayGain for albums or track. Allowed values are: “disabled” "
+"(disables replaygain), “album” (replaygain per album), “track” (replaygain per track)."
+msgstr ""
+"एल्बम वा ट्रयाकका लागि पुन: प्लेगेन सक्षम वा अक्षम पार्दछ । अनुमति प्राप्त मानहरू: \"अक्षम पारिएको\" "
+"(पुन: प्ले पुन: अक्षम पार्दछ), \"एल्बम\" (प्रति एल्बम पुन: प्ले), \"ट्रयाक\" (प्रति ट्रयाक पुन: प्ले "
+"गर्नुहोस्)।."
 
-#: data/org.gnome.Music.gschema.xml:33
+#: data/org.gnome.Music.gschema.xml:39
 msgid "Inhibit system suspend"
 msgstr "प्रणाली निलम्बन रोक्नुहोस्"
 
-#: data/org.gnome.Music.gschema.xml:34
+#: data/org.gnome.Music.gschema.xml:40
 msgid "Enables or disables inhibiting system suspend while playing music"
 msgstr "सङ्गीत बजाउँदा अवरोध प्रणाली निलम्बन सक्षम वा अक्षम पार्दछ"
 
-#: data/org.gnome.Music.gschema.xml:38
-msgid "Report music history to Last.fm"
-msgstr "Last.fm सङ्गीत इतिहास प्रतिवेदन गर्नुहोस्"
-
-#: data/org.gnome.Music.gschema.xml:39
-msgid "Enables or disables sending scrobbles and the “currently playing” info to Last.fm."
-msgstr "Last.fm पठाउन स्क्रोब्ल्स र \"हालै बजिरहेको\" सूचना सक्षम वा असक्षम पार्दछ ।"
+#: data/ui/AlbumsSearchNavigationPage.ui:5 data/ui/SearchView.ui:98
+#: gnomemusic/views/albumsview.py:30
+msgid "Albums"
+msgstr "एल्बमहरू"
 
 #: data/ui/AlbumWidget.ui:84 data/ui/PlayerToolbar.ui:87 data/ui/PlaylistControls.ui:101
-#: gnomemusic/widgets/playertoolbar.py:170
+#: gnomemusic/widgets/playertoolbar.py:176
 msgid "Play"
 msgstr "प्ले गर्नुहोस्"
 
@@ -124,49 +124,34 @@ msgstr "मनपर्ने गीतहरू थप्नुहोस्"
 msgid "_Add to Playlist…"
 msgstr "बजाइने सुचिमा थप्नुहोस्…"
 
-#: data/ui/AppMenu.ui:23 data/ui/LastfmDialog.ui:8
-msgid "Last.fm Account"
-msgstr "Last.fm खाता"
+#: data/ui/ArtistsSearchNavigationPage.ui:5 data/ui/SearchView.ui:41
+#: gnomemusic/views/artistsview.py:51
+msgid "Artists"
+msgstr "कलाकारहरू"
 
-#: data/ui/AppMenu.ui:36
-msgid "Report Music Listening"
-msgstr "सङ्गीत सुन्ने प्रतिवेदन गर्नुहोस्"
-
-#: data/ui/AppMenu.ui:58
-msgid "_Keyboard Shortcuts"
-msgstr "कुञ्जीपाटी सर्टकट"
-
-#: data/ui/AppMenu.ui:68
-msgid "_Help"
-msgstr "सहयोग"
-
-#: data/ui/AppMenu.ui:78
-msgid "_About Music"
-msgstr "सङ्गीत बारेमा"
-
-#: data/ui/EmptyView.ui:30
-msgid "Welcome to Music"
-msgstr "सङ्गीतमा स्वागत छ"
-
-#: data/ui/HeaderBar.ui:16
+#: data/ui/HeaderBar.ui:14
 msgid "Menu"
 msgstr "सूची"
 
-#: data/ui/HeaderBar.ui:24 data/ui/SearchHeaderBar.ui:15
-msgid "Select"
-msgstr "चयन गर्नुहोस्"
-
-#: data/ui/HeaderBar.ui:30 data/ui/PlaylistDialog.ui:213 data/ui/SearchHeaderBar.ui:20
-msgid "_Cancel"
-msgstr "_रद्द"
-
-#: data/ui/HeaderBar.ui:42 data/ui/SearchHeaderBar.ui:32
+#: data/ui/HeaderBar.ui:22 data/ui/SearchHeaderBar.ui:12
 msgid "Search"
 msgstr "खोजी"
 
-#: data/ui/HeaderBar.ui:50
-msgid "Back"
-msgstr "पछाडि"
+#: data/ui/HeaderBar.ui:31 data/ui/PreferencesDialog.ui:4
+msgid "Preferences"
+msgstr "प्राथमिकताहरू"
+
+#: data/ui/HeaderBar.ui:35
+msgid "Keyboard Shortcuts"
+msgstr "किबोर्स सर्टकटहरू"
+
+#: data/ui/HeaderBar.ui:39
+msgid "Help"
+msgstr "सहयोग"
+
+#: data/ui/HeaderBar.ui:43
+msgid "About Music"
+msgstr "सङ्गीतको बारेमा"
 
 #: data/ui/help-overlay.ui:11
 msgctxt "shortcut window"
@@ -175,8 +160,8 @@ msgstr "सामान्य"
 
 #: data/ui/help-overlay.ui:14
 msgctxt "shortcut window"
-msgid "Close window"
-msgstr "सञ्झ्याल बन्द गर्नुहोस्"
+msgid "Preferences"
+msgstr "प्राथमिकताहरू"
 
 #: data/ui/help-overlay.ui:20
 msgctxt "shortcut window"
@@ -193,55 +178,55 @@ msgctxt "shortcut window"
 msgid "Shortcuts"
 msgstr "सर्टकटहरू"
 
-#: data/ui/help-overlay.ui:40
+#: data/ui/help-overlay.ui:38
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "अन्त्य गर्नुहोस्"
+
+#: data/ui/help-overlay.ui:46
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "प्लेब्याक"
 
-#: data/ui/help-overlay.ui:43
+#: data/ui/help-overlay.ui:49
 msgctxt "shortcut window"
 msgid "Play/Pause"
 msgstr "प्ले/पज गर्नुहोस्"
 
-#: data/ui/help-overlay.ui:49
+#: data/ui/help-overlay.ui:55
 msgctxt "shortcut window"
 msgid "Next song"
 msgstr "अर्को गीत"
 
-#: data/ui/help-overlay.ui:55
+#: data/ui/help-overlay.ui:61
 msgctxt "shortcut window"
 msgid "Previous song"
 msgstr "_अघिल्लो गीत"
 
-#: data/ui/help-overlay.ui:61
+#: data/ui/help-overlay.ui:67
 msgctxt "shortcut window"
 msgid "Toggle repeat"
 msgstr "दोहोर्याउने टगल गर्नुहोस्"
 
-#: data/ui/help-overlay.ui:67
+#: data/ui/help-overlay.ui:73
 msgctxt "shortcut window"
 msgid "Toggle shuffle"
 msgstr "फेरबदल टगल गर्नुहोस्"
 
-#: data/ui/help-overlay.ui:75
+#: data/ui/help-overlay.ui:81
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "नेभिगेशन"
 
-#: data/ui/help-overlay.ui:78
+#: data/ui/help-overlay.ui:84
 msgctxt "shortcut window"
 msgid "Go to Albums"
 msgstr "एल्बममा जानुहोस्"
 
-#: data/ui/help-overlay.ui:84
+#: data/ui/help-overlay.ui:90
 msgctxt "shortcut window"
 msgid "Go to Artists"
 msgstr "कलाकारहरू मा जानुहोस्"
-
-#: data/ui/help-overlay.ui:90
-msgctxt "shortcut window"
-msgid "Go to Songs"
-msgstr "गीतहरूमा जानुहोस्"
 
 #: data/ui/help-overlay.ui:96
 msgctxt "shortcut window"
@@ -252,25 +237,6 @@ msgstr "बजाइने सुचिमा जानुहोस्"
 msgctxt "shortcut window"
 msgid "Go back"
 msgstr "पछाडी जानुहोस्"
-
-#: data/ui/LastfmDialog.ui:21
-msgid ""
-"Last.fm is a music discovery service that gives you personalised recommendations based "
-"on the music you listen to."
-msgstr ""
-"Last.fm एउटा सङ्गीत आविष्कार सेवा हो जसले तपाईँले सुन्नुभएको सङ्गीतको आधारमा व्यक्तिगत सिफारिस दिन्छ।"
-
-#: data/ui/LastfmDialog.ui:31 gnomemusic/widgets/lastfmdialog.py:57
-msgid "Music Reporting Not Setup"
-msgstr "सङ्गीत रिपोर्टिङ सेटअप छैन"
-
-#: data/ui/LastfmDialog.ui:44 gnomemusic/widgets/lastfmdialog.py:60
-msgid "Login to your Last.fm account to report your music listening."
-msgstr "तपाईँको सङ्गीत सुन्न प्रतिवेदन गर्न तपाईँको Last.fm खातामा लगइन गर्नुहोस् ।"
-
-#: data/ui/LastfmDialog.ui:55 gnomemusic/widgets/lastfmdialog.py:58
-msgid "Login"
-msgstr "लगइन"
 
 #: data/ui/PlayerToolbar.ui:74
 msgid "Previous"
@@ -296,155 +262,198 @@ msgstr "बजाउने सूची नाम"
 msgid "_Done"
 msgstr "गरियो"
 
-#: data/ui/PlaylistDialog.ui:52
-msgid "Enter a name for your first playlist"
-msgstr "तपाईँको पहिलो बजाउने सूचीका लागि नाम प्रविष्ट गर्नुहोस्"
-
-#: data/ui/PlaylistDialog.ui:77
-msgid "C_reate"
-msgstr "सिर्जना गर्नुहोस्"
-
-#: data/ui/PlaylistDialog.ui:146
-msgid "New Playlist…"
-msgstr "नया बजाउने सूची…"
-
-#: data/ui/PlaylistDialog.ui:161
-msgid "Add"
-msgstr "थप्नुहोस्"
-
-#: data/ui/PlaylistDialog.ui:202
+#: data/ui/PlaylistDialog.ui:16
 msgid "Add to Playlist"
 msgstr "बजाइने सुचिमा थप्नुहोस्"
 
-#: data/ui/PlaylistDialog.ui:222
+#: data/ui/PlaylistDialog.ui:27
+msgid "_Cancel"
+msgstr "_रद्द"
+
+#: data/ui/PlaylistDialog.ui:36
 msgid "_Add"
 msgstr "थप्नुहोस्"
 
-#: data/ui/SearchView.ui:33 gnomemusic/views/artistsview.py:51
-msgid "Artists"
-msgstr "कलाकारहरू"
+#: data/ui/PlaylistDialog.ui:91
+msgid "Enter a name for your first playlist"
+msgstr "तपाईँको पहिलो बजाउने सूचीका लागि नाम प्रविष्ट गर्नुहोस्"
 
-#: data/ui/SearchView.ui:42 data/ui/SearchView.ui:84
+#: data/ui/PlaylistDialog.ui:116
+msgid "C_reate"
+msgstr "सिर्जना गर्नुहोस्"
+
+#: data/ui/PlaylistDialog.ui:177
+msgid "New Playlist…"
+msgstr "नया बजाउने सूची…"
+
+#: data/ui/PlaylistDialog.ui:189
+msgid "Add"
+msgstr "थप्नुहोस्"
+
+#: data/ui/PreferencesDialog.ui:9
+msgid "Player Settings"
+msgstr "खेलाडी सेटिङ"
+
+#: data/ui/PreferencesDialog.ui:12
+msgid "Repeat Mode"
+msgstr "दोहोरिने मोड"
+
+#: data/ui/PreferencesDialog.ui:16
+msgid "None"
+msgstr "कुनै पनि होइन"
+
+#: data/ui/PreferencesDialog.ui:17
+msgid "Song"
+msgstr "गीत"
+
+#: data/ui/PreferencesDialog.ui:18
+msgid "All"
+msgstr "सबै"
+
+#: data/ui/PreferencesDialog.ui:19 gnomemusic/player.py:51
+msgid "Shuffle"
+msgstr "फिट्नुहोस्"
+
+#: data/ui/PreferencesDialog.ui:27
+msgid "ReplayGain"
+msgstr "पुन: प्लेगेन"
+
+#: data/ui/PreferencesDialog.ui:28
+msgid "Balance loudness between songs if ReplayGain metadata is found"
+msgstr "यदि पुन: प्ले मेटाडाटा फेला परेमा गीतहरू बीच लाउडनेस सन्तुलन गर्नुहोस्"
+
+#: data/ui/PreferencesDialog.ui:32
+msgid "Disabled"
+msgstr "अक्षम पारिएको"
+
+#: data/ui/PreferencesDialog.ui:33
+msgid "Album"
+msgstr "एल्बम"
+
+#: data/ui/PreferencesDialog.ui:34
+msgid "Track"
+msgstr "ट्रयाक"
+
+#: data/ui/PreferencesDialog.ui:44
+msgid "Power Settings"
+msgstr "पावर सेटिङ"
+
+#: data/ui/PreferencesDialog.ui:47
+msgid "Inhibit Suspend"
+msgstr "अवरोध निलम्बित गर्नुहोस्"
+
+#: data/ui/PreferencesDialog.ui:48
+msgid "Only while playing"
+msgstr "बजाउदा मात्र"
+
+#: data/ui/SearchView.ui:55 data/ui/SearchView.ui:112
 msgid "View All"
 msgstr "सबै हेर्नुहोस्"
 
-#: data/ui/SearchView.ui:75 gnomemusic/views/albumsview.py:56
-msgid "Albums"
-msgstr "एल्बमहरू"
-
-#: data/ui/SearchView.ui:117 gnomemusic/views/songsview.py:52
+#: data/ui/SearchView.ui:154
 msgid "Songs"
 msgstr "गीतहरू"
-
-#: data/ui/SelectionBarMenuButton.ui:7
-msgid "Select All"
-msgstr "सबै छान्नुहोस्"
-
-#: data/ui/SelectionBarMenuButton.ui:11
-msgid "Select None"
-msgstr "कुनै पनि चयन नगर्नुहोस्"
-
-#: data/ui/SelectionBarMenuButton.ui:19 gnomemusic/widgets/headerbar.py:69
-msgid "Click on items to select them"
-msgstr "वस्तुहरू चयनका लागि क्लिक गर्नुहोस्"
-
-#: data/ui/SelectionToolbar.ui:8
-msgid "_Add to Playlist"
-msgstr "बजाइने सुचिमा थप्नुहोस्"
 
 #: data/ui/SongWidgetMenu.ui:19
 msgid "_Remove from Playlist"
 msgstr "बजाउने सूची हटाउनुहोस्"
 
-#: gnomemusic/about.py:238
+#: data/ui/StatusNavigationPage.ui:36
+msgid "Welcome to Music"
+msgstr "सङ्गीतमा स्वागत छ"
+
+#: gnomemusic/about.py:144
 msgid "The GNOME Project"
 msgstr "जिनोम परियोजना"
 
-#: gnomemusic/about.py:242
+#. Translators should localize the following string which
+#. will be displayed at the bottom of the about box to give
+#. credit to the translator(s).
+#: gnomemusic/about.py:150
 msgid "translator-credits"
-msgstr ""
-"Launchpad Contributions:\n"
-"  Michael Terry https://launchpad.net/~mterry\n"
-"  Yogesh Ojha https://launchpad.net/~yogeshojha\n"
-"  sarojdhakal https://launchpad.net/~lotusnagarkot"
+msgstr "pawan chitrakar <chautari@gmail.com>"
 
-#: gnomemusic/about.py:246
-msgid "Copyright The GNOME Music Developers"
-msgstr "प्रतिलिपि अधिकार जिनोम सङ्गीत विकासकर्ताहरू"
-
-#: gnomemusic/about.py:249
-msgid "Translated by"
-msgstr "अनुवाद"
+#: gnomemusic/about.py:154
+msgid "© The GNOME Music Developers"
+msgstr "© जिनोम सङ्गीत विकासकर्ता"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:894
+#: gnomemusic/grilowrappers/smartplaylist.py:128
 msgid "Most Played"
 msgstr "धेरै जसो बजाईने"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:948
+#: gnomemusic/grilowrappers/smartplaylist.py:182
 msgid "Never Played"
 msgstr "कहिल्यै नबजेको"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1001
+#: gnomemusic/grilowrappers/smartplaylist.py:235
 msgid "Recently Played"
 msgstr "हालै बजेको"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1064
+#: gnomemusic/grilowrappers/smartplaylist.py:314
 msgid "Recently Added"
 msgstr "हालै थपेको"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1127
+#: gnomemusic/grilowrappers/smartplaylist.py:377
 msgid "Favorite Songs"
 msgstr "मनपर्ने गीतहरू"
 
-#: gnomemusic/gstplayer.py:408
+#. TRANSLATORS: this is a playlist name indicating that the
+#. files are not tagged enough to be displayed in the albums
+#. or artists views.
+#: gnomemusic/grilowrappers/smartplaylist.py:431
+msgid "Insufficiently Tagged"
+msgstr "अपर्याप्त ट्याग गरिएको छ"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/smartplaylist.py:494
+msgid "All Songs"
+msgstr "सबै गीतहरू"
+
+#: gnomemusic/gstplayer.py:424
 msgid "Unable to play the file"
 msgstr "फाइल बजाउन असक्षम"
 
-#: gnomemusic/gstplayer.py:414
+#: gnomemusic/gstplayer.py:430
 msgid "_Find in {}"
 msgstr "{} फेला पार्नुहोस्"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:424
+#: gnomemusic/gstplayer.py:440
 msgid " and "
 msgstr " र "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:427
+#: gnomemusic/gstplayer.py:443
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:429
+#: gnomemusic/gstplayer.py:445
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
-msgstr[0] "फाइल बजाउम {} आवश्यक छ, तर स्थापना गरिएको छैन ।"
-msgstr[1] "फाइल बजाउम {} आवश्यक छ, तर स्थापना गरिएको छैन ।"
+msgstr[0] "फाइल बजाउम {} आवश्यक छ, तर स्थापना गरिएको छैन ।."
+msgstr[1] "फाइल बजाउम {} आवश्यक छ, तर स्थापना गरिएको छैन ।."
 
-#: gnomemusic/inhibitsuspend.py:63
+#: gnomemusic/inhibitsuspend.py:69
 msgid "Playing music"
 msgstr "सङ्गीत बजाइने"
 
 #. Translators: "shuffle" causes tracks to play in random order.
-#: gnomemusic/player.py:44
-msgid "Shuffle"
-msgstr "फिट्नुहोस्"
+#: gnomemusic/player.py:48
+msgid "Shuffle/Repeat Off"
+msgstr "फिट्नुहोस्/दोहोर्याउनुस् बन्द"
 
-#: gnomemusic/player.py:45
+#: gnomemusic/player.py:49
 msgid "Repeat Song"
 msgstr "गाना दोहोर्याउनुस्"
 
-#: gnomemusic/player.py:46
+#: gnomemusic/player.py:50
 msgid "Repeat All"
 msgstr "सबै दोहोर्याउनुस्"
-
-#: gnomemusic/player.py:47
-msgid "Shuffle/Repeat Off"
-msgstr "फिट्नुहोस्/दोहोर्याउनुस् बन्द"
 
 #: gnomemusic/playlisttoast.py:55
 msgid "Playlist {} removed"
@@ -466,90 +475,38 @@ msgstr "अज्ञात एल्बम"
 msgid "Unknown Artist"
 msgstr "अज्ञात कलाकार"
 
-#: gnomemusic/views/emptyview.py:65
-msgid "Your XDG Music directory is not set."
-msgstr "तपाईँको XDG सङ्गीत डाइरेक्टरी सेट गरिएको छैन ।"
-
-#: gnomemusic/views/emptyview.py:72
-msgid "Music Folder"
-msgstr "सङ्गीत फोल्डर"
-
-#. TRANSLATORS: This is a label to display a link to open user's music
-#. folder. {} will be replaced with the translated text 'Music folder'
-#: gnomemusic/views/emptyview.py:76
-msgid "The contents of your {} will appear here."
-msgstr "तपाईँको {} का सामग्रीहरू यहाँ देखा पर्नेछन् ।"
-
-#: gnomemusic/views/emptyview.py:124
-msgid "No Music Found"
-msgstr "सङ्गीत भेटिएन"
-
-#: gnomemusic/views/emptyview.py:125
-msgid "Try a Different Search"
-msgstr "फरक खोज कोशिश गर्नुहोस्"
-
-#: gnomemusic/views/emptyview.py:129
-msgid "GNOME Music could not connect to Tracker."
-msgstr "जिनोम सङ्गीत ट्र्याकरमा जडान गर्न सकेन ।"
-
-#: gnomemusic/views/emptyview.py:131
-msgid "Your music files cannot be indexed without Tracker running."
-msgstr "ट्र्याकर नचलाईकन तपाईँको सङ्गीत फाइलहरू अनुक्रमण गर्न सकिँदैन ।"
-
-#: gnomemusic/views/emptyview.py:137
-msgid "Your system Tracker version seems outdated."
-msgstr "तपाईँको प्रणाली ट्र्याकर संस्करण पुरानो जस्तो देखिन्छ ।"
-
-#: gnomemusic/views/emptyview.py:139
-msgid "Music needs Tracker version 3.0.0 or higher."
-msgstr "सङ्गीतलाई ट्रयाकर संस्करण 3.0.0 वा उच्चको आवश्यकता पर्दछ।"
-
 #: gnomemusic/views/playlistsview.py:45
 msgid "Playlists"
 msgstr "सुचिहरू"
 
-#: gnomemusic/views/searchview.py:304
-msgid "Artists Results"
-msgstr "कलाकारहरू नतिजा"
+#: gnomemusic/views/searchview.py:214
+msgid "No Search Started"
+msgstr "खोजी सुरु गरिएको छैन"
 
-#: gnomemusic/views/searchview.py:318
-msgid "Albums Results"
-msgstr "एल्बमहरूको नतिजा"
+#: gnomemusic/views/searchview.py:216
+msgid "Use the searchbar to start searching for albums, artists or songs"
+msgstr "एल्बम, कलाकार वा गीतहरूको खोजी सुरु गर्न खोजीपट्टी प्रयोग गर्नुहोस्"
 
-#: gnomemusic/widgets/albumwidget.py:245
+#: gnomemusic/views/searchview.py:220
+msgid "No Results Found"
+msgstr "नतिजा भेटिएन"
+
+#: gnomemusic/views/searchview.py:222
+msgid "Try a different search"
+msgstr "फरक खोज कोशिश गर्नुहोस्"
+
+#: gnomemusic/widgets/albumwidget.py:193
+#, python-brace-format
+msgid "Disc {row.props.disc_nr}"
+msgstr "डिस्क{row.props.disc_nr}"
+
+#: gnomemusic/widgets/albumwidget.py:241
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} मिनेट"
 msgstr[1] "{} मिनेट"
 
-#: gnomemusic/widgets/discbox.py:75
-msgid "Disc {}"
-msgstr "डिस्क {}"
-
-#: gnomemusic/widgets/headerbar.py:66
-msgid "Selected {} song"
-msgid_plural "Selected {} songs"
-msgstr[0] "{} गीत छानियो"
-msgstr[1] "{} गीतहरू छानियो"
-
-#: gnomemusic/widgets/lastfmdialog.py:64
-msgid "Your music listening is reported to Last.fm."
-msgstr "तपाईंको संगीत सुन्ने Last.fm मा रिपोर्ट गरिएको छ।"
-
-#: gnomemusic/widgets/lastfmdialog.py:66
-msgid "Your music listening is not reported to Last.fm."
-msgstr "तपाईँको सङ्गीत सुन्ने Last.fm मा रिपोर्ट गरिएको छैन ।"
-
-#. TRANSLATORS: displays the username of the Last.fm account
-#: gnomemusic/widgets/lastfmdialog.py:70
-msgid "Logged in as {}"
-msgstr "{} लगईन गरियो"
-
-#: gnomemusic/widgets/lastfmdialog.py:71
-msgid "Configure"
-msgstr "कन्फिगर"
-
-#: gnomemusic/widgets/playertoolbar.py:167
+#: gnomemusic/widgets/playertoolbar.py:173
 msgid "Pause"
 msgstr "पज गर्नुहोस्"
 
@@ -558,6 +515,156 @@ msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} गीत"
 msgstr[1] "{} गीतहरू"
+
+#: gnomemusic/widgets/searchheaderbar.py:54
+msgid "Search songs, artists and albums"
+msgstr "गीतहरू, कलाकारहरू र एल्बमहरू खोजी गर्नुहोस्"
+
+#. noqa: F841
+#: gnomemusic/widgets/songwidgetmenu.py:94
+msgid "_Open Location"
+msgstr "स्थान खोल्नुहोस्"
+
+#. TRANSLATORS: These are verbs, to (un)mark something as a
+#. favorite.
+#: gnomemusic/widgets/startoggle.py:36
+msgid "Unstar"
+msgstr "तारा हटाउनुहोस्"
+
+#: gnomemusic/widgets/startoggle.py:36
+msgid "Star"
+msgstr "तारा"
+
+#: gnomemusic/widgets/statusnavigationpage.py:51
+msgid "Your XDG Music directory is not set."
+msgstr "तपाईँको XDG सङ्गीत डाइरेक्टरी सेट गरिएको छैन ।."
+
+#: gnomemusic/widgets/statusnavigationpage.py:58
+msgid "Music Folder"
+msgstr "सङ्गीत फोल्डर"
+
+#. TRANSLATORS: This is a label to display a link to open user's music
+#. folder. {} will be replaced with the translated text 'Music folder'
+#: gnomemusic/widgets/statusnavigationpage.py:66
+msgid "The contents of your {} will appear here."
+msgstr "तपाईँको {} का सामग्रीहरू यहाँ देखा पर्नेछन् ।."
+
+#: gnomemusic/widgets/statusnavigationpage.py:116
+msgid "No Music Found"
+msgstr "सङ्गीत भेटिएन"
+
+#: gnomemusic/widgets/statusnavigationpage.py:117
+msgid "Try a Different Search"
+msgstr "फरक खोज कोशिश गर्नुहोस्"
+
+#: gnomemusic/widgets/statusnavigationpage.py:121
+msgid "GNOME Music could not connect to Tracker."
+msgstr "जिनोम सङ्गीत ट्र्याकरमा जडान गर्न सकेन ।."
+
+#: gnomemusic/widgets/statusnavigationpage.py:123
+msgid "Your music files cannot be indexed without Tracker running."
+msgstr "ट्र्याकर नचलाईकन तपाईँको सङ्गीत फाइलहरू अनुक्रमण गर्न सकिँदैन ।."
+
+#: gnomemusic/widgets/statusnavigationpage.py:129
+msgid "Your system Tracker version seems outdated."
+msgstr "तपाईँको प्रणाली ट्र्याकर संस्करण पुरानो जस्तो देखिन्छ ।."
+
+#: gnomemusic/widgets/statusnavigationpage.py:131
+msgid "Music needs Tracker version 3.0.0 or higher."
+msgstr "सङ्गीतलाई ट्रयाकर संस्करण ३.०.० वा उच्चको आवश्यकता पर्दछ।."
+
+#~ msgid "Enables or disables ReplayGain for albums"
+#~ msgstr "एल्बमका लागि पुन: प्लेगेन सक्षम वा अक्षम पार्दछ"
+
+#~ msgid "Report music history to Last.fm"
+#~ msgstr "Last.fm सङ्गीत इतिहास प्रतिवेदन गर्नुहोस्"
+
+#~ msgid ""
+#~ "Enables or disables sending scrobbles and the “currently playing” info to Last.fm."
+#~ msgstr "Last.fm पठाउन स्क्रोब्ल्स र \"हालै बजिरहेको\" सूचना सक्षम वा असक्षम पार्दछ ।"
+
+#~ msgid "Last.fm Account"
+#~ msgstr "Last.fm खाता"
+
+#~ msgid "Report Music Listening"
+#~ msgstr "सङ्गीत सुन्ने प्रतिवेदन गर्नुहोस्"
+
+#~ msgid "_Help"
+#~ msgstr "सहयोग"
+
+#~ msgid "Select"
+#~ msgstr "चयन गर्नुहोस्"
+
+#~ msgid "Back"
+#~ msgstr "पछाडि"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Close window"
+#~ msgstr "सञ्झ्याल बन्द गर्नुहोस्"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Go to Songs"
+#~ msgstr "गीतहरूमा जानुहोस्"
+
+#~ msgid ""
+#~ "Last.fm is a music discovery service that gives you personalised recommendations "
+#~ "based on the music you listen to."
+#~ msgstr ""
+#~ "Last.fm एउटा सङ्गीत आविष्कार सेवा हो जसले तपाईँले सुन्नुभएको सङ्गीतको आधारमा व्यक्तिगत सिफारिस "
+#~ "दिन्छ।"
+
+#~ msgid "Music Reporting Not Setup"
+#~ msgstr "सङ्गीत रिपोर्टिङ सेटअप छैन"
+
+#~ msgid "Login to your Last.fm account to report your music listening."
+#~ msgstr "तपाईँको सङ्गीत सुन्न प्रतिवेदन गर्न तपाईँको Last.fm खातामा लगइन गर्नुहोस् ।"
+
+#~ msgid "Login"
+#~ msgstr "लगइन"
+
+#~ msgid "Select All"
+#~ msgstr "सबै छान्नुहोस्"
+
+#~ msgid "Select None"
+#~ msgstr "कुनै पनि चयन नगर्नुहोस्"
+
+#~ msgid "Click on items to select them"
+#~ msgstr "वस्तुहरू चयनका लागि क्लिक गर्नुहोस्"
+
+#~ msgid "_Add to Playlist"
+#~ msgstr "बजाइने सुचिमा थप्नुहोस्"
+
+#~ msgid "Copyright The GNOME Music Developers"
+#~ msgstr "प्रतिलिपि अधिकार जिनोम सङ्गीत विकासकर्ताहरू"
+
+#~ msgid "Translated by"
+#~ msgstr "अनुवाद"
+
+#~ msgid "Artists Results"
+#~ msgstr "कलाकारहरू नतिजा"
+
+#~ msgid "Albums Results"
+#~ msgstr "एल्बमहरूको नतिजा"
+
+#~ msgid "Disc {}"
+#~ msgstr "डिस्क {}"
+
+#~ msgid "Selected {} song"
+#~ msgid_plural "Selected {} songs"
+#~ msgstr[0] "{} गीत छानियो"
+#~ msgstr[1] "{} गीतहरू छानियो"
+
+#~ msgid "Your music listening is reported to Last.fm."
+#~ msgstr "तपाईंको संगीत सुन्ने Last.fm मा रिपोर्ट गरिएको छ।"
+
+#~ msgid "Your music listening is not reported to Last.fm."
+#~ msgstr "तपाईँको सङ्गीत सुन्ने Last.fm मा रिपोर्ट गरिएको छैन ।"
+
+#~ msgid "Logged in as {}"
+#~ msgstr "{} लगईन गरियो"
+
+#~ msgid "Configure"
+#~ msgstr "कन्फिगर"
 
 #~ msgid "A music player and management application for GNOME."
 #~ msgstr "जिनोम सङ्गीत बजाउने र व्यवस्थापन अनुप्रयोग."
@@ -594,17 +701,8 @@ msgstr[1] "{} गीतहरू"
 #~ msgid "by %s, from %s"
 #~ msgstr "%s बाट %s देखि"
 
-#~ msgid "All"
-#~ msgstr "सबै"
-
 #~ msgid "Artist"
 #~ msgstr "कलाकार:"
-
-#~ msgid "Album"
-#~ msgstr "एल्बम:"
-
-#~ msgid "Track Title"
-#~ msgstr "गाना शीर्षक"
 
 #~ msgid "Local"
 #~ msgstr "स्थानीय"
@@ -635,9 +733,6 @@ msgstr[1] "{} गीतहरू"
 
 #~ msgid "_New Playlist"
 #~ msgstr "नयाँ सूची"
-
-#~ msgid "_Quit"
-#~ msgstr "अन्त्य गर्नुहोस्"
 
 #~ msgid "Select Playlist"
 #~ msgstr "सूचिचयन गर्नुहोस्..."
