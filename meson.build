@@ -76,12 +76,6 @@ install_subdir(
     install_dir: py_installation.get_install_dir()
 )
 
-if glib_dep.version().version_compare('>=2.83')
-    gir_version = '3.0'
-else
-    gir_version = '2.0'
-endif
-
 # Install the executable file
 bin_config = configuration_data()
 bin_config.set('application_id', APPLICATION_ID)
@@ -90,7 +84,6 @@ bin_config.set('pkgdatadir', PKGDATA_DIR)
 bin_config.set('localedir', join_paths(get_option('prefix'), get_option('datadir'), 'locale'))
 bin_config.set('pythondir', PYTHON_DIR)
 bin_config.set('schemasdir', PKGDATA_DIR)
-bin_config.set('gir_version', gir_version)
 bin_config.set('version', meson.project_version() + VCS_TAG)
 
 bin_config.set('local_build', 'False')
@@ -110,7 +103,6 @@ local_config.set('pkgdatadir', join_paths(meson.current_build_dir(), 'data'))
 local_config.set('localedir', join_paths(get_option('prefix'), get_option('datadir'), 'locale'))
 local_config.set('pythondir', meson.current_source_dir())
 local_config.set('schemasdir', join_paths(meson.current_build_dir(), 'data'))
-local_config.set('gir_version', gir_version)
 local_config.set('version', meson.project_version() + VCS_TAG)
 
 local_config.set('local_build', 'True')
