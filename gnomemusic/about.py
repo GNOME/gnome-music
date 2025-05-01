@@ -50,6 +50,7 @@ def show_about(app_id, version, parent):
         "Christopher Davis",
         "Clayton G. Hobbs",
         "Divyanshu Vishwakarma",
+        "Dominique Leuenberger",
         "Eslam Mostafa",
         "Elias Entrup",
         "Erik Inkinen",
