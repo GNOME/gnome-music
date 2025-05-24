@@ -3,117 +3,119 @@
 # This file is distributed under the same license as the gnome-music package.
 # Bogdan Mințoi <mintoi.bogdan@gmail.com>, 2014.
 # Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>, 2017.
+# Antonio Marin <gnmer.6qxyg@slmail.me>, 2025.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2024-06-21 10:22+0000\n"
-"PO-Revision-Date: 2024-08-07 13:22+0300\n"
-"Last-Translator: Florentina Mușat <florentina [dot] musat [dot] 28 [at] "
-"gmail [dot] com>\n"
-"Language-Team: Gnome Romanian Translation Team <gnomero-list@lists."
-"sourceforge.net>\n"
+"POT-Creation-Date: 2025-05-10 16:51+0000\n"
+"PO-Revision-Date: 2025-05-24 12:21+0200\n"
+"Last-Translator: Antonio Marin <gnmer.6qxyg@slmail.me>\n"
+"Language-Team: Romanian <gnomero-list@lists.sourceforge.net>\n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2);\n"
-"X-Generator: Poedit 3.4.4\n"
+"X-Generator: Gtranslator 48.0\n"
 "X-Project-Style: gnome\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
-#: data/org.gnome.Music.appdata.xml.in.in:6
-#: data/org.gnome.Music.desktop.in.in:3 data/ui/StatusNavigationPage.ui:4
-#: gnomemusic/about.py:138 gnomemusic/application.py:59 gnomemusic/window.py:65
+#: data/org.gnome.Music.desktop.in.in:3
+#: data/org.gnome.Music.metainfo.xml.in.in:9 data/ui/StatusNavigationPage.ui:4
+#: gnomemusic/about.py:143 gnomemusic/application.py:61 gnomemusic/window.py:65
 msgid "Music"
 msgstr "Muzică"
 
-#: data/org.gnome.Music.appdata.xml.in.in:7
-#: data/org.gnome.Music.desktop.in.in:5
-msgid "Play and organize your music collection"
-msgstr "Redă și organizează colecția dumneavoastră de muzică"
-
-#: data/org.gnome.Music.appdata.xml.in.in:9
-msgid "An easy and pleasant way to play your music."
-msgstr "Un mod ușor și plăcut de a reda muzica."
-
-#: data/org.gnome.Music.appdata.xml.in.in:12
-msgid ""
-"Find tracks in your local collection, use automatically generated playlists "
-"or curate a fresh one."
-msgstr ""
-"Găsiți piese în colecția locală, utilizați liste de redare generate automat "
-"sau creeați una manual."
-
-#. developer_name tag deprecated with Appstream 1.0
-#: data/org.gnome.Music.appdata.xml.in.in:214
-msgid "The GNOME Music developers"
-msgstr "Dezvoltatorii Muzică GNOME"
-
 #: data/org.gnome.Music.desktop.in.in:4
 msgid "Music Player"
-msgstr "Player pentru muzică"
+msgstr "Redare muzică"
+
+#: data/org.gnome.Music.desktop.in.in:5
+#: data/org.gnome.Music.metainfo.xml.in.in:10
+msgid "Play and organize your music collection"
+msgstr "Redă și organizează colecția de muzică"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.Music.desktop.in.in:13
 msgid "Music;Player;"
 msgstr "Music;Player;Muzică;Redare;"
 
-#: data/org.gnome.Music.gschema.xml:12
-msgid "Window size"
-msgstr "Dimensiune fereastră"
+#: data/org.gnome.Music.metainfo.xml.in.in:12
+msgid "An easy and pleasant way to play your music."
+msgstr "Un mod ușor și plăcut de a reda muzica."
 
-#: data/org.gnome.Music.gschema.xml:13
-msgid "Window size (width and height)."
-msgstr "Dimensiune fereastră (lățime și înălțime)."
+#: data/org.gnome.Music.metainfo.xml.in.in:15
+msgid ""
+"Find tracks in your local collection, use automatically generated playlists "
+"or curate a fresh one."
+msgstr ""
+"Găsește piese în colecția locală, folosește liste de redare generate automat "
+"sau creează una manual."
 
 #: data/org.gnome.Music.gschema.xml:17
+msgid "Window size"
+msgstr "Mărimea ferestrei"
+
+#: data/org.gnome.Music.gschema.xml:18
+msgid "Window size (width and height)."
+msgstr "Mărimea ferestrei (lățime și înălțime)."
+
+#: data/org.gnome.Music.gschema.xml:22
 msgid "Window maximized"
 msgstr "Fereastră maximizată"
 
-#: data/org.gnome.Music.gschema.xml:18
+#: data/org.gnome.Music.gschema.xml:23
 msgid "Window maximized state."
-msgstr "Starea ferestrei maximizată."
+msgstr "Starea ferestrei maximizate."
 
-#: data/org.gnome.Music.gschema.xml:22
+#: data/org.gnome.Music.gschema.xml:27
 msgid "Playback repeat mode"
 msgstr "Mod de repetare a redării"
 
 #. Translators: Don't translate allowed values, just the description in the brackets
-#: data/org.gnome.Music.gschema.xml:24
+#: data/org.gnome.Music.gschema.xml:29
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
-"collection. Allowed values are: “none” (repeat and shuffle are off), "
-"“song” (repeat current song), “all” (repeat playlist, no shuffle), "
-"“shuffle” (shuffle playlist, presumes repeat all)."
+"collection. Allowed values are: “none” (repeat and shuffle are off), “song” "
+"(repeat current song), “all” (repeat playlist, no shuffle), “shuffle” "
+"(shuffle playlist, presumes repeat all)."
 msgstr ""
 "Valoarea identifică dacă redarea se face repetitiv sau aleatoriu din "
-"colecție. Valorile permise sunt: „nimic” (repetiția și redarea aleatorie "
-"sunt dezactivate), „melodie” (se repetă doar melodia actuală), „tot” (se "
-"repetă toată lista de redare, fără amestecare), „amestecare” (amestecă lista "
-"de redare, implică repetarea întregii liste)."
+"colecție. Valorile permise sunt: „none” (repetiția și redarea aleatorie sunt "
+"dezactivate), „song” (se repetă doar melodia actuală), „all” (se repetă "
+"toată lista de redare, fără amestecare), „shuffle” (redă la întâmplare din "
+"listă, implică repetarea întregii liste)."
 
-#: data/org.gnome.Music.gschema.xml:28 data/ui/PreferencesDialog.ui:27
+#: data/org.gnome.Music.gschema.xml:33
 msgid "Enable ReplayGain"
 msgstr "Activează ReplayGain"
 
-#: data/org.gnome.Music.gschema.xml:29
-msgid "Enables or disables ReplayGain for albums"
-msgstr "Activează sau dezactivează ReplayGain pentru albume"
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: data/org.gnome.Music.gschema.xml:35
+msgid ""
+"Enables or disables ReplayGain for albums or track. Allowed values are: "
+"“disabled” (disables replaygain), “album” (replaygain per album), “track” "
+"(replaygain per track)."
+msgstr ""
+"Activează sau dezactivează ReplayGain pentru albume sau piese. Valorile "
+"permise sunt: „disabled” (dezactivează replaygain), „album” (replaygain per "
+"album), „track” (replaygain per track)."
 
-#: data/org.gnome.Music.gschema.xml:33
+#: data/org.gnome.Music.gschema.xml:39
 msgid "Inhibit system suspend"
-msgstr "Inhibă suspendarea sistemului"
+msgstr "Împiedică suspendarea sistemului"
 
-#: data/org.gnome.Music.gschema.xml:34
+#: data/org.gnome.Music.gschema.xml:40
 msgid "Enables or disables inhibiting system suspend while playing music"
 msgstr ""
-"Activează sau dezactivează inhibarea suspendării sistemului în timpul "
-"redării de muzică"
+"Permite sau împiedică suspendarea activității sistemului în timpul redării "
+"de muzică"
 
 #: data/ui/AlbumsSearchNavigationPage.ui:5 data/ui/SearchView.ui:98
-#: gnomemusic/views/albumsview.py:52
+#: gnomemusic/views/albumsview.py:30
 msgid "Albums"
 msgstr "Albume"
 
@@ -129,7 +131,7 @@ msgstr "_Redare"
 
 #: data/ui/AlbumWidget.ui:134
 msgid "Add to _Favorite Songs"
-msgstr "Adaugă la Melodii _favorite"
+msgstr "Adaugă la Melodii pre_ferate"
 
 #: data/ui/AlbumWidget.ui:138 data/ui/SongWidgetMenu.ui:15
 msgid "_Add to Playlist…"
@@ -142,7 +144,7 @@ msgstr "Artiști"
 
 #: data/ui/HeaderBar.ui:14
 msgid "Menu"
-msgstr "Meniu"
+msgstr "Opțiuni"
 
 #: data/ui/HeaderBar.ui:22 data/ui/SearchHeaderBar.ui:12
 msgid "Search"
@@ -154,7 +156,7 @@ msgstr "Preferințe"
 
 #: data/ui/HeaderBar.ui:35
 msgid "Keyboard Shortcuts"
-msgstr "Scurtături de tastatură"
+msgstr "Scurtături"
 
 #: data/ui/HeaderBar.ui:39
 msgid "Help"
@@ -171,8 +173,8 @@ msgstr "Generale"
 
 #: data/ui/help-overlay.ui:14
 msgctxt "shortcut window"
-msgid "Close window"
-msgstr "Închide fereastra"
+msgid "Preferences"
+msgstr "Preferințe"
 
 #: data/ui/help-overlay.ui:20
 msgctxt "shortcut window"
@@ -189,57 +191,62 @@ msgctxt "shortcut window"
 msgid "Shortcuts"
 msgstr "Scurtături"
 
-#: data/ui/help-overlay.ui:40
+#: data/ui/help-overlay.ui:38
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Închide"
+
+#: data/ui/help-overlay.ui:46
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Redare"
 
-#: data/ui/help-overlay.ui:43
+#: data/ui/help-overlay.ui:49
 msgctxt "shortcut window"
 msgid "Play/Pause"
 msgstr "Redare/Pauză"
 
-#: data/ui/help-overlay.ui:49
+#: data/ui/help-overlay.ui:55
 msgctxt "shortcut window"
 msgid "Next song"
 msgstr "Melodia următoare"
 
-#: data/ui/help-overlay.ui:55
+#: data/ui/help-overlay.ui:61
 msgctxt "shortcut window"
 msgid "Previous song"
 msgstr "Melodia precedentă"
 
-#: data/ui/help-overlay.ui:61
-msgctxt "shortcut window"
-msgid "Toggle repeat"
-msgstr "Comută repetarea"
-
 #: data/ui/help-overlay.ui:67
 msgctxt "shortcut window"
-msgid "Toggle shuffle"
-msgstr "Comută amestecarea"
+msgid "Toggle repeat"
+msgstr "Repetare Activă/Inactivă"
 
-#: data/ui/help-overlay.ui:75
+#: data/ui/help-overlay.ui:73
+msgctxt "shortcut window"
+msgid "Toggle shuffle"
+msgstr "Amestecare Activă/Inactivă"
+
+#: data/ui/help-overlay.ui:81
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "Navigare"
 
-#: data/ui/help-overlay.ui:78
-msgctxt "shortcut window"
-msgid "Go to Albums"
-msgstr "Navighează la albume"
-
 #: data/ui/help-overlay.ui:84
 msgctxt "shortcut window"
-msgid "Go to Artists"
-msgstr "Navighează la artiști"
+msgid "Go to Albums"
+msgstr "Duce la Albume"
 
 #: data/ui/help-overlay.ui:90
 msgctxt "shortcut window"
-msgid "Go to Playlists"
-msgstr "Navighează la listele de redare"
+msgid "Go to Artists"
+msgstr "Duce la Artiști"
 
 #: data/ui/help-overlay.ui:96
+msgctxt "shortcut window"
+msgid "Go to Playlists"
+msgstr "Duce la Listele de redare"
+
+#: data/ui/help-overlay.ui:102
 msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Înapoi"
@@ -274,7 +281,7 @@ msgstr "Adaugă în lista de redare"
 
 #: data/ui/PlaylistDialog.ui:27
 msgid "_Cancel"
-msgstr "_Anulează"
+msgstr "A_nulează"
 
 #: data/ui/PlaylistDialog.ui:36
 msgid "_Add"
@@ -282,7 +289,7 @@ msgstr "_Adaugă"
 
 #: data/ui/PlaylistDialog.ui:91
 msgid "Enter a name for your first playlist"
-msgstr "Introduceți un nume pentru prima listă de redare"
+msgstr "Numele primei liste de redare"
 
 #: data/ui/PlaylistDialog.ui:116
 msgid "C_reate"
@@ -298,7 +305,7 @@ msgstr "Adaugă"
 
 #: data/ui/PreferencesDialog.ui:9
 msgid "Player Settings"
-msgstr "Configurări player"
+msgstr "Preferințe redare"
 
 #: data/ui/PreferencesDialog.ui:12
 msgid "Repeat Mode"
@@ -320,26 +327,42 @@ msgstr "Toate"
 msgid "Shuffle"
 msgstr "Amestecă"
 
+#: data/ui/PreferencesDialog.ui:27
+msgid "ReplayGain"
+msgstr "ReplayGain"
+
 #: data/ui/PreferencesDialog.ui:28
 msgid "Balance loudness between songs if ReplayGain metadata is found"
 msgstr ""
-"Echilibrează volumul între melodii dacă sunt găsite datele meta ReplayGain"
+"Echilibrează volumul între melodii dacă sunt găsite metadatele ReplayGain"
 
-#: data/ui/PreferencesDialog.ui:35
+#: data/ui/PreferencesDialog.ui:32
+msgid "Disabled"
+msgstr "Dezactivat"
+
+#: data/ui/PreferencesDialog.ui:33
+msgid "Album"
+msgstr "Album"
+
+#: data/ui/PreferencesDialog.ui:34
+msgid "Track"
+msgstr "Piesă"
+
+#: data/ui/PreferencesDialog.ui:44
 msgid "Power Settings"
-msgstr "Configurări de putere"
+msgstr "Consum energetic"
 
-#: data/ui/PreferencesDialog.ui:38
+#: data/ui/PreferencesDialog.ui:47
 msgid "Inhibit Suspend"
-msgstr "Inhibă suspendarea"
+msgstr "Împiedică suspendarea"
 
-#: data/ui/PreferencesDialog.ui:39
+#: data/ui/PreferencesDialog.ui:48
 msgid "Only while playing"
 msgstr "Doar când se redă"
 
 #: data/ui/SearchView.ui:55 data/ui/SearchView.ui:112
 msgid "View All"
-msgstr "Vizualizează toate"
+msgstr "Arată tot"
 
 #: data/ui/SearchView.ui:154
 msgid "Songs"
@@ -351,76 +374,82 @@ msgstr "_Elimină din lista de redare"
 
 #: data/ui/StatusNavigationPage.ui:36
 msgid "Welcome to Music"
-msgstr "Bine ați venit la Muzică"
+msgstr "Bun venit în Muzică"
 
-#: gnomemusic/about.py:140
+#: gnomemusic/about.py:145
 msgid "The GNOME Project"
 msgstr "Proiectul GNOME"
 
 #. Translators should localize the following string which
 #. will be displayed at the bottom of the about box to give
 #. credit to the translator(s).
-#: gnomemusic/about.py:146
+#: gnomemusic/about.py:151
 msgid "translator-credits"
 msgstr ""
 "Florentina Mușat <florentina [dot] musat [dot] 28 [at] gmail [dot] com>, "
-"2020-2024"
+"2020-2024\n"
+"Antonio Marin <gnmer.6qxyg@slmail.me>, 2025"
 
-#: gnomemusic/about.py:150
+#: gnomemusic/about.py:155
 msgid "© The GNOME Music Developers"
-msgstr "© Dezvoltatorii Muzică GNOME"
+msgstr "© Programatorii Muzică GNOME"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:839
+#: gnomemusic/grilowrappers/smartplaylist.py:128
 msgid "Most Played"
 msgstr "Cele mai redate"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:893
+#: gnomemusic/grilowrappers/smartplaylist.py:182
 msgid "Never Played"
 msgstr "Niciodată redate"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:946
+#: gnomemusic/grilowrappers/smartplaylist.py:235
 msgid "Recently Played"
 msgstr "Redate recent"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1025
+#: gnomemusic/grilowrappers/smartplaylist.py:314
 msgid "Recently Added"
 msgstr "Adăugate recent"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1088
+#: gnomemusic/grilowrappers/smartplaylist.py:377
 msgid "Favorite Songs"
-msgstr "Melodii favorite"
+msgstr "Melodii preferate"
 
 #. TRANSLATORS: this is a playlist name indicating that the
 #. files are not tagged enough to be displayed in the albums
 #. or artists views.
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1142
+#: gnomemusic/grilowrappers/smartplaylist.py:431
 msgid "Insufficiently Tagged"
-msgstr "Nu este etichetat suficient"
+msgstr "Etichetate insuficient"
 
-#: gnomemusic/gstplayer.py:418
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/smartplaylist.py:494
+msgid "All Songs"
+msgstr "Toate melodiile"
+
+#: gnomemusic/gstplayer.py:424
 msgid "Unable to play the file"
 msgstr "Nu s-a putut reda fișierul"
 
-#: gnomemusic/gstplayer.py:424
+#: gnomemusic/gstplayer.py:430
 msgid "_Find in {}"
 msgstr "_Caută în {}"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:434
+#: gnomemusic/gstplayer.py:440
 msgid " and "
 msgstr " și "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:437
+#: gnomemusic/gstplayer.py:443
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:439
+#: gnomemusic/gstplayer.py:445
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "{} este necesar pentru a reda fișierul, dar nu este instalat."
@@ -438,7 +467,7 @@ msgstr "Amestecare/Repetare oprită"
 
 #: gnomemusic/player.py:49
 msgid "Repeat Song"
-msgstr "Repetă piesa"
+msgstr "Repetă melodia"
 
 #: gnomemusic/player.py:50
 msgid "Repeat All"
@@ -446,7 +475,7 @@ msgstr "Repetă toate"
 
 #: gnomemusic/playlisttoast.py:55
 msgid "Playlist {} removed"
-msgstr "Listă de redare {} eliminată"
+msgstr "Lista de redare {} eliminată"
 
 #: gnomemusic/playlisttoast.py:56 gnomemusic/songtoast.py:65
 msgid "Undo"
@@ -454,13 +483,13 @@ msgstr "Anulează"
 
 #: gnomemusic/songtoast.py:64
 msgid "{} removed from {}"
-msgstr "{} eliminat de la {}"
+msgstr "{} eliminat din {}"
 
-#: gnomemusic/utils.py:89
+#: gnomemusic/utils.py:92
 msgid "Unknown album"
 msgstr "Album necunoscut"
 
-#: gnomemusic/utils.py:110
+#: gnomemusic/utils.py:113
 msgid "Unknown Artist"
 msgstr "Artist necunoscut"
 
@@ -468,34 +497,34 @@ msgstr "Artist necunoscut"
 msgid "Playlists"
 msgstr "Liste de redare"
 
-#: gnomemusic/views/searchview.py:224
+#: gnomemusic/views/searchview.py:214
 msgid "No Search Started"
-msgstr "Nu s-a început nicio căutare"
+msgstr "Nu s-a început căutarea"
 
-#: gnomemusic/views/searchview.py:226
+#: gnomemusic/views/searchview.py:216
 msgid "Use the searchbar to start searching for albums, artists or songs"
 msgstr ""
-"Utilizați bara de căutare pentru a începe să căutați după albume, artiști "
-"sau melodii"
+"Se folosește spațiul de căutare pentru a căuta albume, artiști sau melodii"
 
-#: gnomemusic/views/searchview.py:230
+#: gnomemusic/views/searchview.py:220
 msgid "No Results Found"
 msgstr "Nu s-au găsit rezultate"
 
-#: gnomemusic/views/searchview.py:232
+#: gnomemusic/views/searchview.py:222
 msgid "Try a different search"
-msgstr "Încearcă o altă căutare"
+msgstr "Se poate căuta altfel"
 
-#: gnomemusic/widgets/albumwidget.py:230
+#: gnomemusic/widgets/albumwidget.py:193
+#, python-brace-format
+msgid "Disc {row.props.disc_nr}"
+msgstr "Disc {row.props.disc_nr}"
+
+#: gnomemusic/widgets/albumwidget.py:241
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} minut"
 msgstr[1] "{} minute"
 msgstr[2] "{} de minute"
-
-#: gnomemusic/widgets/discbox.py:74
-msgid "Disc {}"
-msgstr "Disc {}"
 
 #: gnomemusic/widgets/playertoolbar.py:173
 msgid "Pause"
@@ -515,31 +544,31 @@ msgstr "Caută melodii, artiști și albume"
 #. noqa: F841
 #: gnomemusic/widgets/songwidgetmenu.py:94
 msgid "_Open Location"
-msgstr "_Deschide locația"
+msgstr "_Deschide locul"
 
 #. TRANSLATORS: These are verbs, to (un)mark something as a
 #. favorite.
 #: gnomemusic/widgets/startoggle.py:36
 msgid "Unstar"
-msgstr "Elimină stea"
+msgstr "Fără stea"
 
 #: gnomemusic/widgets/startoggle.py:36
 msgid "Star"
-msgstr "Adaugă o stea"
+msgstr "Cu stea"
 
 #: gnomemusic/widgets/statusnavigationpage.py:51
 msgid "Your XDG Music directory is not set."
-msgstr "Directorul de muzică XDG nu este stabilit."
+msgstr "Dosarul de muzică XDG nu este stabilit."
 
 #: gnomemusic/widgets/statusnavigationpage.py:58
 msgid "Music Folder"
-msgstr "Dosar de muzică"
+msgstr "Dosarul Muzică"
 
 #. TRANSLATORS: This is a label to display a link to open user's music
 #. folder. {} will be replaced with the translated text 'Music folder'
 #: gnomemusic/widgets/statusnavigationpage.py:66
 msgid "The contents of your {} will appear here."
-msgstr "Conținuturile a {} vor apărea aici."
+msgstr "Conținutul din {} va apărea aici."
 
 #: gnomemusic/widgets/statusnavigationpage.py:116
 msgid "No Music Found"
@@ -547,15 +576,15 @@ msgstr "Nu s-a găsit muzică"
 
 #: gnomemusic/widgets/statusnavigationpage.py:117
 msgid "Try a Different Search"
-msgstr "Încercați o altă căutare"
+msgstr "Se poate căuta altfel"
 
 #: gnomemusic/widgets/statusnavigationpage.py:121
 msgid "GNOME Music could not connect to Tracker."
-msgstr "Muzică GNOME nu s-a putut conecta la Tracker."
+msgstr "Aplicația nu s-a putut conecta la Tracker."
 
 #: gnomemusic/widgets/statusnavigationpage.py:123
 msgid "Your music files cannot be indexed without Tracker running."
-msgstr "Fișierele de muzică nu pot fi indexate fără ca Tracker să ruleze."
+msgstr "Fișierele de muzică nu pot fi indexate fără ca Tracker să funcționeze."
 
 #: gnomemusic/widgets/statusnavigationpage.py:129
 msgid "Your system Tracker version seems outdated."
@@ -563,279 +592,4 @@ msgstr "Versiunea de Tracker din sistem pare învechită."
 
 #: gnomemusic/widgets/statusnavigationpage.py:131
 msgid "Music needs Tracker version 3.0.0 or higher."
-msgstr "Muzică are nevoie de Tracker versiunea 3.0.0 sau mai nouă."
-
-#~ msgid "Report music history to Last.fm"
-#~ msgstr "Raportează istoricul muzicii la Last.fm"
-
-#~ msgid ""
-#~ "Enables or disables sending scrobbles and the “currently playing” info to "
-#~ "Last.fm."
-#~ msgstr ""
-#~ "Activează sau dezactivează trimiterea de scrobbles și de informații de la "
-#~ "„se redă acum” către Last.fm."
-
-#~ msgid "Last.fm Account"
-#~ msgstr "Cont Last.fm"
-
-#~ msgid "Report Music Listening"
-#~ msgstr "Raportează ascultarea de muzică"
-
-#~ msgid "_Help"
-#~ msgstr "_Ajutor"
-
-#~ msgid "Select"
-#~ msgstr "Selectează"
-
-#~ msgid "Back"
-#~ msgstr "Înapoi"
-
-#~ msgctxt "shortcut window"
-#~ msgid "Go to Songs"
-#~ msgstr "Navighează la melodii"
-
-#~ msgid ""
-#~ "Last.fm is a music discovery service that gives you personalised "
-#~ "recommendations based on the music you listen to."
-#~ msgstr ""
-#~ "Last.fm este un serviciu de descoperire de muzică ce vă oferă recomandări "
-#~ "personalizate pe baza muzicii pe care o ascultați."
-
-#~ msgid "Music Reporting Not Setup"
-#~ msgstr "Raportarea de muzică nu este stabilită"
-
-#~ msgid "Login to your Last.fm account to report your music listening."
-#~ msgstr ""
-#~ "Autentificați-vă la contul Last.fm pentru a raporta ascultarea de muzică."
-
-#~ msgid "Login"
-#~ msgstr "Autentificare"
-
-#~ msgid "Select All"
-#~ msgstr "Selectează toate"
-
-#~ msgid "Select None"
-#~ msgstr "Deselectează toate"
-
-#~ msgid "Click on items to select them"
-#~ msgstr "Clic pe obiecte pentru a le selecta"
-
-#~ msgid "_Add to Playlist"
-#~ msgstr "_Adaugă în lista de redare"
-
-#~ msgid "Copyright The GNOME Music Developers"
-#~ msgstr "Drepturi de autor dezvoltatorii Music GNOME"
-
-#~ msgid "Translated by"
-#~ msgstr "Tradus de"
-
-#~ msgid "Artists Results"
-#~ msgstr "Rezultate artiști"
-
-#~ msgid "Albums Results"
-#~ msgstr "Rezultate albume"
-
-#~ msgid "Selected {} song"
-#~ msgid_plural "Selected {} songs"
-#~ msgstr[0] "A fost selectat {} cântec"
-#~ msgstr[1] "A fost selectat {} cântece"
-#~ msgstr[2] "A fost selectat {} de cântece"
-
-#~ msgid "Your music listening is reported to Last.fm."
-#~ msgstr "Ascultarea de muzică este raportată la Last.fm."
-
-#~ msgid "Your music listening is not reported to Last.fm."
-#~ msgstr "Ascultarea de muzică nu este raportată la Last.fm."
-
-#~ msgid "Logged in as {}"
-#~ msgstr "Autentificat ca {}"
-
-#~ msgid "Configure"
-#~ msgstr "Configurează"
-
-#~ msgid "GNOME Music"
-#~ msgstr "Muzică GNOME"
-
-#~ msgid "Window position"
-#~ msgstr "Poziție fereastră"
-
-#~ msgid "Window position (x and y)."
-#~ msgstr "Poziție fereastră (x și y)."
-
-#~ msgid "A music player and management application for GNOME."
-#~ msgstr "O aplicație de administrare și redare de muzică pentru GNOME."
-
-#~ msgid "Visit GNOME Music website"
-#~ msgstr "Vizitați situl web al GNOME Music"
-
-#~ msgid ""
-#~ "GNOME Music is free software; you can redistribute it and/or modify it "
-#~ "under the terms of the GNU General Public License as published by the "
-#~ "Free Software Foundation; either version 2 of the License, or (at your "
-#~ "option) any later version.\n"
-#~ "\n"
-#~ "GNOME Music is distributed in the hope that it will be useful, but "
-#~ "WITHOUT ANY WARRANTY; without even the implied warranty of "
-#~ "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General "
-#~ "Public License for more details.\n"
-#~ "\n"
-#~ "You should have received a copy of the GNU General Public License along "
-#~ "with GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
-#~ "Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
-#~ "\n"
-#~ "The GNOME Music authors hereby grant permission for non-GPL compatible "
-#~ "GStreamer plugins to be used and distributed together with GStreamer and "
-#~ "GNOME Music.  This permission is above and beyond the permissions granted "
-#~ "by the GPL license by which GNOME Music is covered.  If you modify this "
-#~ "code, you may extend this exception to your version of the code, but you "
-#~ "are not obligated to do so.  If you do not wish to do so, delete this "
-#~ "exception statement from your version."
-#~ msgstr ""
-#~ "Muzică GNOME este un software liber; îl puteți redistribui și/sau "
-#~ "modifica în conformitate cu termenii Licenței Publice Generale GNU așa "
-#~ "cum este publicată de Free Software Foundation; fie versiunea 2 a "
-#~ "Licenței, fie (la latitudinea dumneavoastră) orice versiune ulterioară.\n"
-#~ "\n"
-#~ "Muzică GNOME este distribuit cu speranța că va fi util, dar FĂRĂ NICIO "
-#~ "GARANȚIE, fără nici măcar a garanției implicite de VANDABILITATE sau "
-#~ "CONFORMITATE UNUI ANUMIT SCOP.  Citiți Licența Publică Generală GNU "
-#~ "pentru mai multe detalii.\n"
-#~ "\n"
-#~ "Ar trebui să fi primit o copie a Licenței Publice Generale GNU împreună "
-#~ "cu Muzică GNOME; dacă nu, scrieți la Free Software Foundation, Inc., 51 "
-#~ "Franklin St., Fifth Floor, Boston, MA 02110-1301 USA.\n"
-#~ "\n"
-#~ "Autorii Muzică GNOME vă oferă permisiunea de a folosi module non-GPL "
-#~ "compatibile cu GStreamer și de a le distribui împreună cu GStreamer și "
-#~ "Muzică GNOME.  Această permisiune depășește termenii licenței GPL sub "
-#~ "care Muzică GNOME este pus la dispoziția publicului.  Dacă modificați "
-#~ "acest cod, aveți posibilitatea să adăugați această excepție la versiunea "
-#~ "dumneavoastră de cod, dar nu sunteți obligat să o faceți.  Dacă nu doriți "
-#~ "acest lucru, ștergeți această declarație din versiunea dumneavoastră."
-
-#~ msgid "Loading"
-#~ msgstr "Se încarcă"
-
-#~ msgid "Add to Playlist…"
-#~ msgstr "_Adaugă în lista de redare…"
-
-#~ msgid ""
-#~ "An easy way to play your music. Automatically discover music on your "
-#~ "computer, the local network and internet services."
-#~ msgstr ""
-#~ "O modalitate ușoară de a reda muzica deținută. Descoperă automat muzica "
-#~ "de pe calculator, rețeaua locală și servicii de pe internet."
-
-#~ msgid ""
-#~ "Find tracks in your local collection, get music from DLNA servers or try "
-#~ "something new with the Jamendo and Magnatune services."
-#~ msgstr ""
-#~ "Găsește piese în colecția locală, obțineți muzică de la servere DLNA sau "
-#~ "încercați ceva nou cu noile servicii Jamendo și Magnatune."
-
-#~ msgid "Inital state has been displayed"
-#~ msgstr "Starea inițială a fost afișată"
-
-#~ msgid "Set to true when initial state has been displayed"
-#~ msgstr "Stabiliți la adevărat când starea inițială a fost afișată"
-
-#~ msgid "Released"
-#~ msgstr "Lansat"
-
-#~ msgid "Running Length"
-#~ msgstr "Lungimea piesei"
-
-#~ msgid "Composer"
-#~ msgstr "Compozitor"
-
-#~ msgctxt "context menu item"
-#~ msgid "Play"
-#~ msgstr "Redare"
-
-#~ msgid "Hey DJ"
-#~ msgstr "Salut DJ"
-
-#~ msgid "Artist"
-#~ msgstr "Artist"
-
-#~ msgid "Album"
-#~ msgstr "Album"
-
-#~ msgid "Track Title"
-#~ msgstr "Titlul piesei"
-
-#~ msgid "Local"
-#~ msgstr "Local"
-
-#~ msgid "Sources"
-#~ msgstr "Surse"
-
-#~ msgid "Match"
-#~ msgstr "Potrivire"
-
-#~ msgid "Untitled"
-#~ msgstr "Fără titlu"
-
-#~ msgid "@icon@"
-#~ msgstr "@icon@"
-
-#~ msgid "_Quit"
-#~ msgstr "_Ieșire"
-
-#~ msgid "Music is the new GNOME music playing application."
-#~ msgstr "Muzică este noua aplicație GNOME pentru redare de muzică."
-
-#~ msgid "org.gnome.Music"
-#~ msgstr "org.gnome.Music"
-
-#~ msgid "Selected %d item"
-#~ msgid_plural "Selected %d items"
-#~ msgstr[0] "Selectat %d element"
-#~ msgstr[1] "Selectat %d elemente"
-#~ msgstr[2] "Selectat %d de elemente"
-
-#~ msgid "Empty"
-#~ msgstr "Gol"
-
-#~ msgid "%d min"
-#~ msgstr "%d min"
-
-#~ msgid "Search mode"
-#~ msgstr "Mod de căutare"
-
-#~ msgid "If true, the search bar is shown."
-#~ msgstr "Dacă este adevărat, bara de căutare va fi afișată."
-
-#~ msgid "Notifications mode"
-#~ msgstr "Mod de notificări"
-
-#~ msgid "Enables or disables playback notifications"
-#~ msgstr "Actvează sau dezactivează notificările de redare"
-
-#~ msgid "Select Playlist"
-#~ msgstr "Selectează lista de redare"
-
-#~ msgid "Not playing"
-#~ msgstr "Nu este în redare"
-
-#~ msgid "by %s, from %s"
-#~ msgstr "de %s, de la %s"
-
-#~ msgid ""
-#~ "No Music found!\n"
-#~ " Put some files into the folder %s"
-#~ msgstr ""
-#~ "Nu s-a găsit nicio muzică!\n"
-#~ " Adăugați câteva fișiere în dosarul %s"
-
-#~ msgid "All Artists"
-#~ msgstr "Toți artiștii"
-
-#~ msgid "_New Playlist"
-#~ msgstr "_Listă de redare nouă"
-
-#~ msgid "Load More"
-#~ msgstr "Încarcă mai mult"
-
-#~ msgid "Now _Playing"
-#~ msgstr "Acum _se redă"
+msgstr "Aplicația „Muzică” are nevoie de Tracker versiunea 3.0.0 sau mai nouă."
