@@ -33,6 +33,7 @@
     <file preprocess="xml-stripblanks">ui/SongWidgetMenu.ui</file>
     <file preprocess="xml-stripblanks">ui/StatusNavigationPage.ui</file>
     <file preprocess="xml-stripblanks">ui/TwoLineTip.ui</file>
+    <file preprocess="xml-stripblanks">ui/VolumeButton.ui</file>
     <file preprocess="xml-stripblanks">ui/Window.ui</file>
   </gresource>
   <gresource prefix="/org/gnome/Music/icons/scalable/actions">

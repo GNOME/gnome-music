@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="VolumeButton" parent="GtkBox">
+    <child>
+      <object class="GtkMenuButton" id="_menu_button">
+        <property name="valign">center</property>
+        <property name="direction">up</property>
+        <style>
+          <class name="circular"/>
+        </style>
+        <accessibility>
+          <property name="label" translatable="yes">Adjust Volume</property>
+        </accessibility>
+        <property name="popover">
+          <object class="GtkPopover">
+            <property name="width-request">250</property>
+            <child>
+              <object class="GtkBox">
+                <child>
+                  <object class="GtkToggleButton" id="_mute_button">
+                    <property name="icon-name">audio-volume-muted-symbolic</property>
+                    <style>
+                      <class name="circular"/>
+                      <class name="flat"/>
+                    </style>
+                    <accessibility>
+                      <property name="label" translatable="yes">Mute/Unmute</property>
+                    </accessibility>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkScale">
+                    <property name="hexpand">true</property>
+                    <property name="adjustment">
+                      <object class="GtkAdjustment" id="_adjustment">
+                        <property name="page-increment">0.1</property>
+                        <property name="step-increment">0.01</property>
+                        <property name="lower">0.0</property>
+                        <property name="upper">1.0</property>
+                        <property name="value">1.0</property>
+                      </object>
+                    </property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </property>
+      </object>
+    </child>
+  </template>
+</interface>

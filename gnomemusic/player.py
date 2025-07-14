@@ -367,8 +367,10 @@ class Player(GObject.GObject):
         'song-changed': (GObject.SignalFlags.RUN_FIRST, None, ())
     }
 
-    state = GObject.Property(type=int, default=Playback.STOPPED)
     duration = GObject.Property(type=float, default=-1.)
+    mute = GObject.Property(type=bool, default=False)
+    state = GObject.Property(type=int, default=Playback.STOPPED)
+    volume = GObject.Property(type=float, default=1.)
 
     def __init__(self, application):
         """Initialize the player
@@ -413,6 +415,14 @@ class Player(GObject.GObject):
             'duration', self, 'duration', GObject.BindingFlags.SYNC_CREATE)
         self._gst_player.bind_property(
             'state', self, 'state', GObject.BindingFlags.SYNC_CREATE)
+
+        self._gst_player.bind_property(
+            "volume", self, "volume", GObject.BindingFlags.BIDIRECTIONAL
+            | GObject.BindingFlags.SYNC_CREATE)
+
+        self._gst_player.bind_property(
+            "mute", self, "mute", GObject.BindingFlags.BIDIRECTIONAL
+            | GObject.BindingFlags.SYNC_CREATE)
 
     @GObject.Property(
         type=bool, default=False, flags=GObject.ParamFlags.READABLE)

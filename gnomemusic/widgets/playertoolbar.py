@@ -12,6 +12,7 @@ from gnomemusic.player import Player
 from gnomemusic.widgets.repeatmodebutton import RepeatModeButton  # noqa: F401
 from gnomemusic.widgets.smoothscale import SmoothScale  # noqa: F401
 from gnomemusic.widgets.twolinetip import TwoLineTip
+from gnomemusic.widgets.volumebutton import VolumeButton  # noqa: F401
 import gnomemusic.utils as utils
 
 
@@ -36,6 +37,7 @@ class PlayerToolbar(Gtk.ActionBar):
     _repeat_mode_button = Gtk.Template.Child()
     _song_info_box = Gtk.Template.Child()
     _title_label = Gtk.Template.Child()
+    _volume_button = Gtk.Template.Child()
 
     def __init__(self):
         super().__init__()
@@ -80,6 +82,16 @@ class PlayerToolbar(Gtk.ActionBar):
             "notify::repeat-mode", self._on_repeat_mode_changed)
         self._player.connect('notify::state', self._sync_playing)
         self._repeat_mode_button.props.player = self._player
+
+        self._player.bind_property(
+            "volume", self._volume_button, "volume",
+            GObject.BindingFlags.BIDIRECTIONAL
+            | GObject.BindingFlags.SYNC_CREATE)
+
+        self._player.bind_property(
+            "mute", self._volume_button, "mute",
+            GObject.BindingFlags.BIDIRECTIONAL
+            | GObject.BindingFlags.SYNC_CREATE)
 
     @Gtk.Template.Callback()
     def _on_progress_value_changed(self, progress_scale):

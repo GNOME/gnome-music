@@ -59,6 +59,9 @@ class GstPlayer(GObject.GObject):
         "stream-start": (GObject.SignalFlags.RUN_FIRST, None, ())
     }
 
+    mute = GObject.Property(type=bool, default=False)
+    volume = GObject.Property(type=float, default=1.)
+
     def __init__(self, application: Application) -> None:
         """Initialize the GStreamer player
 
@@ -103,6 +106,14 @@ class GstPlayer(GObject.GObject):
         self._player.connect("about-to-finish", self._on_about_to_finish)
 
         self._state = Playback.STOPPED
+
+        self._player.bind_property(
+            "volume", self, "volume", GObject.BindingFlags.BIDIRECTIONAL
+            | GObject.BindingFlags.SYNC_CREATE)
+
+        self._player.bind_property(
+            "mute", self, "mute", GObject.BindingFlags.BIDIRECTIONAL
+            | GObject.BindingFlags.SYNC_CREATE)
 
     def _setup_replaygain(self):
         """Set up replaygain"""

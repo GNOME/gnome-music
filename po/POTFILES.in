@@ -18,6 +18,7 @@ data/ui/SearchHeaderBar.ui
 data/ui/SearchView.ui
 data/ui/SongWidgetMenu.ui
 data/ui/StatusNavigationPage.ui
+data/ui/VolumeButton.ui
 gnomemusic/__init__.py
 gnomemusic/about.py
 gnomemusic/application.py
