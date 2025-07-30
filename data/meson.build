@@ -82,3 +82,15 @@ install_data(
     install_dir: join_paths(get_option('prefix'), get_option('datadir'), 'icons/hicolor/symbolic/apps'),
     rename: '@0@-symbolic.svg'.format(APPLICATION_ID)
 )
+
+# Installing the D-Bus service file
+service_conf = configuration_data()
+service_conf.set('appid', APPLICATION_ID)
+service_conf.set('bindir', join_paths(get_option('prefix'), get_option('bindir')))
+configure_file(
+  input: PROJECT_RDNN_NAME + '.service.in',
+  output: APPLICATION_ID + '.service',
+  configuration: service_conf,
+  install: true,
+  install_dir: join_paths(get_option('prefix'), get_option('datadir'), 'dbus-1', 'services')
+)
