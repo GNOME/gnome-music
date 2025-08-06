@@ -75,6 +75,22 @@
             ]
         },
         {
+            "name" : "librest",
+            "buildsystem": "meson",
+            "config-opts": [
+            	"-Dgtk_doc=false",
+            	"-Dexamples=false",
+            	"-Dsoup2=false"
+            ],
+            "sources" : [
+                {
+                    "type" : "git",
+                    "url" : "https://gitlab.gnome.org/GNOME/librest.git",
+                    "branch": "master"
+                }
+            ]
+        },
+        {
             "name": "grilo",
             "buildsystem": "meson",
             "config-opts": [ "-Denable-gtk-doc=false" ],
