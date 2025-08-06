@@ -83,6 +83,7 @@ class AlbumWidget(Adw.Bin):
 
         self._cover_image.set_size_request(
             ArtSize.LARGE.width, ArtSize.LARGE.height)
+        self._cover_image.props.pixel_size = ArtSize.LARGE.height
         self._cover_image.props.paintable = CoverPaintable(
             self, ArtSize.LARGE, DefaultIconType.ALBUM)
         self._player = self._application.props.player

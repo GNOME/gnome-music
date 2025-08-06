@@ -58,6 +58,7 @@ class ArtistTile(Gtk.Box):
 
         self._cover_image.set_size_request(
             ArtSize.XSMALL.width, ArtSize.XSMALL.height)
+        self._cover_image.props.pixel_size = ArtSize.XSMALL.height
         self._cover_image.props.paintable = CoverPaintable(
             self, ArtSize.XSMALL, DefaultIconType.ARTIST)
 

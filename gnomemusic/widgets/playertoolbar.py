@@ -64,6 +64,7 @@ class PlayerToolbar(Gtk.ActionBar):
 
         self._cover_image.set_size_request(
             ArtSize.SMALL.width, ArtSize.SMALL.height)
+        self._cover_image.props.pixel_size = ArtSize.SMALL.height
         self._cover_image.props.paintable = CoverPaintable(
             self, ArtSize.SMALL, DefaultIconType.ALBUM)
 
