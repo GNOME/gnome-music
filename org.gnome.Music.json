@@ -96,7 +96,6 @@
                              "-Denable-local-metadata=no",
                              "-Denable-lua-factory=yes",
                              "-Denable-metadata-store=no",
-                             "-Denable-opensubtitles=no",
                              "-Denable-optical-media=no",
                              "-Denable-podcasts=no",
                              "-Denable-thetvdb=no",
