@@ -87,6 +87,16 @@
             "cleanup": [ "/include", "/bin" ]
         },
         {
+            "name": "librest",
+            "buildsystem": "meson",
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://gitlab.gnome.org/GNOME/librest.git"
+                }
+            ]
+        },
+        {
             "name": "grilo-plugins",
             "buildsystem": "meson",
             "config-opts": [ "-Denable-bookmarks=no",
