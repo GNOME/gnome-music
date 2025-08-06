@@ -74,23 +74,23 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
 
         self._style_manager.connect("notify::dark", self._on_dark_changed)
 
-    def do_snapshot(self, snapshot: Gtk.Snapshot, w: int, h: int) -> None:
+    def do_snapshot(self, snapshot: Gtk.Snapshot, w: float, h: float) -> None:
         if self._texture is not None:
             self._snapshot_texture(self._texture, snapshot, w, h)
         else:
             self._snapshot_fallback_icon(snapshot, w, h)
 
     def _snapshot_texture(
-            self, texture: Gdk.Texture, snapshot: Gtk.Snapshot, w: int,
-            h: int) -> None:
+            self, texture: Gdk.Texture, snapshot: Gtk.Snapshot, w: float,
+            h: float) -> None:
         w_s = w
         h_s = h
         ratio = texture.get_height() / texture.get_width()
         # Scale down the image according to the biggest axis
         if ratio > 1:
-            w = int(w / ratio)
+            w = w / ratio
         else:
-            h = int(h * ratio)
+            h = h * ratio
 
         scale_factor = self._widget.props.scale_factor
 
@@ -110,7 +110,7 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
         snapshot.restore()
 
     def _snapshot_fallback_icon(
-            self, snapshot: Gtk.Snapshot, w: int, h: int) -> None:
+            self, snapshot: Gtk.Snapshot, w: float, h: float) -> None:
         rounded_rect = Gsk.RoundedRect()
         rounded_rect.init_from_rect(
             Graphene.Rect().init(0, 0, w, h), self._radius())
