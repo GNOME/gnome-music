@@ -143,7 +143,16 @@ class StoreArt(GObject.Object):
                 self.emit("finished")
                 return
             else:
-                _, buffer = pixbuf.save_to_bufferv("jpeg")
+                try:
+                    _, buffer = pixbuf.save_to_bufferv("jpeg")
+                except GLib.Error as error:
+                    self._log.warning(
+                        f"Error: {error.domain}, {error.message}")
+                    await ostream.close_async(GLib.PRIORITY_DEFAULT_IDLE)
+                    await self._file.delete_async(GLib.PRIORITY_DEFAULT_IDLE)
+                    self.emit("finished")
+                    return
+
                 try:
                     await ostream.write_async(
                         buffer, GLib.PRIORITY_DEFAULT_IDLE)

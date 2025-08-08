@@ -173,7 +173,15 @@ class EmbeddedArt(GObject.GObject):
             self.emit("art-found", True)
             return
         else:
-            _, buffer = pixbuf.save_to_bufferv("jpeg")
+            try:
+                _, buffer = pixbuf.save_to_bufferv("jpeg")
+            except GLib.Error as error:
+                self._log.warning(f"Error: {error.domain}, {error.message}")
+                await ostream.close_async(GLib.PRIORITY_DEFAULT_IDLE)
+                await self._file.delete_async(GLib.PRIORITY_DEFAULT_IDLE)
+                self.emit("art-found", False)
+                return
+
             try:
                 await ostream.write_async(buffer, GLib.PRIORITY_DEFAULT_IDLE)
             except GLib.Error as error:
