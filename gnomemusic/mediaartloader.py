@@ -26,7 +26,7 @@ from __future__ import annotations
 from typing import Optional
 
 import asyncio
-from gi.repository import Gdk, Gio, GLib, GObject
+from gi.repository import Gdk, GdkPixbuf, Gio, GLib, GObject
 
 from gnomemusic.musiclogger import MusicLogger
 
@@ -108,7 +108,14 @@ class MediaArtLoader(GObject.GObject):
                     self._log.warning("Error: {}, {} in file: {}".format(
                         error.domain, error.message, thumb_file.get_uri()))
 
-                await stream.close_async(GLib.PRIORITY_DEFAULT)
+                    if error.matches(
+                            GdkPixbuf.pixbuf_error_quark(),
+                            GdkPixbuf.PixbufError.UNKNOWN_TYPE):
+                        await stream.close_async(GLib.PRIORITY_DEFAULT)
+                        await thumb_file.delete_async(
+                            GLib.PRIORITY_DEFAULT_IDLE)
+                else:
+                    await stream.close_async(GLib.PRIORITY_DEFAULT)
 
         self.emit("finished", self._texture)
 
