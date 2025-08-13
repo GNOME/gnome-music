@@ -23,7 +23,7 @@
 # delete this exception statement from your version.
 
 from __future__ import annotations
-from typing import Union
+from typing import Optional, Union
 import asyncio
 import typing
 
@@ -76,19 +76,19 @@ class StoreArt(GObject.Object):
             self.emit("finished")
             return
 
-        if coreobjecttype == CoreObjectType.ARTIST:
-            success, self._file = MediaArt.get_file(
-                self._coreobject.props.artist, None, "artist")
-        elif coreobjecttype == CoreObjectType.ALBUM:
-            success, self._file = MediaArt.get_file(
-                self._coreobject.props.artist, self._coreobject.props.title,
-                "album")
+        album: Optional[str] = None
+        artist = self._coreobject.props.artist
+        art_prefix = "artist"
+        success = False
+
+        if coreobjecttype == CoreObjectType.ALBUM:
+            album = self._coreobject.props.title
+            art_prefix = "album"
         elif coreobjecttype == CoreObjectType.SONG:
-            success, self._file = MediaArt.get_file(
-                self._coreobject.props.artist, self._coreobject.props.album,
-                "album")
-        else:
-            success = False
+            album = self._coreobject.props.album
+            art_prefix = "album"
+
+        success, self._file = MediaArt.get_file(artist, album, art_prefix)
 
         if not success:
             self.emit("finished")
