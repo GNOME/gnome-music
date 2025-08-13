@@ -119,8 +119,8 @@ class StoreArt(GObject.Object):
                     msg, GLib.PRIORITY_DEFAULT)
             except GLib.Error as error:
                 self._log.debug(
-                    f"Failed to get remote art: {error.domain},"
-                    f" {error.message}")
+                    f"Failed to get remote art: {error.domain}, "
+                    f"{error.message} for album: {album} by artist: {artist}")
                 self.emit("finished")
                 return
 
@@ -147,7 +147,8 @@ class StoreArt(GObject.Object):
                     _, buffer = pixbuf.save_to_bufferv("jpeg")
                 except GLib.Error as error:
                     self._log.warning(
-                        f"Error: {error.domain}, {error.message}")
+                        f"Error: {error.domain}, {error.message} for album: "
+                        f"{album} by artist: {artist}")
                     await ostream.close_async(GLib.PRIORITY_DEFAULT_IDLE)
                     await self._file.delete_async(GLib.PRIORITY_DEFAULT_IDLE)
                     self.emit("finished")

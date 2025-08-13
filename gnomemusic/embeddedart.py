@@ -169,14 +169,18 @@ class EmbeddedArt(GObject.GObject):
                 Gio.FileCreateFlags.NONE, GLib.PRIORITY_DEFAULT_IDLE)
         except GLib.Error as error:
             # File already exists.
-            self._log.info(f"Error: {error.domain}, {error.message}")
+            self._log.info(
+                f"Error: {error.domain}, {error.message} for album: "
+                f"{self._album} and artist: {self._artist}")
             self.emit("art-found", True)
             return
         else:
             try:
                 _, buffer = pixbuf.save_to_bufferv("jpeg")
             except GLib.Error as error:
-                self._log.warning(f"Error: {error.domain}, {error.message}")
+                self._log.warning(
+                    f"Error: {error.domain}, {error.message} for album: "
+                    f"{self._album} by artist: {self._artist}")
                 await ostream.close_async(GLib.PRIORITY_DEFAULT_IDLE)
                 await self._file.delete_async(GLib.PRIORITY_DEFAULT_IDLE)
                 self.emit("art-found", False)
