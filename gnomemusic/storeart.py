@@ -71,8 +71,7 @@ class StoreArt(GObject.Object):
             coreobjecttype: CoreObjectType) -> None:
         self._coreobject = coreobject
 
-        if (uri is None
-                or uri == ""):
+        if uri in [None, ""]:
             self.emit("finished")
             return
 
