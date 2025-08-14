@@ -111,9 +111,15 @@ class MediaArtLoader(GObject.GObject):
                     if error.matches(
                             GdkPixbuf.pixbuf_error_quark(),
                             GdkPixbuf.PixbufError.UNKNOWN_TYPE):
-                        await stream.close_async(GLib.PRIORITY_DEFAULT)
-                        await thumb_file.delete_async(
-                            GLib.PRIORITY_DEFAULT_IDLE)
+                        try:
+                            await stream.close_async(GLib.PRIORITY_DEFAULT)
+                            await thumb_file.delete_async(
+                                GLib.PRIORITY_DEFAULT_IDLE)
+                        except GLib.Error as error:
+                            self._log.warning(
+                                f"Failure during removal of invalid cache "
+                                f"item: {error.domain}, {error.error.message},"
+                                f" {thumb_file.get_uri()}")
                 else:
                     await stream.close_async(GLib.PRIORITY_DEFAULT)
 
