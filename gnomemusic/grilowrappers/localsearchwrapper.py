@@ -67,6 +67,7 @@ class LocalSearchWrapper(GObject.Object):
 
         asyncio.create_task(self._init_albums_model())
         asyncio.create_task(self._init_artists_model())
+        asyncio.create_task(self._init_songs_model())
 
     def _prepare_statement(self, resource_path: str) -> str:
         """Helper to insert bus name and location filter in query"""
@@ -126,7 +127,7 @@ class LocalSearchWrapper(GObject.Object):
         while has_next:
             media = utils.create_grilo_media_from_cursor(
                 cursor, Grl.MediaType.AUDIO)
-            coresong = Coresong(self._application, media)
+            coresong = CoreSong(self._application, media)
 
             self._songs_model.append(coresong)
 
