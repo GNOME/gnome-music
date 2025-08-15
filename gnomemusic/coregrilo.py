@@ -30,6 +30,7 @@ from gi.repository import Grl, GLib, GObject, Gtk
 
 from gnomemusic.grilowrappers.grlsearchwrapper import GrlSearchWrapper
 from gnomemusic.grilowrappers.grltrackerwrapper import GrlTrackerWrapper
+from gnomemusic.grilowrappers.localsearchwrapper import LocalSearchWrapper
 from gnomemusic.trackerwrapper import TrackerState, TrackerWrapper
 
 
@@ -156,6 +157,10 @@ class CoreGrilo(GObject.GObject):
             music_dir = GLib.get_user_special_dir(
                 GLib.UserDirectory.DIRECTORY_MUSIC)
             self._log.debug("XDG Music dir is: {}".format(music_dir))
+
+            # FIXME: Temp hack - we know LocalSearch exists here
+            new_wrapper  = LocalSearchWrapper(
+                self._application, self._tracker_wrapper)
         elif (source.props.source_id not in self._search_wrappers.keys()
                 and source.props.source_id not in self._wrappers.keys()
                 and source.props.source_id != "grl-tracker3-source"
