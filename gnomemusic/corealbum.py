@@ -1,41 +1,24 @@
-# Copyright 2019 The GNOME Music developers
+# Copyright 2025 The GNOME Music developers
 #
-# GNOME Music is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
-#
-# GNOME Music is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License along
-# with GNOME Music; if not, write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-#
-# The GNOME Music authors hereby grant permission for non-GPL compatible
-# GStreamer plugins to be used and distributed together with GStreamer
-# and GNOME Music.  This permission is above and beyond the permissions
-# granted by the GPL license by which GNOME Music is covered.  If you
-# modify this code, you may extend this exception to your version of the
-# code, but you are not obligated to do so.  If you do not wish to do so,
-# delete this exception statement from your version.
+# SPDX-License-Identifier: GPL-2.0-or-later WITH GStreamer-exception-2008
 
 from __future__ import annotations
+from typing import Any, Dict
+import typing
 
-import gi
-gi.require_versions({"Grl": "0.3"})
-from gi.repository import Gio, Grl, Gtk, GObject
-
-import gnomemusic.utils as utils
+from gi.repository import GObject, Gio, Gtk
 
 from gnomemusic.albumart import AlbumArt
 from gnomemusic.coredisc import CoreDisc
+import gnomemusic.utils as utils
+if typing.TYPE_CHECKING:
+    from gnomemusic.application import Application
 
 
 class CoreAlbum(GObject.GObject):
-    """Exposes a Grl.Media with relevant data as properties
+    """Album information object
+
+    Contains all relevant information about an album.
     """
 
     __gtype_name__ = "CoreAlbum"
@@ -43,16 +26,18 @@ class CoreAlbum(GObject.GObject):
     artist = GObject.Property(type=str)
     composer = GObject.Property(type=str, default=None)
     duration = GObject.Property(type=int, default=0)
-    media = GObject.Property(type=Grl.Media)
+    id = GObject.Property(type=str)
     title = GObject.Property(type=str)
     url = GObject.Property(type=str)
     year = GObject.Property(type=str, default=None)
 
-    def __init__(self, application, media):
+    def __init__(
+            self, application: Application,
+            cursor_dict: Dict[str, Any]) -> None:
         """Initiate the CoreAlbum object
 
         :param Application application: The application object
-        :param Grl.Media media: A media object
+        :param Dict[str, Any] cursor_dict: Dict with Tsparql keys
         """
         super().__init__()
 
@@ -61,19 +46,30 @@ class CoreAlbum(GObject.GObject):
         self._model = None
         self._thumbnail = None
 
-        self.update(media)
+        self.update(cursor_dict)
 
-    def update(self, media):
+    def update(self, cursor_dict):
         """Update the CoreAlbum object with new info
 
-        :param Grl.Media media: A media object
+        :param Dict[str, Any] cursor_dict: Dict with Tsparql keys
         """
-        self.props.media = media
-        self.props.artist = utils.get_artist_name(media)
-        self.props.composer = media.get_composer()
-        self.props.title = utils.get_media_title(media)
-        self.props.url = media.get_url()
-        self.props.year = utils.get_media_year(media)
+        self.props.artist = utils.get_artist_from_cursor_dict(cursor_dict)
+        self.props.composer = cursor_dict.get("composer")
+        self.props.id = cursor_dict.get("id")
+        self.props.title = utils.get_title_from_cursor_dict(cursor_dict)
+        self.props.url = cursor_dict.get("url")
+        self.props.year = cursor_dict.get("publicationDate")
+
+    def remove_song_from_album(self, disc_nr: int, song_id: str) -> None:
+        """Removes given song on given album disc
+
+        :param int disc_nr: Number of disc
+        :param int song_id: Song identifier
+        """
+        for coredisc in self.props.model:
+            if coredisc.props.disc_nr == disc_nr:
+                coredisc.remove_song_from_disc(song_id)
+                break
 
     def _get_album_model(self):
         disc_model = Gio.ListStore()
@@ -81,7 +77,7 @@ class CoreAlbum(GObject.GObject):
         disc_sorter = Gtk.NumericSorter.new(disc_no_exp)
         disc_model_sort = Gtk.SortListModel.new(disc_model, disc_sorter)
 
-        self._coregrilo.get_album_discs(self.props.media, disc_model)
+        self._coregrilo.get_album_discs(self, disc_model)
 
         return disc_model_sort
 
@@ -132,9 +128,6 @@ class CoreAlbum(GObject.GObject):
         :param string value: uri or "generic"
         """
         self._thumbnail = value
-
-        if self._thumbnail != "generic":
-            self.props.media.set_thumbnail(self._thumbnail)
 
     @GObject.Property(type=object, flags=GObject.ParamFlags.READABLE)
     def corealbum(self) -> CoreAlbum:

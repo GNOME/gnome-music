@@ -279,8 +279,6 @@ class Player(GObject.GObject):
         self._log.debug("Clock tick {}, player at {} seconds".format(
             tick, self._gst_player.props.position))
 
-        current_song = self._queue.props.current_song
-
         if tick == 0:
             self._new_clock = True
 
@@ -293,8 +291,12 @@ class Player(GObject.GObject):
             if (percentage > 0.5
                     and self._new_clock):
                 self._new_clock = False
-                current_song.bump_play_count()
-                current_song.props.last_played = GLib.DateTime.new_now_utc()
+                GLib.idle_add(self._update_stats)
+
+    def _update_stats(self) -> None:
+        current_song = self._queue.props.current_song
+        current_song.props.last_played = GLib.DateTime.new_now_utc()
+        current_song.bump_play_count()
 
     @GObject.Property(type=object)
     def repeat_mode(self) -> RepeatMode:

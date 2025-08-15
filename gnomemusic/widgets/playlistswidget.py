@@ -34,7 +34,7 @@ if typing.TYPE_CHECKING:
     from gnomemusic.application import Application
     from gnomemusic.coresong import CoreSong
     from gnomemusic.coremodel import CoreModel
-    from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
+    from gnomemusic.grilowrappers.playlist import Playlist
     from gnomemusic.queue import Queue
     from gnomemusic.views.playlistsview import PlaylistsView
 

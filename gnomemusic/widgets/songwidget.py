@@ -131,9 +131,6 @@ class SongWidget(Gtk.ListBoxRow):
         self.props.coresong.connect(
             "notify::validation", self._on_validation_changed)
 
-        if not self.props.coresong.props.is_tracker:
-            self._star_toggle.props.visible = False
-
         self._drag_x = 0.
         self._drag_y = 0.
         self._drag_widget: Optional[Gtk.ListBox] = None

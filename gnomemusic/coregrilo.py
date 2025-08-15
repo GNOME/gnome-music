@@ -29,16 +29,16 @@ import weakref
 
 import gi
 gi.require_version("Grl", "0.3")
-from gi.repository import Grl, GLib, GObject, Gtk
+from gi.repository import GLib, GObject, Gio, Grl, Gtk
 
-from gnomemusic.grilowrappers.grlsearchwrapper import GrlSearchWrapper
-from gnomemusic.grilowrappers.grltrackerwrapper import GrlTrackerWrapper
+from gnomemusic.grilowrappers.localsearchwrapper import LocalSearchWrapper
 from gnomemusic.storeart import StoreArt
 from gnomemusic.trackerwrapper import TrackerState, TrackerWrapper
 from gnomemusic.utils import CoreObjectType
 if typing.TYPE_CHECKING:
     from gnomemusic.corealbum import CoreAlbum
     from gnomemusic.coreartist import CoreArtist
+    from gnomemusic.coredisc import CoreDisc
     from gnomemusic.coresong import CoreSong
 
 
@@ -76,7 +76,6 @@ class CoreGrilo(GObject.GObject):
         self._application = application
         self._coremodel = self._application.props.coremodel
         self._log = application.props.log
-        self._search_wrappers = {}
         self._thumbnail_sources = []
         self._thumbnail_sources_timeout = None
         self._wrappers = {}
@@ -85,8 +84,8 @@ class CoreGrilo(GObject.GObject):
         self._fast_options.set_resolution_flags(
             Grl.ResolutionFlags.FAST_ONLY | Grl.ResolutionFlags.IDLE_RELAY)
 
-        self._tracker_wrapper = TrackerWrapper(application)
-        self._tracker_wrapper.bind_property(
+        self._tsparql_wrapper = TrackerWrapper(application)
+        self._tsparql_wrapper.bind_property(
             "tracker-available", self, "tracker-available",
             GObject.BindingFlags.SYNC_CREATE)
 
@@ -104,9 +103,9 @@ class CoreGrilo(GObject.GObject):
 
         self._registry.load_all_plugins(False)
 
-        tracker_available_state = self._tracker_wrapper.props.tracker_available
+        tracker_available_state = self._tsparql_wrapper.props.tracker_available
         if tracker_available_state != TrackerState.AVAILABLE:
-            self._tracker_wrapper.connect(
+            self._tsparql_wrapper.connect(
                 "notify::tracker-available",
                 self._on_tracker_available_changed)
         else:
@@ -126,18 +125,14 @@ class CoreGrilo(GObject.GObject):
 
         weakref.finalize(self, Grl.deinit)
 
-    def _on_tracker_available_changed(self, klass, value):
+    def _on_tracker_available_changed(
+            self, trackerwrapper: TrackerWrapper, state: TrackerState) -> None:
         # FIXME:No removal support yet.
-        new_state = self._tracker_wrapper.props.tracker_available
+        new_state = self._tsparql_wrapper.props.tracker_available
         if new_state == TrackerState.AVAILABLE:
-            config = Grl.Config.new("grl-tracker3", "grl-tracker3-source")
-            config.set_string(
-                "miner-service", self._tracker_wrapper.props.miner_fs_busname)
-            config.set_string(
-                "store-path", self._tracker_wrapper.cache_directory())
-            self._registry.add_config(config)
-
-            self._registry.activate_plugin_by_id("grl-tracker3")
+            wrapper = LocalSearchWrapper(
+                self._application, self._tsparql_wrapper)
+            self._wrappers["gnome-music"] = wrapper
 
     def _on_source_added(self, registry, source):
 
@@ -165,93 +160,51 @@ class CoreGrilo(GObject.GObject):
                 self._thumbnail_sources_timeout = GLib.timeout_add_seconds(
                     5, _trigger_art_update)
 
-        if (source.props.source_id == "grl-tracker3-source"
-                and self._tracker_wrapper.location_filter() is not None):
-            new_wrapper = GrlTrackerWrapper(
-                source, self._application, self._tracker_wrapper)
-            self._wrappers[source.props.source_id] = new_wrapper
-            self._log.debug("Adding wrapper {}".format(new_wrapper))
-            music_dir = GLib.get_user_special_dir(
-                GLib.UserDirectory.DIRECTORY_MUSIC)
-            self._log.debug("XDG Music dir is: {}".format(music_dir))
-        elif (source.props.source_id not in self._search_wrappers.keys()
-                and source.props.source_id not in self._wrappers.keys()
-                and source.props.source_id != "grl-tracker3-source"
-                and source.get_supported_media() & Grl.MediaType.AUDIO
-                and source.supported_operations() & Grl.SupportedOps.SEARCH
-                and "net:internet" not in source.props.source_tags):
-            self._search_wrappers[source.props.source_id] = GrlSearchWrapper(
-                source, self._application)
-            self._log.debug("Adding search source {}".format(source))
-
     def _on_source_removed(self, registry, source):
         # FIXME: Handle removing sources.
         self._log.debug("Removed source {}".format(source.props.source_id))
 
-        # FIXME: Only removes search sources atm.
-        self._search_wrappers.pop(source.props.source_id, None)
-
-    def get_artist_albums(self, media, filter_model):
+    def get_artist_albums(
+            self, coreartist: CoreArtist,
+            filter_model: Gtk.FilterListModel) -> None:
         """Get all album by an artist
 
-        :param Grl.Media media: A Grilo Media item that represents Artist
+        :param CoreArtist coreart: An artist to look up
         :param Gtk.FilterListModel filter_model: The model to fill
         """
-        source = media.get_source()
-        self._wrappers[source].get_artist_albums(media, filter_model)
+        source = "gnome-music"
+        self._wrappers[source].get_artist_albums(coreartist, filter_model)
 
-    def get_album_discs(self, media, disc_model):
+    def get_album_discs(
+            self, corealbum: CoreAlbum, disc_model: Gio.ListStore) -> None:
         """Get all discs from an album
 
-        :param Grl.Media media: A Grilo Media item that represents Album
+        :param CoreAlbum corealbum: An album
         :param Gtk.SortListModel disc_model: The model to fill
         """
-        source = media.get_source()
-        self._wrappers[source].get_album_discs(media, disc_model)
+        source = "gnome-music"
+        self._wrappers[source].get_album_discs(corealbum, disc_model)
 
     def get_album_disc(
-            self, media: Grl.Media, discnr: int,
-            model: Gtk.FilterListModel) -> None:
+            self, coredisc: CoreDisc, model: Gtk.FilterListModel) -> None:
         """Get all songs from an album disc
 
-        :param Grl.Media media: An album
-        :param int discnr: The disc number
+        :param CoreDisc coredisc: An album disc to look up
         :param Gtk.FilterListModel model: The model to fill
         """
-        source = media.get_source()
-        self._wrappers[source].get_album_disc(media, discnr, model)
+        source = "gnome-music"
+        self._wrappers[source].get_album_disc(coredisc, model)
 
-    def writeback(self, media, key):
-        """Store the values associated with the key.
-
-        :param Grl.Media media: A Grilo media item
-        :param int key: a Grilo metadata key
-        """
-        def _store_metadata_cb(source, media, failed_keys, data, error):
-            if error is not None:
-                self._log.warning(
-                    "Error {}: {}".format(error.domain, error.message))
-            if failed_keys:
-                self._log.warning("Unable to update {}".format(failed_keys))
-
-        for wrapper in self._wrappers.values():
-            if media.get_source() == wrapper.source.props.source_id:
-                wrapper.props.source.store_metadata(
-                    media, [key], Grl.WriteFlags.NORMAL, _store_metadata_cb,
-                    None)
-                break
-
-    def writeback_tracker(self, media, tag):
+    def writeback_tracker(self, coresong: CoreSong, tag: str) -> None:
         """Use Tracker queries to update tags.
 
         The tags are associated with a Tracker resource
-        (song, album, artist or external resource), so they can cannot
-        be updated with grilo writeback support.
+        (song, album, artist or external resource).
 
-        :param Grl.Media media: A Grilo media item
+        :param CoreSong coresong: Song to update
         :param str tag: tag to update
         """
-        self._tracker_wrapper.update_tag(media, tag)
+        self._tsparql_wrapper.update_tag(coresong, tag)
 
     def search(self, text: str) -> None:
         """Search for the given string in the wrappers
@@ -262,8 +215,6 @@ class CoreGrilo(GObject.GObject):
         :param str text: The search string
         """
         for wrapper in self._wrappers.values():
-            wrapper.search(text)
-        for wrapper in self._search_wrappers.values():
             wrapper.search(text)
 
     def get_song_art(self, coresong: CoreSong) -> None:
@@ -285,9 +236,13 @@ class CoreGrilo(GObject.GObject):
                 coresong, media.get_thumbnail(), CoreObjectType.SONG)
 
         for source in self._thumbnail_sources:
+            media = Grl.Media.audio_new()
+            media.set_album(coresong.props.album)
+            media.set_artist(coresong.props.artist)
+            media.set_url(coresong.props.url)
             source.resolve(
-                coresong.props.media, self._METADATA_THUMBNAIL_KEYS,
-                self._fast_options, _on_resolved)
+                media, self._METADATA_THUMBNAIL_KEYS, self._fast_options,
+                _on_resolved)
 
     def get_album_art(self, corealbum: CoreAlbum) -> None:
         """Retrieve album art for the given CoreAlbum
@@ -309,11 +264,13 @@ class CoreGrilo(GObject.GObject):
 
         for source in self._thumbnail_sources:
             # The grilo album field is used during resolve
-            corealbum.props.media.set_album(
-                corealbum.props.media.get_title())
+            media = Grl.Media.audio_new()
+            media.set_album(corealbum.props.title)
+            media.set_artist(corealbum.props.artist)
+            media.set_url(corealbum.props.url)
             source.resolve(
-                corealbum.props.media, self._METADATA_THUMBNAIL_KEYS,
-                self._fast_options, _on_resolved)
+                media, self._METADATA_THUMBNAIL_KEYS, self._fast_options,
+                _on_resolved)
 
     def get_artist_art(self, coreartist: CoreArtist) -> None:
         """Retrieve artist art for the given CoreArtist
@@ -334,17 +291,19 @@ class CoreGrilo(GObject.GObject):
                 coreartist, media.get_thumbnail(), CoreObjectType.ARTIST)
 
         for source in self._thumbnail_sources:
+            media = Grl.Media.audio_new()
+            media.set_artist(coreartist.props.artist)
             source.resolve(
-                coreartist.props.media, self._METADATA_THUMBNAIL_KEYS,
-                self._fast_options, _on_resolved)
+                media, self._METADATA_THUMBNAIL_KEYS, self._fast_options,
+                _on_resolved)
 
     def stage_playlist_deletion(self, playlist):
         """Prepares playlist deletion.
 
         :param Playlist playlist: playlist
         """
-        if "grl-tracker3-source" in self._wrappers:
-            self._wrappers["grl-tracker3-source"].stage_playlist_deletion(
+        if "gnome-music" in self._wrappers:
+            self._wrappers["gnome-music"].stage_playlist_deletion(
                 playlist)
 
     def finish_playlist_deletion(self, playlist, deleted):
@@ -353,8 +312,8 @@ class CoreGrilo(GObject.GObject):
         :param Playlist playlist: playlist
         :param bool deleted: indicates if the playlist has been deleted
         """
-        if "grl-tracker3-source" in self._wrappers:
-            self._wrappers["grl-tracker3-source"].finish_playlist_deletion(
+        if "gnome-music" in self._wrappers:
+            self._wrappers["gnome-music"].finish_playlist_deletion(
                 playlist, deleted)
 
     def create_playlist(self, playlist_title, callback):
@@ -363,6 +322,6 @@ class CoreGrilo(GObject.GObject):
         :param str playlist_title: playlist title
         :param callback: function to perform once, the playlist is created
         """
-        if "grl-tracker3-source" in self._wrappers:
-            self._wrappers["grl-tracker3-source"].create_playlist(
+        if "gnome-music" in self._wrappers:
+            self._wrappers["gnome-music"].create_playlist(
                 playlist_title, callback)

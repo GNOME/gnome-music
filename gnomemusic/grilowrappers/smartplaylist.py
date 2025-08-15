@@ -3,17 +3,17 @@
 # SPDX-License-Identifier: GPL-2.0-or-later WITH GStreamer-exception-2008
 
 from __future__ import annotations
-
+from typing import Optional
+import asyncio
 import time
 
 from gettext import gettext as _
 
-import gi
-gi.require_versions({"Grl": "0.3"})
-from gi.repository import GObject, Gio, Grl
+from gi.repository import GLib, GObject, Gio
 
 from gnomemusic.coresong import CoreSong
 from gnomemusic.grilowrappers.playlist import Playlist
+import gnomemusic.utils as utils
 
 
 class SmartPlaylist(Playlist):
@@ -21,105 +21,75 @@ class SmartPlaylist(Playlist):
 
     __gtype_name__ = "SmartPlaylist"
 
-    _METADATA_SMART_PLAYLIST_KEYS = [
-        Grl.METADATA_KEY_ALBUM,
-        Grl.METADATA_KEY_ALBUM_DISC_NUMBER,
-        Grl.METADATA_KEY_ARTIST,
-        Grl.METADATA_KEY_DURATION,
-        Grl.METADATA_KEY_FAVOURITE,
-        Grl.METADATA_KEY_ID,
-        Grl.METADATA_KEY_PLAY_COUNT,
-        Grl.METADATA_KEY_URL,
-        Grl.METADATA_KEY_TITLE,
-        Grl.METADATA_KEY_TRACK_NUMBER,
-    ]
-
-    def __init__(self, **args):
-        super().__init__(**args)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
         self.props.is_smart = True
+        self._model: Optional[Gio.ListStore] = None
 
     @GObject.Property(type=Gio.ListStore, default=None)
     def model(self):
         if self._model is None:
             self._model = Gio.ListStore.new(CoreSong)
-
-            self._notificationmanager.push_loading()
-
-            def _add_to_model(source, op_id, media, remaining, error):
-                if error:
-                    self._log.warning("Error: {}".format(error))
-                    self._notificationmanager.pop_loading()
-                    return
-
-                if not media:
-                    self.props.count = self._model.get_n_items()
-                    self._notificationmanager.pop_loading()
-                    return
-
-                coresong = CoreSong(self._application, media)
-                self._bind_to_main_song(coresong)
-                self._model.append(coresong)
-
-            self._source.query(
-                self.props.query, self._METADATA_SMART_PLAYLIST_KEYS,
-                self._fast_options, _add_to_model)
+            asyncio.create_task(self._populate_model())
 
         return self._model
+
+    async def _populate_model(self) -> None:
+        async with self._notificationmanager:
+            if self._model is None:
+                return
+
+            try:
+                cursor = self._tsparql.query(self.props.query)
+            except GLib.Error as error:
+                self._log.warning(
+                    f"Failure populating playlist model {self.props.pl_id}:"
+                    f" {error.domain}, {error.message}")
+                return
+
+            try:
+                has_next = await cursor.next_async()
+            except GLib.Error as error:
+                cursor.close()
+                self._log.warning(
+                    f"Cursor iteration error: {error.domain}, {error.message}")
+                return
+            while has_next:
+                cursor_dict = utils.dict_from_cursor(cursor)
+                coresong = CoreSong(self._application, cursor_dict)
+                self._bind_to_main_song(coresong)
+                if coresong not in self._songs_todelete:
+                    self._model.append(coresong)
+
+                try:
+                    has_next = await cursor.next_async()
+                except GLib.Error as error:
+                    cursor.close()
+                    self._log.warning(
+                        f"Cursor iteration error: {error.domain}, "
+                        f"{error.message}")
+                    return
+            else:
+                cursor.close()
+                self.props.count = self._model.get_n_items()
 
     def update(self):
         """Updates playlist model."""
         if self._model is None:
             return
 
-        new_model_medias = []
+        self._model.remove_all()
+        asyncio.create_task(self._populate_model())
 
-        def _fill_new_model(source, op_id, media, remaining, error):
-            if error:
-                return
-
-            if not media:
-                self._finish_update(new_model_medias)
-                return
-
-            new_model_medias.append(media)
-
-        self._source.query(
-            self.props.query, self._METADATA_SMART_PLAYLIST_KEYS,
-            self._fast_options, _fill_new_model)
-
-    def _finish_update(self, new_model_medias):
-        if not new_model_medias:
-            self._model.remove_all()
-            self.props.count = 0
-            return
-
-        current_models_ids = [coresong.props.media.get_id()
-                              for coresong in self._model]
-        new_model_ids = [media.get_id() for media in new_model_medias]
-
-        idx_to_delete = []
-        for idx, media_id in enumerate(current_models_ids):
-            if media_id not in new_model_ids:
-                idx_to_delete.insert(0, idx)
-
-        for idx in idx_to_delete:
-            self._model.remove(idx)
-            self.props.count -= 1
-
-        for idx, media in enumerate(new_model_medias):
-            if media.get_id() not in current_models_ids:
-                coresong = CoreSong(self._application, media)
-                self._bind_to_main_song(coresong)
-                self._model.append(coresong)
-                self.props.count += 1
+        return
 
 
 class MostPlayed(SmartPlaylist):
     """Most Played smart playlist"""
 
-    def __init__(self, **args):
-        super().__init__(**args)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
         self.props.tag_text = "MOST_PLAYED"
         # TRANSLATORS: this is a playlist name
@@ -127,7 +97,6 @@ class MostPlayed(SmartPlaylist):
         self.props.icon_name = "audio-speakers-symbolic"
         self.props.query = """
         SELECT
-            %(media_type)s AS ?type
             ?song AS ?id
             ?title
             ?url
@@ -163,17 +132,16 @@ class MostPlayed(SmartPlaylist):
         }
         ORDER BY DESC(?playCount) LIMIT 50
         """.replace('\n', ' ').strip() % {
-            "media_type": int(Grl.MediaType.AUDIO),
-            "location_filter": self._tracker_wrapper.location_filter(),
-            "miner_fs_busname": self._tracker_wrapper.props.miner_fs_busname,
+            "location_filter": self._tsparql_wrapper.location_filter(),
+            "miner_fs_busname": self._tsparql_wrapper.props.miner_fs_busname,
         }
 
 
 class NeverPlayed(SmartPlaylist):
     """Never Played smart playlist"""
 
-    def __init__(self, **args):
-        super().__init__(**args)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
         self.props.tag_text = "NEVER_PLAYED"
         # TRANSLATORS: this is a playlist name
@@ -181,7 +149,6 @@ class NeverPlayed(SmartPlaylist):
         self.props.icon_name = "deaf-symbolic"
         self.props.query = """
         SELECT
-            %(media_type)s AS ?type
             ?song AS ?id
             ?title
             ?url
@@ -216,17 +183,16 @@ class NeverPlayed(SmartPlaylist):
                        FILTER (?tag = nao:predefined-tag-favorite) }
         } ORDER BY nfo:fileLastAccessed(?song) LIMIT 50
         """.replace('\n', ' ').strip() % {
-            "media_type": int(Grl.MediaType.AUDIO),
-            "location_filter": self._tracker_wrapper.location_filter(),
-            "miner_fs_busname": self._tracker_wrapper.props.miner_fs_busname,
+            "location_filter": self._tsparql_wrapper.location_filter(),
+            "miner_fs_busname": self._tsparql_wrapper.props.miner_fs_busname,
         }
 
 
 class RecentlyPlayed(SmartPlaylist):
     """Recently Played smart playlist"""
 
-    def __init__(self, **args):
-        super().__init__(**args)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
         self.props.tag_text = "RECENTLY_PLAYED"
         # TRANSLATORS: this is a playlist name
@@ -241,7 +207,6 @@ class RecentlyPlayed(SmartPlaylist):
             time.gmtime(time.time() - seconds_difference))
         self.props.query = """
         SELECT
-            %(media_type)s AS ?type
             ?song AS ?id
             ?title
             ?url
@@ -294,18 +259,17 @@ class RecentlyPlayed(SmartPlaylist):
             FILTER (?lastPlayed > '%(compare_date)s'^^xsd:dateTime)
         }
         """.replace('\n', ' ').strip() % {
-            "media_type": int(Grl.MediaType.AUDIO),
             'compare_date': compare_date,
-            "location_filter": self._tracker_wrapper.location_filter(),
-            "miner_fs_busname": self._tracker_wrapper.props.miner_fs_busname,
+            "location_filter": self._tsparql_wrapper.location_filter(),
+            "miner_fs_busname": self._tsparql_wrapper.props.miner_fs_busname,
         }
 
 
 class RecentlyAdded(SmartPlaylist):
     """Recently Added smart playlist"""
 
-    def __init__(self, **args):
-        super().__init__(**args)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
         self.props.tag_text = "RECENTLY_ADDED"
         # TRANSLATORS: this is a playlist name
@@ -320,7 +284,6 @@ class RecentlyAdded(SmartPlaylist):
             time.gmtime(time.time() - seconds_difference))
         self.props.query = """
         SELECT
-            %(media_type)s AS ?type
             ?song AS ?id
             ?title
             ?url
@@ -357,18 +320,17 @@ class RecentlyAdded(SmartPlaylist):
                        FILTER (?tag = nao:predefined-tag-favorite) }
         } ORDER BY DESC(nrl:added(?song)) LIMIT 50
         """.replace('\n', ' ').strip() % {
-            "media_type": int(Grl.MediaType.AUDIO),
             'compare_date': compare_date,
-            "location_filter": self._tracker_wrapper.location_filter(),
-            "miner_fs_busname": self._tracker_wrapper.props.miner_fs_busname,
+            "location_filter": self._tsparql_wrapper.location_filter(),
+            "miner_fs_busname": self._tsparql_wrapper.props.miner_fs_busname,
         }
 
 
 class Favorites(SmartPlaylist):
     """Favorites smart playlist"""
 
-    def __init__(self, **args):
-        super().__init__(**args)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
         self.props.tag_text = "FAVORITES"
         # TRANSLATORS: this is a playlist name
@@ -376,7 +338,6 @@ class Favorites(SmartPlaylist):
         self.props.icon_name = "starred-symbolic"
         self.props.query = """
             SELECT
-                %(media_type)s AS ?type
                 ?song AS ?id
                 ?title
                 ?url
@@ -410,17 +371,16 @@ class Favorites(SmartPlaylist):
                 ?song nao:hasTag nao:predefined-tag-favorite .
             } ORDER BY DESC(?added)
         """.replace('\n', ' ').strip() % {
-            "media_type": int(Grl.MediaType.AUDIO),
-            "location_filter": self._tracker_wrapper.location_filter(),
-            "miner_fs_busname": self._tracker_wrapper.props.miner_fs_busname,
+            "location_filter": self._tsparql_wrapper.location_filter(),
+            "miner_fs_busname": self._tsparql_wrapper.props.miner_fs_busname,
         }
 
 
 class InsufficientTagged(SmartPlaylist):
     """Lacking tags to be displayed in the artist/album views"""
 
-    def __init__(self, **args):
-        super().__init__(**args)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
         self.props.tag_text = "INSUFFICIENT_TAGGED"
         # TRANSLATORS: this is a playlist name indicating that the
@@ -430,7 +390,6 @@ class InsufficientTagged(SmartPlaylist):
         self.props.icon_name = "question-round-symbolic"
         self.props.query = """
         SELECT
-            %(media_type)s AS ?type
             ?song AS ?id
             ?title
             ?url
@@ -475,17 +434,16 @@ class InsufficientTagged(SmartPlaylist):
                        FILTER (?tag = nao:predefined-tag-favorite) }
         }
         """.replace('\n', ' ').strip() % {
-            "media_type": int(Grl.MediaType.AUDIO),
-            "location_filter": self._tracker_wrapper.location_filter(),
-            "miner_fs_busname": self._tracker_wrapper.props.miner_fs_busname,
+            "location_filter": self._tsparql_wrapper.location_filter(),
+            "miner_fs_busname": self._tsparql_wrapper.props.miner_fs_busname,
         }
 
 
 class AllSongs(SmartPlaylist):
     """All Songs smart playlist"""
 
-    def __init__(self, **args):
-        super().__init__(**args)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
         self.props.tag_text = "ALL_SONGS"
         # TRANSLATORS: this is a playlist name
@@ -494,7 +452,6 @@ class AllSongs(SmartPlaylist):
 
         self.props.query = """
         SELECT
-            %(media_type)s AS ?type
             ?song AS ?id
             ?title
             ?url
@@ -528,7 +485,6 @@ class AllSongs(SmartPlaylist):
                        FILTER (?tag = nao:predefined-tag-favorite) }
         } ORDER BY ?artist ?album ?trackNumber
         """.replace('\n', ' ').strip() % {
-            "media_type": int(Grl.MediaType.AUDIO),
-            "location_filter": self._tracker_wrapper.location_filter(),
-            "miner_fs_busname": self._tracker_wrapper.props.miner_fs_busname,
+            "location_filter": self._tsparql_wrapper.location_filter(),
+            "miner_fs_busname": self._tsparql_wrapper.props.miner_fs_busname,
         }

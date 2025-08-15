@@ -1,45 +1,33 @@
-# Copyright 2019 The GNOME Music developers
+# Copyright 2025 The GNOME Music developers
 #
-# GNOME Music is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
-#
-# GNOME Music is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License along
-# with GNOME Music; if not, write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-#
-# The GNOME Music authors hereby grant permission for non-GPL compatible
-# GStreamer plugins to be used and distributed together with GStreamer
-# and GNOME Music.  This permission is above and beyond the permissions
-# granted by the GPL license by which GNOME Music is covered.  If you
-# modify this code, you may extend this exception to your version of the
-# code, but you are not obligated to do so.  If you do not wish to do so,
-# delete this exception statement from your version.
+# SPDX-License-Identifier: GPL-2.0-or-later WITH GStreamer-exception-2008
 
-from gi.repository import GObject, Grl, Gtk
+from __future__ import annotations
+import typing
+
+from gi.repository import GObject, Gtk
 
 from gnomemusic.coresong import CoreSong
+if typing.TYPE_CHECKING:
+    from gnomemusic.application import Application
+    from gnomemusic.corealbum import CoreAlbum
 
 
 class CoreDisc(GObject.GObject):
 
     __gtype_name__ = "CoreDisc"
 
+    id = GObject.Property(type=str)
     disc_nr = GObject.Property(type=int, default=0)
     duration = GObject.Property(type=int, default=None)
-    media = GObject.Property(type=Grl.Media, default=None)
 
-    def __init__(self, application, media, nr):
+    def __init__(
+            self, application: Application, corealbum: CoreAlbum,
+            nr: int) -> None:
         """Initialize a CoreDisc object
 
         :param Application application: The application object
-        :param Grl.Media media: A media object
+        :param CoreAlbum corealbum: The album to create a disc from
         :param int nr: The disc number to create an object for
         """
         super().__init__()
@@ -49,11 +37,11 @@ class CoreDisc(GObject.GObject):
         self._log = application.props.log
         self._model = None
 
-        self.update(media)
+        self.update(corealbum)
         self.props.disc_nr = nr
 
-    def update(self, media):
-        self.props.media = media
+    def update(self, corealbum: CoreAlbum) -> None:
+        self.props.id = corealbum.props.id
 
     @GObject.Property(type=Gtk.SortListModel, default=None)
     def model(self) -> Gtk.SortListModel:
@@ -66,10 +54,10 @@ class CoreDisc(GObject.GObject):
                 CoreSong, None, "track-number")
             song_sorter = Gtk.NumericSorter.new(song_exp)
             self._model = Gtk.SortListModel.new(filter_model, song_sorter)
-            self._model.connect("items-changed", self._on_disc_changed)
+            if self._model:
+                self._model.connect("items-changed", self._on_disc_changed)
 
-            self._coregrilo.get_album_disc(
-                self.props.media, self.props.disc_nr, filter_model)
+            self._coregrilo.get_album_disc(self, filter_model)
 
         return self._model
 
@@ -80,3 +68,12 @@ class CoreDisc(GObject.GObject):
                 duration += coresong.props.duration
 
             self.props.duration = duration
+
+    def remove_song_from_disc(self, song_urn: str) -> None:
+        """Update this disc
+
+        :param str song_urn: Song identifier
+        """
+        # FIXME: For now we just retrieve the full disc again
+        filter_model = self.props.model.get_model()
+        self._coregrilo.get_album_disc(self, filter_model)

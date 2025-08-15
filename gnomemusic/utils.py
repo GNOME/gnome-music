@@ -24,15 +24,15 @@
 
 from __future__ import annotations
 from enum import Enum, IntEnum
-from typing import Any, List, Union
+from typing import Any, Dict, List, Union
 import re
 import unicodedata
 import typing
 
 from gettext import gettext as _
 import gi
-gi.require_version("Tracker", "3.0")
-from gi.repository import Gio, Grl, GLib, Gtk, Tracker
+gi.require_version("Tsparql", "3.0")
+from gi.repository import Gio, GLib, Gtk, Tsparql
 
 from gnomemusic.musiclogger import MusicLogger
 
@@ -99,27 +99,7 @@ class View(IntEnum):
     PLAYLIST = 2
 
 
-def get_album_title(item):
-    """Returns the album title associated with the media item
-
-    In case of an audio file the get_album call returns the
-    album title and in case of a container we are looking for
-    the title.
-
-    :param Grl.Media item: A Grilo Media object
-    :return: The album title
-    :rtype: str
-    """
-    if item.is_container():
-        album = get_media_title(item)
-    else:
-        album = (item.get_album()
-                 or _("Unknown album"))
-
-    return album
-
-
-def get_artist_name(item):
+def get_artist_from_cursor_dict(cursor_dict: Dict[str, Any]) -> str:
     """Returns the preferred artist for a media item.
 
     The artist name for a particular media item can be either
@@ -128,34 +108,36 @@ def get_artist_name(item):
     all. The first is preferred in most cases, because it is
     the most accurate in an album setting.
 
-    :param Grl.Media item: A Grilo Media object
+    :param Dict[str, Any] cursor_dict: Dict with Tsparql keys
     :return: The artist name
     :rtype: str
     """
 
-    return (item.get_album_artist()
-            or item.get_artist()
+    return (cursor_dict.get("albumArtist")
+            or cursor_dict.get("artist")
             or _("Unknown Artist"))
 
 
-def get_media_title(item):
+def get_title_from_cursor_dict(cursor_dict):
     """Returns the title of the media item.
 
-    :param Grl.Media item: A Grilo Media object
+    :param Dict[str, Any] cursor_dict: Dict with Tsparql keys
     :return: The title
     :rtype: str
     """
 
-    title = item.get_title()
+    title = cursor_dict.get("title")
 
     if not title:
-        url = item.get_url()
+        url = cursor_dict.get("url")
         # FIXME: This and the later occurance are user facing strings,
         # but they ideally should never be seen. A media should always
         # contain a URL or we can not play it, in that case it should
         # be removed.
-        if url is None:
+        if (url is None
+                or url == ""):
             return "NO URL"
+
         file_ = Gio.File.new_for_uri(url)
         try:
             # FIXME: query_info is not async.
@@ -169,21 +151,6 @@ def get_media_title(item):
         title = title.replace("_", " ")
 
     return title
-
-
-def get_media_year(item):
-    """Returns the year when the media was published.
-
-    :param Grl.Media item: A Grilo Media object
-    :return: The publication year or None if not defined
-    :rtype: str or None
-    """
-    date = item.get_publication_date()
-
-    if not date:
-        return None
-
-    return str(date.get_year())
 
 
 def seconds_to_string(duration):
@@ -238,74 +205,43 @@ def natural_sort_names(name_a: str, name_b: str) -> int:
         return Gtk.Ordering.EQUAL
 
 
-def create_grilo_media_from_cursor(
-        cursor: Tracker.SparqlCursor, grl_type: Grl.MediaType) -> Grl.Media:
-    """Iterate a TinySparql cursor to create a Grl.Media
+def dict_from_cursor(cursor: Tsparql.SparqlCursor) -> Dict[str, Any]:
+    """Iterate a TinySparql cursor to create a dictionary
 
-    :param Tracker.SparqlCursor cursor: The cursor
-    :param Grl.MediaType grl_type: The Grilo media type
-    :returns: Grilo media
-    :rtype: Grl.Media
+    :param Tsparql.SparqlCursor cursor: The cursor
+    :returns: Dictionary of variable-key pair
+    :rtype: Dict[str, Any]
     """
     vars: dict[str, Any] = {}
     for column in range(cursor.get_n_columns()):
         vtype = cursor.get_value_type(column)
-        if vtype == Tracker.SparqlValueType.UNBOUND:
+        if vtype == Tsparql.SparqlValueType.UNBOUND:
             value = None
-        elif vtype == Tracker.SparqlValueType.INTEGER:
+        elif vtype == Tsparql.SparqlValueType.INTEGER:
             value = cursor.get_integer(column)
-        elif vtype == Tracker.SparqlValueType.DOUBLE:
+        elif vtype == Tsparql.SparqlValueType.DOUBLE:
             value = cursor.get_double(column)
-        elif vtype == Tracker.SparqlValueType.DATETIME:
+        elif vtype == Tsparql.SparqlValueType.DATETIME:
             value = cursor.get_datetime(column)
-        elif vtype == Tracker.SparqlValueType.BOOLEAN:
+        elif vtype == Tsparql.SparqlValueType.BOOLEAN:
             value = cursor.get_boolean(column)
         else:
             value, _ = cursor.get_string(column)
 
         vars[cursor.get_variable_name(column)] = value
 
-    if grl_type == Grl.MediaType.CONTAINER:
-        media = Grl.Media.container_new()
-    elif grl_type == Grl.MediaType.AUDIO:
-        media = Grl.Media.audio_new()
+    return vars
 
-    media.set_source("gnome-music")
 
-    for key in vars.keys():
-        if key == "id":
-            media.set_id(vars["id"])
-        elif key == "url":
-            media.set_url(vars["url"])
-        elif key == "title":
-            title = vars["title"]
-            if title:
-                media.set_title(title)
-        elif key == "artist":
-            artist = vars["artist"]
-            if artist:
-                media.set_artist(artist)
-        elif key == "album":
-            album = vars["album"]
-            if album:
-                media.set_album(album)
-        elif key == "duration":
-            media.set_duration(int(vars["duration"]))
-        elif key == "tag":
-            media.set_favourite(vars["tag"] is not None)
-        elif key == "lastPlayed":
-            last_played = vars["lastPlayed"]
-            if last_played is not None:
-                media.set_last_played(last_played)
-        elif key == "playCount":
-            play_count = vars["playCount"]
-            if play_count is not None:
-                media.set_play_count(int(play_count))
-        elif key == "childCount":
-            media.set_childcount(int(vars["childCount"]))
-        elif key == "creationDate":
-            creation_date = vars["creationDate"]
-            if creation_date is not None:
-                media.set_creation_date(creation_date)
+def get_int_from_cursor_dict(cursor_dict: Dict[str, Any], field: str) -> int:
+    """Get a specific numeric field from a dictionary or zero
 
-    return media
+    :param Dict[str, Any] cursor_dict: The dictionary
+    :param str field: The field to look up
+    :rtype: int
+    """
+    i = cursor_dict.get(field)
+    if not i:
+        return 0
+
+    return int(i)

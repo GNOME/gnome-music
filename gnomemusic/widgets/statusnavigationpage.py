@@ -42,7 +42,7 @@ class StatusNavigationPage(Adw.NavigationPage):
     def __init__(self, application: Application) -> None:
         super().__init__()
 
-        # FIXME: This is now duplicated here and in GrlTrackerWrapper.
+        # FIXME: This is now duplicated here and in TrackerWrapper.
         try:
             music_folder = GLib.get_user_special_dir(
                 GLib.UserDirectory.DIRECTORY_MUSIC)

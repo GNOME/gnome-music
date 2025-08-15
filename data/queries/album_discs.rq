@@ -1,0 +1,17 @@
+# Inputs: album_id
+SELECT
+  ?albumDiscNumber
+WHERE {
+  SERVICE <dbus:{bus_name}> {
+    GRAPH tracker:Audio {
+      SELECT DISTINCT
+        nmm:setNumber(nmm:musicAlbumDisc(?song)) AS ?albumDiscNumber
+      WHERE {
+        ?song a nmm:MusicPiece;
+                nmm:musicAlbum ~album_id .
+        {location_filter}
+      }
+      ORDER BY ?albumDiscNumber
+    }
+  }
+}

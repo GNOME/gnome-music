@@ -71,10 +71,8 @@ class Application(Adw.Application):
         self._search = Search()
 
         self._notificationmanager = NotificationManager(self)
+        self._coregrilo: Optional[CoreGrilo] = None
         self._coremodel = CoreModel(self)
-        # Order is important: CoreGrilo initializes the Grilo sources,
-        # which in turn uses CoreModel extensively.
-        self._coregrilo = CoreGrilo(self)
 
         self._settings = Gio.Settings.new('org.gnome.Music')
         self._player = Player(self)
@@ -87,7 +85,7 @@ class Application(Adw.Application):
         """Get application-wide CoreGrilo instance.
 
         :returns: The grilo wrapper
-        :rtype: CoreGrilo
+        :rtype: CoreGrilo or None
         """
         return self._coregrilo
 
@@ -210,6 +208,8 @@ class Application(Adw.Application):
         self._window.destroy()
 
     def do_activate(self):
+        self._coregrilo = CoreGrilo(self)
+
         if not self._window:
             self._window = Window(self)
             self.notify("window")

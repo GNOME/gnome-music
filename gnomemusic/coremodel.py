@@ -31,7 +31,7 @@ from gi.repository import GLib, GObject, Gio, Gtk
 from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.coreartist import CoreArtist
 from gnomemusic.coresong import CoreSong
-from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
+from gnomemusic.grilowrappers.playlist import Playlist
 from gnomemusic.queue import Queue
 from gnomemusic.widgets.songwidget import SongWidget
 if typing.TYPE_CHECKING:
@@ -45,8 +45,7 @@ class CoreModel(GObject.GObject):
 
     Music is using a hierarchy of data objects with list models to
     contain the information about the users available music. This
-    hierarchy is filled mainly through Grilo, with the exception of
-    playlists which are a Tracker only feature.
+    hierarchy is filled through LocalSearch.
 
     There are three main models: one for artists, one for albums and
     one for songs. The data objects within these are CoreArtist,
@@ -57,10 +56,10 @@ class CoreModel(GObject.GObject):
 
     CoreArtist -> CoreAlbum -> CoreDisc -> CoreSong
 
-    Playlists are a Tracker only feature and do not use the three
+    Playlists are a LocalSearch only feature and do not use the three
     main models directly.
 
-    GrlTrackerPlaylists -> Playlist -> CoreSong
+    LocalSearchPlaylists -> Playlist -> CoreSong
 
     The Queue is a copy of the relevant playlist, built by
     using the components described above as needed.
@@ -250,7 +249,8 @@ class CoreModel(GObject.GObject):
             if added > 0:
                 for i in list(range(added)):
                     coresong = model[position + i]
-                    song = CoreSong(self._application, coresong.props.media)
+                    song = CoreSong(
+                        self._application, coresong.props.cursor_dict)
                     _bind_song_properties(coresong, song)
                     songs_list.append(song)
 
@@ -278,7 +278,8 @@ class CoreModel(GObject.GObject):
             self._current_queue_model = self._flatten_model
 
             for model_song in self._flatten_model:
-                song = CoreSong(self._application, model_song.props.media)
+                song = CoreSong(
+                    self._application, model_song.props.cursor_dict)
                 _bind_song_properties(model_song, song)
                 songs_added.append(song)
 
@@ -293,7 +294,8 @@ class CoreModel(GObject.GObject):
             self._current_queue_model = self._flatten_model
 
             for model_song in self._flatten_model:
-                song = CoreSong(self._application, model_song.props.media)
+                song = CoreSong(
+                    self._application, model_song.props.cursor_dict)
                 _bind_song_properties(model_song, song)
                 songs_added.append(song)
 
@@ -316,7 +318,8 @@ class CoreModel(GObject.GObject):
             self._current_queue_model = model
 
             for model_song in model:
-                song = CoreSong(self._application, model_song.props.media)
+                song = CoreSong(
+                    self._application, model_song.props.cursor_dict)
                 _bind_song_properties(model_song, song)
                 songs_added.append(song)
 

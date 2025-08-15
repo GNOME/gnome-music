@@ -1,0 +1,43 @@
+# Inputs: album_id, disc_nr
+SELECT
+  ?id
+  ?url
+  ?title
+  ?artist
+  ?album
+  ?duration
+  ?trackNumber
+  ?albumDiscNumber
+  ?publicationDate
+  nie:usageCounter(?id) AS ?playCount
+  ?tag AS ?favorite
+WHERE {
+  SERVICE <dbus:{bus_name}> {
+    GRAPH tracker:Audio {
+      SELECT DISTINCT
+        ?song AS ?id
+        nie:isStoredAs(?song) AS ?url
+        nie:title(?song) AS ?title
+        nmm:artistName(nmm:artist(?song)) AS ?artist
+        nie:title(nmm:musicAlbum(?song)) AS ?album
+        nfo:duration(?song) AS ?duration
+        nmm:trackNumber(?song) AS ?trackNumber
+        nmm:setNumber(nmm:musicAlbumDisc(?song)) AS ?albumDiscNumber
+        YEAR(?date) AS ?publicationDate
+      WHERE {
+        ?song a nmm:MusicPiece ;
+                nmm:musicAlbum ~album_id .
+        OPTIONAL { ?song nie:contentCreated ?date . }
+        FILTER (
+          nmm:setNumber(nmm:musicAlbumDisc(?song)) = ~disc_nr
+        )
+        {location_filter}
+      }
+      ORDER BY ?trackNumber
+    }
+  }
+  OPTIONAL {
+    ?id nao:hasTag ?tag .
+    FILTER (?tag = nao:predefined-tag-favorite)
+  }
+}

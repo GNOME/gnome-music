@@ -1,48 +1,36 @@
-# Copyright 2019 The GNOME Music developers
+# Copyright 2025 The GNOME Music developers
 #
-# GNOME Music is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
-#
-# GNOME Music is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License along
-# with GNOME Music; if not, write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-#
-# The GNOME Music authors hereby grant permission for non-GPL compatible
-# GStreamer plugins to be used and distributed together with GStreamer
-# and GNOME Music.  This permission is above and beyond the permissions
-# granted by the GPL license by which GNOME Music is covered.  If you
-# modify this code, you may extend this exception to your version of the
-# code, but you are not obligated to do so.  If you do not wish to do so,
-# delete this exception statement from your version.
+# SPDX-License-Identifier: GPL-2.0-or-later WITH GStreamer-exception-2008
 
-import gi
-gi.require_versions({"Grl": "0.3"})
-from gi.repository import Grl, Gtk, GObject
+from __future__ import annotations
+from typing import Any, Dict
+import typing
+
+from gi.repository import Gtk, GObject
 
 from gnomemusic.artistart import ArtistArt
 from gnomemusic.corealbum import CoreAlbum
 import gnomemusic.utils as utils
+if typing.TYPE_CHECKING:
+    from gnomemusic.application import Application
 
 
 class CoreArtist(GObject.GObject):
-    """Exposes a Grl.Media with relevant data as properties
+    """Artist information object
+
+    Contains all relevant information about an artist.
     """
 
     artist = GObject.Property(type=str)
-    media = GObject.Property(type=Grl.Media)
+    id = GObject.Property(type=str)
 
-    def __init__(self, application, media):
+    def __init__(
+            self, application: Application,
+            cursor_dict: Dict[str, Any]) -> None:
         """Initiate the CoreArtist object
 
         :param Application application: The application object
-        :param Grl.Media media: A media object
+        :param Dict[str, Any] cursor_dict: Dict with Tsparql keys
         """
         super().__init__()
 
@@ -52,11 +40,11 @@ class CoreArtist(GObject.GObject):
         self._model = None
         self._thumbnail = None
 
-        self.update(media)
+        self.update(cursor_dict)
 
-    def update(self, media):
-        self.props.media = media
-        self.props.artist = utils.get_artist_name(media)
+    def update(self, cursor_dict: Dict[str, Any]) -> None:
+        self.props.id = cursor_dict.get("id")
+        self.props.artist = utils.get_artist_from_cursor_dict(cursor_dict)
 
     def _get_artist_album_model(self):
         albums_model_filter = Gtk.FilterListModel.new(
@@ -68,8 +56,7 @@ class CoreArtist(GObject.GObject):
         albums_model_sort = Gtk.SortListModel.new(
             albums_model_filter, albums_sorter)
 
-        self._coregrilo.get_artist_albums(
-            self.props.media, albums_model_filter)
+        self._coregrilo.get_artist_albums(self, albums_model_filter)
 
         return albums_model_sort
 
@@ -100,6 +87,3 @@ class CoreArtist(GObject.GObject):
         :param string value: uri or "generic"
         """
         self._thumbnail = value
-
-        if self._thumbnail != "generic":
-            self.props.media.set_thumbnail(self._thumbnail)
