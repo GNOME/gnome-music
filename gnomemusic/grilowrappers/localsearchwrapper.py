@@ -5,6 +5,7 @@
 from __future__ import annotations
 from typing import Callable, Dict, List, Optional
 import typing
+import asyncio
 
 import gi
 gi.require_versions({"Tracker": "3.0"})
@@ -52,7 +53,7 @@ class LocalSearchWrapper(GObject.Object):
             "/org/gnome/Music/queries/albums.rq")
         self._albums_stmt = self._tracker.query_statement(prep_stmt)
 
-        self._init_albums_model()
+        asyncio.create_task(self._init_albums_model())
 
     def _prepare_statement(self, resource_path: str) -> str:
         """Helper to insert bus name and location filter in query"""
@@ -66,35 +67,20 @@ class LocalSearchWrapper(GObject.Object):
 
         return query_str
 
-    def _init_albums_model(self) -> None:
-        def _cursor_next_async(
-                cursor: Tracker.SparqlCursor, result: Gio.AsyncResult) -> None:
-            has_next = False
-            try:
-                has_next = cursor.next_finish(result)
-            except GLib.Error as error:
-               print("cursor fail")
+    async def _init_albums_model(self) -> None:
+        try:
+            cursor = await self._albums_stmt.execute_async()
+        except GLib.Error as error:
+            print("log")
 
-            if not has_next:
-                cursor.close()
-                return
-
+        has_next = await cursor.next_async()
+        while has_next:
             media = utils.create_grilo_media_from_cursor(
                 cursor, Grl.MediaType.CONTAINER)
             corealbum = CoreAlbum(self._application, media)
 
-            print(f"corealbum {corealbum.props.title}")
+            self._albums_model.append(corealbum)
 
-            cursor.next_async(None, _cursor_next_async)
+            has_next = await cursor.next_async()
 
-        def _on_albums_queried(
-                stmt: Tracker.SparqlStatement,
-                result: Gio.AsyncResult) -> None:
-            try:
-                cursor = stmt.execute_finish(result)
-            except GLib.Error as error:
-                pass
-
-            cursor.next_async(None, _cursor_next_async)
-
-        self._albums_stmt.execute_async(None, _on_albums_queried)
+        cursor.close()
