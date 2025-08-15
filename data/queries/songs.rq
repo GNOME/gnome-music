@@ -1,0 +1,40 @@
+SELECT
+  ?urn
+  ?title
+  ?id
+  ?url
+  ?artist
+  ?album
+  ?duration
+  ?trackNumber
+  ?albumDiscNumber
+  nie:contentAccessed(?urn) AS ?lastPlayed
+  nie:usageCounter(?urn) AS ?playCount
+  ?tag AS ?favorite
+  ?album_urn
+WHERE {
+  SERVICE <dbus:{bus_name}> {
+    GRAPH tracker:Audio {
+      SELECT DISTINCT
+        ?song AS ?urn
+        nie:title(?song) AS ?title
+        ?song AS ?id
+        nie:isStoredAs(?song) AS ?url
+        nmm:artistName(nmm:artist(?song)) AS ?artist
+        nie:title(nmm:musicAlbum(?song)) AS ?album
+        nfo:duration(?song) AS ?duration
+        nmm:trackNumber(?song) AS ?trackNumber
+        nmm:setNumber(nmm:musicAlbumDisc(?song)) AS ?albumDiscNumber
+        nmm:musicAlbum(?song) AS ?album_urn
+      WHERE {
+        {song_bind}
+        ?song a nmm:MusicPiece .
+        {location_filter}
+      }
+    }
+  }
+  OPTIONAL {
+    ?urn nao:hasTag ?tag .
+    FILTER (?tag = nao:predefined-tag-favorite)
+  }
+} ORDER BY ?title ?artist

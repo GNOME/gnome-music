@@ -22,17 +22,19 @@
 # delete this exception statement from your version.
 
 from __future__ import annotations
+import asyncio
 import os
 import typing
 from enum import IntEnum
 from typing import Optional
 
+import gi
+gi.require_versions({"Tracker": "3.0"})
 from gi.repository import Gio, GLib, GObject, Tracker
 
 if typing.TYPE_CHECKING:
-    from gi.repository import Grl
-
     from gnomemusic.application import Application
+    from gnomemusic.coresong import CoreSong
 
 
 class TrackerState(IntEnum):
@@ -69,8 +71,8 @@ class TrackerWrapper(GObject.GObject):
         self._miner_fs_busname = ""
         self._miner_fs_available = TrackerState.UNAVAILABLE
 
-        self._setup_local_db()
-        self._setup_host_miner_fs()
+        asyncio.create_task(self._setup_local_db())
+        asyncio.create_task(self._setup_host_miner_fs())
 
     @staticmethod
     def _in_flatpak() -> bool:
@@ -81,7 +83,7 @@ class TrackerWrapper(GObject.GObject):
         """
         return os.path.exists("/.flatpak-info")
 
-    def _setup_host_miner_fs(self) -> None:
+    async def _setup_host_miner_fs(self) -> None:
         self._miner_fs_busname = "org.freedesktop.Tracker3.Miner.Files"
 
         self._log.debug(
@@ -144,7 +146,7 @@ class TrackerWrapper(GObject.GObject):
             self._miner_fs_busname = ""
             self.notify("tracker-available")
 
-    def _setup_local_db(self) -> None:
+    async def _setup_local_db(self) -> None:
         # Open a local Tracker database.
         try:
             self._local_db = Tracker.SparqlConnection.new(
@@ -173,6 +175,11 @@ class TrackerWrapper(GObject.GObject):
         return GLib.build_pathv(
             GLib.DIR_SEPARATOR_S,
             [GLib.get_user_cache_dir(), "gnome-music", "db"])
+
+    @GObject.Property(
+        type=Tracker.SparqlConnection, flags=GObject.ParamFlags.READABLE)
+    def miner_fs(self) -> Tracker.SparqlConnection:
+        return self._miner_fs
 
     @GObject.Property(type=str, flags=GObject.ParamFlags.READABLE)
     def miner_fs_busname(self) -> str:
@@ -218,19 +225,15 @@ class TrackerWrapper(GObject.GObject):
 
         return query
 
-    def _update_favorite(self, media: Grl.Media) -> None:
-        """Update favorite state of a song.
-
-        :param Grl.Media media: media which contains updated favorite state
-        """
-        if (media.get_favourite()):
+    async def _update_favorite(self, coresong: CoreSong) -> None:
+        if coresong.props.favorite:
             update = """
             INSERT DATA {
                 <%(urn)s> a nmm:MusicPiece ;
                           nao:hasTag nao:predefined-tag-favorite .
             }
             """.replace("\n", "").strip() % {
-                "urn": media.get_id(),
+                "urn": coresong.props.id,
             }
         else:
             update = """
@@ -238,19 +241,16 @@ class TrackerWrapper(GObject.GObject):
                 <%(urn)s> nao:hasTag nao:predefined-tag-favorite .
             }
             """.replace("\n", "").strip() % {
-                "urn": media.get_id(),
+                "urn": coresong.props.id,
             }
 
-        def _update_favorite_cb(conn, res):
-            try:
-                conn.update_finish(res)
-            except GLib.Error as e:
-                self._log.warning("Unable to update favorite: {}".format(
-                    e.message))
+        try:
+            await self._local_db.update_async(update)
+        except GLib.Error as error:
+            self._log.warning(
+                f"Unable to update favorite: {error.domain}, {error.message}")
 
-        self._local_db.update_async(update, None, _update_favorite_cb)
-
-    def _update_play_count(self, media: Grl.Media) -> None:
+    async def _update_play_count(self, coresong: CoreSong) -> None:
         update = """
         DELETE WHERE {
             <%(urn)s> nie:usageCounter ?count .
@@ -260,21 +260,19 @@ class TrackerWrapper(GObject.GObject):
                       nie:usageCounter %(count)d .
         }
         """.replace("\n", "").strip() % {
-            "urn": media.get_id(),
-            "count": media.get_play_count(),
+            "urn": coresong.props.id,
+            "count": coresong.props.play_count,
         }
 
-        def _update_play_count_cb(conn, res):
-            try:
-                conn.update_finish(res)
-            except GLib.Error as e:
-                self._log.warning("Unable to update play count: {}".format(
-                    e.message))
+        try:
+            await self._local_db.update_async(update)
+        except GLib.Error as error:
+            self._log.warning(
+                f"Unable to update play count: "
+                f"{error.domain}, {error.message}")
 
-        self._local_db.update_async(update, None, _update_play_count_cb)
-
-    def _update_last_played(self, media: Grl.Media) -> None:
-        last_played = media.get_last_played().format_iso8601()
+    async def _update_last_played(self, coresong: CoreSong) -> None:
+        last_played = coresong.props.last_played.format_iso8601()
         update = """
         DELETE WHERE {
             <%(urn)s> nie:contentAccessed ?accessed
@@ -284,29 +282,28 @@ class TrackerWrapper(GObject.GObject):
                       nie:contentAccessed "%(last_played)s"
         }
         """.replace("\n", "").strip() % {
-            "urn": media.get_id(),
+            "urn": coresong.props.id,
             "last_played": last_played,
         }
 
-        def _update_last_played_cb(conn, res):
-            try:
-                conn.update_finish(res)
-            except GLib.Error as e:
-                self._log.warning(f"Unable to update last played: {e.message}")
+        try:
+            await self._local_db.update_async(update)
+        except GLib.Error as error:
+            self._log.warning(
+                f"Unable to update last played: "
+                f"{error.domain}, {error.message}")
 
-        self._local_db.update_async(update, None, _update_last_played_cb)
-
-    def update_tag(self, media: Grl.Media, tag: str) -> None:
+    def update_tag(self, coresong: CoreSong, tag: str) -> None:
         """Update property of a resource.
 
-        :param Grl.Media media: media which contains updated tag
+        :param CoreSong coresong: CoreSong with updated tag
         :param str tag: tag to update
         """
         if tag == "favorite":
-            self._update_favorite(media)
+            asyncio.create_task(self._update_favorite(coresong))
         elif tag == "last-played":
-            self._update_last_played(media)
+            asyncio.create_task(self._update_last_played(coresong))
         elif tag == "play-count":
-            self._update_play_count(media)
+            asyncio.create_task(self._update_play_count(coresong))
         else:
             self._log.warning("Unknown tag: '{}'".format(tag))

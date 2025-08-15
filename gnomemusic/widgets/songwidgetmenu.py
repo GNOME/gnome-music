@@ -29,7 +29,7 @@ import typing
 from gettext import gettext as _
 from gi.repository import Gio, GObject, Gtk
 
-from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
+from gnomemusic.grilowrappers.playlist import Playlist
 from gnomemusic.songtoast import SongToast
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
 from gnomemusic.widgets.songwidget import SongWidget

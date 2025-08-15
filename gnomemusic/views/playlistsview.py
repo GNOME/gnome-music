@@ -27,7 +27,7 @@ from typing import Optional
 
 from gi.repository import Adw, GObject, Gtk
 
-from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
+from gnomemusic.grilowrappers.playlist import Playlist
 from gnomemusic.widgets.playlistswidget import PlaylistsWidget
 from gnomemusic.widgets.playlisttile import PlaylistTile
 
@@ -89,11 +89,10 @@ class PlaylistsView(Adw.Bin):
         else:
             row.set_header(None)
 
-    def _add_playlist_to_sidebar(self, playlist):
+    def _add_playlist_to_sidebar(self, playlist: Playlist) -> PlaylistTile:
         """Add a playlist to sidebar
 
-        :param GrlMedia playlist: playlist to add
-        :param int index: position
+        :param Playlist playlist: Playlist to add
         """
         row = PlaylistTile(playlist)
         return row

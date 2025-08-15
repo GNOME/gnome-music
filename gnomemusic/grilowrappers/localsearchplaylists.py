@@ -1,49 +1,51 @@
-# Copyright 2024 The GNOME Music developers
+# Copyright 2025 The GNOME Music developers
 #
 # SPDX-License-Identifier: GPL-2.0-or-later WITH GStreamer-exception-2008
 
 from __future__ import annotations
-from collections.abc import Callable
-from typing import Optional
+from typing import Any, Dict, Callable, List, Optional
 import asyncio
+import typing
 
-import gi
-gi.require_versions({"Grl": "0.3"})
-from gi.repository import Grl, Gtk, GLib, GObject
+from gi.repository import Gtk, GLib, GObject
 
 from gnomemusic.grilowrappers.playlist import Playlist
 from gnomemusic.grilowrappers.smartplaylist import (
-    AllSongs, InsufficientTagged, Favorites, RecentlyAdded, RecentlyPlayed,
+    InsufficientTagged, Favorites, RecentlyAdded, RecentlyPlayed,
     NeverPlayed, MostPlayed)
 import gnomemusic.utils as utils
+if typing.TYPE_CHECKING:
+    from gi.repository import Gio
+    from gnomemusic.application import Application
+    from gnomemusic.trackerwrapper import TrackerWrapper
 
 
-class GrlTrackerPlaylists(GObject.GObject):
+class LocalSearchPlaylists(GObject.GObject):
 
-    __gtype_name__ = "GrlTrackerPlaylists"
+    __gtype_name__ = "LocalSearchPlaylists"
 
-    def __init__(self, source, application, tracker_wrapper, songs_hash):
-        """Initialize GrlTrackerPlaylists.
+    def __init__(
+            self, application: Application, tsparql_wrapper: TrackerWrapper,
+            songs_model: Gio.ListStore) -> None:
+        """Initialize LocalSearchPlaylists.
 
-        :param Grl.TrackerSource source: The Tracker source to wrap
         :param Application application: Application instance
-        :param TrackerWrapper tracker_wrapper: The TrackerWrapper
+        :param TrackerWrapper tsparql_wrapper: The TrackerWrapper
                                                instance
-        :param dict songs_hash: The songs hash table
+        :param dict songs_model: The songs model
         """
         super().__init__()
 
         self._application = application
         self._coremodel = application.props.coremodel
         self._log = application.props.log
-        self._source = source
         self._model = self._coremodel.props.playlists
         self._model_filter = self._coremodel.props.playlists_filter
         self._user_model_filter = self._coremodel.props.user_playlists_filter
-        self._pls_todelete = []
-        self._songs_hash = songs_hash
-        self._tracker = tracker_wrapper.props.local_db
-        self._tracker_wrapper = tracker_wrapper
+        self._pls_todelete: List[Playlist] = []
+        self._songs_model = songs_model
+        self._tsparql = tsparql_wrapper.props.local_db
+        self._tsparql_wrapper = tsparql_wrapper
         self._notificationmanager = application.props.notificationmanager
         self._window = application.props.window
 
@@ -51,37 +53,35 @@ class GrlTrackerPlaylists(GObject.GObject):
         user_playlists_filter.set_filter_func(self._user_playlists_filter)
         self._user_model_filter.set_filter(user_playlists_filter)
 
-        self._fast_options = Grl.OperationOptions()
-        self._fast_options.set_resolution_flags(
-            Grl.ResolutionFlags.FAST_ONLY | Grl.ResolutionFlags.IDLE_RELAY)
-
-        self._pl_create_stmt = self._tracker.load_statement_from_gresource(
+        self._pl_create_stmt = self._tsparql.load_statement_from_gresource(
             "/org/gnome/Music/queries/playlist_create.rq")
-        self._pl_delete_stmt = self._tracker.load_statement_from_gresource(
+        self._pl_delete_stmt = self._tsparql.load_statement_from_gresource(
             "/org/gnome/Music/queries/playlist_delete.rq")
-        self._pl_query_stmt = self._tracker.load_statement_from_gresource(
+        self._pl_query_stmt = self._tsparql.load_statement_from_gresource(
             "/org/gnome/Music/queries/playlist_query_playlist.rq")
-        self._pl_query_all_stmt = self._tracker.load_statement_from_gresource(
+        self._pl_query_all_stmt = self._tsparql.load_statement_from_gresource(
             "/org/gnome/Music/queries/playlist_query_all.rq")
 
         asyncio.create_task(self._initial_playlists_fill())
 
     async def _initial_playlists_fill(self):
-        args = {
-            "source": self._source,
+        kwargs = {
             "application": self._application,
-            "tracker_wrapper": self._tracker_wrapper,
-            "songs_hash": self._songs_hash
+            "tsparql_wrapper": self._tsparql_wrapper,
+            "songs_model": self._songs_model,
+            "cursor_dict": {},
+            "query": "",
+            "tag_text": "",
         }
 
         smart_playlists = {
-            "MostPlayed": MostPlayed(**args),
-            "NeverPlayed": NeverPlayed(**args),
-            "RecentlyPlayed": RecentlyPlayed(**args),
-            "RecentlyAdded": RecentlyAdded(**args),
-            "Favorites": Favorites(**args),
-            "InsufficientTagged": InsufficientTagged(**args),
-            "AllSongs": AllSongs(**args),
+            "MostPlayed": MostPlayed(**kwargs),
+            "NeverPlayed": NeverPlayed(**kwargs),
+            "RecentlyPlayed": RecentlyPlayed(**kwargs),
+            "RecentlyAdded": RecentlyAdded(**kwargs),
+            "Favorites": Favorites(**kwargs),
+            "InsufficientTagged": InsufficientTagged(**kwargs),
+            #  "AllSongs": AllSongs(**kwargs),
         }
 
         for playlist in smart_playlists.values():
@@ -101,9 +101,8 @@ class GrlTrackerPlaylists(GObject.GObject):
             self._log.warning(f"Cursor iteration error: {error.message}")
             return
         while has_next:
-            media = utils.create_grilo_media_from_cursor(
-                cursor, Grl.MediaType.CONTAINER)
-            self._add_user_playlist(media)
+            cursor_dict = utils.dict_from_cursor(cursor)
+            self._add_user_playlist(cursor_dict)
 
             try:
                 has_next = await cursor.next_async()
@@ -114,11 +113,12 @@ class GrlTrackerPlaylists(GObject.GObject):
             cursor.close()
 
     def _add_user_playlist(
-            self, media: Grl.Media,
+            self, cursor_dict: Dict[str, Any],
             callback: Optional[Callable] = None) -> None:
         playlist = Playlist(
-            media=media, source=self._source, application=self._application,
-            tracker_wrapper=self._tracker_wrapper, songs_hash=self._songs_hash)
+            cursor_dict=cursor_dict, application=self._application,
+            tsparql_wrapper=self._tsparql_wrapper,
+            songs_model=self._songs_model, query="", tag_text="")
         self._model.append(playlist)
 
         if callback is not None:
@@ -164,24 +164,21 @@ class GrlTrackerPlaylists(GObject.GObject):
             self._user_model_filter.set_filter(user_playlists_filter)
             return
 
-        self._notificationmanager.push_loading()
+        async with self._notificationmanager:
+            self._pl_delete_stmt.bind_string("playlist", playlist.props.pl_id)
+            try:
+                await self._pl_delete_stmt.update_async()
+            except GLib.Error as error:
+                self._log.warning(
+                    f"Failed to delete playlist {playlist.props.title}:"
+                    f"{error.domain}, {error.message}")
+            else:
+                for idx, playlist_model in enumerate(self._model):
+                    if playlist_model is playlist:
+                        self._model.remove(idx)
+                        break
 
-        self._pl_delete_stmt.bind_string("playlist", playlist.props.pl_id)
-        try:
-            await self._pl_delete_stmt.update_async()
-        except GLib.Error as error:
-            self._log.warning(
-                f"Failed to delete playlist {playlist.props.title}:"
-                f"{error.domain}, {error.message}")
-        else:
-            for idx, playlist_model in enumerate(self._model):
-                if playlist_model is playlist:
-                    self._model.remove(idx)
-                    break
-
-        self._model_filter.set_filter(playlists_filter)
-
-        self._notificationmanager.pop_loading()
+            self._model_filter.set_filter(playlists_filter)
 
     def create_playlist(self, playlist_title: str, callback: Callable) -> None:
         """Creates a new user playlist.
@@ -224,9 +221,8 @@ class GrlTrackerPlaylists(GObject.GObject):
                 f"Cursor iteration error: {error.domain}, {error.message}")
             return
         while has_next:
-            media = utils.create_grilo_media_from_cursor(
-                cursor, Grl.MediaType.CONTAINER)
-            self._add_user_playlist(media, callback)
+            cursor_dict = utils.dict_from_cursor(cursor)
+            self._add_user_playlist(cursor_dict)
 
             try:
                 has_next = await cursor.next_async()

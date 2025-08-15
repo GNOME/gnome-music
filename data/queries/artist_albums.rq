@@ -1,0 +1,30 @@
+# Inputs: ~artist
+SELECT
+  ?id
+  ?title
+  ?publicationDate
+WHERE {
+  SERVICE <dbus:{bus_name}> {
+    GRAPH tracker:Audio {
+      SELECT DISTINCT
+        ?album AS ?id
+        nie:title(?album) AS ?title
+        YEAR(nie:contentCreated(?song)) AS ?publicationDate
+      WHERE {
+        {
+          ?song a nmm:MusicPiece;
+                  nmm:musicAlbum ?album;
+                  nmm:artist ~artist .
+        } UNION {
+          ?song a nmm:MusicPiece;
+                  nmm:musicAlbum ?album .
+          ?album a nmm:MusicAlbum;
+                   nmm:albumArtist ~artist .
+        }
+        {location_filter}
+      }
+      GROUP BY ?album
+      ORDER BY ?publicationDate ?album
+    }
+  }
+}

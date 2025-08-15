@@ -1,36 +1,14 @@
-# Copyright 2019 The GNOME Music developers
+# Copyright 2025 The GNOME Music developers
 #
-# GNOME Music is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
-#
-# GNOME Music is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License along
-# with GNOME Music; if not, write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-#
-# The GNOME Music authors hereby grant permission for non-GPL compatible
-# GStreamer plugins to be used and distributed together with GStreamer
-# and GNOME Music.  This permission is above and beyond the permissions
-# granted by the GPL license by which GNOME Music is covered.  If you
-# modify this code, you may extend this exception to your version of the
-# code, but you are not obligated to do so.  If you do not wish to do so,
-# delete this exception statement from your version.
+# SPDX-License-Identifier: GPL-2.0-or-later WITH GStreamer-exception-2008
 
 from __future__ import annotations
 from enum import IntEnum
 from random import randint
-from typing import Optional
+from typing import Any, Dict, Optional
 import typing
 
-import gi
-gi.require_version('Grl', '0.3')
-from gi.repository import Grl, GLib, GObject
+from gi.repository import GLib, GObject
 
 from gnomemusic.songart import SongArt
 if typing.TYPE_CHECKING:
@@ -40,17 +18,20 @@ import gnomemusic.utils as utils
 
 
 class CoreSong(GObject.GObject):
-    """Exposes a Grl.Media with relevant data as properties
+    """Song information object
+
+    Contains all relevant information of a song.
     """
 
     __gtype_name__ = "CoreSong"
 
     album = GObject.Property(type=str)
+    album_urn = GObject.Property(type=str)
     album_disc_number = GObject.Property(type=int)
     artist = GObject.Property(type=str)
+    cursor_dict = GObject.Property()
     duration = GObject.Property(type=int)
-    media = GObject.Property(type=Grl.Media)
-    grlid = GObject.Property(type=str, default=None)
+    id = GObject.Property(type=str, default=None)
     play_count = GObject.Property(type=int)
     shuffle_pos = GObject.Property(type=int)
     state = GObject.Property()  # FIXME: How to set an IntEnum type?
@@ -66,34 +47,30 @@ class CoreSong(GObject.GObject):
         FAILED = 2
         SUCCEEDED = 3
 
-    def __init__(self, application: Application, media: Grl.Media) -> None:
+    def __init__(
+            self, application: Application,
+            cursor_dict: Dict[str, Any]) -> None:
         """Initiate the CoreSong object
 
         :param Application application: The application object
-        :param Grl.Media media: A media object
+        :param Dict[str, Any] cursor_dict: Dict with Tsparql keys
         """
         super().__init__()
 
         self._application: Application = application
         self._coregrilo: CoreGrilo = application.props.coregrilo
         self._favorite: bool = False
+        self._last_played: Optional[GLib.DateTime] = None
         self._thumbnail: Optional[str] = None
 
-        self.props.grlid = media.get_source() + media.get_id()
-        self._is_tracker: bool = media.get_source() in [
-            "grl-tracker3-source", "gnome-music"]
+        self.props.id = cursor_dict.get("id")
         self.props.validation = CoreSong.Validation.PENDING
-        self.update(media)
+        self.update(cursor_dict)
         self.update_shuffle_pos()
 
     def __eq__(self, other: object) -> bool:
         return (isinstance(other, CoreSong)
-                and other.props.media.get_id() == self.props.media.get_id())
-
-    @GObject.Property(
-        type=bool, default=False, flags=GObject.ParamFlags.READABLE)
-    def is_tracker(self) -> bool:
-        return self._is_tracker
+                and other.props.id == self.props.id)
 
     @GObject.Property(type=bool, default=False)
     def favorite(self) -> bool:
@@ -101,19 +78,11 @@ class CoreSong(GObject.GObject):
 
     @favorite.setter  # type: ignore
     def favorite(self, favorite: bool) -> None:
-        if not self._is_tracker:
+        if self._favorite == favorite:
             return
 
         self._favorite = favorite
-
-        # FIXME: Circular trigger, can probably be solved more neatly.
-        old_fav: bool = self.props.media.get_favourite()
-        if old_fav == self._favorite:
-            return
-
-        self.props.media.set_favourite(self._favorite)
-        self._coregrilo.writeback_tracker(
-            self.props.media, "favorite")
+        self._coregrilo.writeback_tracker(self, "favorite")
 
     @GObject.Property(type=GLib.DateTime, default=None)
     def last_played(self) -> Optional[GLib.DateTime]:
@@ -122,7 +91,7 @@ class CoreSong(GObject.GObject):
         :returns: Last played date time if available
         :rtype: GLib.DateTime or None
         """
-        return self.props.media.get_last_played()
+        return self._last_played
 
     @last_played.setter  # type: ignore
     def last_played(self, value: Optional[GLib.DateTime]) -> None:
@@ -130,13 +99,11 @@ class CoreSong(GObject.GObject):
 
         :param GLib.DateTime value: The datetime to set
         """
-        if value is None:
+        if not value:
             return
 
-        self.props.media.set_last_played(value)
-
-        if self._is_tracker:
-            self._coregrilo.writeback_tracker(self.props.media, "last-played")
+        self._last_played = value
+        self._coregrilo.writeback_tracker(self, "last-played")
 
     @GObject.Property(type=str, default=None)
     def thumbnail(self) -> str:
@@ -159,30 +126,32 @@ class CoreSong(GObject.GObject):
         """
         self._thumbnail = value
 
-        if self._thumbnail != "generic":
-            self.props.media.set_thumbnail(self._thumbnail)
+    def update(self, cursor_dict: Dict[str, Any]) -> None:
+        """Update the song with information from the dictionary
 
-    def update(self, media: Grl.Media) -> None:
-        self.props.media = media
-        self.props.album = utils.get_album_title(media)
-        self.props.album_disc_number = media.get_album_disc_number()
-        self.props.artist = utils.get_artist_name(media)
-        self.props.duration = media.get_duration()
-        self.props.favorite = media.get_favourite()
-        self.props.last_played = media.get_last_played()
-        self.props.play_count = media.get_play_count()
-        self.props.title = utils.get_media_title(media)
-        self.props.track_number = media.get_track_number()
-        self.props.url = media.get_url()
+        :param Dict[str, Any] cursor_dict: The dicationary to use
+        """
+        self.props.album = cursor_dict.get("album") or ""
+        self.props.album_urn = cursor_dict.get("album_urn")
+        self.props.album_disc_number = utils.get_int_from_cursor_dict(
+            cursor_dict, "albumDiscNumber")
+        self.props.artist = utils.get_artist_from_cursor_dict(cursor_dict)
+        self.props.duration = utils.get_int_from_cursor_dict(
+            cursor_dict, "duration")
+        self._favorite = bool(cursor_dict.get("favorite"))
+        self._last_played = cursor_dict.get("lastPlayed")
+        self.props.play_count = utils.get_int_from_cursor_dict(
+            cursor_dict, "playCount")
+        self.props.title = utils.get_title_from_cursor_dict(cursor_dict)
+        self.props.track_number = utils.get_int_from_cursor_dict(
+            cursor_dict, "trackNumber")
+        self.props.url = cursor_dict.get("url")
+
+        self.props.cursor_dict = cursor_dict
 
     def bump_play_count(self) -> None:
-        if not self._is_tracker:
-            return
-
-        self.props.media.set_play_count(self.props.play_count + 1)
-        self.update(self.props.media)
-        self._coregrilo.writeback_tracker(
-            self.props.media, "play-count")
+        self.props.play_count = self.props.play_count + 1
+        self._coregrilo.writeback_tracker(self, "play-count")
 
     def update_shuffle_pos(self) -> None:
         """Randomizes the shuffle position of this song"""

@@ -55,7 +55,7 @@ class NotificationManager(GObject.Object):
         if self._loading_counter > 0:
             self._window.loading_visible(True)
 
-    def push_loading(self):
+    def _push_loading(self):
         """Push a loading notifcation."""
         self._loading_counter += 1
 
@@ -64,7 +64,7 @@ class NotificationManager(GObject.Object):
             self._window.loading_visible(True)
             self._pulse_id = GLib.timeout_add(100, self._window.loading_pulse)
 
-    def pop_loading(self):
+    def _pop_loading(self):
         self._loading_counter -= 1
 
         if (self._loading_counter == 0
@@ -75,10 +75,10 @@ class NotificationManager(GObject.Object):
                 self._window.loading_visible(False)
 
     async def __aenter__(self) -> None:
-        self.push_loading()
+        self._push_loading()
 
     async def __aexit__(
             self, exc_type: Optional[BaseException],
             exc_value: Optional[BaseException],
             exc_traceback: Optional[TracebackType]) -> None:
-        self.pop_loading()
+        self._pop_loading()

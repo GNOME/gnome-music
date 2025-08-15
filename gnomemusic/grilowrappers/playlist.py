@@ -3,15 +3,17 @@
 # SPDX-License-Identifier: GPL-2.0-or-later WITH GStreamer-exception-2008
 
 from __future__ import annotations
-from typing import List
+from typing import Any, Dict, List
 import asyncio
+import typing
 
-import gi
-gi.require_versions({"Grl": "0.3"})
-from gi.repository import Gio, Grl, GLib, GObject
+from gi.repository import Gio, GLib, GObject
 
 from gnomemusic.coresong import CoreSong
 import gnomemusic.utils as utils
+if typing.TYPE_CHECKING:
+    from gnomemusic.application import Application
+    from gnomemusic.trackerwrapper import TrackerWrapper
 
 
 class Playlist(GObject.GObject):
@@ -28,25 +30,25 @@ class Playlist(GObject.GObject):
     tag_text = GObject.Property(type=str, default=None)
 
     def __init__(
-            self, media=None, query=None, tag_text=None, source=None,
-            application=None, tracker_wrapper=None, songs_hash=None):
+            self, cursor_dict: Dict[str, Any], query: str, tag_text: str,
+            application: Application, tsparql_wrapper: TrackerWrapper,
+            songs_model: GLib.ListStore) -> None:
         super().__init__()
         """Initialize a playlist
 
-       :param Grl.Media media: A media object
+       :param Dict[str, Any] cursor_dict: Dict with Tsparql keys
        :param string query: Tracker query that returns the playlist
        :param string tag_text: The non translatable unique identifier
             of the playlist
-       :param Grl.Source source: The Grilo Tracker source object
        :param Application application: The Application instance
-       :param TrackerWrapper tracker_wrapper: The TrackerWrapper instance
-       :param dict songs_hash: The songs hash table
+       :param TrackerWrapper tsparql_wrapper: The TrackerWrapper instance
+       :param GLib.ListStore songs_model: The songs model
         """
-        if media:
-            self.props.pl_id = media.get_id()
-            self._title = utils.get_media_title(media)
-            self.props.count = media.get_childcount()
-            self.props.creation_date = media.get_creation_date()
+        if cursor_dict:
+            self.props.pl_id = cursor_dict.get("id")
+            self._title = utils.get_title_from_cursor_dict(cursor_dict)
+            self.props.count = cursor_dict.get("childCount")
+            self.props.creation_date = cursor_dict.get("creationDate")
         else:
             self._title = None
 
@@ -54,33 +56,28 @@ class Playlist(GObject.GObject):
         self.props.tag_text = tag_text
         self._application = application
         self._model = None
-        self._source = source
         self._coremodel = application.props.coremodel
         self._log = application.props.log
-        self._songs_hash = songs_hash
-        self._tracker = tracker_wrapper.props.local_db
-        self._tracker_wrapper = tracker_wrapper
+        self._songs_model = songs_model
+        self._tsparql = tsparql_wrapper.props.local_db
+        self._tsparql_wrapper = tsparql_wrapper
         self._notificationmanager = application.props.notificationmanager
 
-        self._fast_options = Grl.OperationOptions()
-        self._fast_options.set_resolution_flags(
-            Grl.ResolutionFlags.FAST_ONLY | Grl.ResolutionFlags.IDLE_RELAY)
-
-        self._add_song_stmt = self._tracker.load_statement_from_gresource(
+        self._add_song_stmt = self._tsparql.load_statement_from_gresource(
             "/org/gnome/Music/queries/playlist_add_song.rq")
-        self._delete_song_stmt = self._tracker.load_statement_from_gresource(
+        self._delete_song_stmt = self._tsparql.load_statement_from_gresource(
             "/org/gnome/Music/queries/playlist_delete_song.rq")
-        self._pl_del_entry_stmt = self._tracker.load_statement_from_gresource(
+        self._pl_del_entry_stmt = self._tsparql.load_statement_from_gresource(
             "/org/gnome/Music/queries/playlist_query_delete_entry.rq")
         prep_stmt = self._prepare_statement(
             "/org/gnome/Music/queries/playlist_query_songs.rq")
-        self._pl_songs_stmt = self._tracker.query_statement(prep_stmt)
-        self._rename_title_stmt = self._tracker.load_statement_from_gresource(
+        self._pl_songs_stmt = self._tsparql.query_statement(prep_stmt)
+        self._rename_title_stmt = self._tsparql.load_statement_from_gresource(
             "/org/gnome/Music/queries/playlist_rename_title.rq")
-        self._reorder_stmt = self._tracker.load_statement_from_gresource(
+        self._reorder_stmt = self._tsparql.load_statement_from_gresource(
             "/org/gnome/Music/queries/playlist_reorder_songs.rq")
 
-        self._songs_todelete = []
+        self._songs_todelete: List[CoreSong] = []
 
     def _prepare_statement(self, resource_path: str) -> str:
         """Helper to insert bus name and location filter in query"""
@@ -88,9 +85,9 @@ class Playlist(GObject.GObject):
             resource_path, Gio.ResourceLookupFlags.NONE)
         query_str = gbytes.get_data().decode("utf-8")
         query_str = query_str.replace(
-            "{bus_name}", self._tracker_wrapper.props.miner_fs_busname)
+            "{bus_name}", self._tsparql_wrapper.props.miner_fs_busname)
         query_str = query_str.replace(
-            "{location_filter}", self._tracker_wrapper.location_filter())
+            "{location_filter}", self._tsparql_wrapper.location_filter())
 
         return query_str
 
@@ -107,32 +104,15 @@ class Playlist(GObject.GObject):
         self._model = value
 
     async def _populate_model(self):
-        self._notificationmanager.push_loading()
-
-        self._pl_songs_stmt.bind_string("playlist", self.props.pl_id)
-        try:
-            cursor = await self._pl_songs_stmt.execute_async()
-        except GLib.Error as error:
-            self._log.warning(
-                f"Failure populating playlist model {self.props.pl_id}:"
-                f" {error.domain}, {error.message}")
-            return
-
-        try:
-            has_next = await cursor.next_async()
-        except GLib.Error as error:
-            cursor.close()
-            self._log.warning(
-                f"Cursor iteration error: {error.domain}, {error.message}")
-            self._notificationmanager.pop_loading()
-            return
-        while has_next:
-            media = utils.create_grilo_media_from_cursor(
-                cursor, Grl.MediaType.AUDIO)
-            coresong = CoreSong(self._application, media)
-            self._bind_to_main_song(coresong)
-            if coresong not in self._songs_todelete:
-                self._model.append(coresong)
+        async with self._notificationmanager:
+            self._pl_songs_stmt.bind_string("playlist", self.props.pl_id)
+            try:
+                cursor = await self._pl_songs_stmt.execute_async()
+            except GLib.Error as error:
+                self._log.warning(
+                    f"Failure populating playlist model {self.props.pl_id}:"
+                    f" {error.domain}, {error.message}")
+                return
 
             try:
                 has_next = await cursor.next_async()
@@ -140,22 +120,41 @@ class Playlist(GObject.GObject):
                 cursor.close()
                 self._log.warning(
                     f"Cursor iteration error: {error.domain}, {error.message}")
-                self._notificationmanager.pop_loading()
                 return
-        else:
-            cursor.close()
-            self.props.count = self._model.get_n_items()
-            self._notificationmanager.pop_loading()
+            while has_next:
+                cursor_dict = utils.dict_from_cursor(cursor)
+                coresong = CoreSong(self._application, cursor_dict)
+                self._bind_to_main_song(coresong)
+                if coresong not in self._songs_todelete:
+                    self._model.append(coresong)
+
+                try:
+                    has_next = await cursor.next_async()
+                except GLib.Error as error:
+                    cursor.close()
+                    self._log.warning(
+                        f"Cursor iteration error: {error.domain}, "
+                        f"{error.message}")
+                    return
+            else:
+                cursor.close()
+                self.props.count = self._model.get_n_items()
 
     def _bind_to_main_song(self, coresong):
-        main_coresong = self._songs_hash[coresong.props.media.get_id()]
+        def equal_func(
+                coresong_compared: CoreSong,
+                coresong_provided: CoreSong) -> bool:
+            return coresong_compared == coresong_provided
+
+        success, position = self._songs_model.find_with_equal_func(
+            coresong, equal_func)
+        main_coresong = self._songs_model[position]
 
         # It is not necessary to bind all the CoreSong properties:
-        # selected property is linked to a view
-        # validation is a short-lived playability check for local songs
+        # validation: short-lived playability check for local songs
         bidirectional_properties = [
-            "album", "album_disc_number", "artist", "duration", "media",
-            "grlid", "play_count", "title", "track_number", "url", "favorite"]
+            "album", "album_disc_number", "artist", "duration", "id",
+            "play_count", "title", "track_number", "url", "favorite"]
 
         for prop in bidirectional_properties:
             main_coresong.bind_property(
@@ -185,21 +184,18 @@ class Playlist(GObject.GObject):
         asyncio.create_task(self._set_title(new_name))
 
     async def _set_title(self, new_name: str) -> None:
-        self._notificationmanager.push_loading()
-
-        self._rename_title_stmt.bind_string("playlist", self.props.pl_id)
-        self._rename_title_stmt.bind_string("title", new_name)
-        try:
-            self._rename_title_stmt.update_async()
-        except GLib.Error as error:
-            self._log.warning(
-                f"Unable to rename playlist from {self._title} to {new_name}:"
-                f" {error.domain}, {error.message}")
-        else:
-            self._title = new_name
-            self.notify("title")
-        finally:
-            self._notificationmanager.pop_loading()
+        async with self._notificationmanager:
+            self._rename_title_stmt.bind_string("playlist", self.props.pl_id)
+            self._rename_title_stmt.bind_string("title", new_name)
+            try:
+                self._rename_title_stmt.update_async()
+            except GLib.Error as error:
+                self._log.warning(
+                    f"Unable to rename playlist from {self._title} to "
+                    f"{new_name}: {error.domain}, {error.message}")
+            else:
+                self._title = new_name
+                self.notify("title")
 
     def stage_song_deletion(self, coresong, index):
         """Adds a song to the list of songs to delete
@@ -250,9 +246,8 @@ class Playlist(GObject.GObject):
                 f"Cursor iteration error: {error.domain}, {error.message}")
             return
         while has_next:
-            media = utils.create_grilo_media_from_cursor(
-                cursor, Grl.MediaType.AUDIO)
-            self._delete_song_stmt.bind_string("entry", media.get_id())
+            cursor_dict = utils.dict_from_cursor(cursor)
+            self._delete_song_stmt.bind_string("entry", cursor_dict.get("id"))
             self._delete_song_stmt.bind_string("playlist", self.props.pl_id)
             try:
                 await self._delete_song_stmt.update_async()
@@ -285,8 +280,7 @@ class Playlist(GObject.GObject):
     async def _add_songs(self, coresongs: List[CoreSong]) -> None:
         self._add_song_stmt.bind_string("playlist", self.props.pl_id)
         for coresong in coresongs:
-            self._add_song_stmt.bind_string(
-                "uri", coresong.props.media.get_url())
+            self._add_song_stmt.bind_string("uri", coresong.props.url)
             try:
                 await self._add_song_stmt.update_async()
             except GLib.Error as error:
@@ -297,8 +291,8 @@ class Playlist(GObject.GObject):
                 if self._model is None:
                     continue
 
-                media = coresong.props.media
-                coresong_copy = CoreSong(self._application, media)
+                coresong_copy = CoreSong(
+                    self._application, coresong.props.cursor_dict)
                 self._bind_to_main_song(coresong_copy)
                 self._model.append(coresong_copy)
                 self.props.count = self._model.get_n_items()
@@ -313,6 +307,9 @@ class Playlist(GObject.GObject):
 
     async def _reorder(
             self, previous_position: int, new_position: int) -> None:
+        if not self._model:
+            return
+
         coresong = self._model.get_item(previous_position)
         self._model.remove(previous_position)
         self._model.insert(new_position, coresong)
@@ -334,7 +331,7 @@ class Playlist(GObject.GObject):
                 change_list.append((position + 1, position))
         change_list.append((0, new_position))
 
-        batch = self._tracker.create_batch()
+        batch = self._tsparql.create_batch()
         for old, new in change_list:
             batch.add_statement(
                 self._reorder_stmt, ["id", "new_position", "old_position"],
