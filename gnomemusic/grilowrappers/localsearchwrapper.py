@@ -46,10 +46,12 @@ class LocalSearchWrapper(GObject.Object):
 
         self._albums_model = Gio.ListStore.new(CoreAlbum)
         self._artists_model = Gio.ListStore.new(CoreArtist)
+        self._songs_model = Gio.ListStore.new(CoreSong)
 
         cm = application.props.coremodel
-        cm.albums_proxy.append(self._albums_model)
-        cm.artists_proxy.append(self._artists_model)
+        cm.props.albums_proxy.append(self._albums_model)
+        cm.props.artists_proxy.append(self._artists_model)
+        cm.props.songs_proxy.append(self._songs_model)
 
         prep_stmt = self._prepare_statement(
             "/org/gnome/Music/queries/albums.rq")
@@ -58,6 +60,10 @@ class LocalSearchWrapper(GObject.Object):
         prep_stmt = self._prepare_statement(
             "/org/gnome/Music/queries/artists.rq")
         self._artists_stmt = self._tracker.query_statement(prep_stmt)
+
+        prep_stmt = self._prepare_statement(
+            "/org/gnome/Music/queries/songs.rq")
+        self._songs_stmt = self._tracker.query_statement(prep_stmt)
 
         asyncio.create_task(self._init_albums_model())
         asyncio.create_task(self._init_artists_model())
@@ -105,6 +111,24 @@ class LocalSearchWrapper(GObject.Object):
             coreartist = CoreArtist(self._application, media)
 
             self._artists_model.append(coreartist)
+
+            has_next = await cursor.next_async()
+
+        cursor.close()
+
+    async def _init_songs_model(self) -> None:
+        try:
+            cursor = await self._songs_stmt.execute_async()
+        except GLib.Error as error:
+            print("log")
+
+        has_next = await cursor.next_async()
+        while has_next:
+            media = utils.create_grilo_media_from_cursor(
+                cursor, Grl.MediaType.AUDIO)
+            coresong = Coresong(self._application, media)
+
+            self._songs_model.append(coresong)
 
             has_next = await cursor.next_async()
 
