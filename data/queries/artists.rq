@@ -1,0 +1,27 @@
+SELECT
+  ?id
+  ?artist
+WHERE {
+  SERVICE <dbus:{bus_name}> {
+    GRAPH tracker:Audio {
+      SELECT
+       (COALESCE(?album_artist, ?artist) AS ?id)
+       ?artist_bind AS ?artist
+      WHERE {
+        ?song a nmm:MusicPiece;
+                nmm:musicAlbum ?album;
+                nmm:artist ?artist .
+        OPTIONAL {
+          ?album a nmm:MusicAlbum;
+                   nmm:albumArtist ?album_artist .
+        }
+        BIND(COALESCE(
+          nmm:artistName(?album_artist),
+          nmm:artistName(?artist)) AS ?artist_bind)
+        {location_filter}
+      }
+      GROUP BY ?artist_bind
+      ORDER BY ?artist_bind
+    }
+  }
+}
