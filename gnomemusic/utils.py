@@ -253,11 +253,17 @@ def create_grilo_media_from_cursor(
         elif key == "url":
             media.set_url(vars["url"])
         elif key == "title":
-            media.set_title(vars["title"])
+            title = vars["title"]
+            if title:
+                media.set_title(title)
         elif key == "artist":
-            media.set_artist(vars["artist"])
+            artist = vars["artist"]
+            if artist:
+                media.set_artist(artist)
         elif key == "album":
-            media.set_album(vars["album"])
+            album = vars["album"]
+            if album:
+                media.set_album(album)
         elif key == "duration":
             media.set_duration(int(vars["duration"]))
         elif key == "tag":
