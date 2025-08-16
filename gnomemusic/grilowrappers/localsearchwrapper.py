@@ -65,6 +65,10 @@ class LocalSearchWrapper(GObject.Object):
             "/org/gnome/Music/queries/songs.rq")
         self._songs_stmt = self._tracker.query_statement(prep_stmt)
 
+        prep_stmt = self._prepare_statement(
+            "/org/gnome/Music/queries/album_discs.rq")
+        self._album_discs_stmt = self._tracker.query_statement(prep_stmt)
+
         asyncio.create_task(self._init_albums_model())
         asyncio.create_task(self._init_artists_model())
         asyncio.create_task(self._init_songs_model())
@@ -134,3 +138,47 @@ class LocalSearchWrapper(GObject.Object):
             has_next = await cursor.next_async()
 
         cursor.close()
+
+    def get_album_discs(
+            self, media: Grl.Media, disc_model: Gtk.SortListModel) -> None:
+        """Get all discs of an album
+
+        :param Grl.Media media: The media with the album id
+        :param Gtk.SortListModel disc_model: The model to fill
+        """
+        async def _get_album_discs_internal():
+            album_id = media.get_id()
+            print("internal", album_id)
+            self._album_discs_stmt.bind_string("aurn", album_id)
+            print(self._album_discs_stmt.get_sparql())
+            try:
+                cursor = await self._album_discs_stmt.execute_async()
+            except GLib.Error as error:
+                print("log", error.message, error.domain)
+                return
+
+            has_next = await cursor.next_async()
+            while has_next:
+                new_media = utils.create_grilo_media_from_cursor(
+                    cursor, Grl.MediaType.CONTAINER)
+                nr = new_media.get_album_disc_number()
+
+                coredisc = CoreDisc(self._application, media, nr)
+
+                disc_model.append(coredisc)
+
+                has_next = await cursor.next_async()
+
+            cursor.close()
+
+        asyncio.create_task(_get_album_discs_internal())
+
+    def search(self, text: str) -> None:
+        """Search for the given string in the wrappers
+
+        If an empty string is provided, the wrapper should
+        reset to an empty state.
+
+        :param str text: The search string
+        """
+        pass
