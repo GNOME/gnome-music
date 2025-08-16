@@ -291,6 +291,10 @@ def create_grilo_media_from_cursor(
             album = vars["album"]
             if album:
                 media.set_album(album)
+        elif key == "albumDiscNumber":
+            album_disc_number = vars["albumDiscNumber"]
+            if album_disc_number:
+                media.set_album_disc_number(int(album_disc_number))
         elif key == "duration":
             media.set_duration(int(vars["duration"]))
         elif key == "tag":
