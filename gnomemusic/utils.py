@@ -307,6 +307,16 @@ def create_grilo_media_from_cursor(
             play_count = vars["playCount"]
             if play_count is not None:
                 media.set_play_count(int(play_count))
+        elif key == "publicationDate":
+            publication_date = vars["publicationDate"]
+            if publication_date:
+                date = GLib.DateTime.new_from_iso8601(
+                    f"{int(publication_date)}-01-01T00:00:00Z")
+                media.set_publication_date(date)
+        elif key == "trackNumber":
+            track_number = vars["trackNumber"]
+            if track_number:
+                media.set_track_number(int(track_number))
         elif key == "childCount":
             media.set_childcount(int(vars["childCount"]))
         elif key == "creationDate":
