@@ -69,6 +69,10 @@ class LocalSearchWrapper(GObject.Object):
             "/org/gnome/Music/queries/album_discs.rq")
         self._album_discs_stmt = self._tracker.query_statement(prep_stmt)
 
+        prep_stmt = self._prepare_statement(
+            "/org/gnome/Music/queries/album_disc.rq")
+        self._album_disc_stmt = self._tracker.query_statement(prep_stmt)
+
         asyncio.create_task(self._init_albums_model())
         asyncio.create_task(self._init_artists_model())
         asyncio.create_task(self._init_songs_model())
@@ -139,6 +143,32 @@ class LocalSearchWrapper(GObject.Object):
 
         cursor.close()
 
+    async def _get_album_discs_internal(self, media, disc_model) -> None:
+        album_id = media.get_id()
+        print("internal", album_id)
+        self._album_discs_stmt.bind_string("aurn", album_id)
+        print(self._album_discs_stmt.get_sparql())
+        try:
+            cursor = await self._album_discs_stmt.execute_async()
+        except GLib.Error as error:
+            print("log", error.message, error.domain)
+            return
+
+        has_next = await cursor.next_async()
+        while has_next:
+            new_media = utils.create_grilo_media_from_cursor(
+                cursor, Grl.MediaType.CONTAINER)
+            nr = new_media.get_album_disc_number()
+
+            print("new coredisc", media.get_source(), media.get_title(), media.get_id())
+            coredisc = CoreDisc(self._application, media, nr)
+
+            disc_model.append(coredisc)
+
+            has_next = await cursor.next_async()
+
+        cursor.close()
+
     def get_album_discs(
             self, media: Grl.Media, disc_model: Gtk.SortListModel) -> None:
         """Get all discs of an album
@@ -146,32 +176,41 @@ class LocalSearchWrapper(GObject.Object):
         :param Grl.Media media: The media with the album id
         :param Gtk.SortListModel disc_model: The model to fill
         """
-        async def _get_album_discs_internal():
-            album_id = media.get_id()
-            print("internal", album_id)
-            self._album_discs_stmt.bind_string("aurn", album_id)
-            print(self._album_discs_stmt.get_sparql())
-            try:
-                cursor = await self._album_discs_stmt.execute_async()
-            except GLib.Error as error:
-                print("log", error.message, error.domain)
-                return
+        asyncio.create_task(self._get_album_discs_internal(media, disc_model))
+
+    async def _get_album_disc(self, media, disc_nr, model) -> None:
+        self._album_disc_stmt.bind_string("album_id", media.get_id())
+        self._album_disc_stmt.bind_int("disc_nr", disc_nr)
+        cursor = await self._album_disc_stmt.execute_async()
+
+        disc_song_ids = []
+        has_next = await cursor.next_async()
+        while has_next:
+            new_media = utils.create_grilo_media_from_cursor(
+                cursor, Grl.MediaType.CONTAINER)
+            disc_song_ids.append(new_media.get_source() + new_media.get_id())
 
             has_next = await cursor.next_async()
-            while has_next:
-                new_media = utils.create_grilo_media_from_cursor(
-                    cursor, Grl.MediaType.CONTAINER)
-                nr = new_media.get_album_disc_number()
 
-                coredisc = CoreDisc(self._application, media, nr)
+        cursor.close()
 
-                disc_model.append(coredisc)
+        def _filter_func(coresong: CoreSong) -> bool:
+            return coresong.props.grlid in disc_song_ids
 
-                has_next = await cursor.next_async()
+        custom_filter = Gtk.CustomFilter()
+        custom_filter.set_filter_func(_filter_func)
+        model.set_filter(custom_filter)
 
-            cursor.close()
+    def get_album_disc(
+            self, media: Grl.Media, disc_nr: int,
+            model: Gtk.FilterListModel) -> None:
+        """Get all songs of an album disc
 
-        asyncio.create_task(_get_album_discs_internal())
+        :param Grl.Media media: The media with the album id
+        :param int disc_nr: The disc number
+        :param Gtk.FilterListModel model: The model to fill
+        """
+        asyncio.create_task(self._get_album_disc(media, disc_nr, model))
 
     def search(self, text: str) -> None:
         """Search for the given string in the wrappers

@@ -44,6 +44,7 @@
   </gresource>
   <gresource prefix="/org/gnome/Music">
     <file>queries/albums.rq</file>
+    <file>queries/album_disc.rq</file>
     <file>queries/album_discs.rq</file>
     <file>queries/artists.rq</file>
     <file>queries/songs.rq</file>
