@@ -179,6 +179,7 @@ class CoreGrilo(GObject.GObject):
             # FIXME: Temp hack - we know LocalSearch exists here
             new_wrapper  = LocalSearchWrapper(
                 self._application, self._tracker_wrapper)
+            self._wrappers["gnome-music"] = new_wrapper
         elif (source.props.source_id not in self._search_wrappers.keys()
                 and source.props.source_id not in self._wrappers.keys()
                 and source.props.source_id != "grl-tracker3-source"
