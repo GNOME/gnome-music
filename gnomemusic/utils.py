@@ -274,7 +274,9 @@ def create_grilo_media_from_cursor(
 
     for key in vars.keys():
         if key == "id":
-            media.set_id(vars["id"])
+            vid = vars["id"]
+            if vid:
+                media.set_id(vid)
         elif key == "url":
             media.set_url(vars["url"])
         elif key == "title":
