@@ -73,6 +73,10 @@ class LocalSearchWrapper(GObject.Object):
             "/org/gnome/Music/queries/album_disc.rq")
         self._album_disc_stmt = self._tracker.query_statement(prep_stmt)
 
+        prep_stmt = self._prepare_statement(
+            "/org/gnome/Music/queries/artist_albums.rq")
+        self._artist_albums_stmt = self._tracker.query_statement(prep_stmt)
+
         asyncio.create_task(self._init_albums_model())
         asyncio.create_task(self._init_artists_model())
         asyncio.create_task(self._init_songs_model())
@@ -211,6 +215,39 @@ class LocalSearchWrapper(GObject.Object):
         :param Gtk.FilterListModel model: The model to fill
         """
         asyncio.create_task(self._get_album_disc(media, disc_nr, model))
+
+    async def _get_artist_albums(self, media, model) -> None:
+        artist = media.get_id()
+        self._artist_albums_stmt.bind_string("artist", artist)
+        cursor = await self._artist_albums_stmt.execute_async()
+
+        album_ids = []
+        has_next = await cursor.next_async()
+        while has_next:
+            new_media = utils.create_grilo_media_from_cursor(
+                cursor, Grl.MediaType.CONTAINER)
+            print(new_media.get_id())
+            album_ids.append(new_media.get_id())
+
+            has_next = await cursor.next_async()
+
+        cursor.close()
+
+        def albums_filter(corealbum: CoreAlbum, albums: List[str]) -> bool:
+            return corealbum.props.media.get_id() in albums
+
+        custom_filter = Gtk.CustomFilter()
+        custom_filter.set_filter_func(albums_filter, album_ids)
+        model.set_filter(custom_filter)
+
+    def get_artist_albums(
+            self, media: Grl.Source, model: Gtk.FilterListModel) -> None:
+        """Get all albums by an artist
+
+        :param Grl.Media media: The media with the artist id
+        :param Gtk.FilterListModel model: The model to fill
+        """
+        asyncio.create_task(self._get_artist_albums(media, model))
 
     def search(self, text: str) -> None:
         """Search for the given string in the wrappers

@@ -47,6 +47,7 @@
     <file>queries/album_disc.rq</file>
     <file>queries/album_discs.rq</file>
     <file>queries/artists.rq</file>
+    <file>queries/artist_albums.rq</file>
     <file>queries/songs.rq</file>
     <file>queries/playlist_add_song.rq</file>
     <file>queries/playlist_create.rq</file>
