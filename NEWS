@@ -1,3 +1,18 @@
+Overview of changes in 48.1
+===========================
+
+• Translation updates
+
+Bugs fixed:
+ Flatpak build fixes for Grilo changes (#648)
+ Fix non-responsive window (#628)
+ Fix covers not scaling with gtk 4.19
+
+Thanks to our contributors this release:
+ Jean Felder
+ Marinus Schraal
+
+
 Overview of changes in 48.0
 ===========================
 
