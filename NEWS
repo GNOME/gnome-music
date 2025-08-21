@@ -1,3 +1,21 @@
+Overview of changes in 49 beta
+==============================
+
+• Translation updates
+
+Bugs fixed:
+ Flatpak build fixes for Grilo changes (#648)
+ Fix non-responsive window (#628)
+ Fix covers not scaling with gtk 4.19
+ Improve handling of failures in the art pipeline (#650)
+ Add D-Bus service file (!1099)
+
+Thanks to our contributors this release:
+ Balló György
+ Jean Felder
+ Marinus Schraal
+
+
 Overview of changes in 48.0
 ===========================
 

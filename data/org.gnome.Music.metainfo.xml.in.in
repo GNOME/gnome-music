@@ -60,6 +60,13 @@
   <translation type="gettext">@appid@</translation>
   <update_contact>mschraal@gnome.org</update_contact>
   <releases>
+    <release version="48.0" date="2025-03-13">
+      <description>
+        <p>Support HiDPI covers</p>
+        <p>Improve search reliability</p>
+        <p>Styling fixes</p>
+      </description>
+    </release>
     <release version="47.0" date="2024-09-16">
       <description>
         <p>Add track based ReplayGain</p>
