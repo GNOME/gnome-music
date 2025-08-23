@@ -5,10 +5,11 @@
 from __future__ import annotations
 from collections.abc import Callable
 from typing import Optional
+import asyncio
 
 import gi
-gi.require_versions({"Grl": "0.3", "Tracker": "3.0"})
-from gi.repository import Gio, Grl, Gtk, GLib, GObject, Tracker
+gi.require_versions({"Grl": "0.3"})
+from gi.repository import Grl, Gtk, GLib, GObject
 
 from gnomemusic.grilowrappers.playlist import Playlist
 from gnomemusic.grilowrappers.smartplaylist import (
@@ -58,12 +59,14 @@ class GrlTrackerPlaylists(GObject.GObject):
             "/org/gnome/Music/queries/playlist_create.rq")
         self._pl_delete_stmt = self._tracker.load_statement_from_gresource(
             "/org/gnome/Music/queries/playlist_delete.rq")
+        self._pl_query_stmt = self._tracker.load_statement_from_gresource(
+            "/org/gnome/Music/queries/playlist_query_playlist.rq")
         self._pl_query_all_stmt = self._tracker.load_statement_from_gresource(
             "/org/gnome/Music/queries/playlist_query_all.rq")
 
-        self._initial_playlists_fill()
+        asyncio.create_task(self._initial_playlists_fill())
 
-    def _initial_playlists_fill(self):
+    async def _initial_playlists_fill(self):
         args = {
             "source": self._source,
             "application": self._application,
@@ -84,37 +87,31 @@ class GrlTrackerPlaylists(GObject.GObject):
         for playlist in smart_playlists.values():
             self._model.append(playlist)
 
-        def _cursor_next_async(
-                cursor: Tracker.SparqlCursor, result: Gio.AsyncResult) -> None:
-            try:
-                has_next = cursor.next_finish(result)
-            except GLib.Error as error:
-                cursor.close()
-                self._log.warning(f"Cursor iteration error: {error.message}")
-                return
+        try:
+            cursor = await self._pl_query_all_stmt.execute_async()
+        except GLib.Error as error:
+            self._log.warning(
+                f"Playlist query statement: {error.domain}, {error.message}")
+            return
 
-            if not has_next:
-                cursor.close()
-                return
-
+        try:
+            has_next = await cursor.next_async()
+        except GLib.Error as error:
+            cursor.close()
+            self._log.warning(f"Cursor iteration error: {error.message}")
+            return
+        while has_next:
             media = utils.create_grilo_media_from_cursor(
                 cursor, Grl.MediaType.CONTAINER)
             self._add_user_playlist(media)
 
-            cursor.next_async(None, _cursor_next_async)
-
-        def _execute_async(
-                stmt: Tracker.SparqlStatment, result: Gio.AsyncResult) -> None:
             try:
-                cursor = stmt.execute_finish(result)
+                has_next = await cursor.next_async()
             except GLib.Error as error:
                 cursor.close()
-                self._log.warning(f"Playlist add cursor fail: {error.message}")
-                return
-
-            cursor.next_async(None, _cursor_next_async)
-
-        self._pl_query_all_stmt.execute_async(None, _execute_async)
+                self._log.warning(f"Cursor iteration error: {error.message}")
+        else:
+            cursor.close()
 
     def _add_user_playlist(
             self, media: Grl.Media,
@@ -151,6 +148,11 @@ class GrlTrackerPlaylists(GObject.GObject):
         :param Playlist playlist: playlist
         :param bool deleted: indicates if the playlist has been deleted
         """
+        asyncio.create_task(self._finish_playlist_deletion(
+            playlist, deleted))
+
+    async def _finish_playlist_deletion(
+            self, playlist: Playlist, deleted: bool) -> None:
         playlists_filter = Gtk.CustomFilter()
         playlists_filter.set_filter_func(self._playlists_filter)
         user_playlists_filter = Gtk.CustomFilter()
@@ -162,30 +164,24 @@ class GrlTrackerPlaylists(GObject.GObject):
             self._user_model_filter.set_filter(user_playlists_filter)
             return
 
-        def _delete_cb(
-                stmt: Tracker.SparqlStatement,
-                result: Gio.AsyncResult) -> None:
-            try:
-                stmt.update_finish(result)
-            except GLib.Error as error:
-                self._log.warning(
-                    f"Unable to delete playlist {playlist.props.title}:"
-                    f" {error.message}")
-            else:
-                for idx, playlist_model in enumerate(self._model):
-                    if playlist_model is playlist:
-                        self._model.remove(idx)
-                        break
-
-            playlists_filter = Gtk.CustomFilter()
-            playlists_filter.set_filter_func(self._playlists_filter)
-            self._model_filter.set_filter(playlists_filter)
-            self._notificationmanager.pop_loading()
-
         self._notificationmanager.push_loading()
 
         self._pl_delete_stmt.bind_string("playlist", playlist.props.pl_id)
-        self._pl_delete_stmt.update_async(None, _delete_cb)
+        try:
+            await self._pl_delete_stmt.update_async()
+        except GLib.Error as error:
+            self._log.warning(
+                f"Failed to delete playlist {playlist.props.title}:"
+                f"{error.domain}, {error.message}")
+        else:
+            for idx, playlist_model in enumerate(self._model):
+                if playlist_model is playlist:
+                    self._model.remove(idx)
+                    break
+
+        self._model_filter.set_filter(playlists_filter)
+
+        self._notificationmanager.pop_loading()
 
     def create_playlist(self, playlist_title: str, callback: Callable) -> None:
         """Creates a new user playlist.
@@ -193,59 +189,53 @@ class GrlTrackerPlaylists(GObject.GObject):
         :param str playlist_title: playlist title
         :param callback: function to perform once the playlist is created
         """
-        def _cursor_next_async(
-                cursor: Tracker.SparqlCursor, result: Gio.AsyncResult) -> None:
-            try:
-                has_next = cursor.next_finish(result)
-            except GLib.Error as error:
-                cursor.close()
-                self._log.warning(f"Cursor iteration error: {error.message}")
-                return
+        asyncio.create_task(self._create_playlist(playlist_title, callback))
 
-            if not has_next:
-                cursor.close()
-                return
+    async def _create_playlist(
+            self, playlist_title: str, callback: Callable) -> None:
+        pl_urn = f"urn:gnomemusic:playlist:{playlist_title}"
+        self._pl_create_stmt.bind_string("title", playlist_title)
+        self._pl_create_stmt.bind_string("playlist", pl_urn)
+        try:
+            await self._pl_create_stmt.update_async()
+        except GLib.Error as error:
+            self._log.warning(
+                f"Unable to create playlist {playlist_title}:"
+                f" {error.domain}, {error.message}")
+            if callback is not None:
+                callback(None)
+            return
 
+        self._pl_query_stmt.bind_string("playlist", pl_urn)
+        try:
+            cursor = await self._pl_query_stmt.execute_async()
+        except GLib.Error as error:
+            cursor.close()
+            self._log.warning(
+                f"Failed playlist query for {pl_urn}: {error.domain},"
+                f" {error.message}")
+            return
+
+        try:
+            has_next = await cursor.next_async()
+        except GLib.Error as error:
+            cursor.close()
+            self._log.warning(
+                f"Cursor iteration error: {error.domain}, {error.message}")
+            return
+        while has_next:
             media = utils.create_grilo_media_from_cursor(
                 cursor, Grl.MediaType.CONTAINER)
             self._add_user_playlist(media, callback)
 
-            cursor.next_async(None, _cursor_next_async)
-
-        def _execute_async(
-                stmt: Tracker.SparqlStatment, result: Gio.AsyncResult) -> None:
             try:
-                cursor = stmt.execute_finish(result)
+                has_next = await cursor.next_async()
             except GLib.Error as error:
                 cursor.close()
-                self._log.warning(f"Playlist create error: {error.message}")
-                return
-
-            cursor.next_async(None, _cursor_next_async)
-
-        def _create_cb(
-                stmt: Tracker.SparqlStatement, result: Gio.AsyncResult,
-                pl_urn: str) -> None:
-            try:
-                stmt.update_finish(result)
-            except GLib.Error as error:
                 self._log.warning(
-                    f"Unable to create playlist {playlist_title}:"
-                    f" {error.message}")
-                if callback is not None:
-                    callback(None)
-
-                return
-
-            self._pl_query_stmt = self._tracker.load_statement_from_gresource(
-                "/org/gnome/Music/queries/playlist_query_playlist.rq")
-            self._pl_query_stmt.bind_string("playlist", pl_urn)
-            self._pl_query_stmt.execute_async(None, _execute_async)
-
-        pl_urn = f"urn:gnomemusic:playlist:{playlist_title}"
-        self._pl_create_stmt.bind_string("title", playlist_title)
-        self._pl_create_stmt.bind_string("playlist", pl_urn)
-        self._pl_create_stmt.update_async(None, _create_cb, pl_urn)
+                    f"Cursor iteration error: {error.domain}, {error.message}")
+        else:
+            cursor.close()
 
     def check_smart_playlist_change(self):
         """Check if smart playlists need to be updated.
