@@ -3,10 +3,12 @@
 # SPDX-License-Identifier: GPL-2.0-or-later WITH GStreamer-exception-2008
 
 from __future__ import annotations
+from typing import List
+import asyncio
 
 import gi
-gi.require_versions({"Grl": "0.3", "Tracker": "3.0"})
-from gi.repository import Gio, Grl, GLib, GObject, Tracker
+gi.require_versions({"Grl": "0.3"})
+from gi.repository import Gio, Grl, GLib, GObject
 
 from gnomemusic.coresong import CoreSong
 import gnomemusic.utils as utils
@@ -100,8 +102,7 @@ class Playlist(GObject.GObject):
     def model(self):
         if self._model is None:
             self._model = Gio.ListStore()
-
-            self._populate_model()
+            asyncio.create_task(self._populate_model())
 
         return self._model
 
@@ -109,26 +110,27 @@ class Playlist(GObject.GObject):
     def model(self, value):
         self._model = value
 
-    def _populate_model(self):
+    async def _populate_model(self):
         self._notificationmanager.push_loading()
 
-        def _cursor_next_async(
-                cursor: Tracker.SparqlCursor, result: Gio.AsyncResult) -> None:
-            try:
-                has_next = cursor.next_finish(result)
-            except GLib.Error as error:
-                self._log.warning(
-                    f"Cursor next for {self._title} failed: {error.message}")
-                return
+        self._pl_songs_stmt.bind_string("playlist", self.props.pl_id)
+        try:
+            cursor = await self._pl_songs_stmt.execute_async()
+        except GLib.Error as error:
+            self._log.warning(
+                f"Failure populating playlist model {self.props.pl_id}:"
+                f" {error.domain}, {error.message}")
+            return
 
-            if not has_next:
-                cursor.close()
-
-                self.props.count = self._model.get_n_items()
-                self.emit("playlist-loaded")
-                self._notificationmanager.pop_loading()
-                return
-
+        try:
+            has_next = await cursor.next_async()
+        except GLib.Error as error:
+            cursor.close()
+            self._log.warning(
+                f"Cursor iteration error: {error.domain}, {error.message}")
+            self._notificationmanager.pop_loading()
+            return
+        while has_next:
             media = utils.create_grilo_media_from_cursor(
                 cursor, Grl.MediaType.AUDIO)
             coresong = CoreSong(self._application, media)
@@ -136,21 +138,19 @@ class Playlist(GObject.GObject):
             if coresong not in self._songs_todelete:
                 self._model.append(coresong)
 
-            cursor.next_async(None, _cursor_next_async)
-
-        def _on_songs_queried(
-                stmt: Tracker.SparlStatement, result: Gio.AsyncResult) -> None:
             try:
-                cursor = stmt.execute_finish(result)
+                has_next = await cursor.next_async()
             except GLib.Error as error:
+                cursor.close()
                 self._log.warning(
-                    f"Statement error: {error.message}")
+                    f"Cursor iteration error: {error.domain}, {error.message}")
+                self._notificationmanager.pop_loading()
                 return
-
-            cursor.next_async(None, _cursor_next_async)
-
-        self._pl_songs_stmt.bind_string("playlist", self.props.pl_id)
-        self._pl_songs_stmt.execute_async(None, _on_songs_queried)
+        else:
+            cursor.close()
+            self.props.count = self._model.get_n_items()
+            self.emit("playlist-loaded")
+            self._notificationmanager.pop_loading()
 
     def _bind_to_main_song(self, coresong):
         main_coresong = self._songs_hash[coresong.props.media.get_id()]
@@ -187,26 +187,24 @@ class Playlist(GObject.GObject):
 
         :param str new_name: new playlist name
         """
-        self._notificationmanager.push_loading()
+        asyncio.create_task(self._set_title(new_name))
 
-        def _update_title_cb(
-                stmt: Tracker.SparqlStatement,
-                result: Gio.AsyncResult) -> None:
-            try:
-                stmt.update_finish(result)
-            except GLib.Error as error:
-                self._log.warning(
-                    f"Unable to rename playlist from {self._title} to"
-                    f" {new_name}: {error.message}")
-            else:
-                self._title = new_name
-                self.notify("title")
-            finally:
-                self._notificationmanager.pop_loading()
+    async def _set_title(self, new_name: str) -> None:
+        self._notificationmanager.push_loading()
 
         self._rename_title_stmt.bind_string("playlist", self.props.pl_id)
         self._rename_title_stmt.bind_string("title", new_name)
-        self._rename_title_stmt.update_async(None, _update_title_cb)
+        try:
+            self._rename_title_stmt.update_async()
+        except GLib.Error as error:
+            self._log.warning(
+                f"Unable to rename playlist from {self._title} to {new_name}:"
+                f" {error.domain}, {error.message}")
+        else:
+            self._title = new_name
+            self.notify("title")
+        finally:
+            self._notificationmanager.pop_loading()
 
     def stage_song_deletion(self, coresong, index):
         """Adds a song to the list of songs to delete
@@ -235,70 +233,74 @@ class Playlist(GObject.GObject):
         :param int position: Song position in the playlist, starts from
         zero
         """
-        def _update_async(
-                stmt: Tracker.SparqlStatment, result: Gio.AsyncResult) -> None:
-            try:
-                stmt.update_finish(result)
-            except GLib.Error as e:
-                self._log.warning(
-                    f"Unable to remove song from playlist {self.props.title}:"
-                    f" {e.message}")
+        asyncio.create_task(self._finish_song_deletion(coresong, position))
 
-        def _cursor_next_async(
-                cursor: Tracker.SparqlCursor, result: Gio.AsyncResult) -> None:
-            try:
-                has_next = cursor.next_finish(result)
-            except GLib.Error as error:
-                cursor.close()
-                self._log.warning(f"Unable to iterate cursor: {error.message}")
-                return
+    async def _finish_song_deletion(
+            self, coresong: CoreSong, position: int) -> None:
+        self._pl_del_entry_stmt.bind_string("playlist_id", self.props.pl_id)
+        self._pl_del_entry_stmt.bind_string("position", str(position + 1))
+        try:
+            cursor = await self._pl_del_entry_stmt.execute_async()
+        except GLib.Error as error:
+            cursor.close()
+            self._log.warning(
+                f"No entry to delete: {error.domain}, {error.message}")
+            return
 
-            if not has_next:
-                cursor.close()
-                self._songs_todelete.remove(coresong)
-                return
-
+        try:
+            has_next = await cursor.next_async()
+        except GLib.Error as error:
+            cursor.close()
+            self._log.warning(
+                f"Cursor iteration error: {error.domain}, {error.message}")
+            return
+        while has_next:
             media = utils.create_grilo_media_from_cursor(
                 cursor, Grl.MediaType.AUDIO)
             self._delete_song_stmt.bind_string("entry", media.get_id())
             self._delete_song_stmt.bind_string("playlist", self.props.pl_id)
-            self._delete_song_stmt.update_async(None, _update_async)
-
-            cursor.next_async(None, _cursor_next_async)
-
-        def _entry_retrieved(
-                stmt: Tracker.SparqlStatement,
-                result: Gio.AsyncResult) -> None:
             try:
-                cursor = stmt.execute_finish(result)
+                await self._delete_song_stmt.update_async()
             except GLib.Error as error:
                 cursor.close()
-                self._log.warning(f"No entry to delete: {error.message}")
+                self._songs_todelete.remove(coresong)
+                self._log.warning(
+                    f"Unable to remove song from playlist {self.props.title}:"
+                    f" {error.domain} {error.message}")
                 return
 
-            cursor.next_async(None, _cursor_next_async)
+            try:
+                has_next = await cursor.next_async()
+            except GLib.Error as error:
+                cursor.close()
+                self._log.warning(
+                    f"Cursor iteration error: {error.domain}, {error.message}")
+                return
+        else:
+            self._songs_todelete.remove(coresong)
+            cursor.close()
 
-        self._pl_del_entry_stmt.bind_string("playlist_id", self.props.pl_id)
-        self._pl_del_entry_stmt.bind_string("position", str(position + 1))
-        self._pl_del_entry_stmt.execute_async(None, _entry_retrieved)
-
-    def add_songs(self, coresongs):
+    def add_songs(self, coresongs: List[CoreSong]) -> None:
         """Adds songs to the playlist
 
         :param list coresongs: list of Coresong
         """
-        def _update_cb(
-                stmt: Tracker.SparqlStatement,
-                result: Gio.AsyncResult, coresong: CoreSong) -> None:
+        asyncio.create_task(self._add_songs(coresongs))
+
+    async def _add_songs(self, coresongs: List[CoreSong]) -> None:
+        self._add_song_stmt.bind_string("playlist", self.props.pl_id)
+        for coresong in coresongs:
+            self._add_song_stmt.bind_string(
+                "uri", coresong.props.media.get_url())
             try:
-                stmt.update_finish(result)
+                await self._add_song_stmt.update_async()
             except GLib.Error as error:
                 self._log.warning(
                     f"Unable to add a song to playlist {self.props.title}:"
-                    f" {error.message}")
+                    f" {error.domain}, {error.message}")
             else:
                 if self._model is None:
-                    return
+                    continue
 
                 media = coresong.props.media
                 coresong_copy = CoreSong(self._application, media)
@@ -306,25 +308,16 @@ class Playlist(GObject.GObject):
                 self._model.append(coresong_copy)
                 self.props.count = self._model.get_n_items()
 
-        self._add_song_stmt.bind_string("playlist", self.props.pl_id)
-        for coresong in coresongs:
-            self._add_song_stmt.bind_string(
-                "uri", coresong.props.media.get_url())
-            self._add_song_stmt.update_async(None, _update_cb, coresong)
-
     def reorder(self, previous_position: int, new_position: int) -> None:
         """Changes the order of a songs in the playlist.
 
         :param int previous_position: previous song position
         :param int new_position: new song position
         """
-        def _batch_execute_cb(
-                batch: Tracker.Batch, result: Gio.AsyncResult) -> None:
-            try:
-                batch.execute_finish(result)
-            except GLib.Error as error:
-                self._log.warning(f"Unable to reorder songs: {error.message}")
+        asyncio.create_task(self._reorder(previous_position, new_position))
 
+    async def _reorder(
+            self, previous_position: int, new_position: int) -> None:
         coresong = self._model.get_item(previous_position)
         self._model.remove(previous_position)
         self._model.insert(new_position, coresong)
@@ -352,4 +345,9 @@ class Playlist(GObject.GObject):
                 self._reorder_stmt, ["id", "new_position", "old_position"],
                 [self.props.pl_id, float(new), float(old)])
 
-        batch.execute_async(None, _batch_execute_cb)
+        try:
+            await batch.execute_async()
+        except GLib.Error as error:
+            self._log.warning(
+                f"Unable to reorder songs for {self.props.pl_id}:"
+                f" {error.domain}, {error.message}")
