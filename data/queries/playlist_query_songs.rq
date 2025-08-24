@@ -35,4 +35,4 @@ WHERE {
       ?song nao:hasTag ?tag .
       FILTER( ?tag = nao:predefined-tag-favorite )
   }
-}
+} ORDER BY nfo:listPosition(?entry)
