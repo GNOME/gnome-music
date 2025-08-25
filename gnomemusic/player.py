@@ -175,6 +175,7 @@ class PlayerPlaylist(GObject.GObject):
         self._update_model_recent()
         next_song.props.state = SongWidget.State.PLAYING
         self._validate_next_song()
+        self.notify("position")
         return True
 
     def previous(self):
@@ -204,6 +205,7 @@ class PlayerPlaylist(GObject.GObject):
         self._update_model_recent()
         self._model[previous_position].props.state = SongWidget.State.PLAYING
         self._validate_previous_song()
+        self.notify("position")
         return True
 
     @GObject.Property(type=int, default=0, flags=GObject.ParamFlags.READABLE)
@@ -233,6 +235,7 @@ class PlayerPlaylist(GObject.GObject):
         for idx, coresong in enumerate(self._model):
             if coresong.props.state == SongWidget.State.PLAYING:
                 self._position = idx
+                self.notify("position")
                 self._update_model_recent()
                 return coresong
 
@@ -258,6 +261,7 @@ class PlayerPlaylist(GObject.GObject):
             song = self._model.get_item(position)
             song.props.state = SongWidget.State.PLAYING
             self._position = position
+            self.notify("position")
             self._validate_song(song)
             self._validate_next_song()
             self._update_model_recent()
@@ -267,6 +271,7 @@ class PlayerPlaylist(GObject.GObject):
             if coresong == song:
                 coresong.props.state = SongWidget.State.PLAYING
                 self._position = idx
+                self.notify("position")
                 self._validate_song(song)
                 self._validate_next_song()
                 self._update_model_recent()
@@ -399,6 +404,11 @@ class Player(GObject.GObject):
         self.bind_property(
             'repeat-mode', self._playlist, 'repeat-mode',
             GObject.BindingFlags.SYNC_CREATE)
+
+        def _on_position_changed(klass, value):
+            self.notify("position")
+
+        self._playlist.connect("notify::position", _on_position_changed)
 
         self._new_clock = True
 

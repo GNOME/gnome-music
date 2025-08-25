@@ -23,6 +23,7 @@
 # delete this exception statement from your version.
 
 from __future__ import annotations
+from typing import Optional
 import typing
 
 from gi.repository import Gdk, Gio, GObject, Gtk
@@ -33,6 +34,7 @@ if typing.TYPE_CHECKING:
     from gnomemusic.application import Application
     from gnomemusic.corealbum import CoreAlbum
     from gnomemusic.coredisc import CoreDisc
+    from gnomemusic.coredisc import CoreSong
 
 
 @Gtk.Template(resource_path='/org/gnome/Music/ui/DiscBox.ui')
@@ -87,3 +89,21 @@ class DiscBox(Gtk.ListBoxRow):
         self.emit("song-activated", song_widget)
 
         return Gdk.EVENT_STOP
+
+    def get_active_songwidget(
+            self, coresong: CoreSong) -> Optional[SongWidget]:
+        """Gets the SongWidget of the currently playing song
+
+        :param coresong CoreSong: Song playing
+        :returns: The current song widget or none
+        :rtype: SongWidget or None
+        """
+        pos = 0
+        for cs in self._model:
+            if cs == coresong:
+                corewidget = self._list_box.get_row_at_index(pos)
+                return corewidget
+            else:
+                pos += 1
+
+        return None

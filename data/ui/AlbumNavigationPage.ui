@@ -13,11 +13,14 @@
           </object>
         </child>
         <property name="content">
-          <object class="GtkScrolledWindow" id="_album_scrolled_window">
+          <object class="GtkScrolledWindow" id="_scrolled_window">
             <property name="focusable">False</property>
             <property name="hexpand">True</property>
             <property name="vexpand">True</property>
             <property name="hscrollbar_policy">never</property>
+            <child>
+              <object class="GtkViewport" id="_viewport"/>
+            </child>
           </object>
         </property>
       </object>

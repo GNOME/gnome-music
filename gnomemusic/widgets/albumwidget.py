@@ -221,6 +221,25 @@ class AlbumWidget(Adw.Bin):
         self._play_button.props.sensitive = not empty_album
         self._menu_button.props.sensitive = not empty_album
 
+    def get_active_songwidget(
+            self, coresong: CoreSong) -> Optional[SongWidget]:
+        """Gets the SongWidget of the currently playing song
+
+        :param coresong CoreSong: Song playing
+        :returns: The current song widget or none
+        :rtype: SongWidget or None
+        """
+        if self._album_model is None:
+            return None
+
+        for i in range(self._album_model.get_n_items()):
+            widget = self._disc_list_box.get_row_at_index(i)
+            cs = widget.get_active_songwidget(coresong)
+            if cs is not None:
+                return cs
+
+        return None
+
     def _set_composer_label(self) -> None:
         composer = self._corealbum.props.composer
         show = False
