@@ -1,3 +1,12 @@
+Overview of changes in 49 rc
+============================
+
+Bugs fixed:
+ Fix order of playlist queries on dnd
+ Handle empty fields for Grl.Media creation
+ Extend asyncio use in playlists
+
+
 Overview of changes in 49 beta
 ==============================
 
