@@ -1,34 +1,15 @@
-# Copyright © 2018 The GNOME Music Developers
+# Copyright © 2025 The GNOME Music Developers
 #
-# GNOME Music is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
-#
-# GNOME Music is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License along
-# with GNOME Music; if not, write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-#
-# The GNOME Music authors hereby grant permission for non-GPL compatible
-# GStreamer plugins to be used and distributed together with GStreamer
-# and GNOME Music.  This permission is above and beyond the permissions
-# granted by the GPL license by which GNOME Music is covered.  If you
-# modify this code, you may extend this exception to your version of the
-# code, but you are not obligated to do so.  If you do not wish to do so,
-# delete this exception statement from your version.
+# SPDX-License-Identifier: GPL-2.0-or-later WITH GStreamer-exception-2008
 
 from gettext import gettext as _
-from gi.repository import Gio, GLib, GObject, Gtk
+from gi.repository import GObject, Gtk
 
 from gnomemusic.coverpaintable import CoverPaintable
 from gnomemusic.gstplayer import Playback
 from gnomemusic.utils import ArtSize, DefaultIconType
-from gnomemusic.player import Player, RepeatMode
+from gnomemusic.player import Player
+from gnomemusic.widgets.repeatmodebutton import RepeatModeButton  # noqa: F401
 from gnomemusic.widgets.smoothscale import SmoothScale  # noqa: F401
 from gnomemusic.widgets.twolinetip import TwoLineTip
 import gnomemusic.utils as utils
@@ -52,8 +33,7 @@ class PlayerToolbar(Gtk.ActionBar):
     _prev_button = Gtk.Template.Child()
     _progress_scale = Gtk.Template.Child()
     _progress_time_label = Gtk.Template.Child()
-    _repeat_menu_button = Gtk.Template.Child()
-    _repeat_image = Gtk.Template.Child()
+    _repeat_mode_button = Gtk.Template.Child()
     _song_info_box = Gtk.Template.Child()
     _title_label = Gtk.Template.Child()
 
@@ -69,22 +49,6 @@ class PlayerToolbar(Gtk.ActionBar):
             self, ArtSize.SMALL, DefaultIconType.ALBUM)
 
         self._tooltip = TwoLineTip()
-
-        repeat_menu = Gio.Menu.new()
-        for mode in RepeatMode:
-            item = Gio.MenuItem.new()
-            item.set_label(mode.label)
-            item.set_action_and_target_value(
-                "playertoolbar.repeat", GLib.Variant("s", str(mode.value)))
-            repeat_menu.append_item(item)
-
-        self._repeat_menu_button.props.menu_model = repeat_menu
-        self._repeat_action: Gio.SimpleAction = Gio.SimpleAction.new_stateful(
-            "repeat", GLib.VariantType.new("s"), GLib.Variant("s", ""))
-
-        action_group = Gio.SimpleActionGroup()
-        action_group.add_action(self._repeat_action)
-        self.insert_action_group("playertoolbar", action_group)
 
     # FIXME: This is a workaround for not being able to pass the player
     # object via init when using Gtk.Builder.
@@ -113,21 +77,9 @@ class PlayerToolbar(Gtk.ActionBar):
 
         self._player.connect('song-changed', self._update_view)
         self._player.connect(
-            'notify::repeat-mode', self._on_repeat_mode_changed)
+            "notify::repeat-mode", self._on_repeat_mode_changed)
         self._player.connect('notify::state', self._sync_playing)
-
-        repeat_mode = self._player.props.repeat_mode
-        self._repeat_action.set_state(
-            GLib.Variant("s", str(repeat_mode.value)))
-        self._repeat_action.connect("activate", self._repeat_menu_changed)
-
-        self._sync_repeat_image()
-
-    def _repeat_menu_changed(
-            self, action: Gio.SimpleAction, new_state: GLib.Variant) -> None:
-        self._repeat_action.set_state(new_state)
-        new_mode = new_state.get_string()
-        self._player.props.repeat_mode = RepeatMode(int(new_mode))
+        self._repeat_mode_button.props.player = self._player
 
     @Gtk.Template.Callback()
     def _on_progress_value_changed(self, progress_scale):
@@ -145,20 +97,6 @@ class PlayerToolbar(Gtk.ActionBar):
     @Gtk.Template.Callback()
     def _on_next_button_clicked(self, button):
         self._player.next()
-
-    def _on_repeat_mode_changed(self, klass, param):
-        self._sync_repeat_image()
-        self._sync_repeat_action()
-        self._sync_prev_next()
-
-    def _sync_repeat_image(self) -> None:
-        self._repeat_image.set_from_icon_name(
-            self._player.props.repeat_mode.icon)
-
-    def _sync_repeat_action(self) -> None:
-        new_state = self._player.props.repeat_mode.value
-        self._repeat_action.set_state(
-            GLib.Variant("s", str(new_state)))
 
     def _sync_playing(self, player, state):
         if (self._player.props.state == Playback.STOPPED
@@ -214,3 +152,7 @@ class PlayerToolbar(Gtk.ActionBar):
         tooltip.set_custom(self._tooltip)
 
         return True
+
+    def _on_repeat_mode_changed(
+            self, player: Player, pspec: GObject.ParamSpec) -> None:
+        self._sync_prev_next()

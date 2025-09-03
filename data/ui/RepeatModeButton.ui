@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="RepeatModeButton" parent="GtkBox">
+    <child>
+      <object class="GtkMenuButton" id="_menu_button">
+        <property name="direction">up</property>
+        <property name="focusable">True</property>
+        <property name="receives_default">True</property>
+        <property name="icon_name">media-playlist-consecutive-symbolic</property>
+        <style>
+          <class name="circular"/>
+        </style>
+        <accessibility>
+          <property name="label" translatable="yes">Set Repeat Mode</property>
+        </accessibility>
+      </object>
+    </child>
+  </template>
+</interface>

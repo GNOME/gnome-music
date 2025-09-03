@@ -172,33 +172,7 @@
         <property name="margin-start">6</property>
         <property name="margin-top">6</property>
         <child>
-          <object class="GtkMenuButton" id="_repeat_menu_button">
-            <property name="focusable">True</property>
-            <property name="receives_default">True</property>
-            <style>
-              <class name="flat"/>
-            </style>
-            <child>
-              <object class="GtkBox" id="replayBox">
-                <property name="focusable">False</property>
-                <property name="spacing">6</property>
-                <child>
-                  <object class="GtkImage" id="_repeat_image">
-                    <property name="focusable">False</property>
-                    <property name="icon_name">media-playlist-consecutive-symbolic</property>
-                    <property name="icon_size">1</property>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkImage" id="downArrow">
-                    <property name="focusable">False</property>
-                    <property name="icon_name">pan-down-symbolic</property>
-                    <property name="icon_size">1</property>
-                  </object>
-                </child>
-              </object>
-            </child>
-          </object>
+          <object class="RepeatModeButton" id="_repeat_mode_button"></object>
         </child>
       </object>
     </child>
