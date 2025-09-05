@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2025-02-12 22:49+0000\n"
-"PO-Revision-Date: 2025-03-03 19:38+0330\n"
+"POT-Creation-Date: 2025-09-05 21:11+0000\n"
+"PO-Revision-Date: 2025-09-06 01:14+0330\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <>\n"
 "Language: fa\n"
@@ -18,24 +18,24 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.5\n"
+"X-Generator: Poedit 3.7\n"
 
-#: data/org.gnome.Music.desktop.in.in:3 data/org.gnome.Music.metainfo.xml.in.in:9
-#: data/ui/StatusNavigationPage.ui:4 gnomemusic/about.py:142
+#: data/org.gnome.Music.desktop.in.in:2 data/org.gnome.Music.metainfo.xml.in.in:9
+#: data/ui/StatusNavigationPage.ui:4 gnomemusic/about.py:143
 #: gnomemusic/application.py:61 gnomemusic/window.py:65
 msgid "Music"
 msgstr "آهنگ‌ها"
 
-#: data/org.gnome.Music.desktop.in.in:4
+#: data/org.gnome.Music.desktop.in.in:3
 msgid "Music Player"
 msgstr "پخش‌کنندهٔ آهنگ"
 
-#: data/org.gnome.Music.desktop.in.in:5 data/org.gnome.Music.metainfo.xml.in.in:10
+#: data/org.gnome.Music.desktop.in.in:4 data/org.gnome.Music.metainfo.xml.in.in:10
 msgid "Play and organize your music collection"
 msgstr "پخش و سازمان‌دهی مجموعه آهنگ‌هایتان"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
-#: data/org.gnome.Music.desktop.in.in:13
+#: data/org.gnome.Music.desktop.in.in:12
 msgid "Music;Player;"
 msgstr "Music;Player;پخش‌کننده‌;موزیک;آهنگ;موسیقی;"
 
@@ -113,7 +113,7 @@ msgid "Albums"
 msgstr "آلبوم‌ها"
 
 #: data/ui/AlbumWidget.ui:84 data/ui/PlayerToolbar.ui:87
-#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:176
+#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:115
 msgid "Play"
 msgstr "پخش"
 
@@ -352,6 +352,10 @@ msgstr "جلوگیری از تعلیق"
 msgid "Only while playing"
 msgstr "فقط هنگام پخش"
 
+#: data/ui/RepeatModeButton.ui:14
+msgid "Set Repeat Mode"
+msgstr "تنظیم حالت تکرار"
+
 #: data/ui/SearchView.ui:55 data/ui/SearchView.ui:112
 msgid "View All"
 msgstr "نمایش همه"
@@ -368,18 +372,18 @@ msgstr "_برداشتن از سیاههٔ پخش"
 msgid "Welcome to Music"
 msgstr "به آهنگ‌ها خوش آمدید"
 
-#: gnomemusic/about.py:144
+#: gnomemusic/about.py:145
 msgid "The GNOME Project"
 msgstr "پروژهٔ گنوم"
 
 #. Translators should localize the following string which
 #. will be displayed at the bottom of the about box to give
 #. credit to the translator(s).
-#: gnomemusic/about.py:150
+#: gnomemusic/about.py:151
 msgid "translator-credits"
 msgstr "دانیال بهزادی <dani.behzi@ubuntu.com>"
 
-#: gnomemusic/about.py:154
+#: gnomemusic/about.py:155
 msgid "© The GNOME Music Developers"
 msgstr "© توسعه‌دهندگان آهنگ‌های گنوم"
 
@@ -500,17 +504,12 @@ msgstr "هیچ نتیجه‌ای پیدا نشد"
 msgid "Try a different search"
 msgstr "جست‌وجویی دیگر را بیازمایید"
 
-#: gnomemusic/widgets/albumwidget.py:193
-#, python-brace-format
-msgid "Disc {row.props.disc_nr}"
-msgstr "دیسک {row.props.disc_nr}"
-
-#: gnomemusic/widgets/albumwidget.py:241
+#: gnomemusic/widgets/albumwidget.py:242
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} دقیقه"
 
-#: gnomemusic/widgets/playertoolbar.py:173
+#: gnomemusic/widgets/playertoolbar.py:112
 msgid "Pause"
 msgstr "مکث"
 
@@ -542,39 +541,44 @@ msgstr "ستاره"
 msgid "Your XDG Music directory is not set."
 msgstr "شاخهٔ آهنگ XDGتان تنظیم نشده است."
 
-#: gnomemusic/widgets/statusnavigationpage.py:58
+#: gnomemusic/widgets/statusnavigationpage.py:56
 msgid "Music Folder"
 msgstr "شاخهٔ آهنگ‌ها"
 
-#. TRANSLATORS: This is a label to display a link to open user's music
-#. folder. {} will be replaced with the translated text 'Music folder'
-#: gnomemusic/widgets/statusnavigationpage.py:66
+#. TRANSLATORS: This is a label to display a link to open
+#. a user's music folder. {} will be replaced with the
+#. translated text 'Music folder'
+#: gnomemusic/widgets/statusnavigationpage.py:60
 msgid "The contents of your {} will appear here."
 msgstr "محتویات {} شما در اینجا نمایان می‌شوند."
 
-#: gnomemusic/widgets/statusnavigationpage.py:116
+#: gnomemusic/widgets/statusnavigationpage.py:114
 msgid "No Music Found"
 msgstr "هیچ آهنگی پیدا نشد"
 
-#: gnomemusic/widgets/statusnavigationpage.py:117
+#: gnomemusic/widgets/statusnavigationpage.py:115
 msgid "Try a Different Search"
 msgstr "جست‌وجویی دیگر را بیازمایید"
 
-#: gnomemusic/widgets/statusnavigationpage.py:121
+#: gnomemusic/widgets/statusnavigationpage.py:119
 msgid "GNOME Music could not connect to Tracker."
 msgstr "آهنگ‌های گنوم نتوانست به ردیاب وصل شود."
 
-#: gnomemusic/widgets/statusnavigationpage.py:123
+#: gnomemusic/widgets/statusnavigationpage.py:121
 msgid "Your music files cannot be indexed without Tracker running."
 msgstr "بدون وجود ردیاب، پرونده‌های آهنگتان قادر به فهرست‌شدن نیستند."
 
-#: gnomemusic/widgets/statusnavigationpage.py:129
+#: gnomemusic/widgets/statusnavigationpage.py:127
 msgid "Your system Tracker version seems outdated."
 msgstr "به نظر نگارش ردیاب سامانه‌تان قدیمی است."
 
-#: gnomemusic/widgets/statusnavigationpage.py:131
+#: gnomemusic/widgets/statusnavigationpage.py:129
 msgid "Music needs Tracker version 3.0.0 or higher."
 msgstr "آهنگ‌ها به نگارش ۳٫۰٫۰ یا بالاتر ردیاب نیاز دارد."
+
+#, python-brace-format
+#~ msgid "Disc {row.props.disc_nr}"
+#~ msgstr "دیسک {row.props.disc_nr}"
 
 #~ msgid "The GNOME Music developers"
 #~ msgstr "توسعه‌دهندگان آهنگ‌های گنوم"
