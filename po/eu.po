@@ -8,8 +8,8 @@
 msgid ""
 msgstr "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2025-02-12 22:49+0000\n"
-"PO-Revision-Date: 2025-03-01 10:00+0100\n"
+"POT-Creation-Date: 2025-09-06 00:29+0000\n"
+"PO-Revision-Date: 2025-09-06 10:00+0100\n"
 "Last-Translator: Asier Saratsua Garmendia <asiersarasua@ni.eus>\n"
 "Language-Team: Basque <librezale@librezale.eus>\n"
 "Language: eu\n"
@@ -18,23 +18,23 @@ msgstr "Project-Id-Version: gnome-music master\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-#: data/org.gnome.Music.desktop.in.in:3
+#: data/org.gnome.Music.desktop.in.in:2
 #: data/org.gnome.Music.metainfo.xml.in.in:9 data/ui/StatusNavigationPage.ui:4
-#: gnomemusic/about.py:142 gnomemusic/application.py:61 gnomemusic/window.py:65
+#: gnomemusic/about.py:143 gnomemusic/application.py:61 gnomemusic/window.py:65
 msgid "Music"
 msgstr "Musika"
 
-#: data/org.gnome.Music.desktop.in.in:4
+#: data/org.gnome.Music.desktop.in.in:3
 msgid "Music Player"
 msgstr "Musika-erreproduzitzailea"
 
-#: data/org.gnome.Music.desktop.in.in:5
+#: data/org.gnome.Music.desktop.in.in:4
 #: data/org.gnome.Music.metainfo.xml.in.in:10
 msgid "Play and organize your music collection"
 msgstr "Erreproduzitu eta antolatu zure musika-bilduma"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
-#: data/org.gnome.Music.desktop.in.in:13
+#: data/org.gnome.Music.desktop.in.in:12
 msgid "Music;Player;"
 msgstr "Musika;Erreproduzitzailea;"
 
@@ -66,7 +66,7 @@ msgstr "Leiho maximizatuaren egoera."
 
 #: data/org.gnome.Music.gschema.xml:27
 msgid "Playback repeat mode"
-msgstr "Erreprodukzioa errepikatzeko modua"
+msgstr "Erreprodukzioaren errepikatze-modua"
 
 #. Translators: Don't translate allowed values, just the description in the brackets
 #: data/org.gnome.Music.gschema.xml:29
@@ -103,7 +103,7 @@ msgid "Albums"
 msgstr "Albumak"
 
 #: data/ui/AlbumWidget.ui:84 data/ui/PlayerToolbar.ui:87
-#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:176
+#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:115
 msgid "Play"
 msgstr "Erreproduzitu"
 
@@ -342,6 +342,10 @@ msgstr "Galarazi esekitzea"
 msgid "Only while playing"
 msgstr "Erreproduzitzean soilik"
 
+#: data/ui/RepeatModeButton.ui:14
+msgid "Set Repeat Mode"
+msgstr "Ezarri errepikatze-modua"
+
 #: data/ui/SearchView.ui:55 data/ui/SearchView.ui:112
 msgid "View All"
 msgstr "Ikusi dena"
@@ -358,18 +362,18 @@ msgstr "_Kendu erreprodukzio-zerrendatik"
 msgid "Welcome to Music"
 msgstr "Ongi etorri Musika aplikaziora"
 
-#: gnomemusic/about.py:144
+#: gnomemusic/about.py:145
 msgid "The GNOME Project"
 msgstr "GNOME proiektua"
 
 #. Translators should localize the following string which
 #. will be displayed at the bottom of the about box to give
 #. credit to the translator(s).
-#: gnomemusic/about.py:150
+#: gnomemusic/about.py:151
 msgid "translator-credits"
 msgstr "Asier Sarasua Garmendia <asiersarasua@ni.eus>"
 
-#: gnomemusic/about.py:154
+#: gnomemusic/about.py:155
 msgid "© The GNOME Music Developers"
 msgstr "© The GNOME Musika aplikazioaren garatzaileak"
 
@@ -491,18 +495,13 @@ msgstr "Ez da emaitzarik aurkitu"
 msgid "Try a different search"
 msgstr "Saiatu bestelako bilaketa bat"
 
-#: gnomemusic/widgets/albumwidget.py:193
-#, python-brace-format
-msgid "Disc {row.props.disc_nr}"
-msgstr "{row.props.disc_nr} diskoa"
-
-#: gnomemusic/widgets/albumwidget.py:241
+#: gnomemusic/widgets/albumwidget.py:242
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "Minutu {}"
 msgstr[1] "{} minutu"
 
-#: gnomemusic/widgets/playertoolbar.py:173
+#: gnomemusic/widgets/playertoolbar.py:112
 msgid "Pause"
 msgstr "Pausatu"
 
@@ -535,39 +534,44 @@ msgstr "Eman izarra"
 msgid "Your XDG Music directory is not set."
 msgstr "Zure XDG musika direktorioa ez dago ezarrita."
 
-#: gnomemusic/widgets/statusnavigationpage.py:58
+#: gnomemusic/widgets/statusnavigationpage.py:56
 msgid "Music Folder"
 msgstr "Musikaren karpeta"
 
-#. TRANSLATORS: This is a label to display a link to open user's music
-#. folder. {} will be replaced with the translated text 'Music folder'
-#: gnomemusic/widgets/statusnavigationpage.py:66
+#. TRANSLATORS: This is a label to display a link to open
+#. a user's music folder. {} will be replaced with the
+#. translated text 'Music folder'
+#: gnomemusic/widgets/statusnavigationpage.py:60
 msgid "The contents of your {} will appear here."
 msgstr "Zure {} edukiak hemen agertuko dira."
 
-#: gnomemusic/widgets/statusnavigationpage.py:116
+#: gnomemusic/widgets/statusnavigationpage.py:114
 msgid "No Music Found"
 msgstr "Ez da musikarik aurkitu"
 
-#: gnomemusic/widgets/statusnavigationpage.py:117
+#: gnomemusic/widgets/statusnavigationpage.py:115
 msgid "Try a Different Search"
 msgstr "Saiatu bestelako bilaketa bat"
 
-#: gnomemusic/widgets/statusnavigationpage.py:121
+#: gnomemusic/widgets/statusnavigationpage.py:119
 msgid "GNOME Music could not connect to Tracker."
 msgstr "GNOME Musikak ezin izan du Tracker-ekin konektatu."
 
-#: gnomemusic/widgets/statusnavigationpage.py:123
+#: gnomemusic/widgets/statusnavigationpage.py:121
 msgid "Your music files cannot be indexed without Tracker running."
 msgstr "Zure musika-fitxategiak ezin dira indexatu Tracker exekutatzen ez bada."
 
-#: gnomemusic/widgets/statusnavigationpage.py:129
+#: gnomemusic/widgets/statusnavigationpage.py:127
 msgid "Your system Tracker version seems outdated."
 msgstr "Zure sistemako Tracker bertsioa zaharkituta dagoela dirudi."
 
-#: gnomemusic/widgets/statusnavigationpage.py:131
+#: gnomemusic/widgets/statusnavigationpage.py:129
 msgid "Music needs Tracker version 3.0.0 or higher."
 msgstr "Musika aplikazioak Tracker 3.0.0 bertsioa edo berriagoa behar du."
+
+#, python-brace-format
+#~ msgid "Disc {row.props.disc_nr}"
+#~ msgstr "{row.props.disc_nr} diskoa"
 
 #~ msgid "The GNOME Music developers"
 #~ msgstr "GNOME Musika aplikazioaren garatzaileak"
