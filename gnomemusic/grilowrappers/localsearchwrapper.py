@@ -55,6 +55,10 @@ class LocalSearchWrapper(GObject.Object):
         cm.props.artists_proxy.append(self._artists_model)
         cm.props.songs_proxy.append(self._songs_model)
 
+        self._albums_search_model = Gtk.FilterListModel.new(self._albums_model)
+        self._albums_search_model.set_filter(Gtk.AnyFilter())
+        cm.props.albums_search_proxy.append(self._albums_search_model)
+
         self._songs_search_model = Gtk.FilterListModel.new(self._songs_model)
         self._songs_search_model.set_filter(Gtk.AnyFilter())
         cm.props.songs_search_proxy.append(self._songs_search_model)
@@ -82,6 +86,10 @@ class LocalSearchWrapper(GObject.Object):
         prep_stmt = self._prepare_statement(
             "/org/gnome/Music/queries/artist_albums.rq")
         self._artist_albums_stmt = self._tracker.query_statement(prep_stmt)
+
+        prep_stmt = self._prepare_statement(
+            "/org/gnome/Music/queries/search_albums.rq")
+        self._search_albums_stmt = self._tracker.query_statement(prep_stmt)
 
         prep_stmt = self._prepare_statement(
             "/org/gnome/Music/queries/search_songs.rq")
@@ -269,19 +277,50 @@ class LocalSearchWrapper(GObject.Object):
         """
         if text == "":
             #  self._artists_search.set_filter(Gtk.AnyFilter())
-            #  self._albums_search.set_filter(Gtk.AnyFilter())
+            self._albums_search_model.set_filter(Gtk.AnyFilter())
             self._songs_search_model.set_filter(Gtk.AnyFilter())
             return
 
-        #  self._search_artist(term)
-        #  self._search_album(term)
-        asyncio.create_task(self._search_song(text))
-
-    async def _search_song(self, term: str) -> None:
-        """Search for song names and display results."""
-        print(term)
         self._cancellable.cancel()
         self._cancellable = Gio.Cancellable.new()
+        #  self._search_artist(term)
+        asyncio.create_task(self._search_album(text, self._cancellable))
+        asyncio.create_task(self._search_song(text, self._cancellable))
+
+    async def _search_album(self, term: str, cancellable: Gio.Cancellable) -> None:
+        """Search the album tag and display results."""
+        self._search_albums_stmt.bind_string("name", term)
+        try:
+            cursor = await self._search_albums_stmt.execute_async(cancellable)
+        except GLib.Error as error:
+            print("log")
+
+        album_ids = []
+        has_next = False
+        try:
+            has_next = await cursor.next_async(cancellable)
+        except:
+            pass
+        while has_next:
+            new_media = utils.create_grilo_media_from_cursor(
+                cursor, Grl.MediaType.CONTAINER)
+            album_ids.append(new_media.get_id())
+
+            try:
+                has_next = await cursor.next_async(cancellable)
+            except:
+                pass
+
+        def filter_func(obj: GObject.GObject) -> bool:
+            return obj.media.get_id() in album_ids
+
+        custom_filter = Gtk.CustomFilter()
+        custom_filter.set_filter_func(filter_func)
+        self._albums_search_model.set_filter(custom_filter)
+
+    async def _search_song(
+            self, term: str, cancellable: Gio.Cancellable) -> None:
+        """Search for song names and display results."""
         self._search_songs_stmt.bind_string("name", term)
         try:
             cursor = await self._search_songs_stmt.execute_async(
