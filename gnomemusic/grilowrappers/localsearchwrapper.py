@@ -284,28 +284,35 @@ class LocalSearchWrapper(GObject.Object):
 
         :param str text: The search string
         """
+        self._cancellable.cancel()
         if text == "":
             self._artists_search_model.set_filter(Gtk.AnyFilter())
             self._albums_search_model.set_filter(Gtk.AnyFilter())
             self._songs_search_model.set_filter(Gtk.AnyFilter())
             return
 
-        self._cancellable.cancel()
         self._cancellable = Gio.Cancellable.new()
-        asyncio.create_task(self._search_artists(text, self._cancellable))
-        asyncio.create_task(self._search_album(text, self._cancellable))
-        asyncio.create_task(self._search_song(text, self._cancellable))
+        asyncio.create_task(self._search_generic(
+            text, self._cancellable, self._search_artists_stmt,
+            self._artists_search_model))
+        asyncio.create_task(self._search_generic(
+            text, self._cancellable, self._search_albums_stmt,
+            self._albums_search_model))
+        asyncio.create_task(self._search_generic(
+            text, self._cancellable, self._search_songs_stmt,
+            self._songs_search_model))
 
-    async def _search_album(
-            self, term: str, cancellable: Gio.Cancellable) -> None:
-        """Search the album tag and display results."""
-        self._search_albums_stmt.bind_string("name", term)
+    async def _search_generic(
+            self, term: str, cancellable: Gio.Cancellable, statement,
+            model) -> None:
+        """Search the  and display results."""
+        statement.bind_string("name", term)
         try:
-            cursor = await self._search_albums_stmt.execute_async(cancellable)
+            cursor = await statement.execute_async(cancellable)
         except GLib.Error as error:
             print("log")
 
-        album_ids = []
+        filter_ids = []
         has_next = False
         try:
             has_next = await cursor.next_async(cancellable)
@@ -314,7 +321,7 @@ class LocalSearchWrapper(GObject.Object):
         while has_next:
             new_media = utils.create_grilo_media_from_cursor(
                 cursor, Grl.MediaType.CONTAINER)
-            album_ids.append(new_media.get_id())
+            filter_ids.append(new_media.get_id())
 
             try:
                 has_next = await cursor.next_async(cancellable)
@@ -322,73 +329,8 @@ class LocalSearchWrapper(GObject.Object):
                 pass
 
         def filter_func(obj: GObject.GObject) -> bool:
-            return obj.media.get_id() in album_ids
+            return obj.media.get_id() in filter_ids
 
         custom_filter = Gtk.CustomFilter()
         custom_filter.set_filter_func(filter_func)
-        self._albums_search_model.set_filter(custom_filter)
-
-    async def _search_artists(
-            self, term: str, cancellable: Gio.Cancellable) -> None:
-        """Search the artists tag and display results."""
-        self._search_artists_stmt.bind_string("name", term)
-        try:
-            cursor = await self._search_artists_stmt.execute_async(cancellable)
-        except GLib.Error as error:
-            print("log")
-
-        artist_ids = []
-        has_next = False
-        try:
-            has_next = await cursor.next_async(cancellable)
-        except:
-            pass
-        while has_next:
-            new_media = utils.create_grilo_media_from_cursor(
-                cursor, Grl.MediaType.CONTAINER)
-            artist_ids.append(new_media.get_id())
-            print(new_media.get_id())
-            try:
-                has_next = await cursor.next_async(cancellable)
-            except:
-                pass
-
-        def filter_func(obj: GObject.GObject) -> bool:
-            return obj.media.get_id() in artist_ids
-
-        custom_filter = Gtk.CustomFilter()
-        custom_filter.set_filter_func(filter_func)
-        self._artists_search_model.set_filter(custom_filter)
-
-    async def _search_song(
-            self, term: str, cancellable: Gio.Cancellable) -> None:
-        """Search for song names and display results."""
-        self._search_songs_stmt.bind_string("name", term)
-        try:
-            cursor = await self._search_songs_stmt.execute_async(
-                self._cancellable)
-        except GLib.Error as error:
-            print("log")
-
-        song_ids = []
-        has_next = False
-        try:
-            has_next = await cursor.next_async(self._cancellable)
-        except:
-            pass
-        while has_next:
-            new_media = utils.create_grilo_media_from_cursor(
-                cursor, Grl.MediaType.AUDIO)
-            song_ids.append(new_media.get_id())
-
-            try:
-                has_next = await cursor.next_async(self._cancellable)
-            except:
-                pass
-
-        def filter_func(obj: GObject.GObject) -> bool:
-            return obj.media.get_id() in song_ids
-
-        custom_filter = Gtk.CustomFilter()
-        custom_filter.set_filter_func(filter_func)
-        self._songs_search_model.set_filter(custom_filter)
+        model.set_filter(custom_filter)
