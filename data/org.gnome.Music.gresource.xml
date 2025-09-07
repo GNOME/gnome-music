@@ -49,6 +49,7 @@
     <file>queries/artists.rq</file>
     <file>queries/artist_albums.rq</file>
     <file>queries/search_albums.rq</file>
+    <file>queries/search_artists.rq</file>
     <file>queries/search_songs.rq</file>
     <file>queries/songs.rq</file>
     <file>queries/playlist_add_song.rq</file>
