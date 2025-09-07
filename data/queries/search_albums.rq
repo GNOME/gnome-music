@@ -1,0 +1,25 @@
+SELECT
+  ?id
+WHERE {
+  SERVICE <dbus:{bus_name}> {
+    GRAPH tracker:Audio {
+      SELECT DISTINCT
+        nmm:musicAlbum(?song) AS ?id
+      WHERE {
+        ?song a nmm:MusicPiece .
+        BIND(tracker:normalize(nie:title(nmm:musicAlbum(?song)), 'nfkd') AS ?match1) .
+        BIND(tracker:normalize(nmm:artistName(nmm:artist(?song)), 'nfkd') AS ?match2) .
+        BIND(tracker:normalize(nmm:composer(?song), 'nfkd') AS ?match4) .
+        FILTER (
+          CONTAINS(tracker:case-fold(tracker:unaccent(?match1)), ~name)
+            || CONTAINS(tracker:case-fold(?match1), ~name)
+            || CONTAINS(tracker:case-fold(tracker:unaccent(?match2)), ~name)
+            || CONTAINS(tracker:case-fold(?match2), ~name)
+            || CONTAINS(tracker:case-fold(tracker:unaccent(?match4)), ~name)
+            || CONTAINS(tracker:case-fold(?match4), ~name)
+        )
+        {location_filter}
+      } LIMIT 50
+    }
+  }
+}
