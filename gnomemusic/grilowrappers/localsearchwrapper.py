@@ -7,8 +7,6 @@ from typing import List, Union
 import typing
 import asyncio
 
-import gi
-gi.require_versions({"TSparql": "3.0"})
 from gi.repository import Grl, Gio, Gtk, GLib, GObject
 
 from gnomemusic.corealbum import CoreAlbum
@@ -38,8 +36,8 @@ class LocalSearchWrapper(GObject.Object):
 
         self._application = application
         self._log = application.props.log
-        self._tracker = trackerwrapper.props.local_db
-        self._trackerwrapper = trackerwrapper
+        self._tsparql = trackerwrapper.props.local_db
+        self._tsparqlwrapper = trackerwrapper
 
         self._cancellable = Gio.Cancellable()
 
@@ -67,39 +65,39 @@ class LocalSearchWrapper(GObject.Object):
 
         prep_stmt = self._prepare_statement(
             "/org/gnome/Music/queries/albums.rq")
-        self._albums_stmt = self._tracker.query_statement(prep_stmt)
+        self._albums_stmt = self._tsparql.query_statement(prep_stmt)
 
         prep_stmt = self._prepare_statement(
             "/org/gnome/Music/queries/artists.rq")
-        self._artists_stmt = self._tracker.query_statement(prep_stmt)
+        self._artists_stmt = self._tsparql.query_statement(prep_stmt)
 
         prep_stmt = self._prepare_statement(
             "/org/gnome/Music/queries/songs.rq")
-        self._songs_stmt = self._tracker.query_statement(prep_stmt)
+        self._songs_stmt = self._tsparql.query_statement(prep_stmt)
 
         prep_stmt = self._prepare_statement(
             "/org/gnome/Music/queries/album_discs.rq")
-        self._album_discs_stmt = self._tracker.query_statement(prep_stmt)
+        self._album_discs_stmt = self._tsparql.query_statement(prep_stmt)
 
         prep_stmt = self._prepare_statement(
             "/org/gnome/Music/queries/album_disc.rq")
-        self._album_disc_stmt = self._tracker.query_statement(prep_stmt)
+        self._album_disc_stmt = self._tsparql.query_statement(prep_stmt)
 
         prep_stmt = self._prepare_statement(
             "/org/gnome/Music/queries/artist_albums.rq")
-        self._artist_albums_stmt = self._tracker.query_statement(prep_stmt)
+        self._artist_albums_stmt = self._tsparql.query_statement(prep_stmt)
 
         prep_stmt = self._prepare_statement(
             "/org/gnome/Music/queries/search_albums.rq")
-        self._search_albums_stmt = self._tracker.query_statement(prep_stmt)
+        self._search_albums_stmt = self._tsparql.query_statement(prep_stmt)
 
         prep_stmt = self._prepare_statement(
             "/org/gnome/Music/queries/search_artists.rq")
-        self._search_artists_stmt = self._tracker.query_statement(prep_stmt)
+        self._search_artists_stmt = self._tsparql.query_statement(prep_stmt)
 
         prep_stmt = self._prepare_statement(
             "/org/gnome/Music/queries/search_songs.rq")
-        self._search_songs_stmt = self._tracker.query_statement(prep_stmt)
+        self._search_songs_stmt = self._tsparql.query_statement(prep_stmt)
 
         asyncio.create_task(self._init_albums_model())
         asyncio.create_task(self._init_artists_model())
@@ -111,9 +109,9 @@ class LocalSearchWrapper(GObject.Object):
             resource_path, Gio.ResourceLookupFlags.NONE)
         query_str = gbytes.get_data().decode("utf-8")
         query_str = query_str.replace(
-            "{bus_name}", self._trackerwrapper.props.miner_fs_busname)
+            "{bus_name}", self._tsparqlwrapper.props.miner_fs_busname)
         query_str = query_str.replace(
-            "{location_filter}", self._trackerwrapper.location_filter())
+            "{location_filter}", self._tsparqlwrapper.location_filter())
 
         return query_str
 
@@ -204,7 +202,7 @@ class LocalSearchWrapper(GObject.Object):
     async def _get_album_discs(
             self, media: Grl.Media, disc_model: Gtk.SortListModel) -> None:
         album_id = media.get_id()
-        self._album_discs_stmt.bind_string("aurn", album_id)
+        self._album_discs_stmt.bind_string("album_id", album_id)
         try:
             cursor = await self._album_discs_stmt.execute_async()
         except GLib.Error as error:
