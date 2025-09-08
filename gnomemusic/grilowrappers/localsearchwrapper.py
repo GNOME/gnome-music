@@ -28,8 +28,8 @@ class LocalSearchWrapper(GObject.Object):
     __gtype_name__ = "LocalSearchWrapper"
 
     def __init__(
-        self, application: Application,
-        trackerwrapper: TrackerWrapper) -> None:
+            self, application: Application,
+            trackerwrapper: TrackerWrapper) -> None:
         """Init LocalSearchWrapper
         """
         super().__init__()
