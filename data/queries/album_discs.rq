@@ -8,7 +8,7 @@ WHERE {
         nmm:setNumber(nmm:musicAlbumDisc(?song)) AS ?albumDiscNumber
       WHERE {
         ?song a nmm:MusicPiece;
-                nmm:musicAlbum ~aurn .
+                nmm:musicAlbum ~album_id .
         {location_filter}
       }
       ORDER BY ?albumDiscNumber
