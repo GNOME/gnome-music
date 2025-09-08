@@ -29,13 +29,15 @@ import gnomemusic.utils as utils
 
 
 class LocalSearchWrapper(GObject.Object):
+    """LocalSearch based data source
+    """
 
     __gtype_name__ = "LocalSearchWrapper"
 
     def __init__(
         self, application: Application,
         trackerwrapper: TrackerWrapper) -> None:
-        """
+        """Init LocalSearchWrapper
         """
         super().__init__()
 
@@ -124,9 +126,14 @@ class LocalSearchWrapper(GObject.Object):
         try:
             cursor = await self._albums_stmt.execute_async()
         except GLib.Error as error:
-            print("log")
+            self._log.warning(f"Error: {error.domain}, {error.message}")
+            return
 
-        has_next = await cursor.next_async()
+        try:
+            has_next = await cursor.next_async()
+        except GLib.Error as error:
+            self._log.warning(f"Error: {error.domain}, {error.message}")
+            has_next = False
         while has_next:
             media = utils.create_grilo_media_from_cursor(
                 cursor, Grl.MediaType.CONTAINER)
@@ -134,7 +141,12 @@ class LocalSearchWrapper(GObject.Object):
 
             self._albums_model.append(corealbum)
 
-            has_next = await cursor.next_async()
+            try:
+                has_next = await cursor.next_async()
+            except GLib.Error as error:
+                self._log.warning(
+                    f"Error: {error.domain}, {error.message}")
+                has_next = False
 
         cursor.close()
 
@@ -142,9 +154,14 @@ class LocalSearchWrapper(GObject.Object):
         try:
             cursor = await self._artists_stmt.execute_async()
         except GLib.Error as error:
-            print("log")
+            self._log.warning(f"Error: {error.domain}, {error.message}")
+            return
 
-        has_next = await cursor.next_async()
+        try:
+            has_next = await cursor.next_async()
+        except GLib.Error as error:
+            self._log.warning(f"Error: {error.domain}, {error.message}")
+            has_next = False
         while has_next:
             media = utils.create_grilo_media_from_cursor(
                 cursor, Grl.MediaType.CONTAINER)
@@ -152,7 +169,12 @@ class LocalSearchWrapper(GObject.Object):
 
             self._artists_model.append(coreartist)
 
-            has_next = await cursor.next_async()
+            try:
+                has_next = await cursor.next_async()
+            except GLib.Error as error:
+                self._log.warning(
+                    f"Error: {error.domain}, {error.message}")
+                has_next = False
 
         cursor.close()
 
@@ -160,9 +182,14 @@ class LocalSearchWrapper(GObject.Object):
         try:
             cursor = await self._songs_stmt.execute_async()
         except GLib.Error as error:
-            print("log")
+            self._log.warning(f"Error: {error.domain}, {error.message}")
+            return
 
-        has_next = await cursor.next_async()
+        try:
+            has_next = await cursor.next_async()
+        except GLib.Error as error:
+            self._log.warning(f"Error: {error.domain}, {error.message}")
+            has_next = False
         while has_next:
             media = utils.create_grilo_media_from_cursor(
                 cursor, Grl.MediaType.AUDIO)
@@ -170,15 +197,18 @@ class LocalSearchWrapper(GObject.Object):
 
             self._songs_model.append(coresong)
 
-            has_next = await cursor.next_async()
+            try:
+                has_next = await cursor.next_async()
+            except GLib.Error as error:
+                self._log.warning(
+                    f"Error: {error.domain}, {error.message}")
+                has_next = False
 
         cursor.close()
 
-    async def _get_album_discs_internal(self, media, disc_model) -> None:
+    async def _get_album_discs(self, media, disc_model) -> None:
         album_id = media.get_id()
-        print("internal", album_id)
         self._album_discs_stmt.bind_string("aurn", album_id)
-        print(self._album_discs_stmt.get_sparql())
         try:
             cursor = await self._album_discs_stmt.execute_async()
         except GLib.Error as error:
@@ -190,8 +220,6 @@ class LocalSearchWrapper(GObject.Object):
             new_media = utils.create_grilo_media_from_cursor(
                 cursor, Grl.MediaType.CONTAINER)
             nr = new_media.get_album_disc_number()
-
-            print("new coredisc", media.get_source(), media.get_title(), media.get_id())
             coredisc = CoreDisc(self._application, media, nr)
 
             disc_model.append(coredisc)
@@ -207,7 +235,7 @@ class LocalSearchWrapper(GObject.Object):
         :param Grl.Media media: The media with the album id
         :param Gtk.SortListModel disc_model: The model to fill
         """
-        asyncio.create_task(self._get_album_discs_internal(media, disc_model))
+        asyncio.create_task(self._get_album_discs(media, disc_model))
 
     async def _get_album_disc(self, media, disc_nr, model) -> None:
         self._album_disc_stmt.bind_string("album_id", media.get_id())
@@ -329,8 +357,10 @@ class LocalSearchWrapper(GObject.Object):
                 print("cancel", term, cancellable)
                 break
 
+        cursor.close()
+
         def filter_func(obj: GObject.GObject) -> bool:
-            return obj.media.get_id() in filter_ids
+            return obj.props.media.get_id() in filter_ids
 
         custom_filter = Gtk.CustomFilter()
         custom_filter.set_filter_func(filter_func)
