@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2025-09-06 10:50+0000\n"
-"PO-Revision-Date: 2025-09-06 19:15+0200\n"
+"POT-Creation-Date: 2025-09-07 10:34+0000\n"
+"PO-Revision-Date: 2025-09-08 10:33+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -119,7 +119,7 @@ msgid "Albums"
 msgstr "Albumi"
 
 #: data/ui/AlbumWidget.ui:84 data/ui/PlayerToolbar.ui:87
-#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:115
+#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:127
 msgid "Play"
 msgstr "Predvajaj"
 
@@ -378,6 +378,14 @@ msgstr "_Odstrani s seznama predvajanja"
 msgid "Welcome to Music"
 msgstr "Dobrodošli"
 
+#: data/ui/VolumeButton.ui:12
+msgid "Adjust Volume"
+msgstr "Prilagodi glasnost"
+
+#: data/ui/VolumeButton.ui:27
+msgid "Mute/Unmute"
+msgstr "Utišaj / Vklopi zvok"
+
 #: gnomemusic/about.py:145
 msgid "The GNOME Project"
 msgstr "Projekt GNOME"
@@ -430,25 +438,25 @@ msgstr "Neustrezno označeno"
 msgid "All Songs"
 msgstr "Vsi posnetki"
 
-#: gnomemusic/gstplayer.py:424
+#: gnomemusic/gstplayer.py:435
 msgid "Unable to play the file"
 msgstr "Datoteke ni mogoče predvajati."
 
-#: gnomemusic/gstplayer.py:430
+#: gnomemusic/gstplayer.py:441
 msgid "_Find in {}"
 msgstr "_Najdi v {}"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:440
+#: gnomemusic/gstplayer.py:451
 msgid " and "
 msgstr "in "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:443
+#: gnomemusic/gstplayer.py:454
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:445
+#: gnomemusic/gstplayer.py:456
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "{} so zahtevani za predvajanje datoteke, vendar niso nameščeni."
@@ -521,7 +529,7 @@ msgstr[1] "{} minuta"
 msgstr[2] "{} minuti"
 msgstr[3] "{} minute"
 
-#: gnomemusic/widgets/playertoolbar.py:112
+#: gnomemusic/widgets/playertoolbar.py:124
 msgid "Pause"
 msgstr "Premor"
 
