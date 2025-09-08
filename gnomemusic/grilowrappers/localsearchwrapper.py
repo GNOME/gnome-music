@@ -317,7 +317,7 @@ class LocalSearchWrapper(GObject.Object):
         try:
             has_next = await cursor.next_async(cancellable)
         except:
-            pass
+            print("cancel", term, cancellable)
         while has_next:
             new_media = utils.create_grilo_media_from_cursor(
                 cursor, Grl.MediaType.CONTAINER)
@@ -326,7 +326,8 @@ class LocalSearchWrapper(GObject.Object):
             try:
                 has_next = await cursor.next_async(cancellable)
             except:
-                pass
+                print("cancel", term, cancellable)
+                break
 
         def filter_func(obj: GObject.GObject) -> bool:
             return obj.media.get_id() in filter_ids
