@@ -4,11 +4,11 @@
 
 from __future__ import annotations
 from enum import IntEnum
-from random import randrange
+from random import randint
 from typing import Dict, Optional
 import typing
 
-from gi.repository import Gtk, GObject, GstPbutils
+from gi.repository import GObject, GstPbutils
 
 from gnomemusic.coresong import CoreSong
 from gnomemusic.utils import RepeatMode
@@ -18,6 +18,7 @@ if typing.TYPE_CHECKING:
     from gi.repository import GLib
 
     from gnomemusic.application import Application
+    from gnomemusic.coremodel import CoreModel
 
 
 class Queue(GObject.GObject):
@@ -54,8 +55,10 @@ class Queue(GObject.GObject):
         self._discoverer.start()
 
         self._coremodel = self._app.props.coremodel
-        self._model = self._coremodel.props.queue_sort
+        self._model = self._coremodel.props.queue
         self._model_recent = self._coremodel.props.recent_queue
+
+        self._coremodel.connect("queue-loaded", self._on_queue_loaded)
 
         self.connect("notify::repeat-mode", self._on_repeat_mode_changed)
 
@@ -204,14 +207,16 @@ class Queue(GObject.GObject):
         :returns: The selected song
         :rtype: CoreSong | None
         """
-        if self._model.get_n_items() == 0:
+        n_items = self._model.get_n_items()
+        if n_items == 0:
             return None
 
         if song is None:
             if self.props.repeat_mode == RepeatMode.SHUFFLE:
-                position = randrange(0, self._model.get_n_items())
+                self._model.shuffle(0, randint(0, n_items - 1))
             else:
-                position = 0
+                self._model.deshuffle()
+            position = 0
             song = self._model.get_item(position)
             song.props.state = SongWidget.State.PLAYING
             self._position = position
@@ -220,10 +225,15 @@ class Queue(GObject.GObject):
             self._update_model_recent()
             return song
 
+        self._model.deshuffle()
         for idx, coresong in enumerate(self._model):
             if coresong == song:
                 coresong.props.state = SongWidget.State.PLAYING
-                self._position = idx
+                if self.props.repeat_mode == RepeatMode.SHUFFLE:
+                    self._model.shuffle(0, idx)
+                    self._position = 0
+                else:
+                    self._position = idx
                 self._validate_song(song)
                 self._validate_next_song()
                 self._update_model_recent()
@@ -233,11 +243,8 @@ class Queue(GObject.GObject):
 
     def end(self) -> None:
         """End play of this queue
-
-        Resets all song state
         """
-        for song in self._model:
-            song.props.state = SongWidget.State.UNPLAYED
+        self._reset_queue_state()
 
     def _update_model_recent(self) -> None:
         recent_size = self._coremodel.props.recent_queue_size
@@ -247,15 +254,17 @@ class Queue(GObject.GObject):
     def _on_repeat_mode_changed(
             self, queue: Queue, param: GObject.ParamSpecBoxed) -> None:
         if self.props.repeat_mode == RepeatMode.SHUFFLE:
-            for idx, coresong in enumerate(self._model):
-                coresong.update_shuffle_pos()
-
-            song_sorter_exp = Gtk.PropertyExpression.new(
-                CoreSong, None, "shuffle-pos")
-            songs_sorter = Gtk.NumericSorter.new(song_sorter_exp)
-            self._model.set_sorter(songs_sorter)
+            self._model.shuffle(self.props.position)
         elif self.props.repeat_mode in [RepeatMode.NONE, RepeatMode.ALL]:
-            self._model.set_sorter(None)
+            self._model.deshuffle(self.props.position)
+
+    def _on_queue_loaded(
+            self, coremodel: CoreModel, queue_type: Queue.Type) -> None:
+        self._reset_queue_state()
+
+    def _reset_queue_state(self) -> None:
+        for song in self._model:
+            song.props.state = SongWidget.State.UNPLAYED
 
     def _validate_song(self, coresong: CoreSong) -> None:
         # Song is being processed or has already been processed.

@@ -251,20 +251,22 @@ class AlbumWidget(Adw.Bin):
 
         self._released_label.props.label = label
 
-    def _play(self, coresong: Optional[CoreSong] = None) -> None:
+    def _play(
+            self, coresong: CoreSong | None,
+            coreobject: CoreAlbum | CoreArtist) -> None:
         signal_id = 0
 
         def _on_queue_loaded(
                 coremodel: CoreModel, queue_type: Queue.Type) -> None:
-            self._player.play(coresong)
             self._coremodel.disconnect(signal_id)
+            self._player.play(coresong)
 
         signal_id = self._coremodel.connect("queue-loaded", _on_queue_loaded)
-        self._coremodel.props.active_core_object = self.props.active_coreobject
+        self._coremodel.props.active_core_object = coreobject
 
     def _song_activated(
             self, widget: Gtk.Widget, song_widget: SongWidget) -> None:
-        self._play(song_widget.props.coresong)
+        self._play(song_widget.props.coresong, self.props.active_coreobject)
 
     def _on_add_favorites_action(
             self, action: Gio.SimpleAction,
@@ -294,16 +296,8 @@ class AlbumWidget(Adw.Bin):
     def _on_play_action(
             self, action: Gio.SimpleAction,
             data: Optional[GLib.Variant]) -> None:
-        self._play()
+        self._play(None, self.props.corealbum)
 
     @Gtk.Template.Callback()
     def _on_play_button_clicked(self, button: Gtk.Button) -> None:
-        # When the coreobject is an artist, the first song of the album
-        # needs to be loaded. Otherwise, the first album of the artist
-        # is played.
-        coresong: Optional[CoreSong] = None
-        if self.props.active_coreobject != self.props.corealbum:
-            coredisc = self.props.corealbum.props.model[0]
-            coresong = coredisc.props.model[0]
-
-        self._play(coresong)
+        self._play(None, self.props.corealbum)

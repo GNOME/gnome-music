@@ -301,7 +301,7 @@ class MPRIS(DBusInterface):
         self._player.connect('seek-finished', self._on_seek_finished)
 
         self._coremodel = app.props.coremodel
-        self._player_model = self._coremodel.props.queue_sort
+        self._player_model = self._coremodel.props.queue
         self._player_model_changed_id = None
 
         self._coremodel.connect(

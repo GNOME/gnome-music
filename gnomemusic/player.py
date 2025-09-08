@@ -73,7 +73,7 @@ class Player(GObject.GObject):
         self._log = application.props.log
         self._queue = Queue(self._app)
 
-        self._queue_model = self._app.props.coremodel.props.queue_sort
+        self._queue_model = self._app.props.coremodel.props.queue
         self._queue_model.connect(
             "items-changed", self._on_queue_model_items_changed)
 
