@@ -177,7 +177,7 @@ class CoreGrilo(GObject.GObject):
             self._log.debug("XDG Music dir is: {}".format(music_dir))
 
             # FIXME: Temp hack - we know LocalSearch exists here
-            new_wrapper  = LocalSearchWrapper(
+            new_wrapper = LocalSearchWrapper(
                 self._application, self._tracker_wrapper)
             self._wrappers["gnome-music"] = new_wrapper
         elif (source.props.source_id not in self._search_wrappers.keys()
