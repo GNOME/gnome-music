@@ -4,11 +4,10 @@
 
 from __future__ import annotations
 from enum import IntEnum
-from random import randrange
 from typing import Dict, Optional
 import typing
 
-from gi.repository import Gtk, GObject, GstPbutils
+from gi.repository import GObject, GstPbutils
 
 from gnomemusic.coresong import CoreSong
 from gnomemusic.utils import RepeatMode
@@ -208,10 +207,7 @@ class Queue(GObject.GObject):
             return None
 
         if song is None:
-            if self.props.repeat_mode == RepeatMode.SHUFFLE:
-                position = randrange(0, self._model.get_n_items())
-            else:
-                position = 0
+            position = 0
             song = self._model.get_item(position)
             song.props.state = SongWidget.State.PLAYING
             self._position = position
@@ -247,15 +243,9 @@ class Queue(GObject.GObject):
     def _on_repeat_mode_changed(
             self, queue: Queue, param: GObject.ParamSpecBoxed) -> None:
         if self.props.repeat_mode == RepeatMode.SHUFFLE:
-            for idx, coresong in enumerate(self._model):
-                coresong.update_shuffle_pos()
-
-            song_sorter_exp = Gtk.PropertyExpression.new(
-                CoreSong, None, "shuffle-pos")
-            songs_sorter = Gtk.NumericSorter.new(song_sorter_exp)
-            self._model.set_sorter(songs_sorter)
+            self._model.shuffle(self.props.position)
         elif self.props.repeat_mode in [RepeatMode.NONE, RepeatMode.ALL]:
-            self._model.set_sorter(None)
+            self._model.deshuffle(self.props.position)
 
     def _validate_song(self, coresong: CoreSong) -> None:
         # Song is being processed or has already been processed.

@@ -33,6 +33,7 @@ from gnomemusic.coreartist import CoreArtist
 from gnomemusic.coresong import CoreSong
 from gnomemusic.grilowrappers.playlist import Playlist
 from gnomemusic.queue import Queue
+from gnomemusic.shufflelistmodel import ShuffleListModel
 from gnomemusic.widgets.songwidget import SongWidget
 if typing.TYPE_CHECKING:
     from gnomemusic.application import Application
@@ -121,9 +122,9 @@ class CoreModel(GObject.GObject):
         self._queue_model: Gio.ListStore = Gio.ListStore.new(CoreSong)
         self._queue_model_sort: Gtk.SortListModel = Gtk.SortListModel.new(
             self._queue_model)
-        self._queue_model_recent: Gtk.SliceListModel = (
-            Gtk.SliceListModel.new(
-                self._queue_model_sort, 0, self._recent_size))
+        self._queue_model_shuffle = ShuffleListModel(self._queue_model_sort)
+        self._queue_model_recent = Gtk.SliceListModel.new(
+            self._queue_model_shuffle, 0, self._recent_size)
         self._active_core_object: Optional[Union[
             CoreAlbum, CoreArtist, Playlist]] = None
 
@@ -421,7 +422,7 @@ class CoreModel(GObject.GObject):
         type=Gtk.SortListModel, default=None,
         flags=GObject.ParamFlags.READABLE)
     def queue_sort(self):
-        return self._queue_model_sort
+        return self._queue_model_shuffle
 
     @GObject.Property(
         type=Gtk.SliceListModel, default=None,
