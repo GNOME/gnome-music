@@ -212,10 +212,14 @@ class LocalSearchWrapper(GObject.Object):
         try:
             cursor = await self._album_discs_stmt.execute_async()
         except GLib.Error as error:
-            print("log", error.message, error.domain)
+            self._log.warning(f"Error: {error.domain}, {error.message}")
             return
 
-        has_next = await cursor.next_async()
+        try:
+            has_next = await cursor.next_async()
+        except GLib.Error as error:
+            self._log.warning(f"Error: {error.domain}, {error.message}")
+            has_next = False
         while has_next:
             new_media = utils.create_grilo_media_from_cursor(
                 cursor, Grl.MediaType.CONTAINER)
@@ -224,7 +228,12 @@ class LocalSearchWrapper(GObject.Object):
 
             disc_model.append(coredisc)
 
-            has_next = await cursor.next_async()
+            try:
+                has_next = await cursor.next_async()
+            except GLib.Error as error:
+                self._log.warning(
+                    f"Error: {error.domain}, {error.message}")
+                has_next = False
 
         cursor.close()
 
@@ -240,16 +249,29 @@ class LocalSearchWrapper(GObject.Object):
     async def _get_album_disc(self, media, disc_nr, model) -> None:
         self._album_disc_stmt.bind_string("album_id", media.get_id())
         self._album_disc_stmt.bind_int("disc_nr", disc_nr)
-        cursor = await self._album_disc_stmt.execute_async()
+        try:
+            cursor = await self._album_disc_stmt.execute_async()
+        except GLib.Error as error:
+            self._log.warning(f"Error: {error.domain}, {error.message}")
+            return
 
         disc_song_ids = []
-        has_next = await cursor.next_async()
+        try:
+            has_next = await cursor.next_async()
+        except GLib.Error as error:
+            self._log.warning(f"Error: {error.domain}, {error.message}")
+            has_next = False
         while has_next:
             new_media = utils.create_grilo_media_from_cursor(
                 cursor, Grl.MediaType.CONTAINER)
             disc_song_ids.append(new_media.get_source() + new_media.get_id())
 
-            has_next = await cursor.next_async()
+            try:
+                has_next = await cursor.next_async()
+            except GLib.Error as error:
+                self._log.warning(
+                    f"Error: {error.domain}, {error.message}")
+                has_next = False
 
         cursor.close()
 
