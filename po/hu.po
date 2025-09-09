@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2025-02-25 15:19+0000\n"
-"PO-Revision-Date: 2025-03-02 20:44+0100\n"
+"POT-Creation-Date: 2025-09-08 08:36+0000\n"
+"PO-Revision-Date: 2025-09-09 21:53+0200\n"
 "Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
 "Language-Team: Hungarian <openscope at fsf dot hu>\n"
 "Language: hu\n"
@@ -18,25 +18,25 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 23.08.5\n"
+"X-Generator: Lokalize 24.12.3\n"
 
-#: data/org.gnome.Music.desktop.in.in:3
+#: data/org.gnome.Music.desktop.in.in:2
 #: data/org.gnome.Music.metainfo.xml.in.in:9 data/ui/StatusNavigationPage.ui:4
-#: gnomemusic/about.py:142 gnomemusic/application.py:61 gnomemusic/window.py:65
+#: gnomemusic/about.py:143 gnomemusic/application.py:61 gnomemusic/window.py:65
 msgid "Music"
 msgstr "Zene"
 
-#: data/org.gnome.Music.desktop.in.in:4
+#: data/org.gnome.Music.desktop.in.in:3
 msgid "Music Player"
 msgstr "Zenelejátszó"
 
-#: data/org.gnome.Music.desktop.in.in:5
+#: data/org.gnome.Music.desktop.in.in:4
 #: data/org.gnome.Music.metainfo.xml.in.in:10
 msgid "Play and organize your music collection"
 msgstr "Zenegyűjtemény rendszerezése és lejátszása"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
-#: data/org.gnome.Music.desktop.in.in:13
+#: data/org.gnome.Music.desktop.in.in:12
 msgid "Music;Player;"
 msgstr "Zene;Lejátszó;"
 
@@ -118,7 +118,7 @@ msgid "Albums"
 msgstr "Albumok"
 
 #: data/ui/AlbumWidget.ui:84 data/ui/PlayerToolbar.ui:87
-#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:176
+#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:127
 msgid "Play"
 msgstr "Lejátszás"
 
@@ -359,6 +359,11 @@ msgstr "Felfüggesztés megakadályozása"
 msgid "Only while playing"
 msgstr "Csak lejátszás közben"
 
+#: data/ui/RepeatModeButton.ui:14
+#| msgid "Repeat Mode"
+msgid "Set Repeat Mode"
+msgstr "Ismétlési mód beállítása"
+
 #: data/ui/SearchView.ui:55 data/ui/SearchView.ui:112
 msgid "View All"
 msgstr "Összes megtekintése"
@@ -375,20 +380,28 @@ msgstr "_Eltávolítás a lejátszólistáról"
 msgid "Welcome to Music"
 msgstr "Üdvözli a Zene"
 
-#: gnomemusic/about.py:144
+#: data/ui/VolumeButton.ui:12
+msgid "Adjust Volume"
+msgstr "Hangerő beállítása"
+
+#: data/ui/VolumeButton.ui:27
+msgid "Mute/Unmute"
+msgstr "Némítás vagy visszahangosítás"
+
+#: gnomemusic/about.py:145
 msgid "The GNOME Project"
 msgstr "A GNOME projekt"
 
 #. Translators should localize the following string which
 #. will be displayed at the bottom of the about box to give
 #. credit to the translator(s).
-#: gnomemusic/about.py:150
+#: gnomemusic/about.py:151
 msgid "translator-credits"
 msgstr ""
 "Meskó Balázs <mesko dot balazs at fsf dot hu>, 2024.\n"
 "Úr Balázs <ur dot balazs at fsf dot hu>, 2022, 2024."
 
-#: gnomemusic/about.py:154
+#: gnomemusic/about.py:155
 msgid "© The GNOME Music Developers"
 msgstr "© A GNOME Zene fejlesztői"
 
@@ -429,25 +442,25 @@ msgstr "Hiányosan címkézve"
 msgid "All Songs"
 msgstr "Összes szám"
 
-#: gnomemusic/gstplayer.py:424
+#: gnomemusic/gstplayer.py:435
 msgid "Unable to play the file"
 msgstr "Nem lehet lejátszani a fájlt"
 
-#: gnomemusic/gstplayer.py:430
+#: gnomemusic/gstplayer.py:441
 msgid "_Find in {}"
 msgstr "_Keresés ebben: {}"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:440
+#: gnomemusic/gstplayer.py:451
 msgid " and "
 msgstr " és "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:443
+#: gnomemusic/gstplayer.py:454
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:445
+#: gnomemusic/gstplayer.py:456
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "{} szükséges a fájl lejátszásához, de nincs telepítve."
@@ -510,18 +523,13 @@ msgstr "Nincs találat"
 msgid "Try a different search"
 msgstr "Próbáljon egy másik keresést"
 
-#: gnomemusic/widgets/albumwidget.py:193
-#, python-brace-format
-msgid "Disc {row.props.disc_nr}"
-msgstr "{row.props.disc_nr}. lemez"
-
-#: gnomemusic/widgets/albumwidget.py:241
+#: gnomemusic/widgets/albumwidget.py:242
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} perc"
 msgstr[1] "{} perc"
 
-#: gnomemusic/widgets/playertoolbar.py:173
+#: gnomemusic/widgets/playertoolbar.py:124
 msgid "Pause"
 msgstr "Szünet"
 
@@ -555,37 +563,38 @@ msgid "Your XDG Music directory is not set."
 msgstr "Az XDG Zenék könyvtára nincs beállítva."
 
 # A ~/Zenék
-#: gnomemusic/widgets/statusnavigationpage.py:58
+#: gnomemusic/widgets/statusnavigationpage.py:56
 msgid "Music Folder"
 msgstr "Zenék mappa"
 
 # %s = "Zenék mappa"
-#. TRANSLATORS: This is a label to display a link to open user's music
-#. folder. {} will be replaced with the translated text 'Music folder'
-#: gnomemusic/widgets/statusnavigationpage.py:66
+#. TRANSLATORS: This is a label to display a link to open
+#. a user's music folder. {} will be replaced with the
+#. translated text 'Music folder'
+#: gnomemusic/widgets/statusnavigationpage.py:60
 msgid "The contents of your {} will appear here."
 msgstr "A {} tartalma itt fog megjelenni."
 
-#: gnomemusic/widgets/statusnavigationpage.py:116
+#: gnomemusic/widgets/statusnavigationpage.py:114
 msgid "No Music Found"
 msgstr "Nem található zene"
 
-#: gnomemusic/widgets/statusnavigationpage.py:117
+#: gnomemusic/widgets/statusnavigationpage.py:115
 msgid "Try a Different Search"
 msgstr "Próbáljon egy másik keresést"
 
-#: gnomemusic/widgets/statusnavigationpage.py:121
+#: gnomemusic/widgets/statusnavigationpage.py:119
 msgid "GNOME Music could not connect to Tracker."
 msgstr "A GNOME Zene nem tudott kapcsolódni a Trackerhez."
 
-#: gnomemusic/widgets/statusnavigationpage.py:123
+#: gnomemusic/widgets/statusnavigationpage.py:121
 msgid "Your music files cannot be indexed without Tracker running."
 msgstr "A zenefájlokat nem lehet indexelni a Tracker futtatása nélkül."
 
-#: gnomemusic/widgets/statusnavigationpage.py:129
+#: gnomemusic/widgets/statusnavigationpage.py:127
 msgid "Your system Tracker version seems outdated."
 msgstr "A rendszer Tracker verziója elavultnak tűnik."
 
-#: gnomemusic/widgets/statusnavigationpage.py:131
+#: gnomemusic/widgets/statusnavigationpage.py:129
 msgid "Music needs Tracker version 3.0.0 or higher."
 msgstr "A Zene a Tracker 3.0.0 vagy újabb verzióját igényli."
