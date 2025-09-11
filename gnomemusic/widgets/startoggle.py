@@ -31,12 +31,14 @@ class StarToggle(Gtk.ToggleButton):
         starred: bool = self.props.active
         self.props.icon_name = (
             "starred-symbolic" if starred else "non-starred-symbolic")
-        # TRANSLATORS: These are verbs, to (un)mark something as a
-        # favorite.
-        self.props.tooltip_text = _("Unstar") if starred else _("Star")
+
         if starred:
+            # TRANSLATORS: A verb, to unmark a song as favorite
+            self.props.tooltip_text = _("Unstar")
             self.add_css_class("starred")
         else:
+            # TRANSLATORS: A verb, to mark a song as favorite
+            self.props.tooltip_text = _("Star")
             self.remove_css_class("starred")
 
     def _on_clicked(self, _widget: Gtk.ToggleButton) -> None:
