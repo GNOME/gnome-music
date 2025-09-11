@@ -23,8 +23,7 @@
 # delete this exception statement from your version.
 
 from __future__ import annotations
-from enum import Enum, IntEnum
-from gettext import gettext as _
+from enum import IntEnum
 from random import randrange
 import time
 import typing
@@ -35,34 +34,11 @@ from gi.repository import GLib, GObject, GstPbutils, Gtk
 
 from gnomemusic.coresong import CoreSong
 from gnomemusic.gstplayer import GstPlayer, Playback
+from gnomemusic.utils import RepeatMode
 from gnomemusic.widgets.songwidget import SongWidget
 
 if typing.TYPE_CHECKING:
     from gi.repository import Gio
-
-
-class RepeatMode(Enum):
-    """Enum for player repeat mode"""
-
-    # Translators: "shuffle" causes tracks to play in random order.
-    NONE = 0, "media-playlist-consecutive-symbolic", _("Shuffle/Repeat Off")
-    SONG = 1, "media-playlist-repeat-song-symbolic", _("Repeat Song")
-    ALL = 2, "media-playlist-repeat-symbolic", _("Repeat All")
-    SHUFFLE = 3, "media-playlist-shuffle-symbolic", _("Shuffle")
-
-    # The type checking is necessary to avoid false positives
-    # See: https://github.com/python/mypy/issues/1021
-    if typing.TYPE_CHECKING:
-        icon: str
-        label: str
-
-    def __new__(
-            cls, value: int, icon: str = "", label: str = "") -> "RepeatMode":
-        obj = object.__new__(cls)
-        obj._value_ = value
-        obj.icon = icon
-        obj.label = label
-        return obj
 
 
 class PlayerPlaylist(GObject.GObject):
