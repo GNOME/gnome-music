@@ -2,27 +2,11 @@
 
 [Our guide](https://welcome.gnome.org/app/Music/) has everything to get you started.
 
-## Specific build instructions
+## Build instructions
 
-Music uses the [meson](http://mesonbuild.com/) build system. Use the following commands to build Music from the source directory:
+Music uses the [meson](http://mesonbuild.com/) build system.
 
-```sh
-$ meson _build
-$ cd _build
-$ ninja
-```
-
-Then you can either run in the build dir by running:
-
-```sh
-$ ./local-music
-```
-
-You can also install Music system-wide by running:
-
-```sh
-$ ninja install
-```
+The recommended way to work on Music is using flatpak through [gnome builder](https://welcome.gnome.org/app/Music/#working-on-the-code).
 
 ## Debugging
 
