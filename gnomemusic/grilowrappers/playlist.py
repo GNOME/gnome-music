@@ -19,10 +19,6 @@ class Playlist(GObject.GObject):
 
     __gtype_name__ = "Playlist"
 
-    __gsignals__ = {
-        "playlist-loaded": (GObject.SignalFlags.RUN_FIRST, None, ()),
-    }
-
     count = GObject.Property(type=int, default=0)
     creation_date = GObject.Property(type=GLib.DateTime, default=None)
     icon_name = GObject.Property(type=str, default="music-playlist-symbolic")
@@ -149,7 +145,6 @@ class Playlist(GObject.GObject):
         else:
             cursor.close()
             self.props.count = self._model.get_n_items()
-            self.emit("playlist-loaded")
             self._notificationmanager.pop_loading()
 
     def _bind_to_main_song(self, coresong):
