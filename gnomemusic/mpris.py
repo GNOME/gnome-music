@@ -305,7 +305,7 @@ class MPRIS(DBusInterface):
         self._player_model_changed_id = None
 
         self._coremodel.connect(
-            "playlist-loaded", self._on_player_playlist_changed)
+            "queue-loaded", self._on_player_playlist_changed)
 
         self._playlists_model = self._coremodel.props.playlists_sort
         n_items = self._playlists_model.get_n_items()
@@ -753,7 +753,7 @@ class MPRIS(DBusInterface):
             self._coremodel.disconnect(loaded_id)
 
         loaded_id = self._coremodel.connect(
-            "playlist-loaded", _on_playlist_loaded)
+            "queue-loaded", _on_playlist_loaded)
         self._coremodel.props.active_core_object = playlist
 
     def _activate_playlist(self, playlist_path):
@@ -778,7 +778,7 @@ class MPRIS(DBusInterface):
             self._load_player_playlist(selected_playlist)
         else:
             signal_id = selected_playlist.connect(
-                "playlist-loaded", _on_playlist_model_loaded)
+                "queue-loaded", _on_playlist_model_loaded)
 
     def _get_playlists(self, index, max_count, order, reverse):
         """Gets a set of playlists (MPRIS Method).

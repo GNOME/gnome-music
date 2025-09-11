@@ -107,13 +107,13 @@ class PlaylistsWidget(Gtk.Box):
     def _play(self, coresong=None):
         signal_id = None
 
-        def _on_playlist_loaded(klass, playlist_type):
+        def _on_queue_loaded(klass, queue_type):
             self._player.play(coresong)
             self._coremodel.disconnect(signal_id)
 
         current_playlist = self._playlists_view.props.current_playlist
         signal_id = self._coremodel.connect(
-            "playlist-loaded", _on_playlist_loaded)
+            "queue-loaded", _on_queue_loaded)
         self._coremodel.props.active_core_object = current_playlist
 
     def _on_song_widget_moved(self, target, source_position):

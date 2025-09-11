@@ -252,12 +252,11 @@ class AlbumWidget(Adw.Bin):
     def _play(self, coresong: Optional[CoreSong] = None) -> None:
         signal_id = 0
 
-        def _on_playlist_loaded(klass, playlist_type):
+        def _on_queue_loaded(klass, queue_type):
             self._player.play(coresong)
             self._coremodel.disconnect(signal_id)
 
-        signal_id = self._coremodel.connect(
-            "playlist-loaded", _on_playlist_loaded)
+        signal_id = self._coremodel.connect("queue-loaded", _on_queue_loaded)
         self._coremodel.props.active_core_object = self.props.active_coreobject
 
     def _song_activated(

@@ -67,7 +67,7 @@ class CoreModel(GObject.GObject):
     """
 
     __gsignals__ = {
-        "playlist-loaded": (GObject.SignalFlags.RUN_FIRST, None, (int,)),
+        "queue-loaded": (GObject.SignalFlags.RUN_FIRST, None, (int,)),
         "smart-playlist-change": (GObject.SignalFlags.RUN_FIRST, None, ())
     }
 
@@ -221,14 +221,14 @@ class CoreModel(GObject.GObject):
         else:
             return Gtk.Ordering.EQUAL
 
-    def _set_player_model(self, playlist_type, model):
+    def _set_player_model(self, queue_type, model):
         """Set the model for Queue to use
 
-        This fills playlist model based on the playlist type and model
+        This fills queue model based on the queue type and model
         given. This builds a separate model to stay alive and play
         while the user navigates other views.
 
-        :param PlaylistType playlist_type: The type of the playlist
+        :param Queue.Type queue_type: The type of the queue
         :param Gio.ListStore model: The base model for the player model
         """
         if model is self._previous_queue_model:
@@ -236,7 +236,7 @@ class CoreModel(GObject.GObject):
                 if song.props.state == SongWidget.State.PLAYING:
                     song.props.state = SongWidget.State.PLAYED
 
-            self.emit("playlist-loaded", playlist_type)
+            self.emit("queue-loaded", queue_type)
             return
 
         def _bind_song_properties(model_song, player_song):
@@ -268,7 +268,7 @@ class CoreModel(GObject.GObject):
 
         songs_added = []
 
-        if playlist_type == Queue.Type.ALBUM:
+        if queue_type == Queue.Type.ALBUM:
             proxy_model = Gio.ListStore.new(Gio.ListModel)
 
             for disc in model:
@@ -282,7 +282,7 @@ class CoreModel(GObject.GObject):
                 _bind_song_properties(model_song, song)
                 songs_added.append(song)
 
-        elif playlist_type == Queue.Type.ARTIST:
+        elif queue_type == Queue.Type.ARTIST:
             proxy_model = Gio.ListStore.new(Gio.ListModel)
 
             for artist_album in model:
@@ -297,7 +297,7 @@ class CoreModel(GObject.GObject):
                 _bind_song_properties(model_song, song)
                 songs_added.append(song)
 
-        elif playlist_type == Queue.Type.SONGS:
+        elif queue_type == Queue.Type.SONGS:
             self._current_queue_model = self._songs_model
 
             for song in self._songs_model:
@@ -306,13 +306,13 @@ class CoreModel(GObject.GObject):
                 if song.props.state == SongWidget.State.PLAYING:
                     song.props.state = SongWidget.State.PLAYED
 
-        elif playlist_type == Queue.Type.SEARCH_RESULT:
+        elif queue_type == Queue.Type.SEARCH_RESULT:
             self._current_queue_model = self._songs_search_flatten
 
             for song in self._songs_search_flatten:
                 songs_added.append(song)
 
-        elif playlist_type == Queue.Type.PLAYLIST:
+        elif queue_type == Queue.Type.PLAYLIST:
             self._current_queue_model = model
 
             for model_song in model:
@@ -328,7 +328,7 @@ class CoreModel(GObject.GObject):
                 "items-changed", _on_items_changed)
         self._previous_queue_model = model
 
-        self.emit("playlist-loaded", playlist_type)
+        self.emit("queue-loaded", queue_type)
 
     @GObject.Property(default=None)
     def active_core_object(self):
@@ -349,25 +349,25 @@ class CoreModel(GObject.GObject):
         """
         self._active_core_object = value
         if isinstance(value, CoreAlbum):
-            playlist_type = Queue.Type.ALBUM
+            queue_type = Queue.Type.ALBUM
             model = value.props.model
         elif isinstance(value, CoreArtist):
-            playlist_type = Queue.Type.ARTIST
+            queue_type = Queue.Type.ARTIST
             model = value.props.model
         elif isinstance(value, Playlist):
-            playlist_type = Queue.Type.PLAYLIST
+            queue_type = Queue.Type.PLAYLIST
             model = value.props.model
         # If the search is active, it means that the search view is visible,
-        # so the player playlist is a list of songs from the search result.
+        # so the queue is a list of songs from the search result.
         # Otherwise, it's a list of songs from the songs view.
         elif self._search.props.search_mode_active:
-            playlist_type = Queue.Type.SEARCH_RESULT
+            queue_type = Queue.Type.SEARCH_RESULT
             model = self._songs_search_flatten
         else:
-            playlist_type = Queue.Type.SONGS
+            queue_type = Queue.Type.SONGS
             model = self._songs_model
 
-        self._set_player_model(playlist_type, model)
+        self._set_player_model(queue_type, model)
 
     @GObject.Property(
         type=Gio.ListStore, default=None, flags=GObject.ParamFlags.READABLE)
@@ -401,11 +401,6 @@ class CoreModel(GObject.GObject):
         flags=GObject.ParamFlags.READABLE)
     def artists_proxy(self):
         return self._artists_model_proxy
-
-    @GObject.Property(
-        type=Gio.ListStore, default=None, flags=GObject.ParamFlags.READABLE)
-    def queue(self):
-        return self._queue_model
 
     @GObject.Property(
         type=Gtk.SortListModel, default=None,
