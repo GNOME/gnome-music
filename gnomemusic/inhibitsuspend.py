@@ -37,7 +37,7 @@ class InhibitSuspend(GObject.GObject):
     """InhibitSuspend object
 
     Contains the logic to postpone automatic system suspend
-    until the application has played all the songs in the playlist.
+    until the application has played all the songs in the queue.
     """
 
     def __init__(self, application):
