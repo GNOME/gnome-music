@@ -36,6 +36,7 @@ class LocalSearchWrapper(GObject.Object):
 
         self._application = application
         self._log = application.props.log
+        self._notificationmanager = application.props.notificationmanager
         self._tsparql = trackerwrapper.props.local_db
         self._tsparqlwrapper = trackerwrapper
 
@@ -116,120 +117,124 @@ class LocalSearchWrapper(GObject.Object):
         return query_str
 
     async def _init_albums_model(self) -> None:
-        try:
-            cursor = await self._albums_stmt.execute_async()
-        except GLib.Error as error:
-            self._log.warning(f"Error: {error.domain}, {error.message}")
-            return
-
-        try:
-            has_next = await cursor.next_async()
-        except GLib.Error as error:
-            self._log.warning(f"Error: {error.domain}, {error.message}")
-            has_next = False
-        while has_next:
-            media = utils.create_grilo_media_from_cursor(
-                cursor, Grl.MediaType.CONTAINER)
-            corealbum = CoreAlbum(self._application, media)
-
-            self._albums_model.append(corealbum)
+        async with self._notificationmanager:
+            try:
+                cursor = await self._albums_stmt.execute_async()
+            except GLib.Error as error:
+                self._log.warning(f"Error: {error.domain}, {error.message}")
+                return
 
             try:
                 has_next = await cursor.next_async()
             except GLib.Error as error:
-                self._log.warning(
-                    f"Error: {error.domain}, {error.message}")
+                self._log.warning(f"Error: {error.domain}, {error.message}")
                 has_next = False
+            while has_next:
+                media = utils.create_grilo_media_from_cursor(
+                    cursor, Grl.MediaType.CONTAINER)
+                corealbum = CoreAlbum(self._application, media)
 
-        cursor.close()
+                self._albums_model.append(corealbum)
+
+                try:
+                    has_next = await cursor.next_async()
+                except GLib.Error as error:
+                    self._log.warning(
+                        f"Error: {error.domain}, {error.message}")
+                    has_next = False
+
+            cursor.close()
 
     async def _init_artists_model(self) -> None:
-        try:
-            cursor = await self._artists_stmt.execute_async()
-        except GLib.Error as error:
-            self._log.warning(f"Error: {error.domain}, {error.message}")
-            return
-
-        try:
-            has_next = await cursor.next_async()
-        except GLib.Error as error:
-            self._log.warning(f"Error: {error.domain}, {error.message}")
-            has_next = False
-        while has_next:
-            media = utils.create_grilo_media_from_cursor(
-                cursor, Grl.MediaType.CONTAINER)
-            coreartist = CoreArtist(self._application, media)
-
-            self._artists_model.append(coreartist)
+        async with self._notificationmanager:
+            try:
+                cursor = await self._artists_stmt.execute_async()
+            except GLib.Error as error:
+                self._log.warning(f"Error: {error.domain}, {error.message}")
+                return
 
             try:
                 has_next = await cursor.next_async()
             except GLib.Error as error:
-                self._log.warning(
-                    f"Error: {error.domain}, {error.message}")
+                self._log.warning(f"Error: {error.domain}, {error.message}")
                 has_next = False
+            while has_next:
+                media = utils.create_grilo_media_from_cursor(
+                    cursor, Grl.MediaType.CONTAINER)
+                coreartist = CoreArtist(self._application, media)
+
+                self._artists_model.append(coreartist)
+
+                try:
+                    has_next = await cursor.next_async()
+                except GLib.Error as error:
+                    self._log.warning(
+                        f"Error: {error.domain}, {error.message}")
+                    has_next = False
 
         cursor.close()
 
     async def _init_songs_model(self) -> None:
-        try:
-            cursor = await self._songs_stmt.execute_async()
-        except GLib.Error as error:
-            self._log.warning(f"Error: {error.domain}, {error.message}")
-            return
-
-        try:
-            has_next = await cursor.next_async()
-        except GLib.Error as error:
-            self._log.warning(f"Error: {error.domain}, {error.message}")
-            has_next = False
-        while has_next:
-            media = utils.create_grilo_media_from_cursor(
-                cursor, Grl.MediaType.AUDIO)
-            coresong = CoreSong(self._application, media)
-
-            self._songs_model.append(coresong)
+        async with self._notificationmanager:
+            try:
+                cursor = await self._songs_stmt.execute_async()
+            except GLib.Error as error:
+                self._log.warning(f"Error: {error.domain}, {error.message}")
+                return
 
             try:
                 has_next = await cursor.next_async()
             except GLib.Error as error:
-                self._log.warning(
-                    f"Error: {error.domain}, {error.message}")
+                self._log.warning(f"Error: {error.domain}, {error.message}")
                 has_next = False
+            while has_next:
+                media = utils.create_grilo_media_from_cursor(
+                    cursor, Grl.MediaType.AUDIO)
+                coresong = CoreSong(self._application, media)
 
-        cursor.close()
+                self._songs_model.append(coresong)
+
+                try:
+                    has_next = await cursor.next_async()
+                except GLib.Error as error:
+                    self._log.warning(
+                        f"Error: {error.domain}, {error.message}")
+                    has_next = False
+
+            cursor.close()
 
     async def _get_album_discs(
             self, media: Grl.Media, disc_model: Gtk.SortListModel) -> None:
-        album_id = media.get_id()
-        self._album_discs_stmt.bind_string("album_id", album_id)
-        try:
-            cursor = await self._album_discs_stmt.execute_async()
-        except GLib.Error as error:
-            self._log.warning(f"Error: {error.domain}, {error.message}")
-            return
-
-        try:
-            has_next = await cursor.next_async()
-        except GLib.Error as error:
-            self._log.warning(f"Error: {error.domain}, {error.message}")
-            has_next = False
-        while has_next:
-            new_media = utils.create_grilo_media_from_cursor(
-                cursor, Grl.MediaType.CONTAINER)
-            nr = new_media.get_album_disc_number()
-            coredisc = CoreDisc(self._application, media, nr)
-
-            disc_model.append(coredisc)
+        async with self._notificationmanager:
+            album_id = media.get_id()
+            self._album_discs_stmt.bind_string("album_id", album_id)
+            try:
+                cursor = await self._album_discs_stmt.execute_async()
+            except GLib.Error as error:
+                self._log.warning(f"Error: {error.domain}, {error.message}")
+                return
 
             try:
                 has_next = await cursor.next_async()
             except GLib.Error as error:
-                self._log.warning(
-                    f"Error: {error.domain}, {error.message}")
+                self._log.warning(f"Error: {error.domain}, {error.message}")
                 has_next = False
+            while has_next:
+                new_media = utils.create_grilo_media_from_cursor(
+                    cursor, Grl.MediaType.CONTAINER)
+                nr = new_media.get_album_disc_number()
+                coredisc = CoreDisc(self._application, media, nr)
 
-        cursor.close()
+                disc_model.append(coredisc)
+
+                try:
+                    has_next = await cursor.next_async()
+                except GLib.Error as error:
+                    self._log.warning(
+                        f"Error: {error.domain}, {error.message}")
+                    has_next = False
+
+            cursor.close()
 
     def get_album_discs(
             self, media: Grl.Media, disc_model: Gtk.SortListModel) -> None:
@@ -243,40 +248,42 @@ class LocalSearchWrapper(GObject.Object):
     async def _get_album_disc(
             self, media: Grl.Media, disc_nr: int,
             model: Gtk.FilterListModel) -> None:
-        self._album_disc_stmt.bind_string("album_id", media.get_id())
-        self._album_disc_stmt.bind_int("disc_nr", disc_nr)
-        try:
-            cursor = await self._album_disc_stmt.execute_async()
-        except GLib.Error as error:
-            self._log.warning(f"Error: {error.domain}, {error.message}")
-            return
+        async with self._notificationmanager:
+            self._album_disc_stmt.bind_string("album_id", media.get_id())
+            self._album_disc_stmt.bind_int("disc_nr", disc_nr)
+            try:
+                cursor = await self._album_disc_stmt.execute_async()
+            except GLib.Error as error:
+                self._log.warning(f"Error: {error.domain}, {error.message}")
+                return
 
-        disc_song_ids = []
-        try:
-            has_next = await cursor.next_async()
-        except GLib.Error as error:
-            self._log.warning(f"Error: {error.domain}, {error.message}")
-            has_next = False
-        while has_next:
-            new_media = utils.create_grilo_media_from_cursor(
-                cursor, Grl.MediaType.CONTAINER)
-            disc_song_ids.append(new_media.get_source() + new_media.get_id())
-
+            disc_song_ids = []
             try:
                 has_next = await cursor.next_async()
             except GLib.Error as error:
-                self._log.warning(
-                    f"Error: {error.domain}, {error.message}")
+                self._log.warning(f"Error: {error.domain}, {error.message}")
                 has_next = False
+            while has_next:
+                new_media = utils.create_grilo_media_from_cursor(
+                    cursor, Grl.MediaType.CONTAINER)
+                disc_song_ids.append(
+                    new_media.get_source() + new_media.get_id())
 
-        cursor.close()
+                try:
+                    has_next = await cursor.next_async()
+                except GLib.Error as error:
+                    self._log.warning(
+                        f"Error: {error.domain}, {error.message}")
+                    has_next = False
 
-        def _filter_func(coresong: CoreSong) -> bool:
-            return coresong.props.grlid in disc_song_ids
+            cursor.close()
 
-        custom_filter = Gtk.CustomFilter()
-        custom_filter.set_filter_func(_filter_func)
-        model.set_filter(custom_filter)
+            def _filter_func(coresong: CoreSong) -> bool:
+                return coresong.props.grlid in disc_song_ids
+
+            custom_filter = Gtk.CustomFilter()
+            custom_filter.set_filter_func(_filter_func)
+            model.set_filter(custom_filter)
 
     def get_album_disc(
             self, media: Grl.Media, disc_nr: int,
@@ -291,32 +298,34 @@ class LocalSearchWrapper(GObject.Object):
 
     async def _get_artist_albums(
             self, media: Grl.Media, model: Gtk.FilterListModel) -> None:
-        artist = media.get_id()
-        self._artist_albums_stmt.bind_string("artist", artist)
-        try:
-            cursor = await self._artist_albums_stmt.execute_async()
-        except GLib.Error as error:
-            self._log.warning(f"Error: {error.domain}, {error.message}")
-            return
+        async with self._notificationmanager:
+            artist = media.get_id()
+            self._artist_albums_stmt.bind_string("artist", artist)
+            try:
+                cursor = await self._artist_albums_stmt.execute_async()
+            except GLib.Error as error:
+                self._log.warning(f"Error: {error.domain}, {error.message}")
+                return
 
-        album_ids = []
-        try:
-            has_next = await cursor.next_async()
-        except GLib.Error as error:
-            self._log.warning(f"Error: {error.domain}, {error.message}")
-            has_next = False
-        while has_next:
-            new_media = utils.create_grilo_media_from_cursor(
-                cursor, Grl.MediaType.CONTAINER)
-            album_ids.append(new_media.get_id())
-
+            album_ids = []
             try:
                 has_next = await cursor.next_async()
             except GLib.Error as error:
                 self._log.warning(f"Error: {error.domain}, {error.message}")
                 has_next = False
+            while has_next:
+                new_media = utils.create_grilo_media_from_cursor(
+                    cursor, Grl.MediaType.CONTAINER)
+                album_ids.append(new_media.get_id())
 
-        cursor.close()
+                try:
+                    has_next = await cursor.next_async()
+                except GLib.Error as error:
+                    self._log.warning(
+                        f"Error: {error.domain}, {error.message}")
+                    has_next = False
+
+            cursor.close()
 
         def albums_filter(corealbum: CoreAlbum, albums: List[str]) -> bool:
             return corealbum.props.media.get_id() in albums
@@ -365,30 +374,18 @@ class LocalSearchWrapper(GObject.Object):
             statement: TSparql.SparqlStatement,
             model: Gtk.FilterListModel) -> None:
         """Search and fill the model with results"""
-        statement.bind_string("name", term)
-        try:
-            cursor = await statement.execute_async(cancellable)
-        except GLib.Error as error:
-            if not error.matches(
-                    Gio.io_error_quark(), Gio.IOErrorEnum.CANCELLED):
-                self._log.warning(
-                    f"Error: {error.domain}, {error.message}")
-            return
+        async with self._notificationmanager:
+            statement.bind_string("name", term)
+            try:
+                cursor = await statement.execute_async(cancellable)
+            except GLib.Error as error:
+                if not error.matches(
+                        Gio.io_error_quark(), Gio.IOErrorEnum.CANCELLED):
+                    self._log.warning(
+                        f"Error: {error.domain}, {error.message}")
+                return
 
-        filter_ids = []
-        try:
-            has_next = await cursor.next_async(cancellable)
-        except GLib.Error as error:
-            if not error.matches(
-                    Gio.io_error_quark(), Gio.IOErrorEnum.CANCELLED):
-                self._log.warning(
-                    f"Error: {error.domain}, {error.message}")
-            has_next = False
-        while has_next:
-            new_media = utils.create_grilo_media_from_cursor(
-                cursor, Grl.MediaType.CONTAINER)
-            filter_ids.append(new_media.get_id())
-
+            filter_ids = []
             try:
                 has_next = await cursor.next_async(cancellable)
             except GLib.Error as error:
@@ -396,18 +393,31 @@ class LocalSearchWrapper(GObject.Object):
                         Gio.io_error_quark(), Gio.IOErrorEnum.CANCELLED):
                     self._log.warning(
                         f"Error: {error.domain}, {error.message}")
-                filter_ids = []
                 has_next = False
+            while has_next:
+                new_media = utils.create_grilo_media_from_cursor(
+                    cursor, Grl.MediaType.CONTAINER)
+                filter_ids.append(new_media.get_id())
 
-        cursor.close()
+                try:
+                    has_next = await cursor.next_async(cancellable)
+                except GLib.Error as error:
+                    if not error.matches(
+                            Gio.io_error_quark(), Gio.IOErrorEnum.CANCELLED):
+                        self._log.warning(
+                            f"Error: {error.domain}, {error.message}")
+                    filter_ids = []
+                    has_next = False
 
-        def filter_func(coreobject: CoreObject) -> bool:
-            return coreobject.props.media.get_id() in filter_ids
+            cursor.close()
 
-        if len(filter_ids) == 0:
-            custom_filter = Gtk.AnyFilter()
-        else:
-            custom_filter = Gtk.CustomFilter()
-            custom_filter.set_filter_func(filter_func)
+            def filter_func(coreobject: CoreObject) -> bool:
+                return coreobject.props.media.get_id() in filter_ids
 
-        model.set_filter(custom_filter)
+            if len(filter_ids) == 0:
+                custom_filter = Gtk.AnyFilter()
+            else:
+                custom_filter = Gtk.CustomFilter()
+                custom_filter.set_filter_func(filter_func)
+
+            model.set_filter(custom_filter)
