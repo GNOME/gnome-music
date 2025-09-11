@@ -32,7 +32,7 @@ from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.coreartist import CoreArtist
 from gnomemusic.coresong import CoreSong
 from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
-from gnomemusic.player import PlayerPlaylist
+from gnomemusic.queue import Queue
 from gnomemusic.widgets.songwidget import SongWidget
 if typing.TYPE_CHECKING:
     from gnomemusic.application import Application
@@ -62,12 +62,12 @@ class CoreModel(GObject.GObject):
 
     GrlTrackerPlaylists -> Playlist -> CoreSong
 
-    The Player playlist is a copy of the relevant playlist, built by
+    The Queue is a copy of the relevant playlist, built by
     using the components described above as needed.
     """
 
     __gsignals__ = {
-        "playlist-loaded": (GObject.SignalFlags.RUN_FIRST, None, (int,)),
+        "queue-loaded": (GObject.SignalFlags.RUN_FIRST, None, (int,)),
         "smart-playlist-change": (GObject.SignalFlags.RUN_FIRST, None, ())
     }
 
@@ -85,9 +85,9 @@ class CoreModel(GObject.GObject):
         self._application = application
         self._flatten_model: Optional[Gtk.FlattenListModel] = None
         self._player_signal_id = 0
-        self._current_playlist_model: Optional[Union[
+        self._current_queue_model: Optional[Union[
             Gtk.FlattenListModel, Gtk.SortListModel, Gio.ListModel]] = None
-        self._previous_playlist_model: Optional[Union[
+        self._previous_queue_model: Optional[Union[
             Gtk.FlattenListModel, Gtk.SortListModel, Gio.ListModel]] = None
 
         self._songs_model_proxy: Gio.ListStore = Gio.ListStore.new(
@@ -119,12 +119,12 @@ class CoreModel(GObject.GObject):
         self._artists_model_sort: Gtk.SortListModel = Gtk.SortListModel.new(
             self._artists_model, artists_sorter)
 
-        self._playlist_model: Gio.ListStore = Gio.ListStore.new(CoreSong)
-        self._playlist_model_sort: Gtk.SortListModel = Gtk.SortListModel.new(
-            self._playlist_model)
-        self._playlist_model_recent: Gtk.SliceListModel = (
+        self._queue_model: Gio.ListStore = Gio.ListStore.new(CoreSong)
+        self._queue_model_sort: Gtk.SortListModel = Gtk.SortListModel.new(
+            self._queue_model)
+        self._queue_model_recent: Gtk.SliceListModel = (
             Gtk.SliceListModel.new(
-                self._playlist_model_sort, 0, self._recent_size))
+                self._queue_model_sort, 0, self._recent_size))
         self._active_core_object: Optional[Union[
             CoreAlbum, CoreArtist, Playlist]] = None
 
@@ -221,22 +221,22 @@ class CoreModel(GObject.GObject):
         else:
             return Gtk.Ordering.EQUAL
 
-    def _set_player_model(self, playlist_type, model):
-        """Set the model for PlayerPlaylist to use
+    def _set_player_model(self, queue_type, model):
+        """Set the model for Queue to use
 
-        This fills playlist model based on the playlist type and model
+        This fills queue model based on the queue type and model
         given. This builds a separate model to stay alive and play
         while the user navigates other views.
 
-        :param PlaylistType playlist_type: The type of the playlist
+        :param Queue.Type queue_type: The type of the queue
         :param Gio.ListStore model: The base model for the player model
         """
-        if model is self._previous_playlist_model:
-            for song in self._playlist_model:
+        if model is self._previous_queue_model:
+            for song in self._queue_model:
                 if song.props.state == SongWidget.State.PLAYING:
                     song.props.state = SongWidget.State.PLAYED
 
-            self.emit("playlist-loaded", playlist_type)
+            self.emit("queue-loaded", queue_type)
             return
 
         def _bind_song_properties(model_song, player_song):
@@ -254,35 +254,35 @@ class CoreModel(GObject.GObject):
                     _bind_song_properties(coresong, song)
                     songs_list.append(song)
 
-            self._playlist_model.splice(position, removed, songs_list)
+            self._queue_model.splice(position, removed, songs_list)
 
         played_states = [SongWidget.State.PLAYING, SongWidget.State.PLAYED]
-        for song in self._playlist_model:
+        for song in self._queue_model:
             if song.props.state in played_states:
                 song.props.state = SongWidget.State.UNPLAYED
 
         if self._player_signal_id != 0:
-            self._current_playlist_model.disconnect(self._player_signal_id)
+            self._current_queue_model.disconnect(self._player_signal_id)
             self._player_signal_id = 0
-            self._current_playlist_model = None
+            self._current_queue_model = None
 
         songs_added = []
 
-        if playlist_type == PlayerPlaylist.Type.ALBUM:
+        if queue_type == Queue.Type.ALBUM:
             proxy_model = Gio.ListStore.new(Gio.ListModel)
 
             for disc in model:
                 proxy_model.append(disc.props.model)
 
             self._flatten_model = Gtk.FlattenListModel.new(proxy_model)
-            self._current_playlist_model = self._flatten_model
+            self._current_queue_model = self._flatten_model
 
             for model_song in self._flatten_model:
                 song = CoreSong(self._application, model_song.props.media)
                 _bind_song_properties(model_song, song)
                 songs_added.append(song)
 
-        elif playlist_type == PlayerPlaylist.Type.ARTIST:
+        elif queue_type == Queue.Type.ARTIST:
             proxy_model = Gio.ListStore.new(Gio.ListModel)
 
             for artist_album in model:
@@ -290,15 +290,15 @@ class CoreModel(GObject.GObject):
                     proxy_model.append(disc.props.model)
 
             self._flatten_model = Gtk.FlattenListModel.new(proxy_model)
-            self._current_playlist_model = self._flatten_model
+            self._current_queue_model = self._flatten_model
 
             for model_song in self._flatten_model:
                 song = CoreSong(self._application, model_song.props.media)
                 _bind_song_properties(model_song, song)
                 songs_added.append(song)
 
-        elif playlist_type == PlayerPlaylist.Type.SONGS:
-            self._current_playlist_model = self._songs_model
+        elif queue_type == Queue.Type.SONGS:
+            self._current_queue_model = self._songs_model
 
             for song in self._songs_model:
                 songs_added.append(song)
@@ -306,29 +306,29 @@ class CoreModel(GObject.GObject):
                 if song.props.state == SongWidget.State.PLAYING:
                     song.props.state = SongWidget.State.PLAYED
 
-        elif playlist_type == PlayerPlaylist.Type.SEARCH_RESULT:
-            self._current_playlist_model = self._songs_search_flatten
+        elif queue_type == Queue.Type.SEARCH_RESULT:
+            self._current_queue_model = self._songs_search_flatten
 
             for song in self._songs_search_flatten:
                 songs_added.append(song)
 
-        elif playlist_type == PlayerPlaylist.Type.PLAYLIST:
-            self._current_playlist_model = model
+        elif queue_type == Queue.Type.PLAYLIST:
+            self._current_queue_model = model
 
             for model_song in model:
                 song = CoreSong(self._application, model_song.props.media)
                 _bind_song_properties(model_song, song)
                 songs_added.append(song)
 
-        self._playlist_model.splice(
-            0, self._playlist_model.get_n_items(), songs_added)
+        self._queue_model.splice(
+            0, self._queue_model.get_n_items(), songs_added)
 
-        if self._current_playlist_model is not None:
-            self._player_signal_id = self._current_playlist_model.connect(
+        if self._current_queue_model is not None:
+            self._player_signal_id = self._current_queue_model.connect(
                 "items-changed", _on_items_changed)
-        self._previous_playlist_model = model
+        self._previous_queue_model = model
 
-        self.emit("playlist-loaded", playlist_type)
+        self.emit("queue-loaded", queue_type)
 
     @GObject.Property(default=None)
     def active_core_object(self):
@@ -349,25 +349,25 @@ class CoreModel(GObject.GObject):
         """
         self._active_core_object = value
         if isinstance(value, CoreAlbum):
-            playlist_type = PlayerPlaylist.Type.ALBUM
+            queue_type = Queue.Type.ALBUM
             model = value.props.model
         elif isinstance(value, CoreArtist):
-            playlist_type = PlayerPlaylist.Type.ARTIST
+            queue_type = Queue.Type.ARTIST
             model = value.props.model
         elif isinstance(value, Playlist):
-            playlist_type = PlayerPlaylist.Type.PLAYLIST
+            queue_type = Queue.Type.PLAYLIST
             model = value.props.model
         # If the search is active, it means that the search view is visible,
-        # so the player playlist is a list of songs from the search result.
+        # so the queue is a list of songs from the search result.
         # Otherwise, it's a list of songs from the songs view.
         elif self._search.props.search_mode_active:
-            playlist_type = PlayerPlaylist.Type.SEARCH_RESULT
+            queue_type = Queue.Type.SEARCH_RESULT
             model = self._songs_search_flatten
         else:
-            playlist_type = PlayerPlaylist.Type.SONGS
+            queue_type = Queue.Type.SONGS
             model = self._songs_model
 
-        self._set_player_model(playlist_type, model)
+        self._set_player_model(queue_type, model)
 
     @GObject.Property(
         type=Gio.ListStore, default=None, flags=GObject.ParamFlags.READABLE)
@@ -404,8 +404,8 @@ class CoreModel(GObject.GObject):
 
     @GObject.Property(
         type=Gio.ListStore, default=None, flags=GObject.ParamFlags.READABLE)
-    def playlist(self):
-        return self._playlist_model
+    def queue(self):
+        return self._queue_model
 
     @GObject.Property(
         type=Gtk.SortListModel, default=None,
@@ -422,19 +422,19 @@ class CoreModel(GObject.GObject):
     @GObject.Property(
         type=Gtk.SortListModel, default=None,
         flags=GObject.ParamFlags.READABLE)
-    def playlist_sort(self):
-        return self._playlist_model_sort
+    def queue_sort(self):
+        return self._queue_model_sort
 
     @GObject.Property(
         type=Gtk.SliceListModel, default=None,
         flags=GObject.ParamFlags.READABLE)
-    def recent_playlist(self):
-        return self._playlist_model_recent
+    def recent_queue(self):
+        return self._queue_model_recent
 
     @GObject.Property(
         type=int, default=None,
         flags=GObject.ParamFlags.READABLE)
-    def recent_playlist_size(self):
+    def recent_queue_size(self):
         return self._recent_size // 2
 
     @GObject.Property(

@@ -33,7 +33,9 @@ from gnomemusic.widgets.songwidgetmenu import SongWidgetMenu
 if typing.TYPE_CHECKING:
     from gnomemusic.application import Application
     from gnomemusic.coresong import CoreSong
+    from gnomemusic.coremodel import CoreModel
     from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
+    from gnomemusic.queue import Queue
     from gnomemusic.views.playlistsview import PlaylistsView
 
 
@@ -107,13 +109,14 @@ class PlaylistsWidget(Gtk.Box):
     def _play(self, coresong=None):
         signal_id = None
 
-        def _on_playlist_loaded(klass, playlist_type):
+        def _on_queue_loaded(
+                coremodel: CoreModel, queue_type: Queue.Type) -> None:
             self._player.play(coresong)
             self._coremodel.disconnect(signal_id)
 
         current_playlist = self._playlists_view.props.current_playlist
         signal_id = self._coremodel.connect(
-            "playlist-loaded", _on_playlist_loaded)
+            "queue-loaded", _on_queue_loaded)
         self._coremodel.props.active_core_object = current_playlist
 
     def _on_song_widget_moved(self, target, source_position):

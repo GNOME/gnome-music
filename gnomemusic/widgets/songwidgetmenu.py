@@ -36,7 +36,9 @@ from gnomemusic.widgets.songwidget import SongWidget
 if typing.TYPE_CHECKING:
     from gnomemusic.application import Application
     from gnomemusic.corealbum import CoreAlbum
+    from gnomemusic.coremodel import CoreModel
     from gnomemusic.coresong import CoreSong
+    from gnomemusic.queue import Queue
     CoreObject = Union[CoreAlbum, CoreSong, Playlist]
 
 
@@ -100,12 +102,13 @@ class SongWidgetMenu(Gtk.PopoverMenu):
         self.popdown()
         signal_id = 0
 
-        def _on_playlist_loaded(klass, playlist_type):
+        def _on_queue_loaded(
+                coremodel: CoreModel, queue_type: Queue.Type) -> None:
             self._player.play(self._coresong)
             self._coremodel.disconnect(signal_id)
 
         signal_id = self._coremodel.connect(
-            "playlist-loaded", _on_playlist_loaded)
+            "queue-loaded", _on_queue_loaded)
         self._coremodel.props.active_core_object = self._coreobject
 
     def _add_to_playlist(self, action: Gio.Simple, param: Any) -> None:

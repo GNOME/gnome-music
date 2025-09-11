@@ -23,313 +23,20 @@
 # delete this exception statement from your version.
 
 from __future__ import annotations
-from enum import IntEnum
-from random import randrange
 import time
 import typing
 
 import gi
 gi.require_version('GstPbutils', '1.0')
-from gi.repository import GLib, GObject, GstPbutils, Gtk
+from gi.repository import GLib, GObject
 
 from gnomemusic.coresong import CoreSong
 from gnomemusic.gstplayer import GstPlayer, Playback
 from gnomemusic.utils import RepeatMode
-from gnomemusic.widgets.songwidget import SongWidget
+from gnomemusic.queue import Queue
 
 if typing.TYPE_CHECKING:
-    from gi.repository import Gio
-
-
-class PlayerPlaylist(GObject.GObject):
-    """PlayerPlaylist object
-
-    Contains the logic to validate a song, handle RepeatMode and the
-    list of songs being played.
-    """
-
-    class Type(IntEnum):
-        """Type of playlist."""
-        SONGS = 0
-        ALBUM = 1
-        ARTIST = 2
-        PLAYLIST = 3
-        SEARCH_RESULT = 4
-
-    repeat_mode = GObject.Property(type=object)
-
-    def __init__(self, application):
-        super().__init__()
-
-        GstPbutils.pb_utils_init()
-
-        self._app = application
-        self._log = application.props.log
-        self._position = 0
-
-        self._validation_songs = {}
-        self._discoverer = GstPbutils.Discoverer()
-        self._discoverer.connect("discovered", self._on_discovered)
-        self._discoverer.start()
-
-        self._coremodel = self._app.props.coremodel
-        self._model = self._coremodel.props.playlist_sort
-        self._model_recent = self._coremodel.props.recent_playlist
-
-        self.connect("notify::repeat-mode", self._on_repeat_mode_changed)
-
-    def has_next(self):
-        """Test if there is a song after the current one.
-
-        :return: True if there is a song. False otherwise.
-        :rtype: bool
-        """
-        if (self.props.repeat_mode == RepeatMode.SONG
-                or self.props.repeat_mode == RepeatMode.ALL
-                or self.props.position < self._model.get_n_items() - 1):
-            return True
-
-        return False
-
-    def has_previous(self):
-        """Test if there is a song before the current one.
-
-        :return: True if there is a song. False otherwise.
-        :rtype: bool
-        """
-        if (self.props.repeat_mode == RepeatMode.SONG
-                or self.props.repeat_mode == RepeatMode.ALL
-                or (self.props.position <= self._model.get_n_items() - 1
-                    and self.props.position > 0)):
-            return True
-
-        return False
-
-    def get_next(self):
-        """Get the next song in the playlist.
-
-        :return: The next CoreSong or None.
-        :rtype: CoreSong
-        """
-        if not self.has_next():
-            return None
-
-        if self.props.repeat_mode == RepeatMode.SONG:
-            next_position = self.props.position
-        elif (self.props.repeat_mode == RepeatMode.ALL
-                and self.props.position == self._model.get_n_items() - 1):
-            next_position = 0
-        else:
-            next_position = self.props.position + 1
-
-        return self._model[next_position]
-
-    def next(self):
-        """Go to the next song in the playlist.
-
-        :return: True if the operation succeeded. False otherwise.
-        :rtype: bool
-        """
-        if not self.has_next():
-            return False
-
-        if self.props.repeat_mode == RepeatMode.SONG:
-            next_position = self.props.position
-        elif (self.props.repeat_mode == RepeatMode.ALL
-                and self.props.position == self._model.get_n_items() - 1):
-            next_position = 0
-        else:
-            next_position = self.props.position + 1
-
-        self._model[self.props.position].props.state = SongWidget.State.PLAYED
-        self._position = next_position
-
-        next_song = self._model[next_position]
-        if next_song.props.validation == CoreSong.Validation.FAILED:
-            return self.next()
-
-        self._update_model_recent()
-        next_song.props.state = SongWidget.State.PLAYING
-        self._validate_next_song()
-        return True
-
-    def previous(self):
-        """Go to the previous song in the playlist.
-
-        :return: True if the operation succeeded. False otherwise.
-        :rtype: bool
-        """
-        if not self.has_previous():
-            return False
-
-        if self.props.repeat_mode == RepeatMode.SONG:
-            previous_position = self.props.position
-        elif (self.props.repeat_mode == RepeatMode.ALL
-                and self.props.position == 0):
-            previous_position = self._model.get_n_items() - 1
-        else:
-            previous_position = self.props.position - 1
-
-        self._model[self.props.position].props.state = SongWidget.State.PLAYED
-        self._position = previous_position
-
-        previous_song = self._model[previous_position]
-        if previous_song.props.validation == CoreSong.Validation.FAILED:
-            return self.previous()
-
-        self._update_model_recent()
-        self._model[previous_position].props.state = SongWidget.State.PLAYING
-        self._validate_previous_song()
-        return True
-
-    @GObject.Property(type=int, default=0, flags=GObject.ParamFlags.READABLE)
-    def position(self):
-        """Gets current song index.
-
-        :returns: position of the current song in the playlist.
-        :rtype: int
-        """
-        return self._position
-
-    @GObject.Property(
-        type=CoreSong, default=None, flags=GObject.ParamFlags.READABLE)
-    def current_song(self):
-        """Get current song.
-
-        :returns: the song being played or None if there are no songs
-        :rtype: CoreSong
-        """
-        n_items = self._model.get_n_items()
-        if (n_items != 0
-                and n_items > self._position):
-            current_song = self._model[self._position]
-            if current_song.props.state == SongWidget.State.PLAYING:
-                return current_song
-
-        for idx, coresong in enumerate(self._model):
-            if coresong.props.state == SongWidget.State.PLAYING:
-                self._position = idx
-                self._update_model_recent()
-                return coresong
-
-        return None
-
-    def set_song(self, song):
-        """Sets current song.
-
-        If no song is provided, a song is automatically selected.
-
-        :param CoreSong song: song to set
-        :returns: The selected song
-        :rtype: CoreSong
-        """
-        if self._model.get_n_items() == 0:
-            return None
-
-        if song is None:
-            if self.props.repeat_mode == RepeatMode.SHUFFLE:
-                position = randrange(0, self._model.get_n_items())
-            else:
-                position = 0
-            song = self._model.get_item(position)
-            song.props.state = SongWidget.State.PLAYING
-            self._position = position
-            self._validate_song(song)
-            self._validate_next_song()
-            self._update_model_recent()
-            return song
-
-        for idx, coresong in enumerate(self._model):
-            if coresong == song:
-                coresong.props.state = SongWidget.State.PLAYING
-                self._position = idx
-                self._validate_song(song)
-                self._validate_next_song()
-                self._update_model_recent()
-                return song
-
-        return None
-
-    def end(self) -> None:
-        """End play of this playlist
-
-        Resets all song state
-        """
-        for song in self._model:
-            song.props.state = SongWidget.State.UNPLAYED
-
-    def _update_model_recent(self):
-        recent_size = self._coremodel.props.recent_playlist_size
-        offset = max(0, self._position - recent_size)
-        self._model_recent.set_offset(offset)
-
-    def _on_repeat_mode_changed(self, klass, param):
-        if self.props.repeat_mode == RepeatMode.SHUFFLE:
-            for idx, coresong in enumerate(self._model):
-                coresong.update_shuffle_pos()
-
-            song_sorter_exp = Gtk.PropertyExpression.new(
-                CoreSong, None, "shuffle-pos")
-            songs_sorter = Gtk.NumericSorter.new(song_sorter_exp)
-            self._model.set_sorter(songs_sorter)
-        elif self.props.repeat_mode in [RepeatMode.NONE, RepeatMode.ALL]:
-            self._model.set_sorter(None)
-
-    def _validate_song(self, coresong):
-        # Song is being processed or has already been processed.
-        # Nothing to do.
-        if coresong.props.validation > CoreSong.Validation.PENDING:
-            return
-
-        url = coresong.props.url
-        if not url:
-            self._log.warning(
-                "The item {} doesn't have a URL set.".format(coresong))
-            return
-        if not url.startswith("file://"):
-            self._log.debug(
-                "Skipping validation of {} as not a local file".format(url))
-            return
-
-        coresong.props.validation = CoreSong.Validation.IN_PROGRESS
-        self._validation_songs[url] = coresong
-        self._discoverer.discover_uri_async(url)
-
-    def _validate_next_song(self):
-        if self.props.repeat_mode == RepeatMode.SONG:
-            return
-
-        current_position = self.props.position
-        next_position = current_position + 1
-        if next_position == self._model.get_n_items():
-            if self.props.repeat_mode != RepeatMode.ALL:
-                return
-            next_position = 0
-
-        self._validate_song(self._model[next_position])
-
-    def _validate_previous_song(self):
-        if self.props.repeat_mode == RepeatMode.SONG:
-            return
-
-        current_position = self.props.position
-        previous_position = current_position - 1
-        if previous_position < 0:
-            if self.props.repeat_mode != RepeatMode.ALL:
-                return
-            previous_position = self._model.get_n_items() - 1
-
-        self._validate_song(self._model[previous_position])
-
-    def _on_discovered(self, discoverer, info, error):
-        url = info.get_uri()
-        coresong = self._validation_songs[url]
-
-        if error:
-            self._log.warning("Info {}: error: {}".format(info, error))
-            coresong.props.validation = CoreSong.Validation.FAILED
-        else:
-            coresong.props.validation = CoreSong.Validation.SUCCEEDED
+    from gi.repository import Gio, Gtk
 
 
 class Player(GObject.GObject):
@@ -358,24 +65,24 @@ class Player(GObject.GObject):
         self._app = application
         # In the case of gapless playback, both 'about-to-finish'
         # and 'eos' can occur during the same stream. 'about-to-finish'
-        # already sets self._playlist to the next song, so doing it
+        # already sets self._queue to the next song, so doing it
         # again on eos would skip a song.
-        # TODO: Improve playlist handling so this hack is no longer
+        # TODO: Improve queue handling so this hack is no longer
         # needed.
         self._gapless_set = False
         self._log = application.props.log
-        self._playlist = PlayerPlaylist(self._app)
+        self._queue = Queue(self._app)
 
-        self._playlist_model = self._app.props.coremodel.props.playlist_sort
-        self._playlist_model.connect(
-            "items-changed", self._on_playlist_model_items_changed)
+        self._queue_model = self._app.props.coremodel.props.queue_sort
+        self._queue_model.connect(
+            "items-changed", self._on_queue_model_items_changed)
 
         self._settings = application.props.settings
         self._settings.connect("changed::repeat", self._on_repeat_mode_changed)
 
         self._repeat = RepeatMode(self._settings.get_enum("repeat"))
         self.bind_property(
-            'repeat-mode', self._playlist, 'repeat-mode',
+            'repeat-mode', self._queue, 'repeat-mode',
             GObject.BindingFlags.SYNC_CREATE)
 
         self._new_clock = True
@@ -403,22 +110,22 @@ class Player(GObject.GObject):
     @GObject.Property(
         type=bool, default=False, flags=GObject.ParamFlags.READABLE)
     def has_next(self):
-        """Test if the playlist has a next song.
+        """Test if the queue has a next song.
 
         :returns: True if the current song is not the last one.
         :rtype: bool
         """
-        return self._playlist.has_next()
+        return self._queue.has_next()
 
     @GObject.Property(
         type=bool, default=False, flags=GObject.ParamFlags.READABLE)
     def has_previous(self):
-        """Test if the playlist has a previous song.
+        """Test if the queue has a previous song.
 
         :returns: True if the current song is not the first one.
         :rtype: bool
         """
-        return self._playlist.has_previous()
+        return self._queue.has_previous()
 
     @GObject.Property(
         type=bool, default=False, flags=GObject.ParamFlags.READABLE)
@@ -430,7 +137,9 @@ class Player(GObject.GObject):
         """
         return self.props.state == Playback.PLAYING
 
-    def _on_playlist_model_items_changed(self, model, pos, removed, added):
+    def _on_queue_model_items_changed(
+            self, model: Gtk.SortListModel, position: int, removed: int,
+            added: int) -> None:
         if (removed > 0
                 and model.get_n_items() == 0):
             self.stop()
@@ -443,13 +152,13 @@ class Player(GObject.GObject):
     def _on_about_to_finish(self, klass):
         if self.props.has_next:
             self._log.debug("Song is about to finish, loading the next one.")
-            next_coresong = self._playlist.get_next()
+            next_coresong = self._queue.get_next()
             new_url = next_coresong.props.url
             self._gst_player.props.url = new_url
             self._gapless_set = True
 
     def _on_eos(self, klass):
-        self._playlist.next()
+        self._queue.next()
 
         if self._gapless_set:
             # After 'eos' in the gapless case, the pipeline needs to be
@@ -458,7 +167,7 @@ class Player(GObject.GObject):
             self.stop()
             self.play(self.props.current_song)
         else:
-            self._log.debug("End of the playlist, stopping the player.")
+            self._log.debug("End of the queue, stopping the player.")
             self.stop()
 
         self._gapless_set = False
@@ -475,7 +184,7 @@ class Player(GObject.GObject):
 
     def _on_stream_start(self, klass):
         if self._gapless_set:
-            self._playlist.next()
+            self._queue.next()
 
         self._gapless_set = False
         self._time_stamp = int(time.time())
@@ -492,7 +201,7 @@ class Player(GObject.GObject):
         """Play a song.
 
         Start playing a song, a specific CoreSong if supplied and
-        available or a song in the playlist decided by the play mode.
+        available or a song in the queue decided by the play mode.
 
         If a song is paused, a subsequent play call without a CoreSong
         supplied will continue playing the paused song.
@@ -500,7 +209,7 @@ class Player(GObject.GObject):
         :param CoreSong coresong: The CoreSong to play or None.
         """
         if self.props.current_song is None:
-            coresong = self._playlist.set_song(coresong)
+            coresong = self._queue.set_song(coresong)
 
         if (coresong is not None
                 and coresong.props.validation == CoreSong.Validation.FAILED
@@ -522,40 +231,40 @@ class Player(GObject.GObject):
         """Stop"""
         self._gst_player.props.state = Playback.STOPPED
         self._app.props.window.set_player_visible(False)
-        self._playlist.end()
+        self._queue.end()
 
     def next(self):
         """"Play next song
 
-        Play the next song of the playlist, if any.
+        Play the next song of the queue, if any.
         """
         if self._gapless_set:
             self.set_position(0.0)
-        elif self._playlist.next():
-            self.play(self._playlist.props.current_song)
+        elif self._queue.next():
+            self.play(self._queue.props.current_song)
 
     def previous(self):
         """Play previous song
 
-        Play the previous song of the playlist, if any.
+        Play the previous song of the queue, if any.
         """
         position = self._gst_player.props.position
         if self._gapless_set:
             self.stop()
 
         if (position < 5
-                and self._playlist.has_previous()):
-            self._playlist.previous()
+                and self._queue.has_previous()):
+            self._queue.previous()
             self._gapless_set = False
-            self.play(self._playlist.props.current_song)
+            self.play(self._queue.props.current_song)
         # This is a special case for a song that is very short and the
-        # first song in the playlist. It can trigger gapless, but
+        # first song in the queue. It can trigger gapless, but
         # has_previous will return False.
         elif (position < 5
-                and self._playlist.props.position == 0):
+                and self._queue.props.position == 0):
             self.set_position(0.0)
             self._gapless_set = False
-            self.play(self._playlist.props.current_song)
+            self.play(self._queue.props.current_song)
         else:
             self.set_position(0.0)
 
@@ -570,7 +279,7 @@ class Player(GObject.GObject):
         self._log.debug("Clock tick {}, player at {} seconds".format(
             tick, self._gst_player.props.position))
 
-        current_song = self._playlist.props.current_song
+        current_song = self._queue.props.current_song
 
         if tick == 0:
             self._new_clock = True
@@ -608,20 +317,20 @@ class Player(GObject.GObject):
     def position(self):
         """Gets current song index.
 
-        :returns: position of the current song in the playlist.
+        :returns: position of the current song in the queue.
         :rtype: int
         """
-        return self._playlist.props.position
+        return self._queue.props.position
 
     @GObject.Property(
         type=CoreSong, default=None, flags=GObject.ParamFlags.READABLE)
     def current_song(self):
         """Get the current song.
 
-        :returns: The song being played. None if there is no playlist.
+        :returns: The song being played. None if there is no queue.
         :rtype: CoreSong
         """
-        return self._playlist.props.current_song
+        return self._queue.props.current_song
 
     def get_position(self):
         """Get player position.

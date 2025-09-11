@@ -29,13 +29,13 @@ import typing
 
 from gi.repository import Gio, GLib
 
-from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
 from gnomemusic.gstplayer import Playback
 from gnomemusic.player import RepeatMode
+from gnomemusic.queue import Queue
 from gnomemusic.widgets.songwidget import SongWidget
 
 if typing.TYPE_CHECKING:
-    from gi.repository import GObject
+    from gi.repository import GObject, Gtk
 
     from gnomemusic.coresong import CoreSong
     from gnomemusic.player import Player
@@ -301,11 +301,11 @@ class MPRIS(DBusInterface):
         self._player.connect('seek-finished', self._on_seek_finished)
 
         self._coremodel = app.props.coremodel
-        self._player_model = self._coremodel.props.playlist_sort
+        self._player_model = self._coremodel.props.queue_sort
         self._player_model_changed_id = None
 
         self._coremodel.connect(
-            "playlist-loaded", self._on_player_playlist_changed)
+            "queue-loaded", self._on_player_playlist_changed)
 
         self._playlists_model = self._coremodel.props.playlists_sort
         n_items = self._playlists_model.get_n_items()
@@ -314,9 +314,9 @@ class MPRIS(DBusInterface):
         self._playlists_model.connect(
             "items-changed", self._on_playlists_items_changed)
 
-        self._recent_playlist = self._coremodel.props.recent_playlist
-        self._recent_playlist.connect(
-            "items-changed", self._on_recent_playlist_changed)
+        self._recent_queue = self._coremodel.props.recent_queue
+        self._recent_queue.connect(
+            "items-changed", self._on_recent_queue_changed)
 
         self._player_playlist_type = None
         self._path_list = []
@@ -440,12 +440,14 @@ class MPRIS(DBusInterface):
             id_hex, index)
         return path
 
-    def _on_recent_playlist_changed(self, model, position, removed, added):
+    def _on_recent_queue_changed(
+            self, model: Gtk.SliceListModel, position: int, removed: int,
+            added: int) -> None:
         self._path_list = []
         self._metadata_list = []
 
-        offset = self._recent_playlist.get_offset()
-        for position, coresong in enumerate(self._recent_playlist):
+        offset = self._recent_queue.get_offset()
+        for position, coresong in enumerate(self._recent_queue):
             offset_position = position + offset
             self._path_list.append(
                 self._get_song_dbus_path(coresong, offset_position))
@@ -488,7 +490,7 @@ class MPRIS(DBusInterface):
         :rtype: tuple
         """
         current_core_object = self._coremodel.props.active_core_object
-        if not isinstance(current_core_object, Playlist):
+        if not isinstance(current_core_object, Queue):
             return (False, ("/", "", ""))
 
         mpris_playlist = self._get_mpris_playlist_from_playlist(
@@ -753,7 +755,7 @@ class MPRIS(DBusInterface):
             self._coremodel.disconnect(loaded_id)
 
         loaded_id = self._coremodel.connect(
-            "playlist-loaded", _on_playlist_loaded)
+            "queue-loaded", _on_playlist_loaded)
         self._coremodel.props.active_core_object = playlist
 
     def _activate_playlist(self, playlist_path):
@@ -778,7 +780,7 @@ class MPRIS(DBusInterface):
             self._load_player_playlist(selected_playlist)
         else:
             signal_id = selected_playlist.connect(
-                "playlist-loaded", _on_playlist_model_loaded)
+                "queue-loaded", _on_playlist_model_loaded)
 
     def _get_playlists(self, index, max_count, order, reverse):
         """Gets a set of playlists (MPRIS Method).

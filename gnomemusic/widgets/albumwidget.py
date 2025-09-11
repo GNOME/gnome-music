@@ -38,7 +38,9 @@ if typing.TYPE_CHECKING:
     from gnomemusic.application import Application
     from gnomemusic.coreartist import CoreArtist
     from gnomemusic.coredisc import CoreDisc
+    from gnomemusic.coremodel import CoreModel
     from gnomemusic.coresong import CoreSong
+    from gnomemusic.queue import Queue
     from gnomemusic.widgets.songwidget import SongWidget
 
 
@@ -252,12 +254,12 @@ class AlbumWidget(Adw.Bin):
     def _play(self, coresong: Optional[CoreSong] = None) -> None:
         signal_id = 0
 
-        def _on_playlist_loaded(klass, playlist_type):
+        def _on_queue_loaded(
+                coremodel: CoreModel, queue_type: Queue.Type) -> None:
             self._player.play(coresong)
             self._coremodel.disconnect(signal_id)
 
-        signal_id = self._coremodel.connect(
-            "playlist-loaded", _on_playlist_loaded)
+        signal_id = self._coremodel.connect("queue-loaded", _on_queue_loaded)
         self._coremodel.props.active_core_object = self.props.active_coreobject
 
     def _song_activated(
