@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2025-01-15 14:05+0000\n"
-"PO-Revision-Date: 2025-02-05 13:19-0300\n"
+"POT-Creation-Date: 2025-09-11 12:21+0000\n"
+"PO-Revision-Date: 2025-09-11 18:44-0300\n"
 "Last-Translator: Emilio Sepúlveda <emism.translations@gmail.com>\n"
 "Language-Team: Interlingua <softinterlingua@gmail.com>\n"
 "Language: ia\n"
@@ -22,26 +22,26 @@ msgstr ""
 "X-DL-Module: gnome-music\n"
 "X-DL-Branch: master\n"
 "X-DL-Domain: po\n"
-"X-DL-State: None\n"
-"X-Generator: Gtranslator 47.1\n"
+"X-DL-State: Translating\n"
+"X-Generator: Gtranslator 48.0\n"
 
-#: data/org.gnome.Music.desktop.in.in:3
+#: data/org.gnome.Music.desktop.in.in:2
 #: data/org.gnome.Music.metainfo.xml.in.in:9 data/ui/StatusNavigationPage.ui:4
-#: gnomemusic/about.py:139 gnomemusic/application.py:61 gnomemusic/window.py:65
+#: gnomemusic/about.py:143 gnomemusic/application.py:61 gnomemusic/window.py:65
 msgid "Music"
 msgstr "Musica"
 
-#: data/org.gnome.Music.desktop.in.in:4
+#: data/org.gnome.Music.desktop.in.in:3
 msgid "Music Player"
 msgstr "Reproductor de musica"
 
-#: data/org.gnome.Music.desktop.in.in:5
+#: data/org.gnome.Music.desktop.in.in:4
 #: data/org.gnome.Music.metainfo.xml.in.in:10
 msgid "Play and organize your music collection"
 msgstr "Reproduce e organisa tu collection de musica"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
-#: data/org.gnome.Music.desktop.in.in:13
+#: data/org.gnome.Music.desktop.in.in:12
 msgid "Music;Player;"
 msgstr "Musica;Reproductor;"
 
@@ -112,7 +112,7 @@ msgid "Albums"
 msgstr "Albumes"
 
 #: data/ui/AlbumWidget.ui:84 data/ui/PlayerToolbar.ui:87
-#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:176
+#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:127
 msgid "Play"
 msgstr "Reproducer"
 
@@ -140,7 +140,7 @@ msgstr "Menu"
 
 #: data/ui/HeaderBar.ui:22 data/ui/SearchHeaderBar.ui:12
 msgid "Search"
-msgstr ""
+msgstr "Cercar"
 
 #: data/ui/HeaderBar.ui:31 data/ui/PreferencesDialog.ui:4
 msgid "Preferences"
@@ -148,7 +148,7 @@ msgstr "Preferentias"
 
 #: data/ui/HeaderBar.ui:35
 msgid "Keyboard Shortcuts"
-msgstr "Commandos curte de claviero"
+msgstr "Vias breve de claviero"
 
 #: data/ui/HeaderBar.ui:39
 msgid "Help"
@@ -171,7 +171,7 @@ msgstr "Preferentias"
 #: data/ui/help-overlay.ui:20
 msgctxt "shortcut window"
 msgid "Search"
-msgstr ""
+msgstr "Cercar"
 
 #: data/ui/help-overlay.ui:26
 msgctxt "shortcut window"
@@ -181,7 +181,7 @@ msgstr "Adjuta"
 #: data/ui/help-overlay.ui:32
 msgctxt "shortcut window"
 msgid "Shortcuts"
-msgstr "Commandos curte"
+msgstr "Vias breve"
 
 #: data/ui/help-overlay.ui:38
 msgctxt "shortcut window"
@@ -253,7 +253,7 @@ msgstr "Sequente"
 
 #: data/ui/PlaylistControls.ui:9
 msgid "_Delete"
-msgstr "_Supprimer"
+msgstr "_Deler"
 
 #: data/ui/PlaylistControls.ui:13
 msgid "_Rename…"
@@ -265,7 +265,7 @@ msgstr "Nomine de lista de reproduction"
 
 #: data/ui/PlaylistControls.ui:62
 msgid "_Done"
-msgstr ""
+msgstr "_Facite"
 
 #: data/ui/PlaylistDialog.ui:16
 msgid "Add to Playlist"
@@ -281,7 +281,7 @@ msgstr "_Adder"
 
 #: data/ui/PlaylistDialog.ui:91
 msgid "Enter a name for your first playlist"
-msgstr "Entra un nomine pro tu prime lista de reproduction"
+msgstr "Insere un nomine pro tu prime lista de reproduction"
 
 #: data/ui/PlaylistDialog.ui:116
 msgid "C_reate"
@@ -313,7 +313,7 @@ msgstr "Cantion"
 
 #: data/ui/PreferencesDialog.ui:18
 msgid "All"
-msgstr "Tot"
+msgstr "Toto"
 
 #: data/ui/PreferencesDialog.ui:19 gnomemusic/player.py:51
 msgid "Shuffle"
@@ -329,7 +329,7 @@ msgstr ""
 
 #: data/ui/PreferencesDialog.ui:32
 msgid "Disabled"
-msgstr "Dishabilitate"
+msgstr "Disactivate"
 
 #: data/ui/PreferencesDialog.ui:33
 msgid "Album"
@@ -341,7 +341,7 @@ msgstr "Pista"
 
 #: data/ui/PreferencesDialog.ui:44
 msgid "Power Settings"
-msgstr ""
+msgstr "Parametros de energia"
 
 #: data/ui/PreferencesDialog.ui:47
 msgid "Inhibit Suspend"
@@ -349,7 +349,11 @@ msgstr ""
 
 #: data/ui/PreferencesDialog.ui:48
 msgid "Only while playing"
-msgstr ""
+msgstr "Solmente durante le reproduction"
+
+#: data/ui/RepeatModeButton.ui:14
+msgid "Set Repeat Mode"
+msgstr "Definir modo de repetition"
 
 #: data/ui/SearchView.ui:55 data/ui/SearchView.ui:112
 msgid "View All"
@@ -357,28 +361,36 @@ msgstr "Vider toto"
 
 #: data/ui/SearchView.ui:154
 msgid "Songs"
-msgstr "Cantos"
+msgstr "Cantiones"
 
 #: data/ui/SongWidgetMenu.ui:19
 msgid "_Remove from Playlist"
-msgstr "_Remover desde le lista de reproduction"
+msgstr "_Remover ab le lista de reproduction"
 
 #: data/ui/StatusNavigationPage.ui:36
 msgid "Welcome to Music"
 msgstr "Benvenite a Musica"
 
-#: gnomemusic/about.py:141
+#: data/ui/VolumeButton.ui:12
+msgid "Adjust Volume"
+msgstr "Adjustar volumine"
+
+#: data/ui/VolumeButton.ui:27
+msgid "Mute/Unmute"
+msgstr "Silentiar/Dissilentiar"
+
+#: gnomemusic/about.py:145
 msgid "The GNOME Project"
 msgstr "Le projecto GNOME"
 
 #. Translators should localize the following string which
 #. will be displayed at the bottom of the about box to give
 #. credit to the translator(s).
-#: gnomemusic/about.py:147
+#: gnomemusic/about.py:151
 msgid "translator-credits"
 msgstr "Emilio Sepúlveda <emism.translations@gmail.com>"
 
-#: gnomemusic/about.py:151
+#: gnomemusic/about.py:155
 msgid "© The GNOME Music Developers"
 msgstr "© Le disveloppatores de GNOME Music"
 
@@ -419,29 +431,29 @@ msgstr ""
 msgid "All Songs"
 msgstr "Tote le cantiones"
 
-#: gnomemusic/gstplayer.py:424
+#: gnomemusic/gstplayer.py:435
 msgid "Unable to play the file"
 msgstr "Impossibile de reproducer le file"
 
-#: gnomemusic/gstplayer.py:430
+#: gnomemusic/gstplayer.py:441
 msgid "_Find in {}"
-msgstr "_Trovar in {}"
+msgstr "_Cercar in {}"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:440
+#: gnomemusic/gstplayer.py:451
 msgid " and "
 msgstr "e"
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:443
+#: gnomemusic/gstplayer.py:454
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:445
+#: gnomemusic/gstplayer.py:456
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} es requirite pro reproducer le file, ma non es installate."
+msgstr[1] "{} es requirite pro reproducer le file, ma non es installate."
 
 #: gnomemusic/inhibitsuspend.py:69
 msgid "Playing music"
@@ -450,7 +462,7 @@ msgstr "Musica in reproduction"
 #. Translators: "shuffle" causes tracks to play in random order.
 #: gnomemusic/player.py:48
 msgid "Shuffle/Repeat Off"
-msgstr ""
+msgstr "Disactivar Miscer/Repeter"
 
 #: gnomemusic/player.py:49
 msgid "Repeat Song"
@@ -470,15 +482,15 @@ msgstr "Disfacer"
 
 #: gnomemusic/songtoast.py:64
 msgid "{} removed from {}"
-msgstr "{} removite desde {}"
+msgstr "{} removite ab {}"
 
 #: gnomemusic/utils.py:92
 msgid "Unknown album"
-msgstr "Album non cognoscite"
+msgstr "Album incognite"
 
 #: gnomemusic/utils.py:113
 msgid "Unknown Artist"
-msgstr "Artista non cognoscite"
+msgstr "Artista incognite"
 
 #: gnomemusic/views/playlistsview.py:45
 msgid "Playlists"
@@ -498,20 +510,15 @@ msgstr "Necun resultatos trovate"
 
 #: gnomemusic/views/searchview.py:222
 msgid "Try a different search"
-msgstr "Trova un cerca differente"
+msgstr "Tenta un cerca differente"
 
-#: gnomemusic/widgets/albumwidget.py:193
-#, python-brace-format
-msgid "Disc {row.props.disc_nr}"
-msgstr "Disco {row.props.disc_nr}"
-
-#: gnomemusic/widgets/albumwidget.py:241
+#: gnomemusic/widgets/albumwidget.py:242
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} minuta"
 msgstr[1] "{} minutas"
 
-#: gnomemusic/widgets/playertoolbar.py:173
+#: gnomemusic/widgets/playertoolbar.py:124
 msgid "Pause"
 msgstr "Pausar"
 
@@ -528,7 +535,7 @@ msgstr "Cerca cantiones, artistas e albumes"
 #. noqa: F841
 #: gnomemusic/widgets/songwidgetmenu.py:94
 msgid "_Open Location"
-msgstr ""
+msgstr "Aperir l_ocalisation"
 
 #. TRANSLATORS: These are verbs, to (un)mark something as a
 #. favorite.
@@ -544,36 +551,41 @@ msgstr ""
 msgid "Your XDG Music directory is not set."
 msgstr "Tu directorio de musica XDG non es definite."
 
-#: gnomemusic/widgets/statusnavigationpage.py:58
+#: gnomemusic/widgets/statusnavigationpage.py:56
 msgid "Music Folder"
 msgstr "Dossier de musica"
 
-#. TRANSLATORS: This is a label to display a link to open user's music
-#. folder. {} will be replaced with the translated text 'Music folder'
-#: gnomemusic/widgets/statusnavigationpage.py:66
+#. TRANSLATORS: This is a label to display a link to open
+#. a user's music folder. {} will be replaced with the
+#. translated text 'Music folder'
+#: gnomemusic/widgets/statusnavigationpage.py:60
 msgid "The contents of your {} will appear here."
 msgstr "Le contentos de tu {} apparera hic."
 
-#: gnomemusic/widgets/statusnavigationpage.py:116
+#: gnomemusic/widgets/statusnavigationpage.py:114
 msgid "No Music Found"
 msgstr "Necun musica trovate"
 
-#: gnomemusic/widgets/statusnavigationpage.py:117
+#: gnomemusic/widgets/statusnavigationpage.py:115
 msgid "Try a Different Search"
-msgstr "Trova un cerca differente"
+msgstr "Tenta un recerca differente"
 
-#: gnomemusic/widgets/statusnavigationpage.py:121
+#: gnomemusic/widgets/statusnavigationpage.py:119
 msgid "GNOME Music could not connect to Tracker."
 msgstr "GNOME Music non pote connecter a Tracker."
 
-#: gnomemusic/widgets/statusnavigationpage.py:123
+#: gnomemusic/widgets/statusnavigationpage.py:121
 msgid "Your music files cannot be indexed without Tracker running."
 msgstr ""
 
-#: gnomemusic/widgets/statusnavigationpage.py:129
+#: gnomemusic/widgets/statusnavigationpage.py:127
 msgid "Your system Tracker version seems outdated."
-msgstr ""
+msgstr "Il pare que le version de Tracker de tu systema es obsolete."
 
-#: gnomemusic/widgets/statusnavigationpage.py:131
+#: gnomemusic/widgets/statusnavigationpage.py:129
 msgid "Music needs Tracker version 3.0.0 or higher."
 msgstr "Musica necessita Tracker version 3.0.0 o superior."
+
+#, python-brace-format
+#~ msgid "Disc {row.props.disc_nr}"
+#~ msgstr "Disco {row.props.disc_nr}"
