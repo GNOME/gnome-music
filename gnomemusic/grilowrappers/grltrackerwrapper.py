@@ -36,9 +36,7 @@ from gnomemusic.coredisc import CoreDisc
 from gnomemusic.coresong import CoreSong
 from gnomemusic.grilowrappers.grltrackerplaylists import (
     GrlTrackerPlaylists, Playlist)
-from gnomemusic.storeart import StoreArt
 from gnomemusic.trackerwrapper import TrackerWrapper
-from gnomemusic.utils import CoreObjectType
 if typing.TYPE_CHECKING:
     from gnomemusic.application import Application
     from gnomemusic.coremodel import CoreModel
@@ -86,11 +84,6 @@ class GrlTrackerWrapper(GObject.GObject):
         Grl.METADATA_KEY_TITLE,
         Grl.METADATA_KEY_TRACK_NUMBER,
         Grl.METADATA_KEY_URL
-    ]
-
-    _METADATA_THUMBNAIL_KEYS: List[int] = [
-        Grl.METADATA_KEY_ID,
-        Grl.METADATA_KEY_THUMBNAIL
     ]
 
     def __init__(
@@ -1109,164 +1102,6 @@ class GrlTrackerWrapper(GObject.GObject):
         self._search_artist(term)
         self._search_album(term)
         self._search_song(term)
-
-    def _get_album_for_media_id_query(
-            self, media_id: str, song: bool = True) -> str:
-        # Even though we check for the album_artist, we fill
-        # the artist key, since Grilo coverart plugins use
-        # only that key for retrieval.
-
-        if song:
-            filter_clause = "?song = <{}>".format(str(media_id))
-        else:
-            filter_clause = "?album = <{}>".format(str(media_id))
-
-        query = """
-        SELECT
-            ?type ?id ?mbReleaseGroup ?mbRelease ?artist ?album
-        WHERE {
-            SERVICE <dbus:%(miner_fs_busname)s> {
-                GRAPH tracker:Audio {
-                    SELECT DISTINCT
-                        %(media_type)s AS ?type
-                        ?album AS ?id
-                        tracker:referenceIdentifier(?release_group_id)
-                            AS ?mbReleaseGroup
-                        tracker:referenceIdentifier(?release_id) AS ?mbRelease
-                        tracker:coalesce(nmm:artistName(?album_artist),
-                                         nmm:artistName(?song_artist))
-                            AS ?artist
-                        nie:title(?album) AS ?album
-                    WHERE {
-                        ?album a nmm:MusicAlbum .
-                        ?song a nmm:MusicPiece ;
-                                nmm:musicAlbum ?album ;
-                                nmm:artist ?song_artist .
-                        OPTIONAL {
-                            ?album tracker:hasExternalReference
-                                ?release_group_id .
-                            ?release_group_id tracker:referenceSource
-                                "https://musicbrainz.org/doc/Release_Group" .
-                        }
-                        OPTIONAL {
-                            ?album tracker:hasExternalReference ?release_id .
-                            ?release_id tracker:referenceSource
-                                "https://musicbrainz.org/doc/Release" .
-                        }
-                        OPTIONAL { ?album nmm:albumArtist ?album_artist . }
-                        FILTER (
-                            %(filter_clause)s
-                        )
-                        %(location_filter)s
-                    }
-                }
-            }
-        }
-        """.replace("\n", " ").strip() % {
-            "miner_fs_busname": self._tracker_wrapper.props.miner_fs_busname,
-            "media_type": int(Grl.MediaType.CONTAINER),
-            "filter_clause": filter_clause,
-            "location_filter": self._tracker_wrapper.location_filter()
-        }
-
-        return query
-
-    def get_song_art(self, coresong: CoreSong) -> None:
-        """Retrieve song art for the given CoreSong
-
-        Since MediaArt does not really support per-song art this
-        uses the songs album information as base to retrieve relevant
-        art and store it.
-
-        :param CoreSong coresong: CoreSong to get art for
-        """
-        media: Grl.Media = coresong.props.media
-
-        # If there is no album and artist do not go through with the
-        # query, it will not give any results.
-        if (media.get_album() is None
-                and (media.get_album_artist() is None
-                     or media.get_artist() is None)):
-            return
-
-        def art_retrieved_cb(
-                source: Grl.Source, op_id: int,
-                queried_media: Optional[Grl.Media], remaining: int,
-                error: Optional[GLib.Error]) -> None:
-            if error:
-                self._log.warning("Error: {}".format(error))
-                return
-
-            if queried_media is None:
-                return
-
-            StoreArt().start(
-                coresong, queried_media.get_thumbnail(), CoreObjectType.SONG)
-
-        song_id: str = media.get_id()
-        query: str = self._get_album_for_media_id_query(song_id)
-
-        self.props.source.query(
-            query, self._METADATA_THUMBNAIL_KEYS, self._full_options_lprio,
-            art_retrieved_cb)
-
-    def get_album_art(self, corealbum: CoreAlbum) -> None:
-        """Retrieve album art for the given CoreAlbum
-
-        :param CoreAlbum corealbum: CoreAlbum to get art for
-        """
-        media: Grl.Media = corealbum.props.media
-
-        def art_retrieved_cb(
-                source: Grl.Source, op_id: int,
-                queried_media: Optional[Grl.Media], remaining: int,
-                error: Optional[GLib.Error]) -> None:
-            if error:
-                self._log.warning("Error: {}".format(error))
-                return
-
-            if queried_media is None:
-                return
-
-            StoreArt().start(
-                corealbum, queried_media.get_thumbnail(), CoreObjectType.ALBUM)
-
-        album_id: str = media.get_id()
-        query: str = self._get_album_for_media_id_query(album_id, False)
-
-        self.props.source.query(
-            query, self._METADATA_THUMBNAIL_KEYS, self._full_options_lprio,
-            art_retrieved_cb)
-
-    def get_artist_art(self, coreartist: CoreArtist) -> None:
-        """Retrieve artist art for the given CoreArtist
-
-        This retrieves art through Grilo online services only.
-
-        :param CoreArtist coreartist: CoreArtist to get art for
-        """
-        media: Grl.Media = coreartist.props.media
-
-        def art_resolved_cb(
-                source: Grl.Source, op_id: int,
-                resolved_media: Optional[Grl.Media],
-                error: Optional[GLib.Error]) -> None:
-            if error:
-                self._log.warning("Error: {}".format(error))
-                return
-
-            if resolved_media is None:
-                return
-
-            thumbnail = resolved_media.get_thumbnail()
-            if thumbnail is None:
-                return
-
-            StoreArt().start(coreartist, thumbnail, CoreObjectType.ARTIST)
-
-        self.props.source.resolve(
-            media, [Grl.METADATA_KEY_THUMBNAIL], self._full_options_lprio,
-            art_resolved_cb)
 
     def stage_playlist_deletion(self, playlist: Optional[Playlist]) -> None:
         """Prepares playlist deletion.

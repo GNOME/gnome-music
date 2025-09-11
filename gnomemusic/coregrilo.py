@@ -22,6 +22,9 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from __future__ import annotations
+from typing import Optional
+import typing
 import weakref
 
 import gi
@@ -30,10 +33,21 @@ from gi.repository import Grl, GLib, GObject, Gtk
 
 from gnomemusic.grilowrappers.grlsearchwrapper import GrlSearchWrapper
 from gnomemusic.grilowrappers.grltrackerwrapper import GrlTrackerWrapper
+from gnomemusic.storeart import StoreArt
 from gnomemusic.trackerwrapper import TrackerState, TrackerWrapper
+from gnomemusic.utils import CoreObjectType
+if typing.TYPE_CHECKING:
+    from gnomemusic.corealbum import CoreAlbum
+    from gnomemusic.coreartist import CoreArtist
+    from gnomemusic.coresong import CoreSong
 
 
 class CoreGrilo(GObject.GObject):
+
+    _METADATA_THUMBNAIL_KEYS = [
+        Grl.METADATA_KEY_ID,
+        Grl.METADATA_KEY_THUMBNAIL
+    ]
 
     _blocklist = [
         'grl-bookmarks',
@@ -66,6 +80,10 @@ class CoreGrilo(GObject.GObject):
         self._thumbnail_sources = []
         self._thumbnail_sources_timeout = None
         self._wrappers = {}
+
+        self._fast_options: Grl.OperationOptions = Grl.OperationOptions()
+        self._fast_options.set_resolution_flags(
+            Grl.ResolutionFlags.FAST_ONLY | Grl.ResolutionFlags.IDLE_RELAY)
 
         self._tracker_wrapper = TrackerWrapper(application)
         self._tracker_wrapper.bind_property(
@@ -248,29 +266,77 @@ class CoreGrilo(GObject.GObject):
         for wrapper in self._search_wrappers.values():
             wrapper.search(text)
 
-    def get_song_art(self, coresong):
+    def get_song_art(self, coresong: CoreSong) -> None:
         """Retrieve song art for the given CoreSong
 
         :param CoreSong coresong: CoreSong to retrieve art for
         """
-        if "grl-tracker3-source" in self._wrappers:
-            self._wrappers["grl-tracker3-source"].get_song_art(coresong)
+        def _on_resolved(
+                source: Grl.Source, op_id: int, media: Optional[Grl.Media],
+                error: Optional[GLib.Error]) -> None:
+            if error:
+                self._log.warning(f"Error: {error.domain}, {error.message}")
+                return
 
-    def get_album_art(self, corealbum):
+            if media is None:
+                return
+
+            StoreArt().start(
+                coresong, media.get_thumbnail(), CoreObjectType.SONG)
+
+        for source in self._thumbnail_sources:
+            source.resolve(
+                coresong.props.media, self._METADATA_THUMBNAIL_KEYS,
+                self._fast_options, _on_resolved)
+
+    def get_album_art(self, corealbum: CoreAlbum) -> None:
         """Retrieve album art for the given CoreAlbum
 
         :param CoreAlbum corealbum: CoreAlbum to retrieve art for
         """
-        if "grl-tracker3-source" in self._wrappers:
-            self._wrappers["grl-tracker3-source"].get_album_art(corealbum)
+        def _on_resolved(
+                source: Grl.Source, op_id: int, media: Optional[Grl.Media],
+                error: Optional[GLib.Error]) -> None:
+            if error:
+                self._log.warning(f"Error: {error.domain}, {error.message}")
+                return
 
-    def get_artist_art(self, coreartist):
+            if media is None:
+                return
+
+            StoreArt().start(
+                corealbum, media.get_thumbnail(), CoreObjectType.ALBUM)
+
+        for source in self._thumbnail_sources:
+            # The grilo album field is used during resolve
+            corealbum.props.media.set_album(
+                corealbum.props.media.get_title())
+            source.resolve(
+                corealbum.props.media, self._METADATA_THUMBNAIL_KEYS,
+                self._fast_options, _on_resolved)
+
+    def get_artist_art(self, coreartist: CoreArtist) -> None:
         """Retrieve artist art for the given CoreArtist
 
         :param CoreArtist coreartist: CoreArtist to retrieve art for
         """
-        if "grl-tracker3-source" in self._wrappers:
-            self._wrappers["grl-tracker3-source"].get_artist_art(coreartist)
+        def _on_resolved(
+                source: Grl.Source, op_id: int, media: Optional[Grl.Media],
+                error: Optional[GLib.Error]) -> None:
+            if error:
+                self._log.warning(f"Error: {error.domain}, {error.message}")
+                return
+
+            if media is None:
+                return
+
+            StoreArt().start(
+                coreartist, media.get_thumbnail(), CoreObjectType.ARTIST)
+
+        for source in self._thumbnail_sources:
+            source.resolve(
+                coreartist.props.media, self._METADATA_THUMBNAIL_KEYS,
+                self._fast_options, _on_resolved)
 
     def stage_playlist_deletion(self, playlist):
         """Prepares playlist deletion.
