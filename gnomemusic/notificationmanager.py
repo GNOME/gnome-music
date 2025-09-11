@@ -22,6 +22,10 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from __future__ import annotations
+from types import TracebackType
+from typing import Optional
+
 from gi.repository import GLib, GObject
 
 
@@ -69,3 +73,12 @@ class NotificationManager(GObject.Object):
             self._pulse_id = 0
             if self._window:
                 self._window.loading_visible(False)
+
+    async def __aenter__(self) -> None:
+        self.push_loading()
+
+    async def __aexit__(
+            self, exc_type: Optional[BaseException],
+            exc_value: Optional[BaseException],
+            exc_traceback: Optional[TracebackType]) -> None:
+        self.pop_loading()
