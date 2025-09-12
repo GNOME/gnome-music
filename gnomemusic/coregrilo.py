@@ -127,6 +127,11 @@ class CoreGrilo(GObject.GObject):
         weakref.finalize(self, Grl.deinit)
 
     def _on_tracker_available_changed(self, klass, value):
+        def callback(service, graph, events):
+            for event in events:
+                print('Event {0} on {1}\n'.format(
+                    event.get_event_type(), event.get_urn()))
+
         # FIXME:No removal support yet.
         new_state = self._tracker_wrapper.props.tracker_available
         if new_state == TrackerState.AVAILABLE:
@@ -138,6 +143,9 @@ class CoreGrilo(GObject.GObject):
             self._registry.add_config(config)
 
             self._registry.activate_plugin_by_id("grl-tracker3")
+
+            notifier = self._tracker_wrapper._miner_fs.create_notifier()
+            notifier.connect('events', callback)
 
     def _on_source_added(self, registry, source):
 
