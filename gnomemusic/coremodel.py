@@ -403,11 +403,6 @@ class CoreModel(GObject.GObject):
         return self._artists_model_proxy
 
     @GObject.Property(
-        type=Gio.ListStore, default=None, flags=GObject.ParamFlags.READABLE)
-    def queue(self):
-        return self._queue_model
-
-    @GObject.Property(
         type=Gtk.SortListModel, default=None,
         flags=GObject.ParamFlags.READABLE)
     def albums_sort(self):
