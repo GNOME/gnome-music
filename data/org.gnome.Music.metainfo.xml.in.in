@@ -62,7 +62,9 @@
   <releases>
     <release version="49.0" date="2025-09-13">
       <description>
-        Bugs fixed, reliability improved.
+        <p>
+          Bugs fixed, reliability improved.
+        </p>
       </description>
     </release>
     <release version="48.0" date="2025-03-13">
