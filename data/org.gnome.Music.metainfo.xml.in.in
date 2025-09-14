@@ -60,6 +60,11 @@
   <translation type="gettext">@appid@</translation>
   <update_contact>mschraal@gnome.org</update_contact>
   <releases>
+    <release version="48.2" date="2025-09-14">
+      <description>
+        <p>Fix drag and drop in playlists</p>
+      </description>
+    </release>
     <release version="48.1" date="2025-08-21">
       <description>
         <p>Bug fixes</p>

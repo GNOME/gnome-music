@@ -1,3 +1,14 @@
+Overview of changes in 48.2
+===========================
+
+• Translation updates
+
+Bugs fixed:
+ Fix order of playlist queries on dnd
+ Handle empty fields for Grl.Media creation
+ Disable flatpak LocalSearch tests
+
+
 Overview of changes in 48.1
 ===========================
 
