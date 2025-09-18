@@ -22,6 +22,7 @@
 # delete this exception statement from your version.
 
 from __future__ import annotations
+import asyncio
 import os
 import typing
 from enum import IntEnum
@@ -69,8 +70,8 @@ class TrackerWrapper(GObject.GObject):
         self._miner_fs_busname = ""
         self._miner_fs_available = TrackerState.UNAVAILABLE
 
-        GLib.idle_add(self._setup_local_db, priority=GLib.PRIORITY_HIGH)
-        GLib.idle_add(self._setup_host_miner_fs, priority=GLib.PRIORITY_HIGH)
+        asyncio.create_task(self._setup_local_db())
+        asyncio.create_task(self._setup_host_miner_fs())
 
     @staticmethod
     def _in_flatpak() -> bool:
@@ -81,7 +82,7 @@ class TrackerWrapper(GObject.GObject):
         """
         return os.path.exists("/.flatpak-info")
 
-    def _setup_host_miner_fs(self) -> bool:
+    async def _setup_host_miner_fs(self) -> None:
         self._miner_fs_busname = "org.freedesktop.Tracker3.Miner.Files"
 
         self._log.debug(
@@ -103,8 +104,6 @@ class TrackerWrapper(GObject.GObject):
             else:
                 self._miner_fs_busname = ""
                 self.notify("tracker-available")
-
-        return GLib.SOURCE_REMOVE
 
     def _setup_local_miner_fs(self) -> None:
         self._miner_fs_busname = self._application_id + ".Tracker3.Miner.Files"
@@ -146,7 +145,7 @@ class TrackerWrapper(GObject.GObject):
             self._miner_fs_busname = ""
             self.notify("tracker-available")
 
-    def _setup_local_db(self) -> bool:
+    async def _setup_local_db(self) -> None:
         # Open a local Tracker database.
         try:
             self._local_db = Tracker.SparqlConnection.new(
@@ -165,8 +164,6 @@ class TrackerWrapper(GObject.GObject):
         # checks fail.
         self._local_db_available = TrackerState.AVAILABLE
         self.notify("tracker-available")
-
-        return GLib.SOURCE_REMOVE
 
     def cache_directory(self) -> str:
         """Get directory which contains Music private data.
