@@ -127,10 +127,15 @@ class CoreGrilo(GObject.GObject):
 
         weakref.finalize(self, Grl.deinit)
 
-    def _on_tracker_available_changed(self, klass, value):
+    def _on_tracker_available_changed(
+            self, trackerwrapper: TrackerWrapper, state: TrackerState) -> None:
         # FIXME:No removal support yet.
         new_state = self._tracker_wrapper.props.tracker_available
         if new_state == TrackerState.AVAILABLE:
+            wrapper = LocalSearchWrapper(
+                self._application, self._tracker_wrapper)
+            self._wrappers["gnome-music"] = wrapper
+
             config = Grl.Config.new("grl-tracker3", "grl-tracker3-source")
             config.set_string(
                 "miner-service", self._tracker_wrapper.props.miner_fs_busname)
@@ -176,10 +181,6 @@ class CoreGrilo(GObject.GObject):
                 GLib.UserDirectory.DIRECTORY_MUSIC)
             self._log.debug("XDG Music dir is: {}".format(music_dir))
 
-            # FIXME: Temp hack - we know LocalSearch exists here
-            new_wrapper = LocalSearchWrapper(
-                self._application, self._tracker_wrapper)
-            self._wrappers["gnome-music"] = new_wrapper
         elif (source.props.source_id not in self._search_wrappers.keys()
                 and source.props.source_id not in self._wrappers.keys()
                 and source.props.source_id != "grl-tracker3-source"

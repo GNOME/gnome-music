@@ -69,8 +69,8 @@ class TrackerWrapper(GObject.GObject):
         self._miner_fs_busname = ""
         self._miner_fs_available = TrackerState.UNAVAILABLE
 
-        self._setup_local_db()
-        self._setup_host_miner_fs()
+        GLib.idle_add(self._setup_local_db, priority=GLib.PRIORITY_HIGH)
+        GLib.idle_add(self._setup_host_miner_fs, priority=GLib.PRIORITY_HIGH)
 
     @staticmethod
     def _in_flatpak() -> bool:
@@ -81,7 +81,7 @@ class TrackerWrapper(GObject.GObject):
         """
         return os.path.exists("/.flatpak-info")
 
-    def _setup_host_miner_fs(self) -> None:
+    def _setup_host_miner_fs(self) -> bool:
         self._miner_fs_busname = "org.freedesktop.Tracker3.Miner.Files"
 
         self._log.debug(
@@ -103,6 +103,8 @@ class TrackerWrapper(GObject.GObject):
             else:
                 self._miner_fs_busname = ""
                 self.notify("tracker-available")
+
+        return GLib.SOURCE_REMOVE
 
     def _setup_local_miner_fs(self) -> None:
         self._miner_fs_busname = self._application_id + ".Tracker3.Miner.Files"
@@ -144,7 +146,7 @@ class TrackerWrapper(GObject.GObject):
             self._miner_fs_busname = ""
             self.notify("tracker-available")
 
-    def _setup_local_db(self) -> None:
+    def _setup_local_db(self) -> bool:
         # Open a local Tracker database.
         try:
             self._local_db = Tracker.SparqlConnection.new(
@@ -163,6 +165,8 @@ class TrackerWrapper(GObject.GObject):
         # checks fail.
         self._local_db_available = TrackerState.AVAILABLE
         self.notify("tracker-available")
+
+        return GLib.SOURCE_REMOVE
 
     def cache_directory(self) -> str:
         """Get directory which contains Music private data.
