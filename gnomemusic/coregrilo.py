@@ -29,7 +29,7 @@ import weakref
 
 import gi
 gi.require_version("Grl", "0.3")
-from gi.repository import Grl, GLib, GObject, Gtk
+from gi.repository import Grl, GLib, GObject, Gtk, Tracker
 
 from gnomemusic.grilowrappers.grlsearchwrapper import GrlSearchWrapper
 from gnomemusic.grilowrappers.grltrackerwrapper import GrlTrackerWrapper
@@ -43,7 +43,9 @@ if typing.TYPE_CHECKING:
     from gnomemusic.coresong import CoreSong
 
 
-class CoreGrilo(GObject.GObject):
+class CoreGrilo(GObject.Object):
+
+    __gtype_name__ = "CoreGrilo"
 
     _METADATA_THUMBNAIL_KEYS = [
         Grl.METADATA_KEY_ID,
@@ -114,20 +116,41 @@ class CoreGrilo(GObject.GObject):
             self._on_tracker_available_changed(None, None)
 
         for plugin in self._registry.get_plugins(False):
-            plugin_id = plugin.get_id()
+            print(plugin.get_id())
+            if plugin.get_id() in ["grl-lua-factory"]:
+                self._registry.activate_plugin_by_id(plugin.get_id())
+        # for plugin in self._registry.get_plugins(False):
+        #     plugin_id = plugin.get_id()
+        #     print(plugin.get_id())
             # Activate the Tracker plugin only when TrackerWrapper
             # is available by listening to the tracker-available
             # property, so skip it here.
-            if plugin_id != "grl-tracker3":
-                try:
-                    self._registry.activate_plugin_by_id(plugin_id)
-                except GLib.GError:
-                    self._log.debug(
-                        "Failed to activate {} plugin.".format(plugin_id))
+        #     pass
+        #     if plugin_id != "grl-tracker3":
+        #         try:
+        #             self._registry.activate_plugin_by_id(plugin_id)
+        #         except GLib.GError:
+        #             self._log.debug(
+        #                 "Failed to activate {} plugin.".format(plugin_id))
 
         weakref.finalize(self, Grl.deinit)
 
+        def callback(meh, service, graph, events):
+            print("CB2")
+            for event in events:
+                print('Event {0} on {1}\n'.format(
+                    event.get_event_type(), event.get_urn()))
+
+        connection = Tracker.SparqlConnection.bus_new(
+            'org.freedesktop.Tracker3.Miner.Files',
+            None, None)
+
+        notifier = connection.create_notifier()
+        notifier.connect('events', callback)
+
+
     def _on_tracker_available_changed(self, klass, value):
+        return
         # FIXME:No removal support yet.
         new_state = self._tracker_wrapper.props.tracker_available
         if new_state == TrackerState.AVAILABLE:
@@ -168,6 +191,7 @@ class CoreGrilo(GObject.GObject):
 
         if (source.props.source_id == "grl-tracker3-source"
                 and self._tracker_wrapper.location_filter() is not None):
+            return
             new_wrapper = GrlTrackerWrapper(
                 source, self._application, self._tracker_wrapper)
             self._wrappers[source.props.source_id] = new_wrapper

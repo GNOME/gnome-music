@@ -43,7 +43,7 @@ class TrackerState(IntEnum):
     OUTDATED = 2
 
 
-class TrackerWrapper(GObject.GObject):
+class TrackerWrapper(GObject.Object):
     """Holds the connection to TinySparql.
 
     Setup the connection to TinySparql in host and flaptpak mode.
@@ -52,12 +52,30 @@ class TrackerWrapper(GObject.GObject):
     TinySparql database.
     """
 
+    __gtype_name__ = "TrackerWrapper"
+
     def __init__(self, application: Application) -> None:
         """Create a connection to an instance of Tracker
 
         :param Application application: The application object
         """
+        print("TRACKERWWRAPPER")
         super().__init__()
+
+
+        def callback(meh, service, graph, events):
+            print("CB3")
+            for event in events:
+                print('Event {0} on {1}\n'.format(
+                    event.get_event_type(), event.get_urn()))
+
+        connection = Tracker.SparqlConnection.bus_new(
+            'org.freedesktop.Tracker3.Miner.Files',
+            None, None)
+
+        notifier = connection.create_notifier()
+        notifier.connect('events', callback)
+        print("TRACKERWWRAPPER", connection, notifier)
 
         self._log = application.props.log
         self._application_id = application.props.application_id
@@ -69,8 +87,10 @@ class TrackerWrapper(GObject.GObject):
         self._miner_fs_busname = ""
         self._miner_fs_available = TrackerState.UNAVAILABLE
 
-        self._setup_local_db()
-        self._setup_host_miner_fs()
+        # GLib.idle_add(self._setup_local_db)
+        # GLib.idle_add(self._setup_host_miner_fs)
+
+
 
     @staticmethod
     def _in_flatpak() -> bool:

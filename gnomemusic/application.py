@@ -35,7 +35,7 @@ from typing import Optional
 from gettext import gettext as _
 
 from gi.events import GLibEventLoopPolicy
-from gi.repository import Adw, Gtk, Gio, GLib, Gdk, GObject
+from gi.repository import Adw, Gtk, Gio, GLib, Gdk, GObject, Tsparql
 
 from gnomemusic.about import show_about
 from gnomemusic.coregrilo import CoreGrilo
@@ -72,9 +72,6 @@ class Application(Adw.Application):
 
         self._notificationmanager = NotificationManager(self)
         self._coremodel = CoreModel(self)
-        # Order is important: CoreGrilo initializes the Grilo sources,
-        # which in turn uses CoreModel extensively.
-        self._coregrilo = CoreGrilo(self)
 
         self._settings = Gio.Settings.new('org.gnome.Music')
         self._player = Player(self)
@@ -210,6 +207,26 @@ class Application(Adw.Application):
         self._window.destroy()
 
     def do_activate(self):
+
+
+
+        def callback(meh, service, graph, events):
+            print("CB")
+            for event in events:
+                print('Event {0} on {1}\n'.format(
+                    event.get_event_type(), event.get_urn()))
+
+        connection = Tsparql.SparqlConnection.bus_new(
+            'org.freedesktop.Tracker3.Miner.Files',
+            None, None)
+
+        notifier = connection.create_notifier()
+        notifier.connect('events', callback)
+
+        # Order is important: CoreGrilo initializes the Grilo sources,
+        # which in turn uses CoreModel extensively.
+        self._coregrilo = CoreGrilo(self)
+
         if not self._window:
             self._window = Window(self)
             self.notify("window")
