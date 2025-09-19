@@ -8,7 +8,6 @@ data/ui/AlbumWidget.ui
 data/ui/ArtistsSearchNavigationPage.ui
 data/ui/ArtistsView.ui
 data/ui/HeaderBar.ui
-data/ui/help-overlay.ui
 data/ui/PlayerToolbar.ui
 data/ui/PlaylistControls.ui
 data/ui/PlaylistDialog.ui
@@ -16,6 +15,7 @@ data/ui/PreferencesDialog.ui
 data/ui/RepeatModeButton.ui
 data/ui/SearchHeaderBar.ui
 data/ui/SearchView.ui
+data/ui/shortcuts-dialog.ui
 data/ui/SongWidgetMenu.ui
 data/ui/StatusNavigationPage.ui
 data/ui/VolumeButton.ui
