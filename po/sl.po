@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2025-09-07 10:34+0000\n"
-"PO-Revision-Date: 2025-09-08 10:33+0200\n"
+"POT-Creation-Date: 2025-09-21 07:52+0000\n"
+"PO-Revision-Date: 2025-09-21 18:04+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -165,91 +165,6 @@ msgstr "Pomoč"
 msgid "About Music"
 msgstr "O programu"
 
-#: data/ui/help-overlay.ui:11
-msgctxt "shortcut window"
-msgid "General"
-msgstr "Splošno"
-
-#: data/ui/help-overlay.ui:14
-msgctxt "shortcut window"
-msgid "Preferences"
-msgstr "Možnosti"
-
-#: data/ui/help-overlay.ui:20
-msgctxt "shortcut window"
-msgid "Search"
-msgstr "Začne iskanje"
-
-#: data/ui/help-overlay.ui:26
-msgctxt "shortcut window"
-msgid "Help"
-msgstr "Pokaže pomoč"
-
-#: data/ui/help-overlay.ui:32
-msgctxt "shortcut window"
-msgid "Shortcuts"
-msgstr "Pokaže tipkovne bližnjice"
-
-#: data/ui/help-overlay.ui:38
-msgctxt "shortcut window"
-msgid "Quit"
-msgstr "Konča program"
-
-#: data/ui/help-overlay.ui:46
-msgctxt "shortcut window"
-msgid "Playback"
-msgstr "Predvajanje"
-
-#: data/ui/help-overlay.ui:49
-msgctxt "shortcut window"
-msgid "Play/Pause"
-msgstr "Preklopi Predvajanje/Premor"
-
-#: data/ui/help-overlay.ui:55
-msgctxt "shortcut window"
-msgid "Next song"
-msgstr "Skoči na naslednjo skladbo"
-
-#: data/ui/help-overlay.ui:61
-msgctxt "shortcut window"
-msgid "Previous song"
-msgstr "Skoči na predhodno skladbo"
-
-#: data/ui/help-overlay.ui:67
-msgctxt "shortcut window"
-msgid "Toggle repeat"
-msgstr "Preklopi ponavljanje"
-
-#: data/ui/help-overlay.ui:73
-msgctxt "shortcut window"
-msgid "Toggle shuffle"
-msgstr "Preklopi premešanje"
-
-#: data/ui/help-overlay.ui:81
-msgctxt "shortcut window"
-msgid "Navigation"
-msgstr "Upravljanje"
-
-#: data/ui/help-overlay.ui:84
-msgctxt "shortcut window"
-msgid "Go to Albums"
-msgstr "Skoči na pogled albumov"
-
-#: data/ui/help-overlay.ui:90
-msgctxt "shortcut window"
-msgid "Go to Artists"
-msgstr "Skoči na pogled izvajalcev"
-
-#: data/ui/help-overlay.ui:96
-msgctxt "shortcut window"
-msgid "Go to Playlists"
-msgstr "Skoči na sezname predvajanja"
-
-#: data/ui/help-overlay.ui:102
-msgctxt "shortcut window"
-msgid "Go back"
-msgstr "Skoči na predhodni pogled"
-
 #: data/ui/PlayerToolbar.ui:74
 msgid "Previous"
 msgstr "Predhodna"
@@ -322,7 +237,7 @@ msgstr "Ponovi skladbo"
 msgid "All"
 msgstr "Ponovi vse"
 
-#: data/ui/PreferencesDialog.ui:19 gnomemusic/player.py:51
+#: data/ui/PreferencesDialog.ui:19 gnomemusic/utils.py:72
 msgid "Shuffle"
 msgstr "Vsebino premešaj"
 
@@ -370,6 +285,91 @@ msgstr "Pokaži vse"
 msgid "Songs"
 msgstr "Skladbe"
 
+#: data/ui/shortcuts-dialog.ui:6
+msgctxt "shortcut window"
+msgid "General"
+msgstr "Splošno"
+
+#: data/ui/shortcuts-dialog.ui:9
+msgctxt "shortcut window"
+msgid "Preferences"
+msgstr "Možnosti"
+
+#: data/ui/shortcuts-dialog.ui:15
+msgctxt "shortcut window"
+msgid "Search"
+msgstr "Začne iskanje"
+
+#: data/ui/shortcuts-dialog.ui:21
+msgctxt "shortcut window"
+msgid "Help"
+msgstr "Pokaže pomoč"
+
+#: data/ui/shortcuts-dialog.ui:27
+msgctxt "shortcut window"
+msgid "Keyboard shortcuts"
+msgstr "Odpre preglednico bližnjic"
+
+#: data/ui/shortcuts-dialog.ui:33
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Konča program"
+
+#: data/ui/shortcuts-dialog.ui:41
+msgctxt "shortcut window"
+msgid "Playback"
+msgstr "Predvajanje"
+
+#: data/ui/shortcuts-dialog.ui:44
+msgctxt "shortcut window"
+msgid "Play/Pause"
+msgstr "Preklopi Predvajanje/Premor"
+
+#: data/ui/shortcuts-dialog.ui:50
+msgctxt "shortcut window"
+msgid "Next song"
+msgstr "Skoči na naslednjo skladbo"
+
+#: data/ui/shortcuts-dialog.ui:56
+msgctxt "shortcut window"
+msgid "Previous song"
+msgstr "Skoči na predhodno skladbo"
+
+#: data/ui/shortcuts-dialog.ui:62
+msgctxt "shortcut window"
+msgid "Toggle repeat"
+msgstr "Preklopi ponavljanje"
+
+#: data/ui/shortcuts-dialog.ui:68
+msgctxt "shortcut window"
+msgid "Toggle shuffle"
+msgstr "Preklopi premešanje"
+
+#: data/ui/shortcuts-dialog.ui:76
+msgctxt "shortcut window"
+msgid "Navigation"
+msgstr "Upravljanje"
+
+#: data/ui/shortcuts-dialog.ui:79
+msgctxt "shortcut window"
+msgid "Go to Albums"
+msgstr "Skoči na pogled albumov"
+
+#: data/ui/shortcuts-dialog.ui:85
+msgctxt "shortcut window"
+msgid "Go to Artists"
+msgstr "Skoči na pogled izvajalcev"
+
+#: data/ui/shortcuts-dialog.ui:91
+msgctxt "shortcut window"
+msgid "Go to Playlists"
+msgstr "Skoči na sezname predvajanja"
+
+#: data/ui/shortcuts-dialog.ui:97
+msgctxt "shortcut window"
+msgid "Go back"
+msgstr "Skoči na predhodni pogled"
+
 #: data/ui/SongWidgetMenu.ui:19
 msgid "_Remove from Playlist"
 msgstr "_Odstrani s seznama predvajanja"
@@ -402,39 +402,39 @@ msgid "© The GNOME Music Developers"
 msgstr "© Razvijalci programa GNOME Glasba"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/smartplaylist.py:128
+#: gnomemusic/grilowrappers/smartplaylist.py:126
 msgid "Most Played"
 msgstr "Najpogosteje predvajano"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/smartplaylist.py:182
+#: gnomemusic/grilowrappers/smartplaylist.py:180
 msgid "Never Played"
 msgstr "Nikoli predvajano"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/smartplaylist.py:235
+#: gnomemusic/grilowrappers/smartplaylist.py:233
 msgid "Recently Played"
 msgstr "Nedavno predvajano"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/smartplaylist.py:314
+#: gnomemusic/grilowrappers/smartplaylist.py:312
 msgid "Recently Added"
 msgstr "Nedavno dodano"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/smartplaylist.py:377
+#: gnomemusic/grilowrappers/smartplaylist.py:375
 msgid "Favorite Songs"
 msgstr "Priljubljeni posnetki"
 
 #. TRANSLATORS: this is a playlist name indicating that the
 #. files are not tagged enough to be displayed in the albums
 #. or artists views.
-#: gnomemusic/grilowrappers/smartplaylist.py:431
+#: gnomemusic/grilowrappers/smartplaylist.py:429
 msgid "Insufficiently Tagged"
 msgstr "Neustrezno označeno"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/smartplaylist.py:494
+#: gnomemusic/grilowrappers/smartplaylist.py:492
 msgid "All Songs"
 msgstr "Vsi posnetki"
 
@@ -468,19 +468,6 @@ msgstr[3] "{} so zahtevani za predvajanje datoteke, vendar niso nameščeni."
 msgid "Playing music"
 msgstr "Predvajanje glasbe"
 
-#. Translators: "shuffle" causes tracks to play in random order.
-#: gnomemusic/player.py:48
-msgid "Shuffle/Repeat Off"
-msgstr "Onemogoči premešanje/ponavljanje"
-
-#: gnomemusic/player.py:49
-msgid "Repeat Song"
-msgstr "Ponovi skladbo"
-
-#: gnomemusic/player.py:50
-msgid "Repeat All"
-msgstr "Ponovi vse"
-
 #: gnomemusic/playlisttoast.py:55
 msgid "Playlist {} removed"
 msgstr "Seznam predvajanja {} je odstranjen"
@@ -493,11 +480,24 @@ msgstr "Razveljavi"
 msgid "{} removed from {}"
 msgstr "{} odstranjen iz {}"
 
-#: gnomemusic/utils.py:92
+#. Translators: "shuffle" causes tracks to play in random order.
+#: gnomemusic/utils.py:69
+msgid "Shuffle/Repeat Off"
+msgstr "Onemogoči premešanje/ponavljanje"
+
+#: gnomemusic/utils.py:70
+msgid "Repeat Song"
+msgstr "Ponovi skladbo"
+
+#: gnomemusic/utils.py:71
+msgid "Repeat All"
+msgstr "Ponovi vse"
+
+#: gnomemusic/utils.py:117
 msgid "Unknown album"
 msgstr "Neznan album"
 
-#: gnomemusic/utils.py:113
+#: gnomemusic/utils.py:138
 msgid "Unknown Artist"
 msgstr "Neznan izvajalec"
 
@@ -521,7 +521,7 @@ msgstr "Ni najdenih zadetkov."
 msgid "Try a different search"
 msgstr "Poskusite drugačno iskanje"
 
-#: gnomemusic/widgets/albumwidget.py:242
+#: gnomemusic/widgets/albumwidget.py:244
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} minut"
@@ -546,7 +546,7 @@ msgid "Search songs, artists and albums"
 msgstr "Iskanje skladb, izvajalcev in albumov"
 
 #. noqa: F841
-#: gnomemusic/widgets/songwidgetmenu.py:94
+#: gnomemusic/widgets/songwidgetmenu.py:96
 msgid "_Open Location"
 msgstr "_Odpri mesto"
 
