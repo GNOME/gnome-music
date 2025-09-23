@@ -1,0 +1,558 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
+"POT-Creation-Date: 2025-09-10 17:38+0000\n"
+"PO-Revision-Date: 2025-09-23 08:29-0400\n"
+"Last-Translator: Abduqadir Abliz <sahranbay@gmail.com>\n"
+"Language-Team: \n"
+"Language: ug\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.7\n"
+
+#: data/org.gnome.Music.desktop.in.in:2 data/org.gnome.Music.metainfo.xml.in.in:9 data/ui/StatusNavigationPage.ui:4 gnomemusic/about.py:143 gnomemusic/application.py:61 gnomemusic/window.py:65
+msgid "Music"
+msgstr "نەغمە"
+
+#: data/org.gnome.Music.desktop.in.in:3
+msgid "Music Player"
+msgstr "نەغمە قويغۇچ"
+
+#: data/org.gnome.Music.desktop.in.in:4 data/org.gnome.Music.metainfo.xml.in.in:10
+msgid "Play and organize your music collection"
+msgstr "نەغمە توپلىمىنى رەتلەش ۋە قويۇش پىروگراممىسى"
+
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/org.gnome.Music.desktop.in.in:12
+msgid "Music;Player;"
+msgstr "نەغمە؛قويغۇچ؛Music;Player;"
+
+#: data/org.gnome.Music.metainfo.xml.in.in:12
+msgid "An easy and pleasant way to play your music."
+msgstr "ئاددىي خۇشال نەغمە ياڭرىتىش ئۇسۇلى."
+
+#: data/org.gnome.Music.metainfo.xml.in.in:15
+msgid "Find tracks in your local collection, use automatically generated playlists or curate a fresh one."
+msgstr "يەرلىك توپلامدىن نەغمە ئىزدەپ، ئۆزلۈكىدىن ھاسىللىغان قويۇش تىزىمى ياكى ئۆزى قۇرغان قويۇش تىزىمىنى ئىشلىتىدۇ."
+
+#: data/org.gnome.Music.gschema.xml:17
+msgid "Window size"
+msgstr "كۆزنەك چوڭلۇقى"
+
+#: data/org.gnome.Music.gschema.xml:18
+msgid "Window size (width and height)."
+msgstr "كۆزنەك چوڭلۇقى(كەڭلىك ۋە ئېگىزلىك)"
+
+#: data/org.gnome.Music.gschema.xml:22
+msgid "Window maximized"
+msgstr "كۆزنەك چوڭايتىلدى"
+
+#: data/org.gnome.Music.gschema.xml:23
+msgid "Window maximized state."
+msgstr "كۆزنەك ئەڭ چوڭ ھالەتتە."
+
+#: data/org.gnome.Music.gschema.xml:27
+msgid "Playback repeat mode"
+msgstr "قايتىلاپ قويۇش ھالىتى"
+
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: data/org.gnome.Music.gschema.xml:29
+msgid "Value identifies whether to repeat or randomize playback through the collection. Allowed values are: “none” (repeat and shuffle are off), “song” (repeat current song), “all” (repeat playlist, no shuffle), “shuffle” (shuffle playlist, presumes repeat all)."
+msgstr "بۇ قىممەت نەغمە توپلىمىنى تەكرار ياكى ئىختىيارى قويۇشنى بەلگىلەيدۇ. ئىناۋەتلىك قىممىتى: «none» (تەكرارلاش ۋە ئىختىيارى تاقاق)، «song» (نۆۋەتتىكى نەغمىنى تەكرارلايدۇ)، «all» (قويۇش تىزىمىنى تەكرارلايدۇ، ئىختىيارىي ئەمەس)، «shuffle»(تىزىمنى ئىختىيارى قويىدۇ، ھەممىسىنى تەكرارلاشنى پەرەز قىلىدۇ)."
+
+#: data/org.gnome.Music.gschema.xml:33
+msgid "Enable ReplayGain"
+msgstr "قايتا قويۇپ كۆپەيتىشنى قوزغىتىدۇ"
+
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: data/org.gnome.Music.gschema.xml:35
+msgid "Enables or disables ReplayGain for albums or track. Allowed values are: “disabled” (disables replaygain), “album” (replaygain per album), “track” (replaygain per track)."
+msgstr "ناخشا توپلىمى ياكى نەغمە ئۈچۈن قايتا قويۇپ كۆپەيتىشنى قوزغىتىدۇ ياكى چەكلەيدۇ. ئىناۋەتلىك قىممىتى: «disabled» (قايتا قويۇپ كۆپەيتىشنى چەكلەيدۇ)، «album» (ناخشا توپلىمىنى قايتا قويۇشنى كۆپەيتىدۇ)، «track» (ھەر بىر نەغمىنى قايتا قويۇشنى كۆپەيتىدۇ)."
+
+#: data/org.gnome.Music.gschema.xml:39
+msgid "Inhibit system suspend"
+msgstr "سىستېما توڭلاشنى چەكلەيدۇ"
+
+#: data/org.gnome.Music.gschema.xml:40
+msgid "Enables or disables inhibiting system suspend while playing music"
+msgstr "نەغمە قويۇۋاتقاندا سىستېمىنىڭ توڭلاش ھالىتىگە كىرىشىنى قوزغىتىدۇ ياكى چەكلەيدۇ"
+
+#: data/ui/AlbumsSearchNavigationPage.ui:5 data/ui/SearchView.ui:98 gnomemusic/views/albumsview.py:30
+msgid "Albums"
+msgstr "ناخشا توپلىمى"
+
+#: data/ui/AlbumWidget.ui:84 data/ui/PlayerToolbar.ui:87 data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:177
+msgid "Play"
+msgstr "ياڭرات"
+
+#: data/ui/AlbumWidget.ui:130 data/ui/PlaylistControls.ui:5 data/ui/SongWidgetMenu.ui:11
+msgid "_Play"
+msgstr "ياڭرات(_P)"
+
+#: data/ui/AlbumWidget.ui:134
+msgid "Add to _Favorite Songs"
+msgstr "ياقتۇرىدىغان ناخشىغا قوش(_F)"
+
+#: data/ui/AlbumWidget.ui:138 data/ui/SongWidgetMenu.ui:15
+msgid "_Add to Playlist…"
+msgstr "قويۇش تىزىمىغا قوش(_A)…"
+
+#: data/ui/ArtistsSearchNavigationPage.ui:5 data/ui/SearchView.ui:41 gnomemusic/views/artistsview.py:51
+msgid "Artists"
+msgstr "سەنئەتكار"
+
+#: data/ui/HeaderBar.ui:14
+msgid "Menu"
+msgstr "تىزىملىك"
+
+#: data/ui/HeaderBar.ui:22 data/ui/SearchHeaderBar.ui:12
+msgid "Search"
+msgstr "ئىزدە"
+
+#: data/ui/HeaderBar.ui:31 data/ui/PreferencesDialog.ui:4
+msgid "Preferences"
+msgstr "مايىللىق"
+
+#: data/ui/HeaderBar.ui:35
+msgid "Keyboard Shortcuts"
+msgstr "ھەرپتاختا تېزلەتمىسى"
+
+#: data/ui/HeaderBar.ui:39
+msgid "Help"
+msgstr "ياردەم"
+
+#: data/ui/HeaderBar.ui:43
+msgid "About Music"
+msgstr "Music ھەققىدە"
+
+#: data/ui/help-overlay.ui:11
+msgctxt "shortcut window"
+msgid "General"
+msgstr "ئادەتتىكى"
+
+#: data/ui/help-overlay.ui:14
+msgctxt "shortcut window"
+msgid "Preferences"
+msgstr "مايىللىق"
+
+#: data/ui/help-overlay.ui:20
+msgctxt "shortcut window"
+msgid "Search"
+msgstr "ئىزدە"
+
+#: data/ui/help-overlay.ui:26
+msgctxt "shortcut window"
+msgid "Help"
+msgstr "ياردەم"
+
+#: data/ui/help-overlay.ui:32
+msgctxt "shortcut window"
+msgid "Shortcuts"
+msgstr "تېزلەتمە"
+
+#: data/ui/help-overlay.ui:38
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "چېكىن"
+
+#: data/ui/help-overlay.ui:46
+msgctxt "shortcut window"
+msgid "Playback"
+msgstr "ياڭرات"
+
+#: data/ui/help-overlay.ui:49
+msgctxt "shortcut window"
+msgid "Play/Pause"
+msgstr "ياڭرات/ۋاقىتلىق توختا"
+
+#: data/ui/help-overlay.ui:55
+msgctxt "shortcut window"
+msgid "Next song"
+msgstr "كېيىنكى ناخشا"
+
+#: data/ui/help-overlay.ui:61
+msgctxt "shortcut window"
+msgid "Previous song"
+msgstr "ئالدىنقى ناخشا"
+
+#: data/ui/help-overlay.ui:67
+msgctxt "shortcut window"
+msgid "Toggle repeat"
+msgstr "قايتا تەكرارلا"
+
+#: data/ui/help-overlay.ui:73
+msgctxt "shortcut window"
+msgid "Toggle shuffle"
+msgstr "ئىختىيارى ياڭرات"
+
+#: data/ui/help-overlay.ui:81
+msgctxt "shortcut window"
+msgid "Navigation"
+msgstr "يولباشچى"
+
+#: data/ui/help-overlay.ui:84
+msgctxt "shortcut window"
+msgid "Go to Albums"
+msgstr "ناخشا توپلىمىغا يۆتكەل"
+
+#: data/ui/help-overlay.ui:90
+msgctxt "shortcut window"
+msgid "Go to Artists"
+msgstr "سەنئەتكارغا يۆتكەل"
+
+#: data/ui/help-overlay.ui:96
+msgctxt "shortcut window"
+msgid "Go to Playlists"
+msgstr "قويۇش تىزىمىغا يۆتكەل"
+
+#: data/ui/help-overlay.ui:102
+msgctxt "shortcut window"
+msgid "Go back"
+msgstr "قايت"
+
+#: data/ui/PlayerToolbar.ui:74
+msgid "Previous"
+msgstr "ئالدىنقى"
+
+#: data/ui/PlayerToolbar.ui:106
+msgid "Next"
+msgstr "كېيىنكى"
+
+#: data/ui/PlaylistControls.ui:9
+msgid "_Delete"
+msgstr "ئۆچۈر(_D)"
+
+#: data/ui/PlaylistControls.ui:13
+msgid "_Rename…"
+msgstr "ئات ئۆزگەرت(_R)…"
+
+#: data/ui/PlaylistControls.ui:28
+msgid "Playlist Name"
+msgstr "قويۇش تىزىمىنىڭ ئىسمى"
+
+#: data/ui/PlaylistControls.ui:62
+msgid "_Done"
+msgstr "تامام(_D)"
+
+#: data/ui/PlaylistDialog.ui:16
+msgid "Add to Playlist"
+msgstr "قويۇش تىزىمىغا قوش"
+
+#: data/ui/PlaylistDialog.ui:27
+msgid "_Cancel"
+msgstr "ۋاز كەچ(_C)"
+
+#: data/ui/PlaylistDialog.ui:36
+msgid "_Add"
+msgstr "قوش(_A)"
+
+#: data/ui/PlaylistDialog.ui:91
+msgid "Enter a name for your first playlist"
+msgstr "تۇنجى قويۇش تىزىمىغا ئات كىرگۈزۈلىدۇ"
+
+#: data/ui/PlaylistDialog.ui:116
+msgid "C_reate"
+msgstr "قۇر(_R)"
+
+#: data/ui/PlaylistDialog.ui:177
+msgid "New Playlist…"
+msgstr "يېڭى قويۇش تىزىمى…"
+
+#: data/ui/PlaylistDialog.ui:189
+msgid "Add"
+msgstr "قوش"
+
+#: data/ui/PreferencesDialog.ui:9
+msgid "Player Settings"
+msgstr "قويغۇچ تەڭشىكى"
+
+#: data/ui/PreferencesDialog.ui:12
+msgid "Repeat Mode"
+msgstr "قايتىلاش ھالىتى"
+
+#: data/ui/PreferencesDialog.ui:16
+msgid "None"
+msgstr "يوق"
+
+#: data/ui/PreferencesDialog.ui:17
+msgid "Song"
+msgstr "ناخشا"
+
+#: data/ui/PreferencesDialog.ui:18
+msgid "All"
+msgstr "ھەممىسى"
+
+#: data/ui/PreferencesDialog.ui:19 gnomemusic/player.py:51
+msgid "Shuffle"
+msgstr "ئىختىيارى"
+
+#: data/ui/PreferencesDialog.ui:27
+msgid "ReplayGain"
+msgstr "قايتا قويۇپ كۆپەيت"
+
+#: data/ui/PreferencesDialog.ui:28
+msgid "Balance loudness between songs if ReplayGain metadata is found"
+msgstr "ئەگەر ReplayGain نىڭ تەپسىلىي سانلىق مەلۇماتى بايقالسا، ئۇنداقتا ناخشىلار ئارىسىدا تەڭشەيدۇ"
+
+#: data/ui/PreferencesDialog.ui:32
+msgid "Disabled"
+msgstr "چەكلەنگەن"
+
+#: data/ui/PreferencesDialog.ui:33
+msgid "Album"
+msgstr "ناخشا توپلىمى"
+
+#: data/ui/PreferencesDialog.ui:34
+msgid "Track"
+msgstr "نەغمە"
+
+#: data/ui/PreferencesDialog.ui:44
+msgid "Power Settings"
+msgstr "توك مەنبە تەڭشىكى"
+
+#: data/ui/PreferencesDialog.ui:47
+msgid "Inhibit Suspend"
+msgstr "توڭلاشنى چەكلە"
+
+#: data/ui/PreferencesDialog.ui:48
+msgid "Only while playing"
+msgstr "پەقەت قويۇۋاتقاندا"
+
+#: data/ui/SearchView.ui:55 data/ui/SearchView.ui:112
+msgid "View All"
+msgstr "ھەممىنى كۆرسەت"
+
+#: data/ui/SearchView.ui:154
+msgid "Songs"
+msgstr "ناخشا"
+
+#: data/ui/SongWidgetMenu.ui:19
+msgid "_Remove from Playlist"
+msgstr "قويىدىغان تىزىمدىن چىقىرىۋەت(_R)"
+
+#: data/ui/StatusNavigationPage.ui:36
+msgid "Welcome to Music"
+msgstr "Music قا خۇش كەلدىڭىز"
+
+#: gnomemusic/about.py:145
+msgid "The GNOME Project"
+msgstr "GNOME قۇرۇلۇشى"
+
+#. Translators should localize the following string which
+#. will be displayed at the bottom of the about box to give
+#. credit to the translator(s).
+#: gnomemusic/about.py:151
+msgid "translator-credits"
+msgstr ""
+"تەرجىمان تۆھپىسى\n"
+"GNOME Uighur Translation Project <gnome-uighur@yahoogroups.comAbduxukur Abdurixit <abduxukur.abdurixit@t-systems.ch>, 2005\n"
+"\n"
+"Launchpad Contributions:\n"
+"  Burkut https://launchpad.net/~burkut\n"
+"  Gheyret T.Kenji https://launchpad.net/~gheyretkenji\n"
+"  Sebastien Bacher https://launchpad.net/~seb128\n"
+"ئابدۇقادىر ئابلىز <sahranbay@gmail.com>"
+
+#: gnomemusic/about.py:155
+msgid "© The GNOME Music Developers"
+msgstr "© GNOME Music ئىجادكارلىرى"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/smartplaylist.py:128
+msgid "Most Played"
+msgstr "ئەڭ كۆپ قويۇلغان"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/smartplaylist.py:182
+msgid "Never Played"
+msgstr "ھەرگىز قويۇلمىغان"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/smartplaylist.py:235
+msgid "Recently Played"
+msgstr "يېقىندا قويۇلغان"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/smartplaylist.py:314
+msgid "Recently Added"
+msgstr "يېقىندا قوشۇلغان"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/smartplaylist.py:377
+msgid "Favorite Songs"
+msgstr "ياقتۇرىدىغان ناخشا"
+
+#. TRANSLATORS: this is a playlist name indicating that the
+#. files are not tagged enough to be displayed in the albums
+#. or artists views.
+#: gnomemusic/grilowrappers/smartplaylist.py:431
+msgid "Insufficiently Tagged"
+msgstr "بەلگە يېتەرلىك ئەمەس"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/smartplaylist.py:494
+msgid "All Songs"
+msgstr "ھەممە ناخشا"
+
+#: gnomemusic/gstplayer.py:424
+msgid "Unable to play the file"
+msgstr "ھۆججەتنى ياڭرىتالمايدۇ"
+
+#: gnomemusic/gstplayer.py:430
+msgid "_Find in {}"
+msgstr "{} دىن ئىزدە(_F)"
+
+#. TRANSLATORS: separator for two codecs
+#: gnomemusic/gstplayer.py:440
+msgid " and "
+msgstr " ۋە "
+
+#. TRANSLATORS: separator for a list of codecs
+#: gnomemusic/gstplayer.py:443
+msgid ", "
+msgstr "، "
+
+#: gnomemusic/gstplayer.py:445
+msgid "{} is required to play the file, but is not installed."
+msgid_plural "{} are required to play the file, but are not installed."
+msgstr[0] "بۇ ھۆججەتنى {} قويۇشى كېرەك ئەمما ئورنىتىلمىغان."
+msgstr[1] "بۇ ھۆججەتنى {} قويۇشى كېرەك ئەمما ئورنىتىلمىغان."
+
+#: gnomemusic/inhibitsuspend.py:69
+msgid "Playing music"
+msgstr "نەغمە ياڭرىتىۋاتىدۇ"
+
+#. Translators: "shuffle" causes tracks to play in random order.
+#: gnomemusic/player.py:48
+msgid "Shuffle/Repeat Off"
+msgstr "ئىختىيارى/قايتىلاش تاقاق"
+
+#: gnomemusic/player.py:49
+msgid "Repeat Song"
+msgstr "ناخشا قايتىلا"
+
+#: gnomemusic/player.py:50
+msgid "Repeat All"
+msgstr "ھەممىنى قايتىلا"
+
+#: gnomemusic/playlisttoast.py:55
+msgid "Playlist {} removed"
+msgstr "قويۇش تىزىمى {} چىقىرىۋېتىلدى"
+
+#: gnomemusic/playlisttoast.py:56 gnomemusic/songtoast.py:65
+msgid "Undo"
+msgstr "يېنىۋال"
+
+#: gnomemusic/songtoast.py:64
+msgid "{} removed from {}"
+msgstr "{} چىقىرىۋېتىلدى ئورنى {}"
+
+#: gnomemusic/utils.py:92
+msgid "Unknown album"
+msgstr "يوچۇن ناخشا توپلىمى"
+
+#: gnomemusic/utils.py:113
+msgid "Unknown Artist"
+msgstr "يوچۇن سەنئەتكار"
+
+#: gnomemusic/views/playlistsview.py:45
+msgid "Playlists"
+msgstr "قويۇش تىزىمى"
+
+#: gnomemusic/views/searchview.py:214
+msgid "No Search Started"
+msgstr "ئىزدەش باشلانمىدى"
+
+#: gnomemusic/views/searchview.py:216
+msgid "Use the searchbar to start searching for albums, artists or songs"
+msgstr "ئىزدەش بالدىقى ئارقىلىق ناخشا توپلىمى، سەنئەتكار ياكى ناخشا ئىزدەيدۇ"
+
+#: gnomemusic/views/searchview.py:220
+msgid "No Results Found"
+msgstr "ھېچقانداق نەتىجە تېپىلمىدى"
+
+#: gnomemusic/views/searchview.py:222
+msgid "Try a different search"
+msgstr "باشقا بىر پەرقلىق ئىزدەشنى سىناڭ"
+
+#: gnomemusic/widgets/albumwidget.py:242
+msgid "{} minute"
+msgid_plural "{} minutes"
+msgstr[0] "{} مىنۇت"
+msgstr[1] "{} مىنۇت"
+
+#: gnomemusic/widgets/playertoolbar.py:174
+msgid "Pause"
+msgstr "ۋاقىتلىق توختا"
+
+#: gnomemusic/widgets/playlistcontrols.py:130
+msgid "{} Song"
+msgid_plural "{} Songs"
+msgstr[0] "{} ناخشا"
+msgstr[1] "{} ناخشا"
+
+#: gnomemusic/widgets/searchheaderbar.py:54
+msgid "Search songs, artists and albums"
+msgstr "ناخشا، سەنئەتكار ۋە ناخشا توپلىمى ئىزدەيدۇ"
+
+#. noqa: F841
+#: gnomemusic/widgets/songwidgetmenu.py:94
+msgid "_Open Location"
+msgstr "ئورۇننى ئاچ(_O)"
+
+#. TRANSLATORS: These are verbs, to (un)mark something as a
+#. favorite.
+#: gnomemusic/widgets/startoggle.py:36
+msgid "Unstar"
+msgstr "يۇلتۇزلىما"
+
+#: gnomemusic/widgets/startoggle.py:36
+msgid "Star"
+msgstr "يۇلتۇز"
+
+#: gnomemusic/widgets/statusnavigationpage.py:51
+msgid "Your XDG Music directory is not set."
+msgstr "سىزنىڭ XDG نەغمە مۇندەرىجىڭىز تەڭشەلمىگەن."
+
+#: gnomemusic/widgets/statusnavigationpage.py:56
+msgid "Music Folder"
+msgstr "نەغمە قىسقۇچى"
+
+#. TRANSLATORS: This is a label to display a link to open
+#. a user's music folder. {} will be replaced with the
+#. translated text 'Music folder'
+#: gnomemusic/widgets/statusnavigationpage.py:60
+msgid "The contents of your {} will appear here."
+msgstr "سىزنىڭ {} مەزمۇنى بۇ جايدا كۆرۈنىدۇ."
+
+#: gnomemusic/widgets/statusnavigationpage.py:114
+msgid "No Music Found"
+msgstr "ھېچقانداق نەغمە تېپىلمىدى"
+
+#: gnomemusic/widgets/statusnavigationpage.py:115
+msgid "Try a Different Search"
+msgstr "باشقىچە ئىزدەشنى سىناڭ"
+
+#: gnomemusic/widgets/statusnavigationpage.py:119
+msgid "GNOME Music could not connect to Tracker."
+msgstr "GNOME Music ئىزلىغۇچقا باغلىنالمايدۇ."
+
+#: gnomemusic/widgets/statusnavigationpage.py:121
+msgid "Your music files cannot be indexed without Tracker running."
+msgstr "ئىزلىغۇچ ئىجرا قىلىنمىغاندا نەغمە ھۆججىتىڭىزنى ئىندېكسلىيالمايدۇ."
+
+#: gnomemusic/widgets/statusnavigationpage.py:127
+msgid "Your system Tracker version seems outdated."
+msgstr "سىستېما ئىزلىغۇچ نەشرىنىڭ ۋاقتى ئۆتكەندەك قىلىدۇ."
+
+#: gnomemusic/widgets/statusnavigationpage.py:129
+msgid "Music needs Tracker version 3.0.0 or higher."
+msgstr "‫Music ئىزلىغۇچنىڭ ‪3.0.0 ‬ياكى يۇقىرى نەشرىنى تەلەپ قىلىدۇ."
