@@ -60,7 +60,7 @@ class Application(Adw.Application):
         self.props.resource_base_path = "/org/gnome/Music"
         GLib.set_application_name(_("Music"))
         GLib.set_prgname(application_id)
-        GLib.setenv("PULSE_PROP_media.role", "music", True)
+        GLib.setenv("PULSE_PROP_application.id", application_id, True)
 
         asyncio.set_event_loop_policy(GLibEventLoopPolicy())
 
