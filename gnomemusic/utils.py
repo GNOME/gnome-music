@@ -31,8 +31,8 @@ import typing
 
 from gettext import gettext as _
 import gi
-gi.require_version("Tracker", "3.0")
-from gi.repository import Gio, Grl, GLib, Gtk, Tracker
+gi.require_version("Tsparql", "3.0")
+from gi.repository import Gio, Grl, GLib, Gtk, Tsparql
 
 from gnomemusic.musiclogger import MusicLogger
 
@@ -239,10 +239,10 @@ def natural_sort_names(name_a: str, name_b: str) -> int:
 
 
 def create_grilo_media_from_cursor(
-        cursor: Tracker.SparqlCursor, grl_type: Grl.MediaType) -> Grl.Media:
+        cursor: Tsparql.SparqlCursor, grl_type: Grl.MediaType) -> Grl.Media:
     """Iterate a TinySparql cursor to create a Grl.Media
 
-    :param Tracker.SparqlCursor cursor: The cursor
+    :param Tsparql.SparqlCursor cursor: The cursor
     :param Grl.MediaType grl_type: The Grilo media type
     :returns: Grilo media
     :rtype: Grl.Media
@@ -250,15 +250,15 @@ def create_grilo_media_from_cursor(
     vars: dict[str, Any] = {}
     for column in range(cursor.get_n_columns()):
         vtype = cursor.get_value_type(column)
-        if vtype == Tracker.SparqlValueType.UNBOUND:
+        if vtype == Tsparql.SparqlValueType.UNBOUND:
             value = None
-        elif vtype == Tracker.SparqlValueType.INTEGER:
+        elif vtype == Tsparql.SparqlValueType.INTEGER:
             value = cursor.get_integer(column)
-        elif vtype == Tracker.SparqlValueType.DOUBLE:
+        elif vtype == Tsparql.SparqlValueType.DOUBLE:
             value = cursor.get_double(column)
-        elif vtype == Tracker.SparqlValueType.DATETIME:
+        elif vtype == Tsparql.SparqlValueType.DATETIME:
             value = cursor.get_datetime(column)
-        elif vtype == Tracker.SparqlValueType.BOOLEAN:
+        elif vtype == Tsparql.SparqlValueType.BOOLEAN:
             value = cursor.get_boolean(column)
         else:
             value, _ = cursor.get_string(column)
@@ -327,3 +327,37 @@ def create_grilo_media_from_cursor(
                 media.set_creation_date(creation_date)
 
     return media
+
+
+def album_urn_from_cursor(cursor: Tsparql.SparqlCursor) -> str:
+    """Iterate a TinySparql to find album urn
+
+    :param Tsparql.SparqlCursor cursor: The cursor
+    :returns: urn
+    :rtype: str
+    """
+    vars: dict[str, Any] = {}
+    for column in range(cursor.get_n_columns()):
+        vtype = cursor.get_value_type(column)
+        if vtype == Tsparql.SparqlValueType.UNBOUND:
+            value = None
+        elif vtype == Tsparql.SparqlValueType.INTEGER:
+            value = cursor.get_integer(column)
+        elif vtype == Tsparql.SparqlValueType.DOUBLE:
+            value = cursor.get_double(column)
+        elif vtype == Tsparql.SparqlValueType.DATETIME:
+            value = cursor.get_datetime(column)
+        elif vtype == Tsparql.SparqlValueType.BOOLEAN:
+            value = cursor.get_boolean(column)
+        else:
+            value, _ = cursor.get_string(column)
+
+        vars[cursor.get_variable_name(column)] = value
+
+    for key in vars.keys():
+        if key == "album_urn":
+            album_urn = vars["album_urn"]
+            if album_urn:
+                return album_urn
+
+    return ""

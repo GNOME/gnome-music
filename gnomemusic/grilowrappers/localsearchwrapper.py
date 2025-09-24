@@ -7,7 +7,7 @@ from typing import List, Union
 import typing
 import asyncio
 
-from gi.repository import Grl, Gio, Gtk, GLib, GObject
+from gi.repository import Grl, Gio, Gtk, GLib, GObject, Tsparql
 
 from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.coreartist import CoreArtist
@@ -72,6 +72,9 @@ class LocalSearchWrapper(GObject.Object):
             "/org/gnome/Music/queries/artists.rq")
         self._artists_stmt = self._tsparql.query_statement(prep_stmt)
 
+        prep_stmt = self._prepare_statement("/org/gnome/Music/queries/song.rq")
+        self._song_stmt = self._tsparql.query_statement(prep_stmt)
+
         prep_stmt = self._prepare_statement(
             "/org/gnome/Music/queries/songs.rq")
         self._songs_stmt = self._tsparql.query_statement(prep_stmt)
@@ -103,6 +106,9 @@ class LocalSearchWrapper(GObject.Object):
         asyncio.create_task(self._init_albums_model())
         asyncio.create_task(self._init_artists_model())
         asyncio.create_task(self._init_songs_model())
+
+        self._notifier = self._tsparqlwrapper._miner_fs.create_notifier()
+        self._notifier.connect("events", self._on_notifier_event)
 
     def _prepare_statement(self, resource_path: str) -> str:
         """Helper to insert bus name and location filter in query"""
@@ -191,8 +197,87 @@ class LocalSearchWrapper(GObject.Object):
                 media = utils.create_grilo_media_from_cursor(
                     cursor, Grl.MediaType.AUDIO)
                 coresong = CoreSong(self._application, media)
+                coresong.props.album_urn = utils.album_urn_from_cursor(cursor)
 
                 self._songs_model.append(coresong)
+
+                try:
+                    has_next = await cursor.next_async()
+                except GLib.Error as error:
+                    self._log.warning(
+                        f"Error: {error.domain}, {error.message}")
+                    has_next = False
+
+            cursor.close()
+
+    def _equal_func(
+            self, coresong_compared: CoreSong, coresong_provided: CoreSong,
+            urn: str) -> bool:
+        return coresong_compared.props.media.get_id() == urn
+
+    async def _fileid_event(self, event: Tsparql.NotifierEvent) -> None:
+        event_type = event.get_event_type()
+        urn = event.get_urn()
+        if event_type in [
+                Tsparql.NotifierEventType.CREATE,
+                Tsparql.NotifierEventType.UPDATE]:
+            await self._add_song(urn)
+
+            found, position = self._songs_model.find_with_equal_func(
+                self._songs_model[0], self._equal_func, urn)
+            if found:
+                coresong = self._songs_model.get_item(position)
+                await self._update_album(coresong)
+        elif event_type == Tsparql.NotifierEventType.DELETE:
+            found, position = self._songs_model.find_with_equal_func(
+                self._songs_model[0], self._equal_func, urn)
+            if found:
+                coresong = self._songs_model.get_item(position)
+                self._songs_model.remove(position)
+                await self._update_album(coresong)
+
+    def _on_notifier_event(
+            self, notifier: TSparql.Notifier, service: str, graph: str,
+            events: set[Tsparql.NotifierEvent]) -> None:
+        for event in events:
+            urn = event.get_urn()
+            if urn.startswith("urn:fileid:"):
+                asyncio.create_task(self._fileid_event(event))
+
+    async def _update_album(self, coresong: CoreSong) -> None:
+        found, position = self._albums_model.find_with_equal_func(
+            self._albums_model[0], self._equal_func, coresong.props.album_urn)
+        if found:
+            self._albums_model[position].remove_song_from_album(
+                coresong.props.album_disc_number,
+                coresong.props.media.get_id())
+
+    async def _add_song(self, urn: str) -> None:
+        self._song_stmt.bind_string("song", urn)
+        async with self._notificationmanager:
+            try:
+                cursor = await self._song_stmt.execute_async()
+            except GLib.Error as error:
+                self._log.warning(f"Error: {error.domain}, {error.message}")
+                return
+
+            try:
+                has_next = await cursor.next_async()
+            except GLib.Error as error:
+                self._log.warning(f"Error: {error.domain}, {error.message}")
+                has_next = False
+            while has_next:
+                media = utils.create_grilo_media_from_cursor(
+                    cursor, Grl.MediaType.AUDIO)
+                coresong = CoreSong(self._application, media)
+                coresong.props.album_urn = utils.album_urn_from_cursor(cursor)
+
+                found, position = self._songs_model.find_with_equal_func(
+                    coresong, self._equal_func, urn)
+                if found:
+                    self._songs_model.get_item(position).update(media)
+                else:
+                    self._songs_model.append(coresong)
 
                 try:
                     has_next = await cursor.next_async()

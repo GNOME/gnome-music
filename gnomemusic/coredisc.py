@@ -80,3 +80,13 @@ class CoreDisc(GObject.GObject):
                 duration += coresong.props.duration
 
             self.props.duration = duration
+
+    def remove_song_from_disc(self, song_urn: str) -> None:
+        """Update this disc
+
+        :param str song_urn: Song identifier
+        """
+        # FIXME: For now we just retrieve the full disc again
+        filter_model = self.props.model.get_model()
+        self._coregrilo.get_album_disc(
+            self.props.media, self.props.disc_nr, filter_model)

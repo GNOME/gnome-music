@@ -46,6 +46,7 @@ class CoreSong(GObject.GObject):
     __gtype_name__ = "CoreSong"
 
     album = GObject.Property(type=str)
+    album_urn = GObject.Property(type=str)
     album_disc_number = GObject.Property(type=int)
     artist = GObject.Property(type=str)
     duration = GObject.Property(type=int)

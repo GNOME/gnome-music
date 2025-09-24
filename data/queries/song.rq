@@ -27,7 +27,7 @@ WHERE {
         nmm:setNumber(nmm:musicAlbumDisc(?song)) AS ?albumDiscNumber
         nmm:musicAlbum(?song) AS ?album_urn
       WHERE {
-        ?song a nmm:MusicPiece .
+        BIND(~song AS ?song)
         {location_filter}
       }
     }
@@ -36,4 +36,4 @@ WHERE {
     ?urn nao:hasTag ?tag .
     FILTER (?tag = nao:predefined-tag-favorite)
   }
-} ORDER BY ?title ?artist
+}

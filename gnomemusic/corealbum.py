@@ -75,6 +75,17 @@ class CoreAlbum(GObject.GObject):
         self.props.url = media.get_url()
         self.props.year = utils.get_media_year(media)
 
+    def remove_song_from_album(self, disc_nr: int, song_id: str) -> None:
+        """Removes given song on given album disc
+
+        :param int disc_nr: Number of disc
+        :param int song_id: Song identifier
+        """
+        for coredisc in self.props.model:
+            if coredisc.props.disc_nr == disc_nr:
+                coredisc.remove_song_from_disc(song_id)
+                break
+
     def _get_album_model(self):
         disc_model = Gio.ListStore()
         disc_no_exp = Gtk.PropertyExpression.new(CoreDisc, None, "disc_nr")
