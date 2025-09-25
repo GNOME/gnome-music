@@ -69,6 +69,24 @@
             <property name="accelerator">&lt;Ctrl&gt;S</property>
           </object>
         </child>
+        <child>
+          <object class="AdwShortcutsItem">
+            <property name="title" translatable="yes" context="shortcut window">Increase volume</property>
+            <property name="accelerator">&lt;Ctrl&gt;plus &lt;Ctrl&gt;equal</property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwShortcutsItem">
+            <property name="title" translatable="yes" context="shortcut window">Decrease volume</property>
+            <property name="accelerator">&lt;Ctrl&gt;minus</property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwShortcutsItem">
+            <property name="title" translatable="yes" context="shortcut window">Toggle mute</property>
+            <property name="accelerator">&lt;Ctrl&gt;M</property>
+          </object>
+        </child>
       </object>
     </child>
     <child>

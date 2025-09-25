@@ -35,7 +35,7 @@ from typing import Optional
 from gettext import gettext as _
 
 from gi.events import GLibEventLoopPolicy
-from gi.repository import Adw, Gtk, Gio, GLib, Gdk, GObject
+from gi.repository import Adw, GLib, GObject, Gdk, Gio, GstAudio, Gtk
 
 from gnomemusic.about import show_about
 from gnomemusic.coregrilo import CoreGrilo
@@ -161,10 +161,15 @@ class Application(Adw.Application):
     def _set_actions(self):
         action_entries = [
             ("about", self._about, None),
+            ("help", self._help, ("app.help", ["F1"])),
+            ("mute", self._mute, ("app.mute", ["<Ctrl>M"])),
             ("preferences", self._preferences_dialog,
                 ("app.preferences", ["<Ctrl>comma"])),
-            ("help", self._help, ("app.help", ["F1"])),
-            ("quit", self._quit, ("app.quit", ["<Ctrl>Q"]))
+            ("quit", self._quit, ("app.quit", ["<Ctrl>Q"])),
+            ("volume_decrease", self._volume_decrease,
+                ("app.volume_decrease", ["<Ctrl>minus"])),
+            ("volume_increase", self._volume_increase,
+                ("app.volume_increase", ["<Ctrl>plus", "<Ctrl>equal"])),
         ]
 
         for action, callback, accel in action_entries:
@@ -174,7 +179,14 @@ class Application(Adw.Application):
             if accel is not None:
                 self.set_accels_for_action(*accel)
 
-    def _help(self, action: Gio.Action, param: Optional[GLib.Variant]) -> None:
+    def _about(
+            self, action: Gio.SimpleAction,
+            param: Optional[GLib.Variant]) -> None:
+        show_about(self.props.application_id, self._version, self._window)
+
+    def _help(
+            self, action: Gio.SimpleAction,
+            param: Optional[GLib.Variant]) -> None:
 
         def show_uri_cb(parent: Gtk.Window, result: Gio.AsyncResult) -> None:
             try:
@@ -186,26 +198,62 @@ class Application(Adw.Application):
             self._window, "help:gnome-music", Gdk.CURRENT_TIME, None,
             show_uri_cb)
 
+    def _mute(
+            self, action: Gio.SimpleAction,
+            param: Optional[GLib.Variant]) -> None:
+        self._player.props.mute = not self._player.props.mute
+
     def _preferences_dialog(
             self, action: Gio.SimpleAction,
-            param_type: GLib.VariantType) -> None:
+            param: Optional[GLib.Variant]) -> None:
         if self._window.props.visible_dialog:
             return
 
         pref_dialog = PreferencesDialog(self)
         pref_dialog.present(self._window)
 
-    def _about(self, action, param):
-        show_about(self.props.application_id, self._version, self._window)
+    def _quit(
+            self, action: Gio.SimpleAction,
+            param: Optional[GLib.Variant]) -> None:
+        self._window.destroy()
+
+    def _volume_decrease(
+            self, action: Gio.SimpleAction,
+            param: Optional[GLib.Variant]) -> None:
+        if not self._player.props.mute:
+            cubic_volume = GstAudio.stream_volume_convert_volume(
+                GstAudio.StreamVolumeFormat.LINEAR,
+                GstAudio.StreamVolumeFormat.CUBIC,
+                self._player.props.volume)
+
+            self._player.props.volume = GstAudio.stream_volume_convert_volume(
+                GstAudio.StreamVolumeFormat.CUBIC,
+                GstAudio.StreamVolumeFormat.LINEAR,
+                max(0., cubic_volume - 0.1))
+
+    def _volume_increase(
+            self, action: Gio.SimpleAction,
+            param: Optional[GLib.Variant]) -> None:
+        if (not self._player.props.mute
+                or self._player.props.volume == 0):
+            cubic_volume = GstAudio.stream_volume_convert_volume(
+                GstAudio.StreamVolumeFormat.LINEAR,
+                GstAudio.StreamVolumeFormat.CUBIC,
+                self._player.props.volume)
+
+            self._player.props.volume = GstAudio.stream_volume_convert_volume(
+                GstAudio.StreamVolumeFormat.CUBIC,
+                GstAudio.StreamVolumeFormat.LINEAR,
+                min(1., cubic_volume + 0.1))
+
+        if self._player.props.mute:
+            self._player.props.mute = False
 
     def do_startup(self):
         Adw.Application.do_startup(self)
         Adw.StyleManager.get_default().set_color_scheme(
             Adw.ColorScheme.PREFER_LIGHT)
         self._set_actions()
-
-    def _quit(self, action=None, param=None):
-        self._window.destroy()
 
     def do_activate(self):
         self._coregrilo = CoreGrilo(self)
