@@ -290,7 +290,9 @@ def create_grilo_media_from_cursor(
             if album:
                 media.set_album(album)
         elif key == "duration":
-            media.set_duration(int(vars["duration"]))
+            duration = vars["duration"]
+            if duration:
+                media.set_duration(int(duration))
         elif key == "tag":
             media.set_favourite(vars["tag"] is not None)
         elif key == "lastPlayed":
