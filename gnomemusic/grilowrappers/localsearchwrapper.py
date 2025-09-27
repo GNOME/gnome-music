@@ -7,6 +7,8 @@ from typing import Callable, List, Optional, Union
 import typing
 import asyncio
 
+import gi
+gi.require_versions({"Grl": "0.3", "Tsparql": "3.0"})
 from gi.repository import Grl, Gio, Gtk, GLib, GObject, Tsparql
 
 from gnomemusic.corealbum import CoreAlbum
