@@ -22,14 +22,14 @@ class GrlTrackerPlaylists(GObject.GObject):
 
     __gtype_name__ = "GrlTrackerPlaylists"
 
-    def __init__(self, source, application, tracker_wrapper, songs_hash):
+    def __init__(self, source, application, tracker_wrapper, songs_model):
         """Initialize GrlTrackerPlaylists.
 
         :param Grl.TrackerSource source: The Tracker source to wrap
         :param Application application: Application instance
         :param TrackerWrapper tracker_wrapper: The TrackerWrapper
                                                instance
-        :param dict songs_hash: The songs hash table
+        :param dict songs_model: The songs model
         """
         super().__init__()
 
@@ -41,7 +41,7 @@ class GrlTrackerPlaylists(GObject.GObject):
         self._model_filter = self._coremodel.props.playlists_filter
         self._user_model_filter = self._coremodel.props.user_playlists_filter
         self._pls_todelete = []
-        self._songs_hash = songs_hash
+        self._songs_model = songs_model
         self._tracker = tracker_wrapper.props.local_db
         self._tracker_wrapper = tracker_wrapper
         self._notificationmanager = application.props.notificationmanager
@@ -71,7 +71,7 @@ class GrlTrackerPlaylists(GObject.GObject):
             "source": self._source,
             "application": self._application,
             "tracker_wrapper": self._tracker_wrapper,
-            "songs_hash": self._songs_hash
+            "songs_model": self._songs_model,
         }
 
         smart_playlists = {
@@ -118,7 +118,8 @@ class GrlTrackerPlaylists(GObject.GObject):
             callback: Optional[Callable] = None) -> None:
         playlist = Playlist(
             media=media, source=self._source, application=self._application,
-            tracker_wrapper=self._tracker_wrapper, songs_hash=self._songs_hash)
+            tracker_wrapper=self._tracker_wrapper,
+            songs_model=self._songs_model)
         self._model.append(playlist)
 
         if callback is not None:
