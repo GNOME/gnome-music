@@ -81,7 +81,7 @@ class GrlTrackerPlaylists(GObject.GObject):
             "RecentlyAdded": RecentlyAdded(**args),
             "Favorites": Favorites(**args),
             "InsufficientTagged": InsufficientTagged(**args),
-            "AllSongs": AllSongs(**args),
+            #  "AllSongs": AllSongs(**args),
         }
 
         for playlist in smart_playlists.values():
