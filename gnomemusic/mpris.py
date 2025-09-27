@@ -435,7 +435,7 @@ class MPRIS(DBusInterface):
             coresong = self._player.props.current_song
             index = self._player.props.position
 
-        id_hex = coresong.props.grlid.encode('ascii').hex()
+        id_hex = coresong.props.id.encode('ascii').hex()
         path = "/org/gnome/GnomeMusic/TrackList/{}_{}".format(
             id_hex, index)
         return path

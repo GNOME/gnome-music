@@ -367,8 +367,7 @@ class LocalSearchWrapper(GObject.Object):
             while has_next:
                 new_media = utils.create_grilo_media_from_cursor(
                     cursor, Grl.MediaType.CONTAINER)
-                disc_song_ids.append(
-                    new_media.get_source() + new_media.get_id())
+                disc_song_ids.append(new_media.get_id())
 
                 try:
                     has_next = await cursor.next_async()
@@ -380,7 +379,7 @@ class LocalSearchWrapper(GObject.Object):
             cursor.close()
 
             def _filter_func(coresong: CoreSong) -> bool:
-                return coresong.props.grlid in disc_song_ids
+                return coresong.props.id in disc_song_ids
 
             custom_filter = Gtk.CustomFilter()
             custom_filter.set_filter_func(_filter_func)

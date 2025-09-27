@@ -156,7 +156,7 @@ class Playlist(GObject.GObject):
         # validation: short-lived playability check for local songs
         bidirectional_properties = [
             "album", "album_disc_number", "artist", "duration", "media",
-            "grlid", "play_count", "title", "track_number", "url", "favorite"]
+            "id", "play_count", "title", "track_number", "url", "favorite"]
 
         for prop in bidirectional_properties:
             main_coresong.bind_property(

@@ -51,7 +51,7 @@ class CoreSong(GObject.GObject):
     artist = GObject.Property(type=str)
     duration = GObject.Property(type=int)
     media = GObject.Property(type=Grl.Media)
-    grlid = GObject.Property(type=str, default=None)
+    id = GObject.Property(type=str, default=None)
     play_count = GObject.Property(type=int)
     shuffle_pos = GObject.Property(type=int)
     state = GObject.Property()  # FIXME: How to set an IntEnum type?
@@ -80,7 +80,7 @@ class CoreSong(GObject.GObject):
         self._favorite: bool = False
         self._thumbnail: Optional[str] = None
 
-        self.props.grlid = media.get_source() + media.get_id()
+        self.props.id = media.get_id()
         self._is_tracker: bool = media.get_source() in [
             "grl-tracker3-source", "gnome-music"]
         self.props.validation = CoreSong.Validation.PENDING
@@ -89,7 +89,7 @@ class CoreSong(GObject.GObject):
 
     def __eq__(self, other: object) -> bool:
         return (isinstance(other, CoreSong)
-                and other.props.media.get_id() == self.props.media.get_id())
+                and other.props.id == self.props.id)
 
     @GObject.Property(
         type=bool, default=False, flags=GObject.ParamFlags.READABLE)
