@@ -31,7 +31,6 @@ import gi
 gi.require_version("Grl", "0.3")
 from gi.repository import Grl, GLib, GObject, Gtk
 
-from gnomemusic.grilowrappers.grlsearchwrapper import GrlSearchWrapper
 from gnomemusic.grilowrappers.grltrackerwrapper import GrlTrackerWrapper
 from gnomemusic.grilowrappers.localsearchwrapper import LocalSearchWrapper
 from gnomemusic.storeart import StoreArt
@@ -77,7 +76,6 @@ class CoreGrilo(GObject.GObject):
         self._application = application
         self._coremodel = self._application.props.coremodel
         self._log = application.props.log
-        self._search_wrappers = {}
         self._thumbnail_sources = []
         self._thumbnail_sources_timeout = None
         self._wrappers = {}
@@ -181,22 +179,9 @@ class CoreGrilo(GObject.GObject):
                 GLib.UserDirectory.DIRECTORY_MUSIC)
             self._log.debug("XDG Music dir is: {}".format(music_dir))
 
-        elif (source.props.source_id not in self._search_wrappers.keys()
-                and source.props.source_id not in self._wrappers.keys()
-                and source.props.source_id != "grl-tracker3-source"
-                and source.get_supported_media() & Grl.MediaType.AUDIO
-                and source.supported_operations() & Grl.SupportedOps.SEARCH
-                and "net:internet" not in source.props.source_tags):
-            self._search_wrappers[source.props.source_id] = GrlSearchWrapper(
-                source, self._application)
-            self._log.debug("Adding search source {}".format(source))
-
     def _on_source_removed(self, registry, source):
         # FIXME: Handle removing sources.
         self._log.debug("Removed source {}".format(source.props.source_id))
-
-        # FIXME: Only removes search sources atm.
-        self._search_wrappers.pop(source.props.source_id, None)
 
     def get_artist_albums(self, media, filter_model):
         """Get all album by an artist
@@ -269,8 +254,6 @@ class CoreGrilo(GObject.GObject):
         :param str text: The search string
         """
         for wrapper in self._wrappers.values():
-            wrapper.search(text)
-        for wrapper in self._search_wrappers.values():
             wrapper.search(text)
 
     def get_song_art(self, coresong: CoreSong) -> None:
