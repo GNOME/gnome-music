@@ -31,7 +31,6 @@ import gi
 gi.require_version("Grl", "0.3")
 from gi.repository import Grl, GLib, GObject, Gtk
 
-from gnomemusic.grilowrappers.grltrackerwrapper import GrlTrackerWrapper
 from gnomemusic.grilowrappers.localsearchwrapper import LocalSearchWrapper
 from gnomemusic.storeart import StoreArt
 from gnomemusic.trackerwrapper import TrackerState, TrackerWrapper
@@ -134,15 +133,6 @@ class CoreGrilo(GObject.GObject):
                 self._application, self._tracker_wrapper)
             self._wrappers["gnome-music"] = wrapper
 
-            config = Grl.Config.new("grl-tracker3", "grl-tracker3-source")
-            config.set_string(
-                "miner-service", self._tracker_wrapper.props.miner_fs_busname)
-            config.set_string(
-                "store-path", self._tracker_wrapper.cache_directory())
-            self._registry.add_config(config)
-
-            self._registry.activate_plugin_by_id("grl-tracker3")
-
     def _on_source_added(self, registry, source):
 
         def _trigger_art_update():
@@ -168,16 +158,6 @@ class CoreGrilo(GObject.GObject):
                 # network comes online.
                 self._thumbnail_sources_timeout = GLib.timeout_add_seconds(
                     5, _trigger_art_update)
-
-        if (source.props.source_id == "grl-tracker3-source"
-                and self._tracker_wrapper.location_filter() is not None):
-            new_wrapper = GrlTrackerWrapper(
-                source, self._application, self._tracker_wrapper)
-            self._wrappers[source.props.source_id] = new_wrapper
-            self._log.debug("Adding wrapper {}".format(new_wrapper))
-            music_dir = GLib.get_user_special_dir(
-                GLib.UserDirectory.DIRECTORY_MUSIC)
-            self._log.debug("XDG Music dir is: {}".format(music_dir))
 
     def _on_source_removed(self, registry, source):
         # FIXME: Handle removing sources.
