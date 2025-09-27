@@ -59,6 +59,7 @@ class Playlist(GObject.GObject):
         self._log = application.props.log
         self._songs_model = songs_hash
         self._tracker = tracker_wrapper.props.local_db
+        self._tsparql = tracker_wrapper.props.local_db
         self._tracker_wrapper = tracker_wrapper
         self._notificationmanager = application.props.notificationmanager
 
