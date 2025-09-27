@@ -31,6 +31,8 @@ class LocalSearchWrapper(GObject.Object):
 
     __gtype_name__ = "LocalSearchWrapper"
 
+    _SPLICE_SIZE = 100
+
     def __init__(
             self, application: Application,
             tsparqlwrapper: TrackerWrapper) -> None:
@@ -195,6 +197,7 @@ class LocalSearchWrapper(GObject.Object):
                 self._log.warning(f"Error: {error.domain}, {error.message}")
                 return
 
+            songs: List[CoreSong] = []
             try:
                 has_next = await cursor.next_async()
             except GLib.Error as error:
@@ -206,7 +209,11 @@ class LocalSearchWrapper(GObject.Object):
                 coresong = CoreSong(self._application, media)
                 coresong.props.album_urn = utils.album_urn_from_cursor(cursor)
 
-                self._songs_model.append(coresong)
+                songs.append(coresong)
+                if len(songs) == self._SPLICE_SIZE:
+                    self._songs_model.splice(
+                        self._songs_model.get_n_items(), 0, songs)
+                    songs.clear()
 
                 try:
                     has_next = await cursor.next_async()
@@ -215,6 +222,8 @@ class LocalSearchWrapper(GObject.Object):
                         f"Error: {error.domain}, {error.message}")
                     has_next = False
 
+            self._songs_model.splice(
+                self._songs_model.get_n_items(), 0, songs)
             cursor.close()
 
             # Initialize the playlists subwrapper after the initial
