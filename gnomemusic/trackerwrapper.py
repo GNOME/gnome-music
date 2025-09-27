@@ -28,6 +28,8 @@ import typing
 from enum import IntEnum
 from typing import Optional
 
+import gi
+gi.require_versions({"Tracker": "3.0"})
 from gi.repository import Gio, GLib, GObject, Tracker
 
 if typing.TYPE_CHECKING:
