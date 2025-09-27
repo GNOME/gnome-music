@@ -29,7 +29,7 @@ class Playlist(GObject.GObject):
 
     def __init__(
             self, media=None, query=None, tag_text=None, source=None,
-            application=None, tracker_wrapper=None, songs_hash=None):
+            application=None, tracker_wrapper=None, songs_model=None):
         super().__init__()
         """Initialize a playlist
 
@@ -40,7 +40,7 @@ class Playlist(GObject.GObject):
        :param Grl.Source source: The Grilo Tracker source object
        :param Application application: The Application instance
        :param TrackerWrapper tracker_wrapper: The TrackerWrapper instance
-       :param dict songs_hash: The songs hash table
+       :param dict songs_model: The songs model
         """
         if media:
             self.props.pl_id = media.get_id()
@@ -57,7 +57,7 @@ class Playlist(GObject.GObject):
         self._source = source
         self._coremodel = application.props.coremodel
         self._log = application.props.log
-        self._songs_model = songs_hash
+        self._songs_model = songs_model
         self._tracker = tracker_wrapper.props.local_db
         self._tsparql = tracker_wrapper.props.local_db
         self._tracker_wrapper = tracker_wrapper
