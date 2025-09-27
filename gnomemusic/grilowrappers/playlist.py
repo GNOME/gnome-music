@@ -62,10 +62,6 @@ class Playlist(GObject.GObject):
         self._tracker_wrapper = tracker_wrapper
         self._notificationmanager = application.props.notificationmanager
 
-        self._fast_options = Grl.OperationOptions()
-        self._fast_options.set_resolution_flags(
-            Grl.ResolutionFlags.FAST_ONLY | Grl.ResolutionFlags.IDLE_RELAY)
-
         self._add_song_stmt = self._tracker.load_statement_from_gresource(
             "/org/gnome/Music/queries/playlist_add_song.rq")
         self._delete_song_stmt = self._tracker.load_statement_from_gresource(

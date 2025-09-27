@@ -52,10 +52,6 @@ class GrlTrackerPlaylists(GObject.GObject):
         user_playlists_filter.set_filter_func(self._user_playlists_filter)
         self._user_model_filter.set_filter(user_playlists_filter)
 
-        self._fast_options = Grl.OperationOptions()
-        self._fast_options.set_resolution_flags(
-            Grl.ResolutionFlags.FAST_ONLY | Grl.ResolutionFlags.IDLE_RELAY)
-
         self._pl_create_stmt = self._tracker.load_statement_from_gresource(
             "/org/gnome/Music/queries/playlist_create.rq")
         self._pl_delete_stmt = self._tracker.load_statement_from_gresource(
