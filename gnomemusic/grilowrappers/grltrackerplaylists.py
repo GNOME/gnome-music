@@ -36,7 +36,6 @@ class GrlTrackerPlaylists(GObject.GObject):
         self._application = application
         self._coremodel = application.props.coremodel
         self._log = application.props.log
-        self._source = source
         self._model = self._coremodel.props.playlists
         self._model_filter = self._coremodel.props.playlists_filter
         self._user_model_filter = self._coremodel.props.user_playlists_filter
@@ -68,7 +67,6 @@ class GrlTrackerPlaylists(GObject.GObject):
 
     async def _initial_playlists_fill(self):
         args = {
-            "source": self._source,
             "application": self._application,
             "tracker_wrapper": self._tracker_wrapper,
             "songs_model": self._songs_model,
@@ -117,7 +115,7 @@ class GrlTrackerPlaylists(GObject.GObject):
             self, media: Grl.Media,
             callback: Optional[Callable] = None) -> None:
         playlist = Playlist(
-            media=media, source=self._source, application=self._application,
+            media=media, application=self._application,
             tracker_wrapper=self._tracker_wrapper,
             songs_model=self._songs_model)
         self._model.append(playlist)
