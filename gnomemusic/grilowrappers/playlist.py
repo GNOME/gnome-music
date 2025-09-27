@@ -54,7 +54,6 @@ class Playlist(GObject.GObject):
         self.props.tag_text = tag_text
         self._application = application
         self._model = None
-        self._source = source
         self._coremodel = application.props.coremodel
         self._log = application.props.log
         self._songs_model = songs_model

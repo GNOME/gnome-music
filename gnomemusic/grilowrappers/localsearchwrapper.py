@@ -220,8 +220,7 @@ class LocalSearchWrapper(GObject.Object):
             # songs model fill, the playlists expect a filled songs
             # model.
             self._tsparql_playlists = GrlTrackerPlaylists(
-                "source", self._application, self._tsparqlwrapper,
-                self._songs_model)
+                self._application, self._tsparqlwrapper, self._songs_model)
 
     def _equal_func(
             self, coresong_compared: CoreSong, coresong_provided: CoreSong,
