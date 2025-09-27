@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later WITH GStreamer-exception-2008
 
 from __future__ import annotations
-from typing import List, Union
+from typing import Callable, List, Optional, Union
 import typing
 import asyncio
 
@@ -13,11 +13,14 @@ from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.coreartist import CoreArtist
 from gnomemusic.coredisc import CoreDisc
 from gnomemusic.coresong import CoreSong
+from gnomemusic.grilowrappers.grltrackerplaylists import (
+    GrlTrackerPlaylists)
 from gnomemusic.trackerwrapper import TrackerWrapper
 import gnomemusic.utils as utils
 if typing.TYPE_CHECKING:
     from gi.repository import TSparql
     from gnomemusic.application import Application
+    from gnomemusic.grilowrappers.playlist import Playlist
     CoreObject = Union[CoreAlbum, CoreArtist, CoreSong]
 
 
@@ -38,6 +41,7 @@ class LocalSearchWrapper(GObject.Object):
         self._log = application.props.log
         self._notificationmanager = application.props.notificationmanager
         self._tsparql = trackerwrapper.props.local_db
+        self._tsparql_playlists: Optional[GrlTrackerPlaylists] = None
         self._tsparqlwrapper = trackerwrapper
 
         self._cancellable = Gio.Cancellable()
@@ -212,6 +216,13 @@ class LocalSearchWrapper(GObject.Object):
 
             cursor.close()
 
+            # Initialize the playlists subwrapper after the initial
+            # songs model fill, the playlists expect a filled songs
+            # model.
+            self._tsparql_playlists = GrlTrackerPlaylists(
+                "source", self._application, self._tsparqlwrapper,
+                self._songs_model)
+
     def _equal_func(
             self, coresong_compared: CoreSong, coresong_provided: CoreSong,
             urn: str) -> bool:
@@ -237,6 +248,9 @@ class LocalSearchWrapper(GObject.Object):
                 coresong = self._songs_model.get_item(position)
                 self._songs_model.remove(position)
                 await self._update_album(coresong)
+
+        # if self._tsparql_playlists is not None:
+        #     self._tsparql_playlists.check_smart_playlist_change()
 
     def _on_notifier_event(
             self, notifier: TSparql.Notifier, service: str, graph: str,
@@ -511,3 +525,38 @@ class LocalSearchWrapper(GObject.Object):
             # If a search does not change the number of items found,
             # SearchView will not update without a signal.
             model.emit("items-changed", 0, 0, 0)
+
+    def stage_playlist_deletion(self, playlist: Optional[Playlist]) -> None:
+        """Prepares playlist deletion.
+
+        :param Playlist playlist: playlist
+        """
+        if self._tsparql_playlists is None:
+            return
+
+        self._tsparql_playlists.stage_playlist_deletion(playlist)
+
+    def finish_playlist_deletion(
+            self, playlist: Playlist, deleted: bool) -> None:
+        """Finishes playlist deletion.
+
+        :param Playlist playlist: playlist
+        :param bool deleted: indicates if the playlist has been deleted
+        """
+        if self._tsparql_playlists is None:
+            return
+
+        self._tsparql_playlists.finish_playlist_deletion(playlist, deleted)
+
+    def create_playlist(
+            self, playlist_title: str,
+            callback: Callable[[Playlist], None]) -> None:
+        """Creates a new user playlist.
+
+        :param str playlist_title: playlist title
+        :param callback: function to perform once, the playlist is created
+        """
+        if self._tsparql_playlists is None:
+            return
+
+        self._tsparql_playlists.create_playlist(playlist_title, callback)

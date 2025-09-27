@@ -57,7 +57,7 @@ class Playlist(GObject.GObject):
         self._source = source
         self._coremodel = application.props.coremodel
         self._log = application.props.log
-        self._songs_hash = songs_hash
+        self._songs_model = songs_hash
         self._tracker = tracker_wrapper.props.local_db
         self._tracker_wrapper = tracker_wrapper
         self._notificationmanager = application.props.notificationmanager
@@ -148,11 +148,17 @@ class Playlist(GObject.GObject):
             self._notificationmanager.pop_loading()
 
     def _bind_to_main_song(self, coresong):
-        main_coresong = self._songs_hash[coresong.props.media.get_id()]
+        def equal_func(
+                coresong_compared: CoreSong,
+                coresong_provided: CoreSong) -> bool:
+            return coresong_compared == coresong_provided
+
+        success, position = self._songs_model.find_with_equal_func(
+            coresong, equal_func)
+        main_coresong = self._songs_model[position]
 
         # It is not necessary to bind all the CoreSong properties:
-        # selected property is linked to a view
-        # validation is a short-lived playability check for local songs
+        # validation: short-lived playability check for local songs
         bidirectional_properties = [
             "album", "album_disc_number", "artist", "duration", "media",
             "grlid", "play_count", "title", "track_number", "url", "favorite"]

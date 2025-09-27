@@ -84,8 +84,8 @@ class GrlTrackerPlaylists(GObject.GObject):
             "AllSongs": AllSongs(**args),
         }
 
-        for playlist in smart_playlists.values():
-            self._model.append(playlist)
+        # for playlist in smart_playlists.values():
+        #     self._model.append(playlist)
 
         try:
             cursor = await self._pl_query_all_stmt.execute_async()
