@@ -350,8 +350,8 @@ class CoreGrilo(GObject.GObject):
 
         :param Playlist playlist: playlist
         """
-        if "grl-tracker3-source" in self._wrappers:
-            self._wrappers["grl-tracker3-source"].stage_playlist_deletion(
+        if "gnome-music" in self._wrappers:
+            self._wrappers["gnome-music"].stage_playlist_deletion(
                 playlist)
 
     def finish_playlist_deletion(self, playlist, deleted):
@@ -360,8 +360,8 @@ class CoreGrilo(GObject.GObject):
         :param Playlist playlist: playlist
         :param bool deleted: indicates if the playlist has been deleted
         """
-        if "grl-tracker3-source" in self._wrappers:
-            self._wrappers["grl-tracker3-source"].finish_playlist_deletion(
+        if "gnome-music" in self._wrappers:
+            self._wrappers["gnome-music"].finish_playlist_deletion(
                 playlist, deleted)
 
     def create_playlist(self, playlist_title, callback):
@@ -370,6 +370,6 @@ class CoreGrilo(GObject.GObject):
         :param str playlist_title: playlist title
         :param callback: function to perform once, the playlist is created
         """
-        if "grl-tracker3-source" in self._wrappers:
-            self._wrappers["grl-tracker3-source"].create_playlist(
+        if "gnome-music" in self._wrappers:
+            self._wrappers["gnome-music"].create_playlist(
                 playlist_title, callback)
