@@ -506,3 +506,6 @@ class LocalSearchWrapper(GObject.Object):
                 custom_filter.set_filter_func(filter_func)
 
             model.set_filter(custom_filter)
+            # If a search does not change the number of items found,
+            # SearchView will not update without a signal.
+            model.emit("items-changed", 0, 0, 0)
