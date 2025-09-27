@@ -258,8 +258,8 @@ class LocalSearchWrapper(GObject.Object):
                 self._songs_model.remove(position)
                 await self._update_album(coresong)
 
-        # if self._tsparql_playlists is not None:
-        #     self._tsparql_playlists.check_smart_playlist_change()
+        if self._tsparql_playlists is not None:
+           self._tsparql_playlists.check_smart_playlist_change()
 
     def _on_notifier_event(
             self, notifier: TSparql.Notifier, service: str, graph: str,
