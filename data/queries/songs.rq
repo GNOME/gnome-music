@@ -27,6 +27,7 @@ WHERE {
         nmm:setNumber(nmm:musicAlbumDisc(?song)) AS ?albumDiscNumber
         nmm:musicAlbum(?song) AS ?album_urn
       WHERE {
+        {song_bind}
         ?song a nmm:MusicPiece .
         {location_filter}
       }
