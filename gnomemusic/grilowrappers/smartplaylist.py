@@ -22,19 +22,6 @@ class SmartPlaylist(Playlist):
 
     __gtype_name__ = "SmartPlaylist"
 
-    _METADATA_SMART_PLAYLIST_KEYS = [
-        Grl.METADATA_KEY_ALBUM,
-        Grl.METADATA_KEY_ALBUM_DISC_NUMBER,
-        Grl.METADATA_KEY_ARTIST,
-        Grl.METADATA_KEY_DURATION,
-        Grl.METADATA_KEY_FAVOURITE,
-        Grl.METADATA_KEY_ID,
-        Grl.METADATA_KEY_PLAY_COUNT,
-        Grl.METADATA_KEY_URL,
-        Grl.METADATA_KEY_TITLE,
-        Grl.METADATA_KEY_TRACK_NUMBER,
-    ]
-
     def __init__(self, **args):
         super().__init__(**args)
 
