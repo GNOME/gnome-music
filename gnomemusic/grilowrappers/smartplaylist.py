@@ -3,17 +3,18 @@
 # SPDX-License-Identifier: GPL-2.0-or-later WITH GStreamer-exception-2008
 
 from __future__ import annotations
-
+import asyncio
 import time
 
 from gettext import gettext as _
 
 import gi
 gi.require_versions({"Grl": "0.3"})
-from gi.repository import GObject, Gio, Grl
+from gi.repository import GLib, GObject, Gio, Grl
 
 from gnomemusic.coresong import CoreSong
 from gnomemusic.grilowrappers.playlist import Playlist
+import gnomemusic.utils as utils
 
 
 class SmartPlaylist(Playlist):
@@ -43,76 +44,56 @@ class SmartPlaylist(Playlist):
     def model(self):
         if self._model is None:
             self._model = Gio.ListStore.new(CoreSong)
-
-            self._notificationmanager.push_loading()
-
-            def _add_to_model(source, op_id, media, remaining, error):
-                if error:
-                    self._log.warning("Error: {}".format(error))
-                    self._notificationmanager.pop_loading()
-                    return
-
-                if not media:
-                    self.props.count = self._model.get_n_items()
-                    self._notificationmanager.pop_loading()
-                    return
-
-                coresong = CoreSong(self._application, media)
-                self._bind_to_main_song(coresong)
-                self._model.append(coresong)
-
-            self._source.query(
-                self.props.query, self._METADATA_SMART_PLAYLIST_KEYS,
-                self._fast_options, _add_to_model)
+            asyncio.create_task(self._populate_model())
 
         return self._model
+
+    async def _populate_model(self) -> None:
+        async with self._notificationmanager:
+            try:
+                cursor = self._tsparql.query(self.props.query)
+            except GLib.Error as error:
+                self._log.warning(
+                    f"Failure populating playlist model {self.props.pl_id}:"
+                    f" {error.domain}, {error.message}")
+                return
+
+            try:
+                has_next = await cursor.next_async()
+            except GLib.Error as error:
+                cursor.close()
+                self._log.warning(
+                    f"Cursor iteration error: {error.domain}, {error.message}")
+                return
+            while has_next:
+                media = utils.create_grilo_media_from_cursor(
+                    cursor, Grl.MediaType.AUDIO)
+                coresong = CoreSong(self._application, media)
+                self._bind_to_main_song(coresong)
+                if coresong not in self._songs_todelete:
+                    self._model.append(coresong)
+
+                try:
+                    has_next = await cursor.next_async()
+                except GLib.Error as error:
+                    cursor.close()
+                    self._log.warning(
+                        f"Cursor iteration error: {error.domain}, "
+                        f"{error.message}")
+                    return
+            else:
+                cursor.close()
+                self.props.count = self._model.get_n_items()
 
     def update(self):
         """Updates playlist model."""
         if self._model is None:
             return
 
-        new_model_medias = []
+        self._model.remove_all()
+        asyncio.create_task(self._populate_model())
 
-        def _fill_new_model(source, op_id, media, remaining, error):
-            if error:
-                return
-
-            if not media:
-                self._finish_update(new_model_medias)
-                return
-
-            new_model_medias.append(media)
-
-        self._source.query(
-            self.props.query, self._METADATA_SMART_PLAYLIST_KEYS,
-            self._fast_options, _fill_new_model)
-
-    def _finish_update(self, new_model_medias):
-        if not new_model_medias:
-            self._model.remove_all()
-            self.props.count = 0
-            return
-
-        current_models_ids = [coresong.props.media.get_id()
-                              for coresong in self._model]
-        new_model_ids = [media.get_id() for media in new_model_medias]
-
-        idx_to_delete = []
-        for idx, media_id in enumerate(current_models_ids):
-            if media_id not in new_model_ids:
-                idx_to_delete.insert(0, idx)
-
-        for idx in idx_to_delete:
-            self._model.remove(idx)
-            self.props.count -= 1
-
-        for idx, media in enumerate(new_model_medias):
-            if media.get_id() not in current_models_ids:
-                coresong = CoreSong(self._application, media)
-                self._bind_to_main_song(coresong)
-                self._model.append(coresong)
-                self.props.count += 1
+        return
 
 
 class MostPlayed(SmartPlaylist):
