@@ -83,8 +83,8 @@ class CoreGrilo(GObject.GObject):
         self._fast_options.set_resolution_flags(
             Grl.ResolutionFlags.FAST_ONLY | Grl.ResolutionFlags.IDLE_RELAY)
 
-        self._tracker_wrapper = TrackerWrapper(application)
-        self._tracker_wrapper.bind_property(
+        self._tsparqlwrapper = TrackerWrapper(application)
+        self._tsparqlwrapper.bind_property(
             "tracker-available", self, "tracker-available",
             GObject.BindingFlags.SYNC_CREATE)
 
@@ -102,9 +102,9 @@ class CoreGrilo(GObject.GObject):
 
         self._registry.load_all_plugins(False)
 
-        tracker_available_state = self._tracker_wrapper.props.tracker_available
+        tracker_available_state = self._tsparqlwrapper.props.tracker_available
         if tracker_available_state != TrackerState.AVAILABLE:
-            self._tracker_wrapper.connect(
+            self._tsparqlwrapper.connect(
                 "notify::tracker-available",
                 self._on_tracker_available_changed)
         else:
@@ -127,10 +127,10 @@ class CoreGrilo(GObject.GObject):
     def _on_tracker_available_changed(
             self, trackerwrapper: TrackerWrapper, state: TrackerState) -> None:
         # FIXME:No removal support yet.
-        new_state = self._tracker_wrapper.props.tracker_available
+        new_state = self._tsparqlwrapper.props.tracker_available
         if new_state == TrackerState.AVAILABLE:
             wrapper = LocalSearchWrapper(
-                self._application, self._tracker_wrapper)
+                self._application, self._tsparqlwrapper)
             self._wrappers["gnome-music"] = wrapper
 
     def _on_source_added(self, registry, source):
@@ -223,7 +223,7 @@ class CoreGrilo(GObject.GObject):
         :param Grl.Media media: A Grilo media item
         :param str tag: tag to update
         """
-        self._tracker_wrapper.update_tag(media, tag)
+        self._tsparqlwrapper.update_tag(media, tag)
 
     def search(self, text: str) -> None:
         """Search for the given string in the wrappers
