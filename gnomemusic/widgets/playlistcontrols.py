@@ -26,7 +26,7 @@ import gettext
 
 from gi.repository import Gdk, GObject, Gio, Gtk
 
-from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
+from gnomemusic.grilowrappers.playlist import Playlist
 from gnomemusic.playlisttoast import PlaylistToast
 
 

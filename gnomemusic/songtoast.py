@@ -30,7 +30,7 @@ from gettext import gettext as _
 from gi.repository import Adw, GLib, GObject, Gio, Gtk
 if typing.TYPE_CHECKING:
     from gnomemusic.application import Application
-    from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
+    from gnomemusic.grilowrappers.playlist import Playlist
     from gnomemusic.coresong import CoreSong
 
 

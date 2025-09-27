@@ -29,7 +29,7 @@ class Playlist(GObject.GObject):
 
     def __init__(
             self, media=None, query=None, tag_text=None, source=None,
-            application=None, tracker_wrapper=None, songs_model=None):
+            application=None, tsparqlwrapper=None, songs_model=None):
         super().__init__()
         """Initialize a playlist
 
@@ -39,7 +39,7 @@ class Playlist(GObject.GObject):
             of the playlist
        :param Grl.Source source: The Grilo Tracker source object
        :param Application application: The Application instance
-       :param TrackerWrapper tracker_wrapper: The TrackerWrapper instance
+       :param TrackerWrapper tsparqlwrapper: The TrackerWrapper instance
        :param dict songs_model: The songs model
         """
         if media:
@@ -57,23 +57,22 @@ class Playlist(GObject.GObject):
         self._coremodel = application.props.coremodel
         self._log = application.props.log
         self._songs_model = songs_model
-        self._tracker = tracker_wrapper.props.local_db
-        self._tsparql = tracker_wrapper.props.local_db
-        self._tracker_wrapper = tracker_wrapper
+        self._tsparql = tsparqlwrapper.props.local_db
+        self._tsparqlwrapper = tsparqlwrapper
         self._notificationmanager = application.props.notificationmanager
 
-        self._add_song_stmt = self._tracker.load_statement_from_gresource(
+        self._add_song_stmt = self._tsparql.load_statement_from_gresource(
             "/org/gnome/Music/queries/playlist_add_song.rq")
-        self._delete_song_stmt = self._tracker.load_statement_from_gresource(
+        self._delete_song_stmt = self._tsparql.load_statement_from_gresource(
             "/org/gnome/Music/queries/playlist_delete_song.rq")
-        self._pl_del_entry_stmt = self._tracker.load_statement_from_gresource(
+        self._pl_del_entry_stmt = self._tsparql.load_statement_from_gresource(
             "/org/gnome/Music/queries/playlist_query_delete_entry.rq")
         prep_stmt = self._prepare_statement(
             "/org/gnome/Music/queries/playlist_query_songs.rq")
-        self._pl_songs_stmt = self._tracker.query_statement(prep_stmt)
-        self._rename_title_stmt = self._tracker.load_statement_from_gresource(
+        self._pl_songs_stmt = self._tsparql.query_statement(prep_stmt)
+        self._rename_title_stmt = self._tsparql.load_statement_from_gresource(
             "/org/gnome/Music/queries/playlist_rename_title.rq")
-        self._reorder_stmt = self._tracker.load_statement_from_gresource(
+        self._reorder_stmt = self._tsparql.load_statement_from_gresource(
             "/org/gnome/Music/queries/playlist_reorder_songs.rq")
 
         self._songs_todelete = []
@@ -84,9 +83,9 @@ class Playlist(GObject.GObject):
             resource_path, Gio.ResourceLookupFlags.NONE)
         query_str = gbytes.get_data().decode("utf-8")
         query_str = query_str.replace(
-            "{bus_name}", self._tracker_wrapper.props.miner_fs_busname)
+            "{bus_name}", self._tsparqlwrapper.props.miner_fs_busname)
         query_str = query_str.replace(
-            "{location_filter}", self._tracker_wrapper.location_filter())
+            "{location_filter}", self._tsparqlwrapper.location_filter())
 
         return query_str
 
@@ -336,7 +335,7 @@ class Playlist(GObject.GObject):
                 change_list.append((position + 1, position))
         change_list.append((0, new_position))
 
-        batch = self._tracker.create_batch()
+        batch = self._tsparql.create_batch()
         for old, new in change_list:
             batch.add_statement(
                 self._reorder_stmt, ["id", "new_position", "old_position"],

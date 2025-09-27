@@ -27,7 +27,7 @@ from typing import Optional
 
 from gi.repository import Adw, GObject, Gtk
 
-from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
+from gnomemusic.grilowrappers.playlist import Playlist
 from gnomemusic.widgets.playlistswidget import PlaylistsWidget
 from gnomemusic.widgets.playlisttile import PlaylistTile
 

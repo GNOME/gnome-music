@@ -28,7 +28,7 @@ import typing
 
 from gi.repository import Adw, Gtk
 
-from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
+from gnomemusic.grilowrappers.playlist import Playlist
 from gnomemusic.widgets.playlistdialogrow import PlaylistDialogRow
 if typing.TYPE_CHECKING:
     from gnomemusic.application import Application

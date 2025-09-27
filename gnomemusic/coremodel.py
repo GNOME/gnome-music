@@ -31,7 +31,7 @@ from gi.repository import GLib, GObject, Gio, Gtk
 from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.coreartist import CoreArtist
 from gnomemusic.coresong import CoreSong
-from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
+from gnomemusic.grilowrappers.playlist import Playlist
 from gnomemusic.queue import Queue
 from gnomemusic.widgets.songwidget import SongWidget
 if typing.TYPE_CHECKING:

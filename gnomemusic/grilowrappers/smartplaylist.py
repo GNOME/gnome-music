@@ -145,8 +145,8 @@ class MostPlayed(SmartPlaylist):
         ORDER BY DESC(?playCount) LIMIT 50
         """.replace('\n', ' ').strip() % {
             "media_type": int(Grl.MediaType.AUDIO),
-            "location_filter": self._tracker_wrapper.location_filter(),
-            "miner_fs_busname": self._tracker_wrapper.props.miner_fs_busname,
+            "location_filter": self._tsparqlwrapper.location_filter(),
+            "miner_fs_busname": self._tsparqlwrapper.props.miner_fs_busname,
         }
 
 
@@ -198,8 +198,8 @@ class NeverPlayed(SmartPlaylist):
         } ORDER BY nfo:fileLastAccessed(?song) LIMIT 50
         """.replace('\n', ' ').strip() % {
             "media_type": int(Grl.MediaType.AUDIO),
-            "location_filter": self._tracker_wrapper.location_filter(),
-            "miner_fs_busname": self._tracker_wrapper.props.miner_fs_busname,
+            "location_filter": self._tsparqlwrapper.location_filter(),
+            "miner_fs_busname": self._tsparqlwrapper.props.miner_fs_busname,
         }
 
 
@@ -277,8 +277,8 @@ class RecentlyPlayed(SmartPlaylist):
         """.replace('\n', ' ').strip() % {
             "media_type": int(Grl.MediaType.AUDIO),
             'compare_date': compare_date,
-            "location_filter": self._tracker_wrapper.location_filter(),
-            "miner_fs_busname": self._tracker_wrapper.props.miner_fs_busname,
+            "location_filter": self._tsparqlwrapper.location_filter(),
+            "miner_fs_busname": self._tsparqlwrapper.props.miner_fs_busname,
         }
 
 
@@ -340,8 +340,8 @@ class RecentlyAdded(SmartPlaylist):
         """.replace('\n', ' ').strip() % {
             "media_type": int(Grl.MediaType.AUDIO),
             'compare_date': compare_date,
-            "location_filter": self._tracker_wrapper.location_filter(),
-            "miner_fs_busname": self._tracker_wrapper.props.miner_fs_busname,
+            "location_filter": self._tsparqlwrapper.location_filter(),
+            "miner_fs_busname": self._tsparqlwrapper.props.miner_fs_busname,
         }
 
 
@@ -392,8 +392,8 @@ class Favorites(SmartPlaylist):
             } ORDER BY DESC(?added)
         """.replace('\n', ' ').strip() % {
             "media_type": int(Grl.MediaType.AUDIO),
-            "location_filter": self._tracker_wrapper.location_filter(),
-            "miner_fs_busname": self._tracker_wrapper.props.miner_fs_busname,
+            "location_filter": self._tsparqlwrapper.location_filter(),
+            "miner_fs_busname": self._tsparqlwrapper.props.miner_fs_busname,
         }
 
 
@@ -457,8 +457,8 @@ class InsufficientTagged(SmartPlaylist):
         }
         """.replace('\n', ' ').strip() % {
             "media_type": int(Grl.MediaType.AUDIO),
-            "location_filter": self._tracker_wrapper.location_filter(),
-            "miner_fs_busname": self._tracker_wrapper.props.miner_fs_busname,
+            "location_filter": self._tsparqlwrapper.location_filter(),
+            "miner_fs_busname": self._tsparqlwrapper.props.miner_fs_busname,
         }
 
 
@@ -510,6 +510,6 @@ class AllSongs(SmartPlaylist):
         } ORDER BY ?artist ?album ?trackNumber
         """.replace('\n', ' ').strip() % {
             "media_type": int(Grl.MediaType.AUDIO),
-            "location_filter": self._tracker_wrapper.location_filter(),
-            "miner_fs_busname": self._tracker_wrapper.props.miner_fs_busname,
+            "location_filter": self._tsparqlwrapper.location_filter(),
+            "miner_fs_busname": self._tsparqlwrapper.props.miner_fs_busname,
         }

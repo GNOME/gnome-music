@@ -1,11 +1,11 @@
-# Copyright 2024 The GNOME Music developers
+# Copyright 2025 The GNOME Music developers
 #
 # SPDX-License-Identifier: GPL-2.0-or-later WITH GStreamer-exception-2008
 
 from __future__ import annotations
-from collections.abc import Callable
-from typing import Optional
+from typing import Callable, Optional
 import asyncio
+import typing
 
 import gi
 gi.require_versions({"Grl": "0.3"})
@@ -16,6 +16,10 @@ from gnomemusic.grilowrappers.smartplaylist import (
     AllSongs, InsufficientTagged, Favorites, RecentlyAdded, RecentlyPlayed,
     NeverPlayed, MostPlayed)
 import gnomemusic.utils as utils
+if typing.TYPE_CHECKING:
+    from gi.repository import Gio
+    from gnomemusic.application import Application
+    from gnomemusic.trackerwrapper import TrackerWrapper
 
 
 class LocalSearchPlaylists(GObject.GObject):
@@ -24,11 +28,11 @@ class LocalSearchPlaylists(GObject.GObject):
 
     def __init__(
             self, application: Application, tsparqlwrapper: TrackerWrapper,
-            songs_model: ListModel) -> None:
+            songs_model: Gio.ListStore) -> None:
         """Initialize LocalSearchPlaylists.
 
         :param Application application: Application instance
-        :param TrackerWrapper tsparql_wrapper: The TrackerWrapper
+        :param TrackerWrapper tsparqlwrapper: The TrackerWrapper
                                                instance
         :param dict songs_model: The songs model
         """

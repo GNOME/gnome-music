@@ -15,8 +15,7 @@ from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.coreartist import CoreArtist
 from gnomemusic.coredisc import CoreDisc
 from gnomemusic.coresong import CoreSong
-from gnomemusic.grilowrappers.grltrackerplaylists import (
-    GrlTrackerPlaylists)
+from gnomemusic.grilowrappers.localsearchplaylists import LocalSearchPlaylists
 from gnomemusic.trackerwrapper import TrackerWrapper
 import gnomemusic.utils as utils
 if typing.TYPE_CHECKING:
@@ -34,7 +33,7 @@ class LocalSearchWrapper(GObject.Object):
 
     def __init__(
             self, application: Application,
-            trackerwrapper: TrackerWrapper) -> None:
+            tsparqlwrapper: TrackerWrapper) -> None:
         """Init LocalSearchWrapper
         """
         super().__init__()
@@ -42,9 +41,9 @@ class LocalSearchWrapper(GObject.Object):
         self._application = application
         self._log = application.props.log
         self._notificationmanager = application.props.notificationmanager
-        self._tsparql = trackerwrapper.props.local_db
-        self._tsparql_playlists: Optional[GrlTrackerPlaylists] = None
-        self._tsparqlwrapper = trackerwrapper
+        self._tsparql = tsparqlwrapper.props.local_db
+        self._tsparql_playlists: Optional[LocalSearchPlaylists] = None
+        self._tsparqlwrapper = tsparqlwrapper
 
         self._cancellable = Gio.Cancellable()
 
@@ -221,7 +220,7 @@ class LocalSearchWrapper(GObject.Object):
             # Initialize the playlists subwrapper after the initial
             # songs model fill, the playlists expect a filled songs
             # model.
-            self._tsparql_playlists = GrlTrackerPlaylists(
+            self._tsparql_playlists = LocalSearchPlaylists(
                 self._application, self._tsparqlwrapper, self._songs_model)
 
     def _equal_func(
