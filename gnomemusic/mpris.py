@@ -374,10 +374,6 @@ class MPRIS(DBusInterface):
             'xesam:albumArtist': GLib.Variant('as', [artist])
         }
 
-        genre = coresong.props.media.get_genre()
-        if genre is not None:
-            metadata['xesam:genre'] = GLib.Variant('as', [genre])
-
         last_played = coresong.props.last_played
         if last_played is not None:
             last_played_str = last_played.format("%FT%T%:z")
