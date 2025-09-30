@@ -36,6 +36,7 @@ class CoreArtist(GObject.GObject):
     """
 
     artist = GObject.Property(type=str)
+    id = GObject.Property(type=str)
     media = GObject.Property(type=Grl.Media)
 
     def __init__(self, application, media):
@@ -56,6 +57,7 @@ class CoreArtist(GObject.GObject):
 
     def update(self, media):
         self.props.media = media
+        self.props.id = media.get_id()
         self.props.artist = utils.get_artist_name(media)
 
     def _get_artist_album_model(self):

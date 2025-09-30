@@ -235,7 +235,7 @@ class LocalSearchWrapper(GObject.Object):
     def _equal_func(
             self, coresong_compared: CoreSong, coresong_provided: CoreSong,
             urn: str) -> bool:
-        return coresong_compared.props.media.get_id() == urn
+        return coresong_compared.props.id == urn
 
     async def _fileid_event(self, event: Tsparql.NotifierEvent) -> None:
         event_type = event.get_event_type()
@@ -274,8 +274,7 @@ class LocalSearchWrapper(GObject.Object):
             self._albums_model[0], self._equal_func, coresong.props.album_urn)
         if found:
             self._albums_model[position].remove_song_from_album(
-                coresong.props.album_disc_number,
-                coresong.props.media.get_id())
+                coresong.props.album_disc_number, coresong.props.id)
 
     async def _add_song(self, urn: str) -> None:
         self._song_stmt.bind_string("song", urn)
@@ -437,7 +436,7 @@ class LocalSearchWrapper(GObject.Object):
             cursor.close()
 
         def albums_filter(corealbum: CoreAlbum, albums: List[str]) -> bool:
-            return corealbum.props.media.get_id() in albums
+            return corealbum.props.id in albums
 
         custom_filter = Gtk.CustomFilter()
         custom_filter.set_filter_func(albums_filter, album_ids)
@@ -521,7 +520,7 @@ class LocalSearchWrapper(GObject.Object):
             cursor.close()
 
             def filter_func(coreobject: CoreObject) -> bool:
-                return coreobject.props.media.get_id() in filter_ids
+                return coreobject.props.id in filter_ids
 
             if len(filter_ids) == 0:
                 custom_filter = Gtk.AnyFilter()

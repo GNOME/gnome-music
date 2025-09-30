@@ -286,8 +286,7 @@ class Playlist(GObject.GObject):
     async def _add_songs(self, coresongs: List[CoreSong]) -> None:
         self._add_song_stmt.bind_string("playlist", self.props.pl_id)
         for coresong in coresongs:
-            self._add_song_stmt.bind_string(
-                "uri", coresong.props.media.get_url())
+            self._add_song_stmt.bind_string("uri", coresong.props.url)
             try:
                 await self._add_song_stmt.update_async()
             except GLib.Error as error:
