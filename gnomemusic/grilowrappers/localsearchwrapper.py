@@ -63,7 +63,7 @@ class LocalSearchWrapper(GObject.Object):
         cm.props.albums_search_proxy.append(self._albums_search_model)
 
         self._artists_search_model = Gtk.FilterListModel.new(
-            self._albums_model)
+            self._artists_model)
         self._artists_search_model.set_filter(Gtk.AnyFilter())
         cm.props.artists_search_proxy.append(self._artists_search_model)
 
