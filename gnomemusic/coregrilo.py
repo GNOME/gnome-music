@@ -193,26 +193,6 @@ class CoreGrilo(GObject.GObject):
         source = "gnome-music"
         self._wrappers[source].get_album_disc(coredisc, model)
 
-    def writeback(self, media, key):
-        """Store the values associated with the key.
-
-        :param Grl.Media media: A Grilo media item
-        :param int key: a Grilo metadata key
-        """
-        def _store_metadata_cb(source, media, failed_keys, data, error):
-            if error is not None:
-                self._log.warning(
-                    "Error {}: {}".format(error.domain, error.message))
-            if failed_keys:
-                self._log.warning("Unable to update {}".format(failed_keys))
-
-        for wrapper in self._wrappers.values():
-            if media.get_source() == wrapper.source.props.source_id:
-                wrapper.props.source.store_metadata(
-                    media, [key], Grl.WriteFlags.NORMAL, _store_metadata_cb,
-                    None)
-                break
-
     def writeback_tracker(self, media, tag):
         """Use Tracker queries to update tags.
 
