@@ -193,17 +193,16 @@ class CoreGrilo(GObject.GObject):
         source = "gnome-music"
         self._wrappers[source].get_album_disc(coredisc, model)
 
-    def writeback_tracker(self, media, tag):
+    def writeback_tracker(self, coreong: CoreSong, tag: str) -> None:
         """Use Tracker queries to update tags.
 
         The tags are associated with a Tracker resource
-        (song, album, artist or external resource), so they can cannot
-        be updated with grilo writeback support.
+        (song, album, artist or external resource).
 
-        :param Grl.Media media: A Grilo media item
+        :param CoreSong coresong: Song to update
         :param str tag: tag to update
         """
-        self._tsparqlwrapper.update_tag(media, tag)
+        self._tsparqlwrapper.update_tag(coresong, tag)
 
     def search(self, text: str) -> None:
         """Search for the given string in the wrappers
