@@ -255,9 +255,13 @@ class CoreGrilo(GObject.GObject):
                 coresong, media.get_thumbnail(), CoreObjectType.SONG)
 
         for source in self._thumbnail_sources:
+            media = Grl.Media.audio_new()
+            media.set_album(coresong.props.album)
+            media.set_artist(coresong.props.artist)
+            media.set_url(coresong.props.url)
             source.resolve(
-                coresong.props.media, self._METADATA_THUMBNAIL_KEYS,
-                self._fast_options, _on_resolved)
+                media, self._METADATA_THUMBNAIL_KEYS, self._fast_options,
+                _on_resolved)
 
     def get_album_art(self, corealbum: CoreAlbum) -> None:
         """Retrieve album art for the given CoreAlbum
@@ -306,9 +310,11 @@ class CoreGrilo(GObject.GObject):
                 coreartist, media.get_thumbnail(), CoreObjectType.ARTIST)
 
         for source in self._thumbnail_sources:
+            media = Grl.Media.audio_new()
+            media.set_artist(coreartist.props.artist)
             source.resolve(
-                coreartist.props.media, self._METADATA_THUMBNAIL_KEYS,
-                self._fast_options, _on_resolved)
+                media, self._METADATA_THUMBNAIL_KEYS, self._fast_options,
+                _on_resolved)
 
     def stage_playlist_deletion(self, playlist):
         """Prepares playlist deletion.
