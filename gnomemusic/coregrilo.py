@@ -182,16 +182,14 @@ class CoreGrilo(GObject.GObject):
         self._wrappers[source].get_album_discs(media, disc_model)
 
     def get_album_disc(
-            self, media: Grl.Media, discnr: int,
-            model: Gtk.FilterListModel) -> None:
+            self, coredisc: CoreDisc, model: Gtk.FilterListModel) -> None:
         """Get all songs from an album disc
 
-        :param Grl.Media media: An album
-        :param int discnr: The disc number
+        :param CoreDisc coredisc: An album disc to look up
         :param Gtk.FilterListModel model: The model to fill
         """
-        source = media.get_source()
-        self._wrappers[source].get_album_disc(media, discnr, model)
+        source = "gnome-music"
+        self._wrappers[source].get_album_disc(coredisc, model)
 
     def writeback(self, media, key):
         """Store the values associated with the key.

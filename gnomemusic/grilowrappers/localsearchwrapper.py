@@ -355,11 +355,10 @@ class LocalSearchWrapper(GObject.Object):
         asyncio.create_task(self._get_album_discs(media, disc_model))
 
     async def _get_album_disc(
-            self, media: Grl.Media, disc_nr: int,
-            model: Gtk.FilterListModel) -> None:
+            self, coredisc: CoreDisc, model: Gtk.FilterListModel) -> None:
         async with self._notificationmanager:
-            self._album_disc_stmt.bind_string("album_id", media.get_id())
-            self._album_disc_stmt.bind_int("disc_nr", disc_nr)
+            self._album_disc_stmt.bind_string("album_id", coredisc.props.id)
+            self._album_disc_stmt.bind_int("disc_nr", coredisc.props.disc_nr)
             try:
                 cursor = await self._album_disc_stmt.execute_async()
             except GLib.Error as error:
@@ -394,15 +393,13 @@ class LocalSearchWrapper(GObject.Object):
             model.set_filter(custom_filter)
 
     def get_album_disc(
-            self, media: Grl.Media, disc_nr: int,
-            model: Gtk.FilterListModel) -> None:
+            self, coredisc: CoreDisc, model: Gtk.FilterListModel) -> None:
         """Get all songs of an album disc
 
-        :param Grl.Media media: The media with the album id
-        :param int disc_nr: The disc number
+        :param CoreDisc coredisc: The album disc to look up
         :param Gtk.FilterListModel model: The model to fill
         """
-        asyncio.create_task(self._get_album_disc(media, disc_nr, model))
+        asyncio.create_task(self._get_album_disc(coredisc, model))
 
     async def _get_artist_albums(
             self, media: Grl.Media, model: Gtk.FilterListModel) -> None:

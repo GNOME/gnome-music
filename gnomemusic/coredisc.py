@@ -70,8 +70,7 @@ class CoreDisc(GObject.GObject):
             self._model = Gtk.SortListModel.new(filter_model, song_sorter)
             self._model.connect("items-changed", self._on_disc_changed)
 
-            self._coregrilo.get_album_disc(
-                self.props.media, self.props.disc_nr, filter_model)
+            self._coregrilo.get_album_disc(self, filter_model)
 
         return self._model
 
