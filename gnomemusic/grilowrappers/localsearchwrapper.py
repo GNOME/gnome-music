@@ -332,7 +332,7 @@ class LocalSearchWrapper(GObject.Object):
                     cursor, Grl.MediaType.CONTAINER)
                 nr = new_media.get_album_disc_number()
                 coredisc = CoreDisc(
-                    self._application, corealbum.props.media, nr)
+                    self._application, corealbum, nr)
 
                 disc_model.append(coredisc)
 
