@@ -221,11 +221,7 @@ class TrackerWrapper(GObject.GObject):
 
         return query
 
-    def _update_favorite(self, coresong: CoreSong) -> None:
-        """Update favorite state of a song.
-
-        :param CoreSong coresong: CoreSong with updated state
-        """
+    async def _update_favorite(self, coresong: CoreSong) -> None:
         if coresong.props.favorite:
             update = """
             INSERT DATA {
@@ -244,16 +240,13 @@ class TrackerWrapper(GObject.GObject):
                 "urn": coresong.props.id,
             }
 
-        def _update_favorite_cb(conn, res):
-            try:
-                conn.update_finish(res)
-            except GLib.Error as e:
-                self._log.warning("Unable to update favorite: {}".format(
-                    e.message))
+        try:
+            await self._local_db.update_async(update)
+        except GLib.Error as error:
+            self._log.warning(
+                f"Unable to update favorite: {error.domain}, {error.message}")
 
-        self._local_db.update_async(update, None, _update_favorite_cb)
-
-    def _update_play_count(self, coresong: CoreSong) -> None:
+    async def _update_play_count(self, coresong: CoreSong) -> None:
         update = """
         DELETE WHERE {
             <%(urn)s> nie:usageCounter ?count .
@@ -267,16 +260,14 @@ class TrackerWrapper(GObject.GObject):
             "count": coresong.props.play_count,
         }
 
-        def _update_play_count_cb(conn, res):
-            try:
-                conn.update_finish(res)
-            except GLib.Error as e:
-                self._log.warning("Unable to update play count: {}".format(
-                    e.message))
+        try:
+            await self._local_db.update_async(update)
+        except GLib.Error as error:
+            self._log.warning(
+                f"Unable to update play count: "
+                f"{error.domain}, {error.message}")
 
-        self._local_db.update_async(update, None, _update_play_count_cb)
-
-    def _update_last_played(self, coresong: CoreSong) -> None:
+    async def _update_last_played(self, coresong: CoreSong) -> None:
         last_played = coresong.props.last_played.format_iso8601()
         update = """
         DELETE WHERE {
@@ -291,13 +282,12 @@ class TrackerWrapper(GObject.GObject):
             "last_played": last_played,
         }
 
-        def _update_last_played_cb(conn, res):
-            try:
-                conn.update_finish(res)
-            except GLib.Error as e:
-                self._log.warning(f"Unable to update last played: {e.message}")
-
-        self._local_db.update_async(update, None, _update_last_played_cb)
+        try:
+            await self._local_db.update_async(update)
+        except GLib.Error as error:
+            self._log.warning(
+                f"Unable to update last played: "
+                f"{error.domain}, {error.message}")
 
     def update_tag(self, coresong: CoreSong, tag: str) -> None:
         """Update property of a resource.
@@ -306,10 +296,10 @@ class TrackerWrapper(GObject.GObject):
         :param str tag: tag to update
         """
         if tag == "favorite":
-            self._update_favorite(coresong)
+            asyncio.create_task(self._update_favorite(coresong))
         elif tag == "last-played":
-            self._update_last_played(coresong)
+            asyncio.create_task(self._update_last_played(coresong))
         elif tag == "play-count":
-            self._update_play_count(coresong)
+            asyncio.create_task(self._update_play_count(coresong))
         else:
             self._log.warning("Unknown tag: '{}'".format(tag))
