@@ -172,14 +172,14 @@ class CoreGrilo(GObject.GObject):
         source = media.get_source()
         self._wrappers[source].get_artist_albums(media, filter_model)
 
-    def get_album_discs(self, media, disc_model):
+    def get_album_discs(self, corealbum: CoreAlbum, disc_model):
         """Get all discs from an album
 
-        :param Grl.Media media: A Grilo Media item that represents Album
+        :param CoreAlbum corealbum: An album
         :param Gtk.SortListModel disc_model: The model to fill
         """
-        source = media.get_source()
-        self._wrappers[source].get_album_discs(media, disc_model)
+        source = "gnome-music"
+        self._wrappers[source].get_album_discs(corealbum, disc_model)
 
     def get_album_disc(
             self, coredisc: CoreDisc, model: Gtk.FilterListModel) -> None:

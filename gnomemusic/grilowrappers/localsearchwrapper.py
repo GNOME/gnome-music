@@ -313,10 +313,9 @@ class LocalSearchWrapper(GObject.Object):
             cursor.close()
 
     async def _get_album_discs(
-            self, media: Grl.Media, disc_model: Gtk.SortListModel) -> None:
+            self, corealbum: CoreAlbum, disc_model: Gtk.SortListModel) -> None:
         async with self._notificationmanager:
-            album_id = media.get_id()
-            self._album_discs_stmt.bind_string("album_id", album_id)
+            self._album_discs_stmt.bind_string("album_id", corealbum.props.id)
             try:
                 cursor = await self._album_discs_stmt.execute_async()
             except GLib.Error as error:
@@ -332,7 +331,8 @@ class LocalSearchWrapper(GObject.Object):
                 new_media = utils.create_grilo_media_from_cursor(
                     cursor, Grl.MediaType.CONTAINER)
                 nr = new_media.get_album_disc_number()
-                coredisc = CoreDisc(self._application, media, nr)
+                coredisc = CoreDisc(
+                    self._application, corealbum.props.media, nr)
 
                 disc_model.append(coredisc)
 
@@ -346,13 +346,13 @@ class LocalSearchWrapper(GObject.Object):
             cursor.close()
 
     def get_album_discs(
-            self, media: Grl.Media, disc_model: Gtk.SortListModel) -> None:
+            self, corealbum: CoreAlbum, disc_model: Gtk.SortListModel) -> None:
         """Get all discs of an album
 
-        :param Grl.Media media: The media with the album id
+        :param CoreAlbum corealbum: The album
         :param Gtk.SortListModel disc_model: The model to fill
         """
-        asyncio.create_task(self._get_album_discs(media, disc_model))
+        asyncio.create_task(self._get_album_discs(corealbum, disc_model))
 
     async def _get_album_disc(
             self, coredisc: CoreDisc, model: Gtk.FilterListModel) -> None:

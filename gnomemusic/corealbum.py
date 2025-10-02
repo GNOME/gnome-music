@@ -94,7 +94,7 @@ class CoreAlbum(GObject.GObject):
         disc_sorter = Gtk.NumericSorter.new(disc_no_exp)
         disc_model_sort = Gtk.SortListModel.new(disc_model, disc_sorter)
 
-        self._coregrilo.get_album_discs(self.props.media, disc_model)
+        self._coregrilo.get_album_discs(self, disc_model)
 
         return disc_model_sort
 
