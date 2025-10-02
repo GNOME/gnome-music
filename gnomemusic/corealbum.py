@@ -146,9 +146,6 @@ class CoreAlbum(GObject.GObject):
         """
         self._thumbnail = value
 
-        if self._thumbnail != "generic":
-            self.props.media.set_thumbnail(self._thumbnail)
-
     @GObject.Property(type=object, flags=GObject.ParamFlags.READABLE)
     def corealbum(self) -> CoreAlbum:
         return self
