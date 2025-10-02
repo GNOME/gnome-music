@@ -89,5 +89,4 @@ class CoreDisc(GObject.GObject):
         """
         # FIXME: For now we just retrieve the full disc again
         filter_model = self.props.model.get_model()
-        self._coregrilo.get_album_disc(
-            self.props.media, self.props.disc_nr, filter_model)
+        self._coregrilo.get_album_disc(self, filter_model)
