@@ -279,11 +279,13 @@ class CoreGrilo(GObject.GObject):
 
         for source in self._thumbnail_sources:
             # The grilo album field is used during resolve
-            corealbum.props.media.set_album(
-                corealbum.props.media.get_title())
+            media = Grl.Media.audio_new()
+            media.set_album(corealbum.props.title)
+            media.set_artist(corealbum.props.artist)
+            media.set_url(corealbum.props.url)
             source.resolve(
-                corealbum.props.media, self._METADATA_THUMBNAIL_KEYS,
-                self._fast_options, _on_resolved)
+                media, self._METADATA_THUMBNAIL_KEYS, self._fast_options,
+                _on_resolved)
 
     def get_artist_art(self, coreartist: CoreArtist) -> None:
         """Retrieve artist art for the given CoreArtist
