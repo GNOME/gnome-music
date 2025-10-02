@@ -173,9 +173,8 @@ class LocalSearchWrapper(GObject.Object):
                 self._log.warning(f"Error: {error.domain}, {error.message}")
                 has_next = False
             while has_next:
-                media = utils.create_grilo_media_from_cursor(
-                    cursor, Grl.MediaType.CONTAINER)
-                coreartist = CoreArtist(self._application, media)
+                cursor_dict = utils.dict_from_cursor(cursor)
+                coreartist = CoreArtist(self._application, cursor_dict)
 
                 self._artists_model.append(coreartist)
 
