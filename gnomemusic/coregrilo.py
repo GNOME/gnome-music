@@ -163,14 +163,16 @@ class CoreGrilo(GObject.GObject):
         # FIXME: Handle removing sources.
         self._log.debug("Removed source {}".format(source.props.source_id))
 
-    def get_artist_albums(self, media, filter_model):
+    def get_artist_albums(
+            self, coreartist: CoreArtist,
+            filter_model: Gtk.FilterListModel) -> None:
         """Get all album by an artist
 
-        :param Grl.Media media: A Grilo Media item that represents Artist
+        :param CoreArtist coreart: An artist to look up
         :param Gtk.FilterListModel filter_model: The model to fill
         """
-        source = media.get_source()
-        self._wrappers[source].get_artist_albums(media, filter_model)
+        source = "gnome-music"
+        self._wrappers[source].get_artist_albums(coreartist, filter_model)
 
     def get_album_discs(self, corealbum: CoreAlbum, disc_model):
         """Get all discs from an album

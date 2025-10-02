@@ -70,8 +70,7 @@ class CoreArtist(GObject.GObject):
         albums_model_sort = Gtk.SortListModel.new(
             albums_model_filter, albums_sorter)
 
-        self._coregrilo.get_artist_albums(
-            self.props.media, albums_model_filter)
+        self._coregrilo.get_artist_albums(self, albums_model_filter)
 
         return albums_model_sort
 

@@ -402,10 +402,9 @@ class LocalSearchWrapper(GObject.Object):
         asyncio.create_task(self._get_album_disc(coredisc, model))
 
     async def _get_artist_albums(
-            self, media: Grl.Media, model: Gtk.FilterListModel) -> None:
+            self, coreartist: CoreArtist, model: Gtk.FilterListModel) -> None:
         async with self._notificationmanager:
-            artist = media.get_id()
-            self._artist_albums_stmt.bind_string("artist", artist)
+            self._artist_albums_stmt.bind_string("artist", coreartist.props.id)
             try:
                 cursor = await self._artist_albums_stmt.execute_async()
             except GLib.Error as error:
@@ -440,13 +439,13 @@ class LocalSearchWrapper(GObject.Object):
         model.set_filter(custom_filter)
 
     def get_artist_albums(
-            self, media: Grl.Media, model: Gtk.FilterListModel) -> None:
+            self, coreartist: CoreArtist, model: Gtk.FilterListModel) -> None:
         """Get all albums by an artist
 
-        :param Grl.Media media: The media with the artist id
+        :param CoreArtist coreartist: The artist to look up
         :param Gtk.FilterListModel model: The model to fill
         """
-        asyncio.create_task(self._get_artist_albums(media, model))
+        asyncio.create_task(self._get_artist_albums(coreartist, model))
 
     def search(self, text: str) -> None:
         """Search for the given string in the wrappers
