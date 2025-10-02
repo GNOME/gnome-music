@@ -78,6 +78,7 @@ class CoreSong(GObject.GObject):
         self._application: Application = application
         self._coregrilo: CoreGrilo = application.props.coregrilo
         self._favorite: bool = False
+        self._last_played: Optional[GLib.DateTime] = None
         self._thumbnail: Optional[str] = None
 
         self.props.id = media.get_id()
@@ -105,16 +106,11 @@ class CoreSong(GObject.GObject):
         if not self._is_tracker:
             return
 
-        self._favorite = favorite
-
-        # FIXME: Circular trigger, can probably be solved more neatly.
-        old_fav: bool = self.props.media.get_favourite()
-        if old_fav == self._favorite:
+        if self._favorite == favorite:
             return
 
-        self.props.media.set_favourite(self._favorite)
-        self._coregrilo.writeback_tracker(
-            self.props.media, "favorite")
+        self._favorite = favorite
+        self._coregrilo.writeback_tracker(self, "favorite")
 
     @GObject.Property(type=GLib.DateTime, default=None)
     def last_played(self) -> Optional[GLib.DateTime]:
@@ -123,7 +119,7 @@ class CoreSong(GObject.GObject):
         :returns: Last played date time if available
         :rtype: GLib.DateTime or None
         """
-        return self.props.media.get_last_played()
+        return self._last_played
 
     @last_played.setter  # type: ignore
     def last_played(self, value: Optional[GLib.DateTime]) -> None:
@@ -131,13 +127,13 @@ class CoreSong(GObject.GObject):
 
         :param GLib.DateTime value: The datetime to set
         """
-        if value is None:
+        if (value is None
+                or self.props.last_played == value):
             return
 
-        self.props.media.set_last_played(value)
-
+        self._last_played = value
         if self._is_tracker:
-            self._coregrilo.writeback_tracker(self.props.media, "last-played")
+            self._coregrilo.writeback_tracker(self, "last-played")
 
     @GObject.Property(type=str, default=None)
     def thumbnail(self) -> str:
@@ -180,10 +176,8 @@ class CoreSong(GObject.GObject):
         if not self._is_tracker:
             return
 
-        self.props.media.set_play_count(self.props.play_count + 1)
-        self.update(self.props.media)
-        self._coregrilo.writeback_tracker(
-            self.props.media, "play-count")
+        self.props.play_count = self.props.play_count + 1
+        self._coregrilo.writeback_tracker(self, "play-count")
 
     def update_shuffle_pos(self) -> None:
         """Randomizes the shuffle position of this song"""

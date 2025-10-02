@@ -221,19 +221,19 @@ class TrackerWrapper(GObject.GObject):
 
         return query
 
-    def _update_favorite(self, media: Grl.Media) -> None:
+    def _update_favorite(self, coresong: CoreSong) -> None:
         """Update favorite state of a song.
 
-        :param Grl.Media media: media which contains updated favorite state
+        :param CoreSong coresong: CoreSong with updated state
         """
-        if (media.get_favourite()):
+        if coresong.props.favorite:
             update = """
             INSERT DATA {
                 <%(urn)s> a nmm:MusicPiece ;
                           nao:hasTag nao:predefined-tag-favorite .
             }
             """.replace("\n", "").strip() % {
-                "urn": media.get_id(),
+                "urn": coresong.props.id,
             }
         else:
             update = """
@@ -241,7 +241,7 @@ class TrackerWrapper(GObject.GObject):
                 <%(urn)s> nao:hasTag nao:predefined-tag-favorite .
             }
             """.replace("\n", "").strip() % {
-                "urn": media.get_id(),
+                "urn": coresong.props.id,
             }
 
         def _update_favorite_cb(conn, res):
@@ -253,7 +253,7 @@ class TrackerWrapper(GObject.GObject):
 
         self._local_db.update_async(update, None, _update_favorite_cb)
 
-    def _update_play_count(self, media: Grl.Media) -> None:
+    def _update_play_count(self, coresong: CoreSong) -> None:
         update = """
         DELETE WHERE {
             <%(urn)s> nie:usageCounter ?count .
@@ -263,8 +263,8 @@ class TrackerWrapper(GObject.GObject):
                       nie:usageCounter %(count)d .
         }
         """.replace("\n", "").strip() % {
-            "urn": media.get_id(),
-            "count": media.get_play_count(),
+            "urn": coresong.props.id,
+            "count": coresong.props.play_count,
         }
 
         def _update_play_count_cb(conn, res):
@@ -276,8 +276,8 @@ class TrackerWrapper(GObject.GObject):
 
         self._local_db.update_async(update, None, _update_play_count_cb)
 
-    def _update_last_played(self, media: Grl.Media) -> None:
-        last_played = media.get_last_played().format_iso8601()
+    def _update_last_played(self, coresong: CoreSong) -> None:
+        last_played = coresong.props.last_played.format_iso8601()
         update = """
         DELETE WHERE {
             <%(urn)s> nie:contentAccessed ?accessed
@@ -287,7 +287,7 @@ class TrackerWrapper(GObject.GObject):
                       nie:contentAccessed "%(last_played)s"
         }
         """.replace("\n", "").strip() % {
-            "urn": media.get_id(),
+            "urn": coresong.props.id,
             "last_played": last_played,
         }
 
@@ -299,17 +299,17 @@ class TrackerWrapper(GObject.GObject):
 
         self._local_db.update_async(update, None, _update_last_played_cb)
 
-    def update_tag(self, media: Grl.Media, tag: str) -> None:
+    def update_tag(self, coresong: CoreSong, tag: str) -> None:
         """Update property of a resource.
 
-        :param Grl.Media media: media which contains updated tag
+        :param CoreSong coresong: CoreSong with updated tag
         :param str tag: tag to update
         """
         if tag == "favorite":
-            self._update_favorite(media)
+            self._update_favorite(coresong)
         elif tag == "last-played":
-            self._update_last_played(media)
+            self._update_last_played(coresong)
         elif tag == "play-count":
-            self._update_play_count(media)
+            self._update_play_count(coresong)
         else:
             self._log.warning("Unknown tag: '{}'".format(tag))
