@@ -31,6 +31,7 @@ class CoreDisc(GObject.GObject):
 
     __gtype_name__ = "CoreDisc"
 
+    id = GObject.Property(type=str)
     disc_nr = GObject.Property(type=int, default=0)
     duration = GObject.Property(type=int, default=None)
     media = GObject.Property(type=Grl.Media, default=None)
@@ -53,6 +54,7 @@ class CoreDisc(GObject.GObject):
         self.props.disc_nr = nr
 
     def update(self, media):
+        self.props.id = media.get_id()
         self.props.media = media
 
     @GObject.Property(type=Gtk.SortListModel, default=None)
