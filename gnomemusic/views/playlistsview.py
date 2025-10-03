@@ -89,11 +89,10 @@ class PlaylistsView(Adw.Bin):
         else:
             row.set_header(None)
 
-    def _add_playlist_to_sidebar(self, playlist):
+    def _add_playlist_to_sidebar(self, playlist: Playlist) -> None:
         """Add a playlist to sidebar
 
-        :param GrlMedia playlist: playlist to add
-        :param int index: position
+        :param Playlist playlist: Playlist to add
         """
         row = PlaylistTile(playlist)
         return row
