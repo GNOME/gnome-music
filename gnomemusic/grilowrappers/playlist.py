@@ -28,12 +28,12 @@ class Playlist(GObject.GObject):
     tag_text = GObject.Property(type=str, default=None)
 
     def __init__(
-            self, media=None, query=None, tag_text=None, source=None,
+            self, cursor_dict=None, query=None, tag_text=None, source=None,
             application=None, tsparqlwrapper=None, songs_model=None):
         super().__init__()
         """Initialize a playlist
 
-       :param Grl.Media media: A media object
+       :param Dict[str, Any] cursor_dict: Dict with Tsparql keys
        :param string query: Tracker query that returns the playlist
        :param string tag_text: The non translatable unique identifier
             of the playlist
@@ -42,11 +42,11 @@ class Playlist(GObject.GObject):
        :param TrackerWrapper tsparqlwrapper: The TrackerWrapper instance
        :param dict songs_model: The songs model
         """
-        if media:
-            self.props.pl_id = media.get_id()
-            self._title = utils.get_media_title(media)
-            self.props.count = media.get_childcount()
-            self.props.creation_date = media.get_creation_date()
+        if cursor_dict:
+            self.props.pl_id = cursor_dict.get("id")
+            self._title = utils.get_title_from_cursor_dict(cursor_dict)
+            self.props.count = cursor_dict.get("childCount")
+            self.props.creation_date = cursor_dict.get("creationDate")
         else:
             self._title = None
 

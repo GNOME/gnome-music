@@ -98,9 +98,8 @@ class LocalSearchPlaylists(GObject.GObject):
             self._log.warning(f"Cursor iteration error: {error.message}")
             return
         while has_next:
-            media = utils.create_grilo_media_from_cursor(
-                cursor, Grl.MediaType.CONTAINER)
-            self._add_user_playlist(media)
+            cursor_dict = utils.dict_from_cursor(cursor)
+            self._add_user_playlist(cursor_dict)
 
             try:
                 has_next = await cursor.next_async()
@@ -111,10 +110,10 @@ class LocalSearchPlaylists(GObject.GObject):
             cursor.close()
 
     def _add_user_playlist(
-            self, media: Grl.Media,
+            self, cursor_dict: Dict[str, Any],
             callback: Optional[Callable] = None) -> None:
         playlist = Playlist(
-            media=media, application=self._application,
+            cursor_dict=cursor_dict, application=self._application,
             tsparqlwrapper=self._tsparqlwrapper,
             songs_model=self._songs_model)
         self._model.append(playlist)
