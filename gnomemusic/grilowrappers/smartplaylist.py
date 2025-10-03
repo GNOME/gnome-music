@@ -8,9 +8,7 @@ import time
 
 from gettext import gettext as _
 
-import gi
-gi.require_versions({"Grl": "0.3"})
-from gi.repository import GLib, GObject, Gio, Grl
+from gi.repository import GLib, GObject, Gio
 
 from gnomemusic.coresong import CoreSong
 from gnomemusic.grilowrappers.playlist import Playlist
@@ -94,7 +92,6 @@ class MostPlayed(SmartPlaylist):
         self.props.icon_name = "audio-speakers-symbolic"
         self.props.query = """
         SELECT
-            %(media_type)s AS ?type
             ?song AS ?id
             ?title
             ?url
@@ -130,7 +127,6 @@ class MostPlayed(SmartPlaylist):
         }
         ORDER BY DESC(?playCount) LIMIT 50
         """.replace('\n', ' ').strip() % {
-            "media_type": int(Grl.MediaType.AUDIO),
             "location_filter": self._tsparqlwrapper.location_filter(),
             "miner_fs_busname": self._tsparqlwrapper.props.miner_fs_busname,
         }
@@ -148,7 +144,6 @@ class NeverPlayed(SmartPlaylist):
         self.props.icon_name = "deaf-symbolic"
         self.props.query = """
         SELECT
-            %(media_type)s AS ?type
             ?song AS ?id
             ?title
             ?url
@@ -183,7 +178,6 @@ class NeverPlayed(SmartPlaylist):
                        FILTER (?tag = nao:predefined-tag-favorite) }
         } ORDER BY nfo:fileLastAccessed(?song) LIMIT 50
         """.replace('\n', ' ').strip() % {
-            "media_type": int(Grl.MediaType.AUDIO),
             "location_filter": self._tsparqlwrapper.location_filter(),
             "miner_fs_busname": self._tsparqlwrapper.props.miner_fs_busname,
         }
@@ -208,7 +202,6 @@ class RecentlyPlayed(SmartPlaylist):
             time.gmtime(time.time() - seconds_difference))
         self.props.query = """
         SELECT
-            %(media_type)s AS ?type
             ?song AS ?id
             ?title
             ?url
@@ -261,7 +254,6 @@ class RecentlyPlayed(SmartPlaylist):
             FILTER (?lastPlayed > '%(compare_date)s'^^xsd:dateTime)
         }
         """.replace('\n', ' ').strip() % {
-            "media_type": int(Grl.MediaType.AUDIO),
             'compare_date': compare_date,
             "location_filter": self._tsparqlwrapper.location_filter(),
             "miner_fs_busname": self._tsparqlwrapper.props.miner_fs_busname,
@@ -287,7 +279,6 @@ class RecentlyAdded(SmartPlaylist):
             time.gmtime(time.time() - seconds_difference))
         self.props.query = """
         SELECT
-            %(media_type)s AS ?type
             ?song AS ?id
             ?title
             ?url
@@ -324,7 +315,6 @@ class RecentlyAdded(SmartPlaylist):
                        FILTER (?tag = nao:predefined-tag-favorite) }
         } ORDER BY DESC(nrl:added(?song)) LIMIT 50
         """.replace('\n', ' ').strip() % {
-            "media_type": int(Grl.MediaType.AUDIO),
             'compare_date': compare_date,
             "location_filter": self._tsparqlwrapper.location_filter(),
             "miner_fs_busname": self._tsparqlwrapper.props.miner_fs_busname,
@@ -343,7 +333,6 @@ class Favorites(SmartPlaylist):
         self.props.icon_name = "starred-symbolic"
         self.props.query = """
             SELECT
-                %(media_type)s AS ?type
                 ?song AS ?id
                 ?title
                 ?url
@@ -377,7 +366,6 @@ class Favorites(SmartPlaylist):
                 ?song nao:hasTag nao:predefined-tag-favorite .
             } ORDER BY DESC(?added)
         """.replace('\n', ' ').strip() % {
-            "media_type": int(Grl.MediaType.AUDIO),
             "location_filter": self._tsparqlwrapper.location_filter(),
             "miner_fs_busname": self._tsparqlwrapper.props.miner_fs_busname,
         }
@@ -397,7 +385,6 @@ class InsufficientTagged(SmartPlaylist):
         self.props.icon_name = "question-round-symbolic"
         self.props.query = """
         SELECT
-            %(media_type)s AS ?type
             ?song AS ?id
             ?title
             ?url
@@ -442,7 +429,6 @@ class InsufficientTagged(SmartPlaylist):
                        FILTER (?tag = nao:predefined-tag-favorite) }
         }
         """.replace('\n', ' ').strip() % {
-            "media_type": int(Grl.MediaType.AUDIO),
             "location_filter": self._tsparqlwrapper.location_filter(),
             "miner_fs_busname": self._tsparqlwrapper.props.miner_fs_busname,
         }
@@ -461,7 +447,6 @@ class AllSongs(SmartPlaylist):
 
         self.props.query = """
         SELECT
-            %(media_type)s AS ?type
             ?song AS ?id
             ?title
             ?url
@@ -495,7 +480,6 @@ class AllSongs(SmartPlaylist):
                        FILTER (?tag = nao:predefined-tag-favorite) }
         } ORDER BY ?artist ?album ?trackNumber
         """.replace('\n', ' ').strip() % {
-            "media_type": int(Grl.MediaType.AUDIO),
             "location_filter": self._tsparqlwrapper.location_filter(),
             "miner_fs_busname": self._tsparqlwrapper.props.miner_fs_busname,
         }
