@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later WITH GStreamer-exception-2008
 
 from __future__ import annotations
-from typing import Callable, Optional
+from typing import Any, Dict, Callable, Optional
 import asyncio
 import typing
 
@@ -11,7 +11,7 @@ from gi.repository import Gtk, GLib, GObject
 
 from gnomemusic.grilowrappers.playlist import Playlist
 from gnomemusic.grilowrappers.smartplaylist import (
-    AllSongs, InsufficientTagged, Favorites, RecentlyAdded, RecentlyPlayed,
+    InsufficientTagged, Favorites, RecentlyAdded, RecentlyPlayed,
     NeverPlayed, MostPlayed)
 import gnomemusic.utils as utils
 if typing.TYPE_CHECKING:

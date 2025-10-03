@@ -9,7 +9,7 @@ import asyncio
 
 import gi
 gi.require_versions({"Grl": "0.3", "Tsparql": "3.0"})
-from gi.repository import Grl, Gio, Gtk, GLib, GObject, Tsparql
+from gi.repository import Gio, Gtk, GLib, GObject, Tsparql
 
 from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.coreartist import CoreArtist
@@ -255,7 +255,7 @@ class LocalSearchWrapper(GObject.Object):
                 await self._update_album(coresong)
 
         if self._tsparql_playlists is not None:
-           self._tsparql_playlists.check_smart_playlist_change()
+            self._tsparql_playlists.check_smart_playlist_change()
 
     def _on_notifier_event(
             self, notifier: TSparql.Notifier, service: str, graph: str,
@@ -323,6 +323,7 @@ class LocalSearchWrapper(GObject.Object):
                 has_next = False
             while has_next:
                 cursor_dict = utils.dict_from_cursor(cursor)
+
                 def album_disc_number() -> int:
                     nr = cursor_dict.get("albumDiscNumber")
                     if not nr:

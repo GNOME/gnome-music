@@ -8,7 +8,7 @@ import asyncio
 
 import gi
 gi.require_versions({"Grl": "0.3"})
-from gi.repository import Gio, Grl, GLib, GObject
+from gi.repository import Gio, GLib, GObject
 
 from gnomemusic.coresong import CoreSong
 import gnomemusic.utils as utils

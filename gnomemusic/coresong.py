@@ -1,36 +1,16 @@
-# Copyright 2019 The GNOME Music developers
+# Copyright 2025 The GNOME Music developers
 #
-# GNOME Music is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
-#
-# GNOME Music is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License along
-# with GNOME Music; if not, write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-#
-# The GNOME Music authors hereby grant permission for non-GPL compatible
-# GStreamer plugins to be used and distributed together with GStreamer
-# and GNOME Music.  This permission is above and beyond the permissions
-# granted by the GPL license by which GNOME Music is covered.  If you
-# modify this code, you may extend this exception to your version of the
-# code, but you are not obligated to do so.  If you do not wish to do so,
-# delete this exception statement from your version.
+# SPDX-License-Identifier: GPL-2.0-or-later WITH GStreamer-exception-2008
 
 from __future__ import annotations
 from enum import IntEnum
 from random import randint
-from typing import Optional
+from typing import Any, Dict, Optional
 import typing
 
 import gi
 gi.require_version('Grl', '0.3')
-from gi.repository import Grl, GLib, GObject
+from gi.repository import GLib, GObject
 
 from gnomemusic.songart import SongArt
 if typing.TYPE_CHECKING:
@@ -159,6 +139,7 @@ class CoreSong(GObject.GObject):
     def update(self, cursor_dict: Dict[str, Any]) -> None:
         self.props.album = cursor_dict.get("album") or ""
         self.props.album_urn = cursor_dict.get("album_urn")
+
         def album_disc_number() -> int:
             nr = cursor_dict.get("albumDiscNumber")
             if not nr:
@@ -173,6 +154,7 @@ class CoreSong(GObject.GObject):
         self._last_played = cursor_dict.get("lastPlayed")
         self.props.play_count = cursor_dict.get("playCount") or 0
         self.props.title = utils.get_title_from_cursor_dict(cursor_dict)
+
         def track_number() -> int:
             tn = cursor_dict.get("trackNumber")
             if not tn:

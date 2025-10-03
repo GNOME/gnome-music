@@ -38,6 +38,7 @@ from gnomemusic.utils import CoreObjectType
 if typing.TYPE_CHECKING:
     from gnomemusic.corealbum import CoreAlbum
     from gnomemusic.coreartist import CoreArtist
+    from gnomemusic.coredisc import CoreDisc
     from gnomemusic.coresong import CoreSong
 
 

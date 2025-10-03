@@ -8,7 +8,7 @@ import typing
 
 import gi
 gi.require_versions({"Grl": "0.3"})
-from gi.repository import GLib, Gio, Grl, Gtk, GObject
+from gi.repository import GLib, Gio, Gtk, GObject
 
 from gnomemusic.albumart import AlbumArt
 from gnomemusic.coredisc import CoreDisc

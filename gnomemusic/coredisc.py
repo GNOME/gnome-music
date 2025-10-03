@@ -5,7 +5,7 @@
 from __future__ import annotations
 import typing
 
-from gi.repository import GObject, Grl, Gtk
+from gi.repository import GObject, Gtk
 
 from gnomemusic.coresong import CoreSong
 if typing.TYPE_CHECKING:
