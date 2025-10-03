@@ -6,8 +6,6 @@ from __future__ import annotations
 from typing import List
 import asyncio
 
-import gi
-gi.require_versions({"Grl": "0.3"})
 from gi.repository import Gio, GLib, GObject
 
 from gnomemusic.coresong import CoreSong
@@ -28,8 +26,8 @@ class Playlist(GObject.GObject):
     tag_text = GObject.Property(type=str, default=None)
 
     def __init__(
-            self, cursor_dict=None, query=None, tag_text=None, source=None,
-            application=None, tsparqlwrapper=None, songs_model=None):
+            self, cursor_dict=None, query=None, tag_text=None,
+            application=None, tsparqlwrapper=None, songs_model=None) -> None:
         super().__init__()
         """Initialize a playlist
 
@@ -37,7 +35,6 @@ class Playlist(GObject.GObject):
        :param string query: Tracker query that returns the playlist
        :param string tag_text: The non translatable unique identifier
             of the playlist
-       :param Grl.Source source: The Grilo Tracker source object
        :param Application application: The Application instance
        :param TrackerWrapper tsparqlwrapper: The TrackerWrapper instance
        :param dict songs_model: The songs model
