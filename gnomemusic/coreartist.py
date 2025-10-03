@@ -6,9 +6,7 @@ from __future__ import annotations
 from typing import Any, Dict
 import typing
 
-import gi
-gi.require_versions({"Grl": "0.3"})
-from gi.repository import Grl, Gtk, GObject
+from gi.repository import Gtk, GObject
 
 from gnomemusic.artistart import ArtistArt
 from gnomemusic.corealbum import CoreAlbum
@@ -18,12 +16,11 @@ if typing.TYPE_CHECKING:
 
 
 class CoreArtist(GObject.GObject):
-    """Exposes a Grl.Media with relevant data as properties
+    """Artist information
     """
 
     artist = GObject.Property(type=str)
     id = GObject.Property(type=str)
-    media = GObject.Property(type=Grl.Media)
 
     def __init__(self, application: Application,
             cursor_dict: Dict[str, Any]) -> None:
