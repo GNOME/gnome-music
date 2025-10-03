@@ -8,8 +8,6 @@ from random import randint
 from typing import Any, Dict, Optional
 import typing
 
-import gi
-gi.require_version('Grl', '0.3')
 from gi.repository import GLib, GObject
 
 from gnomemusic.songart import SongArt
