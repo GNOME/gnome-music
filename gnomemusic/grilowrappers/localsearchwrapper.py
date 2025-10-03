@@ -293,7 +293,7 @@ class LocalSearchWrapper(GObject.Object):
                 found, position = self._songs_model.find_with_equal_func(
                     coresong, self._equal_func, urn)
                 if found:
-                    self._songs_model.get_item(position).update(media)
+                    self._songs_model.get_item(position).update(cursor_dict)
                 else:
                     self._songs_model.append(coresong)
 
