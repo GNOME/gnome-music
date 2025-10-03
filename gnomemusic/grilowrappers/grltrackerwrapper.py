@@ -1065,6 +1065,10 @@ class GrlTrackerWrapper(GObject.GObject):
                 custom_filter = Gtk.CustomFilter()
                 custom_filter.set_filter_func(filter_func)
                 filter_list_model.set_filter(custom_filter)
+                # If a search does not change the number of items found,
+                # SearchView will not update without a signal.
+                filter_list_model.emit("items-changed", 0, 0, 0)
+
                 self._notificationmanager.pop_loading()
                 self._grilo_search_operation_ids.remove(op_id)
                 return
