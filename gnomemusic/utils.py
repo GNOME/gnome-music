@@ -24,7 +24,7 @@
 
 from __future__ import annotations
 from enum import Enum, IntEnum
-from typing import Any, List, Union
+from typing import Any, Dict, List, Union
 import re
 import unicodedata
 import typing
