@@ -99,7 +99,7 @@ class View(IntEnum):
     PLAYLIST = 2
 
 
-def get_artist_from_cursor_dict(cursor_dict) -> str:
+def get_artist_from_cursor_dict(cursor_dict: Dict[str, Any]) -> str:
     """Returns the preferred artist for a media item.
 
     The artist name for a particular media item can be either
