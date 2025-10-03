@@ -193,7 +193,7 @@ class CoreGrilo(GObject.GObject):
         source = "gnome-music"
         self._wrappers[source].get_album_disc(coredisc, model)
 
-    def writeback_tracker(self, coreong: CoreSong, tag: str) -> None:
+    def writeback_tracker(self, coresong: CoreSong, tag: str) -> None:
         """Use Tracker queries to update tags.
 
         The tags are associated with a Tracker resource
