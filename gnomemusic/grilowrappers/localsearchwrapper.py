@@ -322,11 +322,16 @@ class LocalSearchWrapper(GObject.Object):
                 self._log.warning(f"Error: {error.domain}, {error.message}")
                 has_next = False
             while has_next:
-                new_media = utils.create_grilo_media_from_cursor(
-                    cursor, Grl.MediaType.CONTAINER)
-                nr = new_media.get_album_disc_number()
+                cursor_dict = utils.dict_from_cursor(cursor)
+                def album_disc_number() -> int:
+                    nr = cursor_dict.get("albumDiscNumber")
+                    if not nr:
+                        return 1
+
+                    return int(nr)
+
                 coredisc = CoreDisc(
-                    self._application, corealbum, nr)
+                    self._application, corealbum, album_disc_number())
 
                 disc_model.append(coredisc)
 
@@ -366,9 +371,8 @@ class LocalSearchWrapper(GObject.Object):
                 self._log.warning(f"Error: {error.domain}, {error.message}")
                 has_next = False
             while has_next:
-                new_media = utils.create_grilo_media_from_cursor(
-                    cursor, Grl.MediaType.CONTAINER)
-                disc_song_ids.append(new_media.get_id())
+                cursor_dict = utils.dict_from_cursor(cursor)
+                disc_song_ids.append(cursor_dict.get("id"))
 
                 try:
                     has_next = await cursor.next_async()
@@ -412,9 +416,8 @@ class LocalSearchWrapper(GObject.Object):
                 self._log.warning(f"Error: {error.domain}, {error.message}")
                 has_next = False
             while has_next:
-                new_media = utils.create_grilo_media_from_cursor(
-                    cursor, Grl.MediaType.CONTAINER)
-                album_ids.append(new_media.get_id())
+                cursor_dict = utils.dict_from_cursor(cursor)
+                album_ids.append(cursor_dict.get("id"))
 
                 try:
                     has_next = await cursor.next_async()
@@ -493,9 +496,8 @@ class LocalSearchWrapper(GObject.Object):
                         f"Error: {error.domain}, {error.message}")
                 has_next = False
             while has_next:
-                new_media = utils.create_grilo_media_from_cursor(
-                    cursor, Grl.MediaType.CONTAINER)
-                filter_ids.append(new_media.get_id())
+                cursor_dict = utils.dict_from_cursor(cursor)
+                filter_ids.append(cursor_dict.get("id"))
 
                 try:
                     has_next = await cursor.next_async(cancellable)
