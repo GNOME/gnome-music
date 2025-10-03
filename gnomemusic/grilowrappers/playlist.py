@@ -250,9 +250,8 @@ class Playlist(GObject.GObject):
                 f"Cursor iteration error: {error.domain}, {error.message}")
             return
         while has_next:
-            media = utils.create_grilo_media_from_cursor(
-                cursor, Grl.MediaType.AUDIO)
-            self._delete_song_stmt.bind_string("entry", media.get_id())
+            cursor_dict = utils.dict_from_cursor(cursor)
+            self._delete_song_stmt.bind_string("entry", cursor_dict.get("id"))
             self._delete_song_stmt.bind_string("playlist", self.props.pl_id)
             try:
                 await self._delete_song_stmt.update_async()
