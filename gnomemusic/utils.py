@@ -99,45 +99,6 @@ class View(IntEnum):
     PLAYLIST = 2
 
 
-def get_album_title(item):
-    """Returns the album title associated with the media item
-
-    In case of an audio file the get_album call returns the
-    album title and in case of a container we are looking for
-    the title.
-
-    :param Grl.Media item: A Grilo Media object
-    :return: The album title
-    :rtype: str
-    """
-    if item.is_container():
-        album = get_media_title(item)
-    else:
-        album = (item.get_album()
-                 or _("Unknown album"))
-
-    return album
-
-
-def get_artist_name(item):
-    """Returns the preferred artist for a media item.
-
-    The artist name for a particular media item can be either
-    the main artist of the full album (album artist), the
-    artist of the song (artist) or possibly it is not known at
-    all. The first is preferred in most cases, because it is
-    the most accurate in an album setting.
-
-    :param Grl.Media item: A Grilo Media object
-    :return: The artist name
-    :rtype: str
-    """
-
-    return (item.get_album_artist()
-            or item.get_artist()
-            or _("Unknown Artist"))
-
-
 def get_artist_from_cursor_dict(cursor_dict) -> str:
     """Returns the preferred artist for a media item.
 
@@ -155,39 +116,6 @@ def get_artist_from_cursor_dict(cursor_dict) -> str:
     return (cursor_dict.get("albumArtist")
             or cursor_dict.get("artist")
             or _("Unknown Artist"))
-
-
-def get_media_title(item):
-    """Returns the title of the media item.
-
-    :param Grl.Media item: A Grilo Media object
-    :return: The title
-    :rtype: str
-    """
-
-    title = item.get_title()
-
-    if not title:
-        url = item.get_url()
-        # FIXME: This and the later occurance are user facing strings,
-        # but they ideally should never be seen. A media should always
-        # contain a URL or we can not play it, in that case it should
-        # be removed.
-        if url is None:
-            return "NO URL"
-        file_ = Gio.File.new_for_uri(url)
-        try:
-            # FIXME: query_info is not async.
-            fileinfo = file_.query_info(
-                "standard::display-name", Gio.FileQueryInfoFlags.NONE, None)
-        except GLib.Error as error:
-            MusicLogger().warning(
-                "Error: {}, {}".format(error.domain, error.message))
-            return "NO URL"
-        title = fileinfo.get_display_name()
-        title = title.replace("_", " ")
-
-    return title
 
 
 def get_title_from_cursor_dict(cursor_dict):
@@ -223,21 +151,6 @@ def get_title_from_cursor_dict(cursor_dict):
         title = title.replace("_", " ")
 
     return title
-
-
-def get_media_year(item):
-    """Returns the year when the media was published.
-
-    :param Grl.Media item: A Grilo Media object
-    :return: The publication year or None if not defined
-    :rtype: str or None
-    """
-    date = item.get_publication_date()
-
-    if not date:
-        return None
-
-    return str(date.get_year())
 
 
 def seconds_to_string(duration):
@@ -381,40 +294,6 @@ def create_grilo_media_from_cursor(
                 media.set_creation_date(creation_date)
 
     return media
-
-
-def album_urn_from_cursor(cursor: Tsparql.SparqlCursor) -> str:
-    """Iterate a TinySparql to find album urn
-
-    :param Tsparql.SparqlCursor cursor: The cursor
-    :returns: urn
-    :rtype: str
-    """
-    vars: dict[str, Any] = {}
-    for column in range(cursor.get_n_columns()):
-        vtype = cursor.get_value_type(column)
-        if vtype == Tsparql.SparqlValueType.UNBOUND:
-            value = None
-        elif vtype == Tsparql.SparqlValueType.INTEGER:
-            value = cursor.get_integer(column)
-        elif vtype == Tsparql.SparqlValueType.DOUBLE:
-            value = cursor.get_double(column)
-        elif vtype == Tsparql.SparqlValueType.DATETIME:
-            value = cursor.get_datetime(column)
-        elif vtype == Tsparql.SparqlValueType.BOOLEAN:
-            value = cursor.get_boolean(column)
-        else:
-            value, _ = cursor.get_string(column)
-
-        vars[cursor.get_variable_name(column)] = value
-
-    for key in vars.keys():
-        if key == "album_urn":
-            album_urn = vars["album_urn"]
-            if album_urn:
-                return album_urn
-
-    return ""
 
 
 def dict_from_cursor(cursor: Tsparql.SparqlCursor) -> Dict[str, Any]:
