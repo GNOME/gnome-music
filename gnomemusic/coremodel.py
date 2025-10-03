@@ -45,8 +45,7 @@ class CoreModel(GObject.GObject):
 
     Music is using a hierarchy of data objects with list models to
     contain the information about the users available music. This
-    hierarchy is filled mainly through Grilo, with the exception of
-    playlists which are a Tracker only feature.
+    hierarchy is filled through LocalSearch.
 
     There are three main models: one for artists, one for albums and
     one for songs. The data objects within these are CoreArtist,
@@ -57,10 +56,10 @@ class CoreModel(GObject.GObject):
 
     CoreArtist -> CoreAlbum -> CoreDisc -> CoreSong
 
-    Playlists are a Tracker only feature and do not use the three
+    Playlists are a LocalSearch only feature and do not use the three
     main models directly.
 
-    GrlTrackerPlaylists -> Playlist -> CoreSong
+    LocalSearchPlaylists -> Playlist -> CoreSong
 
     The Queue is a copy of the relevant playlist, built by
     using the components described above as needed.
