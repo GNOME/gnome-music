@@ -148,10 +148,26 @@ class CoreSong(GObject.GObject):
 
         self.props.album_disc_number = album_disc_number()
         self.props.artist = utils.get_artist_from_cursor_dict(cursor_dict)
-        self.props.duration = int(cursor_dict.get("duration"))
-        self._favorite = cursor_dict.get("favorite")
+
+        def duration() -> int:
+            d = cursor_dict.get("duration")
+            if not d:
+                return 0
+
+            return int(d)
+
+        self.props.duration = duration()
+        self._favorite = bool(cursor_dict.get("favorite"))
         self._last_played = cursor_dict.get("lastPlayed")
-        self.props.play_count = cursor_dict.get("playCount") or 0
+
+        def playcount() -> int:
+            pc = cursor_dict.get("playCount")
+            if not pc:
+                return 0
+
+            return int(pc)
+
+        self.props.play_count = playcount()
         self.props.title = utils.get_title_from_cursor_dict(cursor_dict)
 
         def track_number() -> int:
