@@ -89,7 +89,7 @@ class PlaylistsView(Adw.Bin):
         else:
             row.set_header(None)
 
-    def _add_playlist_to_sidebar(self, playlist: Playlist) -> None:
+    def _add_playlist_to_sidebar(self, playlist: Playlist) -> PlaylistTile:
         """Add a playlist to sidebar
 
         :param Playlist playlist: Playlist to add

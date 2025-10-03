@@ -29,7 +29,7 @@ import weakref
 
 import gi
 gi.require_version("Grl", "0.3")
-from gi.repository import Grl, GLib, GObject, Gtk
+from gi.repository import Grl, GLib, Gio, GObject, Gtk
 
 from gnomemusic.grilowrappers.localsearchwrapper import LocalSearchWrapper
 from gnomemusic.storeart import StoreArt
@@ -175,7 +175,8 @@ class CoreGrilo(GObject.GObject):
         source = "gnome-music"
         self._wrappers[source].get_artist_albums(coreartist, filter_model)
 
-    def get_album_discs(self, corealbum: CoreAlbum, disc_model):
+    def get_album_discs(
+            self, corealbum: CoreAlbum, disc_model: Gio.ListStore) -> None:
         """Get all discs from an album
 
         :param CoreAlbum corealbum: An album

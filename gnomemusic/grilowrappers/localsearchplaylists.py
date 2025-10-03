@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later WITH GStreamer-exception-2008
 
 from __future__ import annotations
-from typing import Any, Dict, Callable, Optional
+from typing import Any, Dict, Callable, List, Optional
 import asyncio
 import typing
 
@@ -42,7 +42,7 @@ class LocalSearchPlaylists(GObject.GObject):
         self._model = self._coremodel.props.playlists
         self._model_filter = self._coremodel.props.playlists_filter
         self._user_model_filter = self._coremodel.props.user_playlists_filter
-        self._pls_todelete = []
+        self._pls_todelete: List[Playlist] = []
         self._songs_model = songs_model
         self._tsparql = tsparqlwrapper.props.local_db
         self._tsparqlwrapper = tsparqlwrapper
@@ -115,7 +115,7 @@ class LocalSearchPlaylists(GObject.GObject):
         playlist = Playlist(
             cursor_dict=cursor_dict, application=self._application,
             tsparqlwrapper=self._tsparqlwrapper,
-            songs_model=self._songs_model)
+            songs_model=self._songs_model, query="", tag_text="")
         self._model.append(playlist)
 
         if callback is not None:

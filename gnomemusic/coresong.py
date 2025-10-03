@@ -137,11 +137,11 @@ class CoreSong(GObject.GObject):
 
     def update(self, cursor_dict: Dict[str, Any]) -> None:
         def retrieve_int(field: str) -> int:
-            field = cursor_dict.get(field)
-            if not field:
+            i = cursor_dict.get(field)
+            if not i:
                 return 0
 
-            return int(field)
+            return int(i)
 
         self.props.album = cursor_dict.get("album") or ""
         self.props.album_urn = cursor_dict.get("album_urn")

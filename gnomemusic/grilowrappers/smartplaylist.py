@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later WITH GStreamer-exception-2008
 
 from __future__ import annotations
+from typing import Optional
 import asyncio
 import time
 
@@ -24,6 +25,7 @@ class SmartPlaylist(Playlist):
         super().__init__(**args)
 
         self.props.is_smart = True
+        self._model: Optional[Gio.ListStore] = None
 
     @GObject.Property(type=Gio.ListStore, default=None)
     def model(self):
@@ -34,6 +36,9 @@ class SmartPlaylist(Playlist):
         return self._model
 
     async def _populate_model(self) -> None:
+        if not self._model:
+            return
+
         async with self._notificationmanager:
             try:
                 cursor = self._tsparql.query(self.props.query)

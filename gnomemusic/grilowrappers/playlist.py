@@ -3,13 +3,17 @@
 # SPDX-License-Identifier: GPL-2.0-or-later WITH GStreamer-exception-2008
 
 from __future__ import annotations
-from typing import List
+from typing import Any, Dict, List
 import asyncio
+import typing
 
 from gi.repository import Gio, GLib, GObject
 
 from gnomemusic.coresong import CoreSong
 import gnomemusic.utils as utils
+if typing.TYPE_CHECKING:
+    from gnomemusic.application import Application
+    from gnomemusic.trackerwrapper import TrackerWrapper
 
 
 class Playlist(GObject.GObject):
@@ -26,8 +30,9 @@ class Playlist(GObject.GObject):
     tag_text = GObject.Property(type=str, default=None)
 
     def __init__(
-            self, cursor_dict=None, query=None, tag_text=None,
-            application=None, tsparqlwrapper=None, songs_model=None) -> None:
+            self, cursor_dict: Dict[str, Any], query: str, tag_text: str,
+            application: Application, tsparqlwrapper: TrackerWrapper,
+            songs_model: GLib.ListStore) -> None:
         super().__init__()
         """Initialize a playlist
 
@@ -37,7 +42,7 @@ class Playlist(GObject.GObject):
             of the playlist
        :param Application application: The Application instance
        :param TrackerWrapper tsparqlwrapper: The TrackerWrapper instance
-       :param dict songs_model: The songs model
+       :param GLib.ListStore songs_model: The songs model
         """
         if cursor_dict:
             self.props.pl_id = cursor_dict.get("id")
@@ -72,7 +77,7 @@ class Playlist(GObject.GObject):
         self._reorder_stmt = self._tsparql.load_statement_from_gresource(
             "/org/gnome/Music/queries/playlist_reorder_songs.rq")
 
-        self._songs_todelete = []
+        self._songs_todelete: List[CoreSong] = []
 
     def _prepare_statement(self, resource_path: str) -> str:
         """Helper to insert bus name and location filter in query"""
@@ -308,6 +313,9 @@ class Playlist(GObject.GObject):
 
     async def _reorder(
             self, previous_position: int, new_position: int) -> None:
+        if not self._model:
+            return
+
         coresong = self._model.get_item(previous_position)
         self._model.remove(previous_position)
         self._model.insert(new_position, coresong)
