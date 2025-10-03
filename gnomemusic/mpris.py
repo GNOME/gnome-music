@@ -411,7 +411,7 @@ class MPRIS(DBusInterface):
             MPRIS.MEDIA_PLAYER2_PLAYER_IFACE, properties, [])
 
     def _get_song_dbus_path(self, coresong=None, index=None):
-        """Convert a Grilo media to a D-Bus path
+        """Convert a CoreSong to a D-Bus path
 
         The hex encoding is used to remove any possible invalid
         character. Use player index to make the path truly unique in
