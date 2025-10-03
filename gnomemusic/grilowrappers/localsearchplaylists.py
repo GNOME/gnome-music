@@ -7,9 +7,7 @@ from typing import Callable, Optional
 import asyncio
 import typing
 
-import gi
-gi.require_versions({"Grl": "0.3"})
-from gi.repository import Grl, Gtk, GLib, GObject
+from gi.repository import Gtk, GLib, GObject
 
 from gnomemusic.grilowrappers.playlist import Playlist
 from gnomemusic.grilowrappers.smartplaylist import (
@@ -224,9 +222,8 @@ class LocalSearchPlaylists(GObject.GObject):
                 f"Cursor iteration error: {error.domain}, {error.message}")
             return
         while has_next:
-            media = utils.create_grilo_media_from_cursor(
-                cursor, Grl.MediaType.CONTAINER)
-            self._add_user_playlist(media, callback)
+            cursor_dict = utils.dict_from_cursor(cursor)
+            self._add_user_playlist(cursor_dict)
 
             try:
                 has_next = await cursor.next_async()
