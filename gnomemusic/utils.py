@@ -32,7 +32,7 @@ import typing
 from gettext import gettext as _
 import gi
 gi.require_version("Tsparql", "3.0")
-from gi.repository import Gio, Grl, GLib, Gtk, Tsparql
+from gi.repository import Gio, GLib, Gtk, Tsparql
 
 from gnomemusic.musiclogger import MusicLogger
 
@@ -108,7 +108,7 @@ def get_artist_from_cursor_dict(cursor_dict) -> str:
     all. The first is preferred in most cases, because it is
     the most accurate in an album setting.
 
-    :param Grl.Media item: A Grilo Media object
+    :param Dict[str, Any] cursor_dict: Dict with Tsparql keys
     :return: The artist name
     :rtype: str
     """
@@ -121,7 +121,7 @@ def get_artist_from_cursor_dict(cursor_dict) -> str:
 def get_title_from_cursor_dict(cursor_dict):
     """Returns the title of the media item.
 
-    :param Grl.Media item: A Grilo Media object
+    :param Dict[str, Any] cursor_dict: Dict with Tsparql keys
     :return: The title
     :rtype: str
     """
@@ -203,97 +203,6 @@ def natural_sort_names(name_a: str, name_b: str) -> int:
         return Gtk.Ordering.LARGER
     else:
         return Gtk.Ordering.EQUAL
-
-
-def create_grilo_media_from_cursor(
-        cursor: Tsparql.SparqlCursor, grl_type: Grl.MediaType) -> Grl.Media:
-    """Iterate a TinySparql cursor to create a Grl.Media
-
-    :param Tsparql.SparqlCursor cursor: The cursor
-    :param Grl.MediaType grl_type: The Grilo media type
-    :returns: Grilo media
-    :rtype: Grl.Media
-    """
-    vars: dict[str, Any] = {}
-    for column in range(cursor.get_n_columns()):
-        vtype = cursor.get_value_type(column)
-        if vtype == Tsparql.SparqlValueType.UNBOUND:
-            value = None
-        elif vtype == Tsparql.SparqlValueType.INTEGER:
-            value = cursor.get_integer(column)
-        elif vtype == Tsparql.SparqlValueType.DOUBLE:
-            value = cursor.get_double(column)
-        elif vtype == Tsparql.SparqlValueType.DATETIME:
-            value = cursor.get_datetime(column)
-        elif vtype == Tsparql.SparqlValueType.BOOLEAN:
-            value = cursor.get_boolean(column)
-        else:
-            value, _ = cursor.get_string(column)
-
-        vars[cursor.get_variable_name(column)] = value
-
-    if grl_type == Grl.MediaType.CONTAINER:
-        media = Grl.Media.container_new()
-    elif grl_type == Grl.MediaType.AUDIO:
-        media = Grl.Media.audio_new()
-
-    media.set_source("gnome-music")
-
-    for key in vars.keys():
-        if key == "id":
-            vid = vars["id"]
-            if vid:
-                media.set_id(vid)
-        elif key == "url":
-            media.set_url(vars["url"])
-        elif key == "title":
-            title = vars["title"]
-            if title:
-                media.set_title(title)
-        elif key == "artist":
-            artist = vars["artist"]
-            if artist:
-                media.set_artist(artist)
-        elif key == "album":
-            album = vars["album"]
-            if album:
-                media.set_album(album)
-        elif key == "albumDiscNumber":
-            album_disc_number = vars["albumDiscNumber"]
-            if album_disc_number:
-                media.set_album_disc_number(int(album_disc_number))
-        elif key == "duration":
-            duration = vars["duration"]
-            if duration:
-                media.set_duration(int(duration))
-        elif key == "favorite":
-            media.set_favourite(vars["favorite"] is not None)
-        elif key == "lastPlayed":
-            last_played = vars["lastPlayed"]
-            if last_played is not None:
-                media.set_last_played(last_played)
-        elif key == "playCount":
-            play_count = vars["playCount"]
-            if play_count is not None:
-                media.set_play_count(int(play_count))
-        elif key == "publicationDate":
-            publication_date = vars["publicationDate"]
-            if publication_date:
-                date = GLib.DateTime.new_from_iso8601(
-                    f"{int(publication_date)}-01-01T00:00:00Z")
-                media.set_publication_date(date)
-        elif key == "trackNumber":
-            track_number = vars["trackNumber"]
-            if track_number:
-                media.set_track_number(int(track_number))
-        elif key == "childCount":
-            media.set_childcount(int(vars["childCount"]))
-        elif key == "creationDate":
-            creation_date = vars["creationDate"]
-            if creation_date is not None:
-                media.set_creation_date(creation_date)
-
-    return media
 
 
 def dict_from_cursor(cursor: Tsparql.SparqlCursor) -> Dict[str, Any]:
