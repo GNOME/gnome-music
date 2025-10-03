@@ -136,48 +136,23 @@ class CoreSong(GObject.GObject):
         self._thumbnail = value
 
     def update(self, cursor_dict: Dict[str, Any]) -> None:
+        def retrieve_int(field: str) -> int:
+            field = cursor_dict.get(field)
+            if not field:
+                return 0
+
+            return int(field)
+
         self.props.album = cursor_dict.get("album") or ""
         self.props.album_urn = cursor_dict.get("album_urn")
-
-        def album_disc_number() -> int:
-            nr = cursor_dict.get("albumDiscNumber")
-            if not nr:
-                return 1
-
-            return int(nr)
-
-        self.props.album_disc_number = album_disc_number()
+        self.props.album_disc_number = retrieve_int("albumDiscNumber")
         self.props.artist = utils.get_artist_from_cursor_dict(cursor_dict)
-
-        def duration() -> int:
-            d = cursor_dict.get("duration")
-            if not d:
-                return 0
-
-            return int(d)
-
-        self.props.duration = duration()
+        self.props.duration = retrieve_int("duration")
         self._favorite = bool(cursor_dict.get("favorite"))
         self._last_played = cursor_dict.get("lastPlayed")
-
-        def playcount() -> int:
-            pc = cursor_dict.get("playCount")
-            if not pc:
-                return 0
-
-            return int(pc)
-
-        self.props.play_count = playcount()
+        self.props.play_count = retrieve_int("playCount")
         self.props.title = utils.get_title_from_cursor_dict(cursor_dict)
-
-        def track_number() -> int:
-            tn = cursor_dict.get("trackNumber")
-            if not tn:
-                return 0
-
-            return int(tn)
-
-        self.props.track_number = track_number()
+        self.props.track_number = retrieve_int("trackNumber")
         self.props.url = cursor_dict.get("url")
 
         self.props.cursor_dict = cursor_dict
