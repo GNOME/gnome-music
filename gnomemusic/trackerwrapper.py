@@ -33,9 +33,8 @@ gi.require_versions({"Tracker": "3.0"})
 from gi.repository import Gio, GLib, GObject, Tracker
 
 if typing.TYPE_CHECKING:
-    from gi.repository import Grl
-
     from gnomemusic.application import Application
+    from gnomemusic.coresong import CoreSong
 
 
 class TrackerState(IntEnum):
