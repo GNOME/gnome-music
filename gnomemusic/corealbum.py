@@ -6,8 +6,6 @@ from __future__ import annotations
 from typing import Any, Dict
 import typing
 
-import gi
-gi.require_versions({"Grl": "0.3"})
 from gi.repository import GLib, Gio, Gtk, GObject
 
 from gnomemusic.albumart import AlbumArt
