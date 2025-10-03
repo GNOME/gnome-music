@@ -122,9 +122,8 @@ class Playlist(GObject.GObject):
             self._notificationmanager.pop_loading()
             return
         while has_next:
-            media = utils.create_grilo_media_from_cursor(
-                cursor, Grl.MediaType.AUDIO)
-            coresong = CoreSong(self._application, media)
+            cursor_dict = utils.dict_from_cursor(cursor)
+            coresong = CoreSong(self._application, cursor_dict)
             self._bind_to_main_song(coresong)
             if coresong not in self._songs_todelete:
                 self._model.append(coresong)
@@ -155,8 +154,8 @@ class Playlist(GObject.GObject):
         # It is not necessary to bind all the CoreSong properties:
         # validation: short-lived playability check for local songs
         bidirectional_properties = [
-            "album", "album_disc_number", "artist", "duration", "media",
-            "id", "play_count", "title", "track_number", "url", "favorite"]
+            "album", "album_disc_number", "artist", "duration", "id",
+            "play_count", "title", "track_number", "url", "favorite"]
 
         for prop in bidirectional_properties:
             main_coresong.bind_property(
@@ -297,8 +296,8 @@ class Playlist(GObject.GObject):
                 if self._model is None:
                     continue
 
-                media = coresong.props.media
-                coresong_copy = CoreSong(self._application, media)
+                coresong_copy = CoreSong(
+                    self._application, coresong.props.cursor_dict)
                 self._bind_to_main_song(coresong_copy)
                 self._model.append(coresong_copy)
                 self.props.count = self._model.get_n_items()

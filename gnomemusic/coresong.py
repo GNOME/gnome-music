@@ -40,7 +40,7 @@ import gnomemusic.utils as utils
 
 
 class CoreSong(GObject.GObject):
-    """Exposes a Grl.Media with relevant data as properties
+    """Song information
     """
 
     __gtype_name__ = "CoreSong"
@@ -49,8 +49,8 @@ class CoreSong(GObject.GObject):
     album_urn = GObject.Property(type=str)
     album_disc_number = GObject.Property(type=int)
     artist = GObject.Property(type=str)
+    cursor_dict = GObject.Property()
     duration = GObject.Property(type=int)
-    media = GObject.Property(type=Grl.Media)
     id = GObject.Property(type=str, default=None)
     play_count = GObject.Property(type=int)
     shuffle_pos = GObject.Property(type=int)
@@ -67,11 +67,12 @@ class CoreSong(GObject.GObject):
         FAILED = 2
         SUCCEEDED = 3
 
-    def __init__(self, application: Application, media: Grl.Media) -> None:
+    def __init__(self, application: Application,
+            cursor_dict: Dict[str, Any]) -> None:
         """Initiate the CoreSong object
 
         :param Application application: The application object
-        :param Grl.Media media: A media object
+        :param Dict[str, Any] cursor_dict: Dict with Tsparql keys
         """
         super().__init__()
 
@@ -81,11 +82,10 @@ class CoreSong(GObject.GObject):
         self._last_played: Optional[GLib.DateTime] = None
         self._thumbnail: Optional[str] = None
 
-        self.props.id = media.get_id()
-        self._is_tracker: bool = media.get_source() in [
-            "grl-tracker3-source", "gnome-music"]
+        self.props.id = cursor_dict.get("id")
+        self._is_tracker: bool = True
         self.props.validation = CoreSong.Validation.PENDING
-        self.update(media)
+        self.update(cursor_dict)
         self.update_shuffle_pos()
 
     def __eq__(self, other: object) -> bool:
@@ -156,18 +156,34 @@ class CoreSong(GObject.GObject):
         """
         self._thumbnail = value
 
-    def update(self, media: Grl.Media) -> None:
-        self.props.media = media
-        self.props.album = utils.get_album_title(media)
-        self.props.album_disc_number = media.get_album_disc_number()
-        self.props.artist = utils.get_artist_name(media)
-        self.props.duration = media.get_duration()
-        self._favorite = media.get_favourite()
-        self._last_played = media.get_last_played()
-        self.props.play_count = media.get_play_count()
-        self.props.title = utils.get_media_title(media)
-        self.props.track_number = media.get_track_number()
-        self.props.url = media.get_url()
+    def update(self, cursor_dict: Dict[str, Any]) -> None:
+        self.props.album = cursor_dict.get("album") or ""
+        self.props.album_urn = cursor_dict.get("album_urn")
+        def album_disc_number() -> int:
+            nr = cursor_dict.get("albumDiscNumber")
+            if not nr:
+                return 1
+
+            return int(nr)
+
+        self.props.album_disc_number = album_disc_number()
+        self.props.artist = utils.get_artist_from_cursor_dict(cursor_dict)
+        self.props.duration = int(cursor_dict.get("duration"))
+        self._favorite = cursor_dict.get("favorite")
+        self._last_played = cursor_dict.get("lastPlayed")
+        self.props.play_count = cursor_dict.get("playCount") or 0
+        self.props.title = utils.get_title_from_cursor_dict(cursor_dict)
+        def track_number() -> int:
+            tn = cursor_dict.get("trackNumber")
+            if not tn:
+                return 0
+
+            return int(tn)
+
+        self.props.track_number = track_number()
+        self.props.url = cursor_dict.get("url")
+
+        self.props.cursor_dict = cursor_dict
 
     def bump_play_count(self) -> None:
         if not self._is_tracker:

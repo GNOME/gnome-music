@@ -250,7 +250,8 @@ class CoreModel(GObject.GObject):
             if added > 0:
                 for i in list(range(added)):
                     coresong = model[position + i]
-                    song = CoreSong(self._application, coresong.props.media)
+                    song = CoreSong(
+                        self._application, coresong.props.cursor_dict)
                     _bind_song_properties(coresong, song)
                     songs_list.append(song)
 
@@ -278,7 +279,8 @@ class CoreModel(GObject.GObject):
             self._current_queue_model = self._flatten_model
 
             for model_song in self._flatten_model:
-                song = CoreSong(self._application, model_song.props.media)
+                song = CoreSong(
+                    self._application, model_song.props.cursor_dict)
                 _bind_song_properties(model_song, song)
                 songs_added.append(song)
 
@@ -293,7 +295,8 @@ class CoreModel(GObject.GObject):
             self._current_queue_model = self._flatten_model
 
             for model_song in self._flatten_model:
-                song = CoreSong(self._application, model_song.props.media)
+                song = CoreSong(
+                    self._application, model_song.props.cursor_dict)
                 _bind_song_properties(model_song, song)
                 songs_added.append(song)
 
@@ -316,7 +319,8 @@ class CoreModel(GObject.GObject):
             self._current_queue_model = model
 
             for model_song in model:
-                song = CoreSong(self._application, model_song.props.media)
+                song = CoreSong(
+                    self._application, model_song.props.cursor_dict)
                 _bind_song_properties(model_song, song)
                 songs_added.append(song)
 

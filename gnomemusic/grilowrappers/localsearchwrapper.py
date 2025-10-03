@@ -202,10 +202,8 @@ class LocalSearchWrapper(GObject.Object):
                 self._log.warning(f"Error: {error.domain}, {error.message}")
                 has_next = False
             while has_next:
-                media = utils.create_grilo_media_from_cursor(
-                    cursor, Grl.MediaType.AUDIO)
-                coresong = CoreSong(self._application, media)
-                coresong.props.album_urn = utils.album_urn_from_cursor(cursor)
+                cursor_dict = utils.dict_from_cursor(cursor)
+                coresong = CoreSong(self._application, cursor_dict)
 
                 songs.append(coresong)
                 if len(songs) == self._SPLICE_SIZE:
@@ -289,10 +287,8 @@ class LocalSearchWrapper(GObject.Object):
                 self._log.warning(f"Error: {error.domain}, {error.message}")
                 has_next = False
             while has_next:
-                media = utils.create_grilo_media_from_cursor(
-                    cursor, Grl.MediaType.AUDIO)
-                coresong = CoreSong(self._application, media)
-                coresong.props.album_urn = utils.album_urn_from_cursor(cursor)
+                cursor_dict = utils.dict_from_cursor(cursor)
+                coresong = CoreSong(self._application, cursor_dict)
 
                 found, position = self._songs_model.find_with_equal_func(
                     coresong, self._equal_func, urn)

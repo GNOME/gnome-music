@@ -53,9 +53,8 @@ class SmartPlaylist(Playlist):
                     f"Cursor iteration error: {error.domain}, {error.message}")
                 return
             while has_next:
-                media = utils.create_grilo_media_from_cursor(
-                    cursor, Grl.MediaType.AUDIO)
-                coresong = CoreSong(self._application, media)
+                cursor_dict = utils.dict_from_cursor(cursor)
+                coresong = CoreSong(self._application, cursor_dict)
                 self._bind_to_main_song(coresong)
                 if coresong not in self._songs_todelete:
                     self._model.append(coresong)
