@@ -22,7 +22,8 @@ class CoreArtist(GObject.GObject):
     artist = GObject.Property(type=str)
     id = GObject.Property(type=str)
 
-    def __init__(self, application: Application,
+    def __init__(
+            self, application: Application,
             cursor_dict: Dict[str, Any]) -> None:
         """Initiate the CoreArtist object
 

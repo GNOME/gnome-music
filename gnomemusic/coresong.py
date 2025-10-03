@@ -45,7 +45,8 @@ class CoreSong(GObject.GObject):
         FAILED = 2
         SUCCEEDED = 3
 
-    def __init__(self, application: Application,
+    def __init__(
+            self, application: Application,
             cursor_dict: Dict[str, Any]) -> None:
         """Initiate the CoreSong object
 

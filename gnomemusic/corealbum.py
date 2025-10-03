@@ -29,7 +29,8 @@ class CoreAlbum(GObject.GObject):
     url = GObject.Property(type=str)
     year = GObject.Property(type=str, default=None)
 
-    def __init__(self, application: Application,
+    def __init__(
+            self, application: Application,
             cursor_dict: Dict[str, Any]) -> None:
         """Initiate the CoreAlbum object
 

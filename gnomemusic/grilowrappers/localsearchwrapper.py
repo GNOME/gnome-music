@@ -79,7 +79,8 @@ class LocalSearchWrapper(GObject.Object):
             "/org/gnome/Music/queries/artists.rq")
         self._artists_stmt = self._tsparql.query_statement(prep_stmt)
 
-        prep_stmt = self._prepare_statement("/org/gnome/Music/queries/songs.rq")
+        prep_stmt = self._prepare_statement(
+            "/org/gnome/Music/queries/songs.rq")
         prep_stmt = prep_stmt.replace("song_bind", "BIND(~song AS ?song)")
         self._song_stmt = self._tsparql.query_statement(prep_stmt)
 
