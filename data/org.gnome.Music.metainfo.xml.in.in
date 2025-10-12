@@ -60,6 +60,13 @@
   <translation type="gettext">@appid@</translation>
   <update_contact>mschraal@gnome.org</update_contact>
   <releases>
+    <release version="49.1" date="2025-10-12">
+      <description>
+        <p>
+          Search fix and translation updates.
+        </p>
+      </description>
+    </release>
     <release version="49.0" date="2025-09-13">
       <description>
         <p>
