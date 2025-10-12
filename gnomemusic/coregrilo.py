@@ -53,6 +53,7 @@ class CoreGrilo(GObject.GObject):
         'grl-bookmarks',
         'grl-filesystem',
         'grl-itunes-podcast',
+        "grl-local-metadata",
         'grl-metadata-store',
         'grl-podcasts'
     ]
