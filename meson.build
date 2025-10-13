@@ -16,9 +16,9 @@ if not py_installation.found()
     error('No valid python3 binary found')
 endif
 
-# Python 3.7 is needed for postponed evalution of annotations
-if not py_installation.language_version().version_compare('>= 3.9')
-  error('Python 3.9 or newer is required.')
+# Require Python 3.10 for update typing annotations
+if not py_installation.language_version().version_compare('>= 3.10')
+  error('Python 3.10 or newer is required.')
 endif
 
 # Constants
