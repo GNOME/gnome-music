@@ -334,7 +334,7 @@ class Favorites(SmartPlaylist):
 
         self.props.tag_text = "FAVORITES"
         # TRANSLATORS: this is a playlist name
-        self._title = _("Favorite Songs")
+        self._title = _("Starred Songs")
         self.props.icon_name = "starred-symbolic"
         self.props.query = """
             SELECT
