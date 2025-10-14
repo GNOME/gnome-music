@@ -1,33 +1,12 @@
-# Copyright 2019 The GNOME Music developers
+# Copyright 2025 The GNOME Music developers
 #
-# GNOME Music is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
-#
-# GNOME Music is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License along
-# with GNOME Music; if not, write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-#
-# The GNOME Music authors hereby grant permission for non-GPL compatible
-# GStreamer plugins to be used and distributed together with GStreamer
-# and GNOME Music.  This permission is above and beyond the permissions
-# granted by the GPL license by which GNOME Music is covered.  If you
-# modify this code, you may extend this exception to your version of the
-# code, but you are not obligated to do so.  If you do not wish to do so,
-# delete this exception statement from your version.
+# SPDX-License-Identifier: GPL-2.0-or-later WITH GStreamer-exception-2008
 
 from typing import Optional
 
-from gi.repository import Adw, Gtk, Gdk, GLib, GObject
+from gi.repository import Adw, GLib, GObject, Gdk, Gio, Gtk
 from gettext import gettext as _
 
-from gnomemusic.player import RepeatMode
 from gnomemusic.trackerwrapper import TrackerState
 from gnomemusic.utils import View
 from gnomemusic.views.albumsview import AlbumsView
@@ -54,6 +33,7 @@ class Window(Adw.ApplicationWindow):
     _navigation_view = Gtk.Template.Child()
     _overlay = Gtk.Template.Child()
     _player_toolbar = Gtk.Template.Child()
+    _shortcut_controller = Gtk.Template.Child()
     _stack = Gtk.Template.Child()
     _toast_overlay = Gtk.Template.Child()
 
@@ -79,6 +59,7 @@ class Window(Adw.ApplicationWindow):
 
         self._startup_timeout_id = 0
         self._setup_view()
+        self._set_actions()
 
     def _setup_view(self):
         self._headerbar.props.stack = self._stack
@@ -212,80 +193,15 @@ class Window(Adw.ApplicationWindow):
             self, controller: Gtk.EventControllerKey, keyval: int,
             keycode: int, state: Gdk.ModifierType) -> bool:
         modifiers = state & Gtk.accelerator_get_default_mod_mask()
-        control_mask = Gdk.ModifierType.CONTROL_MASK
         shift_mask = Gdk.ModifierType.SHIFT_MASK
-        alt_mask = Gdk.ModifierType.ALT_MASK
 
         search_active = self._search.props.search_mode_active
-        rename_active = (self.views[View.PLAYLIST] is not None
-                         and self.views[View.PLAYLIST].rename_active)
+        rename_active = getattr(
+            self.views[View.PLAYLIST], "rename_active", False)
         unicode_char = chr(Gdk.keyval_to_unicode(keyval))
-        active_view_stack_name = self._stack.props.visible_child_name
 
-        # Ctrl + F: Open search bar
-        if (modifiers == control_mask
-                and keyval == Gdk.KEY_f
-                and not rename_active
-                and not search_active):
-            self._search.props.search_mode_active = True
-        # Ctrl + Space: Play / Pause
-        elif (modifiers == control_mask
-                and keyval == Gdk.KEY_space):
-            self._player.play_pause()
-        # Ctrl + B: Previous
-        elif (modifiers == control_mask
-                and keyval == Gdk.KEY_b):
-            self._player.previous()
-        # Ctrl + N: Next
-        elif (modifiers == control_mask
-                and keyval == Gdk.KEY_n):
-            self._player.next()
-        # Ctrl + R: Toggle repeat
-        elif (modifiers == control_mask
-                and keyval == Gdk.KEY_r):
-            if self._player.props.repeat_mode == RepeatMode.SONG:
-                self._player.props.repeat_mode = RepeatMode.NONE
-            else:
-                self._player.props.repeat_mode = RepeatMode.SONG
-        # Ctrl + S: Toggle shuffle
-        elif (modifiers == control_mask
-                and keyval == Gdk.KEY_s):
-            if self._player.props.repeat_mode == RepeatMode.SHUFFLE:
-                self._player.props.repeat_mode = RepeatMode.NONE
-            else:
-                self._player.props.repeat_mode = RepeatMode.SHUFFLE
-        # Alt + 1 : Switch to albums view
-        elif (modifiers == alt_mask
-                and keyval in [Gdk.KEY_1, Gdk.KEY_KP_1]):
-            self._switch_to_view("albums")
-        # Alt + 2 : Switch to artists view
-        elif (modifiers == alt_mask
-                and keyval in [Gdk.KEY_2, Gdk.KEY_KP_2]):
-            self._switch_to_view("artists")
-        # Alt + 3 : Switch to playlists view
-        elif (modifiers == alt_mask
-                and keyval in [Gdk.KEY_3, Gdk.KEY_KP_3]):
-            self._switch_to_view("playlists")
-        elif (keyval == Gdk.KEY_AudioPlay
-                or keyval == Gdk.KEY_AudioPause):
-            self._player.play_pause()
-        elif keyval == Gdk.KEY_AudioStop:
-            self._player.stop()
-        elif keyval == Gdk.KEY_AudioPrev:
-            self._player.previous()
-        elif keyval == Gdk.KEY_AudioNext:
-            self._player.next()
-        elif (keyval == Gdk.KEY_Delete
-                and self._is_main_view_active()
-                and active_view_stack_name == "playlists"
-                and not rename_active):
-            self.activate_action("playlist_delete", None)
-        # Close the search bar after Esc is pressed
-        elif (keyval == Gdk.KEY_Escape
-                and search_active):
-            self._search.props.search_mode_active = False
         # Open the search bar when typing printable chars.
-        elif ((not search_active
+        if ((not search_active
                 and self._search_view is not None
                 and self._is_main_view_active()
                 and not keyval == Gdk.KEY_space)
@@ -299,6 +215,56 @@ class Window(Adw.ApplicationWindow):
             return Gdk.EVENT_PROPAGATE
 
         return Gdk.EVENT_STOP
+
+    def _set_actions(self) -> None:
+        action_entries = [
+            ("search_bar_close", self._search_bar_close, ["Escape"]),
+            ("search_bar_open", self._search_bar_open, ["<Ctrl>F"]),
+            ("view_albums", self._view_albums, ["<Alt>1", "<Alt>KP_1"]),
+            ("view_artists", self._view_artists, ["<Alt>2", "<Alt>KP_2"]),
+            ("view_playlists", self._view_playlists, ["<Alt>3", "<Alt>KP_3"])
+        ]
+
+        for action, callback, accel in action_entries:
+            simple_action = Gio.SimpleAction.new(action, None)
+            simple_action.connect("activate", callback)
+            self.add_action(simple_action)
+            if accel:
+                shortcut = Gtk.Shortcut.new(
+                    Gtk.ShortcutTrigger.parse_string("|".join(accel)),
+                    Gtk.ShortcutAction.parse_string(f"action(win.{action})"))
+                self._shortcut_controller.add_shortcut(shortcut)
+
+    def _search_bar_close(
+            self, action: Gio.SimpleAction,
+            param: GLib.Variant | None) -> None:
+        if self._search.props.search_mode_active:
+            self._search.props.search_mode_active = False
+
+    def _search_bar_open(
+            self, action: Gio.SimpleAction,
+            param: GLib.Variant | None) -> None:
+        rename_active = getattr(
+            self.views[View.PLAYLIST], "rename_active", False)
+
+        if not (rename_active
+                or self._search.props.search_mode_active):
+            self._search.props.search_mode_active = True
+
+    def _view_albums(
+            self, action: Gio.SimpleAction,
+            param: GLib.Variant | None) -> None:
+        self._switch_to_view("albums")
+
+    def _view_artists(
+            self, action: Gio.SimpleAction,
+            param: GLib.Variant | None) -> None:
+        self._switch_to_view("artists")
+
+    def _view_playlists(
+            self, action: Gio.SimpleAction,
+            param: GLib.Variant | None) -> None:
+        self._switch_to_view("playlists")
 
     def _switch_to_view(self, view_name: str) -> None:
         """Switch the view switcher to another page"""

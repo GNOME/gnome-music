@@ -8,27 +8,7 @@
 # Copyright (c) 2013 Sai Suman Prayaga <suman.sai14@gmail.com>
 # Copyright (c) 2013 Seif Lotfy <seif@lotfy.com>
 #
-# GNOME Music is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
-#
-# GNOME Music is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License along
-# with GNOME Music; if not, write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-#
-# The GNOME Music authors hereby grant permission for non-GPL compatible
-# GStreamer plugins to be used and distributed together with GStreamer
-# and GNOME Music.  This permission is above and beyond the permissions
-# granted by the GPL license by which GNOME Music is covered.  If you
-# modify this code, you may extend this exception to your version of the
-# code, but you are not obligated to do so.  If you do not wish to do so,
-# delete this exception statement from your version.
+# SPDX-License-Identifier: GPL-2.0-or-later WITH GStreamer-exception-2008
 
 import asyncio
 from typing import Optional
@@ -46,6 +26,7 @@ from gnomemusic.musiclogger import MusicLogger
 from gnomemusic.notificationmanager import NotificationManager
 from gnomemusic.pauseonsuspend import PauseOnSuspend
 from gnomemusic.player import Player
+from gnomemusic.player import RepeatMode
 from gnomemusic.search import Search
 from gnomemusic.widgets.preferencesdialog import PreferencesDialog
 from gnomemusic.window import Window
@@ -158,35 +139,49 @@ class Application(Adw.Application):
         """
         return self._notificationmanager
 
-    def _set_actions(self):
+    def _set_actions(self) -> None:
         action_entries = [
             ("about", self._about, None),
             ("help", self._help, ("app.help", ["F1"])),
             ("mute", self._mute, ("app.mute", ["<Ctrl>M"])),
+            ("play_pause", self._play_pause,
+                ("app.play_pause",
+                    ["<Ctrl>space", "AudioPlay", "AudioPause"])),
             ("preferences", self._preferences_dialog,
                 ("app.preferences", ["<Ctrl>comma"])),
             ("quit", self._quit, ("app.quit", ["<Ctrl>Q"])),
+            ("repeat_toggle", self._repeat_toggle,
+                ("app.repeat_toggle", ["<Ctrl>R"])),
+            ("shuffle_toggle", self._shuffle_toggle,
+                ("app.shuffle_toggle", ["<Ctrl>S"])),
+            ("song_next", self._song_next,
+                ("app.song_next", ["<Ctrl>N", "AudioNext"])),
+            ("song_previous", self._song_previous,
+                ("app.song_previous", ["<Ctrl>B", "AudioPrev"])),
+            ("song_stop", self._song_stop,
+                ("app.song_stop", ["AudioStop"])),
             ("volume_decrease", self._volume_decrease,
-                ("app.volume_decrease", ["<Ctrl>minus"])),
+                ("app.volume_decrease", ["<Ctrl>minus", "<Ctrl>KP_Subtract"])),
             ("volume_increase", self._volume_increase,
-                ("app.volume_increase", ["<Ctrl>plus", "<Ctrl>equal"])),
+                ("app.volume_increase",
+                    ["<Ctrl>plus", "<Ctrl>equal", "<Ctrl>KP_Add"])),
         ]
 
         for action, callback, accel in action_entries:
             simple_action = Gio.SimpleAction.new(action, None)
             simple_action.connect('activate', callback)
             self.add_action(simple_action)
-            if accel is not None:
+            if accel:
                 self.set_accels_for_action(*accel)
 
     def _about(
             self, action: Gio.SimpleAction,
-            param: Optional[GLib.Variant]) -> None:
+            param: GLib.Variant | None) -> None:
         show_about(self.props.application_id, self._version, self._window)
 
     def _help(
             self, action: Gio.SimpleAction,
-            param: Optional[GLib.Variant]) -> None:
+            param: GLib.Variant | None) -> None:
 
         def show_uri_cb(parent: Gtk.Window, result: Gio.AsyncResult) -> None:
             try:
@@ -200,12 +195,17 @@ class Application(Adw.Application):
 
     def _mute(
             self, action: Gio.SimpleAction,
-            param: Optional[GLib.Variant]) -> None:
+            param: GLib.Variant | None) -> None:
         self._player.props.mute = not self._player.props.mute
+
+    def _play_pause(
+            self, action: Gio.SimpleAction,
+            param: GLib.Variant | None) -> None:
+        self._player.play_pause()
 
     def _preferences_dialog(
             self, action: Gio.SimpleAction,
-            param: Optional[GLib.Variant]) -> None:
+            param: GLib.Variant | None) -> None:
         if self._window.props.visible_dialog:
             return
 
@@ -214,12 +214,43 @@ class Application(Adw.Application):
 
     def _quit(
             self, action: Gio.SimpleAction,
-            param: Optional[GLib.Variant]) -> None:
+            param: GLib.Variant | None) -> None:
         self._window.destroy()
+
+    def _repeat_toggle(
+            self, action: Gio.SimpleAction,
+            param: GLib.Variant | None) -> None:
+        if self._player.props.repeat_mode == RepeatMode.SONG:
+            self._player.props.repeat_mode = RepeatMode.NONE
+        else:
+            self._player.props.repeat_mode = RepeatMode.SONG
+
+    def _shuffle_toggle(
+            self, action: Gio.SimpleAction,
+            param: GLib.Variant | None) -> None:
+        if self._player.props.repeat_mode == RepeatMode.SHUFFLE:
+            self._player.props.repeat_mode = RepeatMode.NONE
+        else:
+            self._player.props.repeat_mode = RepeatMode.SHUFFLE
+
+    def _song_next(
+            self, action: Gio.SimpleAction,
+            param: GLib.Variant | None) -> None:
+        self._player.next()
+
+    def _song_previous(
+            self, action: Gio.SimpleAction,
+            param: GLib.Variant | None) -> None:
+        self._player.previous()
+
+    def _song_stop(
+            self, action: Gio.SimpleAction,
+            param: GLib.Variant | None) -> None:
+        self._player.stop()
 
     def _volume_decrease(
             self, action: Gio.SimpleAction,
-            param: Optional[GLib.Variant]) -> None:
+            param: GLib.Variant | None) -> None:
         if not self._player.props.mute:
             cubic_volume = GstAudio.stream_volume_convert_volume(
                 GstAudio.StreamVolumeFormat.LINEAR,
@@ -233,7 +264,7 @@ class Application(Adw.Application):
 
     def _volume_increase(
             self, action: Gio.SimpleAction,
-            param: Optional[GLib.Variant]) -> None:
+            param: GLib.Variant | None) -> None:
         if (not self._player.props.mute
                 or self._player.props.volume == 0):
             cubic_volume = GstAudio.stream_volume_convert_volume(
