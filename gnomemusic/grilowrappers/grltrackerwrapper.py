@@ -918,6 +918,8 @@ class GrlTrackerWrapper(GObject.GObject):
                         BIND(tracker:normalize(
                                  nmm:artistName(nmm:artist(?song)), 'nfkd')
                              AS ?match2) .
+                        BIND(tracker:normalize(nie:title(?song), 'nfkd')
+                             AS ?match3) .
                         BIND(tracker:normalize(nmm:composer(?song), 'nfkd')
                              AS ?match4) .
                         FILTER (
@@ -927,6 +929,9 @@ class GrlTrackerWrapper(GObject.GObject):
                             || CONTAINS(tracker:case-fold(
                                 tracker:unaccent(?match2)), "%(name)s")
                             || CONTAINS(tracker:case-fold(?match2), "%(name)s")
+                            || CONTAINS(tracker:case-fold(
+                                tracker:unaccent(?match3)), "%(name)s")
+                            || CONTAINS(tracker:case-fold(?match3), "%(name)s")
                             || CONTAINS(tracker:case-fold(
                                 tracker:unaccent(?match4)), "%(name)s")
                             || CONTAINS(tracker:case-fold(?match4), "%(name)s")
@@ -967,6 +972,8 @@ class GrlTrackerWrapper(GObject.GObject):
                         BIND(tracker:normalize(
                                  nmm:artistName(nmm:artist(?song)), 'nfkd')
                              AS ?match2) .
+                        BIND(tracker:normalize(nie:title(?song), 'nfkd')
+                             AS ?match3) .
                         BIND(tracker:normalize(nmm:composer(?song), 'nfkd')
                              AS ?match4) .
                         FILTER (
@@ -976,6 +983,9 @@ class GrlTrackerWrapper(GObject.GObject):
                             || CONTAINS(tracker:case-fold(
                                 tracker:unaccent(?match2)), "%(name)s")
                             || CONTAINS(tracker:case-fold(?match2), "%(name)s")
+                            || CONTAINS(tracker:case-fold(
+                                tracker:unaccent(?match3)), "%(name)s")
+                            || CONTAINS(tracker:case-fold(?match3), "%(name)s")
                             || CONTAINS(tracker:case-fold(
                                 tracker:unaccent(?match4)), "%(name)s")
                             || CONTAINS(tracker:case-fold(?match4), "%(name)s")
