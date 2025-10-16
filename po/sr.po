@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the gnome-music package.
 # Мирослав Николић <miroslavnikolic@rocketmail.com>, 2013–2021.
 # facyber <marko.andrejic93@gmail.com>, 2024.
+# aceydot <aceydot@tuta.io>, 2025.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2024-10-27 23:06+0000\n"
-"PO-Revision-Date: 2024-11-06 06:24+0100\n"
-"Last-Translator: Марко М. Костић <marko.m.kostic@gmail.com>\n"
+"POT-Creation-Date: 2025-10-15 08:18+0000\n"
+"PO-Revision-Date: 2025-10-15 22:28+0200\n"
+"Last-Translator: aceydot <aceydot@tuta.io>\n"
 "Language-Team: Serbian <marko.andrejic93@gmail.com>\n"
 "Language: sr\n"
 "MIME-Version: 1.0\n"
@@ -19,44 +20,39 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=n==1? 3 : n%10==1 && n%100!=11 ? 0 : "
 "n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Project-Style: gnome\n"
-"X-Generator: Poedit 3.4.4\n"
+"X-Generator: Poedit 3.6\n"
 
-#: data/org.gnome.Music.appdata.xml.in.in:6
-#: data/org.gnome.Music.desktop.in.in:3 data/ui/StatusNavigationPage.ui:4
-#: gnomemusic/about.py:139 gnomemusic/application.py:59 gnomemusic/window.py:65
+#: data/org.gnome.Music.desktop.in.in:2
+#: data/org.gnome.Music.metainfo.xml.in.in:9 data/ui/StatusNavigationPage.ui:4
+#: gnomemusic/about.py:143 gnomemusic/application.py:61 gnomemusic/window.py:65
 msgid "Music"
 msgstr "Музика"
 
-#: data/org.gnome.Music.appdata.xml.in.in:7
-#: data/org.gnome.Music.desktop.in.in:5
+#: data/org.gnome.Music.desktop.in.in:3
+msgid "Music Player"
+msgstr "Програм за музику"
+
+#: data/org.gnome.Music.desktop.in.in:4
+#: data/org.gnome.Music.metainfo.xml.in.in:10
 msgid "Play and organize your music collection"
 msgstr "Слушајте и уређујте музичку збирку"
 
-#: data/org.gnome.Music.appdata.xml.in.in:9
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/org.gnome.Music.desktop.in.in:12
+msgid "Music;Player;"
+msgstr "Music;Player;музика;пусти;пуштач;плејер;muzika;pusti;puštač;plejer;"
+
+#: data/org.gnome.Music.metainfo.xml.in.in:12
 msgid "An easy and pleasant way to play your music."
 msgstr "Лаган и угодан начин за пуштање музике."
 
-#: data/org.gnome.Music.appdata.xml.in.in:12
+#: data/org.gnome.Music.metainfo.xml.in.in:15
 msgid ""
 "Find tracks in your local collection, use automatically generated playlists "
 "or curate a fresh one."
 msgstr ""
 "Нађите нумере у вашој локалној збирци, користите самостворене спискове "
 "нумера или направите нови."
-
-#. developer_name tag deprecated with Appstream 1.0
-#: data/org.gnome.Music.appdata.xml.in.in:226
-msgid "The GNOME Music developers"
-msgstr "Програмери Гномове Музике"
-
-#: data/org.gnome.Music.desktop.in.in:4
-msgid "Music Player"
-msgstr "Програм за музику"
-
-#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
-#: data/org.gnome.Music.desktop.in.in:13
-msgid "Music;Player;"
-msgstr "Music;Player;музика;пусти;пуштач;плејер;muzika;pusti;puštač;plejer;"
 
 #: data/org.gnome.Music.gschema.xml:17
 msgid "Window size"
@@ -116,12 +112,12 @@ msgstr ""
 "Омогућава или онемогућава спречавање обуставе система док се пушта музика"
 
 #: data/ui/AlbumsSearchNavigationPage.ui:5 data/ui/SearchView.ui:98
-#: gnomemusic/views/albumsview.py:52
+#: gnomemusic/views/albumsview.py:30
 msgid "Albums"
 msgstr "Албуми"
 
 #: data/ui/AlbumWidget.ui:84 data/ui/PlayerToolbar.ui:87
-#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:176
+#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:177
 msgid "Play"
 msgstr "Пусти"
 
@@ -379,55 +375,60 @@ msgstr "_Уклони са списка нумера"
 msgid "Welcome to Music"
 msgstr "Добро дошли у Музику"
 
-#: gnomemusic/about.py:141
+#: gnomemusic/about.py:145
 msgid "The GNOME Project"
 msgstr "Гномов пројекат"
 
 #. Translators should localize the following string which
 #. will be displayed at the bottom of the about box to give
 #. credit to the translator(s).
-#: gnomemusic/about.py:147
+#: gnomemusic/about.py:151
 msgid "translator-credits"
 msgstr ""
 "Мирослав Николић <miroslavnikolic@rocketmail.com>\n"
 "Марко М. Костић <marko.m.kostic@gmail.com>\n"
 "https://гном.срб — превод Гнома на српски језик."
 
-#: gnomemusic/about.py:151
+#: gnomemusic/about.py:155
 msgid "© The GNOME Music Developers"
 msgstr "© Програмери Гномове Музике"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:849
+#: gnomemusic/grilowrappers/smartplaylist.py:128
 msgid "Most Played"
 msgstr "Највише пуштане"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:903
+#: gnomemusic/grilowrappers/smartplaylist.py:182
 msgid "Never Played"
 msgstr "Никад пуштане"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:956
+#: gnomemusic/grilowrappers/smartplaylist.py:235
 msgid "Recently Played"
 msgstr "Недавно пуштане"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1035
+#: gnomemusic/grilowrappers/smartplaylist.py:314
 msgid "Recently Added"
 msgstr "Недавно додате"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1098
+#: gnomemusic/grilowrappers/smartplaylist.py:377
 msgid "Favorite Songs"
 msgstr "Омиљене песме"
 
 #. TRANSLATORS: this is a playlist name indicating that the
 #. files are not tagged enough to be displayed in the albums
 #. or artists views.
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:1152
+#: gnomemusic/grilowrappers/smartplaylist.py:431
 msgid "Insufficiently Tagged"
 msgstr "Недовољно означено"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/smartplaylist.py:494
+msgid "All Songs"
+msgstr "Све песме"
 
 #: gnomemusic/gstplayer.py:424
 msgid "Unable to play the file"
@@ -484,11 +485,11 @@ msgstr "Опозови"
 msgid "{} removed from {}"
 msgstr "Ставка {} уклоњена из {}"
 
-#: gnomemusic/utils.py:89
+#: gnomemusic/utils.py:92
 msgid "Unknown album"
 msgstr "Непознат албум"
 
-#: gnomemusic/utils.py:110
+#: gnomemusic/utils.py:113
 msgid "Unknown Artist"
 msgstr "Непознат извођач"
 
@@ -496,23 +497,23 @@ msgstr "Непознат извођач"
 msgid "Playlists"
 msgstr "Списак нумера"
 
-#: gnomemusic/views/searchview.py:224
+#: gnomemusic/views/searchview.py:214
 msgid "No Search Started"
 msgstr "Нема започетих претрага"
 
-#: gnomemusic/views/searchview.py:226
+#: gnomemusic/views/searchview.py:216
 msgid "Use the searchbar to start searching for albums, artists or songs"
 msgstr "Користите поље за претрагу да претражите албуме, извођаче или песме"
 
-#: gnomemusic/views/searchview.py:230
+#: gnomemusic/views/searchview.py:220
 msgid "No Results Found"
 msgstr "Нема резултата"
 
-#: gnomemusic/views/searchview.py:232
+#: gnomemusic/views/searchview.py:222
 msgid "Try a different search"
 msgstr "Пробајте са другачијом претрагом"
 
-#: gnomemusic/widgets/albumwidget.py:230
+#: gnomemusic/widgets/albumwidget.py:242
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} минут"
@@ -520,11 +521,7 @@ msgstr[1] "{} минута"
 msgstr[2] "{} минута"
 msgstr[3] "{} минут"
 
-#: gnomemusic/widgets/discbox.py:74
-msgid "Disc {}"
-msgstr "Диск {}"
-
-#: gnomemusic/widgets/playertoolbar.py:173
+#: gnomemusic/widgets/playertoolbar.py:174
 msgid "Pause"
 msgstr "Застани"
 
@@ -559,40 +556,47 @@ msgstr "Означи звездицом"
 msgid "Your XDG Music directory is not set."
 msgstr "XDG музичка фасцикла није постављена."
 
-#: gnomemusic/widgets/statusnavigationpage.py:58
+#: gnomemusic/widgets/statusnavigationpage.py:56
 msgid "Music Folder"
 msgstr "Директоријум са музиком"
 
-#. TRANSLATORS: This is a label to display a link to open user's music
-#. folder. {} will be replaced with the translated text 'Music folder'
-#: gnomemusic/widgets/statusnavigationpage.py:66
+#. TRANSLATORS: This is a label to display a link to open
+#. a user's music folder. {} will be replaced with the
+#. translated text 'Music folder'
+#: gnomemusic/widgets/statusnavigationpage.py:60
 msgid "The contents of your {} will appear here."
 msgstr "Садржај директоријума „{}“ ће се појавити овде."
 
-#: gnomemusic/widgets/statusnavigationpage.py:116
+#: gnomemusic/widgets/statusnavigationpage.py:114
 msgid "No Music Found"
 msgstr "Нисам пронашао музику"
 
-#: gnomemusic/widgets/statusnavigationpage.py:117
+#: gnomemusic/widgets/statusnavigationpage.py:115
 msgid "Try a Different Search"
 msgstr "Пробајте са другачијом претрагом"
 
-#: gnomemusic/widgets/statusnavigationpage.py:121
+#: gnomemusic/widgets/statusnavigationpage.py:119
 msgid "GNOME Music could not connect to Tracker."
 msgstr "Гномова Музика није могла да се повеже на Трагача."
 
-#: gnomemusic/widgets/statusnavigationpage.py:123
+#: gnomemusic/widgets/statusnavigationpage.py:121
 msgid "Your music files cannot be indexed without Tracker running."
 msgstr ""
 "Ваше музичке датотеке не могу бити пописане уколико Трагач није покренут."
 
-#: gnomemusic/widgets/statusnavigationpage.py:129
+#: gnomemusic/widgets/statusnavigationpage.py:127
 msgid "Your system Tracker version seems outdated."
 msgstr "Издање вашег системског трагача делује застарело."
 
-#: gnomemusic/widgets/statusnavigationpage.py:131
+#: gnomemusic/widgets/statusnavigationpage.py:129
 msgid "Music needs Tracker version 3.0.0 or higher."
 msgstr "Музици је потребан трагач (Tracker) издања 3.0.0 или новијег."
+
+#~ msgid "The GNOME Music developers"
+#~ msgstr "Програмери Гномове Музике"
+
+#~ msgid "Disc {}"
+#~ msgstr "Диск {}"
 
 #~ msgid "Enables or disables ReplayGain for albums"
 #~ msgstr "Укључује или искључује појачање понављања за албуме"
