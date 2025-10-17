@@ -31,7 +31,7 @@ from gettext import gettext as _, ngettext
 import gi
 gi.require_version('Gst', '1.0')
 gi.require_version('GstPbutils', '1.0')
-from gi.repository import Gtk, Gio, GObject, Gst, GstPbutils
+from gi.repository import GLib, Gtk, Gio, GObject, Gst, GstPbutils
 
 if typing.TYPE_CHECKING:
     from gnomemusic.application import Application
@@ -163,12 +163,12 @@ class GstPlayer(GObject.GObject):
             self._player.set_property("audio-filter", None)
 
     def _on_about_to_finish(self, klass):
-        self.emit("about-to-finish")
+        GLib.idle_add(self.emit, "about-to-finish")
 
     def _on_async_done(self, bus, message):
         if self._seek:
             self._seek = False
-            self.emit("seek-finished")
+            GLib.idle_add(self.emit, "seek-finished")
 
         if not self._known_duration:
             self._query_duration()
@@ -206,7 +206,7 @@ class GstPlayer(GObject.GObject):
         self._create_clock_tick()
 
     def _on_clock_tick(self, clock, time, id, data):
-        self.emit("clock-tick", self._tick)
+        GLib.idle_add(self.emit, "clock-tick", self._tick)
         self._tick += 1
 
     def _on_bus_element(self, bus, message):
@@ -227,7 +227,7 @@ class GstPlayer(GObject.GObject):
     def _on_bus_stream_start(self, bus, message):
         self._query_duration()
         self._tick = 0
-        self.emit("stream-start")
+        GLib.idle_add(self.emit, "stream-start")
 
     def _on_state_changed(self, bus, message):
         if message.src != self._player:
@@ -266,11 +266,11 @@ class GstPlayer(GObject.GObject):
                 message.src.get_name(), error.message))
         self._log.warning("Debugging info:\n{}".format(debug))
 
-        self.emit("error")
+        GLib.idle_add(self.emit, "error")
         return True
 
     def _on_bus_eos(self, bus, message):
-        self.emit('eos')
+        GLib.idle_add(self.emit, "eos")
 
     @GObject.Property(
         type=int, flags=GObject.ParamFlags.READWRITE
