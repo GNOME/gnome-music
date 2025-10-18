@@ -84,6 +84,13 @@ class GstPlayer(GObject.GObject):
         self._player = Gst.ElementFactory.make('playbin3', 'player')
         self._bus = self._player.get_bus()
         self._bus.add_signal_watch()
+
+        # Disable video output
+        GST_PLAY_FLAGS_VIDEO = 1 << 0
+        GST_PLAY_FLAGS_AUDIO = 1 << 1
+        player_flags = GST_PLAY_FLAGS_AUDIO & ~GST_PLAY_FLAGS_VIDEO
+        self._player.set_property("flags", player_flags)
+
         self._setup_replaygain()
 
         self._settings.connect(
