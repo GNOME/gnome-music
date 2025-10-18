@@ -86,8 +86,6 @@ class GstPlayer(GObject.GObject):
         self._settings = application.props.settings
 
         self._player = Gst.ElementFactory.make('playbin3', 'player')
-        self._bus = self._player.get_bus()
-        self._bus.add_signal_watch()
 
         # Disable video output
         GST_PLAY_FLAGS_VIDEO = 1 << 0
@@ -101,6 +99,8 @@ class GstPlayer(GObject.GObject):
             "changed::replaygain", self._on_replaygain_setting_changed)
         self._settings.emit("changed", "replaygain")
 
+        self._bus = self._player.get_bus()
+        self._bus.add_signal_watch()
         self._bus.connect('message::async-done', self._on_async_done)
         self._bus.connect("message::buffering", self._on_bus_buffering)
         self._bus.connect(
