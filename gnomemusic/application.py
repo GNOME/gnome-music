@@ -221,6 +221,8 @@ class Application(Adw.Application):
             self, action: Gio.SimpleAction,
             param: GLib.Variant | None) -> None:
         if self._player.props.repeat_mode == RepeatMode.SONG:
+            self._player.props.repeat_mode = RepeatMode.ALL
+        elif self._player.props.repeat_mode == RepeatMode.ALL:
             self._player.props.repeat_mode = RepeatMode.NONE
         else:
             self._player.props.repeat_mode = RepeatMode.SONG
