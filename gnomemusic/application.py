@@ -11,7 +11,6 @@
 # SPDX-License-Identifier: GPL-2.0-or-later WITH GStreamer-exception-2008
 
 import asyncio
-from typing import Optional
 from gettext import gettext as _
 
 from gi.events import GLibEventLoopPolicy
@@ -52,7 +51,7 @@ class Application(Adw.Application):
         self._search = Search()
 
         self._notificationmanager = NotificationManager(self)
-        self._coregrilo: Optional[CoreGrilo] = None
+        self._coregrilo: CoreGrilo | None = None
         self._coremodel = CoreModel(self)
 
         self._settings = Gio.Settings.new('org.gnome.Music')

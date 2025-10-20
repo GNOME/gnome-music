@@ -2,8 +2,6 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later WITH GStreamer-exception-2008
 
-from typing import Optional
-
 from gi.repository import Adw, GLib, GObject, Gdk, Gio, Gtk
 from gettext import gettext as _
 
@@ -50,9 +48,9 @@ class Window(Adw.ApplicationWindow):
         WindowPlacement(self)
 
         self._headerbar = HeaderBar(self._app)
-        self._search_view: Optional[SearchView] = None
+        self._search_view: SearchView | None = None
         self._status_navpage = StatusNavigationPage(app)
-        self._playlist_dialog: Optional[PlaylistDialog] = None
+        self._playlist_dialog: PlaylistDialog | None = None
 
         self._player = app.props.player
         self._search = app.props.search
