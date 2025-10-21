@@ -216,6 +216,7 @@ class Window(Adw.ApplicationWindow):
 
     def _set_actions(self) -> None:
         action_entries = [
+            ("navigate_back", self._navigate_back, ["<Alt>Left"]),
             ("search_bar_close", self._search_bar_close, ["Escape"]),
             ("search_bar_open", self._search_bar_open, ["<Ctrl>F"]),
             ("view_albums", self._view_albums, ["<Alt>1", "<Alt>KP_1"]),
@@ -232,6 +233,12 @@ class Window(Adw.ApplicationWindow):
                     Gtk.ShortcutTrigger.parse_string("|".join(accel)),
                     Gtk.ShortcutAction.parse_string(f"action(win.{action})"))
                 self._shortcut_controller.add_shortcut(shortcut)
+
+    def _navigate_back(
+            self, action: Gio.SimpleAction,
+            param: GLib.Variant | None) -> None:
+        if not self._is_main_view_active():
+            self._navigation_view.pop()
 
     def _search_bar_close(
             self, action: Gio.SimpleAction,
