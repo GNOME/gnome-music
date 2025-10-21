@@ -1,0 +1,14 @@
+diff --git a/src/extractor/utils/tracker-extract.h b/src/extractor/utils/tracker-extract.h
+index bd760fb28..f3ad28043 100644
+--- a/src/extractor/utils/tracker-extract.h
++++ b/src/extractor/utils/tracker-extract.h
+@@ -28,7 +28,9 @@
+ #include "tracker-encoding.h"
+ #include "tracker-exif.h"
+ #include "tracker-guarantee.h"
++#ifdef HAVE_GEXIV2
+ #include "tracker-iptc.h"
++#endif /* HAVE_GEXIV2 */
+ #include "tracker-resource-helpers.h"
+ #include "tracker-utils.h"
+ #include "tracker-xmp.h"

@@ -62,6 +62,10 @@
                     "type": "git",
                     "url": "https://gitlab.gnome.org/GNOME/localsearch.git",
                     "branch": "main"
+                },
+                {
+                    "type": "patch",
+                    "path": "localsearch-gexiv-fail.patch"
                 }
             ],
             "cleanup": [
