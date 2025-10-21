@@ -53,8 +53,10 @@
                              "-Dman=false",
                              "-Dminer_fs=true",
                              "-Dminer_fs_cache_location=$XDG_CACHE_HOME/gnome-music/miner/files",
+                             "-Draw=disabled",
                              "-Dsandbox_tests=false",
-                             "-Dsystemd_user_services=false"],
+                             "-Dsystemd_user_services=false",
+                             "-Dwebp=disabled"],
             "sources": [
                 {
                     "type": "git",
