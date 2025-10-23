@@ -11,10 +11,6 @@
       </object>
     </child>
     <child>
-      <object class="GtkShortcutController" id="_shortcut_controller">
-      </object>
-    </child>
-    <child>
       <object class="AdwToolbarView">
         <property name="top-bar-style">raised</property>
         <property name="bottom-bar-style">raised</property>

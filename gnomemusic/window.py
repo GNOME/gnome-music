@@ -31,7 +31,6 @@ class Window(Adw.ApplicationWindow):
     _navigation_view = Gtk.Template.Child()
     _overlay = Gtk.Template.Child()
     _player_toolbar = Gtk.Template.Child()
-    _shortcut_controller = Gtk.Template.Child()
     _stack = Gtk.Template.Child()
     _toast_overlay = Gtk.Template.Child()
 
@@ -55,6 +54,8 @@ class Window(Adw.ApplicationWindow):
         self._player = app.props.player
         self._search = app.props.search
 
+        self._shortcut_controller = Gtk.ShortcutController.new()
+        self.add_controller(self._shortcut_controller)
         self._startup_timeout_id = 0
         self._setup_view()
         self._set_actions()
