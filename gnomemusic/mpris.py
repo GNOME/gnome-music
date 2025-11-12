@@ -37,6 +37,7 @@ from gnomemusic.widgets.songwidget import SongWidget
 if typing.TYPE_CHECKING:
     from gi.repository import GObject, Gtk
 
+    from gnomemusic.coremodel import CoreModel
     from gnomemusic.coresong import CoreSong
     from gnomemusic.player import Player
 
@@ -301,11 +302,11 @@ class MPRIS(DBusInterface):
         self._player.connect('seek-finished', self._on_seek_finished)
 
         self._coremodel = app.props.coremodel
-        self._player_model = self._coremodel.props.queue
-        self._player_model_changed_id = None
+        self._queue_model = self._coremodel.props.queue
+        self._queue_model_changed_id = None
 
         self._coremodel.connect(
-            "queue-loaded", self._on_player_playlist_changed)
+            "queue-loaded", self._on_queue_changed)
 
         self._playlists_model = self._coremodel.props.playlists_sort
         n_items = self._playlists_model.get_n_items()
@@ -318,7 +319,7 @@ class MPRIS(DBusInterface):
         self._recent_queue.connect(
             "items-changed", self._on_recent_queue_changed)
 
-        self._player_playlist_type = None
+        self._queue_type = None
         self._path_list = []
         self._metadata_list = []
         self._previous_can_go_next = False
@@ -415,12 +416,12 @@ class MPRIS(DBusInterface):
 
         The hex encoding is used to remove any possible invalid
         character. Use player index to make the path truly unique in
-        case the same song is present multiple times in a playlist.
+        case the same song is present multiple times in a queue.
         If coresong is None, it means that the current song path is
         requested.
 
         :param CoreSong coresong: The CoreSong object
-        :param int index: The media position in the current playlist
+        :param int index: The media position in the current queue
         :return: a D-Bus id to uniquely identify the song
         :rtype: str
         """
@@ -508,13 +509,15 @@ class MPRIS(DBusInterface):
             if self._previous_can_play is True:
                 return
 
-        if self._player_model_changed_id is None:
-            self._player_model_changed_id = self._player_model.connect_after(
-                "items-changed", self._on_player_model_changed)
+        if self._queue_model_changed_id is None:
+            self._queue_model_changed_id = self._queue_model.connect_after(
+                "items-changed", self._on_queue_model_changed)
 
-        self._on_player_model_changed(self._player_model, 0, 0, 0)
+        self._on_queue_model_changed(self._queue_model, 0, 0, 0)
 
-    def _on_player_model_changed(self, model, pos, removed, added):
+    def _on_queue_model_changed(
+            self, model: Gio.ListModel, position: int, removed: int,
+            added: int) -> None:
         # Do no update the properties if the model has completely changed.
         # These changes will be applied once a new song starts playing.
         if added == model.get_n_items():
@@ -573,8 +576,9 @@ class MPRIS(DBusInterface):
         position_second = self._player.get_position()
         self._seeked(int(position_second * 1e6))
 
-    def _on_player_playlist_changed(self, coremodel, playlist_type):
-        self._player_playlist_type = playlist_type
+    def _on_queue_changed(
+            self, coremodel: CoreModel, queue_type: Queue.Type) -> None:
+        self._queue_type = queue_type
 
         mpris_playlist = self._get_active_playlist()
         if mpris_playlist == self._previous_mpris_playlist:
@@ -592,7 +596,7 @@ class MPRIS(DBusInterface):
                 playlist = model[position + i]
                 playlist.connect("notify::title", self._on_playlist_renamed)
                 playlist.connect(
-                    "notify::active", self._on_player_playlist_changed)
+                    "notify::active", self._on_queue_changed)
 
         playlist_count = model.get_n_items()
         properties = {"PlaylistCount": GLib.Variant("u", playlist_count)}
@@ -726,7 +730,7 @@ class MPRIS(DBusInterface):
 
         goto_index = self._path_list.index(path)
         new_position = self._player.props.position + goto_index - current_index
-        new_coresong = self._player_model[new_position]
+        new_coresong = self._queue_model[new_position]
 
         self._player.play(new_coresong)
         current_coresong.props.state = SongWidget.State.PLAYED
@@ -745,8 +749,9 @@ class MPRIS(DBusInterface):
             "CurrentTrack": current_song_path}
         self._dbus_emit_signal("TrackListReplaced", parameters)
 
-    def _load_player_playlist(self, playlist):
-        def _on_playlist_loaded(klass, playlist_type):
+    def _load_queue(self, playlist):
+        def _on_playlist_loaded(
+                coremodel: CoreModel, queue_type: Queue.Type) -> None:
             self._player.play()
             self._coremodel.disconnect(loaded_id)
 
@@ -770,10 +775,10 @@ class MPRIS(DBusInterface):
 
         def _on_playlist_model_loaded(playlist):
             playlist.disconnect(signal_id)
-            self._load_player_playlist(playlist)
+            self._load_queue(playlist)
 
         if selected_playlist.props.model.get_n_items() > 0:
-            self._load_player_playlist(selected_playlist)
+            self._load_queue(selected_playlist)
         else:
             signal_id = selected_playlist.connect(
                 "queue-loaded", _on_playlist_model_loaded)
