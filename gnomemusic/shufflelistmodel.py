@@ -2,6 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later WITH GStreamer-exception-2008
 
+from __future__ import annotations
 from random import sample
 import typing
 
