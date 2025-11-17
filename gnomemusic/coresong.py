@@ -3,7 +3,6 @@
 # SPDX-License-Identifier: GPL-2.0-or-later WITH GStreamer-exception-2008
 
 from __future__ import annotations
-from enum import IntEnum
 from typing import Any, Dict, Optional
 import typing
 
@@ -24,6 +23,13 @@ class CoreSong(GObject.GObject):
 
     __gtype_name__ = "CoreSong"
 
+    class Validation(GObject.GEnum):
+        """Song validation status"""
+        PENDING = 0
+        IN_PROGRESS = 1
+        FAILED = 2
+        SUCCEEDED = 3
+
     album = GObject.Property(type=str)
     album_urn = GObject.Property(type=str)
     album_disc_number = GObject.Property(type=int)
@@ -36,14 +42,7 @@ class CoreSong(GObject.GObject):
     title = GObject.Property(type=str)
     track_number = GObject.Property(type=int)
     url = GObject.Property(type=str)
-    validation = GObject.Property()  # FIXME: How to set an IntEnum type?
-
-    class Validation(IntEnum):
-        """Enum for song validation"""
-        PENDING = 0
-        IN_PROGRESS = 1
-        FAILED = 2
-        SUCCEEDED = 3
+    validation = GObject.Property(type=Validation, default=Validation.PENDING)
 
     def __init__(
             self, application: Application,
@@ -62,7 +61,6 @@ class CoreSong(GObject.GObject):
         self._thumbnail: Optional[str] = None
 
         self.props.id = cursor_dict.get("id")
-        self.props.validation = CoreSong.Validation.PENDING
         self.update(cursor_dict)
 
     def __eq__(self, other: object) -> bool:
