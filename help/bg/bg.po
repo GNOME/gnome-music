@@ -1,0 +1,444 @@
+# Bulgarian translation for gnome-music.
+# Copyright (C) 2024 gnome-music's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-music package.
+# twlvnn kraftwerk <kraft_werk@tutanota.com>, 2024.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-music master\n"
+"POT-Creation-Date: 2024-06-21 10:23+0000\n"
+"PO-Revision-Date: 2024-08-24 10:52+0200\n"
+"Last-Translator: twlvnn kraftwerk <kraft_werk@tutanota.com>\n"
+"Language-Team: Bulgarian <dict-notifications@fsa-bg.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: bg\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"X-Generator: Gtranslator 46.1\n"
+
+#. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
+msgctxt "_"
+msgid "translator-credits"
+msgstr "twlvnn kraftwerk <kraft_werk@tutanota.com>"
+
+#. (itstool) path: credit/name
+#: C/introduction.page:11 C/index.page:12 C/play-music.page:11
+#: C/playlist-create-albums.page:11 C/playlist-create-songs.page:11
+#: C/playlist-create-artists.page:11 C/playlist-delete.page:11
+#: C/playlist-remove-songs.page:11 C/playlist-repeat.page:11
+#: C/playlist-shuffle.page:11 C/search.page:11
+msgid "Shobha Tyagi"
+msgstr "Shobha Tyagi"
+
+#. (itstool) path: credit/years
+#: C/introduction.page:13 C/index.page:14 C/play-music.page:13
+#: C/playlist-create-albums.page:13 C/playlist-create-songs.page:13
+#: C/playlist-create-artists.page:13 C/playlist-delete.page:13
+#: C/playlist-remove-songs.page:13 C/playlist-repeat.page:13
+#: C/playlist-shuffle.page:13 C/search.page:13
+msgid "2014"
+msgstr "2014"
+
+#. (itstool) path: info/desc
+#. (itstool) path: page/p
+#: C/introduction.page:18 C/introduction.page:23
+msgid ""
+"A simple and elegant replacement for using <app>Files</app> to show the "
+"music directory."
+msgstr ""
+"Прост и елегантен заместител на <app>Файлове</app> за ползване на папката за "
+"музика."
+
+#. (itstool) path: page/title
+#: C/introduction.page:22
+msgid "Introduction to Music"
+msgstr "Въведение в „Музика“"
+
+#. (itstool) path: info/title
+#: C/index.page:6
+msgctxt "link:trail"
+msgid "Music"
+msgstr "Музика"
+
+#. (itstool) path: info/title
+#: C/index.page:7
+msgctxt "link"
+msgid "Music"
+msgstr "Музика"
+
+#. (itstool) path: info/title
+#: C/index.page:8
+msgctxt "text"
+msgid "Music"
+msgstr "Музика"
+
+#. (itstool) path: page/title
+#: C/index.page:19
+msgid "<_:media-1/> Music"
+msgstr "<_:media-1/> „Музика“"
+
+#. (itstool) path: section/title
+#: C/index.page:25
+msgid "Create playlist"
+msgstr "Създаване на списък"
+
+#. (itstool) path: section/title
+#: C/index.page:28
+msgid "Play a song"
+msgstr "Пускане на песен"
+
+#. (itstool) path: section/title
+#: C/index.page:31
+msgid "Remove songs and playlist"
+msgstr "Премахване на песни и списъци"
+
+#. (itstool) path: info/desc
+#: C/play-music.page:18
+msgid "Play your favorite songs."
+msgstr "Пускайте любимите си песни."
+
+#. (itstool) path: page/title
+#: C/play-music.page:22
+msgid "Play music"
+msgstr "Пускане на музика"
+
+#. (itstool) path: page/p
+#: C/play-music.page:24
+msgid ""
+"You can play your favorite music by creating a playlist or by simply "
+"clicking on the song of your choice from any view."
+msgstr ""
+"Може да пускате любимата си музика, като създадете списък или просто "
+"натиснете върху избраната песен от всеки изглед."
+
+#. (itstool) path: steps/title
+#: C/play-music.page:28 C/playlist-delete.page:27
+#: C/playlist-remove-songs.page:27
+msgid "While in <em>Playlists</em>:"
+msgstr "В <em>Списъци за изпълнение</em>:"
+
+#. (itstool) path: item/p
+#: C/play-music.page:30
+msgid "Select a playlist."
+msgstr "Изберете списък."
+
+#. (itstool) path: item/p
+#: C/play-music.page:33 C/playlist-delete.page:32
+msgid "Click on the gear button on the right hand side."
+msgstr "Натиснете върху бутона за колелото от дясната страна."
+
+#. (itstool) path: item/p
+#: C/play-music.page:36
+msgid "Click on <gui>Play</gui>."
+msgstr "Натиснете върху <gui>Изпълнение</gui>."
+
+#. (itstool) path: info/desc
+#: C/playlist-create-albums.page:18
+msgid "Add songs to playlists using albums."
+msgstr "Добавяне на песни в списъци от албуми."
+
+#. (itstool) path: page/title
+#: C/playlist-create-albums.page:21
+msgid "Create a playlist using albums"
+msgstr "Създаване на списък от албуми"
+
+#. (itstool) path: page/p
+#: C/playlist-create-albums.page:23
+msgid ""
+"You can view all your albums by clicking on the <gui "
+"style=\"button\">Albums</gui> button."
+msgstr ""
+"Можете да прегледате всичките си албуми, като щракнете върху бутона <gui "
+"style=\"button\">Албуми</gui>."
+
+#. (itstool) path: steps/title
+#: C/playlist-create-albums.page:27
+msgid "To add all the songs in an album:"
+msgstr "За добавяне на всички песни в даден албум:"
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:29 C/playlist-create-songs.page:29
+#: C/playlist-create-artists.page:30
+msgid "Click on the check button in the top-right of the window."
+msgstr "Натиснете върху бутона за маркиране в горния десен ъгъл на прозореца."
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:32
+msgid "Select albums."
+msgstr "Изберете албуми."
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:35 C/playlist-create-albums.page:60
+#: C/playlist-create-songs.page:35 C/playlist-create-artists.page:37
+msgid "Click on the <gui style=\"button\">Add to Playlist</gui> button."
+msgstr "Натиснете върху бутона <gui style=\"button\">Добавяне в списък</gui>."
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:38 C/playlist-create-albums.page:63
+#: C/playlist-create-artists.page:40
+msgid "Click on <gui>New Playlist</gui> and type a name for your playlist."
+msgstr "Натиснете върху <gui>Нов списък…</gui> и въведете името на списъка."
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:42 C/playlist-create-albums.page:67
+#: C/playlist-create-songs.page:42
+msgid "Click on <gui style=\"button\">Select</gui>."
+msgstr "Натиснете <gui style=\"button\">Избор</gui>."
+
+#. (itstool) path: page/p
+#: C/playlist-create-albums.page:46
+msgid "You can also create a playlist from specific songs."
+msgstr "Може също така да създадете списък от определени песни."
+
+#. (itstool) path: steps/title
+#: C/playlist-create-albums.page:49
+msgid "To add selected songs from an album:"
+msgstr "За добавяне на избрани песни от албум:"
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:51
+msgid "Click on an album."
+msgstr "Натиснете върху албум."
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:54
+msgid "Click on the check button."
+msgstr "Натиснете върху бутона за маркиране."
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:57
+msgid "Select songs."
+msgstr "Изберете песни."
+
+#. (itstool) path: note/p
+#: C/playlist-create-albums.page:72 C/playlist-create-songs.page:47
+#: C/playlist-create-artists.page:49
+msgid ""
+"To select all the songs click <guiseq><gui>Click on items to select them</"
+"gui><gui>Select All</gui></guiseq> in the toolbar or press "
+"<keyseq><key>Ctrl</key><key>A</key></keyseq>."
+msgstr ""
+"За да изберете всички песни, натиснете върху <guiseq><gui>Изберете елементи "
+"чрез натискане</gui><gui>Избор на всички</gui></guiseq> в лентата с "
+"инструменти или натиснете <keyseq><key>Ctrl</key><key>A</key></keyseq>."
+
+#. (itstool) path: note/p
+#: C/playlist-create-albums.page:76 C/playlist-create-songs.page:51
+#: C/playlist-create-artists.page:53
+msgid ""
+"To clear the selection click <guiseq><gui>Click on items to select them</"
+"gui><gui>Select None</gui></guiseq> in the toolbar."
+msgstr ""
+"За да изчистите избора, натиснете върху <guiseq><gui>Изберете елементи чрез "
+"натискане</gui><gui>Избор на някои</gui></guiseq> в лентата с инструменти."
+
+#. (itstool) path: info/desc
+#: C/playlist-create-songs.page:18
+msgid "Create playlist by selecting your favorite songs."
+msgstr "Създаване на списък чрез избиране на вашите любими песни."
+
+#. (itstool) path: page/title
+#: C/playlist-create-songs.page:21
+msgid "Create playlists using songs"
+msgstr "Създаване на списъци с песни"
+
+#. (itstool) path: page/p
+#: C/playlist-create-songs.page:23
+msgid ""
+"You can view all the songs by clicking on the <gui style=\"button\">Songs</"
+"gui> button."
+msgstr ""
+"Може да видите всички песни, като натиснете върху бутона <gui "
+"style=\"button\">Песни</gui>."
+
+#. (itstool) path: steps/title
+#: C/playlist-create-songs.page:27
+msgid "To create a new playlist while in <em>Songs</em> view:"
+msgstr "За създаване на нов списък в изгледа <em>Песни</em>:"
+
+#. (itstool) path: item/p
+#: C/playlist-create-songs.page:32
+msgid "Select all the songs you want to add to the playlist."
+msgstr "Изберете всички песни, които искате да добавите в списъка."
+
+#. (itstool) path: item/p
+#: C/playlist-create-songs.page:38
+msgid ""
+"Click on <gui style=\"button\">New Playlist</gui> and type a name for your "
+"playlist."
+msgstr ""
+"Натиснете върху <gui style=\"button\">Нов списък…</gui> и въведете името на "
+"списъка."
+
+#. (itstool) path: info/desc
+#: C/playlist-create-artists.page:18
+msgid "Create playlist by selecting your favorite artists."
+msgstr "Създаване на списък чрез избиране на вашите любими изпълнители."
+
+#. (itstool) path: page/title
+#: C/playlist-create-artists.page:22
+msgid "Create playlists using artists"
+msgstr "Създаване на списъци с автори"
+
+#. (itstool) path: page/p
+#: C/playlist-create-artists.page:24
+msgid ""
+"You can view all the artists and their songs by clicking on the <gui "
+"style=\"button\">Artists</gui> button."
+msgstr ""
+"Може да видите всички изпълнители и техните песни, като натиснете върху "
+"бутона <gui style=\"button\">Автори</gui>."
+
+#. (itstool) path: steps/title
+#: C/playlist-create-artists.page:28
+msgid "To create a new playlist while in <em>Artists</em> view:"
+msgstr "За създаване на нов списък в изгледа <em>Автори</em>:"
+
+#. (itstool) path: item/p
+#: C/playlist-create-artists.page:33
+msgid "Select all the artists whose songs you want to add to the playlist."
+msgstr "Изберете всички изпълнители, чиито песни искате да добавите в списъка."
+
+#. (itstool) path: item/p
+#: C/playlist-create-artists.page:44
+msgid "Click on <gui>Select</gui>."
+msgstr "Натиснете върху <gui>Избор</gui>."
+
+#. (itstool) path: info/desc
+#: C/playlist-delete.page:18
+msgid "Remove an unwanted playlist."
+msgstr "Премахване на ненужен списък за изпълнение."
+
+#. (itstool) path: page/title
+#: C/playlist-delete.page:22
+msgid "Delete a playlist"
+msgstr "Изтриване на списък"
+
+#. (itstool) path: page/p
+#: C/playlist-delete.page:24
+msgid "You can remove an old and unwanted playlist."
+msgstr "Може да премахнете стар и ненужен списък."
+
+#. (itstool) path: item/p
+#: C/playlist-delete.page:29
+msgid "Select the playlist which you want to delete."
+msgstr "Изберете списъка, който искате да изтриете."
+
+#. (itstool) path: item/p
+#: C/playlist-delete.page:35
+msgid "Click on <gui>Delete</gui>."
+msgstr "Натиснете върху <gui>Изтриване</gui>."
+
+#. (itstool) path: info/desc
+#: C/playlist-remove-songs.page:18
+msgid "Delete songs from the playlist."
+msgstr "Изтриване на песни от списък."
+
+#. (itstool) path: page/title
+#: C/playlist-remove-songs.page:22
+msgid "Remove songs"
+msgstr "Премахване на песни"
+
+#. (itstool) path: page/p
+#: C/playlist-remove-songs.page:24
+msgid "You can remove any unwanted songs from a playlist."
+msgstr "Може да премахнете всички ненужни песни от даден списък."
+
+#. (itstool) path: item/p
+#: C/playlist-remove-songs.page:29
+msgid "Select the playlist from which you want to remove songs."
+msgstr "Изберете списъка, от който искате да премахнете песните."
+
+#. (itstool) path: item/p
+#: C/playlist-remove-songs.page:32
+msgid "Click on the check button on the toolbar."
+msgstr "Натиснете върху бутона за маркиране в лентата с инструменти."
+
+#. (itstool) path: item/p
+#: C/playlist-remove-songs.page:35
+msgid "Select all the songs which you want to remove."
+msgstr "Изберете всички песни, които искате да премахнете."
+
+#. (itstool) path: item/p
+#: C/playlist-remove-songs.page:38
+msgid "Click on <gui style=\"button\">Remove from Playlist</gui>."
+msgstr "Натиснете върху <gui style=\"button\">Изваждане от списък</gui>."
+
+#. (itstool) path: info/desc
+#: C/playlist-repeat.page:18
+msgid "Repeat all songs in the playlist or only the current song."
+msgstr ""
+"Повтаряне на всички песни в списъка за изпълнение или само текущата песен."
+
+#. (itstool) path: page/title
+#: C/playlist-repeat.page:22
+msgid "How do I play songs on repeat?"
+msgstr "Как да направя песните ми да се повтарят?"
+
+#. (itstool) path: list/title
+#: C/playlist-repeat.page:25
+msgid "In the taskbar, click on the button on the right side:"
+msgstr "В лентата на задачите натиснете върху бутона от дясната страна:"
+
+#. (itstool) path: item/p
+#: C/playlist-repeat.page:27
+msgid "Select <gui>Repeat Song</gui> to repeat a single song."
+msgstr ""
+"Изберете <gui>Повтаряне на песента</gui>, за да се повтаря само една песен."
+
+#. (itstool) path: item/p
+#: C/playlist-repeat.page:30
+msgid "Select <gui>Repeat All</gui> to repeat all the song in the playlist."
+msgstr ""
+"Изберете <gui>Повтаряне на всички</gui>, за да се повтарят песните в списъка."
+
+#. (itstool) path: info/desc
+#: C/playlist-shuffle.page:18
+msgid "Shuffle songs in the playlist."
+msgstr "Разбъркване на песните в списъка за изпълнение."
+
+#. (itstool) path: page/title
+#: C/playlist-shuffle.page:22
+msgid "How do I shuffle my songs?"
+msgstr "Как да разбъркам песните си?"
+
+#. (itstool) path: page/p
+#: C/playlist-shuffle.page:24
+msgid ""
+"In the taskbar, click on the button on right hand side and select "
+"<gui>Shuffle</gui>."
+msgstr ""
+"В лентата на задачите натиснете върху бутона от дясната страна и изберете "
+"<gui>Разбъркване</gui>."
+
+#. (itstool) path: info/desc
+#: C/search.page:18
+msgid "Search through your music collection."
+msgstr "Търсене в музикалната ви колекция."
+
+#. (itstool) path: page/title
+#: C/search.page:22
+msgid "Find music"
+msgstr "Търсене на музика"
+
+#. (itstool) path: page/p
+#: C/search.page:24
+msgid ""
+"You can search your albums, artists, songs and playlists. Select what you "
+"want to search through then click the <gui>Search</gui> button and start "
+"searching."
+msgstr ""
+"Може да търсите в албуми, изпълнители, песни и списъци. Изберете това, което "
+"искате да търсите, след което натиснете върху бутона <gui>Търсене</gui> и "
+"започнете търсенето."
+
+#. (itstool) path: p/link
+#: C/legal.xml:5
+msgid "Creative Commons Attribution-ShareAlike 3.0 Unported License"
+msgstr "Creative Commons Attribution-ShareAlike 3.0 Unported License"
+
+#. (itstool) path: license/p
+#: C/legal.xml:4
+msgid "This work is licensed under a <_:link-1/>."
+msgstr "Тази работа е лицензирана под <_:link-1/>."
