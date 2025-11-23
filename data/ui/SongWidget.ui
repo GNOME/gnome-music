@@ -99,9 +99,9 @@
                 <property name="halign">end</property>
                 <property name="hexpand">True</property>
                 <property name="single_line_mode">True</property>
-                <attributes>
-                  <attribute name="font-features" value="tnum=1"/>
-                </attributes>
+                <style>
+                  <class name="bold-label"/>
+                </style>
               </object>
             </child>
           </object>
@@ -129,8 +129,8 @@
       <object class="GtkDragSource" id="_drag_source">
         <property name="actions">move</property>
         <property name="propagation-phase">none</property>
-        <signal name="prepare" handler="_on_drag_prepare" swapped="no"/>
-        <signal name="drag-begin" handler="_on_drag_begin" swapped="no"/>
+        <signal name="prepare" handler="_on_drag_prepare"/>
+        <signal name="drag-begin" handler="_on_drag_begin"/>
       </object>
     </child>
     <child>
@@ -138,7 +138,7 @@
         <property name="actions">move</property>
         <property name="formats">SongWidget</property>
         <property name="preload">True</property>
-        <signal name="drop" handler="_on_drop" swapped="no"/>
+        <signal name="drop" handler="_on_drop"/>
       </object>
     </child>
     <style>

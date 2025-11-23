@@ -22,7 +22,7 @@
               <object class="GtkListBox" id="_songs_list">
                 <property name="margin-bottom">20</property>
                 <property name="margin-top">20</property>
-                <signal name="row-activated" handler="_on_song_activated" swapped="no"/>
+                <signal name="row-activated" handler="_on_song_activated"/>
                 <style>
                   <class name="boxed-list"/>
                 </style>

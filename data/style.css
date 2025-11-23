@@ -49,13 +49,8 @@
     color: color-mix(in srgb, currentColor 30%, transparent);
 }
 
-/* Used in AlbumWidget and ArtistAlbumsWidget */
-.playing-song-label {
-    font-weight: bold;
-}
-
-/* TwoLineTip */
-.tooltip-title {
+/* Used in TwoLineTip, AlbumWidget and ArtistAlbumsWidget */
+.bold-label {
   font-weight: bold;
 }
 

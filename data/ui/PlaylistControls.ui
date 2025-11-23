@@ -46,13 +46,13 @@
                   <object class="GtkEntry" id="_rename_entry">
                     <child>
                       <object class="GtkEventControllerKey" id="_rename_controller">
-                        <signal name="key-pressed" handler="_on_rename_entry_key_pressed" swapped="no"/>
+                        <signal name="key-pressed" handler="_on_rename_entry_key_pressed"/>
                       </object>
                     </child>
                     <property name="focusable">True</property>
                     <property name="receives_default">True</property>
-                    <signal name="activate" handler="_on_playlist_renamed" swapped="no"/>
-                    <signal name="changed" handler="_on_rename_entry_changed" swapped="no"/>
+                    <signal name="activate" handler="_on_playlist_renamed"/>
+                    <signal name="changed" handler="_on_rename_entry_changed"/>
                   </object>
                 </child>
                 <child>
@@ -62,7 +62,7 @@
                     <property name="label" translatable="yes">_Done</property>
                     <property name="use_underline">True</property>
                     <property name="sensitive">True</property>
-                    <signal name="clicked" handler="_on_playlist_renamed" swapped="no" />
+                    <signal name="clicked" handler="_on_playlist_renamed"/>
                     <style>
                       <class name="suggested-action"/>
                     </style>
@@ -78,7 +78,7 @@
       <object class="GtkLabel" id="_songs_count_label">
         <property name="focusable">False</property>
         <property name="halign">start</property>
-        <property name="label"></property>
+	<property name="label"></property>
         <property name="margin-bottom">4</property>
         <style>
           <class name="body"/>
@@ -100,7 +100,7 @@
             <property name="icon_name">media-playback-start-symbolic</property>
             <property name="tooltip-text" translatable="yes">Play</property>
             <property name="valign">center</property>
-            <signal name="clicked" handler="_on_play_button_clicked" swapped="no"/>
+            <signal name="clicked" handler="_on_play_button_clicked"/>
             <style>
               <class name="circular"/>
             </style>

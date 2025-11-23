@@ -10,7 +10,7 @@
         <property name="focusable">False</property>
         <property name="valign">start</property>
         <property name="selection_mode">none</property>
-        <signal name="row-activated" handler="_song_activated" swapped="no"/>
+        <signal name="row-activated" handler="_song_activated"/>
         <style>
           <class name="boxed-list"/>
         </style>

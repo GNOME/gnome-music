@@ -34,9 +34,9 @@
                 <property name="halign">start</property>
                 <property name="ellipsize">middle</property>
                 <property name="max_width_chars">28</property>
-                <attributes>
-                  <attribute name="weight" value="bold" />
-                </attributes>
+                <style>
+                  <class name="bold-label"/>
+                </style>
               </object>
             </child>
             <child>
@@ -73,7 +73,7 @@
                 <property name="icon_name">media-skip-backward-symbolic</property>
                 <property name="tooltip_text" translatable="yes">Previous</property>
                 <property name="valign">center</property>
-                <signal name="clicked" handler="_on_prev_button_clicked" swapped="no"/>
+                <signal name="clicked" handler="_on_prev_button_clicked"/>
                 <style>
                   <class name="circular"/>
                 </style>
@@ -85,7 +85,7 @@
                 <property name="focusable">True</property>
                 <property name="receives_default">True</property>
                 <property name="tooltip_text" translatable="yes">Play</property>
-                <signal name="clicked" handler="_on_play_button_clicked" swapped="no"/>
+                <signal name="clicked" handler="_on_play_button_clicked"/>
                 <style>
                   <class name="pill"/>
                 </style>
@@ -105,7 +105,7 @@
                 <property name="icon_name">media-skip-forward-symbolic</property>
                 <property name="tooltip_text" translatable="yes">Next</property>
                 <property name="valign">center</property>
-                <signal name="clicked" handler="_on_next_button_clicked" swapped="no"/>
+                <signal name="clicked" handler="_on_next_button_clicked"/>
                 <style>
                   <class name="circular"/>
                 </style>
@@ -127,9 +127,9 @@
                     <property name="halign">start</property>
                     <property name="valign">center</property>
                     <property name="label">0∶00</property>
-                    <attributes>
-                      <attribute name="font-features" value="tnum=1"/>
-                    </attributes>
+                    <style>
+                      <class name="numeric"/>
+                    </style>
                   </object>
                 </child>
                 <child>
@@ -138,7 +138,7 @@
                     <property name="valign">center</property>
                     <property name="hexpand">True</property>
                     <property name="draw_value">False</property>
-                    <signal name = "value-changed" handler="_on_progress_value_changed" swapped="no"/>
+                    <signal name="value-changed" handler="_on_progress_value_changed"/>
                     <style>
                       <class name="smooth-scale"/>
                     </style>
@@ -150,9 +150,9 @@
                     <property name="halign">start</property>
                     <property name="valign">center</property>
                     <property name="label">0∶00</property>
-                    <attributes>
-                      <attribute name="font-features" value="tnum=1"/>
-                    </attributes>
+                    <style>
+                      <class name="numeric"/>
+                    </style>
                   </object>
                 </child>
               </object>
@@ -172,10 +172,10 @@
         <property name="margin-start">6</property>
         <property name="margin-top">6</property>
         <child>
-          <object class="RepeatModeButton" id="_repeat_mode_button"></object>
+          <object class="RepeatModeButton" id="_repeat_mode_button"/>
         </child>
         <child>
-          <object class="VolumeButton" id="_volume_button"></object>
+          <object class="VolumeButton" id="_volume_button"/>
         </child>
       </object>
     </child>

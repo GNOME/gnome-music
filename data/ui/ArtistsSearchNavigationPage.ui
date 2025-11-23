@@ -39,7 +39,7 @@
                         <property name="row_spacing">12</property>
                         <property name="selection-mode">none</property>
                         <property name="valign">start</property>
-                        <signal name="child-activated" handler="_on_artist_activated" swapped="no"/>
+                        <signal name="child-activated" handler="_on_artist_activated"/>
                       </object>
                     </child>
                   </object>

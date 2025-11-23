@@ -202,7 +202,7 @@ class SongWidget(Gtk.ListBoxRow):
         style_ctx = self._title_label.get_style_context()
 
         style_ctx.remove_class('dim-label')
-        style_ctx.remove_class('playing-song-label')
+        style_ctx.remove_class('bold-label')
         self._play_icon.set_visible(False)
 
         coresong = self.props.coresong
@@ -215,7 +215,7 @@ class SongWidget(Gtk.ListBoxRow):
             style_ctx.add_class('dim-label')
         elif value == SongWidget.State.PLAYING:
             self._play_icon.set_visible(True)
-            style_ctx.add_class('playing-song-label')
+            style_ctx.add_class('bold-label')
 
     def _on_validation_changed(self, coresong, sate):
         validation_status = coresong.props.validation

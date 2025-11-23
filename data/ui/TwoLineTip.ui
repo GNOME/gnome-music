@@ -9,7 +9,7 @@
         <property name="focusable">False</property>
         <property name="halign">start</property>
         <style>
-          <class name="tooltip-title"/>
+          <class name="bold-label"/>
         </style>
       </object>
     </child>

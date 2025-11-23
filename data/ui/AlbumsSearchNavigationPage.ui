@@ -39,7 +39,7 @@
                         <property name="row_spacing">12</property>
                         <property name="column_spacing">6</property>
                         <property name="selection_mode">none</property>
-                        <signal name="child-activated" handler="_on_album_activated" swapped="no"/>
+                        <signal name="child-activated" handler="_on_album_activated"/>
                       </object>
                     </child>
                   </object>

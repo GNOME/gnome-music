@@ -28,7 +28,7 @@
                 <property name="use_underline">True</property>
                 <property name="focusable">False</property>
                 <property name="receives_default">False</property>
-                <signal name="clicked" handler="_on_cancel_button_clicked" swapped="no"/>
+                <signal name="clicked" handler="_on_cancel_button_clicked"/>
               </object>
             </child>
             <child type="end">
@@ -38,7 +38,7 @@
                 <property name="use_underline">True</property>
                 <property name="focusable">False</property>
                 <property name="receives_default">False</property>
-                <signal name="clicked" handler="_on_selection" swapped="no"/>
+                <signal name="clicked" handler="_on_selection"/>
                 <style>
                   <class name="suggested-action"/>
                 </style>
@@ -102,11 +102,11 @@
                             <property name="margin-end">18</property>
                             <property name="margin-start">18</property>
                             <property name="margin-top">18</property>
-                            <signal name="activate" handler="_on_editing_done" swapped="no"/>
-                            <signal name="changed" handler="_on_add_playlist_entry_changed" swapped="no"/>
+                            <signal name="activate" handler="_on_editing_done"/>
+                            <signal name="changed" handler="_on_add_playlist_entry_changed"/>
                             <child>
                               <object class="GtkEventControllerFocus">
-                                <signal name="enter" handler="_on_add_playlist_entry_focused" swapped="no"/>
+                                <signal name="enter" handler="_on_add_playlist_entry_focused"/>
                               </object>
                             </child>
                           </object>
@@ -126,7 +126,7 @@
                             <property name="margin-end">18</property>
                             <property name="margin-start">18</property>
                             <property name="margin-top">10</property>
-                            <signal name="clicked" handler="_on_editing_done" swapped="no"/>
+                            <signal name="clicked" handler="_on_editing_done"/>
                           </object>
                         </child>
                       </object>
@@ -152,7 +152,7 @@
                             <property name="focusable">True</property>
                             <property name="selection_mode">single</property>
                             <property name="valign">start</property>
-                            <signal name="selected-rows-changed" handler="_on_selected_rows_changed" swapped="no"/>
+                            <signal name="selected-rows-changed" handler="_on_selected_rows_changed"/>
                           </object>
                         </child>
                       </object>
@@ -175,11 +175,11 @@
                 <property name="focusable">True</property>
                 <property name="hexpand">True</property>
                 <property name="placeholder_text" translatable="yes">New Playlist…</property>
-                <signal name="activate" handler="_on_editing_done" swapped="no"/>
-                <signal name="changed" handler="_on_add_playlist_entry_changed" swapped="no"/>
+                <signal name="activate" handler="_on_editing_done"/>
+                <signal name="changed" handler="_on_add_playlist_entry_changed"/>
                 <child>
                   <object class="GtkEventControllerFocus">
-                    <signal name="enter" handler="_on_add_playlist_entry_focused" swapped="no"/>
+                    <signal name="enter" handler="_on_add_playlist_entry_focused"/>
                   </object>
                 </child>
               </object>
@@ -190,7 +190,7 @@
                 <property name="sensitive">False</property>
                 <property name="focusable">True</property>
                 <property name="receives_default">False</property>
-                <signal name="clicked" handler="_on_editing_done" swapped="no"/>
+                <signal name="clicked" handler="_on_editing_done"/>
                 <style>
                   <class name="suggested-action"/>
                 </style>
