@@ -1,0 +1,18 @@
+using Gtk 4.0;
+
+template $DiscBox: ListBoxRow {
+  focusable: false;
+  activatable: false;
+  selectable: false;
+
+  ListBox _list_box {
+    focusable: false;
+    valign: start;
+    selection-mode: none;
+    row-activated => $_song_activated();
+
+    styles [
+      "boxed-list",
+    ]
+  }
+}

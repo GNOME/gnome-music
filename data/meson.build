@@ -1,12 +1,53 @@
 # Compiling the resources
 # about_dialog is defined in data/ui/meson.build to generate the output file in that directory
+
+blueprints = custom_target('blueprints',
+  input: files(
+    'ui/AlbumCover.blp',
+    'ui/AlbumNavigationPage.blp',
+    'ui/AlbumTile.blp',
+    'ui/AlbumsView.blp',
+    'ui/ArtistAlbumsWidget.blp',
+    'ui/ArtistNavigationPage.blp',
+    'ui/ArtistTile.blp',
+    'ui/ArtistsView.blp',
+    'ui/HeaderBar.blp',
+    'ui/PlaylistDialogRow.blp',
+    'ui/PlaylistTile.blp',
+    'ui/PlaylistsView.blp',
+    'ui/PreferencesDialog.blp',
+    'ui/RepeatModeButton.blp',
+    'ui/SearchHeaderBar.blp',
+    'ui/SongWidgetMenu.blp',
+    'ui/TwoLineTip.blp',
+    'ui/VolumeButton.blp',
+    'ui/Window.blp',
+    'ui/shortcuts-dialog.blp',
+    'ui/StatusNavigationPage.blp',
+    'ui/AlbumWidget.blp',
+    'ui/AlbumsSearchNavigationPage.blp',
+    'ui/ArtistSearchTile.blp',
+    'ui/ArtistsSearchNavigationPage.blp',
+    'ui/DiscBox.blp',
+    'ui/PlayerToolbar.blp',
+    'ui/PlaylistControls.blp',
+    'ui/PlaylistDialog.blp',
+    'ui/PlaylistsWidget.blp',
+    'ui/SearchView.blp',
+    'ui/SongWidget.blp',
+  ),
+  output: '.',
+  command: [find_program('blueprint-compiler'), 'batch-compile', '@OUTPUT@', '@CURRENT_SOURCE_DIR@', '@INPUT@'],
+)
+
 gnome.compile_resources(
   PROJECT_RDNN_NAME,
   PROJECT_RDNN_NAME + '.gresource.xml',
   gresource_bundle: true,
   source_dir: meson.current_build_dir(),
   install_dir: PKGDATA_DIR,
-  install: true
+  install: true,
+  dependencies: blueprints
 )
 
 schema_src = PROJECT_RDNN_NAME + '.gschema.xml'

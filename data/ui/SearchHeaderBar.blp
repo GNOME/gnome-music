@@ -1,0 +1,16 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $SearchHeaderBar: Adw.Bin {
+  Adw.HeaderBar _search_header_bar {
+    vexpand: false;
+
+    [start]
+    ToggleButton _search_button {
+      valign: center;
+      sensitive: true;
+      icon-name: "edit-find-symbolic";
+      tooltip-text: _("Search");
+    }
+  }
+}

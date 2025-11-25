@@ -1,0 +1,101 @@
+using Gtk 4.0;
+using Adw 1;
+
+Adw.ShortcutsDialog shortcuts_dialog {
+  Adw.ShortcutsSection {
+    title: C_("shortcut window", "General");
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Preferences");
+      action-name: "app.preferences";
+    }
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Search");
+      accelerator: "<Primary>F";
+    }
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Help");
+      action-name: "app.help";
+    }
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Keyboard shortcuts");
+      action-name: "app.shortcuts";
+    }
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Quit");
+      action-name: "app.quit";
+    }
+  }
+
+  Adw.ShortcutsSection {
+    title: C_("shortcut window", "Playback");
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Play/Pause");
+      accelerator: "<Ctrl>space";
+    }
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Next song");
+      accelerator: "<Ctrl>N";
+    }
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Previous song");
+      accelerator: "<Ctrl>B";
+    }
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Toggle repeat");
+      accelerator: "<Ctrl>R";
+    }
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Toggle shuffle");
+      accelerator: "<Ctrl>S";
+    }
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Increase volume");
+      accelerator: "<Ctrl>plus <Ctrl>equal";
+    }
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Decrease volume");
+      accelerator: "<Ctrl>minus";
+    }
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Toggle mute");
+      accelerator: "<Ctrl>M";
+    }
+  }
+
+  Adw.ShortcutsSection {
+    title: C_("shortcut window", "Navigation");
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Go to Albums");
+      accelerator: "<Alt>1";
+    }
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Go to Artists");
+      accelerator: "<Alt>2";
+    }
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Go to Playlists");
+      accelerator: "<Alt>3";
+    }
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Go back");
+      accelerator: "<Alt>Left";
+    }
+  }
+}

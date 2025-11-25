@@ -1,0 +1,51 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $StatusNavigationPage: Adw.NavigationPage {
+  title: _("Music");
+  tag: "status";
+
+  child: Adw.ToolbarView _toolbar {
+    top-bar-style: raised;
+
+    content: Adw.StatusPage _status_page {
+      hexpand: true;
+      vexpand: true;
+      icon-name: "music-note-outline-symbolic";
+    };
+  };
+}
+
+Adw.Clamp _initial_state {
+  maximum-size: 620;
+  tightening-threshold: 500;
+
+  Box {
+    valign: start;
+    orientation: vertical;
+
+    Picture {
+      can-shrink: true;
+      keep-aspect-ratio: true;
+      file: "resource:///org/gnome/Music/icons/welcome-music.svg";
+    }
+
+    Label _title_label {
+      justify: center;
+      label: _("Welcome to Music");
+
+      styles [
+        "title-1",
+      ]
+    }
+
+    Label _description_label {
+      justify: center;
+      use-markup: true;
+
+      styles [
+        "body",
+      ]
+    }
+  }
+}

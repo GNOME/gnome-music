@@ -1,0 +1,31 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $PlaylistsWidget: Box {
+  orientation: vertical;
+
+  Adw.Clamp {
+    maximum-size: 1000;
+
+    $PlaylistControls _pl_ctrls {}
+  }
+
+  ScrolledWindow playlist-container {
+    vexpand: true;
+
+    Adw.Clamp {
+      maximum-size: 1000;
+      valign: start;
+
+      ListBox _songs_list {
+        margin-bottom: 20;
+        margin-top: 20;
+        row-activated => $_on_song_activated();
+
+        styles [
+          "boxed-list",
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,47 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $PreferencesDialog: Adw.PreferencesDialog {
+  title: _("Preferences");
+
+  Adw.PreferencesPage {
+    Adw.PreferencesGroup {
+      title: _("Player Settings");
+
+      Adw.ComboRow _repeatmode_row {
+        title: _("Repeat Mode");
+
+        model: StringList {
+          strings [
+            _("None"),
+            _("Song"),
+            _("All"),
+            _("Shuffle"),
+          ]
+        };
+      }
+
+      Adw.ComboRow _replay_gain_row {
+        title: _("ReplayGain");
+        subtitle: _("Balance loudness between songs if ReplayGain metadata is found");
+
+        model: StringList {
+          strings [
+            _("Disabled"),
+            _("Album"),
+            _("Track"),
+          ]
+        };
+      }
+    }
+
+    Adw.PreferencesGroup {
+      title: _("Power Settings");
+
+      Adw.SwitchRow _inhibit_suspend_row {
+        title: _("Inhibit Suspend");
+        subtitle: _("Only while playing");
+      }
+    }
+  }
+}

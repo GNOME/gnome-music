@@ -1,0 +1,146 @@
+using Gtk 4.0;
+
+template $SongWidget: ListBoxRow {
+  selectable: false;
+
+  Box box1 {
+    focusable: false;
+    spacing: 6;
+
+    Image _dnd_icon {
+      visible: false;
+      icon-name: "list-drag-handle-symbolic";
+
+      styles [
+        "drag-handle",
+      ]
+    }
+
+    Box box3 {
+      width-request: 48;
+      focusable: false;
+      homogeneous: true;
+
+      Image _play_icon {
+        focusable: false;
+        icon-size: normal;
+      }
+
+      Label _number_label {
+        focusable: false;
+        halign: end;
+        justify: right;
+
+        styles [
+          "dim-label",
+        ]
+      }
+    }
+
+    Box title_box {
+      focusable: false;
+      hexpand: true;
+
+      Label _title_label {
+        focusable: false;
+        xalign: 0;
+        halign: start;
+        hexpand: true;
+        ellipsize: end;
+        max-width-chars: 90;
+        justify: fill;
+        margin-start: 9;
+      }
+    }
+
+    Box _artist_box {
+      visible: false;
+      focusable: false;
+      hexpand: true;
+
+      Label _artist_label {
+        focusable: false;
+        xalign: 0;
+        halign: start;
+        hexpand: true;
+        ellipsize: end;
+        max-width-chars: 90;
+        justify: fill;
+        margin-start: 9;
+      }
+    }
+
+    Box _album_duration_box {
+      focusable: false;
+      hexpand: true;
+      spacing: 6;
+
+      Label _album_label {
+        visible: false;
+        focusable: false;
+        xalign: 0;
+        halign: start;
+        hexpand: true;
+        ellipsize: end;
+        max-width-chars: 90;
+        justify: fill;
+      }
+
+      Label _duration_label {
+        focusable: false;
+        halign: end;
+        hexpand: true;
+        single-line-mode: true;
+
+        styles [
+          "numeric",
+          "bold-label",
+        ]
+      }
+    }
+
+    $StarToggle _star_toggle {
+      valign: center;
+      margin-end: 12;
+      margin-start: 12;
+    }
+
+    MenuButton _menu_button {
+      visible: false;
+      focusable: true;
+      icon-name: "view-more-symbolic";
+
+      styles [
+        "flat",
+      ]
+    }
+  }
+
+  DragSource _drag_source {
+    actions: move;
+    propagation-phase: none;
+    prepare => $_on_drag_prepare();
+    drag-begin => $_on_drag_begin();
+  }
+
+  DropTarget {
+    actions: move;
+    formats: "SongWidget";
+    preload: true;
+    drop => $_on_drop();
+  }
+
+  styles [
+    "songwidget",
+  ]
+}
+
+SizeGroup _size_group {
+  mode: horizontal;
+
+  widgets [
+    title_box,
+    _artist_box,
+    _album_duration_box,
+  ]
+}

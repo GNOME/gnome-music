@@ -1,0 +1,53 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $Window: Adw.ApplicationWindow {
+  default-height: 500;
+  default-width: 300;
+
+  EventControllerKey {
+    propagation-phase: capture;
+    key-pressed => $_on_key_press();
+  }
+
+  Adw.ToolbarView {
+    top-bar-style: raised;
+    bottom-bar-style: raised;
+
+    Adw.ToastOverlay _toast_overlay {
+      Adw.NavigationView _navigation_view {
+        Adw.NavigationPage _main_navigation_page {
+          tag: "mainview";
+          title: "Main View";
+
+          child: Adw.ToolbarView _main_toolbar_view {
+            top-bar-style: raised;
+
+            content: Overlay _overlay {
+              vexpand: true;
+
+              Adw.ViewStack _stack {
+                focusable: false;
+                hhomogeneous: false;
+                vhomogeneous: false;
+              }
+
+              [overlay]
+              ProgressBar _loading_progress {
+                valign: start;
+                visible: false;
+
+                styles [
+                  "osd",
+                ]
+              }
+            };
+          };
+        }
+      }
+    }
+
+    [bottom]
+    $PlayerToolbar _player_toolbar {}
+  }
+}

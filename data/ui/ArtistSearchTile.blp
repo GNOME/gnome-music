@@ -1,0 +1,30 @@
+using Gtk 4.0;
+
+template $ArtistSearchTile: FlowBoxChild {
+  Box {
+    has-tooltip: true;
+    valign: start;
+    orientation: vertical;
+    query-tooltip => $_on_tooltip_query();
+
+    Image _cover_image {
+      hexpand: true;
+
+      styles [
+        "tile-image",
+      ]
+    }
+
+    Label _artist_label {
+      justify: center;
+      wrap: true;
+      ellipsize: middle;
+      max-width-chars: 20;
+      lines: 1;
+    }
+  }
+
+  styles [
+    "tile",
+  ]
+}

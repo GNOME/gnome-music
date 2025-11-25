@@ -1,0 +1,125 @@
+using Gtk 4.0;
+
+menu playlistMenu {
+  item {
+    label: _("_Play");
+    action: "win.playlist_play";
+  }
+
+  item {
+    label: _("_Delete");
+    action: "win.playlist_delete";
+  }
+
+  item {
+    label: _("_Rename…");
+    action: "win.playlist_rename";
+  }
+}
+
+template $PlaylistControls: Box {
+  orientation: vertical;
+  focusable: false;
+  margin-top: 30;
+
+  Stack _name_stack {
+    Label _name_label {
+      focusable: false;
+      hexpand: true;
+      xalign: 0;
+      label: _("Playlist Name");
+      ellipsize: middle;
+      margin-bottom: 10;
+
+      styles [
+        "title-1",
+      ]
+    }
+
+    StackPage {
+      name: "renaming_dialog";
+
+      child: Box {
+        orientation: horizontal;
+
+        styles [
+          "linked",
+        ]
+
+        Entry _rename_entry {
+          EventControllerKey _rename_controller {
+            key-pressed => $_on_rename_entry_key_pressed();
+          }
+
+          focusable: true;
+          receives-default: true;
+          activate => $_on_playlist_renamed();
+          changed => $_on_rename_entry_changed();
+        }
+
+        Button _rename_done_button {
+          focusable: true;
+          receives-default: true;
+          label: _("_Done");
+          use-underline: true;
+          sensitive: true;
+          clicked => $_on_playlist_renamed();
+
+          styles [
+            "suggested-action",
+          ]
+        }
+      };
+    }
+  }
+
+  Label _songs_count_label {
+    focusable: false;
+    halign: start;
+    label: "";
+    margin-bottom: 4;
+
+    styles [
+      "body",
+    ]
+  }
+
+  Box {
+    orientation: horizontal;
+    spacing: 12;
+    margin-top: 18;
+    margin-bottom: 8;
+
+    Button _play_button {
+      height-request: 44;
+      width-request: 44;
+      focusable: true;
+      receives-default: true;
+      icon-name: "media-playback-start-symbolic";
+      tooltip-text: _("Play");
+      valign: center;
+      clicked => $_on_play_button_clicked();
+
+      styles [
+        "circular",
+      ]
+    }
+
+    MenuButton _menubutton {
+      height-request: 44;
+      width-request: 44;
+      focusable: true;
+      receives-default: true;
+      halign: start;
+      valign: center;
+      focus-on-click: false;
+      menu-model: playlistMenu;
+      direction: none;
+      icon-name: "view-more-symbolic";
+
+      styles [
+        "circular",
+      ]
+    }
+  }
+}

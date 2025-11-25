@@ -1,0 +1,18 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $ArtistNavigationPage: Adw.NavigationPage {
+  title: "Artist";
+
+  Adw.ToolbarView {
+    [top]
+    Adw.HeaderBar _headerbar {}
+
+    content: ScrolledWindow _artist_scrolled_window {
+      focusable: false;
+      hexpand: true;
+      vexpand: true;
+      hscrollbar-policy: never;
+    };
+  }
+}

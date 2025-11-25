@@ -1,0 +1,47 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $AlbumsSearchNavigationPage: Adw.NavigationPage {
+  title: _("Albums");
+
+  Adw.ToolbarView {
+    [top]
+    Adw.HeaderBar {}
+
+    content: ScrolledWindow {
+      focusable: false;
+      hexpand: true;
+      vexpand: true;
+      hscrollbar-policy: never;
+
+      Adw.Clamp {
+        maximum-size: 1600;
+
+        Box {
+          halign: fill;
+          hexpand: true;
+          margin-bottom: 20;
+          margin-end: 120;
+          margin-start: 120;
+          margin-top: 20;
+          orientation: vertical;
+
+          FlowBox _all_albums_flowbox {
+            halign: fill;
+            hexpand: true;
+            valign: start;
+            homogeneous: true;
+            min-children-per-line: 1;
+            max-children-per-line: 6;
+            margin-bottom: 18;
+            margin-top: 18;
+            row-spacing: 12;
+            column-spacing: 6;
+            selection-mode: none;
+            child-activated => $_on_album_activated();
+          }
+        }
+      }
+    };
+  }
+}

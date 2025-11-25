@@ -1,0 +1,21 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $PlaylistsView: Adw.Bin {
+  Adw.OverlaySplitView _split_view {
+    sidebar: ScrolledWindow {
+      width-request: 220;
+
+      ListBox _sidebar {
+        selection-mode: single;
+        row-activated => $_on_playlist_activated();
+
+        styles [
+          "navigation-sidebar",
+        ]
+      }
+    };
+
+    content: Adw.Bin _playlist_page {};
+  }
+}

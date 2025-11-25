@@ -1,0 +1,50 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $HeaderBar: Adw.Bin {
+  Adw.HeaderBar _headerbar {
+    vexpand: false;
+
+    [end]
+    MenuButton _menu_button {
+      valign: center;
+      sensitive: true;
+      icon-name: "open-menu-symbolic";
+      menu-model: _primary_menu;
+      primary: true;
+      tooltip-text: _("Menu");
+    }
+
+    [start]
+    ToggleButton _search_button {
+      valign: center;
+      sensitive: true;
+      icon-name: "edit-find-symbolic";
+      tooltip-text: _("Search");
+    }
+  }
+}
+
+menu _primary_menu {
+  section {
+    item {
+      label: _("Preferences");
+      action: "app.preferences";
+    }
+
+    item {
+      label: _("Keyboard Shortcuts");
+      action: "app.shortcuts";
+    }
+
+    item {
+      label: _("Help");
+      action: "app.help";
+    }
+
+    item {
+      label: _("About Music");
+      action: "app.about";
+    }
+  }
+}

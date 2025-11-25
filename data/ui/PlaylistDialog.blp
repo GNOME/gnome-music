@@ -1,0 +1,195 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $PlaylistDialog: Adw.Dialog {
+  width-request: 400;
+  height-request: 500;
+  focusable: false;
+
+  child: Adw.ToolbarView _toolbar_view {
+    [top]
+    Adw.HeaderBar _title_bar {
+      focusable: false;
+      show-end-title-buttons: false;
+
+      title-widget: Label {
+        label: _("Add to Playlist");
+        single-line-mode: true;
+        ellipsize: end;
+        width-chars: 5;
+
+        styles [
+          "title",
+        ]
+      };
+
+      Button _cancel_button {
+        label: _("_Cancel");
+        use-underline: true;
+        focusable: false;
+        receives-default: false;
+        clicked => $_on_cancel_button_clicked();
+      }
+
+      [end]
+      Button _select_button {
+        label: _("_Add");
+        sensitive: false;
+        use-underline: true;
+        focusable: false;
+        receives-default: false;
+        clicked => $_on_selection();
+
+        styles [
+          "suggested-action",
+        ]
+      }
+    }
+
+    content: Box dialog-vbox {
+      focusable: false;
+      orientation: vertical;
+
+      Stack _add_playlist_stack {
+        focusable: false;
+        hexpand: true;
+        vexpand: true;
+        transition-duration: 250;
+
+        Box _empty_box {
+          visible: false;
+          focusable: false;
+          orientation: vertical;
+
+          Box {
+            focusable: false;
+            orientation: vertical;
+            valign: fill;
+            vexpand: true;
+            margin-bottom: 18;
+            margin-end: 18;
+            margin-start: 18;
+            margin-top: 18;
+
+            Image image {
+              focusable: false;
+              valign: center;
+              pixel-size: 100;
+              icon-name: "music-note-outline-symbolic";
+              icon-size: inherit;
+              margin-bottom: 16;
+              vexpand: true;
+
+              styles [
+                "grey-image",
+              ]
+            }
+
+            Label label {
+              focusable: false;
+              label: _("Enter a name for your first playlist");
+              valign: end;
+            }
+
+            Entry _first_playlist_entry {
+              width-request: 300;
+              height-request: 10;
+              focusable: true;
+              halign: center;
+              margin-bottom: 16;
+              margin-end: 18;
+              margin-start: 18;
+              margin-top: 18;
+              activate => $_on_editing_done();
+              changed => $_on_add_playlist_entry_changed();
+
+              EventControllerFocus {
+                enter => $_on_add_playlist_entry_focused();
+              }
+            }
+
+            Button _first_playlist_button {
+              label: _("C_reate");
+              use-underline: true;
+              width-request: 120;
+              height-request: 25;
+              sensitive: false;
+              focusable: true;
+              receives-default: true;
+              halign: center;
+              valign: center;
+              margin-bottom: 20;
+              margin-end: 18;
+              margin-start: 18;
+              margin-top: 10;
+              clicked => $_on_editing_done();
+            }
+          }
+
+          Box {
+            focusable: false;
+          }
+        }
+
+        Box _normal_box {
+          visible: false;
+          focusable: false;
+          orientation: vertical;
+
+          ScrolledWindow scrolledwindow {
+            focusable: true;
+            vexpand: true;
+
+            ListBox _listbox {
+              focusable: true;
+              selection-mode: single;
+              valign: start;
+              selected-rows-changed => $_on_selected_rows_changed();
+            }
+          }
+        }
+      }
+    };
+
+    [bottom]
+    Box _bottom_bar {
+      focusable: false;
+      margin-bottom: 6;
+      margin-end: 6;
+      margin-start: 6;
+      margin-top: 6;
+
+      Entry _new_playlist_entry {
+        focusable: true;
+        hexpand: true;
+        placeholder-text: _("New Playlist…");
+        activate => $_on_editing_done();
+        changed => $_on_add_playlist_entry_changed();
+
+        EventControllerFocus {
+          enter => $_on_add_playlist_entry_focused();
+        }
+      }
+
+      Button _new_playlist_button {
+        label: _("Add");
+        sensitive: false;
+        focusable: true;
+        receives-default: false;
+        clicked => $_on_editing_done();
+
+        styles [
+          "suggested-action",
+        ]
+      }
+
+      styles [
+        "linked",
+      ]
+    }
+  };
+
+  styles [
+    "view",
+  ]
+}

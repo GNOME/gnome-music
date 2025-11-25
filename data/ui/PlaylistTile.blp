@@ -1,0 +1,28 @@
+using Gtk 4.0;
+
+template $PlaylistTile: ListBoxRow {
+  Box {
+    orientation: horizontal;
+
+    Image _icon {
+      focusable: false;
+      icon-size: normal;
+      valign: center;
+
+      styles [
+        "playlist-icon",
+      ]
+    }
+
+    Label _label {
+      focusable: false;
+      ellipsize: end;
+      halign: start;
+      hexpand: false;
+      margin-bottom: 16;
+      margin-end: 10;
+      margin-start: 10;
+      margin-top: 16;
+    }
+  }
+}

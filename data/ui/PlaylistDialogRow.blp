@@ -1,0 +1,23 @@
+using Gtk 4.0;
+
+template $PlaylistDialogRow: ListBoxRow {
+  styles [
+    "playlistdialog-row",
+  ]
+
+  Box hbox {
+    Label _label {
+      ellipsize: end;
+      margin-bottom: 8;
+      margin-end: 8;
+      margin-start: 8;
+      margin-top: 8;
+      xalign: 0.0;
+    }
+
+    Image _selection_icon {
+      icon-name: "selection-mode-symbolic";
+      icon-size: normal;
+    }
+  }
+}

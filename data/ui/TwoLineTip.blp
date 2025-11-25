@@ -1,0 +1,21 @@
+using Gtk 4.0;
+
+template $TwoLineTip: Box {
+  focusable: false;
+  vexpand: false;
+  orientation: vertical;
+
+  Label _title_label {
+    focusable: false;
+    halign: start;
+
+    styles [
+      "bold-label",
+    ]
+  }
+
+  Label _subtitle_label {
+    focusable: false;
+    halign: start;
+  }
+}

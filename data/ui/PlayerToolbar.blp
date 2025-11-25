@@ -1,0 +1,171 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $PlayerToolbar: ActionBar {
+  focusable: false;
+  revealed: false;
+
+  Box _song_info_box {
+    focusable: false;
+    halign: center;
+    has-tooltip: true;
+    valign: center;
+    spacing: 8;
+    margin-bottom: 6;
+    margin-end: 6;
+    margin-start: 6;
+    margin-top: 6;
+    query-tooltip => $_on_tooltip_query();
+
+    Image _cover_image {}
+
+    Box nowplaying_labels {
+      focusable: false;
+      halign: center;
+      valign: center;
+      orientation: vertical;
+      homogeneous: true;
+      spacing: 3;
+
+      Label _title_label {
+        focusable: false;
+        halign: start;
+        ellipsize: middle;
+        max-width-chars: 28;
+
+        styles [
+          "bold-label",
+        ]
+      }
+
+      Label _artist_label {
+        focusable: false;
+        halign: start;
+        ellipsize: middle;
+        max-width-chars: 28;
+      }
+    }
+  }
+
+  [center]
+  Box _buttons_and_scale {
+    hexpand: true;
+    orientation: vertical;
+    focusable: false;
+    margin-bottom: 6;
+    margin-end: 6;
+    margin-start: 6;
+    margin-top: 6;
+
+    Box buttons {
+      focusable: false;
+      halign: center;
+      spacing: 12;
+
+      Button _prev_button {
+        sensitive: false;
+        focusable: true;
+        receives-default: true;
+        icon-name: "media-skip-backward-symbolic";
+        tooltip-text: _("Previous");
+        valign: center;
+        clicked => $_on_prev_button_clicked();
+
+        styles [
+          "circular",
+        ]
+      }
+
+      Button _play_button {
+        sensitive: false;
+        focusable: true;
+        receives-default: true;
+        tooltip-text: _("Play");
+        clicked => $_on_play_button_clicked();
+
+        styles [
+          "pill",
+        ]
+
+        Image _play_pause_image {
+          icon-name: "media-playback-start-symbolic";
+          icon-size: large;
+        }
+      }
+
+      Button _next_button {
+        sensitive: false;
+        focusable: true;
+        receives-default: true;
+        icon-name: "media-skip-forward-symbolic";
+        tooltip-text: _("Next");
+        valign: center;
+        clicked => $_on_next_button_clicked();
+
+        styles [
+          "circular",
+        ]
+      }
+    }
+
+    Adw.Clamp {
+      maximum-size: 1000;
+
+      Box scale_and_timer {
+        orientation: horizontal;
+        focusable: false;
+        margin-top: 12;
+
+        Label _progress_time_label {
+          focusable: false;
+          halign: start;
+          valign: center;
+          label: "0∶00";
+
+          styles [
+            "numeric",
+          ]
+        }
+
+        $SmoothScale _progress_scale {
+          focusable: "True";
+          valign: "center";
+          hexpand: "True";
+          draw-value: "False";
+          value-changed => $_on_progress_value_changed();
+
+          styles [
+            "smooth-scale",
+          ]
+        }
+
+        Label _duration_label {
+          focusable: false;
+          halign: start;
+          valign: center;
+          label: "0∶00";
+
+          styles [
+            "numeric",
+          ]
+        }
+      }
+    }
+  }
+
+  [end]
+  Box menuBox {
+    height-request: 34;
+    focusable: false;
+    halign: end;
+    valign: center;
+    margin-bottom: 6;
+    margin-end: 6;
+    margin-start: 6;
+    margin-top: 6;
+
+    $RepeatModeButton _repeat_mode_button {}
+
+    $VolumeButton _volume_button {}
+  }
+}

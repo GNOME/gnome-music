@@ -1,0 +1,25 @@
+using Gtk 4.0;
+
+template $ArtistTile: Box {
+  focusable: false;
+
+  Box {
+    orientation: horizontal;
+
+    Image _cover_image {
+      halign: center;
+      valign: center;
+    }
+
+    Label _label {
+      focusable: false;
+      ellipsize: end;
+      halign: start;
+      hexpand: false;
+      margin-bottom: 16;
+      margin-end: 10;
+      margin-start: 10;
+      margin-top: 16;
+    }
+  }
+}

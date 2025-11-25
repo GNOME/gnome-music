@@ -1,0 +1,176 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $SearchView: Adw.NavigationPage {
+  title: "Search view";
+  tag: "searchview";
+
+  child: Adw.ToolbarView _search_toolbar_view {
+    top-bar-style: raised;
+
+    content: Stack _stack {
+      StackPage {
+        name: "main";
+
+        child: ScrolledWindow _search_results {
+          hexpand: true;
+          vexpand: true;
+
+          Adw.Clamp {
+            maximum-size: 1600;
+
+            Box container {
+              halign: fill;
+              hexpand: true;
+              margin-bottom: 20;
+              margin-end: 120;
+              margin-start: 120;
+              margin-top: 20;
+              orientation: vertical;
+
+              Box _artist_header {
+                halign: fill;
+                hexpand: true;
+                homogeneous: true;
+                orientation: horizontal;
+                visible: false;
+
+                Label {
+                  focusable: false;
+                  halign: start;
+                  label: _("Artists");
+
+                  styles [
+                    "search-header",
+                  ]
+                }
+
+                Button _view_all_artists {
+                  halign: end;
+
+                  Box {
+                    spacing: 6;
+
+                    Label {
+                      label: _("View All");
+                    }
+
+                    Image {
+                      icon-name: "go-next-symbolic";
+                    }
+                  }
+
+                  clicked => $_on_all_artists_clicked();
+                }
+              }
+
+              FlowBox _artist_flowbox {
+                column-spacing: 6;
+                halign: fill;
+                hexpand: true;
+                homogeneous: true;
+                margin-bottom: 18;
+                margin-top: 18;
+                max-children-per-line: 6;
+                min-children-per-line: 1;
+                row-spacing: 12;
+                selection-mode: none;
+                valign: start;
+                visible: false;
+                child-activated => $_on_artist_activated();
+              }
+
+              Box _album_header {
+                halign: fill;
+                hexpand: true;
+                homogeneous: true;
+                orientation: horizontal;
+                visible: false;
+
+                Label {
+                  focusable: false;
+                  halign: start;
+                  label: _("Albums");
+
+                  styles [
+                    "search-header",
+                  ]
+                }
+
+                Button _view_all_albums {
+                  halign: end;
+
+                  Box {
+                    spacing: 6;
+
+                    Label {
+                      label: _("View All");
+                    }
+
+                    Image {
+                      icon-name: "go-next-symbolic";
+                    }
+                  }
+
+                  clicked => $_on_all_albums_clicked();
+                }
+              }
+
+              FlowBox _album_flowbox {
+                halign: fill;
+                hexpand: true;
+                valign: start;
+                visible: false;
+                homogeneous: true;
+                min-children-per-line: 1;
+                max-children-per-line: 6;
+                margin-bottom: 18;
+                margin-top: 18;
+                row-spacing: 12;
+                column-spacing: 6;
+                selection-mode: none;
+                child-activated => $_on_album_activated();
+              }
+
+              Box _songs_header {
+                halign: fill;
+                hexpand: true;
+                homogeneous: true;
+                orientation: horizontal;
+
+                Label {
+                  focusable: false;
+                  halign: start;
+                  label: _("Songs");
+
+                  styles [
+                    "search-header",
+                  ]
+                }
+              }
+
+              ListBox _songs_listbox {
+                margin-top: 20;
+                row-activated => $_song_activated();
+
+                styles [
+                  "boxed-list",
+                ]
+              }
+            }
+          }
+        };
+      }
+
+      StackPage {
+        name: "status";
+
+        child: Adw.StatusPage _status_page {};
+      }
+    };
+  };
+
+  styles [
+    "view",
+  ]
+}

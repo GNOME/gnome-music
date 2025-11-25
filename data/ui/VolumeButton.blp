@@ -1,0 +1,47 @@
+using Gtk 4.0;
+
+template $VolumeButton: Box {
+  MenuButton _menu_button {
+    valign: center;
+    direction: up;
+
+    styles [
+      "circular",
+    ]
+
+    accessibility {
+      label: _("Adjust Volume");
+    }
+
+    popover: Popover {
+      width-request: 250;
+
+      Box {
+        ToggleButton _mute_button {
+          icon-name: "audio-volume-muted-symbolic";
+
+          styles [
+            "circular",
+            "flat",
+          ]
+
+          accessibility {
+            label: _("Mute/Unmute");
+          }
+        }
+
+        Scale {
+          hexpand: true;
+
+          adjustment: Adjustment _adjustment {
+            page-increment: 0.1;
+            step-increment: 0.01;
+            lower: 0.0;
+            upper: 1.0;
+            value: 1.0;
+          };
+        }
+      }
+    };
+  }
+}

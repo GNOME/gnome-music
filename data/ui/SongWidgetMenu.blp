@@ -1,0 +1,25 @@
+using Gtk 4.0;
+
+template $SongWidgetMenu: PopoverMenu {
+  autohide: true;
+  position: bottom;
+  visible: false;
+  menu-model: song-menu;
+}
+
+menu song-menu {
+  item {
+    label: _("_Play");
+    action: "songwidget.play";
+  }
+
+  item {
+    label: _("_Add to Playlist…");
+    action: "songwidget.add_playlist";
+  }
+
+  item {
+    label: _("_Remove from Playlist");
+    action: "songwidget.remove_playlist";
+  }
+}

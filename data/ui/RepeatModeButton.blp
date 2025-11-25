@@ -1,0 +1,18 @@
+using Gtk 4.0;
+
+template $RepeatModeButton: Box {
+  MenuButton _menu_button {
+    direction: up;
+    focusable: true;
+    receives-default: true;
+    icon-name: "media-playlist-consecutive-symbolic";
+
+    styles [
+      "circular",
+    ]
+
+    accessibility {
+      label: _("Set Repeat Mode");
+    }
+  }
+}

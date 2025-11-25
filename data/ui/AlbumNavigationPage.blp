@@ -1,0 +1,20 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $AlbumNavigationPage: Adw.NavigationPage {
+  title: "Albums";
+
+  Adw.ToolbarView {
+    [top]
+    Adw.HeaderBar {
+      title-widget: Adw.WindowTitle _page_title {};
+    }
+
+    content: ScrolledWindow _album_scrolled_window {
+      focusable: false;
+      hexpand: true;
+      vexpand: true;
+      hscrollbar-policy: never;
+    };
+  }
+}

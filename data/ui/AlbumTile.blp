@@ -1,0 +1,35 @@
+using Gtk 4.0;
+
+template $AlbumTile: Box {
+  has-tooltip: true;
+  valign: start;
+  orientation: vertical;
+
+  Image _cover_image {
+    vexpand: true;
+    valign: center;
+    halign: center;
+
+    styles [
+      "tile-image",
+    ]
+  }
+
+  Label _album_label {
+    justify: center;
+    wrap: true;
+    ellipsize: middle;
+    max-width-chars: 20;
+    lines: 1;
+  }
+
+  Label _artist_label {
+    ellipsize: middle;
+    max-width-chars: 20;
+
+    styles [
+      "artist-label",
+      "dim-label",
+    ]
+  }
+}

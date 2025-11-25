@@ -1,0 +1,138 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $AlbumWidget: Adw.Bin {
+  Adw.Clamp {
+    margin-bottom: 48;
+    margin-top: 48;
+    maximum-size: 1000;
+
+    Box {
+      halign: fill;
+      orientation: vertical;
+
+      Box albumInfo {
+        halign: fill;
+        hexpand: true;
+        spacing: 32;
+
+        Image _cover_image {
+          halign: center;
+          valign: center;
+        }
+
+        Box albumDetails {
+          halign: center;
+          valign: start;
+          orientation: vertical;
+          margin-top: 18;
+
+          Label _title_label {
+            focusable: false;
+            halign: start;
+            ellipsize: middle;
+            margin-bottom: 18;
+
+            styles [
+              "title-1",
+            ]
+          }
+
+          Label _artist_label {
+            focusable: false;
+            halign: start;
+            ellipsize: middle;
+            margin-bottom: 12;
+
+            styles [
+              "title-3",
+            ]
+          }
+
+          Label _released_label {
+            focusable: false;
+            halign: start;
+            use-markup: true;
+            margin-bottom: 12;
+
+            styles [
+              "dim-label",
+            ]
+          }
+
+          Label _composer_label {
+            focusable: false;
+            halign: start;
+            ellipsize: end;
+            margin-bottom: 12;
+
+            styles [
+              "dim-label",
+            ]
+          }
+
+          Box {
+            orientation: horizontal;
+            spacing: 12;
+            margin-top: 6;
+
+            Button _play_button {
+              width-request: 44;
+              height-request: 44;
+              icon-name: "media-playback-start-symbolic";
+              tooltip-text: _("Play");
+              valign: center;
+              clicked => $_on_play_button_clicked();
+
+              styles [
+                "circular",
+              ]
+            }
+
+            MenuButton _menu_button {
+              width-request: 44;
+              height-request: 44;
+              halign: start;
+              valign: center;
+              focus-on-click: false;
+              menu-model: album_menu;
+              direction: none;
+              icon-name: "view-more-symbolic";
+
+              styles [
+                "circular",
+              ]
+            }
+          }
+        }
+      }
+
+      ListBox _disc_list_box {
+        focusable: false;
+        margin-top: 48;
+        selection-mode: none;
+
+        styles [
+          "background",
+        ]
+      }
+    }
+  }
+}
+
+menu album_menu {
+  item {
+    label: _("_Play");
+    action: "album.play";
+  }
+
+  item {
+    label: _("Add to _Favorite Songs");
+    action: "album.add_favorites";
+  }
+
+  item {
+    label: _("_Add to Playlist…");
+    action: "album.add_playlist";
+  }
+}

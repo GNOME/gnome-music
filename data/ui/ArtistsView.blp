@@ -1,0 +1,21 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $ArtistsView: Adw.Bin {
+  Adw.OverlaySplitView _split_view {
+    sidebar: ScrolledWindow {
+      ListView _sidebar {
+        activate => $_on_artist_activated();
+
+        styles [
+          "navigation-sidebar",
+        ]
+      }
+    };
+
+    content: ScrolledWindow _artist_view {
+      hexpand: true;
+      vexpand: true;
+    };
+  }
+}
