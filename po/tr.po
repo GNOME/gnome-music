@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2025-09-14 21:20+0000\n"
-"PO-Revision-Date: 2025-09-16 20:56+0300\n"
+"POT-Creation-Date: 2025-11-19 19:57+0000\n"
+"PO-Revision-Date: 2025-11-20 22:27+0300\n"
 "Last-Translator: Sabri Ünal <yakushabb@gmail.com>\n"
 "Language-Team: Turkish <takim@gnome.org.tr>\n"
 "Language: tr\n"
@@ -24,12 +24,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.7\n"
+"X-Generator: Poedit 3.8\n"
 "X-POOTLE-MTIME: 1433363480.000000\n"
 
 #: data/org.gnome.Music.desktop.in.in:2
 #: data/org.gnome.Music.metainfo.xml.in.in:9 data/ui/StatusNavigationPage.ui:4
-#: gnomemusic/about.py:143 gnomemusic/application.py:61 gnomemusic/window.py:65
+#: gnomemusic/about.py:143 gnomemusic/application.py:41 gnomemusic/window.py:42
 msgid "Music"
 msgstr "Müzik"
 
@@ -170,91 +170,6 @@ msgstr "Yardım"
 msgid "About Music"
 msgstr "Müzik Hakkında"
 
-#: data/ui/help-overlay.ui:11
-msgctxt "shortcut window"
-msgid "General"
-msgstr "Genel"
-
-#: data/ui/help-overlay.ui:14
-msgctxt "shortcut window"
-msgid "Preferences"
-msgstr "Tercihler"
-
-#: data/ui/help-overlay.ui:20
-msgctxt "shortcut window"
-msgid "Search"
-msgstr "Ara"
-
-#: data/ui/help-overlay.ui:26
-msgctxt "shortcut window"
-msgid "Help"
-msgstr "Yardım"
-
-#: data/ui/help-overlay.ui:32
-msgctxt "shortcut window"
-msgid "Shortcuts"
-msgstr "Kısayollar"
-
-#: data/ui/help-overlay.ui:38
-msgctxt "shortcut window"
-msgid "Quit"
-msgstr "Çık"
-
-#: data/ui/help-overlay.ui:46
-msgctxt "shortcut window"
-msgid "Playback"
-msgstr "Kayıttan yürüt"
-
-#: data/ui/help-overlay.ui:49
-msgctxt "shortcut window"
-msgid "Play/Pause"
-msgstr "Çal/Duraklat"
-
-#: data/ui/help-overlay.ui:55
-msgctxt "shortcut window"
-msgid "Next song"
-msgstr "Sonraki şarkı"
-
-#: data/ui/help-overlay.ui:61
-msgctxt "shortcut window"
-msgid "Previous song"
-msgstr "Önceki şarkı"
-
-#: data/ui/help-overlay.ui:67
-msgctxt "shortcut window"
-msgid "Toggle repeat"
-msgstr "Yinelemeyi aç/kapa"
-
-#: data/ui/help-overlay.ui:73
-msgctxt "shortcut window"
-msgid "Toggle shuffle"
-msgstr "Karıştırmayı aç/kapa"
-
-#: data/ui/help-overlay.ui:81
-msgctxt "shortcut window"
-msgid "Navigation"
-msgstr "Gezinme"
-
-#: data/ui/help-overlay.ui:84
-msgctxt "shortcut window"
-msgid "Go to Albums"
-msgstr "Albümlere git"
-
-#: data/ui/help-overlay.ui:90
-msgctxt "shortcut window"
-msgid "Go to Artists"
-msgstr "Sanatçılara git"
-
-#: data/ui/help-overlay.ui:96
-msgctxt "shortcut window"
-msgid "Go to Playlists"
-msgstr "Çalma Listelerine git"
-
-#: data/ui/help-overlay.ui:102
-msgctxt "shortcut window"
-msgid "Go back"
-msgstr "Geri git"
-
 #: data/ui/PlayerToolbar.ui:74
 msgid "Previous"
 msgstr "Önceki"
@@ -376,6 +291,106 @@ msgstr "Tümünü Görüntüle"
 msgid "Songs"
 msgstr "Şarkılar"
 
+#: data/ui/shortcuts-dialog.ui:6
+msgctxt "shortcut window"
+msgid "General"
+msgstr "Genel"
+
+#: data/ui/shortcuts-dialog.ui:9
+msgctxt "shortcut window"
+msgid "Preferences"
+msgstr "Tercihler"
+
+#: data/ui/shortcuts-dialog.ui:15
+msgctxt "shortcut window"
+msgid "Search"
+msgstr "Ara"
+
+#: data/ui/shortcuts-dialog.ui:21
+msgctxt "shortcut window"
+msgid "Help"
+msgstr "Yardım"
+
+#: data/ui/shortcuts-dialog.ui:27
+msgctxt "shortcut window"
+msgid "Keyboard shortcuts"
+msgstr "Klavye kısayolları"
+
+#: data/ui/shortcuts-dialog.ui:33
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Çık"
+
+#: data/ui/shortcuts-dialog.ui:41
+msgctxt "shortcut window"
+msgid "Playback"
+msgstr "Kayıttan yürüt"
+
+#: data/ui/shortcuts-dialog.ui:44
+msgctxt "shortcut window"
+msgid "Play/Pause"
+msgstr "Çal/Duraklat"
+
+#: data/ui/shortcuts-dialog.ui:50
+msgctxt "shortcut window"
+msgid "Next song"
+msgstr "Sonraki şarkı"
+
+#: data/ui/shortcuts-dialog.ui:56
+msgctxt "shortcut window"
+msgid "Previous song"
+msgstr "Önceki şarkı"
+
+#: data/ui/shortcuts-dialog.ui:62
+msgctxt "shortcut window"
+msgid "Toggle repeat"
+msgstr "Yinelemeyi aç/kapa"
+
+#: data/ui/shortcuts-dialog.ui:68
+msgctxt "shortcut window"
+msgid "Toggle shuffle"
+msgstr "Karıştırmayı aç/kapa"
+
+#: data/ui/shortcuts-dialog.ui:74
+msgctxt "shortcut window"
+msgid "Increase volume"
+msgstr "Sesi artır"
+
+#: data/ui/shortcuts-dialog.ui:80
+msgctxt "shortcut window"
+msgid "Decrease volume"
+msgstr "Sesi azalt"
+
+#: data/ui/shortcuts-dialog.ui:86
+msgctxt "shortcut window"
+msgid "Toggle mute"
+msgstr "Sesi aç/kapat"
+
+#: data/ui/shortcuts-dialog.ui:94
+msgctxt "shortcut window"
+msgid "Navigation"
+msgstr "Gezinme"
+
+#: data/ui/shortcuts-dialog.ui:97
+msgctxt "shortcut window"
+msgid "Go to Albums"
+msgstr "Albümlere git"
+
+#: data/ui/shortcuts-dialog.ui:103
+msgctxt "shortcut window"
+msgid "Go to Artists"
+msgstr "Sanatçılara git"
+
+#: data/ui/shortcuts-dialog.ui:109
+msgctxt "shortcut window"
+msgid "Go to Playlists"
+msgstr "Çalma Listelerine git"
+
+#: data/ui/shortcuts-dialog.ui:115
+msgctxt "shortcut window"
+msgid "Go back"
+msgstr "Geri git"
+
 #: data/ui/SongWidgetMenu.ui:19
 msgid "_Remove from Playlist"
 msgstr "Çalma Listesinden _Kaldır"
@@ -408,61 +423,61 @@ msgid "© The GNOME Music Developers"
 msgstr "© GNOME Müzik Geliştiricileri"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/smartplaylist.py:126
+#: gnomemusic/grilowrappers/smartplaylist.py:96
 msgid "Most Played"
 msgstr "En Çok Çalınanlar"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/smartplaylist.py:180
+#: gnomemusic/grilowrappers/smartplaylist.py:148
 msgid "Never Played"
 msgstr "Hiç Çalınmayanlar"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/smartplaylist.py:233
+#: gnomemusic/grilowrappers/smartplaylist.py:199
 msgid "Recently Played"
 msgstr "Son Çalınanlar"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/smartplaylist.py:312
+#: gnomemusic/grilowrappers/smartplaylist.py:276
 msgid "Recently Added"
 msgstr "Yeni Eklenenler"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/smartplaylist.py:375
-msgid "Favorite Songs"
-msgstr "Gözde Şarkılar"
+#: gnomemusic/grilowrappers/smartplaylist.py:337
+msgid "Starred Songs"
+msgstr "Yıldızlı Şarkılar"
 
 #. TRANSLATORS: this is a playlist name indicating that the
 #. files are not tagged enough to be displayed in the albums
 #. or artists views.
-#: gnomemusic/grilowrappers/smartplaylist.py:429
+#: gnomemusic/grilowrappers/smartplaylist.py:389
 msgid "Insufficiently Tagged"
 msgstr "Yetersiz Etiketlenme"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/smartplaylist.py:492
+#: gnomemusic/grilowrappers/smartplaylist.py:450
 msgid "All Songs"
 msgstr "Tüm Şarkılar"
 
-#: gnomemusic/gstplayer.py:435
+#: gnomemusic/gstplayer.py:455
 msgid "Unable to play the file"
 msgstr "Dosya çalınamıyor"
 
-#: gnomemusic/gstplayer.py:441
+#: gnomemusic/gstplayer.py:461
 msgid "_Find in {}"
 msgstr "{} içinde _bul"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:451
+#: gnomemusic/gstplayer.py:471
 msgid " and "
 msgstr " ve "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:454
+#: gnomemusic/gstplayer.py:474
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:456
+#: gnomemusic/gstplayer.py:476
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "Dosyayı çalmak için {} gerekiyor ancak kurulu değil."
@@ -496,11 +511,7 @@ msgstr "Şarkıyı Yinele"
 msgid "Repeat All"
 msgstr "Tümünü Yinele"
 
-#: gnomemusic/utils.py:117
-msgid "Unknown album"
-msgstr "Bilinmeyen albüm"
-
-#: gnomemusic/utils.py:138
+#: gnomemusic/utils.py:118
 msgid "Unknown Artist"
 msgstr "Bilinmeyen Sanatçı"
 
@@ -538,7 +549,7 @@ msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} Şarkı"
 
-#: gnomemusic/widgets/searchheaderbar.py:54
+#: gnomemusic/widgets/searchheaderbar.py:34
 msgid "Search songs, artists and albums"
 msgstr "Şarkıları, sanatçıları ve albümleri ara"
 
@@ -547,13 +558,13 @@ msgstr "Şarkıları, sanatçıları ve albümleri ara"
 msgid "_Open Location"
 msgstr "Konum _Aç"
 
-#. TRANSLATORS: These are verbs, to (un)mark something as a
-#. favorite.
-#: gnomemusic/widgets/startoggle.py:36
+#. TRANSLATORS: A verb, to unmark a song as favorite
+#: gnomemusic/widgets/startoggle.py:37
 msgid "Unstar"
 msgstr "Yıldızı Kaldır"
 
-#: gnomemusic/widgets/startoggle.py:36
+#. TRANSLATORS: A verb, to mark a song as favorite
+#: gnomemusic/widgets/startoggle.py:41
 msgid "Star"
 msgstr "Yıldızla"
 
@@ -595,3 +606,10 @@ msgstr "Sisteminizin Tracker sürümü eski görünüyor."
 #: gnomemusic/widgets/statusnavigationpage.py:129
 msgid "Music needs Tracker version 3.0.0 or higher."
 msgstr "Müzik, Trackerʼın 3.0.0 sürümünü veya üstünü gerektirmektedir."
+
+#~ msgctxt "shortcut window"
+#~ msgid "Shortcuts"
+#~ msgstr "Kısayollar"
+
+#~ msgid "Unknown album"
+#~ msgstr "Bilinmeyen albüm"
