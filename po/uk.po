@@ -4,13 +4,13 @@
 # Daniel Korostil <ted.korostiled@gmail.com>, 2013, 2014, 2015, 2016, 2017.
 # Eugene Strezhnev <strezhnev.ua@gmail.com>, 2019.
 # Danylo Korostil <ted.korostiled@gmail.com>, 2019.
-# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2021, 2022, 2023, 2024, 2025.
+# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2021, 2022, 2023, 2024, 2025, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2025-02-12 22:49+0000\n"
-"PO-Revision-Date: 2025-02-24 17:11+0200\n"
+"POT-Creation-Date: 2025-11-24 19:37+0000\n"
+"PO-Revision-Date: 2026-01-26 03:43+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -22,23 +22,23 @@ msgstr ""
 "X-Generator: Lokalize 23.04.3\n"
 "X-Project-Style: gnome\n"
 
-#: data/org.gnome.Music.desktop.in.in:3
+#: data/org.gnome.Music.desktop.in.in:2
 #: data/org.gnome.Music.metainfo.xml.in.in:9 data/ui/StatusNavigationPage.ui:4
-#: gnomemusic/about.py:142 gnomemusic/application.py:61 gnomemusic/window.py:65
+#: gnomemusic/about.py:143 gnomemusic/application.py:41 gnomemusic/window.py:42
 msgid "Music"
 msgstr "Музика"
 
-#: data/org.gnome.Music.desktop.in.in:4
+#: data/org.gnome.Music.desktop.in.in:3
 msgid "Music Player"
 msgstr "Програвач музики"
 
-#: data/org.gnome.Music.desktop.in.in:5
+#: data/org.gnome.Music.desktop.in.in:4
 #: data/org.gnome.Music.metainfo.xml.in.in:10
 msgid "Play and organize your music collection"
 msgstr "Грати та впорядковувати вашу музичну збірку"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
-#: data/org.gnome.Music.desktop.in.in:13
+#: data/org.gnome.Music.desktop.in.in:12
 msgid "Music;Player;"
 msgstr "Музика;Програвач;Плеєр;"
 
@@ -118,7 +118,7 @@ msgid "Albums"
 msgstr "Альбоми"
 
 #: data/ui/AlbumWidget.ui:84 data/ui/PlayerToolbar.ui:87
-#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:176
+#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:127
 msgid "Play"
 msgstr "Програти"
 
@@ -163,91 +163,6 @@ msgstr "Довідка"
 #: data/ui/HeaderBar.ui:43
 msgid "About Music"
 msgstr "Про «Музику»"
-
-#: data/ui/help-overlay.ui:11
-msgctxt "shortcut window"
-msgid "General"
-msgstr "Загальне"
-
-#: data/ui/help-overlay.ui:14
-msgctxt "shortcut window"
-msgid "Preferences"
-msgstr "Налаштування"
-
-#: data/ui/help-overlay.ui:20
-msgctxt "shortcut window"
-msgid "Search"
-msgstr "Пошук"
-
-#: data/ui/help-overlay.ui:26
-msgctxt "shortcut window"
-msgid "Help"
-msgstr "Довідка"
-
-#: data/ui/help-overlay.ui:32
-msgctxt "shortcut window"
-msgid "Shortcuts"
-msgstr "Скорочення"
-
-#: data/ui/help-overlay.ui:38
-msgctxt "shortcut window"
-msgid "Quit"
-msgstr "Вийти"
-
-#: data/ui/help-overlay.ui:46
-msgctxt "shortcut window"
-msgid "Playback"
-msgstr "Відтворення"
-
-#: data/ui/help-overlay.ui:49
-msgctxt "shortcut window"
-msgid "Play/Pause"
-msgstr "Програти/призупинити"
-
-#: data/ui/help-overlay.ui:55
-msgctxt "shortcut window"
-msgid "Next song"
-msgstr "Наступна пісня"
-
-#: data/ui/help-overlay.ui:61
-msgctxt "shortcut window"
-msgid "Previous song"
-msgstr "Попередня пісня"
-
-#: data/ui/help-overlay.ui:67
-msgctxt "shortcut window"
-msgid "Toggle repeat"
-msgstr "Перемкнути повторення"
-
-#: data/ui/help-overlay.ui:73
-msgctxt "shortcut window"
-msgid "Toggle shuffle"
-msgstr "Перемкнути довільний порядок"
-
-#: data/ui/help-overlay.ui:81
-msgctxt "shortcut window"
-msgid "Navigation"
-msgstr "Пересування"
-
-#: data/ui/help-overlay.ui:84
-msgctxt "shortcut window"
-msgid "Go to Albums"
-msgstr "Перейти до альбомів"
-
-#: data/ui/help-overlay.ui:90
-msgctxt "shortcut window"
-msgid "Go to Artists"
-msgstr "Перейти до виконавців"
-
-#: data/ui/help-overlay.ui:96
-msgctxt "shortcut window"
-msgid "Go to Playlists"
-msgstr "Перейти до списків композицій"
-
-#: data/ui/help-overlay.ui:102
-msgctxt "shortcut window"
-msgid "Go back"
-msgstr "Повернутися"
 
 #: data/ui/PlayerToolbar.ui:74
 msgid "Previous"
@@ -321,7 +236,7 @@ msgstr "Song"
 msgid "All"
 msgstr "Усі"
 
-#: data/ui/PreferencesDialog.ui:19 gnomemusic/player.py:51
+#: data/ui/PreferencesDialog.ui:19 gnomemusic/utils.py:72
 msgid "Shuffle"
 msgstr "У довільному порядку"
 
@@ -357,6 +272,11 @@ msgstr "Заборонити присипляння"
 msgid "Only while playing"
 msgstr "Лише під час відтворення"
 
+#: data/ui/RepeatModeButton.ui:14
+#| msgid "Repeat Mode"
+msgid "Set Repeat Mode"
+msgstr "Встановити режим повтору"
+
 #: data/ui/SearchView.ui:55 data/ui/SearchView.ui:112
 msgid "View All"
 msgstr "Переглянути все"
@@ -364,6 +284,109 @@ msgstr "Переглянути все"
 #: data/ui/SearchView.ui:154
 msgid "Songs"
 msgstr "Пісні"
+
+#: data/ui/shortcuts-dialog.ui:6
+msgctxt "shortcut window"
+msgid "General"
+msgstr "Загальне"
+
+#: data/ui/shortcuts-dialog.ui:9
+msgctxt "shortcut window"
+msgid "Preferences"
+msgstr "Налаштування"
+
+#: data/ui/shortcuts-dialog.ui:15
+msgctxt "shortcut window"
+msgid "Search"
+msgstr "Пошук"
+
+#: data/ui/shortcuts-dialog.ui:21
+msgctxt "shortcut window"
+msgid "Help"
+msgstr "Довідка"
+
+#: data/ui/shortcuts-dialog.ui:27
+#| msgid "Keyboard Shortcuts"
+msgctxt "shortcut window"
+msgid "Keyboard shortcuts"
+msgstr "Клавіатурні скорочення"
+
+#: data/ui/shortcuts-dialog.ui:33
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Вийти"
+
+#: data/ui/shortcuts-dialog.ui:41
+msgctxt "shortcut window"
+msgid "Playback"
+msgstr "Відтворення"
+
+#: data/ui/shortcuts-dialog.ui:44
+msgctxt "shortcut window"
+msgid "Play/Pause"
+msgstr "Програти/призупинити"
+
+#: data/ui/shortcuts-dialog.ui:50
+msgctxt "shortcut window"
+msgid "Next song"
+msgstr "Наступна пісня"
+
+#: data/ui/shortcuts-dialog.ui:56
+msgctxt "shortcut window"
+msgid "Previous song"
+msgstr "Попередня пісня"
+
+#: data/ui/shortcuts-dialog.ui:62
+msgctxt "shortcut window"
+msgid "Toggle repeat"
+msgstr "Перемкнути повторення"
+
+#: data/ui/shortcuts-dialog.ui:68
+msgctxt "shortcut window"
+msgid "Toggle shuffle"
+msgstr "Перемкнути довільний порядок"
+
+#: data/ui/shortcuts-dialog.ui:74
+msgctxt "shortcut window"
+msgid "Increase volume"
+msgstr "Збільшити гучність"
+
+#: data/ui/shortcuts-dialog.ui:80
+msgctxt "shortcut window"
+msgid "Decrease volume"
+msgstr "Зменшити гучність"
+
+#: data/ui/shortcuts-dialog.ui:86
+#| msgctxt "shortcut window"
+#| msgid "Toggle shuffle"
+msgctxt "shortcut window"
+msgid "Toggle mute"
+msgstr "Увімкнути або вимкнути звук"
+
+#: data/ui/shortcuts-dialog.ui:94
+msgctxt "shortcut window"
+msgid "Navigation"
+msgstr "Пересування"
+
+#: data/ui/shortcuts-dialog.ui:97
+msgctxt "shortcut window"
+msgid "Go to Albums"
+msgstr "Перейти до альбомів"
+
+#: data/ui/shortcuts-dialog.ui:103
+msgctxt "shortcut window"
+msgid "Go to Artists"
+msgstr "Перейти до виконавців"
+
+#: data/ui/shortcuts-dialog.ui:109
+msgctxt "shortcut window"
+msgid "Go to Playlists"
+msgstr "Перейти до списків композицій"
+
+#: data/ui/shortcuts-dialog.ui:115
+msgctxt "shortcut window"
+msgid "Go back"
+msgstr "Повернутися"
 
 #: data/ui/SongWidgetMenu.ui:19
 msgid "_Remove from Playlist"
@@ -373,81 +396,89 @@ msgstr "Ви_лучити зі списку"
 msgid "Welcome to Music"
 msgstr "Вітаємо у «Музиці»"
 
-#: gnomemusic/about.py:144
+#: data/ui/VolumeButton.ui:12
+msgid "Adjust Volume"
+msgstr "Регулювання гучності"
+
+#: data/ui/VolumeButton.ui:27
+msgid "Mute/Unmute"
+msgstr "Вимкнути/Увімкнути звук"
+
+#: gnomemusic/about.py:145
 msgid "The GNOME Project"
 msgstr "Проєкт GNOME"
 
 #. Translators should localize the following string which
 #. will be displayed at the bottom of the about box to give
 #. credit to the translator(s).
-#: gnomemusic/about.py:150
+#: gnomemusic/about.py:151
 msgid "translator-credits"
 msgstr ""
 "Данило Коростіль <ted.korostiled@gmail.com>, 2013–2019\n"
 "Євген Стрежньов <strezhnev.ua@gmail.com>, 2019\n"
 "Юрій Чорноіван <yurchor@ukr.net>, 2020–2022"
 
-#: gnomemusic/about.py:154
+#: gnomemusic/about.py:155
 msgid "© The GNOME Music Developers"
 msgstr "© Розробники «Музики» GNOME"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/smartplaylist.py:128
+#: gnomemusic/grilowrappers/smartplaylist.py:96
 msgid "Most Played"
 msgstr "Часто слухали"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/smartplaylist.py:182
+#: gnomemusic/grilowrappers/smartplaylist.py:148
 msgid "Never Played"
 msgstr "Ніколи не слухали"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/smartplaylist.py:235
+#: gnomemusic/grilowrappers/smartplaylist.py:199
 msgid "Recently Played"
 msgstr "Недавно слухали"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/smartplaylist.py:314
+#: gnomemusic/grilowrappers/smartplaylist.py:276
 msgid "Recently Added"
 msgstr "Недавно додано"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/smartplaylist.py:377
-msgid "Favorite Songs"
-msgstr "Улюблені пісні"
+#: gnomemusic/grilowrappers/smartplaylist.py:337
+#| msgid "Favorite Songs"
+msgid "Starred Songs"
+msgstr "Після з оцінками"
 
 #. TRANSLATORS: this is a playlist name indicating that the
 #. files are not tagged enough to be displayed in the albums
 #. or artists views.
-#: gnomemusic/grilowrappers/smartplaylist.py:431
+#: gnomemusic/grilowrappers/smartplaylist.py:389
 msgid "Insufficiently Tagged"
 msgstr "Недостатньо міток"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/smartplaylist.py:494
-#| msgid "Songs"
+#: gnomemusic/grilowrappers/smartplaylist.py:450
 msgid "All Songs"
 msgstr "Усі композиції"
 
-#: gnomemusic/gstplayer.py:424
+#: gnomemusic/gstplayer.py:455
 msgid "Unable to play the file"
 msgstr "Неможливо відтворити файл"
 
-#: gnomemusic/gstplayer.py:430
+#: gnomemusic/gstplayer.py:461
 msgid "_Find in {}"
 msgstr "_Знайти в {}"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:440
+#: gnomemusic/gstplayer.py:471
 msgid " and "
 msgstr " і "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:443
+#: gnomemusic/gstplayer.py:474
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:445
+#: gnomemusic/gstplayer.py:476
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "Потрібний {}, щоб програти файл, але його не встановлено."
@@ -458,19 +489,6 @@ msgstr[3] "Потрібний {}, щоб програти файл, але йо�
 #: gnomemusic/inhibitsuspend.py:69
 msgid "Playing music"
 msgstr "Програється музика"
-
-#. Translators: "shuffle" causes tracks to play in random order.
-#: gnomemusic/player.py:48
-msgid "Shuffle/Repeat Off"
-msgstr "Довільний порядок/Повторення вимкнено"
-
-#: gnomemusic/player.py:49
-msgid "Repeat Song"
-msgstr "Повторювати пісню"
-
-#: gnomemusic/player.py:50
-msgid "Repeat All"
-msgstr "Повторювати все"
 
 #: gnomemusic/playlisttoast.py:55
 msgid "Playlist {} removed"
@@ -484,11 +502,20 @@ msgstr "Скасувати"
 msgid "{} removed from {}"
 msgstr "{} вилучено з {}"
 
-#: gnomemusic/utils.py:92
-msgid "Unknown album"
-msgstr "Невідомий альбом"
+#. Translators: "shuffle" causes tracks to play in random order.
+#: gnomemusic/utils.py:69
+msgid "Shuffle/Repeat Off"
+msgstr "Довільний порядок/Повторення вимкнено"
 
-#: gnomemusic/utils.py:113
+#: gnomemusic/utils.py:70
+msgid "Repeat Song"
+msgstr "Повторювати пісню"
+
+#: gnomemusic/utils.py:71
+msgid "Repeat All"
+msgstr "Повторювати все"
+
+#: gnomemusic/utils.py:118
 msgid "Unknown Artist"
 msgstr "Невідомий виконавець"
 
@@ -514,12 +541,7 @@ msgstr "Нічого не знайдено"
 msgid "Try a different search"
 msgstr "Спробуйте інші критерії пошуку"
 
-#: gnomemusic/widgets/albumwidget.py:193
-#, python-brace-format
-msgid "Disc {row.props.disc_nr}"
-msgstr "Диск {row.props.disc_nr}"
-
-#: gnomemusic/widgets/albumwidget.py:241
+#: gnomemusic/widgets/albumwidget.py:244
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} хвилина"
@@ -527,7 +549,7 @@ msgstr[1] "{} хвилини"
 msgstr[2] "{} хвилин"
 msgstr[3] "{} хвилина"
 
-#: gnomemusic/widgets/playertoolbar.py:173
+#: gnomemusic/widgets/playertoolbar.py:124
 msgid "Pause"
 msgstr "Призупинити"
 
@@ -539,22 +561,22 @@ msgstr[1] "{} пісні"
 msgstr[2] "{} пісень"
 msgstr[3] "{} пісня"
 
-#: gnomemusic/widgets/searchheaderbar.py:54
+#: gnomemusic/widgets/searchheaderbar.py:34
 msgid "Search songs, artists and albums"
 msgstr "Пошук композицій, виконавців і альбомів"
 
 #. noqa: F841
-#: gnomemusic/widgets/songwidgetmenu.py:94
+#: gnomemusic/widgets/songwidgetmenu.py:96
 msgid "_Open Location"
 msgstr "_Відкрити місце"
 
-#. TRANSLATORS: These are verbs, to (un)mark something as a
-#. favorite.
-#: gnomemusic/widgets/startoggle.py:36
+#. TRANSLATORS: A verb, to unmark a song as favorite
+#: gnomemusic/widgets/startoggle.py:37
 msgid "Unstar"
 msgstr "Скасувати позначення зірками"
 
-#: gnomemusic/widgets/startoggle.py:36
+#. TRANSLATORS: A verb, to mark a song as favorite
+#: gnomemusic/widgets/startoggle.py:41
 msgid "Star"
 msgstr "Позначити зіркою"
 
@@ -562,39 +584,51 @@ msgstr "Позначити зіркою"
 msgid "Your XDG Music directory is not set."
 msgstr "Не вказано музичної теки XDG."
 
-#: gnomemusic/widgets/statusnavigationpage.py:58
+#: gnomemusic/widgets/statusnavigationpage.py:56
 msgid "Music Folder"
 msgstr "Тека з музикою"
 
-#. TRANSLATORS: This is a label to display a link to open user's music
-#. folder. {} will be replaced with the translated text 'Music folder'
-#: gnomemusic/widgets/statusnavigationpage.py:66
+#. TRANSLATORS: This is a label to display a link to open
+#. a user's music folder. {} will be replaced with the
+#. translated text 'Music folder'
+#: gnomemusic/widgets/statusnavigationpage.py:60
 msgid "The contents of your {} will appear here."
 msgstr "Тут з'явиться вміст {}."
 
-#: gnomemusic/widgets/statusnavigationpage.py:116
+#: gnomemusic/widgets/statusnavigationpage.py:114
 msgid "No Music Found"
 msgstr "Музики не знайдено"
 
-#: gnomemusic/widgets/statusnavigationpage.py:117
+#: gnomemusic/widgets/statusnavigationpage.py:115
 msgid "Try a Different Search"
 msgstr "Спробуйте пошукати інакше"
 
-#: gnomemusic/widgets/statusnavigationpage.py:121
+#: gnomemusic/widgets/statusnavigationpage.py:119
 msgid "GNOME Music could not connect to Tracker."
 msgstr "Музика GNOME не може з'єднатись з Tracker."
 
-#: gnomemusic/widgets/statusnavigationpage.py:123
+#: gnomemusic/widgets/statusnavigationpage.py:121
 msgid "Your music files cannot be indexed without Tracker running."
 msgstr "Музика не може бути індексована без запущеного Tracker."
 
-#: gnomemusic/widgets/statusnavigationpage.py:129
+#: gnomemusic/widgets/statusnavigationpage.py:127
 msgid "Your system Tracker version seems outdated."
 msgstr "Схоже, версія програми Tracker застаріла."
 
-#: gnomemusic/widgets/statusnavigationpage.py:131
+#: gnomemusic/widgets/statusnavigationpage.py:129
 msgid "Music needs Tracker version 3.0.0 or higher."
 msgstr "Для роботи «Музики» потрібна програма Tracker версії 3.0.0 або вище."
+
+#~ msgctxt "shortcut window"
+#~ msgid "Shortcuts"
+#~ msgstr "Скорочення"
+
+#~ msgid "Unknown album"
+#~ msgstr "Невідомий альбом"
+
+#, python-brace-format
+#~ msgid "Disc {row.props.disc_nr}"
+#~ msgstr "Диск {row.props.disc_nr}"
 
 #~ msgid "The GNOME Music developers"
 #~ msgstr "Розробники Музики GNOME"
