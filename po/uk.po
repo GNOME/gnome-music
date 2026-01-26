@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
 "POT-Creation-Date: 2025-11-24 19:37+0000\n"
-"PO-Revision-Date: 2026-01-26 03:43+0200\n"
+"PO-Revision-Date: 2026-01-26 04:01+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -446,7 +446,7 @@ msgstr "Недавно додано"
 #: gnomemusic/grilowrappers/smartplaylist.py:337
 #| msgid "Favorite Songs"
 msgid "Starred Songs"
-msgstr "Після з оцінками"
+msgstr "Пісні з оцінками"
 
 #. TRANSLATORS: this is a playlist name indicating that the
 #. files are not tagged enough to be displayed in the albums
