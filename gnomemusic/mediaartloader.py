@@ -26,7 +26,7 @@ from __future__ import annotations
 from typing import Optional
 
 import asyncio
-from gi.repository import Gdk, GdkPixbuf, Gio, GLib, GObject
+from gi.repository import Gdk, Gly, GlyGtk4, Gio, GLib, GObject
 
 from gnomemusic.musiclogger import MusicLogger
 
@@ -43,12 +43,11 @@ class MediaArtLoader(GObject.GObject):
         "finished": (GObject.SignalFlags.RUN_FIRST, None, (object, ))
     }
 
-    _chunksize = 32768
     _log = MusicLogger()
     _sem = asyncio.Semaphore(10)
 
     def __init__(self) -> None:
-        """Intialize MediaArtLoader
+        """Initialize MediaArtLoader
         """
         super().__init__()
 
@@ -64,55 +63,21 @@ class MediaArtLoader(GObject.GObject):
         if thumb_file:
             async with self._sem:
                 try:
-                    stream = await thumb_file.read_async(
-                        GLib.PRIORITY_DEFAULT_IDLE, self._cancel)
+                    loader = Gly.Loader.new(thumb_file)
+                    image = await loader.load_async(self._cancel)
+                    frame = await image.next_frame_async(self._cancel)
+                    self._texture = GlyGtk4.frame_get_texture(frame)
                 except GLib.Error as error:
                     if error.matches(
-                            Gio.io_error_quark(), Gio.IOErrorEnum.CANCELLED):
+                            Gio.io_error_quark(),
+                            Gio.IOErrorEnum.CANCELLED):
                         return
-                    self._log.warning(
-                        "Error: {}, {}".format(error.domain, error.message))
-                    self.emit("finished", self._texture)
-                    return
-
-                barray = bytearray()
-                loop = True
-                while loop:
-                    try:
-                        gbytes = await stream.read_bytes_async(
-                            self._chunksize, GLib.PRIORITY_DEFAULT_IDLE,
-                            self._cancel)
-                    except GLib.Error as error:
-                        if error.matches(
-                                Gio.io_error_quark(),
-                                Gio.IOErrorEnum.CANCELLED):
-                            return
-                        self._log.warning(
-                            "Error: {}, {}".format(
-                                error.domain, error.message))
-                        await stream.close_async(GLib.PRIORITY_DEFAULT)
-                        self.emit("finished", self._texture)
-                        return
-
-                    gbytes_size = gbytes.get_size()
-                    if gbytes_size > 0:
-                        barray += gbytes.unref_to_data()
-                    else:
-                        loop = False
-
-                try:
-                    # See pygobject#114 for bytes conversion.
-                    self._texture = Gdk.Texture.new_from_bytes(
-                        GLib.Bytes(bytes(barray)))
-                except GLib.Error as error:
                     self._log.warning("Error: {}, {} in file: {}".format(
                         error.domain, error.message, thumb_file.get_uri()))
-
                     if error.matches(
-                            GdkPixbuf.pixbuf_error_quark(),
-                            GdkPixbuf.PixbufError.UNKNOWN_TYPE):
+                            Gly.loader_error_quark(),
+                            Gly.LoaderError.UNKNOWN_IMAGE_FORMAT):
                         try:
-                            await stream.close_async(GLib.PRIORITY_DEFAULT)
                             await thumb_file.delete_async(
                                 GLib.PRIORITY_DEFAULT_IDLE)
                         except GLib.Error as error:
@@ -120,8 +85,6 @@ class MediaArtLoader(GObject.GObject):
                                 f"Failure during removal of invalid cache "
                                 f"item: {error.domain}, {error.message},"
                                 f" {thumb_file.get_uri()}")
-                else:
-                    await stream.close_async(GLib.PRIORITY_DEFAULT)
 
         self.emit("finished", self._texture)
 

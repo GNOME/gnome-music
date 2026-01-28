@@ -29,7 +29,7 @@ import typing
 
 import gi
 gi.require_versions({"MediaArt": "2.0", "Soup": "3.0"})
-from gi.repository import Gio, GLib, GObject, MediaArt, Soup, GdkPixbuf
+from gi.repository import Gio, Gly, GLib, GObject, MediaArt, Soup
 
 from gnomemusic.musiclogger import MusicLogger
 from gnomemusic.utils import CoreObjectType
@@ -123,15 +123,16 @@ class StoreArt(GObject.Object):
                 self.emit("finished")
                 return
 
-            istream = Gio.MemoryInputStream.new_from_bytes(gbytes)
             try:
-                pixbuf = await GdkPixbuf.Pixbuf.new_from_stream_async(istream)
+                loader = Gly.Loader.new_for_bytes(gbytes)
+                loader.set_accepted_memory_formats(
+                    Gly.MemoryFormatSelection.R8G8B8)
+                image = await loader.load_async()
+                frame = await image.next_frame_async()
             except GLib.Error as error:
                 self._log.warning(f"Error: {error.domain}, {error.message}")
                 self.emit("finished")
                 return
-            finally:
-                await istream.close_async(GLib.PRIORITY_DEFAULT_IDLE)
 
             try:
                 ostream = await self._file.create_async(
@@ -143,7 +144,15 @@ class StoreArt(GObject.Object):
                 return
             else:
                 try:
-                    _, buffer = pixbuf.save_to_bufferv("jpeg")
+                    creator = Gly.Creator.new("image/jpeg")
+                    creator.add_frame_with_stride(
+                        frame.get_width(),
+                        frame.get_height(),
+                        frame.get_stride(),
+                        frame.get_memory_format(),
+                        frame.get_buf_bytes())
+                    encoded_image = await creator.create_async()
+                    buffer = encoded_image.get_data()
                 except GLib.Error as error:
                     self._log.warning(
                         f"Error: {error.domain}, {error.message} for album: "
@@ -154,7 +163,7 @@ class StoreArt(GObject.Object):
                     return
 
                 try:
-                    await ostream.write_async(
+                    await ostream.write_bytes_async(
                         buffer, GLib.PRIORITY_DEFAULT_IDLE)
                 except GLib.Error as error:
                     self._log.info(f"Error: {error.domain}, {error.message}")

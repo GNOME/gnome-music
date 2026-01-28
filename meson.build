@@ -66,6 +66,8 @@ dependency('pygobject-3.0', version: '>= 3.54.0')
 dependency('py3cairo', version: '>= 1.14.0')
 dependency('grilo-0.3', version: '>= 0.3.13', fallback: ['grilo', 'libgrl_dep'])
 dependency('grilo-plugins-0.3', version: '>= 0.3.12', fallback: ['grilo-plugins', 'grilo_plugins_dep'])
+dependency('glycin-2', version: '>= 2.0.0')
+dependency('glycin-gtk4-2', version: '>= 2.0.0')
 
 subdir('data')
 subdir('help')

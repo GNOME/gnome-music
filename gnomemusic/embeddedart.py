@@ -25,7 +25,7 @@
 import gi
 gi.require_versions({"GstPbutils": "1.0", "GstTag": "1.0", "MediaArt": "2.0"})
 from gi.repository import (
-    GLib, GObject, MediaArt, GdkPixbuf, Gio, Gst, GstTag, GstPbutils)
+    GLib, GObject, MediaArt, Gio, Gly, Gst, GstTag, GstPbutils)
 
 from gnomemusic.musiclogger import MusicLogger
 from gnomemusic.utils import create_idle_task
@@ -145,23 +145,26 @@ class EmbeddedArt(GObject.GObject):
             if not success:
                 continue
 
-            create_idle_task(self._save_pixbuf(map_info.data))
+            gbytes = GLib.Bytes.new(map_info.data)
+            buf.unmap(map_info)
+
+            create_idle_task(self._save_as_jpg(gbytes))
             discoverer.stop()
             return
 
         discoverer.stop()
         create_idle_task(self._lookup_cover_in_directory())
 
-    async def _save_pixbuf(self, data: bytes) -> None:
-        istream = Gio.MemoryInputStream.new_from_data(data)
+    async def _save_as_jpg(self, data: GLib.Bytes) -> None:
+        loader = Gly.Loader.new_for_bytes(data)
+        loader.set_accepted_memory_formats(Gly.MemoryFormatSelection.R8G8B8)
         try:
-            pixbuf = await GdkPixbuf.Pixbuf.new_from_stream_async(istream)
+            image = await loader.load_async()
+            frame = await image.next_frame_async()
         except GLib.Error as error:
             self._log.warning(f"Error: {error.domain}, {error.message}")
             create_idle_task(self._lookup_cover_in_directory())
             return
-        finally:
-            await istream.close_async(GLib.PRIORITY_DEFAULT)
 
         try:
             ostream = await self._file.create_async(
@@ -175,7 +178,15 @@ class EmbeddedArt(GObject.GObject):
             return
         else:
             try:
-                _, buffer = pixbuf.save_to_bufferv("jpeg")
+                creator = Gly.Creator.new("image/jpeg")
+                creator.add_frame_with_stride(
+                    frame.get_width(),
+                    frame.get_height(),
+                    frame.get_stride(),
+                    frame.get_memory_format(),
+                    frame.get_buf_bytes())
+                encoded_image = await creator.create_async()
+                buffer = encoded_image.get_data()
             except GLib.Error as error:
                 self._log.warning(
                     f"Error: {error.domain}, {error.message} for album: "
@@ -186,7 +197,8 @@ class EmbeddedArt(GObject.GObject):
                 return
 
             try:
-                await ostream.write_async(buffer, GLib.PRIORITY_DEFAULT_IDLE)
+                await ostream.write_bytes_async(
+                    buffer, GLib.PRIORITY_DEFAULT_IDLE)
             except GLib.Error as error:
                 self._log.info(f"Error: {error.domain}, {error.message}")
                 create_idle_task(self._lookup_cover_in_directory())
