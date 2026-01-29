@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2025-12-10 16:58+0000\n"
-"PO-Revision-Date: 2026-01-09 22:46+0500\n"
+"POT-Creation-Date: 2025-11-24 19:37+0000\n"
+"PO-Revision-Date: 2026-01-29 22:25+0500\n"
 "Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>\n"
 "Language-Team: Kazakh <kk_KZ@googlegroups.com>\n"
 "Language: kk\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: data/org.gnome.Music.desktop.in.in:2
 #: data/org.gnome.Music.metainfo.xml.in.in:9 data/ui/StatusNavigationPage.ui:4
-#: gnomemusic/about.py:143 gnomemusic/application.py:61 gnomemusic/window.py:65
+#: gnomemusic/about.py:143 gnomemusic/application.py:41 gnomemusic/window.py:42
 msgid "Music"
 msgstr "Музыка"
 
@@ -115,7 +115,7 @@ msgid "Albums"
 msgstr "Альбомдар"
 
 #: data/ui/AlbumWidget.ui:84 data/ui/PlayerToolbar.ui:87
-#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:177
+#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:127
 msgid "Play"
 msgstr "Ойнату"
 
@@ -160,91 +160,6 @@ msgstr "Көмек"
 #: data/ui/HeaderBar.ui:43
 msgid "About Music"
 msgstr "Музыка қолданбасы туралы"
-
-#: data/ui/help-overlay.ui:11
-msgctxt "shortcut window"
-msgid "General"
-msgstr "Жалпы"
-
-#: data/ui/help-overlay.ui:14
-msgctxt "shortcut window"
-msgid "Preferences"
-msgstr "Баптаулар"
-
-#: data/ui/help-overlay.ui:20
-msgctxt "shortcut window"
-msgid "Search"
-msgstr "Іздеу"
-
-#: data/ui/help-overlay.ui:26
-msgctxt "shortcut window"
-msgid "Help"
-msgstr "Көмек"
-
-#: data/ui/help-overlay.ui:32
-msgctxt "shortcut window"
-msgid "Shortcuts"
-msgstr "Жарлықтар"
-
-#: data/ui/help-overlay.ui:38
-msgctxt "shortcut window"
-msgid "Quit"
-msgstr "Шығу"
-
-#: data/ui/help-overlay.ui:46
-msgctxt "shortcut window"
-msgid "Playback"
-msgstr "Ойнату"
-
-#: data/ui/help-overlay.ui:49
-msgctxt "shortcut window"
-msgid "Play/Pause"
-msgstr "Аялдату"
-
-#: data/ui/help-overlay.ui:55
-msgctxt "shortcut window"
-msgid "Next song"
-msgstr "Келесі өлең"
-
-#: data/ui/help-overlay.ui:61
-msgctxt "shortcut window"
-msgid "Previous song"
-msgstr "Алдыңғы өлең"
-
-#: data/ui/help-overlay.ui:67
-msgctxt "shortcut window"
-msgid "Toggle repeat"
-msgstr "Қайталауды іске қосу/сөндіру"
-
-#: data/ui/help-overlay.ui:73
-msgctxt "shortcut window"
-msgid "Toggle shuffle"
-msgstr "Араластыруды іске қосу/сөндіру"
-
-#: data/ui/help-overlay.ui:81
-msgctxt "shortcut window"
-msgid "Navigation"
-msgstr "Навигация"
-
-#: data/ui/help-overlay.ui:84
-msgctxt "shortcut window"
-msgid "Go to Albums"
-msgstr "Альбомдарға өту"
-
-#: data/ui/help-overlay.ui:90
-msgctxt "shortcut window"
-msgid "Go to Artists"
-msgstr "Әртістерге өту"
-
-#: data/ui/help-overlay.ui:96
-msgctxt "shortcut window"
-msgid "Go to Playlists"
-msgstr "Ойнату тізімдеріне өту"
-
-#: data/ui/help-overlay.ui:102
-msgctxt "shortcut window"
-msgid "Go back"
-msgstr "Артқа өту"
 
 #: data/ui/PlayerToolbar.ui:74
 msgid "Previous"
@@ -318,7 +233,7 @@ msgstr "Өлең"
 msgid "All"
 msgstr "Барлығы"
 
-#: data/ui/PreferencesDialog.ui:19 gnomemusic/player.py:51
+#: data/ui/PreferencesDialog.ui:19 gnomemusic/utils.py:72
 msgid "Shuffle"
 msgstr "Араластыру"
 
@@ -356,6 +271,10 @@ msgstr "Ұйықтатуды болдырмау"
 msgid "Only while playing"
 msgstr "Тек ойнап тұрғанда ғана"
 
+#: data/ui/RepeatModeButton.ui:14
+msgid "Set Repeat Mode"
+msgstr "Қайталау режимін орнату"
+
 #: data/ui/SearchView.ui:55 data/ui/SearchView.ui:112
 msgid "View All"
 msgstr "Барлығын қарау"
@@ -364,6 +283,106 @@ msgstr "Барлығын қарау"
 msgid "Songs"
 msgstr "Өлеңдер"
 
+#: data/ui/shortcuts-dialog.ui:6
+msgctxt "shortcut window"
+msgid "General"
+msgstr "Жалпы"
+
+#: data/ui/shortcuts-dialog.ui:9
+msgctxt "shortcut window"
+msgid "Preferences"
+msgstr "Баптаулар"
+
+#: data/ui/shortcuts-dialog.ui:15
+msgctxt "shortcut window"
+msgid "Search"
+msgstr "Іздеу"
+
+#: data/ui/shortcuts-dialog.ui:21
+msgctxt "shortcut window"
+msgid "Help"
+msgstr "Көмек"
+
+#: data/ui/shortcuts-dialog.ui:27
+msgctxt "shortcut window"
+msgid "Keyboard shortcuts"
+msgstr "Пернетақта жарлықтары"
+
+#: data/ui/shortcuts-dialog.ui:33
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Шығу"
+
+#: data/ui/shortcuts-dialog.ui:41
+msgctxt "shortcut window"
+msgid "Playback"
+msgstr "Ойнату"
+
+#: data/ui/shortcuts-dialog.ui:44
+msgctxt "shortcut window"
+msgid "Play/Pause"
+msgstr "Аялдату"
+
+#: data/ui/shortcuts-dialog.ui:50
+msgctxt "shortcut window"
+msgid "Next song"
+msgstr "Келесі өлең"
+
+#: data/ui/shortcuts-dialog.ui:56
+msgctxt "shortcut window"
+msgid "Previous song"
+msgstr "Алдыңғы өлең"
+
+#: data/ui/shortcuts-dialog.ui:62
+msgctxt "shortcut window"
+msgid "Toggle repeat"
+msgstr "Қайталауды іске қосу/сөндіру"
+
+#: data/ui/shortcuts-dialog.ui:68
+msgctxt "shortcut window"
+msgid "Toggle shuffle"
+msgstr "Араластыруды іске қосу/сөндіру"
+
+#: data/ui/shortcuts-dialog.ui:74
+msgctxt "shortcut window"
+msgid "Increase volume"
+msgstr "Дыбысты арттыру"
+
+#: data/ui/shortcuts-dialog.ui:80
+msgctxt "shortcut window"
+msgid "Decrease volume"
+msgstr "Дыбысты азайту"
+
+#: data/ui/shortcuts-dialog.ui:86
+msgctxt "shortcut window"
+msgid "Toggle mute"
+msgstr "Дыбысты басуды іске қосу/сөндіру"
+
+#: data/ui/shortcuts-dialog.ui:94
+msgctxt "shortcut window"
+msgid "Navigation"
+msgstr "Навигация"
+
+#: data/ui/shortcuts-dialog.ui:97
+msgctxt "shortcut window"
+msgid "Go to Albums"
+msgstr "Альбомдарға өту"
+
+#: data/ui/shortcuts-dialog.ui:103
+msgctxt "shortcut window"
+msgid "Go to Artists"
+msgstr "Әртістерге өту"
+
+#: data/ui/shortcuts-dialog.ui:109
+msgctxt "shortcut window"
+msgid "Go to Playlists"
+msgstr "Ойнату тізімдеріне өту"
+
+#: data/ui/shortcuts-dialog.ui:115
+msgctxt "shortcut window"
+msgid "Go back"
+msgstr "Артқа өту"
+
 #: data/ui/SongWidgetMenu.ui:19
 msgid "_Remove from Playlist"
 msgstr "Ойнату тізімінен өші_ру"
@@ -371,6 +390,14 @@ msgstr "Ойнату тізімінен өші_ру"
 #: data/ui/StatusNavigationPage.ui:36
 msgid "Welcome to Music"
 msgstr "Музыкаға қош келдіңіз"
+
+#: data/ui/VolumeButton.ui:12
+msgid "Adjust Volume"
+msgstr "Дыбысты келтіру"
+
+#: data/ui/VolumeButton.ui:27
+msgid "Mute/Unmute"
+msgstr "Дыбысын басу/іске қосу"
 
 #: gnomemusic/about.py:145
 msgid "The GNOME Project"
@@ -388,61 +415,61 @@ msgid "© The GNOME Music Developers"
 msgstr "© GNOME музыкасы әзірлеушілері"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/smartplaylist.py:128
+#: gnomemusic/grilowrappers/smartplaylist.py:96
 msgid "Most Played"
 msgstr "Ең жиі ойнатылған"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/smartplaylist.py:182
+#: gnomemusic/grilowrappers/smartplaylist.py:148
 msgid "Never Played"
 msgstr "Ешқашан ойналмаған"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/smartplaylist.py:235
+#: gnomemusic/grilowrappers/smartplaylist.py:199
 msgid "Recently Played"
 msgstr "Жақында ойналған"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/smartplaylist.py:314
+#: gnomemusic/grilowrappers/smartplaylist.py:276
 msgid "Recently Added"
 msgstr "Жақында қосылған"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/smartplaylist.py:377
-msgid "Favorite Songs"
-msgstr "Таңдамалы өлеңдер"
+#: gnomemusic/grilowrappers/smartplaylist.py:337
+msgid "Starred Songs"
+msgstr "Жұлдызшалы өлеңдер"
 
 #. TRANSLATORS: this is a playlist name indicating that the
 #. files are not tagged enough to be displayed in the albums
 #. or artists views.
-#: gnomemusic/grilowrappers/smartplaylist.py:431
+#: gnomemusic/grilowrappers/smartplaylist.py:389
 msgid "Insufficiently Tagged"
 msgstr "Жеткіліксіз тегтелген"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/smartplaylist.py:494
+#: gnomemusic/grilowrappers/smartplaylist.py:450
 msgid "All Songs"
 msgstr "Барлық өлеңдер"
 
-#: gnomemusic/gstplayer.py:431
+#: gnomemusic/gstplayer.py:455
 msgid "Unable to play the file"
 msgstr "Файлды ойнату мүмкін емес"
 
-#: gnomemusic/gstplayer.py:437
+#: gnomemusic/gstplayer.py:461
 msgid "_Find in {}"
 msgstr "{} ішінен _табу"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:447
+#: gnomemusic/gstplayer.py:471
 msgid " and "
 msgstr " және "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:450
+#: gnomemusic/gstplayer.py:474
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:452
+#: gnomemusic/gstplayer.py:476
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "файлды ойнату үшін {} керек, бірақ, ол орнатылмаған."
@@ -450,19 +477,6 @@ msgstr[0] "файлды ойнату үшін {} керек, бірақ, ол о
 #: gnomemusic/inhibitsuspend.py:69
 msgid "Playing music"
 msgstr "Музыканы ойнату"
-
-#. Translators: "shuffle" causes tracks to play in random order.
-#: gnomemusic/player.py:48
-msgid "Shuffle/Repeat Off"
-msgstr "Араластыру/қайталау сөндірілген"
-
-#: gnomemusic/player.py:49
-msgid "Repeat Song"
-msgstr "Тректі қайталау"
-
-#: gnomemusic/player.py:50
-msgid "Repeat All"
-msgstr "Барлығын қайталау"
 
 #: gnomemusic/playlisttoast.py:55
 msgid "Playlist {} removed"
@@ -476,11 +490,20 @@ msgstr "Болдырмау"
 msgid "{} removed from {}"
 msgstr "{} {} ішінен өшірілді"
 
-#: gnomemusic/utils.py:92
-msgid "Unknown album"
-msgstr "Белгісіз альбом"
+#. Translators: "shuffle" causes tracks to play in random order.
+#: gnomemusic/utils.py:69
+msgid "Shuffle/Repeat Off"
+msgstr "Араластыру/қайталау сөндірілген"
 
-#: gnomemusic/utils.py:113
+#: gnomemusic/utils.py:70
+msgid "Repeat Song"
+msgstr "Тректі қайталау"
+
+#: gnomemusic/utils.py:71
+msgid "Repeat All"
+msgstr "Барлығын қайталау"
+
+#: gnomemusic/utils.py:118
 msgid "Unknown Artist"
 msgstr "Белгісіз әртіс"
 
@@ -506,12 +529,12 @@ msgstr "Нәтижелер табылмады"
 msgid "Try a different search"
 msgstr "Басқа сөздерді іздеп көріңіз"
 
-#: gnomemusic/widgets/albumwidget.py:242
+#: gnomemusic/widgets/albumwidget.py:244
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} минут"
 
-#: gnomemusic/widgets/playertoolbar.py:174
+#: gnomemusic/widgets/playertoolbar.py:124
 msgid "Pause"
 msgstr "Аялдату"
 
@@ -520,22 +543,22 @@ msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} өлең"
 
-#: gnomemusic/widgets/searchheaderbar.py:54
+#: gnomemusic/widgets/searchheaderbar.py:34
 msgid "Search songs, artists and albums"
 msgstr "Өлеңдер, әртістер және альбомдардан іздеу"
 
 #. noqa: F841
-#: gnomemusic/widgets/songwidgetmenu.py:94
+#: gnomemusic/widgets/songwidgetmenu.py:96
 msgid "_Open Location"
 msgstr "Орналасуды а_шу"
 
-#. TRANSLATORS: These are verbs, to (un)mark something as a
-#. favorite.
-#: gnomemusic/widgets/startoggle.py:36
+#. TRANSLATORS: A verb, to unmark a song as favorite
+#: gnomemusic/widgets/startoggle.py:37
 msgid "Unstar"
 msgstr "Жұлдызшаны алып тастау"
 
-#: gnomemusic/widgets/startoggle.py:36
+#. TRANSLATORS: A verb, to mark a song as favorite
+#: gnomemusic/widgets/startoggle.py:41
 msgid "Star"
 msgstr "Жұлдызшаны орнату"
 
@@ -578,6 +601,13 @@ msgstr "Жүйелік Tracker нұсқасы ескірген сияқты."
 #: gnomemusic/widgets/statusnavigationpage.py:129
 msgid "Music needs Tracker version 3.0.0 or higher."
 msgstr "Музыка қолданбасы Tracker 3.0.0 немесе жоғарылау нұсқасын талап етеді."
+
+#~ msgctxt "shortcut window"
+#~ msgid "Shortcuts"
+#~ msgstr "Жарлықтар"
+
+#~ msgid "Unknown album"
+#~ msgstr "Белгісіз альбом"
 
 #~ msgid "The GNOME Music developers"
 #~ msgstr "GNOME музыкасы әзірлеушілері"
