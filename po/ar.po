@@ -1,381 +1,745 @@
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# Arabic translation for gnome-music
+# Copyright (C) 2014, 2025 gnome-music's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-music package.
 #
-# Translators:
 # aldileroi <alaeddinebensalah@gmail.com>, 2014.
 # Safa Alfulaij <safa1996alfulaij@gmail.com>, 2014.
+# Amar <al_janabi7@yahoo.com>, 2025.
+# Ahmed Najmawi <iramosu@protonmail.com>, 2025.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: Gnome 3.12\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
-"music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-07-16 18:53+0000\n"
-"PO-Revision-Date: 2014-07-16 23:42+0300\n"
-"Last-Translator: Safa Alfulaij <safa1996alfulaij@gmail.com>\n"
-"Language-Team: Arabic <doc@arabeyes.org>\n"
+"Project-Id-Version: gnome-music master\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
+"POT-Creation-Date: 2025-05-01 20:17+0000\n"
+"PO-Revision-Date: 2025-07-11 08:01+0300\n"
+"Last-Translator: Ahmed Najmawi <iramosu@protonmail.com>\n"
+"Language-Team: Arabic\n"
 "Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"language/ar/)\n"
-"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"Plural-Forms: nplurals=6; plural= n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Gtranslator 48.0\n"
 
-#: ../data/org.gnome.Music.gschema.xml.h:1
+#: data/org.gnome.Music.desktop.in.in:3
+#: data/org.gnome.Music.metainfo.xml.in.in:9 data/ui/StatusNavigationPage.ui:4
+#: gnomemusic/about.py:143 gnomemusic/application.py:61 gnomemusic/window.py:65
+msgid "Music"
+msgstr "موسيقى"
+
+#: data/org.gnome.Music.desktop.in.in:4
+msgid "Music Player"
+msgstr "مُشغِّل موسيقى"
+
+#: data/org.gnome.Music.desktop.in.in:5
+#: data/org.gnome.Music.metainfo.xml.in.in:10
+msgid "Play and organize your music collection"
+msgstr "شغل ونظِّم مجموعتك الموسيقية"
+
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/org.gnome.Music.desktop.in.in:13
+msgid "Music;Player;"
+msgstr "الموسيقى;المشغل;الصوتيات;"
+
+#: data/org.gnome.Music.metainfo.xml.in.in:12
+msgid "An easy and pleasant way to play your music."
+msgstr "طريقة سهلة وممتعة لتشغيل مجموعتك الموسيقية."
+
+#: data/org.gnome.Music.metainfo.xml.in.in:15
+msgid ""
+"Find tracks in your local collection, use automatically generated playlists "
+"or curate a fresh one."
+msgstr ""
+"ابحث عن المقطوعات في مجموعتك المحليَّة، واستخدم قوائم التشغيل المولَّدة آليًا أو "
+"أنشئ واحدة جديدة."
+
+#: data/org.gnome.Music.gschema.xml:17
 msgid "Window size"
 msgstr "حجم النافذة"
 
-#: ../data/org.gnome.Music.gschema.xml.h:2
+#: data/org.gnome.Music.gschema.xml:18
 msgid "Window size (width and height)."
-msgstr "حجم النافذة (العرض والارتفاع)."
+msgstr "حجم النافذة (العُرض والارتفاع)."
 
-#: ../data/org.gnome.Music.gschema.xml.h:3
-msgid "Window position"
-msgstr "موضع النافذة"
-
-#: ../data/org.gnome.Music.gschema.xml.h:4
-msgid "Window position (x and y)."
-msgstr "موضع النافذة (x و y)."
-
-#: ../data/org.gnome.Music.gschema.xml.h:5
+#: data/org.gnome.Music.gschema.xml:22
 msgid "Window maximized"
-msgstr "النافذة مُكبّرة"
+msgstr "النافذة مُكبَّرة"
 
-#: ../data/org.gnome.Music.gschema.xml.h:6
+#: data/org.gnome.Music.gschema.xml:23
 msgid "Window maximized state."
 msgstr "حالة تكبير النافذة."
 
-#: ../data/org.gnome.Music.gschema.xml.h:7
+#: data/org.gnome.Music.gschema.xml:27
 msgid "Playback repeat mode"
 msgstr "وضع تكرار التشغيل"
 
 #. Translators: Don't translate allowed values, just the description in the brackets
-#: ../data/org.gnome.Music.gschema.xml.h:9
+#: data/org.gnome.Music.gschema.xml:29
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
-"collection. Allowed values are: \"none\" (repeat and shuffle are off), \"song"
-"\" (repeat current song), \"all\" (repeat playlist, no shuffle), \"shuffle"
-"\" (shuffle playlist, presumes repeat all)."
+"collection. Allowed values are: “none” (repeat and shuffle are off), “song” "
+"(repeat current song), “all” (repeat playlist, no shuffle), “shuffle” "
+"(shuffle playlist, presumes repeat all)."
 msgstr ""
-"قيمة تحدّد فيما إذا كان التكرار بطريقة عشوائية أو من خلال تشغيل المجموعة. "
-"القيم المسموح بها هي: \"none\" (التكرار والخلط معطّلان)، \"song\" (تكرار "
-"الأغنية الحالية)، \"all\" (تكرار قائمة الأغاني، لا خلط)، \"shuffle\" (خلط "
-"قائمة الأغاني، يفترض تكرار كل شيء)."
+"تُحدِّد القيمة ما إذا كان سيُكرَّر التشغيل أم سيُنتقى عشوائيًا عبر المجموعة. القيم "
+"المسموحة هي: «none» (عطِّل التكرار والخلط)، و«song» (كرِّر المقطوعة الحالية)، "
+"و«all» (كرِّر قائمة التشغيل دون خلط)، و«shuffle» (اخلط قائمة التشغيل، وافترض "
+"تكرار الكل)."
 
-#: ../data/org.gnome.Music.gschema.xml.h:10
-msgid "Search mode"
-msgstr "وضع البحث"
+#: data/org.gnome.Music.gschema.xml:33
+msgid "Enable ReplayGain"
+msgstr "فعِّل كسب الإعادة"
 
-#: ../data/org.gnome.Music.gschema.xml.h:11
-msgid "If true, the search bar is shown."
-msgstr "إذا كان صحيحًا، سيظهر شريط البحث."
-
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:50
-#: ../gnomemusic/application.py:112 ../gnomemusic/window.py:62
-#: ../data/AboutDialog.ui.in.h:1
-msgid "Music"
-msgstr "موسيقى"
-
-#: ../data/gnome-music.desktop.in.h:2
-msgid "Music Player"
-msgstr "مشغّل الموسيقى"
-
-#: ../data/gnome-music.desktop.in.h:3 ../data/gnome-music.appdata.xml.in.h:2
-msgid "Play and organize your music collection"
-msgstr "شغل ونظّم مجموعتك الموسيقية"
-
-#: ../data/gnome-music.appdata.xml.in.h:1
-msgid "GNOME Music"
-msgstr "موسيقى جنوم"
-
-#: ../data/gnome-music.appdata.xml.in.h:3
-msgid "Music is the new GNOME music playing application."
-msgstr "موسيقى هو تطبيق جنوم لتشغيل الموسيقى الجديد."
-
-#: ../gnomemusic/albumArtCache.py:100 ../gnomemusic/albumArtCache.py:108
-msgid "Untitled"
-msgstr "غير معنون"
-
-#: ../gnomemusic/mpris.py:133 ../gnomemusic/notification.py:100
-#: ../gnomemusic/player.py:400 ../gnomemusic/view.py:577
-#: ../gnomemusic/view.py:964 ../gnomemusic/view.py:1291
-msgid "Unknown Album"
-msgstr "ألبوم مجهول"
-
-#: ../gnomemusic/mpris.py:149 ../gnomemusic/notification.py:98
-#: ../gnomemusic/player.py:391 ../gnomemusic/view.py:286
-#: ../gnomemusic/view.py:486 ../gnomemusic/view.py:720
-#: ../gnomemusic/view.py:1068 ../gnomemusic/view.py:1289
-#: ../gnomemusic/view.py:1320 ../gnomemusic/widgets.py:184
-#: ../gnomemusic/widgets.py:563
-msgid "Unknown Artist"
-msgstr "فنّان مجهول"
-
-#: ../gnomemusic/notification.py:89
-msgid "Not playing"
-msgstr "متوقّف"
-
-#. TRANSLATORS: by refers to the artist, from to the album
-#: ../gnomemusic/notification.py:104
-#, python-format
-msgid "by %s, from %s"
-msgstr "أدّاها %s، من %s"
-
-#: ../gnomemusic/notification.py:128 ../data/PlayerToolbar.ui.h:5
-msgid "Previous"
-msgstr "السابقة"
-
-#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:348
-msgid "Pause"
-msgstr "ألبِث"
-
-#: ../gnomemusic/notification.py:134 ../gnomemusic/player.py:351
-#: ../data/PlayerToolbar.ui.h:6
-msgid "Play"
-msgstr "شغّل"
-
-#: ../gnomemusic/notification.py:136 ../data/PlayerToolbar.ui.h:7
-msgid "Next"
-msgstr "التالية"
-
-#: ../gnomemusic/searchbar.py:30 ../gnomemusic/searchbar.py:73
-msgid "All"
-msgstr "الكلّ"
-
-#: ../gnomemusic/searchbar.py:31
-msgid "Artist"
-msgstr "الفنّان"
-
-#: ../gnomemusic/searchbar.py:32
-msgid "Album"
-msgstr "الألبوم"
-
-#: ../gnomemusic/searchbar.py:33
-msgid "Track Title"
-msgstr "عنوان المقطوعة"
-
-#: ../gnomemusic/searchbar.py:74
-msgid "Local"
-msgstr "المحليّ"
-
-#: ../gnomemusic/searchbar.py:176
-msgid "Sources"
-msgstr "المصادر"
-
-#: ../gnomemusic/searchbar.py:183
-msgid "Match"
-msgstr "طابق"
-
-#: ../gnomemusic/view.py:201 ../gnomemusic/widgets.py:225
-#: ../gnomemusic/widgets.py:442 ../gnomemusic/window.py:278
-#, python-format
-msgid "Selected %d item"
-msgid_plural "Selected %d items"
-msgstr[0] "لا عناصر محدّدة (%d)"
-msgstr[1] "عنصر واحد محدّد (%d)"
-msgstr[2] "عنصران محدّدان (%d)"
-msgstr[3] "%d عناصر محدّدة"
-msgstr[4] "%d عنصرًا محدّدًا"
-msgstr[5] "%d عنصر محدّد"
-
-#: ../gnomemusic/view.py:203 ../gnomemusic/widgets.py:227
-#: ../gnomemusic/widgets.py:444 ../gnomemusic/window.py:282
-#: ../gnomemusic/window.py:294 ../data/headerbar.ui.h:3
-msgid "Click on items to select them"
-msgstr "انقر على العناصر لتحديدها"
-
-#: ../gnomemusic/view.py:340
-#, python-format
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: data/org.gnome.Music.gschema.xml:35
 msgid ""
-"No Music found!\n"
-" Put some files into the folder %s"
+"Enables or disables ReplayGain for albums or track. Allowed values are: "
+"“disabled” (disables replaygain), “album” (replaygain per album), “track” "
+"(replaygain per track)."
 msgstr ""
-"لم يُعثر على موسيقى!\n"
-" ضع بعض الملفات في المجلد %s"
+"يفعِّل أو يعطِّل كسب الإعادة للألبومات أو المقطوعات. القيم المسموحة هي: "
+"«disabled» (عطِّل كسب الإعادة)، و«album» (وازن الكسب لكل ألبوم)، و«track» "
+"(وازن الكسب لكل مقطوعة)."
 
-#: ../gnomemusic/view.py:348 ../gnomemusic/view.py:1535
+#: data/org.gnome.Music.gschema.xml:39
+msgid "Inhibit system suspend"
+msgstr "ثبِّط تعليق النظام"
+
+#: data/org.gnome.Music.gschema.xml:40
+msgid "Enables or disables inhibiting system suspend while playing music"
+msgstr "يفعِّل أو يعطِّل تثبيط تعليق النظام أثناء تشغيل الموسيقى"
+
+#: data/ui/AlbumsSearchNavigationPage.ui:5 data/ui/SearchView.ui:98
+#: gnomemusic/views/albumsview.py:30
 msgid "Albums"
 msgstr "الألبومات"
 
-#: ../gnomemusic/view.py:430 ../gnomemusic/view.py:1537
-msgid "Songs"
-msgstr "الأغاني"
+#: data/ui/AlbumWidget.ui:84 data/ui/PlayerToolbar.ui:87
+#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:176
+msgid "Play"
+msgstr "شغِّل"
 
-#: ../gnomemusic/view.py:594 ../gnomemusic/view.py:1536
+#: data/ui/AlbumWidget.ui:130 data/ui/PlaylistControls.ui:5
+#: data/ui/SongWidgetMenu.ui:11
+msgid "_Play"
+msgstr "_شغِّل"
+
+#: data/ui/AlbumWidget.ui:134
+msgid "Add to _Favorite Songs"
+msgstr "أضِف إلى الأغاني الم_فضَّلة"
+
+#: data/ui/AlbumWidget.ui:138 data/ui/SongWidgetMenu.ui:15
+msgid "_Add to Playlist…"
+msgstr "أضِف إلى _قائمة تشغيل…"
+
+#: data/ui/ArtistsSearchNavigationPage.ui:5 data/ui/SearchView.ui:41
+#: gnomemusic/views/artistsview.py:51
 msgid "Artists"
-msgstr "الفنّانون"
+msgstr "المؤدون"
 
-#: ../gnomemusic/view.py:639 ../gnomemusic/view.py:641
-#: ../gnomemusic/widgets.py:451
-msgid "All Artists"
-msgstr "كلّ الفنانين"
+#: data/ui/HeaderBar.ui:14
+msgid "Menu"
+msgstr "القائمة"
 
-#: ../gnomemusic/view.py:800 ../gnomemusic/view.py:1538
-msgid "Playlists"
-msgstr "قوائم التشغيل"
-
-#: ../gnomemusic/view.py:1080
-#, python-format
-msgid "%d Song"
-msgid_plural "%d Songs"
-msgstr[0] "لا أغاني (%d)"
-msgstr[1] "أغنية واحدة (%d)"
-msgstr[2] "أغنيتان (%d)"
-msgstr[3] "%d أغاني"
-msgstr[4] "%d أغنية"
-msgstr[5] "%d أغنية"
-
-#: ../gnomemusic/widgets.py:677
-msgid "New Playlist"
-msgstr "قائمة تشغيل جديدة"
-
-#: ../gnomemusic/window.py:226
-msgid "Empty"
-msgstr "فارغ"
-
-#: ../data/AboutDialog.ui.in.h:2
-msgid "Copyright © 2013 GNOME Music Developers"
-msgstr "حقوق النسخ © 2013 مطوّرو موسيقى جنوم"
-
-#: ../data/AboutDialog.ui.in.h:3
-msgid "A music player and management application for GNOME."
-msgstr "برمجية جنوم لتشغيل الموسيقى وإدارتها."
-
-#: ../data/AboutDialog.ui.in.h:4
-msgid "Visit GNOME Music website"
-msgstr "زُر موقع وِب موسيقى جنوم"
-
-#: ../data/AboutDialog.ui.in.h:5
-msgid ""
-"GNOME Music is free software; you can redistribute it and/or modify it under "
-"the terms of the GNU General Public License as published by the Free "
-"Software Foundation; either version 2 of the License, or (at your option) "
-"any later version.\n"
-"\n"
-"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
-"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
-"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
-"more details.\n"
-"\n"
-"You should have received a copy of the GNU General Public License along with "
-"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
-"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
-"\n"
-"The GNOME Music authors hereby grant permission for non-GPL compatible "
-"GStreamer plugins to be used and distributed together with GStreamer and "
-"GNOME Music.  This permission is above and beyond the permissions granted by "
-"the GPL license by which GNOME Music is covered.  If you modify this code, "
-"you may extend this exception to your version of the code, but you are not "
-"obligated to do so.  If you do not wish to do so, delete this exception "
-"statement from your version."
-msgstr ""
-"موسيقى جنوم برنامج حر؛ بإمكانك إعادة توزيعه و/أو تعديله تحت شروط الرخصة "
-"العمومية العامة لجنو والتي نشرتها منظمة البرمجيات الحرة؛ سواء الإصدارة 2 من "
-"الرخصة أو أي إصدارة بعدها حسب رغبتك.\n"
-"\n"
-"يوزّع موسيقى جنوم على أمل أن يكون مفيدًا لمن يستخدمه، دون أدنى مسؤولية؛ ولا "
-"حتى أي ضمان يضمن صلاحية العرض في السوق أو توافقه مع أي استخدام محدد. يمكنك "
-"مراجعة الرخصة العمومية العامة لجنو لمزيد من التفاصيل.\n"
-"\n"
-"من المفترض أن تكون قد استلمت نسخة من رخصة جنو العامةمع موسيقى جنوم؛ في حال "
-"عدم استلامك لذلك، يمكنك مكاتبة:\n"
-"Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA "
-"02110-1301 USA.\n"
-"\n"
-"يمنح كاتبو موسيقى جنوم إذن استخدام ملحقات GStreamer غير المتوافقة مع GPL "
-"وتوزيعها مع GStreamer وموسيقى جنوم. هذا الإذن هو تجاوز للأذون الممنوحة من "
-"رخصة GPL التي أُصدر موسيقى جنوم بها. إن عدّلت هذه الشِفرة، قد ترغب بتوسيع هذا "
-"الاستثناء إلى إصدار الشِفرة خاصّتك، ولكنك لست ملزمًا بذلك. إن لم ترغب بذلك، "
-"احذف بيان الاستثناء هذا من الإصدار خاصّتك."
-
-#: ../data/AlbumWidget.ui.h:1
-msgid "Released"
-msgstr "أُصدر في"
-
-#: ../data/AlbumWidget.ui.h:2
-msgid "Running Length"
-msgstr "طول التشغيل"
-
-#: ../data/app-menu.ui.h:1
-msgid "_New Playlist"
-msgstr "قائمة تشغيل _جديدة"
-
-#: ../data/app-menu.ui.h:2
-msgid "_Help"
-msgstr "م_ساعدة"
-
-#: ../data/app-menu.ui.h:3
-msgid "_About"
-msgstr "_عنْ"
-
-#: ../data/app-menu.ui.h:4
-msgid "_Quit"
-msgstr "أ_نهِ"
-
-#: ../data/PlayerToolbar.ui.h:1
-msgid "Shuffle"
-msgstr "اخلط"
-
-#: ../data/PlayerToolbar.ui.h:2
-msgid "Repeat All"
-msgstr "كرّر الكلّ"
-
-#: ../data/PlayerToolbar.ui.h:3
-msgid "Repeat Song"
-msgstr "كرّر الأغنية"
-
-#: ../data/PlayerToolbar.ui.h:4
-msgid "Shuffle/Repeat Off"
-msgstr "أوقف الخلط/التكرار"
-
-#: ../data/NoMusic.ui.h:1
-msgid "No Music Found"
-msgstr "لم يُعثر على موسيقى"
-
-#: ../data/headerbar.ui.h:1
-msgid "Select All"
-msgstr "حدّد الكلّ"
-
-#: ../data/headerbar.ui.h:2
-msgid "Select None"
-msgstr "حدّد لا شيء"
-
-#: ../data/headerbar.ui.h:4
+#: data/ui/HeaderBar.ui:22 data/ui/SearchHeaderBar.ui:12
 msgid "Search"
 msgstr "ابحث"
 
-#: ../data/headerbar.ui.h:5 ../data/PlaylistDialog.ui.h:3
-msgid "Select"
-msgstr "اختر"
+#: data/ui/HeaderBar.ui:31 data/ui/PreferencesDialog.ui:4
+msgid "Preferences"
+msgstr "التفضيلات"
 
-#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:2
-msgid "Cancel"
-msgstr "ألغِ"
+#: data/ui/HeaderBar.ui:35
+msgid "Keyboard Shortcuts"
+msgstr "اختصارات لوحة المفاتيح"
 
-#: ../data/headerbar.ui.h:7
-msgid "Back"
+#: data/ui/HeaderBar.ui:39
+msgid "Help"
+msgstr "مساعدة"
+
+#: data/ui/HeaderBar.ui:43
+msgid "About Music"
+msgstr "عَنْ «موسيقى»"
+
+#: data/ui/help-overlay.ui:11
+msgctxt "shortcut window"
+msgid "General"
+msgstr "عام"
+
+#: data/ui/help-overlay.ui:14
+msgctxt "shortcut window"
+msgid "Preferences"
+msgstr "التفضيلات"
+
+#: data/ui/help-overlay.ui:20
+msgctxt "shortcut window"
+msgid "Search"
+msgstr "ابحث"
+
+#: data/ui/help-overlay.ui:26
+msgctxt "shortcut window"
+msgid "Help"
+msgstr "المساعدة"
+
+#: data/ui/help-overlay.ui:32
+msgctxt "shortcut window"
+msgid "Shortcuts"
+msgstr "الاختصارات"
+
+#: data/ui/help-overlay.ui:38
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "اخرج"
+
+#: data/ui/help-overlay.ui:46
+msgctxt "shortcut window"
+msgid "Playback"
+msgstr "التشغيل"
+
+#: data/ui/help-overlay.ui:49
+msgctxt "shortcut window"
+msgid "Play/Pause"
+msgstr "شغِّل\\ألبث"
+
+#: data/ui/help-overlay.ui:55
+msgctxt "shortcut window"
+msgid "Next song"
+msgstr "الأغنية التالية"
+
+#: data/ui/help-overlay.ui:61
+msgctxt "shortcut window"
+msgid "Previous song"
+msgstr "الأغنية السابقة"
+
+#: data/ui/help-overlay.ui:67
+msgctxt "shortcut window"
+msgid "Toggle repeat"
+msgstr "بدِّل التكرار"
+
+#: data/ui/help-overlay.ui:73
+msgctxt "shortcut window"
+msgid "Toggle shuffle"
+msgstr "بدِّل الخلط"
+
+#: data/ui/help-overlay.ui:81
+msgctxt "shortcut window"
+msgid "Navigation"
+msgstr "التنقل"
+
+#: data/ui/help-overlay.ui:84
+msgctxt "shortcut window"
+msgid "Go to Albums"
+msgstr "اذهب إلى الألبومات"
+
+#: data/ui/help-overlay.ui:90
+msgctxt "shortcut window"
+msgid "Go to Artists"
+msgstr "اذهب إلى الفنانين"
+
+#: data/ui/help-overlay.ui:96
+msgctxt "shortcut window"
+msgid "Go to Playlists"
+msgstr "اذهب إلى قوائم التشغيل"
+
+#: data/ui/help-overlay.ui:102
+msgctxt "shortcut window"
+msgid "Go back"
 msgstr "ارجع"
 
-#: ../data/SelectionToolbar.ui.h:1
-msgid "Add to Playlist"
-msgstr "أضف إلى قائمة التشغيل"
+#: data/ui/PlayerToolbar.ui:74
+msgid "Previous"
+msgstr "السابقة"
 
-#: ../data/SelectionToolbar.ui.h:2
-msgid "Remove from Playlist"
-msgstr "أزِل من قائمة التشغيل"
+#: data/ui/PlayerToolbar.ui:106
+msgid "Next"
+msgstr "التالية"
 
-#: ../data/PlaylistControls.ui.h:1
-msgid "_Play"
-msgstr "_شغّل"
-
-#: ../data/PlaylistControls.ui.h:2
+#: data/ui/PlaylistControls.ui:9
 msgid "_Delete"
 msgstr "اح_ذف"
 
-#: ../data/PlaylistDialog.ui.h:1
-msgid "Select Playlist"
-msgstr "اختر قائمة تشغيل"
+#: data/ui/PlaylistControls.ui:13
+msgid "_Rename…"
+msgstr "أعِد ال_تسمية…"
+
+#: data/ui/PlaylistControls.ui:28
+msgid "Playlist Name"
+msgstr "اسم قائمة التشغيل"
+
+#: data/ui/PlaylistControls.ui:62
+msgid "_Done"
+msgstr "_نُفِّذ"
+
+#: data/ui/PlaylistDialog.ui:16
+msgid "Add to Playlist"
+msgstr "أضِف إلى قائمة التشغيل"
+
+#: data/ui/PlaylistDialog.ui:27
+msgid "_Cancel"
+msgstr "أ_لغِ"
+
+#: data/ui/PlaylistDialog.ui:36
+msgid "_Add"
+msgstr "أ_ضِف"
+
+#: data/ui/PlaylistDialog.ui:91
+msgid "Enter a name for your first playlist"
+msgstr "أدخل اسمًا لقائمة تشغيلك الأولى"
+
+#: data/ui/PlaylistDialog.ui:116
+msgid "C_reate"
+msgstr "أ_نشِئ"
+
+#: data/ui/PlaylistDialog.ui:177
+msgid "New Playlist…"
+msgstr "قائمة تشغيل جديدة…"
+
+#: data/ui/PlaylistDialog.ui:189
+msgid "Add"
+msgstr "أضِف"
+
+#: data/ui/PreferencesDialog.ui:9
+msgid "Player Settings"
+msgstr "إعدادات المُشغِّل"
+
+#: data/ui/PreferencesDialog.ui:12
+msgid "Repeat Mode"
+msgstr "وضع التكرار"
+
+#: data/ui/PreferencesDialog.ui:16
+msgid "None"
+msgstr "بلا"
+
+#: data/ui/PreferencesDialog.ui:17
+msgid "Song"
+msgstr "الأغاني"
+
+#: data/ui/PreferencesDialog.ui:18
+msgid "All"
+msgstr "الكل"
+
+#: data/ui/PreferencesDialog.ui:19 gnomemusic/player.py:51
+msgid "Shuffle"
+msgstr "اخلط"
+
+#: data/ui/PreferencesDialog.ui:27
+msgid "ReplayGain"
+msgstr "كسب الإعادة"
+
+#: data/ui/PreferencesDialog.ui:28
+msgid "Balance loudness between songs if ReplayGain metadata is found"
+msgstr "يوازن ارتفاع الصوت بين الأغاني إن وُجدت بيانات كسب الإعادة الوصفية"
+
+#: data/ui/PreferencesDialog.ui:32
+msgid "Disabled"
+msgstr "مُعطَّل"
+
+#: data/ui/PreferencesDialog.ui:33
+msgid "Album"
+msgstr "الألبوم"
+
+#: data/ui/PreferencesDialog.ui:34
+msgid "Track"
+msgstr "المقطوعة"
+
+#: data/ui/PreferencesDialog.ui:44
+msgid "Power Settings"
+msgstr "إعدادات الطاقة"
+
+#: data/ui/PreferencesDialog.ui:47
+msgid "Inhibit Suspend"
+msgstr "ثبِّط التعليق"
+
+#: data/ui/PreferencesDialog.ui:48
+msgid "Only while playing"
+msgstr "أثناء التشغيل فقط"
+
+#: data/ui/SearchView.ui:55 data/ui/SearchView.ui:112
+msgid "View All"
+msgstr "اعرض الكل"
+
+#: data/ui/SearchView.ui:154
+msgid "Songs"
+msgstr "الأغاني"
+
+#: data/ui/SongWidgetMenu.ui:19
+msgid "_Remove from Playlist"
+msgstr "أ_زِل من قائمة التشغيل"
+
+#: data/ui/StatusNavigationPage.ui:36
+msgid "Welcome to Music"
+msgstr "أهلًا بك في «موسيقى»"
+
+#: gnomemusic/about.py:145
+msgid "The GNOME Project"
+msgstr "مشروع جنوم"
+
+#. Translators should localize the following string which
+#. will be displayed at the bottom of the about box to give
+#. credit to the translator(s).
+#: gnomemusic/about.py:151
+msgid "translator-credits"
+msgstr ""
+"علاء الدين بن صلاح <alaeddinebensalah@gmail.com>\n"
+"صفا الفليج <safa1996alfulaij@gmail.com>\n"
+"عمار الجنابي <al_janabi7@yahoo.com>\n"
+"أحمد النجماوي <iramosu@protonmail.com>"
+
+#: gnomemusic/about.py:155
+msgid "© The GNOME Music Developers"
+msgstr "© مطوِّرو موسيقى جنوم"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/smartplaylist.py:128
+msgid "Most Played"
+msgstr "الأكثر تشغيلًا"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/smartplaylist.py:182
+msgid "Never Played"
+msgstr "لم تُشغَّل أبدًا"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/smartplaylist.py:235
+msgid "Recently Played"
+msgstr "شُغِّلت مؤخرًا"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/smartplaylist.py:314
+msgid "Recently Added"
+msgstr "أُضيفت مؤخرًا"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/smartplaylist.py:377
+msgid "Favorite Songs"
+msgstr "الأغاني المفضَّلة"
+
+#. TRANSLATORS: this is a playlist name indicating that the
+#. files are not tagged enough to be displayed in the albums
+#. or artists views.
+#: gnomemusic/grilowrappers/smartplaylist.py:431
+msgid "Insufficiently Tagged"
+msgstr "غير موسومة كفاية"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/smartplaylist.py:494
+msgid "All Songs"
+msgstr "كل الأغاني"
+
+#: gnomemusic/gstplayer.py:424
+msgid "Unable to play the file"
+msgstr "تعذَّر تشغيل الملف"
+
+#: gnomemusic/gstplayer.py:430
+msgid "_Find in {}"
+msgstr "ا_بحث في {}"
+
+#. TRANSLATORS: separator for two codecs
+#: gnomemusic/gstplayer.py:440
+msgid " and "
+msgstr " و"
+
+#. TRANSLATORS: separator for a list of codecs
+#: gnomemusic/gstplayer.py:443
+msgid ", "
+msgstr "، "
+
+#: gnomemusic/gstplayer.py:445
+msgid "{} is required to play the file, but is not installed."
+msgid_plural "{} are required to play the file, but are not installed."
+msgstr[0] "يُطلَب {} لتشغيل الملف، ولكنه غير منصَّب."
+msgstr[1] "يُطلَب {} لتشغيل الملف، ولكنه غير منصَّب."
+msgstr[2] "يُطلَب {} لتشغيل الملف، ولكنهما غير منصَّبان."
+msgstr[3] "يُطلَب {} لتشغيل الملف، ولكنها غير منصَّبة."
+msgstr[4] "يُطلَب {} لتشغيل الملف، ولكنها غير منصَّبة."
+msgstr[5] "يُطلَب {} لتشغيل الملف، ولكنها غير منصَّبة."
+
+#: gnomemusic/inhibitsuspend.py:69
+msgid "Playing music"
+msgstr "تُشغَّل الموسيقى"
+
+#. Translators: "shuffle" causes tracks to play in random order.
+#: gnomemusic/player.py:48
+msgid "Shuffle/Repeat Off"
+msgstr "الخلط\\التكرار مُعطَّلان"
+
+#: gnomemusic/player.py:49
+msgid "Repeat Song"
+msgstr "كرِّر الأغنية"
+
+#: gnomemusic/player.py:50
+msgid "Repeat All"
+msgstr "كرِّر الكل"
+
+#: gnomemusic/playlisttoast.py:55
+msgid "Playlist {} removed"
+msgstr "أُزيلت قائمة التشغيل {}"
+
+#: gnomemusic/playlisttoast.py:56 gnomemusic/songtoast.py:65
+msgid "Undo"
+msgstr "تراجع"
+
+#: gnomemusic/songtoast.py:64
+msgid "{} removed from {}"
+msgstr "أُزيلت {} من {}"
+
+#: gnomemusic/utils.py:92
+msgid "Unknown album"
+msgstr "ألبوم مجهول"
+
+#: gnomemusic/utils.py:113
+msgid "Unknown Artist"
+msgstr "مؤدٍ مجهول"
+
+#: gnomemusic/views/playlistsview.py:45
+msgid "Playlists"
+msgstr "قوائم التشغيل"
+
+#: gnomemusic/views/searchview.py:214
+msgid "No Search Started"
+msgstr "لم يبدأ أي بحث"
+
+#: gnomemusic/views/searchview.py:216
+msgid "Use the searchbar to start searching for albums, artists or songs"
+msgstr "استخدم شريط البحث للبدء بالبحث عن الألبومات أو الفنانين أو الأغاني"
+
+#: gnomemusic/views/searchview.py:220
+msgid "No Results Found"
+msgstr "لم يُعثر على أية نتائج"
+
+#: gnomemusic/views/searchview.py:222
+msgid "Try a different search"
+msgstr "جرِّب بحثًا مختلفًا"
+
+#: gnomemusic/widgets/albumwidget.py:193
+#, python-brace-format
+msgid "Disc {row.props.disc_nr}"
+msgstr "قرص {row.props.disc_nr}"
+
+#: gnomemusic/widgets/albumwidget.py:241
+msgid "{} minute"
+msgid_plural "{} minutes"
+msgstr[0] "أقل من دقيقة"
+msgstr[1] "دقيقة"
+msgstr[2] "دقيقتان"
+msgstr[3] "{} دقائق"
+msgstr[4] "{} دقيقة"
+msgstr[5] "{} دقيقة"
+
+#: gnomemusic/widgets/playertoolbar.py:173
+msgid "Pause"
+msgstr "ألبِث"
+
+#: gnomemusic/widgets/playlistcontrols.py:130
+msgid "{} Song"
+msgid_plural "{} Songs"
+msgstr[0] "لا أغانٍ"
+msgstr[1] "أغنية"
+msgstr[2] "أغنيتان"
+msgstr[3] "{} أغانٍ"
+msgstr[4] "{} أغنية"
+msgstr[5] "{} أغنية"
+
+#: gnomemusic/widgets/searchheaderbar.py:54
+msgid "Search songs, artists and albums"
+msgstr "ابحث عن الأغاني والفنانين والألبومات"
+
+#. noqa: F841
+#: gnomemusic/widgets/songwidgetmenu.py:94
+msgid "_Open Location"
+msgstr "ا_فتح الموقع"
+
+#. TRANSLATORS: These are verbs, to (un)mark something as a
+#. favorite.
+#: gnomemusic/widgets/startoggle.py:36
+msgid "Unstar"
+msgstr "أزِل النجمة"
+
+#: gnomemusic/widgets/startoggle.py:36
+msgid "Star"
+msgstr "ميِّّز بنجمة"
+
+#: gnomemusic/widgets/statusnavigationpage.py:51
+msgid "Your XDG Music directory is not set."
+msgstr "مجلَّد موسيقى XDG الخاص بك غير مُعدّ."
+
+#: gnomemusic/widgets/statusnavigationpage.py:58
+msgid "Music Folder"
+msgstr "مجلَّد الموسيقى"
+
+#. TRANSLATORS: This is a label to display a link to open user's music
+#. folder. {} will be replaced with the translated text 'Music folder'
+#: gnomemusic/widgets/statusnavigationpage.py:66
+msgid "The contents of your {} will appear here."
+msgstr "ستظهر محتويات {} هنا."
+
+#: gnomemusic/widgets/statusnavigationpage.py:116
+msgid "No Music Found"
+msgstr "لم يُعثر على موسيقى"
+
+#: gnomemusic/widgets/statusnavigationpage.py:117
+msgid "Try a Different Search"
+msgstr "جرِّب بحثًا مختلفًا"
+
+#: gnomemusic/widgets/statusnavigationpage.py:121
+msgid "GNOME Music could not connect to Tracker."
+msgstr "تعذَّر على موسيقى جنوم الاتصال ب‍«Tracker»."
+
+#: gnomemusic/widgets/statusnavigationpage.py:123
+msgid "Your music files cannot be indexed without Tracker running."
+msgstr "لا يمكن فهرسة ملفات الموسيقى الخاصة بك دون تشغيل «تراكر»."
+
+#: gnomemusic/widgets/statusnavigationpage.py:129
+msgid "Your system Tracker version seems outdated."
+msgstr "يبدو أن إصدار «Tracker» على نظامك قديم."
+
+#: gnomemusic/widgets/statusnavigationpage.py:131
+msgid "Music needs Tracker version 3.0.0 or higher."
+msgstr "يتطلب «موسيقى» الإصدار 3.0.0 أو أحدث من «Tracker»."
+
+#~ msgid "Window position"
+#~ msgstr "موضع النافذة"
+
+#~ msgid "Window position (x and y)."
+#~ msgstr "موضع النافذة (x و y)."
+
+#~ msgid "Search mode"
+#~ msgstr "وضع البحث"
+
+#~ msgid "If true, the search bar is shown."
+#~ msgstr "إذا كان صحيحًا، سيظهر شريط البحث."
+
+#~ msgid "GNOME Music"
+#~ msgstr "موسيقى جنوم"
+
+#~ msgid "Music is the new GNOME music playing application."
+#~ msgstr "موسيقى هو تطبيق جنوم لتشغيل الموسيقى الجديد."
+
+#~ msgid "Untitled"
+#~ msgstr "غير معنون"
+
+#~ msgid "Not playing"
+#~ msgstr "متوقّف"
+
+#, python-format
+#~ msgid "by %s, from %s"
+#~ msgstr "أدّاها %s، من %s"
+
+#~ msgid "Artist"
+#~ msgstr "الفنّان"
+
+#~ msgid "Local"
+#~ msgstr "المحليّ"
+
+#~ msgid "Sources"
+#~ msgstr "المصادر"
+
+#~ msgid "Match"
+#~ msgstr "طابق"
+
+#, python-format
+#~ msgid "Selected %d item"
+#~ msgid_plural "Selected %d items"
+#~ msgstr[0] "لا عناصر محدّدة (%d)"
+#~ msgstr[1] "عنصر واحد محدّد (%d)"
+#~ msgstr[2] "عنصران محدّدان (%d)"
+#~ msgstr[3] "%d عناصر محدّدة"
+#~ msgstr[4] "%d عنصرًا محدّدًا"
+#~ msgstr[5] "%d عنصر محدّد"
+
+#~ msgid "Click on items to select them"
+#~ msgstr "انقر على العناصر لتحديدها"
+
+#, python-format
+#~ msgid ""
+#~ "No Music found!\n"
+#~ " Put some files into the folder %s"
+#~ msgstr ""
+#~ "لم يُعثر على موسيقى!\n"
+#~ " ضع بعض الملفات في المجلد %s"
+
+#~ msgid "All Artists"
+#~ msgstr "كلّ الفنانين"
+
+#~ msgid "Empty"
+#~ msgstr "فارغ"
+
+#~ msgid "A music player and management application for GNOME."
+#~ msgstr "برمجية جنوم لتشغيل الموسيقى وإدارتها."
+
+#~ msgid "Visit GNOME Music website"
+#~ msgstr "زُر موقع وِب موسيقى جنوم"
+
+#~ msgid ""
+#~ "GNOME Music is free software; you can redistribute it and/or modify it "
+#~ "under the terms of the GNU General Public License as published by the "
+#~ "Free Software Foundation; either version 2 of the License, or (at your "
+#~ "option) any later version.\n"
+#~ "\n"
+#~ "GNOME Music is distributed in the hope that it will be useful, but "
+#~ "WITHOUT ANY WARRANTY; without even the implied warranty of "
+#~ "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General "
+#~ "Public License for more details.\n"
+#~ "\n"
+#~ "You should have received a copy of the GNU General Public License along "
+#~ "with GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+#~ "Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+#~ "\n"
+#~ "The GNOME Music authors hereby grant permission for non-GPL compatible "
+#~ "GStreamer plugins to be used and distributed together with GStreamer and "
+#~ "GNOME Music.  This permission is above and beyond the permissions granted "
+#~ "by the GPL license by which GNOME Music is covered.  If you modify this "
+#~ "code, you may extend this exception to your version of the code, but you "
+#~ "are not obligated to do so.  If you do not wish to do so, delete this "
+#~ "exception statement from your version."
+#~ msgstr ""
+#~ "موسيقى جنوم برنامج حر؛ بإمكانك إعادة توزيعه و/أو تعديله تحت شروط الرخصة "
+#~ "العمومية العامة لجنو والتي نشرتها منظمة البرمجيات الحرة؛ سواء الإصدارة 2 "
+#~ "من الرخصة أو أي إصدارة بعدها حسب رغبتك.\n"
+#~ "\n"
+#~ "يوزّع موسيقى جنوم على أمل أن يكون مفيدًا لمن يستخدمه، دون أدنى مسؤولية؛ ولا "
+#~ "حتى أي ضمان يضمن صلاحية العرض في السوق أو توافقه مع أي استخدام محدد. "
+#~ "يمكنك مراجعة الرخصة العمومية العامة لجنو لمزيد من التفاصيل.\n"
+#~ "\n"
+#~ "من المفترض أن تكون قد استلمت نسخة من رخصة جنو العامةمع موسيقى جنوم؛ في "
+#~ "حال عدم استلامك لذلك، يمكنك مكاتبة:\n"
+#~ "Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, "
+#~ "MA 02110-1301 USA.\n"
+#~ "\n"
+#~ "يمنح كاتبو موسيقى جنوم إذن استخدام ملحقات GStreamer غير المتوافقة مع GPL "
+#~ "وتوزيعها مع GStreamer وموسيقى جنوم. هذا الإذن هو تجاوز للأذون الممنوحة من "
+#~ "رخصة GPL التي أُصدر موسيقى جنوم بها. إن عدّلت هذه الشِفرة، قد ترغب بتوسيع "
+#~ "هذا الاستثناء إلى إصدار الشِفرة خاصّتك، ولكنك لست ملزمًا بذلك. إن لم ترغب "
+#~ "بذلك، احذف بيان الاستثناء هذا من الإصدار خاصّتك."
+
+#~ msgid "Released"
+#~ msgstr "أُصدر في"
+
+#~ msgid "Running Length"
+#~ msgstr "طول التشغيل"
+
+#~ msgid "_New Playlist"
+#~ msgstr "قائمة تشغيل _جديدة"
+
+#~ msgid "_About"
+#~ msgstr "_عنْ"
+
+#~ msgid "Select All"
+#~ msgstr "حدّد الكلّ"
+
+#~ msgid "Select None"
+#~ msgstr "حدّد لا شيء"
+
+#~ msgid "Select"
+#~ msgstr "اختر"
+
+#~ msgid "Back"
+#~ msgstr "ارجع"
+
+#~ msgid "Select Playlist"
+#~ msgstr "اختر قائمة تشغيل"
 
 #~ msgid "Load More"
 #~ msgstr "تحميل المزيد"
