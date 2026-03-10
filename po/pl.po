@@ -4,14 +4,15 @@
 # Piotr Drąg <piotrdrag@gmail.com>, 2012-2025.
 # Paweł Żołnowski <pawel@zolnowski.name>, 2014-2015.
 # Aviary.pl <community-poland@mozilla.org>, 2012-2025.
+# Daniel <wbcwknvstb@proton.me>, 2026.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2025-02-12 22:49+0000\n"
-"PO-Revision-Date: 2025-02-22 13:57+0100\n"
-"Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
+"POT-Creation-Date: 2025-11-24 19:37+0000\n"
+"PO-Revision-Date: 2026-03-09 12:47+0100\n"
+"Last-Translator: Daniel <wbcwknvstb@proton.me>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
@@ -19,29 +20,27 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
+"X-Generator: Poedit 3.8\n"
 
-#: data/org.gnome.Music.desktop.in.in:3
+#: data/org.gnome.Music.desktop.in.in:2
 #: data/org.gnome.Music.metainfo.xml.in.in:9 data/ui/StatusNavigationPage.ui:4
-#: gnomemusic/about.py:142 gnomemusic/application.py:61 gnomemusic/window.py:65
+#: gnomemusic/about.py:143 gnomemusic/application.py:41 gnomemusic/window.py:42
 msgid "Music"
 msgstr "Muzyka"
 
-#: data/org.gnome.Music.desktop.in.in:4
+#: data/org.gnome.Music.desktop.in.in:3
 msgid "Music Player"
 msgstr "Odtwarzacz muzyki"
 
-#: data/org.gnome.Music.desktop.in.in:5
+#: data/org.gnome.Music.desktop.in.in:4
 #: data/org.gnome.Music.metainfo.xml.in.in:10
 msgid "Play and organize your music collection"
 msgstr "Odtwarzanie i organizowanie kolekcji muzyki"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
-#: data/org.gnome.Music.desktop.in.in:13
+#: data/org.gnome.Music.desktop.in.in:12
 msgid "Music;Player;"
-msgstr ""
-"Muzyka;Odtwarzacz;Dźwięk;Audio;Piosenka;Utwór;MP3;Ogg;Vorbis;FLAC;CD;Płyta;"
-"Playlista;Lista;odtwarzania;Last.fm;Lastfm;Jamendo;Magnatune;UPnP;DLNA;MPRIS;"
-"ReplayGain;"
+msgstr "Muzyka;Odtwarzacz;Dźwięk;Audio;Piosenka;Utwór;MP3;Ogg;Vorbis;FLAC;CD;Płyta;Playlista;Lista;odtwarzania;Last.fm;Lastfm;Jamendo;Magnatune;UPnP;DLNA;MPRIS;ReplayGain;"
 
 #: data/org.gnome.Music.metainfo.xml.in.in:12
 msgid "An easy and pleasant way to play your music."
@@ -118,7 +117,7 @@ msgid "Albums"
 msgstr "Albumy"
 
 #: data/ui/AlbumWidget.ui:84 data/ui/PlayerToolbar.ui:87
-#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:176
+#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:127
 msgid "Play"
 msgstr "Odtwarza"
 
@@ -163,91 +162,6 @@ msgstr "Pomoc"
 #: data/ui/HeaderBar.ui:43
 msgid "About Music"
 msgstr "O programie"
-
-#: data/ui/help-overlay.ui:11
-msgctxt "shortcut window"
-msgid "General"
-msgstr "Ogólne"
-
-#: data/ui/help-overlay.ui:14
-msgctxt "shortcut window"
-msgid "Preferences"
-msgstr "Preferencje"
-
-#: data/ui/help-overlay.ui:20
-msgctxt "shortcut window"
-msgid "Search"
-msgstr "Wyszukiwanie"
-
-#: data/ui/help-overlay.ui:26
-msgctxt "shortcut window"
-msgid "Help"
-msgstr "Pomoc"
-
-#: data/ui/help-overlay.ui:32
-msgctxt "shortcut window"
-msgid "Shortcuts"
-msgstr "Skróty"
-
-#: data/ui/help-overlay.ui:38
-msgctxt "shortcut window"
-msgid "Quit"
-msgstr "Zakończenie działania"
-
-#: data/ui/help-overlay.ui:46
-msgctxt "shortcut window"
-msgid "Playback"
-msgstr "Odtwarzanie"
-
-#: data/ui/help-overlay.ui:49
-msgctxt "shortcut window"
-msgid "Play/Pause"
-msgstr "Odtwarzanie/wstrzymanie"
-
-#: data/ui/help-overlay.ui:55
-msgctxt "shortcut window"
-msgid "Next song"
-msgstr "Następny utwór"
-
-#: data/ui/help-overlay.ui:61
-msgctxt "shortcut window"
-msgid "Previous song"
-msgstr "Poprzedni utwór"
-
-#: data/ui/help-overlay.ui:67
-msgctxt "shortcut window"
-msgid "Toggle repeat"
-msgstr "Przełączenie powtarzania"
-
-#: data/ui/help-overlay.ui:73
-msgctxt "shortcut window"
-msgid "Toggle shuffle"
-msgstr "Przełączenie losowania"
-
-#: data/ui/help-overlay.ui:81
-msgctxt "shortcut window"
-msgid "Navigation"
-msgstr "Nawigacja"
-
-#: data/ui/help-overlay.ui:84
-msgctxt "shortcut window"
-msgid "Go to Albums"
-msgstr "Przejście do albumów"
-
-#: data/ui/help-overlay.ui:90
-msgctxt "shortcut window"
-msgid "Go to Artists"
-msgstr "Przejście do wykonawców"
-
-#: data/ui/help-overlay.ui:96
-msgctxt "shortcut window"
-msgid "Go to Playlists"
-msgstr "Przejście do list odtwarzania"
-
-#: data/ui/help-overlay.ui:102
-msgctxt "shortcut window"
-msgid "Go back"
-msgstr "Wstecz"
 
 #: data/ui/PlayerToolbar.ui:74
 msgid "Previous"
@@ -321,7 +235,7 @@ msgstr "Utwór"
 msgid "All"
 msgstr "Wszystkie utwory"
 
-#: data/ui/PreferencesDialog.ui:19 gnomemusic/player.py:51
+#: data/ui/PreferencesDialog.ui:19 gnomemusic/utils.py:72
 msgid "Shuffle"
 msgstr "Odtwarzanie losowe"
 
@@ -357,6 +271,10 @@ msgstr "Wstrzymywanie uśpienia"
 msgid "Only while playing"
 msgstr "Tylko podczas odtwarzania"
 
+#: data/ui/RepeatModeButton.ui:14
+msgid "Set Repeat Mode"
+msgstr "Ustawienie trybu powtarzania"
+
 #: data/ui/SearchView.ui:55 data/ui/SearchView.ui:112
 msgid "View All"
 msgstr "Wyświetl wszystko"
@@ -364,6 +282,106 @@ msgstr "Wyświetl wszystko"
 #: data/ui/SearchView.ui:154
 msgid "Songs"
 msgstr "Utwory"
+
+#: data/ui/shortcuts-dialog.ui:6
+msgctxt "shortcut window"
+msgid "General"
+msgstr "Ogólne"
+
+#: data/ui/shortcuts-dialog.ui:9
+msgctxt "shortcut window"
+msgid "Preferences"
+msgstr "Preferencje"
+
+#: data/ui/shortcuts-dialog.ui:15
+msgctxt "shortcut window"
+msgid "Search"
+msgstr "Wyszukiwanie"
+
+#: data/ui/shortcuts-dialog.ui:21
+msgctxt "shortcut window"
+msgid "Help"
+msgstr "Pomoc"
+
+#: data/ui/shortcuts-dialog.ui:27
+msgctxt "shortcut window"
+msgid "Keyboard shortcuts"
+msgstr "Skróty klawiszowe"
+
+#: data/ui/shortcuts-dialog.ui:33
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Zakończenie działania"
+
+#: data/ui/shortcuts-dialog.ui:41
+msgctxt "shortcut window"
+msgid "Playback"
+msgstr "Odtwarzanie"
+
+#: data/ui/shortcuts-dialog.ui:44
+msgctxt "shortcut window"
+msgid "Play/Pause"
+msgstr "Odtwarzanie/wstrzymanie"
+
+#: data/ui/shortcuts-dialog.ui:50
+msgctxt "shortcut window"
+msgid "Next song"
+msgstr "Następny utwór"
+
+#: data/ui/shortcuts-dialog.ui:56
+msgctxt "shortcut window"
+msgid "Previous song"
+msgstr "Poprzedni utwór"
+
+#: data/ui/shortcuts-dialog.ui:62
+msgctxt "shortcut window"
+msgid "Toggle repeat"
+msgstr "Przełączenie powtarzania"
+
+#: data/ui/shortcuts-dialog.ui:68
+msgctxt "shortcut window"
+msgid "Toggle shuffle"
+msgstr "Przełączenie losowania"
+
+#: data/ui/shortcuts-dialog.ui:74
+msgctxt "shortcut window"
+msgid "Increase volume"
+msgstr "Zwiększenie głośności"
+
+#: data/ui/shortcuts-dialog.ui:80
+msgctxt "shortcut window"
+msgid "Decrease volume"
+msgstr "Zmniejszenie głośności"
+
+#: data/ui/shortcuts-dialog.ui:86
+msgctxt "shortcut window"
+msgid "Toggle mute"
+msgstr "Przełączenie wyciszenia"
+
+#: data/ui/shortcuts-dialog.ui:94
+msgctxt "shortcut window"
+msgid "Navigation"
+msgstr "Nawigacja"
+
+#: data/ui/shortcuts-dialog.ui:97
+msgctxt "shortcut window"
+msgid "Go to Albums"
+msgstr "Przejście do albumów"
+
+#: data/ui/shortcuts-dialog.ui:103
+msgctxt "shortcut window"
+msgid "Go to Artists"
+msgstr "Przejście do wykonawców"
+
+#: data/ui/shortcuts-dialog.ui:109
+msgctxt "shortcut window"
+msgid "Go to Playlists"
+msgstr "Przejście do list odtwarzania"
+
+#: data/ui/shortcuts-dialog.ui:115
+msgctxt "shortcut window"
+msgid "Go back"
+msgstr "Wstecz"
 
 #: data/ui/SongWidgetMenu.ui:19
 msgid "_Remove from Playlist"
@@ -373,80 +391,89 @@ msgstr "_Usuń z listy odtwarzania"
 msgid "Welcome to Music"
 msgstr "Witamy w odtwarzaczu muzyki"
 
-#: gnomemusic/about.py:144
+#: data/ui/VolumeButton.ui:12
+msgid "Adjust Volume"
+msgstr "Dostosowanie głośności"
+
+#: data/ui/VolumeButton.ui:27
+msgid "Mute/Unmute"
+msgstr "Włączenie/wyłączenie wyciszenia"
+
+#: gnomemusic/about.py:145
 msgid "The GNOME Project"
 msgstr "Projekt GNOME"
 
 #. Translators should localize the following string which
 #. will be displayed at the bottom of the about box to give
 #. credit to the translator(s).
-#: gnomemusic/about.py:150
+#: gnomemusic/about.py:151
 msgid "translator-credits"
 msgstr ""
 "Piotr Drąg <piotrdrag@gmail.com>, 2012-2025\n"
 "Paweł Żołnowski <pawel@zolnowski.name>, 2014-2015\n"
-"Aviary.pl <community-poland@mozilla.org>, 2012-2025"
+"Aviary.pl <community-poland@mozilla.org>, 2012-2025\n"
+"Daniel <wbcwknvstb@proton.me>, 2026"
 
-#: gnomemusic/about.py:154
+#: gnomemusic/about.py:155
 msgid "© The GNOME Music Developers"
-msgstr "© programiści odtwarzacza muzyki GNOME"
+msgstr "© osoby programujące odtwarzacz muzyki GNOME"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/smartplaylist.py:128
+#: gnomemusic/grilowrappers/smartplaylist.py:96
 msgid "Most Played"
 msgstr "Najczęściej odtwarzane"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/smartplaylist.py:182
+#: gnomemusic/grilowrappers/smartplaylist.py:148
 msgid "Never Played"
 msgstr "Nigdy nieodtworzone"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/smartplaylist.py:235
+#: gnomemusic/grilowrappers/smartplaylist.py:199
 msgid "Recently Played"
 msgstr "Ostatnio odtwarzane"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/smartplaylist.py:314
+#: gnomemusic/grilowrappers/smartplaylist.py:276
 msgid "Recently Added"
 msgstr "Ostatnio dodane"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/smartplaylist.py:377
-msgid "Favorite Songs"
+#: gnomemusic/grilowrappers/smartplaylist.py:337
+msgid "Starred Songs"
 msgstr "Ulubione utwory"
 
 #. TRANSLATORS: this is a playlist name indicating that the
 #. files are not tagged enough to be displayed in the albums
 #. or artists views.
-#: gnomemusic/grilowrappers/smartplaylist.py:431
+#: gnomemusic/grilowrappers/smartplaylist.py:389
 msgid "Insufficiently Tagged"
 msgstr "Za mało etykiet"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/smartplaylist.py:494
+#: gnomemusic/grilowrappers/smartplaylist.py:450
 msgid "All Songs"
 msgstr "Wszystkie utwory"
 
-#: gnomemusic/gstplayer.py:424
+#: gnomemusic/gstplayer.py:455
 msgid "Unable to play the file"
 msgstr "Nie można odtworzyć pliku"
 
-#: gnomemusic/gstplayer.py:430
+#: gnomemusic/gstplayer.py:461
 msgid "_Find in {}"
 msgstr "_Znajdź w „{}”"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:440
+#: gnomemusic/gstplayer.py:471
 msgid " and "
 msgstr " i "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:443
+#: gnomemusic/gstplayer.py:474
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:445
+#: gnomemusic/gstplayer.py:476
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "{} jest wymagane do odtworzenia pliku, ale nie jest zainstalowane."
@@ -456,19 +483,6 @@ msgstr[2] "{} są wymagane do odtworzenia pliku, ale nie są zainstalowane."
 #: gnomemusic/inhibitsuspend.py:69
 msgid "Playing music"
 msgstr "Odtwarzanie muzyki"
-
-#. Translators: "shuffle" causes tracks to play in random order.
-#: gnomemusic/player.py:48
-msgid "Shuffle/Repeat Off"
-msgstr "Wyłączenie losowania/powtarzania"
-
-#: gnomemusic/player.py:49
-msgid "Repeat Song"
-msgstr "Powtarzanie utworu"
-
-#: gnomemusic/player.py:50
-msgid "Repeat All"
-msgstr "Powtarzanie wszystkich"
 
 #: gnomemusic/playlisttoast.py:55
 msgid "Playlist {} removed"
@@ -482,11 +496,20 @@ msgstr "Cofnij"
 msgid "{} removed from {}"
 msgstr "Usunięto utwór „{}” z listy „{}”"
 
-#: gnomemusic/utils.py:92
-msgid "Unknown album"
-msgstr "Nieznany album"
+#. Translators: "shuffle" causes tracks to play in random order.
+#: gnomemusic/utils.py:69
+msgid "Shuffle/Repeat Off"
+msgstr "Wyłączenie losowania/powtarzania"
 
-#: gnomemusic/utils.py:113
+#: gnomemusic/utils.py:70
+msgid "Repeat Song"
+msgstr "Powtarzanie utworu"
+
+#: gnomemusic/utils.py:71
+msgid "Repeat All"
+msgstr "Powtarzanie wszystkich"
+
+#: gnomemusic/utils.py:118
 msgid "Unknown Artist"
 msgstr "Nieznany wykonawca"
 
@@ -510,19 +533,14 @@ msgstr "Brak wyników"
 msgid "Try a different search"
 msgstr "Proszę spróbować innych słów"
 
-#: gnomemusic/widgets/albumwidget.py:193
-#, python-brace-format
-msgid "Disc {row.props.disc_nr}"
-msgstr "{row.props.disc_nr}. płyta"
-
-#: gnomemusic/widgets/albumwidget.py:241
+#: gnomemusic/widgets/albumwidget.py:244
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} minuta"
 msgstr[1] "{} minuty"
 msgstr[2] "{} minut"
 
-#: gnomemusic/widgets/playertoolbar.py:173
+#: gnomemusic/widgets/playertoolbar.py:124
 msgid "Pause"
 msgstr "Wstrzymuje"
 
@@ -533,22 +551,22 @@ msgstr[0] "{} utwór"
 msgstr[1] "{} utwory"
 msgstr[2] "{} utworów"
 
-#: gnomemusic/widgets/searchheaderbar.py:54
+#: gnomemusic/widgets/searchheaderbar.py:34
 msgid "Search songs, artists and albums"
 msgstr "Wyszukiwanie utworów, wykonawców i albumów"
 
 #. noqa: F841
-#: gnomemusic/widgets/songwidgetmenu.py:94
+#: gnomemusic/widgets/songwidgetmenu.py:96
 msgid "_Open Location"
 msgstr "_Otwórz położenie"
 
-#. TRANSLATORS: These are verbs, to (un)mark something as a
-#. favorite.
-#: gnomemusic/widgets/startoggle.py:36
+#. TRANSLATORS: A verb, to unmark a song as favorite
+#: gnomemusic/widgets/startoggle.py:37
 msgid "Unstar"
 msgstr "Usuwa z ulubionych"
 
-#: gnomemusic/widgets/startoggle.py:36
+#. TRANSLATORS: A verb, to mark a song as favorite
+#: gnomemusic/widgets/startoggle.py:41
 msgid "Star"
 msgstr "Dodaje do ulubionych"
 
@@ -556,36 +574,48 @@ msgstr "Dodaje do ulubionych"
 msgid "Your XDG Music directory is not set."
 msgstr "Katalog „Muzyka” standardu XDG nie jest ustawiony."
 
-#: gnomemusic/widgets/statusnavigationpage.py:58
+#: gnomemusic/widgets/statusnavigationpage.py:56
 msgid "Music Folder"
 msgstr "katalogu z muzyką"
 
-#. TRANSLATORS: This is a label to display a link to open user's music
-#. folder. {} will be replaced with the translated text 'Music folder'
-#: gnomemusic/widgets/statusnavigationpage.py:66
+#. TRANSLATORS: This is a label to display a link to open
+#. a user's music folder. {} will be replaced with the
+#. translated text 'Music folder'
+#: gnomemusic/widgets/statusnavigationpage.py:60
 msgid "The contents of your {} will appear here."
 msgstr "W tym miejscu będzie znajdować się zawartość {}."
 
-#: gnomemusic/widgets/statusnavigationpage.py:116
+#: gnomemusic/widgets/statusnavigationpage.py:114
 msgid "No Music Found"
 msgstr "Nie odnaleziono plików muzycznych"
 
-#: gnomemusic/widgets/statusnavigationpage.py:117
+#: gnomemusic/widgets/statusnavigationpage.py:115
 msgid "Try a Different Search"
 msgstr "Proszę spróbować innych słów"
 
-#: gnomemusic/widgets/statusnavigationpage.py:121
+#: gnomemusic/widgets/statusnavigationpage.py:119
 msgid "GNOME Music could not connect to Tracker."
 msgstr "Odtwarzacz muzyki GNOME nie może połączyć się z usługą Tracker."
 
-#: gnomemusic/widgets/statusnavigationpage.py:123
+#: gnomemusic/widgets/statusnavigationpage.py:121
 msgid "Your music files cannot be indexed without Tracker running."
 msgstr "Bez działającej usługi Tracker nie można wykryć plików z muzyką."
 
-#: gnomemusic/widgets/statusnavigationpage.py:129
+#: gnomemusic/widgets/statusnavigationpage.py:127
 msgid "Your system Tracker version seems outdated."
 msgstr "Wersja usługi Tracker zainstalowana na komputerze jest przestarzała."
 
-#: gnomemusic/widgets/statusnavigationpage.py:131
+#: gnomemusic/widgets/statusnavigationpage.py:129
 msgid "Music needs Tracker version 3.0.0 or higher."
 msgstr "Odtwarzacz muzyki wymaga wersji 3.0.0 lub wyższej."
+
+#~ msgctxt "shortcut window"
+#~ msgid "Shortcuts"
+#~ msgstr "Skróty"
+
+#~ msgid "Unknown album"
+#~ msgstr "Nieznany album"
+
+#, python-brace-format
+#~ msgid "Disc {row.props.disc_nr}"
+#~ msgstr "{row.props.disc_nr}. płyta"
