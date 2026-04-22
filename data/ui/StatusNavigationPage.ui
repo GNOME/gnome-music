@@ -10,7 +10,7 @@
           <object class="AdwStatusPage" id="_status_page">
             <property name="hexpand">True</property>
             <property name="vexpand">True</property>
-            <property name="icon_name">emblem-music-symbolic</property>
+            <property name="icon_name">music-note-outline-symbolic</property>
           </object>
         </property>
       </object>
