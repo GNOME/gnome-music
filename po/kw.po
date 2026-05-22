@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
 "POT-Creation-Date: 2025-11-24 19:37+0000\n"
-"PO-Revision-Date: 2026-02-01 14:12+0000\n"
+"PO-Revision-Date: 2026-05-22 21:50+0100\n"
 "Last-Translator: Flynn Peck <cirilla@tuta.io>\n"
 "Language-Team: kw\n"
 "Language: kw\n"
@@ -23,7 +23,7 @@ msgstr ""
 "X-DL-Branch: master\n"
 "X-DL-Domain: po\n"
 "X-DL-State: Translating\n"
-"X-Generator: Gtranslator 49.0\n"
+"X-Generator: Gtranslator 50.0\n"
 
 #: data/org.gnome.Music.desktop.in.in:2
 #: data/org.gnome.Music.metainfo.xml.in.in:9 data/ui/StatusNavigationPage.ui:4
@@ -38,7 +38,7 @@ msgstr "Gwarier Ilow"
 #: data/org.gnome.Music.desktop.in.in:4
 #: data/org.gnome.Music.metainfo.xml.in.in:10
 msgid "Play and organize your music collection"
-msgstr "Gwari hag orna dha kuntel ilow"
+msgstr "Gwari hag orna agas kuntel ilow"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.Music.desktop.in.in:12
@@ -47,15 +47,15 @@ msgstr "Ilow;Gwarier;"
 
 #: data/org.gnome.Music.metainfo.xml.in.in:12
 msgid "An easy and pleasant way to play your music."
-msgstr "Agwedh es ha hweg rag gwari dha ilow."
+msgstr "Agwedh es ha hweg rag gwari agas ilow."
 
 #: data/org.gnome.Music.metainfo.xml.in.in:15
 msgid ""
 "Find tracks in your local collection, use automatically generated playlists "
 "or curate a fresh one."
 msgstr ""
-"Kavos kanow yn dha kuntel leel, devnydhya rolyow gwrys yn awtomatek po "
-"dyghtya unn nowydh."
+"Kavos kanow y'gas kuntel leel, devnydhya rolyow wrys yn awtomatek po dyghtya "
+"rol nowydh."
 
 #: data/org.gnome.Music.gschema.xml:17
 msgid "Window size"
@@ -75,7 +75,7 @@ msgstr "Studh fenester kowlvoghhys."
 
 #: data/org.gnome.Music.gschema.xml:27
 msgid "Playback repeat mode"
-msgstr "Fordh dasgwari"
+msgstr "Fordh dhaswari"
 
 #. Translators: Don't translate allowed values, just the description in the brackets
 #: data/org.gnome.Music.gschema.xml:29
@@ -85,14 +85,14 @@ msgid ""
 "(repeat current song), “all” (repeat playlist, no shuffle), “shuffle” "
 "(shuffle playlist, presumes repeat all)."
 msgstr ""
-"Dalgh ervira po dasgwari po chonshe senyans dres an kuntel. Dalgh ewn yw: "
-"“none” (dasgwari ha chonshe yw marow), “song” (dasgwari kan a-lemmyn), “all” "
-"(dasgwari rol, chonsheans vyth), “shuffle” (chonshe rol, presumya dasgwari "
+"Synsas a ervir po daswari po chonshe senyans dres an kuntel. Synsas ewn yw: "
+"“none” (daswari ha chonshe yw marow), “song” (daswari kan a-lemmyn), “all” "
+"(daswari rol, chonsheans vyth), “shuffle” (chonshe rol, presumya daswari "
 "oll)."
 
 #: data/org.gnome.Music.gschema.xml:33
 msgid "Enable ReplayGain"
-msgstr "Gallosegi ReplayGain"
+msgstr "Bywhe ReplayGain"
 
 #. Translators: Don't translate allowed values, just the description in the brackets
 #: data/org.gnome.Music.gschema.xml:35
@@ -101,17 +101,17 @@ msgid ""
 "“disabled” (disables replaygain), “album” (replaygain per album), “track” "
 "(replaygain per track)."
 msgstr ""
-"Gallosegi po ungallosegi ReplayGain rag kuntilowyow po kan. Dalgh ewn yw: "
-"“disabled” (ungallosegi replaygain), “album” (replaygain dre kuntilow), "
-"“track” (replaygain dre kan)."
+"Bywhe po marowhe ReplayGain rag kuntilowyow po kan. Synsas ewn yw: "
+"“disabled” (marowhe replaygain), “album” (replaygain dre guntilow), “track” "
+"(replaygain dre gan)."
 
 #: data/org.gnome.Music.gschema.xml:39
 msgid "Inhibit system suspend"
-msgstr "Spralla koska system"
+msgstr "Spralla koskans system"
 
 #: data/org.gnome.Music.gschema.xml:40
 msgid "Enables or disables inhibiting system suspend while playing music"
-msgstr "Gallosegi po ungallosegi ow spralla koska system hag ow gwari ilow"
+msgstr "Bywhe po marowhe ow spralla koska system hag ow kwari ilow"
 
 #: data/ui/AlbumsSearchNavigationPage.ui:5 data/ui/SearchView.ui:98
 #: gnomemusic/views/albumsview.py:30
@@ -130,16 +130,16 @@ msgstr "_Gwari"
 
 #: data/ui/AlbumWidget.ui:134
 msgid "Add to _Favorite Songs"
-msgstr "Addya dhe Kanow _Drudh"
+msgstr "Keworra dhe Ganow _Drudh"
 
 #: data/ui/AlbumWidget.ui:138 data/ui/SongWidgetMenu.ui:15
 msgid "_Add to Playlist…"
-msgstr "_Addya dhe Rol…"
+msgstr "_Keworra dhe Rol…"
 
 #: data/ui/ArtistsSearchNavigationPage.ui:5 data/ui/SearchView.ui:41
 #: gnomemusic/views/artistsview.py:51
 msgid "Artists"
-msgstr "Awtours"
+msgstr "Artydhyon"
 
 #: data/ui/HeaderBar.ui:14
 msgid "Menu"
@@ -151,11 +151,11 @@ msgstr "Hwilas"
 
 #: data/ui/HeaderBar.ui:31 data/ui/PreferencesDialog.ui:4
 msgid "Preferences"
-msgstr "Settyansow"
+msgstr "Dewisyow"
 
 #: data/ui/HeaderBar.ui:35
 msgid "Keyboard Shortcuts"
-msgstr "Kesunyansow Bysowek"
+msgstr "Kesunyansow Vysowek"
 
 #: data/ui/HeaderBar.ui:39
 msgid "Help"
@@ -163,7 +163,7 @@ msgstr "Gweres"
 
 #: data/ui/HeaderBar.ui:43
 msgid "About Music"
-msgstr "A-Dro Ilow"
+msgstr "A-Dro dhe Ilow"
 
 #: data/ui/PlayerToolbar.ui:74
 msgid "Previous"
@@ -191,7 +191,7 @@ msgstr "_Deu"
 
 #: data/ui/PlaylistDialog.ui:16
 msgid "Add to Playlist"
-msgstr "Addya dhe Rol"
+msgstr "Keworra dhe Rol"
 
 #: data/ui/PlaylistDialog.ui:27
 msgid "_Cancel"
@@ -199,15 +199,15 @@ msgstr "_Hedhi"
 
 #: data/ui/PlaylistDialog.ui:36
 msgid "_Add"
-msgstr "_Addya"
+msgstr "_Keworra"
 
 #: data/ui/PlaylistDialog.ui:91
 msgid "Enter a name for your first playlist"
-msgstr "Ynworra hanow rag dha rol kynsa"
+msgstr "Ynworra hanow rag agas rol gynsa"
 
 #: data/ui/PlaylistDialog.ui:116
 msgid "C_reate"
-msgstr "_Gul"
+msgstr "Gw_ruthyl"
 
 #: data/ui/PlaylistDialog.ui:177
 msgid "New Playlist…"
@@ -215,15 +215,15 @@ msgstr "Rol Nowydh…"
 
 #: data/ui/PlaylistDialog.ui:189
 msgid "Add"
-msgstr "Addya"
+msgstr "Keworra"
 
 #: data/ui/PreferencesDialog.ui:9
 msgid "Player Settings"
-msgstr "Settyansow Gwarier"
+msgstr "Settyansow Warier"
 
 #: data/ui/PreferencesDialog.ui:12
 msgid "Repeat Mode"
-msgstr "Fordh Dasgwari"
+msgstr "Fordh Dhaswari"
 
 #: data/ui/PreferencesDialog.ui:16
 msgid "None"
@@ -247,7 +247,7 @@ msgstr "ReplayGain"
 
 #: data/ui/PreferencesDialog.ui:28
 msgid "Balance loudness between songs if ReplayGain metadata is found"
-msgstr "Omberthi ughelder tredh kanow mar metadata ReplayGain yw kavas"
+msgstr "Omberthi ughelder yntra kanow mars eus metadata ReplayGain kevys"
 
 #: data/ui/PreferencesDialog.ui:32
 msgid "Disabled"
@@ -263,19 +263,19 @@ msgstr "Kan"
 
 #: data/ui/PreferencesDialog.ui:44
 msgid "Power Settings"
-msgstr "Settyansow Batri"
+msgstr "Settyansow Vatri"
 
 #: data/ui/PreferencesDialog.ui:47
 msgid "Inhibit Suspend"
-msgstr "Spralla Koska"
+msgstr "Spralla Koskans"
 
 #: data/ui/PreferencesDialog.ui:48
 msgid "Only while playing"
-msgstr "Hag ow gwari hepken"
+msgstr "Hag ow kwari hepken"
 
 #: data/ui/RepeatModeButton.ui:14
 msgid "Set Repeat Mode"
-msgstr "Gorra Fordh Dasgwari"
+msgstr "Gorra Fordh Dhaswari"
 
 #: data/ui/SearchView.ui:55 data/ui/SearchView.ui:112
 msgid "View All"
@@ -293,7 +293,7 @@ msgstr "Ollgemmyn"
 #: data/ui/shortcuts-dialog.ui:9
 msgctxt "shortcut window"
 msgid "Preferences"
-msgstr "Settyansow"
+msgstr "Dewisyow"
 
 #: data/ui/shortcuts-dialog.ui:15
 msgctxt "shortcut window"
@@ -308,7 +308,7 @@ msgstr "Gweres"
 #: data/ui/shortcuts-dialog.ui:27
 msgctxt "shortcut window"
 msgid "Keyboard shortcuts"
-msgstr "Kesunyansow Bysowek"
+msgstr "Kesunyansow Vysowek"
 
 #: data/ui/shortcuts-dialog.ui:33
 msgctxt "shortcut window"
@@ -333,12 +333,12 @@ msgstr "Kan nessa"
 #: data/ui/shortcuts-dialog.ui:56
 msgctxt "shortcut window"
 msgid "Previous song"
-msgstr "Kan kyns"
+msgstr "Kan gyns"
 
 #: data/ui/shortcuts-dialog.ui:62
 msgctxt "shortcut window"
 msgid "Toggle repeat"
-msgstr "Dewis dasgwari"
+msgstr "Dewis daswari"
 
 #: data/ui/shortcuts-dialog.ui:68
 msgctxt "shortcut window"
@@ -368,12 +368,12 @@ msgstr "Navigacyon"
 #: data/ui/shortcuts-dialog.ui:97
 msgctxt "shortcut window"
 msgid "Go to Albums"
-msgstr "Mos dhe Kuntilow"
+msgstr "Mos dhe Guntilow"
 
 #: data/ui/shortcuts-dialog.ui:103
 msgctxt "shortcut window"
 msgid "Go to Artists"
-msgstr "Mos dhe Awtours"
+msgstr "Mos dhe Artydhyon"
 
 #: data/ui/shortcuts-dialog.ui:109
 msgctxt "shortcut window"
@@ -434,12 +434,12 @@ msgstr "Gwarys A-Dhiwedhes"
 #. TRANSLATORS: this is a playlist name
 #: gnomemusic/grilowrappers/smartplaylist.py:276
 msgid "Recently Added"
-msgstr "Addys A-Dhiwedhes"
+msgstr "Keworrys A-Dhiwedhes"
 
 #. TRANSLATORS: this is a playlist name
 #: gnomemusic/grilowrappers/smartplaylist.py:337
 msgid "Starred Songs"
-msgstr "Kanow Sterenys"
+msgstr "Kanow Sterennys"
 
 #. TRANSLATORS: this is a playlist name indicating that the
 #. files are not tagged enough to be displayed in the albums
@@ -455,7 +455,7 @@ msgstr "Oll Kanow"
 
 #: gnomemusic/gstplayer.py:455
 msgid "Unable to play the file"
-msgstr "Anabel gwari an restren"
+msgstr "Ny yllir gwari an restren"
 
 #: gnomemusic/gstplayer.py:461
 msgid "_Find in {}"
@@ -474,12 +474,12 @@ msgstr ", "
 #: gnomemusic/gstplayer.py:476
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
-msgstr[0] "{} a res rag gwari an restren, mes yw anleys."
-msgstr[1] "{} a res rag gwari an restren, mes yw anleys."
+msgstr[0] "{} a res rag gwari an restren, mes nag yw leys."
+msgstr[1] "{} a res rag gwari an restren, mes nag yw leys."
 
 #: gnomemusic/inhibitsuspend.py:69
 msgid "Playing music"
-msgstr "Ow gwari ilow"
+msgstr "Ow kwari ilow"
 
 #: gnomemusic/playlisttoast.py:55
 msgid "Playlist {} removed"
@@ -496,15 +496,15 @@ msgstr "{} removys dhyworth {}"
 #. Translators: "shuffle" causes tracks to play in random order.
 #: gnomemusic/utils.py:69
 msgid "Shuffle/Repeat Off"
-msgstr "Chonshe/Dasgwari Marow"
+msgstr "Chonshe/Daswari Marow"
 
 #: gnomemusic/utils.py:70
 msgid "Repeat Song"
-msgstr "Dasgwari Kan"
+msgstr "Daswari Kan"
 
 #: gnomemusic/utils.py:71
 msgid "Repeat All"
-msgstr "Dasgwari Oll"
+msgstr "Daswari Oll"
 
 #: gnomemusic/utils.py:118
 msgid "Unknown Artist"
@@ -521,16 +521,16 @@ msgstr "Hwithrans Dallethys Vyth"
 #: gnomemusic/views/searchview.py:216
 msgid "Use the searchbar to start searching for albums, artists or songs"
 msgstr ""
-"Devnydhya an barr hwithrans rag dalleth ow hwilas kuntilowyow, awtours po "
-"kanow"
+"Devnydhyewgh an barr hwithrans rag dalleth ow hwilas kuntilowyow, artydhyon "
+"po kanow"
 
 #: gnomemusic/views/searchview.py:220
 msgid "No Results Found"
-msgstr "Sewyansow Kavas Vyth"
+msgstr "Sewyansow Kevys Vyth"
 
 #: gnomemusic/views/searchview.py:222
 msgid "Try a different search"
-msgstr "Assaya hwithrans aral"
+msgstr "Assayewgh hwithrans aral"
 
 #: gnomemusic/widgets/albumwidget.py:244
 msgid "{} minute"
@@ -550,7 +550,7 @@ msgstr[1] "{} Kanow"
 
 #: gnomemusic/widgets/searchheaderbar.py:34
 msgid "Search songs, artists and albums"
-msgstr "Hwilas kanow, awtours ha kuntilowyow"
+msgstr "Hwilas kanow, artydhyon ha kuntilowyow"
 
 #. noqa: F841
 #: gnomemusic/widgets/songwidgetmenu.py:96
@@ -560,16 +560,16 @@ msgstr "_Ygeri Tyller"
 #. TRANSLATORS: A verb, to unmark a song as favorite
 #: gnomemusic/widgets/startoggle.py:37
 msgid "Unstar"
-msgstr "Disterenya"
+msgstr "Disterenna"
 
 #. TRANSLATORS: A verb, to mark a song as favorite
 #: gnomemusic/widgets/startoggle.py:41
 msgid "Star"
-msgstr "Sterenya"
+msgstr "Sterenna"
 
 #: gnomemusic/widgets/statusnavigationpage.py:51
 msgid "Your XDG Music directory is not set."
-msgstr "Dha restrenva XDG Ilow yw angorrys."
+msgstr "Agas restrenva XDG Ilow nag yw gorrys."
 
 #: gnomemusic/widgets/statusnavigationpage.py:56
 msgid "Music Folder"
@@ -580,28 +580,28 @@ msgstr "Restrenva Ilow"
 #. translated text 'Music folder'
 #: gnomemusic/widgets/statusnavigationpage.py:60
 msgid "The contents of your {} will appear here."
-msgstr "An dalgh a dha {} a wra omdhiskwedhes omma."
+msgstr "An synsas a'ags {} a wra omdhiskwedhes omma."
 
 #: gnomemusic/widgets/statusnavigationpage.py:114
 msgid "No Music Found"
-msgstr "Ilow Kavas Vyth"
+msgstr "Ilow Kevys Vyth"
 
 #: gnomemusic/widgets/statusnavigationpage.py:115
 msgid "Try a Different Search"
-msgstr "Assaya Hwithrans Aral"
+msgstr "Assayewgh Hwithrans Aral"
 
 #: gnomemusic/widgets/statusnavigationpage.py:119
 msgid "GNOME Music could not connect to Tracker."
-msgstr "GNOME Ilow ny yllir junya dhe Tracker."
+msgstr "GNOME Ilow ny allas junya dhe Dracker."
 
 #: gnomemusic/widgets/statusnavigationpage.py:121
 msgid "Your music files cannot be indexed without Tracker running."
-msgstr "Dha restrennow ilow ny yllir bos menegys heb Tracker owth eksekutya."
+msgstr "Agas restrennow ilow ny allas bos menegys heb Tracker owth eksekutya."
 
 #: gnomemusic/widgets/statusnavigationpage.py:127
 msgid "Your system Tracker version seems outdated."
-msgstr "Dha versyon Tracker system heveli anterrus."
+msgstr "Agas dyllans Tracker system a hevel anterrus."
 
 #: gnomemusic/widgets/statusnavigationpage.py:129
 msgid "Music needs Tracker version 3.0.0 or higher."
-msgstr "Ilow res versyon Tracker 3.0.0 po moy."
+msgstr "Yma edhom dhe Ilow rag dyllans Tracker 3.0.0 po ughella."
