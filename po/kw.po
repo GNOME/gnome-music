@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
 "POT-Creation-Date: 2025-11-24 19:37+0000\n"
-"PO-Revision-Date: 2026-05-22 21:50+0100\n"
+"PO-Revision-Date: 2026-05-29 17:53+0100\n"
 "Last-Translator: Flynn Peck <cirilla@tuta.io>\n"
 "Language-Team: kw\n"
 "Language: kw\n"
@@ -155,7 +155,7 @@ msgstr "Dewisyow"
 
 #: data/ui/HeaderBar.ui:35
 msgid "Keyboard Shortcuts"
-msgstr "Kesunyansow Vysowek"
+msgstr "Kesunyansow Bysowek"
 
 #: data/ui/HeaderBar.ui:39
 msgid "Help"
@@ -219,7 +219,7 @@ msgstr "Keworra"
 
 #: data/ui/PreferencesDialog.ui:9
 msgid "Player Settings"
-msgstr "Settyansow Warier"
+msgstr "Settyansow Gwarier"
 
 #: data/ui/PreferencesDialog.ui:12
 msgid "Repeat Mode"
@@ -263,7 +263,7 @@ msgstr "Kan"
 
 #: data/ui/PreferencesDialog.ui:44
 msgid "Power Settings"
-msgstr "Settyansow Vatri"
+msgstr "Settyansow Batri"
 
 #: data/ui/PreferencesDialog.ui:47
 msgid "Inhibit Suspend"
@@ -308,7 +308,7 @@ msgstr "Gweres"
 #: data/ui/shortcuts-dialog.ui:27
 msgctxt "shortcut window"
 msgid "Keyboard shortcuts"
-msgstr "Kesunyansow Vysowek"
+msgstr "Kesunyansow Bysowek"
 
 #: data/ui/shortcuts-dialog.ui:33
 msgctxt "shortcut window"
@@ -592,7 +592,7 @@ msgstr "Assayewgh Hwithrans Aral"
 
 #: gnomemusic/widgets/statusnavigationpage.py:119
 msgid "GNOME Music could not connect to Tracker."
-msgstr "GNOME Ilow ny allas junya dhe Dracker."
+msgstr "GNOME Ilow ny allas junya dhe Tracker."
 
 #: gnomemusic/widgets/statusnavigationpage.py:121
 msgid "Your music files cannot be indexed without Tracker running."
