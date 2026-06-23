@@ -60,6 +60,12 @@
   <translation type="gettext">@appid@</translation>
   <update_contact>mschraal@gnome.org</update_contact>
   <releases>
+    <release version="50.0" date="2026-06-23">
+      <description>
+        <p>Add volume controls accelerators</p>
+        <p>Lots of general cleanups and bugfixes</p>
+      </description>
+    </release>
     <release version="48.0" date="2025-03-13">
       <description>
         <p>Support HiDPI covers</p>

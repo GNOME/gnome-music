@@ -1,6 +1,19 @@
-Overview of changes in 50.alpha
-===============================
+Overview of changes in 50.0
+===========================
 
+• Drop Grilo and use LocalSearch directly
+• Add volume controls accelerators
+• Refactor Repeat Mode Button into a separate class
+• Misc gstplayer refactoring
+• Translation updates
+
+Bugs fixed:
+ Icon is missing in «Add to Playlist» dialog (#668)
+
+Thanks to our contributors this release:
+ Gabriele Ricciardi
+ Marinus Schraal
+ Tau Gärtli
 
 Overview of changes in 49 rc
 ============================
