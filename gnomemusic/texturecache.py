@@ -24,7 +24,7 @@
 
 from __future__ import annotations
 from enum import IntEnum
-from typing import Optional, Tuple, TypeAlias
+from typing import Optional, TypeAlias
 import time
 import typing
 
@@ -73,7 +73,7 @@ class TextureCache(GObject.GObject):
     _log = MusicLogger()
     _memory_monitor = Gio.MemoryMonitor.dup_default()
     _size = _MAX_CACHE_SIZE
-    _textures: dict[str, Tuple[
+    _textures: dict[str, tuple[
         TextureCache.LoadingState, float, Optional[Gdk.Texture]]] = {}
 
     def __init__(self) -> None:
