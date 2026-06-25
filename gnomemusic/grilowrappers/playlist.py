@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later WITH GStreamer-exception-2008
 
 from __future__ import annotations
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, Optional
 import asyncio
 import typing
 
@@ -76,7 +76,7 @@ class Playlist(GObject.GObject):
         self._reorder_stmt = self._tsparql.load_statement_from_gresource(
             "/org/gnome/Music/queries/playlist_reorder_songs.rq")
 
-        self._songs_todelete: List[CoreSong] = []
+        self._songs_todelete: list[CoreSong] = []
 
     def _prepare_statement(self, resource_path: str) -> str:
         """Helper to insert bus name and location filter in query"""
@@ -269,14 +269,14 @@ class Playlist(GObject.GObject):
             self._songs_todelete.remove(coresong)
             cursor.close()
 
-    def add_songs(self, coresongs: List[CoreSong]) -> None:
+    def add_songs(self, coresongs: list[CoreSong]) -> None:
         """Adds songs to the playlist
 
         :param list coresongs: list of Coresong
         """
         asyncio.create_task(self._add_songs(coresongs))
 
-    async def _add_songs(self, coresongs: List[CoreSong]) -> None:
+    async def _add_songs(self, coresongs: list[CoreSong]) -> None:
         self._add_song_stmt.bind_string("playlist", self.props.pl_id)
         for coresong in coresongs:
             self._add_song_stmt.bind_string("uri", coresong.props.url)

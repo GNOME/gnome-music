@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later WITH GStreamer-exception-2008
 
 from __future__ import annotations
-from typing import Callable, List, Optional, TypeAlias
+from typing import Callable, Optional, TypeAlias
 import typing
 import asyncio
 
@@ -201,7 +201,7 @@ class LocalSearchWrapper(GObject.Object):
                 self._log.warning(f"Error: {error.domain}, {error.message}")
                 return
 
-            songs: List[CoreSong] = []
+            songs: list[CoreSong] = []
             try:
                 has_next = await cursor.next_async()
             except GLib.Error as error:
@@ -434,7 +434,7 @@ class LocalSearchWrapper(GObject.Object):
 
             cursor.close()
 
-        def albums_filter(corealbum: CoreAlbum, albums: List[str]) -> bool:
+        def albums_filter(corealbum: CoreAlbum, albums: list[str]) -> bool:
             return corealbum.props.id in albums
 
         custom_filter = Gtk.CustomFilter()

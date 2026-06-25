@@ -23,7 +23,7 @@
 # delete this exception statement from your version.
 
 from __future__ import annotations
-from typing import List, Optional
+from typing import Optional
 from enum import IntEnum
 import typing
 
@@ -82,7 +82,7 @@ class GstPlayer(GObject.GObject):
         self._clock_id = 0
         self._clock: Optional[Gst.Clock] = None
 
-        self._missing_plugin_messages: List[Gst.Message] = []
+        self._missing_plugin_messages: list[Gst.Message] = []
         self._settings = application.props.settings
 
         self._player = Gst.ElementFactory.make('playbin3', 'player')

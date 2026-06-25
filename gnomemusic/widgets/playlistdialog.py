@@ -23,7 +23,7 @@
 # delete this exception statement from your version.
 
 from __future__ import annotations
-from typing import List, Optional
+from typing import Optional
 import typing
 
 from gi.repository import Adw, Gtk
@@ -57,11 +57,11 @@ class PlaylistDialog(Adw.Dialog):
 
     def __init__(
             self, application: Application,
-            selected_songs: List[CoreSong]) -> None:
+            selected_songs: list[CoreSong]) -> None:
         """Initialize PlaylistDialog
 
         :param Application application: The application object
-        :param List[CoreSong] selected_songs: A list of songs to be
+        :param list[CoreSong] selected_songs: A list of songs to be
             added
         """
         super().__init__()

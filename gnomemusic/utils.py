@@ -24,7 +24,7 @@
 
 from __future__ import annotations
 from enum import Enum, IntEnum
-from typing import Any, Dict, List
+from typing import Any, Dict
 import re
 import unicodedata
 import typing
@@ -191,7 +191,7 @@ def natural_sort_names(name_a: str, name_b: str) -> int:
     :returns: Gtk Ordering
     :rtype: int
     """
-    def _extract_numbers(text: str) -> List[int | str]:
+    def _extract_numbers(text: str) -> list[int | str]:
         return [int(tmp) if tmp.isdigit() else tmp
                 for tmp in re.split(r"(\d+)", normalize_caseless(text))]
 

@@ -91,9 +91,7 @@ x.append(1)
 
 ###### New
 ```python
-from typing import List
-
-x: List[int] = []
+x: list[int] = []
 
 x.append(1)
 ```
