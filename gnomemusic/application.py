@@ -11,6 +11,8 @@
 # SPDX-License-Identifier: GPL-2.0-or-later WITH GStreamer-exception-2008
 
 import asyncio
+import gi
+gi.require_version("GstAudio", "1.0")
 from gettext import gettext as _
 
 from gi.events import GLibEventLoopPolicy
