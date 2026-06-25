@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later WITH GStreamer-exception-2008
 
 from __future__ import annotations
-from typing import Optional
+from typing import Any, Optional
 import asyncio
 import time
 
@@ -21,7 +21,7 @@ class SmartPlaylist(Playlist):
 
     __gtype_name__ = "SmartPlaylist"
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         super().__init__(**kwargs)
 
         self.props.is_smart = True
