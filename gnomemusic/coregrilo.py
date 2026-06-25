@@ -36,6 +36,7 @@ from gnomemusic.storeart import StoreArt
 from gnomemusic.trackerwrapper import TrackerState, TrackerWrapper
 from gnomemusic.utils import CoreObjectType
 if typing.TYPE_CHECKING:
+    from gnomemusic.application import Application
     from gnomemusic.corealbum import CoreAlbum
     from gnomemusic.coreartist import CoreArtist
     from gnomemusic.coredisc import CoreDisc
@@ -67,7 +68,7 @@ class CoreGrilo(GObject.GObject):
     cover_sources = GObject.Property(type=bool, default=False)
     tracker_available = GObject.Property(type=int)
 
-    def __init__(self, application):
+    def __init__(self, application: Application) -> None:
         """Initiate the CoreGrilo object
 
         :param Application application: The Application instance to use
@@ -77,9 +78,9 @@ class CoreGrilo(GObject.GObject):
         self._application = application
         self._coremodel = self._application.props.coremodel
         self._log = application.props.log
-        self._thumbnail_sources = []
+        self._thumbnail_sources: list[Grl.Source] = []
         self._thumbnail_sources_timeout = None
-        self._wrappers = {}
+        self._wrappers: dict[str, GObject.Object] = {}
 
         self._fast_options: Grl.OperationOptions = Grl.OperationOptions()
         self._fast_options.set_resolution_flags(
@@ -127,7 +128,8 @@ class CoreGrilo(GObject.GObject):
         weakref.finalize(self, Grl.deinit)
 
     def _on_tracker_available_changed(
-            self, trackerwrapper: TrackerWrapper, state: TrackerState) -> None:
+            self, trackerwrapper: Optional[TrackerWrapper],
+            state: Optional[TrackerState]) -> None:
         # FIXME:No removal support yet.
         new_state = self._tsparql_wrapper.props.tracker_available
         if new_state == TrackerState.AVAILABLE:
