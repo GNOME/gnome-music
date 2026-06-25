@@ -48,7 +48,7 @@ class CoreAlbum(GObject.GObject):
 
         self.update(cursor_dict)
 
-    def update(self, cursor_dict):
+    def update(self, cursor_dict: Dict[str, Any]) -> None:
         """Update the CoreAlbum object with new info
 
         :param Dict[str, Any] cursor_dict: Dict with Tsparql keys
