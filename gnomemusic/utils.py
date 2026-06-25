@@ -118,7 +118,7 @@ def get_artist_from_cursor_dict(cursor_dict: Dict[str, Any]) -> str:
             or _("Unknown Artist"))
 
 
-def get_title_from_cursor_dict(cursor_dict):
+def get_title_from_cursor_dict(cursor_dict: Dict[str, Any]) -> str:
     """Returns the title of the media item.
 
     :param Dict[str, Any] cursor_dict: Dict with Tsparql keys
@@ -153,7 +153,7 @@ def get_title_from_cursor_dict(cursor_dict):
     return title
 
 
-def seconds_to_string(duration):
+def seconds_to_string(duration: int) -> str:
     """Convert a time in seconds to a mm:ss string
 
     :param int duration: Time in seconds
@@ -167,7 +167,7 @@ def seconds_to_string(duration):
     return '{:d}:{:02d}'.format(minutes, seconds)
 
 
-def normalize_caseless(text):
+def normalize_caseless(text: str) -> str:
     """Get a normalized casefolded version of a string.
 
     :param str text: string to normalize
