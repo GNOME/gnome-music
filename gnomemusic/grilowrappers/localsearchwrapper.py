@@ -19,7 +19,6 @@ from gnomemusic.grilowrappers.localsearchplaylists import LocalSearchPlaylists
 from gnomemusic.trackerwrapper import TrackerWrapper
 import gnomemusic.utils as utils
 if typing.TYPE_CHECKING:
-    from gi.repository import TSparql
     from gnomemusic.application import Application
     from gnomemusic.grilowrappers.playlist import Playlist
     CoreObject = Union[CoreAlbum, CoreArtist, CoreSong]
@@ -266,7 +265,7 @@ class LocalSearchWrapper(GObject.Object):
             self._tsparql_playlists.check_smart_playlist_change()
 
     def _on_notifier_event(
-            self, notifier: TSparql.Notifier, service: str, graph: str,
+            self, notifier: Tsparql.Notifier, service: str, graph: str,
             events: set[Tsparql.NotifierEvent]) -> None:
         for event in events:
             urn = event.get_urn()
@@ -479,7 +478,7 @@ class LocalSearchWrapper(GObject.Object):
 
     async def _search_generic(
             self, term: str, cancellable: Gio.Cancellable,
-            statement: TSparql.SparqlStatement,
+            statement: Tsparql.SparqlStatement,
             model: Gtk.FilterListModel) -> None:
         """Search and fill the model with results"""
         async with self._notificationmanager:
