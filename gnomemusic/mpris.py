@@ -23,6 +23,7 @@
 # delete this exception statement from your version.
 
 from __future__ import annotations
+from typing import Any, Optional
 import asyncio
 import re
 import typing
@@ -37,6 +38,7 @@ from gnomemusic.widgets.songwidget import SongWidget
 if typing.TYPE_CHECKING:
     from gi.repository import GObject, Gtk
 
+    from gnomemusic.application import Application
     from gnomemusic.coremodel import CoreModel
     from gnomemusic.coresong import CoreSong
     from gnomemusic.player import Player
@@ -44,7 +46,7 @@ if typing.TYPE_CHECKING:
 
 class DBusInterface:
 
-    def __init__(self, name, path, application):
+    def __init__(self, name: str, path: str, application: Application) -> None:
         """Etablish a D-Bus session connection
 
         :param str name: interface name
@@ -54,7 +56,7 @@ class DBusInterface:
         self._con: Gio.DBusConnection
         self._log = application.props.log
         self._path = path
-        self._signals = None
+        self._signals: Optional[dict[str, Any]] = None
 
         asyncio.create_task(self._get_bus(name))
 
