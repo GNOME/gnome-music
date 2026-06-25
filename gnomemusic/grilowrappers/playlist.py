@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later WITH GStreamer-exception-2008
 
 from __future__ import annotations
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 import asyncio
 import typing
 
@@ -30,13 +30,13 @@ class Playlist(GObject.GObject):
     tag_text = GObject.Property(type=str, default=None)
 
     def __init__(
-            self, cursor_dict: Dict[str, Any], query: str, tag_text: str,
+            self, cursor_dict: dict[str, Any], query: str, tag_text: str,
             application: Application, tsparql_wrapper: TrackerWrapper,
             songs_model: GLib.ListStore) -> None:
         super().__init__()
         """Initialize a playlist
 
-       :param Dict[str, Any] cursor_dict: Dict with Tsparql keys
+       :param dict[str, Any] cursor_dict: Dict with Tsparql keys
        :param string query: Tracker query that returns the playlist
        :param string tag_text: The non translatable unique identifier
             of the playlist

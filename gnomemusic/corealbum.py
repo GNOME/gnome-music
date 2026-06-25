@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later WITH GStreamer-exception-2008
 
 from __future__ import annotations
-from typing import Any, Dict
+from typing import Any
 import typing
 
 from gi.repository import GObject, Gio, Gtk
@@ -33,11 +33,11 @@ class CoreAlbum(GObject.GObject):
 
     def __init__(
             self, application: Application,
-            cursor_dict: Dict[str, Any]) -> None:
+            cursor_dict: dict[str, Any]) -> None:
         """Initiate the CoreAlbum object
 
         :param Application application: The application object
-        :param Dict[str, Any] cursor_dict: Dict with Tsparql keys
+        :param dict[str, Any] cursor_dict: Dict with Tsparql keys
         """
         super().__init__()
 
@@ -48,10 +48,10 @@ class CoreAlbum(GObject.GObject):
 
         self.update(cursor_dict)
 
-    def update(self, cursor_dict: Dict[str, Any]) -> None:
+    def update(self, cursor_dict: dict[str, Any]) -> None:
         """Update the CoreAlbum object with new info
 
-        :param Dict[str, Any] cursor_dict: Dict with Tsparql keys
+        :param dict[str, Any] cursor_dict: Dict with Tsparql keys
         """
         self.props.artist = utils.get_artist_from_cursor_dict(cursor_dict)
         self.props.composer = cursor_dict.get("composer")

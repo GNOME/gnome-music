@@ -5,7 +5,7 @@
 from __future__ import annotations
 from enum import IntEnum
 from random import randint
-from typing import Dict, Optional
+from typing import Optional
 import typing
 
 from gi.repository import GObject, GstPbutils
@@ -49,7 +49,7 @@ class Queue(GObject.GObject):
         self._log = application.props.log
         self._position = 0
 
-        self._validation_songs: Dict[str, CoreSong] = {}
+        self._validation_songs: dict[str, CoreSong] = {}
         self._discoverer = GstPbutils.Discoverer()
         self._discoverer.connect("discovered", self._on_discovered)
         self._discoverer.start()

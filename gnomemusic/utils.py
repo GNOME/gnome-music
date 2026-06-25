@@ -24,7 +24,7 @@
 
 from __future__ import annotations
 from enum import Enum, IntEnum
-from typing import Any, Dict
+from typing import Any
 import re
 import unicodedata
 import typing
@@ -99,7 +99,7 @@ class View(IntEnum):
     PLAYLIST = 2
 
 
-def get_artist_from_cursor_dict(cursor_dict: Dict[str, Any]) -> str:
+def get_artist_from_cursor_dict(cursor_dict: dict[str, Any]) -> str:
     """Returns the preferred artist for a media item.
 
     The artist name for a particular media item can be either
@@ -108,7 +108,7 @@ def get_artist_from_cursor_dict(cursor_dict: Dict[str, Any]) -> str:
     all. The first is preferred in most cases, because it is
     the most accurate in an album setting.
 
-    :param Dict[str, Any] cursor_dict: Dict with Tsparql keys
+    :param dict[str, Any] cursor_dict: Dict with Tsparql keys
     :return: The artist name
     :rtype: str
     """
@@ -118,10 +118,10 @@ def get_artist_from_cursor_dict(cursor_dict: Dict[str, Any]) -> str:
             or _("Unknown Artist"))
 
 
-def get_title_from_cursor_dict(cursor_dict: Dict[str, Any]) -> str:
+def get_title_from_cursor_dict(cursor_dict: dict[str, Any]) -> str:
     """Returns the title of the media item.
 
-    :param Dict[str, Any] cursor_dict: Dict with Tsparql keys
+    :param dict[str, Any] cursor_dict: Dict with Tsparql keys
     :return: The title
     :rtype: str
     """
@@ -205,12 +205,12 @@ def natural_sort_names(name_a: str, name_b: str) -> int:
         return Gtk.Ordering.EQUAL
 
 
-def dict_from_cursor(cursor: Tsparql.SparqlCursor) -> Dict[str, Any]:
+def dict_from_cursor(cursor: Tsparql.SparqlCursor) -> dict[str, Any]:
     """Iterate a TinySparql cursor to create a dictionary
 
     :param Tsparql.SparqlCursor cursor: The cursor
     :returns: Dictionary of variable-key pair
-    :rtype: Dict[str, Any]
+    :rtype: dict[str, Any]
     """
     vars: dict[str, Any] = {}
     for column in range(cursor.get_n_columns()):
@@ -233,10 +233,10 @@ def dict_from_cursor(cursor: Tsparql.SparqlCursor) -> Dict[str, Any]:
     return vars
 
 
-def get_int_from_cursor_dict(cursor_dict: Dict[str, Any], field: str) -> int:
+def get_int_from_cursor_dict(cursor_dict: dict[str, Any], field: str) -> int:
     """Get a specific numeric field from a dictionary or zero
 
-    :param Dict[str, Any] cursor_dict: The dictionary
+    :param dict[str, Any] cursor_dict: The dictionary
     :param str field: The field to look up
     :rtype: int
     """

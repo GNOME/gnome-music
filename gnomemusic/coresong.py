@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later WITH GStreamer-exception-2008
 
 from __future__ import annotations
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 import typing
 
 from gi.repository import GLib, GObject
@@ -46,11 +46,11 @@ class CoreSong(GObject.GObject):
 
     def __init__(
             self, application: Application,
-            cursor_dict: Dict[str, Any]) -> None:
+            cursor_dict: dict[str, Any]) -> None:
         """Initiate the CoreSong object
 
         :param Application application: The application object
-        :param Dict[str, Any] cursor_dict: Dict with Tsparql keys
+        :param dict[str, Any] cursor_dict: Dict with Tsparql keys
         """
         super().__init__()
 
@@ -121,10 +121,10 @@ class CoreSong(GObject.GObject):
         """
         self._thumbnail = value
 
-    def update(self, cursor_dict: Dict[str, Any]) -> None:
+    def update(self, cursor_dict: dict[str, Any]) -> None:
         """Update the song with information from the dictionary
 
-        :param Dict[str, Any] cursor_dict: The dicationary to use
+        :param dict[str, Any] cursor_dict: The dicationary to use
         """
         self.props.album = cursor_dict.get("album") or ""
         self.props.album_urn = cursor_dict.get("album_urn")

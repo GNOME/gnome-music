@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later WITH GStreamer-exception-2008
 
 from __future__ import annotations
-from typing import Any, Dict, Callable, Optional
+from typing import Any, Callable, Optional
 import asyncio
 import typing
 
@@ -113,7 +113,7 @@ class LocalSearchPlaylists(GObject.GObject):
             cursor.close()
 
     def _add_user_playlist(
-            self, cursor_dict: Dict[str, Any],
+            self, cursor_dict: dict[str, Any],
             callback: Optional[Callable] = None) -> None:
         playlist = Playlist(
             cursor_dict=cursor_dict, application=self._application,
