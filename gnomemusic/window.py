@@ -2,6 +2,9 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later WITH GStreamer-exception-2008
 
+from __future__ import annotations
+import typing
+
 from gi.repository import Adw, GLib, GObject, Gdk, Gio, Gtk
 from gettext import gettext as _
 
@@ -16,6 +19,9 @@ from gnomemusic.widgets.headerbar import HeaderBar
 from gnomemusic.widgets.playertoolbar import PlayerToolbar  # noqa: F401
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
 from gnomemusic.windowplacement import WindowPlacement
+
+if typing.TYPE_CHECKING:
+    from gnomemusic.application import Application
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/Window.ui")
@@ -34,7 +40,7 @@ class Window(Adw.ApplicationWindow):
     _stack = Gtk.Template.Child()
     _toast_overlay = Gtk.Template.Child()
 
-    def __init__(self, app):
+    def __init__(self, app: Application) -> None:
         """Initialize the main window.
 
         :param Gtk.Application app: Application object
