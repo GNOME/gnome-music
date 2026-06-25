@@ -10,6 +10,8 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later WITH GStreamer-exception-2008
 
+from typing import Optional, cast
+
 import asyncio
 import gi
 gi.require_version("GstAudio", "1.0")
@@ -35,7 +37,7 @@ from gnomemusic.window import Window
 
 class Application(Adw.Application):
 
-    def __init__(self, application_id, version):
+    def __init__(self, application_id: str, version: str) -> None:
         super().__init__(
             application_id=application_id,
             flags=Gio.ApplicationFlags.FLAGS_NONE)
@@ -47,7 +49,7 @@ class Application(Adw.Application):
         asyncio.set_event_loop_policy(GLibEventLoopPolicy())
 
         self._version = version
-        self._window = None
+        self._window: Optional[Window] = None
 
         self._log = MusicLogger()
         self._search = Search()
@@ -207,7 +209,8 @@ class Application(Adw.Application):
     def _preferences_dialog(
             self, action: Gio.SimpleAction,
             param: GLib.Variant | None) -> None:
-        if self._window.props.visible_dialog:
+        window = cast(Window, self._window)
+        if window.props.visible_dialog:
             return
 
         pref_dialog = PreferencesDialog(self)
@@ -216,7 +219,8 @@ class Application(Adw.Application):
     def _quit(
             self, action: Gio.SimpleAction,
             param: GLib.Variant | None) -> None:
-        self._window.destroy()
+        window = cast(Window, self._window)
+        window.destroy()
 
     def _repeat_toggle(
             self, action: Gio.SimpleAction,
