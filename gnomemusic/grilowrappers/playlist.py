@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later WITH GStreamer-exception-2008
 
 from __future__ import annotations
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 import asyncio
 import typing
 
@@ -44,13 +44,12 @@ class Playlist(GObject.GObject):
        :param TrackerWrapper tsparql_wrapper: The TrackerWrapper instance
        :param GLib.ListStore songs_model: The songs model
         """
+        self._title: Optional[str] = None
         if cursor_dict:
             self.props.pl_id = cursor_dict.get("id")
             self._title = utils.get_title_from_cursor_dict(cursor_dict)
             self.props.count = cursor_dict.get("childCount")
             self.props.creation_date = cursor_dict.get("creationDate")
-        else:
-            self._title = None
 
         self.props.query = query
         self.props.tag_text = tag_text
