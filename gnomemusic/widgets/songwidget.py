@@ -77,7 +77,9 @@ class SongWidget(Gtk.ListBoxRow):
         PLAYING = 1
         UNPLAYED = 2
 
-    def __init__(self, coresong, can_dnd=False, show_artist_and_album=False):
+    def __init__(
+            self, coresong: CoreSong, can_dnd: bool = False,
+            show_artist_and_album: bool = False) -> None:
         """Instanciates a SongWidget
 
         :param Corsong coresong: song associated with the widget
