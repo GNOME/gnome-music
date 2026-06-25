@@ -23,7 +23,7 @@
 # delete this exception statement from your version.
 
 from __future__ import annotations
-from typing import Optional, Union
+from typing import Optional, TypeAlias
 import typing
 
 import gi
@@ -38,7 +38,7 @@ if typing.TYPE_CHECKING:
     from gnomemusic.coresong import CoreSong
 
 if typing.TYPE_CHECKING:
-    CoreObject = Union[CoreAlbum, CoreArtist, CoreSong]
+    CoreObject: TypeAlias = CoreAlbum | CoreArtist | CoreSong
 
 
 class CoverPaintable(GObject.GObject, Gdk.Paintable):
@@ -157,7 +157,7 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
         """Get the current core object in use
 
         :returns: The corrent coreobject
-        :rtype: Union[CoreAlbum, CoreArtist, CoreSong] or None
+        :rtype: CoreAlbum | CoreArtist | CoreSong or None
         """
         return self._coreobject
 
@@ -165,7 +165,7 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
     def coreobject(self, coreobject: CoreObject) -> None:
         """Update the coreobject used for CoverPaintable
 
-        :param Union[CoreAlbum, CoreArtist, CoreSong] coreobject:
+        :param CoreAlbum | CoreArtist | CoreSong coreobject:
             The coreobject to set
         """
         if coreobject is self._coreobject:

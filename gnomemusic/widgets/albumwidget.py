@@ -24,7 +24,7 @@
 
 from __future__ import annotations
 from gettext import gettext as _, ngettext
-from typing import Optional, Union
+from typing import Optional
 import typing
 
 from gi.repository import Adw, Gio, GLib, GObject, Gtk
@@ -75,7 +75,7 @@ class AlbumWidget(Adw.Bin):
         self._album_model = None
         self._application = application
         self._corealbum: CoreAlbum
-        self._active_coreobject: Union[CoreAlbum, CoreArtist]
+        self._active_coreobject: CoreAlbum | CoreArtist
         self._coremodel = self._application.props.coremodel
         self._duration_signal_id = 0
         self._year_signal_id = 0
@@ -165,7 +165,7 @@ class AlbumWidget(Adw.Bin):
 
     @GObject.Property(
         type=object, default=None, flags=GObject.ParamFlags.READWRITE)
-    def active_coreobject(self) -> Optional[Union[CoreAlbum, CoreArtist]]:
+    def active_coreobject(self) -> Optional[CoreAlbum | CoreArtist]:
         """Get the current CoreObject.
 
         active_coreobject is used to set the Player playlist
@@ -175,7 +175,7 @@ class AlbumWidget(Adw.Bin):
         an artist. It needs to be set.
 
         :returns: The current CoreObject
-        :rtype: Union[CoreAlbum, CoreArtist]
+        :rtype: CoreAlbum | CoreArtist
         """
         try:
             return self._active_coreobject
@@ -184,7 +184,7 @@ class AlbumWidget(Adw.Bin):
 
     @active_coreobject.setter  # type:ignore
     def active_coreobject(
-            self, coreobject: Union[CoreAlbum, CoreArtist]) -> None:
+            self, coreobject: CoreAlbum | CoreArtist) -> None:
         """Update CoreOject used for AlbumWidget.
 
         :param CoreAlbum corealbum: The CoreAlbum object

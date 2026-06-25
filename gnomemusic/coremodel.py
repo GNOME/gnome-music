@@ -23,7 +23,7 @@
 # delete this exception statement from your version.
 
 from __future__ import annotations
-from typing import Any, Optional, Union
+from typing import Any, Optional
 import typing
 
 from gi.repository import GLib, GObject, Gio, Gtk
@@ -85,10 +85,10 @@ class CoreModel(GObject.GObject):
         self._application = application
         self._flatten_model: Optional[Gtk.FlattenListModel] = None
         self._player_signal_id = 0
-        self._current_queue_model: Optional[Union[
-            Gtk.FlattenListModel, Gtk.SortListModel, Gio.ListModel]] = None
-        self._previous_queue_model: Optional[Union[
-            Gtk.FlattenListModel, Gtk.SortListModel, Gio.ListModel]] = None
+        self._current_queue_model: Optional[
+            Gtk.FlattenListModel | Gtk.SortListModel | Gio.ListModel] = None
+        self._previous_queue_model: Optional[
+            Gtk.FlattenListModel | Gtk.SortListModel | Gio.ListModel] = None
 
         self._songs_model_proxy: Gio.ListStore = Gio.ListStore.new(
             Gio.ListModel)
@@ -123,8 +123,8 @@ class CoreModel(GObject.GObject):
         self._queue_model_shuffle = ShuffleListModel(self._queue_model)
         self._queue_model_recent = Gtk.SliceListModel.new(
             self._queue_model_shuffle, 0, self._recent_size)
-        self._active_core_object: Optional[Union[
-            CoreAlbum, CoreArtist, Playlist]] = None
+        self._active_core_object: Optional[
+            CoreAlbum | CoreArtist | Playlist] = None
 
         self._songs_search_proxy: Gio.ListStore = Gio.ListStore.new(
             Gtk.FilterListModel)

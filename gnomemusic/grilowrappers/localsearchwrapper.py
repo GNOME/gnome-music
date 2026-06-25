@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later WITH GStreamer-exception-2008
 
 from __future__ import annotations
-from typing import Callable, List, Optional, Union
+from typing import Callable, List, Optional, TypeAlias
 import typing
 import asyncio
 
@@ -21,7 +21,7 @@ import gnomemusic.utils as utils
 if typing.TYPE_CHECKING:
     from gnomemusic.application import Application
     from gnomemusic.grilowrappers.playlist import Playlist
-    CoreObject = Union[CoreAlbum, CoreArtist, CoreSong]
+    CoreObject: TypeAlias = CoreAlbum | CoreArtist | CoreSong
 
 
 class LocalSearchWrapper(GObject.Object):

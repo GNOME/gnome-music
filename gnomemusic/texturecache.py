@@ -24,7 +24,7 @@
 
 from __future__ import annotations
 from enum import IntEnum
-from typing import Dict, Optional, Tuple, Union
+from typing import Dict, Optional, Tuple, TypeAlias
 import time
 import typing
 
@@ -38,7 +38,7 @@ if typing.TYPE_CHECKING:
     from gnomemusic.coresong import CoreSong
 
 if typing.TYPE_CHECKING:
-    CoreObject = Union[CoreAlbum, CoreArtist, CoreSong]
+    CoreObject: TypeAlias = CoreAlbum | CoreArtist | CoreSong
 
 
 class TextureCache(GObject.GObject):

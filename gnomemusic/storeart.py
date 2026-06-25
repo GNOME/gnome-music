@@ -23,7 +23,7 @@
 # delete this exception statement from your version.
 
 from __future__ import annotations
-from typing import Optional, Union
+from typing import Optional, TypeAlias
 import asyncio
 import typing
 
@@ -39,7 +39,7 @@ if typing.TYPE_CHECKING:
     from gnomemusic.coresong import CoreSong
 
 if typing.TYPE_CHECKING:
-    CoreObject = Union[CoreAlbum, CoreArtist, CoreSong]
+    CoreObject: TypeAlias = CoreAlbum | CoreArtist | CoreSong
 
 
 class StoreArt(GObject.Object):

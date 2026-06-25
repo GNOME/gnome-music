@@ -23,7 +23,7 @@
 # delete this exception statement from your version.
 
 from __future__ import annotations
-from typing import Any, Optional, Union, cast
+from typing import Any, Optional, TypeAlias, cast
 import typing
 
 from gettext import gettext as _
@@ -39,7 +39,7 @@ if typing.TYPE_CHECKING:
     from gnomemusic.coremodel import CoreModel
     from gnomemusic.coresong import CoreSong
     from gnomemusic.queue import Queue
-    CoreObject = Union[CoreAlbum, CoreSong, Playlist]
+    CoreObject: TypeAlias = CoreAlbum | CoreSong | Playlist
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/SongWidgetMenu.ui")
@@ -49,13 +49,13 @@ class SongWidgetMenu(Gtk.PopoverMenu):
 
     def __init__(
             self, application: Application,
-            song_widget: Union[SongWidget, Gtk.ListItem],
+            song_widget: SongWidget | Gtk.ListItem,
             coreobject: Optional[CoreObject]) -> None:
         """Menu to interact with the song of a SongWidget.
 
         :param Application application: The application object
         :param SongWidget song_widget: The songwidget associated with the menu
-        :param Union[CoreAlbum, CoreSong, Playlist] coreobject: The
+        :param CoreAlbum | CoreSong | Playlist coreobject: The
             coreobject associated with the menu
         """
         super().__init__()
