@@ -192,12 +192,12 @@ class GstPlayer(GObject.GObject):
 
         self._clock_id = self._clock.new_periodic_id(
             self._clock.get_time(), 1 * Gst.SECOND)
-        self._clock.id_wait_async(self._clock_id, self._on_clock_tick, None)
+        Gst.Clock.id_wait_async(self._clock_id, self._on_clock_tick, None)
 
     def _destroy_clock_tick(self) -> None:
         if (self._clock_id > 0
                 and self._clock is not None):
-            self._clock.id_unschedule(self._clock_id)
+            Gst.Clock.id_unschedule(self._clock_id)
             self._clock_id = 0
 
     def _on_new_clock(self, bus, message):
