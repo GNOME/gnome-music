@@ -5,8 +5,19 @@ template $StatusNavigationPage: Adw.NavigationPage {
   title: _("Music");
   tag: "status";
 
-  child: Adw.ToolbarView _toolbar {
+  child: Adw.ToolbarView {
     top-bar-style: raised;
+
+    [top]
+    Adw.HeaderBar {
+      [end]
+      MenuButton _menu_button {
+        valign: center;
+        icon-name: "open-menu-symbolic";
+        primary: true;
+        tooltip-text: _("Menu");
+      }
+    }
 
     content: Adw.StatusPage _status_page {
       hexpand: true;

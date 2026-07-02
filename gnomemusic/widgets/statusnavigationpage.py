@@ -4,14 +4,9 @@
 
 from __future__ import annotations
 from enum import IntEnum
-import typing
 
 from gettext import gettext as _
 from gi.repository import Adw, GLib, GObject, Gtk, Tracker
-
-from gnomemusic.widgets.headerbar import HeaderBar
-if typing.TYPE_CHECKING:
-    from gnomemusic.application import Application
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/StatusNavigationPage.ui")
@@ -33,11 +28,15 @@ class StatusNavigationPage(Adw.NavigationPage):
 
     _description_label = Gtk.Template.Child()
     _initial_state = Gtk.Template.Child()
+    _menu_button = Gtk.Template.Child()
     _status_page = Gtk.Template.Child()
-    _toolbar = Gtk.Template.Child()
 
-    def __init__(self, application: Application) -> None:
+    def __init__(self) -> None:
         super().__init__()
+
+        builder = Gtk.Builder.new_from_resource(
+            "/org/gnome/Music/ui/menu/PrimaryMenu.ui")
+        self._menu_button.props.menu_model = builder.get_object("primary_menu")
 
         # FIXME: This is now duplicated here and in TrackerWrapper.
         try:
@@ -56,10 +55,6 @@ class StatusNavigationPage(Adw.NavigationPage):
             # translated text 'Music folder'
             folder_text = _("The contents of your {} will appear here.")
             self._content_text = folder_text.format(href_text)
-
-        self._headerbar = HeaderBar(application)
-        self._headerbar.props.state = HeaderBar.State.EMPTY
-        self._toolbar.add_top_bar(self._headerbar)
 
         # Hack to get to AdwClamp, so it can be hidden for the
         # initial state.
@@ -94,8 +89,6 @@ class StatusNavigationPage(Adw.NavigationPage):
             self._set_empty_state()
         elif self._state == StatusNavigationPage.State.NO_TRACKER:
             self._set_no_tracker_state()
-
-        self._headerbar.props.state = HeaderBar.State.EMPTY
 
     def _set_empty_state(self) -> None:
         self._adw_clamp.props.visible = False
