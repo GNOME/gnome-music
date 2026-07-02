@@ -16,7 +16,7 @@ from gnomemusic.views.searchview import SearchView
 from gnomemusic.views.playlistsview import PlaylistsView
 from gnomemusic.widgets.albumnavigationpage import AlbumNavigationPage
 from gnomemusic.widgets.statusnavigationpage import StatusNavigationPage
-from gnomemusic.widgets.headerbar import HeaderBar
+from gnomemusic.widgets.mainheaderbar import MainHeaderBar
 from gnomemusic.widgets.playertoolbar import PlayerToolbar  # noqa: F401
 from gnomemusic.windowplacement import WindowPlacement
 if typing.TYPE_CHECKING:
@@ -48,7 +48,7 @@ class Window(Adw.ApplicationWindow):
         self.set_size_request(360, 294)
         WindowPlacement(self)
 
-        self._headerbar = HeaderBar(self._app)
+        self._headerbar = MainHeaderBar()
         self._search_view: SearchView | None = None
         self._status_navpage = StatusNavigationPage(app)
 
@@ -78,8 +78,6 @@ class Window(Adw.ApplicationWindow):
         self.views = [None] * len(View)
 
         self._navigation_view.add(self._status_navpage)
-
-        self._headerbar.props.state = HeaderBar.State.MAIN
 
         self._app.props.coremodel.connect(
             "notify::songs-available", self._on_songs_available)
@@ -135,7 +133,6 @@ class Window(Adw.ApplicationWindow):
         if self.views[View.ALBUM] is not None:
             return
 
-        self._headerbar.props.state = HeaderBar.State.MAIN
         self.views[View.ALBUM] = AlbumsView(self._app)
         self.views[View.ARTIST] = ArtistsView(self._app)
         self.views[View.PLAYLIST] = PlaylistsView(self._app)

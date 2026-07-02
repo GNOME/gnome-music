@@ -1,0 +1,31 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $MainHeaderBar: Adw.Bin {
+  Adw.HeaderBar {
+
+    [title]
+    Adw.ViewSwitcher {
+      focusable: false;
+      halign: center;
+      policy: wide;
+      stack: bind template.stack;
+    }
+
+    [start]
+    ToggleButton {
+      valign: center;
+      icon-name: "edit-find-symbolic";
+      tooltip-text: _("Search");
+      active: bind template.search-mode-active bidirectional;
+    }
+
+    [end]
+    MenuButton _menu_button {
+      valign: center;
+      icon-name: "open-menu-symbolic";
+      primary: true;
+      tooltip-text: _("Menu");
+    }
+  }
+}

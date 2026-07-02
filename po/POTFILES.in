@@ -8,6 +8,7 @@ data/ui/AlbumWidget.blp
 data/ui/ArtistsSearchNavigationPage.blp
 data/ui/ArtistsView.blp
 data/ui/HeaderBar.blp
+data/ui/MainHeaderBar.blp
 data/ui/PlayerToolbar.blp
 data/ui/PlaylistControls.blp
 data/ui/PlaylistDialog.blp
@@ -19,6 +20,7 @@ data/ui/shortcuts-dialog.blp
 data/ui/SongWidgetMenu.blp
 data/ui/StatusNavigationPage.blp
 data/ui/VolumeButton.blp
+data/ui/menu/PrimaryMenu.blp
 gnomemusic/__init__.py
 gnomemusic/about.py
 gnomemusic/application.py
