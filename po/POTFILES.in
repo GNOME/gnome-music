@@ -7,7 +7,6 @@ data/ui/AlbumsSearchNavigationPage.blp
 data/ui/AlbumWidget.blp
 data/ui/ArtistsSearchNavigationPage.blp
 data/ui/ArtistsView.blp
-data/ui/HeaderBar.blp
 data/ui/MainHeaderBar.blp
 data/ui/PlayerToolbar.blp
 data/ui/PlaylistControls.blp

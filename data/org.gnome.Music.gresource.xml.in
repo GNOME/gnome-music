@@ -17,7 +17,6 @@
     <file preprocess="xml-stripblanks">ui/ArtistsView.ui</file>
     <file preprocess="xml-stripblanks">ui/ArtistTile.ui</file>
     <file preprocess="xml-stripblanks">ui/DiscBox.ui</file>
-    <file preprocess="xml-stripblanks">ui/HeaderBar.ui</file>
     <file preprocess="xml-stripblanks">ui/MainHeaderBar.ui</file>
     <file preprocess="xml-stripblanks">ui/PlayerToolbar.ui</file>
     <file preprocess="xml-stripblanks">ui/PlaylistControls.ui</file>
