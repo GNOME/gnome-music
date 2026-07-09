@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music 4.2\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2025-11-24 19:37+0000\n"
-"PO-Revision-Date: 2026-05-06 10:04+0200\n"
+"POT-Creation-Date: 2026-07-07 15:27+0000\n"
+"PO-Revision-Date: 2026-07-09 14:10+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: no\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: data/org.gnome.Music.desktop.in.in:2
 #: data/org.gnome.Music.metainfo.xml.in.in:9 data/ui/StatusNavigationPage.ui:4
-#: gnomemusic/about.py:143 gnomemusic/application.py:41 gnomemusic/window.py:42
+#: gnomemusic/about.py:143 gnomemusic/application.py:43 gnomemusic/window.py:42
 msgid "Music"
 msgstr "Musikk"
 
@@ -238,7 +238,7 @@ msgstr "ReplayGain"
 
 #: data/ui/PreferencesDialog.ui:28
 msgid "Balance loudness between songs if ReplayGain metadata is found"
-msgstr ""
+msgstr "Balanser lydstyrke mellom sanger hvis ReplayGain-metadata finnes"
 
 #: data/ui/PreferencesDialog.ui:32
 msgid "Disabled"
@@ -265,10 +265,8 @@ msgid "Only while playing"
 msgstr "Kun under avspilling"
 
 #: data/ui/RepeatModeButton.ui:14
-#, fuzzy
-#| msgid "Repeat Song"
 msgid "Set Repeat Mode"
-msgstr "Gjenta sang"
+msgstr "Gjenta"
 
 #: data/ui/SearchView.ui:55 data/ui/SearchView.ui:112
 msgid "View All"
@@ -439,7 +437,7 @@ msgstr "Favorittlåter"
 #. or artists views.
 #: gnomemusic/grilowrappers/smartplaylist.py:389
 msgid "Insufficiently Tagged"
-msgstr ""
+msgstr "Ikke tilstrekkelig merket"
 
 #. TRANSLATORS: this is a playlist name
 #: gnomemusic/grilowrappers/smartplaylist.py:450
@@ -513,7 +511,7 @@ msgstr "Ingen søk startet"
 
 #: gnomemusic/views/searchview.py:216
 msgid "Use the searchbar to start searching for albums, artists or songs"
-msgstr ""
+msgstr "Bruk søkefeltet for å søke etter album, artister eller sanger"
 
 #: gnomemusic/views/searchview.py:220
 msgid "No Results Found"
