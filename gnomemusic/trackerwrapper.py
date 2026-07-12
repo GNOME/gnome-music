@@ -69,6 +69,8 @@ class TrackerWrapper(GObject.GObject):
         self._miner_fs_busname = ""
         self._miner_fs_available = TrackerState.UNAVAILABLE
 
+        self._session_bus: Optional[Gio.DBusConnection] = None
+
         asyncio.create_task(self._setup_local_db())
         asyncio.create_task(self._setup_host_miner_fs())
 
@@ -94,6 +96,7 @@ class TrackerWrapper(GObject.GObject):
             self._log.info("Using session-wide tracker-miner-fs-3")
             self._miner_fs_available = TrackerState.AVAILABLE
             self.notify("tracker-available")
+            self._index_music_dir()
         except GLib.Error as error:
             self._log.warning(
                 "Could not connect to host Tracker miner-fs at {}: {}".format(
@@ -143,6 +146,50 @@ class TrackerWrapper(GObject.GObject):
                     self._miner_fs_busname, error))
             self._miner_fs_busname = ""
             self.notify("tracker-available")
+
+    def _index_music_dir(self) -> None:
+        music_dir = GLib.get_user_special_dir(
+            GLib.UserDirectory.DIRECTORY_MUSIC)
+        if music_dir is None:
+            self._log.message("XDG Music dir is not set")
+            return
+
+        self._index_location(GLib.filename_to_uri(music_dir))
+
+    def _index_location(self, uri: str) -> None:
+        # The request is transient: it only lasts as long as Music keeps its
+        # DBus name on the bus, so it is reissued on every startup
+
+        if not self._miner_fs_busname:
+            return
+
+        if self._session_bus is None:
+            try:
+                self._session_bus = Gio.bus_get_sync(
+                    Gio.BusType.SESSION, None)
+            except GLib.Error as error:
+                self._log.warning(
+                    "Could not get session bus to request indexing: "
+                    f"{error.message}")
+                return
+
+        self._session_bus.call(
+            f"{self._miner_fs_busname}.Control",
+            "/org/freedesktop/Tracker3/Miner/Files/Index",
+            "org.freedesktop.Tracker3.Miner.Files.Index",
+            "IndexLocation",
+            GLib.Variant("(sasas)", (uri, ["tracker:Audio"], [])),
+            None, Gio.DBusCallFlags.NONE, -1, None,
+            self._index_location_cb)
+
+    def _index_location_cb(
+            self, connection: Gio.DBusConnection,
+            result: Gio.AsyncResult) -> None:
+        try:
+            connection.call_finish(result)
+        except GLib.Error as error:
+            self._log.warning(
+                f"Failed to request indexing of location: {error.message}")
 
     async def _setup_local_db(self) -> None:
         # Open a local Tracker database.
