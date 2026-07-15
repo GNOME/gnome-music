@@ -54,7 +54,7 @@ class CoreDisc(GObject.GObject):
                 CoreSong, None, "track-number")
             song_sorter = Gtk.NumericSorter.new(song_exp)
             self._model = Gtk.SortListModel.new(filter_model, song_sorter)
-            if self._model:
+            if self._model is not None:
                 self._model.connect("items-changed", self._on_disc_changed)
 
             self._coregrilo.get_album_disc(self, filter_model)
