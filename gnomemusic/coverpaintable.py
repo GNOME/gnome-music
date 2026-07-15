@@ -69,6 +69,7 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
         self._style_manager = Adw.StyleManager.get_default()
         self._texture = None
         self._texture_cache = TextureCache()
+        self._texture_cache.connect("texture", self._on_texture_cache)
         self._thumbnail_id = 0
         self._widget = widget
 
@@ -198,7 +199,6 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
             self.invalidate_contents()
             return
 
-        self._texture_cache.connect("texture", self._on_texture_cache)
         self._texture_cache.lookup(thumbnail_uri)
 
     def _on_texture_cache(
