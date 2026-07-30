@@ -131,9 +131,8 @@ class PlayerToolbar(Gtk.ActionBar):
 
         self._play_button.set_tooltip_text(tooltip)
 
-    def _sync_prev_next(self):
+    def _sync_next(self):
         self._next_button.props.sensitive = self._player.props.has_next
-        self._prev_button.props.sensitive = self._player.props.has_previous
 
     def _update_view(self, player):
         """Update all visual elements on song change
@@ -146,7 +145,7 @@ class PlayerToolbar(Gtk.ActionBar):
         self._progress_time_label.props.label = "0:00"
 
         self._play_button.set_sensitive(True)
-        self._sync_prev_next()
+        self._sync_next()
 
         artist = coresong.props.artist
         title = coresong.props.title
@@ -167,4 +166,4 @@ class PlayerToolbar(Gtk.ActionBar):
 
     def _on_repeat_mode_changed(
             self, player: Player, pspec: GObject.ParamSpec) -> None:
-        self._sync_prev_next()
+        self._sync_next()
