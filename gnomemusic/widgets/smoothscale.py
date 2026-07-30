@@ -92,7 +92,8 @@ class SmoothScale(Gtk.Scale):
         else:
             self.props.sensitive = True
 
-        if state == Playback.PLAYING:
+        if (state == Playback.PLAYING
+                or state == Playback.PAUSED):
             self._update_position_callback()
         else:
             self._remove_timeout()
@@ -187,8 +188,7 @@ class SmoothScale(Gtk.Scale):
 
     def _update_position_callback(self):
         position = self._player.get_position()
-        if position > 0:
-            self.set_value(position * 60)
+        self.set_value(position * 60)
         self._update_timeout()
 
         return False
