@@ -24,13 +24,14 @@
 
 from __future__ import annotations
 from enum import Enum, IntEnum
-from typing import Any, Dict, List, Union
+from typing import Any, Dict, List, Union, Callable
 import re
 import unicodedata
 import typing
 
 from gettext import gettext as _
 import gi
+import functools
 gi.require_version("Tsparql", "3.0")
 from gi.repository import Gio, GLib, Gtk, Tsparql
 
@@ -245,3 +246,48 @@ def get_int_from_cursor_dict(cursor_dict: Dict[str, Any], field: str) -> int:
         return 0
 
     return int(i)
+
+
+def connect_weak(
+    target: GObject.GObject,
+    signal: str,
+    method: Callable,
+    *,
+    after=False
+) -> int:
+    """Connects a signal handler that takes a references weak reference on `self`"""
+
+    handler_id = None
+    weak_target = target.weak_ref()
+    def disconnect():
+        target = weak_target()
+        if target is not None:
+            target.disconnect(handler_id)
+
+    handler = weak_func(method, disconnect)
+    if after:
+        handler_id = target.connect_after(signal, handler)
+    else:
+        handler_id = target.connect(signal, handler)
+    return handler_id
+
+def weak_func(method: Callable, weak_ref_callback=None, upgrade_or=None) -> Callable:
+    try:
+        obj = method.__self__
+        func = method.__func__
+    except AttributeError:
+        raise TypeError('The given callable must be a bound method object')
+
+    if weak_ref_callback is not None:
+        weak_obj = obj.weak_ref(weak_ref_callback)
+    else:
+        weak_obj = obj.weak_ref()
+
+    @functools.wraps(func)
+    def wrapped_func(*args, **kwargs):
+        obj = weak_obj()
+        if obj is None:
+            return upgrade_or
+        return func(obj, *args, **kwargs)
+
+    return wrapped_func

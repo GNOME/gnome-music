@@ -69,6 +69,8 @@ class ArtistSearchTile(Gtk.FlowBoxChild):
         self._artist_label.props.label = artist
         self._tooltip.props.title = artist
 
+        self.weak_ref(lambda: print("===> ArtistSearchTile finalized"))
+
     @Gtk.Template.Callback()
     def _on_tooltip_query(self, widget, x, y, kb, tooltip, data=None):
         tooltip.set_custom(self._tooltip)

@@ -8,6 +8,7 @@ import typing
 
 from gi.repository import Adw, Gtk
 
+from gnomemusic.utils import weak_func
 from gnomemusic.widgets.artistnavigationpage import ArtistNavigationPage
 from gnomemusic.widgets.artistsearchtile import ArtistSearchTile
 if typing.TYPE_CHECKING:
@@ -40,7 +41,9 @@ class ArtistsSearchNavigationPage(Adw.NavigationPage):
         self._navigation_view = window.props.navigation_view
 
         self._all_artists_flowbox.bind_model(
-            model, self._create_artist_widget)
+            model, weak_func(self._create_artist_widget))
+
+        self.weak_ref(lambda: print("===> ArtistsSearchNavigationPage finalized"))
 
     def _create_artist_widget(
             self, coreartist: CoreArtist) -> ArtistSearchTile:

@@ -7,7 +7,7 @@ from gi.repository import GObject, Gtk
 
 from gnomemusic.coverpaintable import CoverPaintable
 from gnomemusic.gstplayer import Playback
-from gnomemusic.utils import ArtSize, DefaultIconType
+from gnomemusic.utils import ArtSize, DefaultIconType, connect_weak
 from gnomemusic.player import Player
 from gnomemusic.widgets.repeatmodebutton import RepeatModeButton  # noqa: F401
 from gnomemusic.widgets.smoothscale import SmoothScale  # noqa: F401
@@ -77,10 +77,9 @@ class PlayerToolbar(Gtk.ActionBar):
         self._player = player
         self._progress_scale.props.player = self._player
 
-        self._player.connect('song-changed', self._update_view)
-        self._player.connect(
-            "notify::repeat-mode", self._on_repeat_mode_changed)
-        self._player.connect('notify::state', self._sync_playing)
+        connect_weak(self._player, 'song-changed', self._update_view)
+        connect_weak(self._player, "notify::repeat-mode", self._on_repeat_mode_changed)
+        connect_weak(self._player, 'notify::state', self._sync_playing)
         self._repeat_mode_button.props.player = self._player
 
         self._player.bind_property(

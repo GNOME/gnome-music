@@ -29,6 +29,7 @@ import typing
 from gi.repository import Adw, Gtk
 
 from gnomemusic.grilowrappers.playlist import Playlist
+from gnomemusic.utils import weak_func
 from gnomemusic.widgets.playlistdialogrow import PlaylistDialogRow
 if typing.TYPE_CHECKING:
     from gnomemusic.application import Application
@@ -77,9 +78,11 @@ class PlaylistDialog(Adw.Dialog):
 
         coremodel = application.props.coremodel
         self._listbox.bind_model(
-            coremodel.props.user_playlists_sort, self._create_playlist_row)
+            coremodel.props.user_playlists_sort, weak_func(self._create_playlist_row))
 
         self._set_view()
+
+        self.weak_ref(lambda: print("===> playlist dialog finalized"))
 
     def _set_view(self):
         if self._user_playlists_available:

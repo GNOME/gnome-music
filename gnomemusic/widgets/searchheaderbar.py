@@ -9,11 +9,12 @@ from gettext import gettext as _
 from gi.repository import Adw, GObject, Gtk
 
 from gnomemusic.search import Search
+from gnomemusic.utils import connect_weak
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/SearchHeaderBar.ui")
 class SearchHeaderBar(Adw.Bin):
-    """SearcnHeaderbar of the application"""
+    """SearchHeaderBar of the application"""
 
     __gtype_name__ = "SearchHeaderBar"
 
@@ -49,7 +50,7 @@ class SearchHeaderBar(Adw.Bin):
             "notify::search-mode-active", self._on_search_mode_changed)
         self.connect("notify::search-state", self._search_state_changed)
 
-        self._entry.connect("search-changed", self._search_entry_changed)
+        connect_weak(self._entry, "search-changed", self._search_entry_changed)
 
         shortcut_controller = Gtk.ShortcutController.new()
         self._entry.add_controller(shortcut_controller)
@@ -58,6 +59,8 @@ class SearchHeaderBar(Adw.Bin):
             Gtk.ShortcutTrigger.parse_string("Escape"),
             Gtk.ShortcutAction.parse_string("action(win.search_bar_close)"))
         shortcut_controller.add_shortcut(search_bar_close_shortcut)
+
+        self.weak_ref(lambda: print("===> search header bar finalized"))
 
     def _search_entry_changed(self, widget: Gtk.SearchEntry) -> bool:
         search_term = self._entry.get_text()

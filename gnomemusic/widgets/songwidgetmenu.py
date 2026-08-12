@@ -67,10 +67,8 @@ class SongWidgetMenu(Gtk.PopoverMenu):
 
         self._coreobject = coreobject
         self._coresong: CoreSong
-        self._song_widget = song_widget
+        self._song_widget = song_widget.weak_ref()
         self.props.coreobject = coreobject
-
-        self._playlist_dialog: Optional[PlaylistDialog] = None
 
         action_group = Gio.SimpleActionGroup()
         action_entries = [
@@ -113,13 +111,13 @@ class SongWidgetMenu(Gtk.PopoverMenu):
 
     def _add_to_playlist(self, action: Gio.Simple, param: Any) -> None:
         self.popdown()
-        self._playlist_dialog = PlaylistDialog(
+        dialog = PlaylistDialog(
             self._application, [self._coresong])
-        self._playlist_dialog.present(self._window)
+        dialog.present(self._window)
 
     def _remove_from_playlist(self, action: Gio.Simple, param: Any) -> None:
         self.popdown()
-        position = self._song_widget.get_index()
+        position = self._song_widget().get_index()
         SongToast(
             self._application, cast(Playlist, self._coreobject), position,
             self._coresong)
@@ -132,7 +130,7 @@ class SongWidgetMenu(Gtk.PopoverMenu):
     def coreobject(self, coreobject: CoreObject) -> None:
         self._coreobject = coreobject
 
-        if isinstance(self._song_widget, SongWidget):
-            self._coresong = self._song_widget.props.coresong
+        if isinstance(self._song_widget(), SongWidget):
+            self._coresong = self._song_widget().props.coresong
         else:
             self._coresong = coreobject

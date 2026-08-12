@@ -31,7 +31,7 @@ gi.require_versions({"Gdk": "4.0", "Gtk": "4.0", "Gsk": "4.0"})
 from gi.repository import Adw, Gsk, Gtk, GObject, Graphene, Gdk
 
 from gnomemusic.texturecache import TextureCache
-from gnomemusic.utils import ArtSize, DefaultIconType
+from gnomemusic.utils import ArtSize, DefaultIconType, connect_weak
 if typing.TYPE_CHECKING:
     from gnomemusic.corealbum import CoreAlbum
     from gnomemusic.coreartist import CoreArtist
@@ -40,6 +40,8 @@ if typing.TYPE_CHECKING:
 if typing.TYPE_CHECKING:
     CoreObject = Union[CoreAlbum, CoreArtist, CoreSong]
 
+def _print_finalized():
+    print("===> cover paintable finalized", flush=True)
 
 class CoverPaintable(GObject.GObject, Gdk.Paintable):
     """An album/artist cover or placeholder
@@ -69,10 +71,12 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
         self._style_manager = Adw.StyleManager.get_default()
         self._texture = None
         self._texture_cache = TextureCache()
+        self._texture_handler_id = None
         self._thumbnail_id = 0
-        self._widget = widget
+        self._widget = widget.weak_ref()
 
-        self._style_manager.connect("notify::dark", self._on_dark_changed)
+        connect_weak(self._style_manager, "notify::dark", self._on_dark_changed)
+        self.weak_ref(_print_finalized)
 
     def do_snapshot(self, snapshot: Gtk.Snapshot, w: float, h: float) -> None:
         if self._texture is not None:
@@ -92,7 +96,7 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
         else:
             h = h * ratio
 
-        scale_factor = self._widget.props.scale_factor
+        scale_factor = self._widget().props.scale_factor
 
         snapshot.save()
         snapshot.scale(1.0 / scale_factor, 1.0 / scale_factor)
@@ -119,7 +123,7 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
         i_s = 1 / 3  # Icon scale
         icon_pt = self._icon_theme.lookup_icon(
             self._icon_type.value, None, w * i_s,
-            self._widget.props.scale_factor, 0, 0)
+            self._widget().props.scale_factor, 0, 0)
 
         bg_color = Gdk.RGBA()
         bg_color.parse("rgba(95%, 95%, 95%, 1)")
@@ -182,8 +186,7 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
             self._thumbnail_id = 0
 
         self._coreobject = coreobject
-        self._thumbnail_id = self._coreobject.connect(
-            "notify::thumbnail", self._on_thumbnail_changed)
+        self._thumbnail_id = connect_weak(self._coreobject, "notify::thumbnail", self._on_thumbnail_changed)
 
         if self._coreobject.props.thumbnail is not None:
             self._on_thumbnail_changed(self._coreobject, None)
@@ -198,7 +201,11 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
             self.invalidate_contents()
             return
 
-        self._texture_cache.connect("texture", self._on_texture_cache)
+        if self._texture_handler_id is None:
+            self._texture_handler_id = connect_weak(
+                self._texture_cache, "texture", self._on_texture_cache
+            )
+
         self._texture_cache.lookup(thumbnail_uri)
 
     def _on_texture_cache(
@@ -237,3 +244,4 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
 
     def do_get_intrinsic_width(self) -> int:
         return self._art_size.width
+

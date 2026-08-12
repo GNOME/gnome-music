@@ -29,7 +29,7 @@ from gi.repository import GObject, Gtk
 
 from gnomemusic.coreartist import CoreArtist
 from gnomemusic.coverpaintable import CoverPaintable
-from gnomemusic.utils import ArtSize, DefaultIconType
+from gnomemusic.utils import ArtSize, DefaultIconType, connect_weak
 
 
 @Gtk.Template(resource_path='/org/gnome/Music/ui/ArtistTile.ui')
@@ -66,8 +66,9 @@ class ArtistTile(Gtk.Box):
         self.bind_property('text', self._label, 'tooltip-text')
 
         ctrl = Gtk.GestureClick()
-        ctrl.connect("pressed", self._on_button_pressed)
+        connect_weak(ctrl, "pressed", self._on_button_pressed)
         self.add_controller(ctrl)
+        self.weak_ref(lambda: print("===> ArtistTile finalized"))
 
     def _on_button_pressed(
             self, gesture: Gtk.GestureClick, n_press: int, x: float,

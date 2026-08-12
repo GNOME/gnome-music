@@ -29,6 +29,7 @@ import typing
 from gi.repository import GObject, Gtk
 
 from gnomemusic.coreartist import CoreArtist
+from gnomemusic.utils import weak_func
 from gnomemusic.widgets.albumwidget import AlbumWidget
 if typing.TYPE_CHECKING:
     from gnomemusic.application import Application
@@ -56,11 +57,12 @@ class ArtistAlbumsWidget(Gtk.Box):
 
         self._application = application
         self._coreartist: Optional[CoreArtist] = None
+        self.weak_ref(lambda: print("==> ArtistAlbumsWidget finalized"))
 
     def _update_model(self) -> None:
         if self._coreartist is not None:
             self._listbox.bind_model(
-                self._coreartist.props.model, self._add_album)
+                self._coreartist.props.model, weak_func(self._add_album))
 
     def _add_album(self, corealbum):
         row = Gtk.ListBoxRow()

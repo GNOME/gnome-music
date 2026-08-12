@@ -136,6 +136,26 @@
             "cleanup": [ "/include" ]
         },
         {
+            "name": "pygobject",
+            "buildsystem": "meson",
+            "config-opts": [
+                "-Dtests=false"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://gitlab.gnome.org/tautropfli/pygobject.git",
+                    "branch": "fix-gtk-template-memory-leak-wip"
+                },
+                {
+                    "type": "git",
+                    "url": "https://github.com/python/pythoncapi-compat.git",
+                    "branch": "main",
+                    "dest": "subprojects/pythoncapi-compat"
+                }
+            ]
+        },
+        {
             "name": "gnome-music",
             "config-opts" : [
                 "-Dprofile=development"

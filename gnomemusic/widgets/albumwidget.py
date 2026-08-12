@@ -31,7 +31,7 @@ from gi.repository import Adw, Gio, GLib, GObject, Gtk
 
 from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.coverpaintable import CoverPaintable
-from gnomemusic.utils import ArtSize, DefaultIconType
+from gnomemusic.utils import ArtSize, DefaultIconType, connect_weak, weak_func
 from gnomemusic.widgets.discbox import DiscBox
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
 if typing.TYPE_CHECKING:
@@ -81,8 +81,6 @@ class AlbumWidget(Adw.Bin):
         self._year_signal_id = 0
         self._model_signal_id = 0
 
-        self._playlist_dialog: Optional[PlaylistDialog] = None
-
         self._cover_image.set_size_request(
             ArtSize.LARGE.width, ArtSize.LARGE.height)
         self._cover_image.props.pixel_size = ArtSize.LARGE.height
@@ -96,9 +94,9 @@ class AlbumWidget(Adw.Bin):
 
         action_group = Gio.SimpleActionGroup()
         actions = (
-            ("play", self._on_play_action),
-            ("add_favorites", self._on_add_favorites_action),
-            ("add_playlist", self._on_add_playlist_action)
+            ("play", weak_func(self._on_play_action)),
+            ("add_favorites", weak_func(self._on_add_favorites_action)),
+            ("add_playlist", weak_func(self._on_add_playlist_action))
         )
         for (name, callback) in actions:
             action = Gio.SimpleAction.new(name, None)
@@ -106,6 +104,8 @@ class AlbumWidget(Adw.Bin):
             action_group.add_action(action)
 
         self.insert_action_group("album", action_group)
+
+        self.weak_ref(lambda: print("===> album widget finalized", flush=True))
 
     @GObject.Property(
         type=CoreAlbum, default=None, flags=GObject.ParamFlags.READWRITE)
@@ -146,20 +146,22 @@ class AlbumWidget(Adw.Bin):
         self._artist_label.props.label = artist
         self._artist_label.props.tooltip_text = artist
 
-        self._duration_signal_id = self._corealbum.connect(
-            "notify::duration", self._on_release_info_changed)
-        self._year_signal_id = self._corealbum.connect(
-            "notify::year", self._on_release_info_changed)
+        self._duration_signal_id = connect_weak(
+            self._corealbum, "notify::duration", self._on_release_info_changed
+        )
+        self._year_signal_id = connect_weak(
+            self._corealbum, "notify::year", self._on_release_info_changed
+        )
         self._set_composer_label()
         # In case the duration is no longer changing, make sure it is
         # displayed.
         self._corealbum.notify("duration")
 
         self._album_model = self._corealbum.props.model
-        self._model_signal_id = self._album_model.connect_after(
-            "items-changed", self._on_model_items_changed)
-        self._disc_list_box.set_header_func(self._set_disc_header)
-        self._disc_list_box.bind_model(self._album_model, self._create_widget)
+        self._model_signal_id = connect_weak(self._album_model,
+             "items-changed", self._on_model_items_changed, after=True)
+        self._disc_list_box.set_header_func(weak_func(self._set_disc_header))
+        self._disc_list_box.bind_model(self._album_model, weak_func(self._create_widget))
 
         self._album_model.items_changed(0, 0, 0)
 
@@ -203,8 +205,7 @@ class AlbumWidget(Adw.Bin):
 
     def _create_widget(self, disc: CoreDisc) -> DiscBox:
         disc_box = DiscBox(self._application, self._corealbum, disc)
-        disc_box.connect('song-activated', self._song_activated)
-
+        connect_weak(disc_box, 'song-activated', self._song_activated)
         return disc_box
 
     def _on_model_items_changed(
@@ -288,10 +289,10 @@ class AlbumWidget(Adw.Bin):
             for disc in self._corealbum.props.model
             for song in disc.props.model]
 
-        self._playlist_dialog = PlaylistDialog(
+        dialog = PlaylistDialog(
             self._application, selected_songs)
         active_window = self._application.props.active_window
-        self._playlist_dialog.present(active_window)
+        dialog.present(active_window)
 
     def _on_play_action(
             self, action: Gio.SimpleAction,

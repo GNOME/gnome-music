@@ -43,3 +43,5 @@ class AlbumNavigationPage(Adw.NavigationPage):
         album_widget.props.corealbum = self._corealbum
 
         self._album_scrolled_window.props.child = album_widget
+
+        self.weak_ref(lambda: print("===> album navigation page finalized", flush=True))

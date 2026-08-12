@@ -1,0 +1,12 @@
+[default]
+name=Default
+runtime=host
+toolchain=default
+config-opts=-Dprofile=development
+run-opts=
+prefix=/home/tau/Projects/.gnome-builder/projects/gnome-music/install/host
+app-id=
+postbuild=
+prebuild=
+run-command=
+default=true

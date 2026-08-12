@@ -33,6 +33,8 @@ class AlbumTile(Gtk.Box):
         self._cover_image.props.paintable = CoverPaintable(
             self, ArtSize.MEDIUM, icon_type=DefaultIconType.ALBUM)
 
+        self.weak_ref(lambda: print("===> album tile finalized", flush=True))
+
     @GObject.Property(
         type=CoreAlbum, flags=GObject.ParamFlags.READWRITE, default=None)
     def corealbum(self) -> CoreAlbum:

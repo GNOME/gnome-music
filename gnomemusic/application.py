@@ -12,6 +12,7 @@
 
 import asyncio
 from gettext import gettext as _
+import gc
 
 from gi.events import GLibEventLoopPolicy
 from gi.repository import Adw, GLib, GObject, Gdk, Gio, GstAudio, Gtk

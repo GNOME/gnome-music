@@ -27,6 +27,7 @@ import gettext
 from gi.repository import Gdk, GObject, Gio, Gtk
 
 from gnomemusic.grilowrappers.playlist import Playlist
+from gnomemusic.utils import connect_weak
 from gnomemusic.playlisttoast import PlaylistToast
 
 
@@ -54,12 +55,12 @@ class PlaylistControls(Gtk.Box):
         self._binding_count = None
 
         self._delete_action = Gio.SimpleAction.new("playlist_delete", None)
-        self._delete_action.connect("activate", self._on_delete_action)
+        connect_weak(self._delete_action, "activate", self._on_delete_action)
 
         self._play_action = Gio.SimpleAction.new("playlist_play", None)
 
         self._rename_action = Gio.SimpleAction.new("playlist_rename", None)
-        self._rename_action.connect("activate", self._enable_rename_playlist)
+        connect_weak(self._rename_action, "activate", self._enable_rename_playlist)
 
     # FIXME: This is a workaround for not being able to pass the application
     # object via init when using Gtk.Builder.
@@ -181,6 +182,6 @@ class PlaylistControls(Gtk.Box):
         self._binding_count = self._playlist.bind_property(
             "title", self._name_label, "label",
             GObject.BindingFlags.SYNC_CREATE)
-        self._count_id = self._playlist.connect(
-            "notify::count", self._on_songs_count_changed)
+        self._count_id = connect_weak(
+            self._playlist, "notify::count", self._on_songs_count_changed)
         self._on_songs_count_changed(None)

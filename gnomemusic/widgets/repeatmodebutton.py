@@ -7,6 +7,7 @@ from typing import Optional
 
 from gi.repository import Gio, GLib, GObject, Gtk
 
+from gnomemusic.utils import connect_weak
 from gnomemusic.player import Player, RepeatMode
 
 
@@ -40,7 +41,9 @@ class RepeatModeButton(Gtk.Box):
         action_group.add_action(self._repeat_action)
         self.insert_action_group("repeatmenu", action_group)
 
-        self._repeat_action.connect("activate", self._on_repeat_menu_changed)
+        connect_weak(self._repeat_action, "activate", self._on_repeat_menu_changed)
+
+        self.weak_ref(lambda: print("repeat mode button finalized"))
 
     @GObject.Property(type=Player)
     def player(self) -> Optional[Player]:

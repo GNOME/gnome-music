@@ -10,6 +10,7 @@ from gi.repository import Adw, Gtk
 
 from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.widgets.albumcover import AlbumCover
+from gnomemusic.utils import weak_func
 from gnomemusic.widgets.albumnavigationpage import AlbumNavigationPage
 if typing.TYPE_CHECKING:
     from gnomemusic.application import Application
@@ -40,7 +41,7 @@ class AlbumsSearchNavigationPage(Adw.NavigationPage):
         self._navigation_view = window.props.navigation_view
 
         self._all_albums_flowbox.bind_model(
-            model, self._create_album_cover)
+            model, weak_func(self._create_album_cover))
 
     def _create_album_cover(self, corealbum: CoreAlbum) -> AlbumCover:
         album_cover = AlbumCover(corealbum)

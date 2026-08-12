@@ -30,6 +30,7 @@ from typing import Optional
 from gi.repository import Gdk, GObject, Gtk
 
 from gnomemusic import utils
+from gnomemusic.utils import connect_weak
 from gnomemusic.coresong import CoreSong
 from gnomemusic.utils import SongStateIcon
 from gnomemusic.widgets.startoggle import StarToggle  # noqa: F401
@@ -128,7 +129,8 @@ class SongWidget(Gtk.ListBoxRow):
         self.props.coresong.bind_property(
             "state", self, "state",
             GObject.BindingFlags.SYNC_CREATE)
-        self.props.coresong.connect(
+        connect_weak(
+            self.props.coresong,
             "notify::validation", self._on_validation_changed)
 
         self._drag_x = 0.
@@ -138,6 +140,8 @@ class SongWidget(Gtk.ListBoxRow):
             capture_phase = Gtk.PropagationPhase.CAPTURE
             self._drag_source.props.propagation_phase = capture_phase
             self._dnd_icon.props.visible = True
+
+        self.weak_ref(lambda: print('song widget finalized'))
 
     @Gtk.Template.Callback()
     def _on_drag_prepare(

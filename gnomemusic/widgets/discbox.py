@@ -29,6 +29,7 @@ from gi.repository import Gdk, Gio, GObject, Gtk
 
 from gnomemusic.widgets.songwidget import SongWidget
 from gnomemusic.widgets.songwidgetmenu import SongWidgetMenu
+from gnomemusic.utils import weak_func
 if typing.TYPE_CHECKING:
     from gnomemusic.application import Application
     from gnomemusic.corealbum import CoreAlbum
@@ -72,7 +73,8 @@ class DiscBox(Gtk.ListBoxRow):
             "disc-nr", self, "disc-nr",
             GObject.BindingFlags.SYNC_CREATE)
 
-        self._list_box.bind_model(self._model, self._create_widget)
+        self._list_box.bind_model(self._model, weak_func(self._create_widget))
+        self.weak_ref(lambda: print("==> discbox finalized"))
 
     def _create_widget(self, coresong):
         song_widget = SongWidget(coresong)

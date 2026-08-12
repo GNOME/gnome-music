@@ -27,6 +27,7 @@ import typing
 
 from gi.repository import GObject, Gtk
 
+from gnomemusic.utils import connect_weak, weak_func
 from gnomemusic.widgets.playlistcontrols import PlaylistControls  # noqa: F401
 from gnomemusic.widgets.songwidget import SongWidget
 from gnomemusic.widgets.songwidgetmenu import SongWidgetMenu
@@ -62,25 +63,27 @@ class PlaylistsWidget(Gtk.Box):
         self._window = application.props.window
         self._coremodel = application.props.coremodel
         self._player = application.props.player
-        self._playlists_view = playlists_view
+        self._playlists_view = playlists_view.weak_ref()
 
-        self._playlists_view.connect(
-            "notify::current-playlist", self._on_current_playlist_changed)
+        connect_weak(
+            self._playlists_view(), "notify::current-playlist", self._on_current_playlist_changed)
 
         self._pl_ctrls.props.application = application
 
         playlist_play_action = self._window.lookup_action("playlist_play")
-        playlist_play_action.connect("activate", self._on_play_playlist)
+        connect_weak(playlist_play_action, "activate", self._on_play_playlist)
 
-        self._coremodel.connect(
-            "smart-playlist-change", self._on_smart_playlist_change)
+        connect_weak(
+            self._coremodel, "smart-playlist-change", self._on_smart_playlist_change)
+
+        self.weak_ref(lambda: print("playlists widget finalized"))
 
     def _on_current_playlist_changed(self, playlists_view, value):
         """Update view with content from selected playlist"""
-        playlist = self._playlists_view.props.current_playlist
+        playlist = self._playlists_view().props.current_playlist
 
         self._songs_list.bind_model(
-            playlist.props.model, self._create_song_widget, playlist)
+            playlist.props.model, weak_func(self._create_song_widget), playlist)
         if playlist.props.is_smart:
             playlist.update()
 
@@ -95,7 +98,7 @@ class PlaylistsWidget(Gtk.Box):
             self._application, song_widget, playlist)
 
         if can_dnd is True:
-            song_widget.connect("widget_moved", self._on_song_widget_moved)
+            connect_weak(song_widget, "widget_moved", self._on_song_widget_moved)
 
         return song_widget
 
@@ -114,18 +117,18 @@ class PlaylistsWidget(Gtk.Box):
             self._player.play(coresong)
             self._coremodel.disconnect(signal_id)
 
-        current_playlist = self._playlists_view.props.current_playlist
+        current_playlist = self._playlists_view().props.current_playlist
         signal_id = self._coremodel.connect(
             "queue-loaded", _on_queue_loaded)
         self._coremodel.props.active_core_object = current_playlist
 
     def _on_song_widget_moved(self, target, source_position):
         target_position = target.get_index()
-        current_playlist = self._playlists_view.props.current_playlist
+        current_playlist = self._playlists_view().props.current_playlist
         current_playlist.reorder(source_position, target_position)
 
     def _on_smart_playlist_change(self, coremodel):
-        current_playlist = self._playlists_view.props.current_playlist
+        current_playlist = self._playlists_view().props.current_playlist
         if (current_playlist is not None
                 and current_playlist.props.is_smart):
             current_playlist.update()
