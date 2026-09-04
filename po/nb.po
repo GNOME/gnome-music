@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music 4.2\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2026-07-07 15:27+0000\n"
-"PO-Revision-Date: 2026-07-09 14:10+0200\n"
+"POT-Creation-Date: 2026-07-06 18:22+0000\n"
+"PO-Revision-Date: 2026-09-04 14:51+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: no\n"
@@ -37,6 +37,10 @@ msgstr "Spill av og organiser musikksamlingen din"
 #: data/org.gnome.Music.desktop.in.in:12
 msgid "Music;Player;"
 msgstr "Musikk;Spiller;"
+
+#: data/org.gnome.Music.metainfo.xml.in.in:7 gnomemusic/about.py:145
+msgid "The GNOME Project"
+msgstr "GNOME prosjektet"
 
 #: data/org.gnome.Music.metainfo.xml.in.in:12
 msgid "An easy and pleasant way to play your music."
@@ -94,7 +98,7 @@ msgid ""
 "Enables or disables ReplayGain for albums or track. Allowed values are: "
 "“disabled” (disables replaygain), “album” (replaygain per album), “track” "
 "(replaygain per track)."
-msgstr ""
+msgstr "Slår på eller av ReplayGain for album eller spor. Tillatte verdier er: «disabled» (slår av ReplayGain), «album» (ReplayGain per album), «track» (ReplayGain per spor)."
 
 #: data/org.gnome.Music.gschema.xml:39
 msgid "Inhibit system suspend"
@@ -392,10 +396,6 @@ msgstr "Juster volum"
 msgid "Mute/Unmute"
 msgstr "Demp/Fjern demping"
 
-#: gnomemusic/about.py:145
-msgid "The GNOME Project"
-msgstr "GNOME prosjektet"
-
 #. Translators should localize the following string which
 #. will be displayed at the bottom of the about box to give
 #. credit to the translator(s).
@@ -444,25 +444,25 @@ msgstr "Ikke tilstrekkelig merket"
 msgid "All Songs"
 msgstr "Alle sanger"
 
-#: gnomemusic/gstplayer.py:455
+#: gnomemusic/gstplayer.py:435
 msgid "Unable to play the file"
 msgstr "Kan ikke spille av filen"
 
-#: gnomemusic/gstplayer.py:461
+#: gnomemusic/gstplayer.py:441
 msgid "_Find in {}"
 msgstr "_Finn i {}"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:471
+#: gnomemusic/gstplayer.py:451
 msgid " and "
 msgstr " og "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:474
+#: gnomemusic/gstplayer.py:454
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:476
+#: gnomemusic/gstplayer.py:456
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "{} kreves for å spille av filen, men er ikke installert."
