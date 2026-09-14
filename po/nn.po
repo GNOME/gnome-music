@@ -1,0 +1,598 @@
+# Norwegian nynorsk translation of gnome-music
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Roy-Magne Mo <rmo@sunnmore.net>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-music master\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
+"POT-Creation-Date: 2026-07-06 18:22+0000\n"
+"PO-Revision-Date: 2026-09-13 00:14+0200\n"
+"Last-Translator: Roy-Magne Mo <rmo@sunnmore.net>\n"
+"Language-Team: Norwegian Nynorsk <nn@li.org>\n"
+"Language: nn\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: data/org.gnome.Music.desktop.in.in:2
+#: data/org.gnome.Music.metainfo.xml.in.in:9 data/ui/StatusNavigationPage.ui:4
+#: gnomemusic/about.py:143 gnomemusic/application.py:43 gnomemusic/window.py:42
+msgid "Music"
+msgstr "Musikk"
+
+#: data/org.gnome.Music.desktop.in.in:3
+msgid "Music Player"
+msgstr "Musikkspelar"
+
+#: data/org.gnome.Music.desktop.in.in:4
+#: data/org.gnome.Music.metainfo.xml.in.in:10
+msgid "Play and organize your music collection"
+msgstr "Spel av og organiser musikksamlinga di"
+
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/org.gnome.Music.desktop.in.in:12
+msgid "Music;Player;"
+msgstr "Musikk;Spelar;Music;Player;"
+
+#: data/org.gnome.Music.metainfo.xml.in.in:7 gnomemusic/about.py:145
+msgid "The GNOME Project"
+msgstr "GNOME-prosjektet"
+
+#: data/org.gnome.Music.metainfo.xml.in.in:12
+msgid "An easy and pleasant way to play your music."
+msgstr "Ein enkel og behageleg måte å spele av musikken din på."
+
+#: data/org.gnome.Music.metainfo.xml.in.in:15
+msgid ""
+"Find tracks in your local collection, use automatically generated playlists "
+"or curate a fresh one."
+msgstr ""
+"Finn spor i den lokale samlinga di, bruk automatisk genererte spelelister "
+"eller lag ei heilt ny sjølv."
+
+#: data/org.gnome.Music.gschema.xml:17
+msgid "Window size"
+msgstr "Vindaugsstorleik"
+
+#: data/org.gnome.Music.gschema.xml:18
+msgid "Window size (width and height)."
+msgstr "Vindaugsstorleik (breidd og høgd)."
+
+#: data/org.gnome.Music.gschema.xml:22
+msgid "Window maximized"
+msgstr "Vindauget maksimert"
+
+#: data/org.gnome.Music.gschema.xml:23
+msgid "Window maximized state."
+msgstr "Vindauget er maksimert."
+
+#: data/org.gnome.Music.gschema.xml:27
+msgid "Playback repeat mode"
+msgstr "Gjentakingsmodus for avspeling"
+
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: data/org.gnome.Music.gschema.xml:29
+msgid ""
+"Value identifies whether to repeat or randomize playback through the "
+"collection. Allowed values are: “none” (repeat and shuffle are off), “song” "
+"(repeat current song), “all” (repeat playlist, no shuffle), “shuffle” "
+"(shuffle playlist, presumes repeat all)."
+msgstr ""
+"Verdien avgjer om avspelinga skal gjentakast eller gå i tilfeldig "
+"rekkjefølgje gjennom samlinga. Tillatne verdiar er: «none» (korkje "
+"gjentaking eller tilfeldig rekkjefølgje), «song» (gjenta songen som spelar),"
+" «all» (gjenta spelelista, ikkje tilfeldig), «shuffle» (tilfeldig "
+"rekkjefølgje, føreset gjentaking av alle)."
+
+#: data/org.gnome.Music.gschema.xml:33
+msgid "Enable ReplayGain"
+msgstr "Slå på ReplayGain"
+
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: data/org.gnome.Music.gschema.xml:35
+msgid ""
+"Enables or disables ReplayGain for albums or track. Allowed values are: "
+"“disabled” (disables replaygain), “album” (replaygain per album), “track” "
+"(replaygain per track)."
+msgstr ""
+"Slår ReplayGain på eller av for album eller spor. Tillatne verdiar er: "
+"«disabled» (slår av replaygain), «album» (replaygain per album), «track» "
+"(replaygain per spor)."
+
+#: data/org.gnome.Music.gschema.xml:39
+msgid "Inhibit system suspend"
+msgstr "Hindre systemet frå å gå i dvale"
+
+#: data/org.gnome.Music.gschema.xml:40
+msgid "Enables or disables inhibiting system suspend while playing music"
+msgstr "Om systemet skal hindrast i å gå i dvale medan musikk vert spelt"
+
+#: data/ui/AlbumsSearchNavigationPage.ui:5 data/ui/SearchView.ui:98
+#: gnomemusic/views/albumsview.py:30
+msgid "Albums"
+msgstr "Album"
+
+#: data/ui/AlbumWidget.ui:84 data/ui/PlayerToolbar.ui:87
+#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:127
+msgid "Play"
+msgstr "Spel"
+
+#: data/ui/AlbumWidget.ui:130 data/ui/PlaylistControls.ui:5
+#: data/ui/SongWidgetMenu.ui:11
+msgid "_Play"
+msgstr "_Spel av"
+
+#: data/ui/AlbumWidget.ui:134
+msgid "Add to _Favorite Songs"
+msgstr "Legg til i _favorittsongar"
+
+#: data/ui/AlbumWidget.ui:138 data/ui/SongWidgetMenu.ui:15
+msgid "_Add to Playlist…"
+msgstr "_Legg til i speleliste …"
+
+#: data/ui/ArtistsSearchNavigationPage.ui:5 data/ui/SearchView.ui:41
+#: gnomemusic/views/artistsview.py:51
+msgid "Artists"
+msgstr "Artistar"
+
+#: data/ui/HeaderBar.ui:14
+msgid "Menu"
+msgstr "Meny"
+
+#: data/ui/HeaderBar.ui:22 data/ui/SearchHeaderBar.ui:12
+msgid "Search"
+msgstr "Søk"
+
+#: data/ui/HeaderBar.ui:31 data/ui/PreferencesDialog.ui:4
+msgid "Preferences"
+msgstr "Innstillingar"
+
+#: data/ui/HeaderBar.ui:35
+msgid "Keyboard Shortcuts"
+msgstr "Tastatursnarvegar"
+
+#: data/ui/HeaderBar.ui:39
+msgid "Help"
+msgstr "Hjelp"
+
+#: data/ui/HeaderBar.ui:43
+msgid "About Music"
+msgstr "Om Musikk"
+
+#: data/ui/PlayerToolbar.ui:74
+msgid "Previous"
+msgstr "Førre"
+
+#: data/ui/PlayerToolbar.ui:106
+msgid "Next"
+msgstr "Neste"
+
+#: data/ui/PlaylistControls.ui:9
+msgid "_Delete"
+msgstr "_Slett"
+
+#: data/ui/PlaylistControls.ui:13
+msgid "_Rename…"
+msgstr "_Omdøyp …"
+
+#: data/ui/PlaylistControls.ui:28
+msgid "Playlist Name"
+msgstr "Namn på speleliste"
+
+#: data/ui/PlaylistControls.ui:62
+msgid "_Done"
+msgstr "_Ferdig"
+
+#: data/ui/PlaylistDialog.ui:16
+msgid "Add to Playlist"
+msgstr "Legg til i speleliste"
+
+#: data/ui/PlaylistDialog.ui:27
+msgid "_Cancel"
+msgstr "_Avbryt"
+
+#: data/ui/PlaylistDialog.ui:36
+msgid "_Add"
+msgstr "_Legg til"
+
+#: data/ui/PlaylistDialog.ui:91
+msgid "Enter a name for your first playlist"
+msgstr "Gjev den første spelelista di eit namn"
+
+#: data/ui/PlaylistDialog.ui:116
+msgid "C_reate"
+msgstr "Opp_rett"
+
+#: data/ui/PlaylistDialog.ui:177
+msgid "New Playlist…"
+msgstr "Ny speleliste …"
+
+#: data/ui/PlaylistDialog.ui:189
+msgid "Add"
+msgstr "Legg til"
+
+#: data/ui/PreferencesDialog.ui:9
+msgid "Player Settings"
+msgstr "Spelarinnstillingar"
+
+#: data/ui/PreferencesDialog.ui:12
+msgid "Repeat Mode"
+msgstr "Gjentakingsmodus"
+
+#: data/ui/PreferencesDialog.ui:16
+msgid "None"
+msgstr "Ingen"
+
+#: data/ui/PreferencesDialog.ui:17
+msgid "Song"
+msgstr "Song"
+
+#: data/ui/PreferencesDialog.ui:18
+msgid "All"
+msgstr "Alle"
+
+#: data/ui/PreferencesDialog.ui:19 gnomemusic/utils.py:72
+msgid "Shuffle"
+msgstr "Tilfeldig rekkjefølgje"
+
+#: data/ui/PreferencesDialog.ui:27
+msgid "ReplayGain"
+msgstr "ReplayGain"
+
+#: data/ui/PreferencesDialog.ui:28
+msgid "Balance loudness between songs if ReplayGain metadata is found"
+msgstr "Jamn ut lydstyrken mellom songane når det finst ReplayGain-metadata"
+
+#: data/ui/PreferencesDialog.ui:32
+msgid "Disabled"
+msgstr "Slått av"
+
+#: data/ui/PreferencesDialog.ui:33
+msgid "Album"
+msgstr "Album"
+
+#: data/ui/PreferencesDialog.ui:34
+msgid "Track"
+msgstr "Spor"
+
+#: data/ui/PreferencesDialog.ui:44
+msgid "Power Settings"
+msgstr "Strauminnstillingar"
+
+#: data/ui/PreferencesDialog.ui:47
+msgid "Inhibit Suspend"
+msgstr "Hindre dvale"
+
+#: data/ui/PreferencesDialog.ui:48
+msgid "Only while playing"
+msgstr "Berre under avspeling"
+
+#: data/ui/RepeatModeButton.ui:14
+msgid "Set Repeat Mode"
+msgstr "Vel gjentakingsmodus"
+
+#: data/ui/SearchView.ui:55 data/ui/SearchView.ui:112
+msgid "View All"
+msgstr "Vis alle"
+
+#: data/ui/SearchView.ui:154
+msgid "Songs"
+msgstr "Songar"
+
+#: data/ui/shortcuts-dialog.ui:6
+msgctxt "shortcut window"
+msgid "General"
+msgstr "Generelt"
+
+#: data/ui/shortcuts-dialog.ui:9
+msgctxt "shortcut window"
+msgid "Preferences"
+msgstr "Innstillingar"
+
+#: data/ui/shortcuts-dialog.ui:15
+msgctxt "shortcut window"
+msgid "Search"
+msgstr "Søk"
+
+#: data/ui/shortcuts-dialog.ui:21
+msgctxt "shortcut window"
+msgid "Help"
+msgstr "Hjelp"
+
+#: data/ui/shortcuts-dialog.ui:27
+msgctxt "shortcut window"
+msgid "Keyboard shortcuts"
+msgstr "Tastatursnarvegar"
+
+#: data/ui/shortcuts-dialog.ui:33
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Avslutt"
+
+#: data/ui/shortcuts-dialog.ui:41
+msgctxt "shortcut window"
+msgid "Playback"
+msgstr "Avspeling"
+
+#: data/ui/shortcuts-dialog.ui:44
+msgctxt "shortcut window"
+msgid "Play/Pause"
+msgstr "Spel/set på pause"
+
+#: data/ui/shortcuts-dialog.ui:50
+msgctxt "shortcut window"
+msgid "Next song"
+msgstr "Neste song"
+
+#: data/ui/shortcuts-dialog.ui:56
+msgctxt "shortcut window"
+msgid "Previous song"
+msgstr "Førre song"
+
+#: data/ui/shortcuts-dialog.ui:62
+msgctxt "shortcut window"
+msgid "Toggle repeat"
+msgstr "Slå av og på gjentaking"
+
+#: data/ui/shortcuts-dialog.ui:68
+msgctxt "shortcut window"
+msgid "Toggle shuffle"
+msgstr "Slå av og på tilfeldig rekkjefølgje"
+
+#: data/ui/shortcuts-dialog.ui:74
+msgctxt "shortcut window"
+msgid "Increase volume"
+msgstr "Auk volumet"
+
+#: data/ui/shortcuts-dialog.ui:80
+msgctxt "shortcut window"
+msgid "Decrease volume"
+msgstr "Senk volumet"
+
+#: data/ui/shortcuts-dialog.ui:86
+msgctxt "shortcut window"
+msgid "Toggle mute"
+msgstr "Slå av og på lyden"
+
+#: data/ui/shortcuts-dialog.ui:94
+msgctxt "shortcut window"
+msgid "Navigation"
+msgstr "Navigasjon"
+
+#: data/ui/shortcuts-dialog.ui:97
+msgctxt "shortcut window"
+msgid "Go to Albums"
+msgstr "Gå til Album"
+
+#: data/ui/shortcuts-dialog.ui:103
+msgctxt "shortcut window"
+msgid "Go to Artists"
+msgstr "Gå til artistar"
+
+#: data/ui/shortcuts-dialog.ui:109
+msgctxt "shortcut window"
+msgid "Go to Playlists"
+msgstr "Gå til spelelister"
+
+#: data/ui/shortcuts-dialog.ui:115
+msgctxt "shortcut window"
+msgid "Go back"
+msgstr "Gå tilbake"
+
+#: data/ui/SongWidgetMenu.ui:19
+msgid "_Remove from Playlist"
+msgstr "_Fjern frå speleliste"
+
+#: data/ui/StatusNavigationPage.ui:36
+msgid "Welcome to Music"
+msgstr "Velkommen til Musikk"
+
+#: data/ui/VolumeButton.ui:12
+msgid "Adjust Volume"
+msgstr "Juster volumet"
+
+#: data/ui/VolumeButton.ui:27
+msgid "Mute/Unmute"
+msgstr "Demp/opphev demping"
+
+#. Translators should localize the following string which
+#. will be displayed at the bottom of the about box to give
+#. credit to the translator(s).
+#: gnomemusic/about.py:151
+msgid "translator-credits"
+msgstr "Roy-Magne Mo <rmo@sunnmore.net>"
+
+#: gnomemusic/about.py:155
+msgid "© The GNOME Music Developers"
+msgstr "© Utviklarane av GNOME Musikk"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/smartplaylist.py:96
+msgid "Most Played"
+msgstr "Mest spelt"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/smartplaylist.py:148
+msgid "Never Played"
+msgstr "Aldri spelt"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/smartplaylist.py:199
+msgid "Recently Played"
+msgstr "Nyleg spelt"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/smartplaylist.py:276
+msgid "Recently Added"
+msgstr "Nyleg lagt til"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/smartplaylist.py:337
+msgid "Starred Songs"
+msgstr "Stjernemerkte songar"
+
+#. TRANSLATORS: this is a playlist name indicating that the
+#. files are not tagged enough to be displayed in the albums
+#. or artists views.
+#: gnomemusic/grilowrappers/smartplaylist.py:389
+msgid "Insufficiently Tagged"
+msgstr "Mangelfullt merkte"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/smartplaylist.py:450
+msgid "All Songs"
+msgstr "Alle songar"
+
+#: gnomemusic/gstplayer.py:435
+msgid "Unable to play the file"
+msgstr "Klarte ikkje spele av fila"
+
+#: gnomemusic/gstplayer.py:441
+msgid "_Find in {}"
+msgstr "_Finn i {}"
+
+#. TRANSLATORS: separator for two codecs
+#: gnomemusic/gstplayer.py:451
+msgid " and "
+msgstr " og "
+
+#. TRANSLATORS: separator for a list of codecs
+#: gnomemusic/gstplayer.py:454
+msgid ", "
+msgstr ", "
+
+#: gnomemusic/gstplayer.py:456
+msgid "{} is required to play the file, but is not installed."
+msgid_plural "{} are required to play the file, but are not installed."
+msgstr[0] "{} er nødvendig for å spele av fila, men er ikkje installert."
+msgstr[1] "{} er nødvendige for å spele av fila, men er ikkje installerte."
+
+#: gnomemusic/inhibitsuspend.py:69
+msgid "Playing music"
+msgstr "Spelar musikk"
+
+#: gnomemusic/playlisttoast.py:55
+msgid "Playlist {} removed"
+msgstr "Spelelista {} er fjerna"
+
+#: gnomemusic/playlisttoast.py:56 gnomemusic/songtoast.py:65
+msgid "Undo"
+msgstr "Angre"
+
+#: gnomemusic/songtoast.py:64
+msgid "{} removed from {}"
+msgstr "{} fjerna frå {}"
+
+#. Translators: "shuffle" causes tracks to play in random order.
+#: gnomemusic/utils.py:69
+msgid "Shuffle/Repeat Off"
+msgstr "Tilfeldig og gjentaking av"
+
+#: gnomemusic/utils.py:70
+msgid "Repeat Song"
+msgstr "Gjenta songen"
+
+#: gnomemusic/utils.py:71
+msgid "Repeat All"
+msgstr "Gjenta alle"
+
+#: gnomemusic/utils.py:118
+msgid "Unknown Artist"
+msgstr "Ukjend artist"
+
+#: gnomemusic/views/playlistsview.py:45
+msgid "Playlists"
+msgstr "Spelelister"
+
+#: gnomemusic/views/searchview.py:214
+msgid "No Search Started"
+msgstr "Ingen søk er starta"
+
+#: gnomemusic/views/searchview.py:216
+msgid "Use the searchbar to start searching for albums, artists or songs"
+msgstr "Bruk søkjefeltet til å søkje etter album, artistar eller songar"
+
+#: gnomemusic/views/searchview.py:220
+msgid "No Results Found"
+msgstr "Ingen resultat funne"
+
+#: gnomemusic/views/searchview.py:222
+msgid "Try a different search"
+msgstr "Prøv eit anna søk"
+
+#: gnomemusic/widgets/albumwidget.py:244
+msgid "{} minute"
+msgid_plural "{} minutes"
+msgstr[0] "{} minutt"
+msgstr[1] "{} minutt"
+
+#: gnomemusic/widgets/playertoolbar.py:124
+msgid "Pause"
+msgstr "Pause"
+
+#: gnomemusic/widgets/playlistcontrols.py:130
+msgid "{} Song"
+msgid_plural "{} Songs"
+msgstr[0] "{} Song"
+msgstr[1] "{} Songar"
+
+#: gnomemusic/widgets/searchheaderbar.py:34
+msgid "Search songs, artists and albums"
+msgstr "Søk etter songar, artistar og album"
+
+#. noqa: F841
+#: gnomemusic/widgets/songwidgetmenu.py:96
+msgid "_Open Location"
+msgstr "_Opne plassering"
+
+#. TRANSLATORS: A verb, to unmark a song as favorite
+#: gnomemusic/widgets/startoggle.py:37
+msgid "Unstar"
+msgstr "Fjern stjernemerking"
+
+#. TRANSLATORS: A verb, to mark a song as favorite
+#: gnomemusic/widgets/startoggle.py:41
+msgid "Star"
+msgstr "Stjernemerk"
+
+#: gnomemusic/widgets/statusnavigationpage.py:51
+msgid "Your XDG Music directory is not set."
+msgstr "XDG-musikkmappa di er ikkje sett opp."
+
+#: gnomemusic/widgets/statusnavigationpage.py:56
+msgid "Music Folder"
+msgstr "Musikkmappe"
+
+#. TRANSLATORS: This is a label to display a link to open
+#. a user's music folder. {} will be replaced with the
+#. translated text 'Music folder'
+#: gnomemusic/widgets/statusnavigationpage.py:60
+msgid "The contents of your {} will appear here."
+msgstr "Innhaldet i {} vil verte vist her."
+
+#: gnomemusic/widgets/statusnavigationpage.py:114
+msgid "No Music Found"
+msgstr "Fann ingen musikk"
+
+#: gnomemusic/widgets/statusnavigationpage.py:115
+msgid "Try a Different Search"
+msgstr "Prøv eit anna søk"
+
+#: gnomemusic/widgets/statusnavigationpage.py:119
+msgid "GNOME Music could not connect to Tracker."
+msgstr "GNOME Musikk klarte ikkje kople seg til Tracker."
+
+#: gnomemusic/widgets/statusnavigationpage.py:121
+msgid "Your music files cannot be indexed without Tracker running."
+msgstr "Musikkfilene dine kan ikkje indekserast utan at Tracker køyrer."
+
+#: gnomemusic/widgets/statusnavigationpage.py:127
+msgid "Your system Tracker version seems outdated."
+msgstr "Tracker-versjonen på systemet ditt ser ut til å vere utdatert."
+
+#: gnomemusic/widgets/statusnavigationpage.py:129
+msgid "Music needs Tracker version 3.0.0 or higher."
+msgstr "Musikk treng Tracker-versjon 3.0.0 eller nyare."
