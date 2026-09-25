@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2025-11-24 19:37+0000\n"
-"PO-Revision-Date: 2026-01-25 11:28+0100\n"
+"POT-Creation-Date: 2026-07-06 18:22+0000\n"
+"PO-Revision-Date: 2026-09-25 06:23+0200\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <(nothing)>\n"
 "Language: ka\n"
@@ -16,11 +16,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.8\n"
+"X-Generator: Poedit 3.9\n"
 
 #: data/org.gnome.Music.desktop.in.in:2
 #: data/org.gnome.Music.metainfo.xml.in.in:9 data/ui/StatusNavigationPage.ui:4
-#: gnomemusic/about.py:143 gnomemusic/application.py:41 gnomemusic/window.py:42
+#: gnomemusic/about.py:143 gnomemusic/application.py:43 gnomemusic/window.py:42
 msgid "Music"
 msgstr "მუსიკა"
 
@@ -37,6 +37,10 @@ msgstr "მუსიკის თქვენი კოლექციის დ
 #: data/org.gnome.Music.desktop.in.in:12
 msgid "Music;Player;"
 msgstr "Music;Player;"
+
+#: data/org.gnome.Music.metainfo.xml.in.in:7 gnomemusic/about.py:145
+msgid "The GNOME Project"
+msgstr "პროექტი \"GNOME\""
 
 #: data/org.gnome.Music.metainfo.xml.in.in:12
 msgid "An easy and pleasant way to play your music."
@@ -398,10 +402,6 @@ msgstr "ხმის მორგება"
 msgid "Mute/Unmute"
 msgstr "დადუმება/დადუმების გაუქმება"
 
-#: gnomemusic/about.py:145
-msgid "The GNOME Project"
-msgstr "პროექტი \"GNOME\""
-
 #. Translators should localize the following string which
 #. will be displayed at the bottom of the about box to give
 #. credit to the translator(s).
@@ -450,35 +450,38 @@ msgstr "არასაკმარისი ჭდეები"
 msgid "All Songs"
 msgstr "ყველა სიმღერა"
 
-#: gnomemusic/gstplayer.py:455
+#: gnomemusic/gstplayer.py:435
 msgid "Unable to play the file"
 msgstr "ფაილის დაკვრის შეცდომა"
 
-#: gnomemusic/gstplayer.py:461
+#: gnomemusic/gstplayer.py:441
+#, python-brace-format
 msgid "_Find in {}"
 msgstr "{}-ში _მოძებნა"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:471
+#: gnomemusic/gstplayer.py:451
 msgid " and "
 msgstr " და "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:474
+#: gnomemusic/gstplayer.py:454
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:476
+#: gnomemusic/gstplayer.py:456
+#, python-brace-format
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "ფაილის დასაკრავად საჭიროა {}, მაგრამ დაყენებული არაა."
-msgstr[1] ""
+msgstr[1] "ფაილის დასაკრავად საჭიროა {}, მაგრამ დაყენებული არაა."
 
 #: gnomemusic/inhibitsuspend.py:69
 msgid "Playing music"
 msgstr "მიმდინარეობს დაკვრა"
 
 #: gnomemusic/playlisttoast.py:55
+#, python-brace-format
 msgid "Playlist {} removed"
 msgstr "დასაკრავი სია წაიშალა: {}"
 
@@ -487,6 +490,7 @@ msgid "Undo"
 msgstr "დაბრუნება"
 
 #: gnomemusic/songtoast.py:64
+#, python-brace-format
 msgid "{} removed from {}"
 msgstr "{} წაიშალა {}-დან"
 
@@ -530,20 +534,22 @@ msgid "Try a different search"
 msgstr "სცადეთ სხვა ძებნა"
 
 #: gnomemusic/widgets/albumwidget.py:244
+#, python-brace-format
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} წუთი"
-msgstr[1] ""
+msgstr[1] "{} წუთი"
 
 #: gnomemusic/widgets/playertoolbar.py:124
 msgid "Pause"
 msgstr "შეჩერება"
 
 #: gnomemusic/widgets/playlistcontrols.py:130
+#, python-brace-format
 msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} სიმღერა"
-msgstr[1] ""
+msgstr[1] "{} სიმღერა"
 
 #: gnomemusic/widgets/searchheaderbar.py:34
 msgid "Search songs, artists and albums"
@@ -576,6 +582,7 @@ msgstr "მუსიკის საქაღალდე"
 #. a user's music folder. {} will be replaced with the
 #. translated text 'Music folder'
 #: gnomemusic/widgets/statusnavigationpage.py:60
+#, python-brace-format
 msgid "The contents of your {} will appear here."
 msgstr "თქვენი {}-ის შემცველობა აქ გამოჩნდება."
 
