@@ -5,40 +5,45 @@
 # pan93412 <pan93412@gmail.com>, 2019.
 # Freddy Cheng <freddy4212@gmail.com>, 2022.
 #
+# SPDX-FileCopyrightText: 2026 Kisaragi Hiu <mail@kisaragi-hiu.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2025-05-01 20:17+0000\n"
-"PO-Revision-Date: 2025-05-13 14:44+0800\n"
+"POT-Creation-Date: 2026-07-06 18:22+0000\n"
+"PO-Revision-Date: 2026-10-11 20:42+0800\n"
 "Last-Translator: Cheng-Chia Tseng <zerngjia@gmail.com>\n"
-"Language-Team: Chinese - Taiwan <chinese-l10n@googlegroups.com>\n"
+"Language-Team: Chinese (Traditional) <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.6\n"
+"X-Generator: Poedit 3.9\n"
 
-#: data/org.gnome.Music.desktop.in.in:3
+#: data/org.gnome.Music.desktop.in.in:2
 #: data/org.gnome.Music.metainfo.xml.in.in:9 data/ui/StatusNavigationPage.ui:4
-#: gnomemusic/about.py:143 gnomemusic/application.py:61 gnomemusic/window.py:65
+#: gnomemusic/about.py:143 gnomemusic/application.py:43 gnomemusic/window.py:42
 msgid "Music"
 msgstr "音樂"
 
-#: data/org.gnome.Music.desktop.in.in:4
+#: data/org.gnome.Music.desktop.in.in:3
 msgid "Music Player"
 msgstr "音樂播放器"
 
-#: data/org.gnome.Music.desktop.in.in:5
+#: data/org.gnome.Music.desktop.in.in:4
 #: data/org.gnome.Music.metainfo.xml.in.in:10
 msgid "Play and organize your music collection"
 msgstr "播放與管理您所收藏的音樂"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
-#: data/org.gnome.Music.desktop.in.in:13
+#: data/org.gnome.Music.desktop.in.in:12
 msgid "Music;Player;"
 msgstr "Music;Player;音樂;播放器;mp3;聽音樂;歌;lastfm;"
+
+#: data/org.gnome.Music.metainfo.xml.in.in:7 gnomemusic/about.py:145
+msgid "The GNOME Project"
+msgstr "GNOME 專案"
 
 #: data/org.gnome.Music.metainfo.xml.in.in:12
 msgid "An easy and pleasant way to play your music."
@@ -112,7 +117,7 @@ msgid "Albums"
 msgstr "專輯"
 
 #: data/ui/AlbumWidget.ui:84 data/ui/PlayerToolbar.ui:87
-#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:176
+#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:127
 msgid "Play"
 msgstr "播放"
 
@@ -157,91 +162,6 @@ msgstr "求助"
 #: data/ui/HeaderBar.ui:43
 msgid "About Music"
 msgstr "關於《音樂》"
-
-#: data/ui/help-overlay.ui:11
-msgctxt "shortcut window"
-msgid "General"
-msgstr "一般"
-
-#: data/ui/help-overlay.ui:14
-msgctxt "shortcut window"
-msgid "Preferences"
-msgstr "偏好設定"
-
-#: data/ui/help-overlay.ui:20
-msgctxt "shortcut window"
-msgid "Search"
-msgstr "搜尋"
-
-#: data/ui/help-overlay.ui:26
-msgctxt "shortcut window"
-msgid "Help"
-msgstr "求助"
-
-#: data/ui/help-overlay.ui:32
-msgctxt "shortcut window"
-msgid "Shortcuts"
-msgstr "捷徑鍵"
-
-#: data/ui/help-overlay.ui:38
-msgctxt "shortcut window"
-msgid "Quit"
-msgstr "結束"
-
-#: data/ui/help-overlay.ui:46
-msgctxt "shortcut window"
-msgid "Playback"
-msgstr "播放控制"
-
-#: data/ui/help-overlay.ui:49
-msgctxt "shortcut window"
-msgid "Play/Pause"
-msgstr "播放/暫停"
-
-#: data/ui/help-overlay.ui:55
-msgctxt "shortcut window"
-msgid "Next song"
-msgstr "下一首"
-
-#: data/ui/help-overlay.ui:61
-msgctxt "shortcut window"
-msgid "Previous song"
-msgstr "上一首"
-
-#: data/ui/help-overlay.ui:67
-msgctxt "shortcut window"
-msgid "Toggle repeat"
-msgstr "切換重複播放模式"
-
-#: data/ui/help-overlay.ui:73
-msgctxt "shortcut window"
-msgid "Toggle shuffle"
-msgstr "切換隨機播放模式"
-
-#: data/ui/help-overlay.ui:81
-msgctxt "shortcut window"
-msgid "Navigation"
-msgstr "導覽"
-
-#: data/ui/help-overlay.ui:84
-msgctxt "shortcut window"
-msgid "Go to Albums"
-msgstr "前往專輯分頁"
-
-#: data/ui/help-overlay.ui:90
-msgctxt "shortcut window"
-msgid "Go to Artists"
-msgstr "前往演出者分頁"
-
-#: data/ui/help-overlay.ui:96
-msgctxt "shortcut window"
-msgid "Go to Playlists"
-msgstr "前往播放清單分頁"
-
-#: data/ui/help-overlay.ui:102
-msgctxt "shortcut window"
-msgid "Go back"
-msgstr "返回"
 
 #: data/ui/PlayerToolbar.ui:74
 msgid "Previous"
@@ -315,7 +235,7 @@ msgstr "歌曲"
 msgid "All"
 msgstr "全部"
 
-#: data/ui/PreferencesDialog.ui:19 gnomemusic/player.py:51
+#: data/ui/PreferencesDialog.ui:19 gnomemusic/utils.py:72
 msgid "Shuffle"
 msgstr "隨機播放"
 
@@ -351,6 +271,10 @@ msgstr "防止系統暫停"
 msgid "Only while playing"
 msgstr "僅在播放時"
 
+#: data/ui/RepeatModeButton.ui:14
+msgid "Set Repeat Mode"
+msgstr "設定重複模式"
+
 #: data/ui/SearchView.ui:55 data/ui/SearchView.ui:112
 msgid "View All"
 msgstr "檢視全部"
@@ -358,6 +282,106 @@ msgstr "檢視全部"
 #: data/ui/SearchView.ui:154
 msgid "Songs"
 msgstr "歌曲"
+
+#: data/ui/shortcuts-dialog.ui:6
+msgctxt "shortcut window"
+msgid "General"
+msgstr "一般"
+
+#: data/ui/shortcuts-dialog.ui:9
+msgctxt "shortcut window"
+msgid "Preferences"
+msgstr "偏好設定"
+
+#: data/ui/shortcuts-dialog.ui:15
+msgctxt "shortcut window"
+msgid "Search"
+msgstr "搜尋"
+
+#: data/ui/shortcuts-dialog.ui:21
+msgctxt "shortcut window"
+msgid "Help"
+msgstr "求助"
+
+#: data/ui/shortcuts-dialog.ui:27
+msgctxt "shortcut window"
+msgid "Keyboard shortcuts"
+msgstr "鍵盤快捷鍵"
+
+#: data/ui/shortcuts-dialog.ui:33
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "結束"
+
+#: data/ui/shortcuts-dialog.ui:41
+msgctxt "shortcut window"
+msgid "Playback"
+msgstr "播放控制"
+
+#: data/ui/shortcuts-dialog.ui:44
+msgctxt "shortcut window"
+msgid "Play/Pause"
+msgstr "播放/暫停"
+
+#: data/ui/shortcuts-dialog.ui:50
+msgctxt "shortcut window"
+msgid "Next song"
+msgstr "下一首"
+
+#: data/ui/shortcuts-dialog.ui:56
+msgctxt "shortcut window"
+msgid "Previous song"
+msgstr "上一首"
+
+#: data/ui/shortcuts-dialog.ui:62
+msgctxt "shortcut window"
+msgid "Toggle repeat"
+msgstr "切換重複播放模式"
+
+#: data/ui/shortcuts-dialog.ui:68
+msgctxt "shortcut window"
+msgid "Toggle shuffle"
+msgstr "切換隨機播放模式"
+
+#: data/ui/shortcuts-dialog.ui:74
+msgctxt "shortcut window"
+msgid "Increase volume"
+msgstr "提高音量"
+
+#: data/ui/shortcuts-dialog.ui:80
+msgctxt "shortcut window"
+msgid "Decrease volume"
+msgstr "降低音量"
+
+#: data/ui/shortcuts-dialog.ui:86
+msgctxt "shortcut window"
+msgid "Toggle mute"
+msgstr "切換靜音"
+
+#: data/ui/shortcuts-dialog.ui:94
+msgctxt "shortcut window"
+msgid "Navigation"
+msgstr "導覽"
+
+#: data/ui/shortcuts-dialog.ui:97
+msgctxt "shortcut window"
+msgid "Go to Albums"
+msgstr "前往專輯分頁"
+
+#: data/ui/shortcuts-dialog.ui:103
+msgctxt "shortcut window"
+msgid "Go to Artists"
+msgstr "前往演出者分頁"
+
+#: data/ui/shortcuts-dialog.ui:109
+msgctxt "shortcut window"
+msgid "Go to Playlists"
+msgstr "前往播放清單分頁"
+
+#: data/ui/shortcuts-dialog.ui:115
+msgctxt "shortcut window"
+msgid "Go back"
+msgstr "返回"
 
 #: data/ui/SongWidgetMenu.ui:19
 msgid "_Remove from Playlist"
@@ -367,9 +391,13 @@ msgstr "自播放清單中移除(_R)"
 msgid "Welcome to Music"
 msgstr "歡迎使用《音樂》"
 
-#: gnomemusic/about.py:145
-msgid "The GNOME Project"
-msgstr "GNOME 專案"
+#: data/ui/VolumeButton.ui:12
+msgid "Adjust Volume"
+msgstr "調整音量"
+
+#: data/ui/VolumeButton.ui:27
+msgid "Mute/Unmute"
+msgstr "靜音/取消靜音"
 
 #. Translators should localize the following string which
 #. will be displayed at the bottom of the about box to give
@@ -386,61 +414,63 @@ msgid "© The GNOME Music Developers"
 msgstr "© GNOME 音樂開發人員"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/smartplaylist.py:128
+#: gnomemusic/grilowrappers/smartplaylist.py:96
 msgid "Most Played"
 msgstr "最常播放"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/smartplaylist.py:182
+#: gnomemusic/grilowrappers/smartplaylist.py:148
 msgid "Never Played"
 msgstr "從未播放"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/smartplaylist.py:235
+#: gnomemusic/grilowrappers/smartplaylist.py:199
 msgid "Recently Played"
 msgstr "近期播放"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/smartplaylist.py:314
+#: gnomemusic/grilowrappers/smartplaylist.py:276
 msgid "Recently Added"
 msgstr "近期加入"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/smartplaylist.py:377
-msgid "Favorite Songs"
-msgstr "喜愛的歌曲"
+#: gnomemusic/grilowrappers/smartplaylist.py:337
+msgid "Starred Songs"
+msgstr "加星標的歌曲"
 
 #. TRANSLATORS: this is a playlist name indicating that the
 #. files are not tagged enough to be displayed in the albums
 #. or artists views.
-#: gnomemusic/grilowrappers/smartplaylist.py:431
+#: gnomemusic/grilowrappers/smartplaylist.py:389
 msgid "Insufficiently Tagged"
 msgstr "標記程度不足"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/smartplaylist.py:494
+#: gnomemusic/grilowrappers/smartplaylist.py:450
 msgid "All Songs"
 msgstr "所有歌曲"
 
-#: gnomemusic/gstplayer.py:424
+#: gnomemusic/gstplayer.py:435
 msgid "Unable to play the file"
 msgstr "無法播放該檔案"
 
-#: gnomemusic/gstplayer.py:430
+#: gnomemusic/gstplayer.py:441
+#, python-brace-format
 msgid "_Find in {}"
 msgstr "於「{}」中尋找(_F)"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:440
+#: gnomemusic/gstplayer.py:451
 msgid " and "
 msgstr " 與 "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:443
+#: gnomemusic/gstplayer.py:454
 msgid ", "
 msgstr "、"
 
-#: gnomemusic/gstplayer.py:445
+#: gnomemusic/gstplayer.py:456
+#, python-brace-format
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "需安裝「{}」後才能播放該檔案。"
@@ -449,20 +479,8 @@ msgstr[0] "需安裝「{}」後才能播放該檔案。"
 msgid "Playing music"
 msgstr "播放中的音樂"
 
-#. Translators: "shuffle" causes tracks to play in random order.
-#: gnomemusic/player.py:48
-msgid "Shuffle/Repeat Off"
-msgstr "隨機/重複播放關閉"
-
-#: gnomemusic/player.py:49
-msgid "Repeat Song"
-msgstr "單曲重複播放"
-
-#: gnomemusic/player.py:50
-msgid "Repeat All"
-msgstr "全部重複播放"
-
 #: gnomemusic/playlisttoast.py:55
+#, python-brace-format
 msgid "Playlist {} removed"
 msgstr "已移除「{}」"
 
@@ -471,14 +489,24 @@ msgid "Undo"
 msgstr "還原"
 
 #: gnomemusic/songtoast.py:64
+#, python-brace-format
 msgid "{} removed from {}"
 msgstr "「{}」已從「{}」中移除"
 
-#: gnomemusic/utils.py:92
-msgid "Unknown album"
-msgstr "不明專輯"
+#. Translators: "shuffle" causes tracks to play in random order.
+#: gnomemusic/utils.py:69
+msgid "Shuffle/Repeat Off"
+msgstr "隨機/重複播放關閉"
 
-#: gnomemusic/utils.py:113
+#: gnomemusic/utils.py:70
+msgid "Repeat Song"
+msgstr "單曲重複播放"
+
+#: gnomemusic/utils.py:71
+msgid "Repeat All"
+msgstr "全部重複播放"
+
+#: gnomemusic/utils.py:118
 msgid "Unknown Artist"
 msgstr "不明演出者"
 
@@ -502,41 +530,38 @@ msgstr "未找到結果"
 msgid "Try a different search"
 msgstr "嘗試不同的搜尋"
 
-#: gnomemusic/widgets/albumwidget.py:193
+#: gnomemusic/widgets/albumwidget.py:244
 #, python-brace-format
-msgid "Disc {row.props.disc_nr}"
-msgstr "光碟 {row.props.disc_nr}"
-
-#: gnomemusic/widgets/albumwidget.py:241
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} 分鐘"
 
-#: gnomemusic/widgets/playertoolbar.py:173
+#: gnomemusic/widgets/playertoolbar.py:124
 msgid "Pause"
 msgstr "暫停"
 
 #: gnomemusic/widgets/playlistcontrols.py:130
+#, python-brace-format
 msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} 首歌曲"
 
-#: gnomemusic/widgets/searchheaderbar.py:54
+#: gnomemusic/widgets/searchheaderbar.py:34
 msgid "Search songs, artists and albums"
 msgstr "搜尋歌曲、演出者和專輯"
 
 #. noqa: F841
-#: gnomemusic/widgets/songwidgetmenu.py:94
+#: gnomemusic/widgets/songwidgetmenu.py:96
 msgid "_Open Location"
 msgstr "開啟位置(_O)"
 
-#. TRANSLATORS: These are verbs, to (un)mark something as a
-#. favorite.
-#: gnomemusic/widgets/startoggle.py:36
+#. TRANSLATORS: A verb, to unmark a song as favorite
+#: gnomemusic/widgets/startoggle.py:37
 msgid "Unstar"
 msgstr "取消星標"
 
-#: gnomemusic/widgets/startoggle.py:36
+#. TRANSLATORS: A verb, to mark a song as favorite
+#: gnomemusic/widgets/startoggle.py:41
 msgid "Star"
 msgstr "星標"
 
@@ -544,39 +569,52 @@ msgstr "星標"
 msgid "Your XDG Music directory is not set."
 msgstr "尚未設定 XDG 音樂目錄。"
 
-#: gnomemusic/widgets/statusnavigationpage.py:58
+#: gnomemusic/widgets/statusnavigationpage.py:56
 msgid "Music Folder"
 msgstr "音樂資料夾"
 
-#. TRANSLATORS: This is a label to display a link to open user's music
-#. folder. {} will be replaced with the translated text 'Music folder'
-#: gnomemusic/widgets/statusnavigationpage.py:66
+#. TRANSLATORS: This is a label to display a link to open
+#. a user's music folder. {} will be replaced with the
+#. translated text 'Music folder'
+#: gnomemusic/widgets/statusnavigationpage.py:60
+#, python-brace-format
 msgid "The contents of your {} will appear here."
 msgstr "您位於{}中的內容會顯示於此。"
 
-#: gnomemusic/widgets/statusnavigationpage.py:116
+#: gnomemusic/widgets/statusnavigationpage.py:114
 msgid "No Music Found"
 msgstr "找不到音樂"
 
-#: gnomemusic/widgets/statusnavigationpage.py:117
+#: gnomemusic/widgets/statusnavigationpage.py:115
 msgid "Try a Different Search"
 msgstr "請嘗試不同的搜尋內容"
 
-#: gnomemusic/widgets/statusnavigationpage.py:121
+#: gnomemusic/widgets/statusnavigationpage.py:119
 msgid "GNOME Music could not connect to Tracker."
 msgstr "《音樂》無法連接《Tracker》。"
 
-#: gnomemusic/widgets/statusnavigationpage.py:123
+#: gnomemusic/widgets/statusnavigationpage.py:121
 msgid "Your music files cannot be indexed without Tracker running."
 msgstr "倘若《Tracker》未執行便無法檢索音樂檔案。"
 
-#: gnomemusic/widgets/statusnavigationpage.py:129
+#: gnomemusic/widgets/statusnavigationpage.py:127
 msgid "Your system Tracker version seems outdated."
 msgstr "系統所安裝的《Tracker》版本似乎過舊。"
 
-#: gnomemusic/widgets/statusnavigationpage.py:131
+#: gnomemusic/widgets/statusnavigationpage.py:129
 msgid "Music needs Tracker version 3.0.0 or higher."
 msgstr "《音樂》需要《Tracker》3.0.0 以上的版本。"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Shortcuts"
+#~ msgstr "捷徑鍵"
+
+#~ msgid "Unknown album"
+#~ msgstr "不明專輯"
+
+#, python-brace-format
+#~ msgid "Disc {row.props.disc_nr}"
+#~ msgstr "光碟 {row.props.disc_nr}"
 
 #~ msgid "Enables or disables ReplayGain for albums"
 #~ msgstr "啟用或停用專輯的播放增益"
