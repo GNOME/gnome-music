@@ -85,4 +85,3 @@ gnome-music
 /help/**/*.stamp
 /help/**/legal.xml
 
-/subprojects/blueprint-compiler
