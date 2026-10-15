@@ -24,7 +24,8 @@
 
 from __future__ import annotations
 from enum import Enum, IntEnum
-from typing import Any, Dict, List, Union
+from typing import Any, Dict, Tuple, Union
+import functools
 import re
 import unicodedata
 import typing
@@ -167,6 +168,7 @@ def seconds_to_string(duration):
     return '{:d}:{:02d}'.format(minutes, seconds)
 
 
+@functools.cache
 def normalize_caseless(text):
     """Get a normalized casefolded version of a string.
 
@@ -175,6 +177,23 @@ def normalize_caseless(text):
     :rtype: str
     """
     return unicodedata.normalize("NFKD", text.casefold())
+
+
+@functools.cache
+def _natural_sort_key(text: str) -> Tuple[Union[int, str], ...]:
+    """Build a cached natural order sort key for a string.
+
+    The key alternates string and integer tokens,
+    so two keys never compare a string
+    against an integer at the same position.
+
+    :param str text: string to build a key for
+    :returns: tuple of string and integer tokens
+    :rtype: Tuple[Union[int, str], ...]
+    """
+    return tuple(
+        int(tmp) if tmp.isdigit() else tmp
+        for tmp in re.split(r"(\d+)", normalize_caseless(text)))
 
 
 def natural_sort_names(name_a: str, name_b: str) -> int:
@@ -191,15 +210,11 @@ def natural_sort_names(name_a: str, name_b: str) -> int:
     :returns: Gtk Ordering
     :rtype: int
     """
-    def _extract_numbers(text: str) -> List[Union[int, str]]:
-        return [int(tmp) if tmp.isdigit() else tmp
-                for tmp in re.split(r"(\d+)", normalize_caseless(text))]
-
-    extract_a = _extract_numbers(name_a)
-    extract_b = _extract_numbers(name_b)
-    if extract_a < extract_b:
+    key_a = _natural_sort_key(name_a)
+    key_b = _natural_sort_key(name_b)
+    if key_a < key_b:
         return Gtk.Ordering.SMALLER
-    elif extract_a > extract_b:
+    elif key_a > key_b:
         return Gtk.Ordering.LARGER
     else:
         return Gtk.Ordering.EQUAL
