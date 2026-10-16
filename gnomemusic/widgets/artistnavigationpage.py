@@ -43,3 +43,8 @@ class ArtistNavigationPage(Adw.NavigationPage):
         artist_albums.props.coreartist = self._coreartist
 
         self._artist_scrolled_window.props.child = artist_albums
+        self.weak_ref(lambda: print("==> ArtistNavigationPage freed", flush=True))
+
+    def do_unmap(self):
+        Adw.NavigationPage.do_unmap(self)
+        print("==> ArtistNavigationPage unmapped", flush=True)

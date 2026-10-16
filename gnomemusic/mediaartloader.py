@@ -30,6 +30,7 @@ from gi.repository import Gdk, GdkPixbuf, Gio, GLib, GObject
 
 from gnomemusic.musiclogger import MusicLogger
 
+_total_media_art_loaded = 0
 
 class MediaArtLoader(GObject.GObject):
     """Handles retrieval of MediaArt cache art
@@ -122,7 +123,9 @@ class MediaArtLoader(GObject.GObject):
                                 f" {thumb_file.get_uri()}")
                 else:
                     await stream.close_async(GLib.PRIORITY_DEFAULT)
-
+        global _total_media_art_loaded
+        _total_media_art_loaded += 1
+        print(f'{_total_media_art_loaded} media art files loaded (w: {self._texture.get_width()}, h: {self._texture.get_height()})')
         self.emit("finished", self._texture)
 
     def start(self, uri: str) -> None:

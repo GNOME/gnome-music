@@ -24,10 +24,11 @@
 
 from __future__ import annotations
 from enum import Enum, IntEnum
-from typing import Any, Dict, List, Union
+from typing import Any, Dict, List, Union, Callable
 import re
 import unicodedata
 import typing
+import functools
 
 from gettext import gettext as _
 import gi
@@ -245,3 +246,25 @@ def get_int_from_cursor_dict(cursor_dict: Dict[str, Any], field: str) -> int:
         return 0
 
     return int(i)
+
+
+def weak_func(method: Callable, weak_ref_callback=None, upgrade_or=None) -> Callable:
+    try:
+        obj = method.__self__
+        func = method.__func__
+    except AttributeError:
+        raise TypeError('The given callable must be a bound method object')
+
+    if weak_ref_callback is not None:
+        weak_obj = obj.weak_ref(weak_ref_callback)
+    else:
+        weak_obj = obj.weak_ref()
+
+    @functools.wraps(func)
+    def wrapped_func(*args, **kwargs):
+        obj = weak_obj()
+        if obj is None:
+            return upgrade_or
+        return func(obj, *args, **kwargs)
+
+    return wrapped_func

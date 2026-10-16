@@ -49,9 +49,9 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
         self._style_manager = Adw.StyleManager.get_default()
         self._texture = None
         self._texture_cache = TextureCache()
-        self._texture_cache.connect("texture", self._on_texture_cache)
+        self._texture_cache.connect_object("texture", self._on_texture_cache.__func__, self)
         self._thumbnail_id = 0
-        self._widget = widget
+        self._widget = widget.weak_ref()
 
         self._style_manager.connect("notify::dark", self._on_dark_changed)
 
@@ -73,7 +73,7 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
         else:
             h = h * ratio
 
-        scale_factor = self._widget.props.scale_factor
+        scale_factor = self._widget().props.scale_factor
 
         snapshot.save()
         snapshot.scale(1.0 / scale_factor, 1.0 / scale_factor)
@@ -100,7 +100,7 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
         i_s = 1 / 3  # Icon scale
         icon_pt = self._icon_theme.lookup_icon(
             self._icon_type.value, None, w * i_s,
-            self._widget.props.scale_factor, 0, 0)
+            self._widget().props.scale_factor, 0, 0)
 
         bg_color = Gdk.RGBA()
         bg_color.parse("rgba(95%, 95%, 95%, 1)")
@@ -163,16 +163,15 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
             self._thumbnail_id = 0
 
         self._coreobject = coreobject
-        self._thumbnail_id = self._coreobject.connect(
-            "notify::thumbnail", self._on_thumbnail_changed)
+        self._thumbnail_id = self._coreobject.connect_object(
+            "notify::thumbnail", self._on_thumbnail_changed.__func__, self)
 
         if self._coreobject.props.thumbnail is not None:
-            self._on_thumbnail_changed(self._coreobject, None)
+            self._on_thumbnail_changed(None)
 
     def _on_thumbnail_changed(
-            self, coreobject: CoreObject,
-            uri: GObject.ParamSpecString) -> None:
-        thumbnail_uri = coreobject.props.thumbnail
+            self, uri: GObject.ParamSpecString) -> None:
+        thumbnail_uri = self._coreobject.props.thumbnail
 
         if thumbnail_uri == "generic":
             self._texture = None
@@ -182,7 +181,7 @@ class CoverPaintable(GObject.GObject, Gdk.Paintable):
         self._texture_cache.lookup(thumbnail_uri)
 
     def _on_texture_cache(
-            self, texture_cache: TextureCache, texture: Gdk.Texture) -> None:
+            self, texture: Gdk.Texture) -> None:
         if texture == self._texture:
             return
 

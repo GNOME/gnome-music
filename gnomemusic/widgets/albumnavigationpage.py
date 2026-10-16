@@ -43,3 +43,8 @@ class AlbumNavigationPage(Adw.NavigationPage):
         album_widget.props.corealbum = self._corealbum
 
         self._album_scrolled_window.props.child = album_widget
+        self.weak_ref(lambda: print("==> AlbumNavigationPage freed", flush=True))
+
+    def do_unmap(self):
+        Adw.NavigationPage.do_unmap(self)
+        print("==> AlbumNavigationPage unmapped", flush=True)

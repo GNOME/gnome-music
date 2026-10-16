@@ -31,7 +31,7 @@ from gi.repository import Adw, Gio, GLib, GObject, Gtk
 
 from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.coverpaintable import CoverPaintable
-from gnomemusic.utils import ArtSize, DefaultIconType
+from gnomemusic.utils import ArtSize, DefaultIconType, weak_func
 from gnomemusic.widgets.discbox import DiscBox
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
 if typing.TYPE_CHECKING:
@@ -94,6 +94,8 @@ class AlbumWidget(Adw.Bin):
             "show-artist-label", self._artist_label, "visible",
             GObject.BindingFlags.SYNC_CREATE)
 
+        self.weak_ref(lambda: print("==> AlbumWidget freed", flush=True))
+
         action_group = Gio.SimpleActionGroup()
         actions = (
             ("play", self._on_play_action),
@@ -102,10 +104,14 @@ class AlbumWidget(Adw.Bin):
         )
         for (name, callback) in actions:
             action = Gio.SimpleAction.new(name, None)
-            action.connect("activate", callback)
+            action.connect_object("activate", callback.__func__, callback.__self__)
             action_group.add_action(action)
 
         self.insert_action_group("album", action_group)
+
+    def do_unmap(self):
+        Adw.Bin.do_unmap(self)
+        print("==> AlbumWidget unmapped", flush=True)
 
     @GObject.Property(
         type=CoreAlbum, default=None, flags=GObject.ParamFlags.READWRITE)
@@ -146,20 +152,20 @@ class AlbumWidget(Adw.Bin):
         self._artist_label.props.label = artist
         self._artist_label.props.tooltip_text = artist
 
-        self._duration_signal_id = self._corealbum.connect(
-            "notify::duration", self._on_release_info_changed)
-        self._year_signal_id = self._corealbum.connect(
-            "notify::year", self._on_release_info_changed)
+        self._duration_signal_id = self._corealbum.connect_object(
+            "notify::duration", self._on_release_info_changed.__func__, self)
+        self._year_signal_id = self._corealbum.connect_object(
+            "notify::year", self._on_release_info_changed.__func__, self)
         self._set_composer_label()
         # In case the duration is no longer changing, make sure it is
         # displayed.
         self._corealbum.notify("duration")
 
         self._album_model = self._corealbum.props.model
-        self._model_signal_id = self._album_model.connect_after(
-            "items-changed", self._on_model_items_changed)
-        self._disc_list_box.set_header_func(self._set_disc_header)
-        self._disc_list_box.bind_model(self._album_model, self._create_widget)
+        self._model_signal_id = self._album_model.connect_object_after(
+            "items-changed", self._on_model_items_changed.__func__, self)
+        self._disc_list_box.set_header_func(weak_func(self._set_disc_header))
+        self._disc_list_box.bind_model(self._album_model, weak_func(self._create_widget))
 
         self._album_model.items_changed(0, 0, 0)
 
@@ -203,14 +209,14 @@ class AlbumWidget(Adw.Bin):
 
     def _create_widget(self, disc: CoreDisc) -> DiscBox:
         disc_box = DiscBox(self._application, self._corealbum, disc)
-        disc_box.connect('song-activated', self._song_activated)
+        disc_box.connect_object('song-activated', self._song_activated.__func__, self)
 
         return disc_box
 
     def _on_model_items_changed(
-            self, model: Gtk.SortListModel, position: int, removed: int,
+            self, position: int, removed: int,
             added: int) -> None:
-        n_items: int = model.get_n_items()
+        n_items: int = self._album_model.get_n_items()
         if n_items == 1:
             discbox = self._disc_list_box.get_row_at_index(0)
             discbox.get_header().props.visible = False
@@ -235,8 +241,7 @@ class AlbumWidget(Adw.Bin):
         self._composer_label.props.visible = show
 
     def _on_release_info_changed(
-            self, klass: CoreAlbum,
-            value: Optional[GObject.ParamSpecString]) -> None:
+            self, value: Optional[GObject.ParamSpecString]) -> None:
         if not self._corealbum:
             return
 
@@ -265,12 +270,11 @@ class AlbumWidget(Adw.Bin):
         self._coremodel.props.active_core_object = coreobject
 
     def _song_activated(
-            self, widget: Gtk.Widget, song_widget: SongWidget) -> None:
+            self, song_widget: SongWidget) -> None:
         self._play(song_widget.props.coresong, self.props.active_coreobject)
 
     def _on_add_favorites_action(
-            self, action: Gio.SimpleAction,
-            data: Optional[GLib.Variant]) -> None:
+            self, data: Optional[GLib.Variant]) -> None:
         if self._corealbum:
             for coredisc in self._corealbum.props.model:
                 for coresong in coredisc.props.model:
@@ -278,8 +282,7 @@ class AlbumWidget(Adw.Bin):
                         coresong.props.favorite = True
 
     def _on_add_playlist_action(
-            self, action: Gio.SimpleAction,
-            data: Optional[GLib.Variant]) -> None:
+            self, data: Optional[GLib.Variant]) -> None:
         if not self._corealbum:
             return
 
@@ -294,8 +297,7 @@ class AlbumWidget(Adw.Bin):
         self._playlist_dialog.present(active_window)
 
     def _on_play_action(
-            self, action: Gio.SimpleAction,
-            data: Optional[GLib.Variant]) -> None:
+            self, data: Optional[GLib.Variant]) -> None:
         self._play(None, self.props.corealbum)
 
     @Gtk.Template.Callback()

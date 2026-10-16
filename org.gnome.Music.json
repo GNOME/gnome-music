@@ -15,7 +15,8 @@
         "--filesystem=xdg-music",
         "--talk-name=org.freedesktop.Tracker3.Writeback",
         "--system-talk-name=org.freedesktop.login1",
-        "--add-policy=Tracker3.dbus:org.freedesktop.Tracker3.Miner.Files=tracker:Audio"
+        "--add-policy=Tracker3.dbus:org.freedesktop.Tracker3.Miner.Files=tracker:Audio",
+        "--env=PYTHONPATH=/app/lib/python3.14/site-packages"
     ],
     "cleanup": [
         "/include",
@@ -134,6 +135,28 @@
                 }
             ],
             "cleanup": [ "/include" ]
+        },
+        {
+            "name": "pygobject",
+            "buildsystem": "meson",
+            "config-opts": ["-Dtests=false"],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://gitlab.gnome.org/GNOME/pygobject.git",
+                    "branch": "wip/tautropfli/gtk-template-signals-memory-leak"
+                },
+                {
+                  "type": "git",
+                  "url": "https://github.com/python/pythoncapi-compat.git",
+                  "commit": "22811c3f0e69908894d2bd724f572b32667f2141",
+                  "dest": "subprojects/pythoncapi-compat"
+                },
+                {
+                  "type": "patch",
+                  "path": "pygobject.patch"
+                }
+            ]
         },
         {
             "name": "gnome-music",

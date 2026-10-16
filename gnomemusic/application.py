@@ -166,6 +166,7 @@ class Application(Adw.Application):
             ("volume_increase", self._volume_increase,
                 ("app.volume_increase",
                     ["<Ctrl>plus", "<Ctrl>equal", "<Ctrl>KP_Add"])),
+            ("collect_garbage", self._collect_garbage, ("app.collect_garbage", ["<Ctrl><Shift>G"]))
         ]
 
         for action, callback, accel in action_entries:
@@ -174,6 +175,15 @@ class Application(Adw.Application):
             self.add_action(simple_action)
             if accel:
                 self.set_accels_for_action(*accel)
+
+    def _collect_garbage(
+            self, action: Gio.SimpleAction,
+            param: GLib.Variant | None):
+        import gc
+        print('== collecting garbage ==', flush=True)
+        gc.collect()
+        gc.collect()
+        return GLib.SOURCE_CONTINUE
 
     def _about(
             self, action: Gio.SimpleAction,
