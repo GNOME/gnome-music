@@ -22,14 +22,13 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-import asyncio
-
 import gi
 gi.require_versions({"GstPbutils": "1.0", "GstTag": "1.0", "MediaArt": "2.0"})
 from gi.repository import (
     GLib, GObject, MediaArt, GdkPixbuf, Gio, Gst, GstTag, GstPbutils)
 
 from gnomemusic.musiclogger import MusicLogger
+from gnomemusic.utils import create_idle_task
 
 
 class EmbeddedArt(GObject.GObject):
@@ -146,12 +145,12 @@ class EmbeddedArt(GObject.GObject):
             if not success:
                 continue
 
-            asyncio.create_task(self._save_pixbuf(map_info.data))
+            create_idle_task(self._save_pixbuf(map_info.data))
             discoverer.stop()
             return
 
         discoverer.stop()
-        asyncio.create_task(self._lookup_cover_in_directory())
+        create_idle_task(self._lookup_cover_in_directory())
 
     async def _save_pixbuf(self, data: bytes) -> None:
         istream = Gio.MemoryInputStream.new_from_data(data)
@@ -159,7 +158,7 @@ class EmbeddedArt(GObject.GObject):
             pixbuf = await GdkPixbuf.Pixbuf.new_from_stream_async(istream)
         except GLib.Error as error:
             self._log.warning(f"Error: {error.domain}, {error.message}")
-            asyncio.create_task(self._lookup_cover_in_directory())
+            create_idle_task(self._lookup_cover_in_directory())
             return
         finally:
             await istream.close_async(GLib.PRIORITY_DEFAULT)
@@ -190,7 +189,7 @@ class EmbeddedArt(GObject.GObject):
                 await ostream.write_async(buffer, GLib.PRIORITY_DEFAULT_IDLE)
             except GLib.Error as error:
                 self._log.info(f"Error: {error.domain}, {error.message}")
-                asyncio.create_task(self._lookup_cover_in_directory())
+                create_idle_task(self._lookup_cover_in_directory())
                 return
             finally:
                 await ostream.close_async(GLib.PRIORITY_DEFAULT)

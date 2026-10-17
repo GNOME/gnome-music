@@ -27,6 +27,7 @@ from enum import Enum, IntEnum
 from typing import Any, Dict, Tuple, Union
 import functools
 import re
+import asyncio
 import unicodedata
 import typing
 
@@ -98,6 +99,20 @@ class View(IntEnum):
     ALBUM = 0
     ARTIST = 1
     PLAYLIST = 2
+
+
+def create_idle_task(coro: typing.Coroutine) -> asyncio.Task:
+    """Create an asyncio task at idle priority.
+
+    :param coro: The coroutine to run as a task
+    :returns: An asyncio task running at idle priority
+    """
+
+    task = asyncio.create_task(coro)
+    set_priority = getattr(task, "set_priority", None)
+    if set_priority is not None:
+        set_priority(GLib.PRIORITY_DEFAULT_IDLE)
+    return task
 
 
 def get_artist_from_cursor_dict(cursor_dict: Dict[str, Any]) -> str:

@@ -118,9 +118,9 @@ class LocalSearchWrapper(GObject.Object):
             "/org/gnome/Music/queries/search_songs.rq")
         self._search_songs_stmt = self._tsparql.query_statement(prep_stmt)
 
-        asyncio.create_task(self._init_albums_model())
-        asyncio.create_task(self._init_artists_model())
-        asyncio.create_task(self._init_songs_model())
+        utils.create_idle_task(self._init_albums_model())
+        utils.create_idle_task(self._init_artists_model())
+        utils.create_idle_task(self._init_songs_model())
 
         self._notifier = self._tsparql_wrapper.props.miner_fs.create_notifier()
         self._notifier.connect("events", self._on_notifier_event)

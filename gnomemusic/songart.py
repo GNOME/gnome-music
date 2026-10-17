@@ -22,13 +22,12 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-import asyncio
-
 import gi
 gi.require_version("MediaArt", "2.0")
 from gi.repository import GLib, GObject, Gio, MediaArt
 
 from gnomemusic.embeddedart import EmbeddedArt
+from gnomemusic.utils import create_idle_task
 
 
 class SongArt(GObject.GObject):
@@ -48,11 +47,11 @@ class SongArt(GObject.GObject):
         self._album = self._coresong.props.album
         self._artist = self._coresong.props.artist
 
-        asyncio.create_task(self._in_cache())
+        create_idle_task(self._in_cache())
 
     def _on_embedded_art_found(self, embeddedart, found):
         if found:
-            asyncio.create_task(self._in_cache())
+            create_idle_task(self._in_cache())
         else:
             self._coregrilo.get_song_art(self._coresong)
 
