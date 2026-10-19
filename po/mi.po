@@ -1,0 +1,598 @@
+# Māori translation of gnome-music.
+# Copyright (C) 2026 the gnome-music authors.
+# This file is distributed under the same licence as the gnome-music package.
+# Arlewatyerre Tuhoro-Bell <aidan@ursa.nz>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-music master\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
+"POT-Creation-Date: 2026-10-15 18:50+0000\n"
+"PO-Revision-Date: 2026-10-19 10:58+1300\n"
+"Last-Translator: Arlewatyerre Tuhoro-Bell <aidan@ursa.nz>\n"
+"Language-Team: Māori <https://gitlab.gnome.org/Teams/Translation/mi>\n"
+"Language: mi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: gnomi\n"
+
+#: data/org.gnome.Music.desktop.in.in:2
+#: data/org.gnome.Music.metainfo.xml.in.in:9 data/ui/StatusNavigationPage.blp:5
+#: gnomemusic/about.py:143 gnomemusic/application.py:43 gnomemusic/window.py:42
+msgid "Music"
+msgstr "Puoro"
+
+#: data/org.gnome.Music.desktop.in.in:3
+msgid "Music Player"
+msgstr ""
+
+#: data/org.gnome.Music.desktop.in.in:4
+#: data/org.gnome.Music.metainfo.xml.in.in:10
+msgid "Play and organize your music collection"
+msgstr ""
+
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/org.gnome.Music.desktop.in.in:12
+msgid "Music;Player;"
+msgstr ""
+
+#: data/org.gnome.Music.metainfo.xml.in.in:7 gnomemusic/about.py:145
+msgid "The GNOME Project"
+msgstr "Te Kaupapa GNOME"
+
+#: data/org.gnome.Music.metainfo.xml.in.in:12
+msgid "An easy and pleasant way to play your music."
+msgstr ""
+
+#: data/org.gnome.Music.metainfo.xml.in.in:15
+msgid ""
+"Find tracks in your local collection, use automatically generated playlists "
+"or curate a fresh one."
+msgstr ""
+
+#: data/org.gnome.Music.gschema.xml:17
+msgid "Window size"
+msgstr "Te rahi o te matapihi"
+
+#: data/org.gnome.Music.gschema.xml:18
+msgid "Window size (width and height)."
+msgstr "Te rahi o te matapihi (whānui me te teitei)."
+
+#: data/org.gnome.Music.gschema.xml:22
+msgid "Window maximized"
+msgstr "Kua whakanuia te matapihi"
+
+#: data/org.gnome.Music.gschema.xml:23
+msgid "Window maximized state."
+msgstr "Te āhua whakanui o te matapihi."
+
+#: data/org.gnome.Music.gschema.xml:27
+msgid "Playback repeat mode"
+msgstr ""
+
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: data/org.gnome.Music.gschema.xml:29
+msgid ""
+"Value identifies whether to repeat or randomize playback through the "
+"collection. Allowed values are: “none” (repeat and shuffle are off), “song” "
+"(repeat current song), “all” (repeat playlist, no shuffle), “shuffle” "
+"(shuffle playlist, presumes repeat all)."
+msgstr ""
+
+#: data/org.gnome.Music.gschema.xml:33
+msgid "Enable ReplayGain"
+msgstr ""
+
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: data/org.gnome.Music.gschema.xml:35
+msgid ""
+"Enables or disables ReplayGain for albums or track. Allowed values are: "
+"“disabled” (disables replaygain), “album” (replaygain per album), “track” "
+"(replaygain per track)."
+msgstr ""
+
+#: data/org.gnome.Music.gschema.xml:39
+msgid "Inhibit system suspend"
+msgstr ""
+
+#: data/org.gnome.Music.gschema.xml:40
+msgid "Enables or disables inhibiting system suspend while playing music"
+msgstr ""
+
+#: data/ui/AlbumsSearchNavigationPage.blp:5 data/ui/SearchView.blp:93
+#: gnomemusic/views/albumsview.py:30
+msgid "Albums"
+msgstr ""
+
+#: data/ui/AlbumWidget.blp:83 data/ui/PlayerToolbar.blp:83
+#: data/ui/PlaylistControls.blp:99 gnomemusic/widgets/playertoolbar.py:127
+msgid "Play"
+msgstr "Purei"
+
+#: data/ui/AlbumWidget.blp:125 data/ui/PlaylistControls.blp:5
+#: data/ui/SongWidgetMenu.blp:12
+msgid "_Play"
+msgstr "_Purei"
+
+#: data/ui/AlbumWidget.blp:130
+msgid "Add to _Favorite Songs"
+msgstr ""
+
+#: data/ui/AlbumWidget.blp:135 data/ui/SongWidgetMenu.blp:17
+msgid "_Add to Playlist…"
+msgstr ""
+
+#: data/ui/ArtistsSearchNavigationPage.blp:5 data/ui/SearchView.blp:41
+#: gnomemusic/views/artistsview.py:51
+msgid "Artists"
+msgstr ""
+
+#: data/ui/HeaderBar.blp:15
+msgid "Menu"
+msgstr ""
+
+#: data/ui/HeaderBar.blp:23 data/ui/SearchHeaderBar.blp:13
+msgid "Search"
+msgstr "Rapu"
+
+#: data/ui/HeaderBar.blp:31 data/ui/PreferencesDialog.blp:5
+msgid "Preferences"
+msgstr "Manakohanga"
+
+#: data/ui/HeaderBar.blp:36
+msgid "Keyboard Shortcuts"
+msgstr "Ngā Pokatata Papapātuhi"
+
+#: data/ui/HeaderBar.blp:41
+msgid "Help"
+msgstr "Āwhina"
+
+#: data/ui/HeaderBar.blp:46
+msgid "About Music"
+msgstr ""
+
+#: data/ui/PlayerToolbar.blp:70
+msgid "Previous"
+msgstr "Tōmua"
+
+#: data/ui/PlayerToolbar.blp:101
+msgid "Next"
+msgstr "Panuku"
+
+#: data/ui/PlaylistControls.blp:10
+msgid "_Delete"
+msgstr "_Muku"
+
+#: data/ui/PlaylistControls.blp:15
+msgid "_Rename…"
+msgstr ""
+
+#: data/ui/PlaylistControls.blp:30
+msgid "Playlist Name"
+msgstr ""
+
+#: data/ui/PlaylistControls.blp:63
+msgid "_Done"
+msgstr "_Kua oti"
+
+#: data/ui/PlaylistDialog.blp:16
+msgid "Add to Playlist"
+msgstr ""
+
+#: data/ui/PlaylistDialog.blp:27
+msgid "_Cancel"
+msgstr "_Whakakore"
+
+#: data/ui/PlaylistDialog.blp:36
+msgid "_Add"
+msgstr "_Tāpiri"
+
+#: data/ui/PlaylistDialog.blp:90
+msgid "Enter a name for your first playlist"
+msgstr ""
+
+#: data/ui/PlaylistDialog.blp:112
+msgid "C_reate"
+msgstr "Waiha_nga"
+
+#: data/ui/PlaylistDialog.blp:165
+msgid "New Playlist…"
+msgstr ""
+
+#: data/ui/PlaylistDialog.blp:175
+msgid "Add"
+msgstr "Tāpiri"
+
+#: data/ui/PreferencesDialog.blp:9
+msgid "Player Settings"
+msgstr ""
+
+#: data/ui/PreferencesDialog.blp:12
+msgid "Repeat Mode"
+msgstr ""
+
+#: data/ui/PreferencesDialog.blp:16
+msgid "None"
+msgstr "Horekau"
+
+#: data/ui/PreferencesDialog.blp:17
+msgid "Song"
+msgstr ""
+
+#: data/ui/PreferencesDialog.blp:18
+msgid "All"
+msgstr "Katoa"
+
+#: data/ui/PreferencesDialog.blp:19 gnomemusic/utils.py:73
+msgid "Shuffle"
+msgstr ""
+
+#: data/ui/PreferencesDialog.blp:25
+msgid "ReplayGain"
+msgstr ""
+
+#: data/ui/PreferencesDialog.blp:26
+msgid "Balance loudness between songs if ReplayGain metadata is found"
+msgstr ""
+
+#: data/ui/PreferencesDialog.blp:30
+msgid "Disabled"
+msgstr "Kua monokia"
+
+#: data/ui/PreferencesDialog.blp:31
+msgid "Album"
+msgstr ""
+
+#: data/ui/PreferencesDialog.blp:32
+msgid "Track"
+msgstr ""
+
+#: data/ui/PreferencesDialog.blp:39
+msgid "Power Settings"
+msgstr "Tautuhinga Hiko"
+
+#: data/ui/PreferencesDialog.blp:42
+msgid "Inhibit Suspend"
+msgstr ""
+
+#: data/ui/PreferencesDialog.blp:43
+msgid "Only while playing"
+msgstr ""
+
+#: data/ui/RepeatModeButton.blp:15
+msgid "Set Repeat Mode"
+msgstr ""
+
+#: data/ui/SearchView.blp:55 data/ui/SearchView.blp:107
+msgid "View All"
+msgstr ""
+
+#: data/ui/SearchView.blp:144
+msgid "Songs"
+msgstr ""
+
+#: data/ui/shortcuts-dialog.blp:6
+msgctxt "shortcut window"
+msgid "General"
+msgstr "Ahuwhānui"
+
+#: data/ui/shortcuts-dialog.blp:9
+msgctxt "shortcut window"
+msgid "Preferences"
+msgstr "Manakohanga"
+
+#: data/ui/shortcuts-dialog.blp:14
+msgctxt "shortcut window"
+msgid "Search"
+msgstr "Rapu"
+
+#: data/ui/shortcuts-dialog.blp:19
+msgctxt "shortcut window"
+msgid "Help"
+msgstr "Āwhina"
+
+#: data/ui/shortcuts-dialog.blp:24
+msgctxt "shortcut window"
+msgid "Keyboard shortcuts"
+msgstr "Ngā pokatata papapātuhi"
+
+#: data/ui/shortcuts-dialog.blp:29
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Whakamutu"
+
+#: data/ui/shortcuts-dialog.blp:35
+msgctxt "shortcut window"
+msgid "Playback"
+msgstr ""
+
+#: data/ui/shortcuts-dialog.blp:38
+msgctxt "shortcut window"
+msgid "Play/Pause"
+msgstr ""
+
+#: data/ui/shortcuts-dialog.blp:43
+msgctxt "shortcut window"
+msgid "Next song"
+msgstr ""
+
+#: data/ui/shortcuts-dialog.blp:48
+msgctxt "shortcut window"
+msgid "Previous song"
+msgstr ""
+
+#: data/ui/shortcuts-dialog.blp:53
+msgctxt "shortcut window"
+msgid "Toggle repeat"
+msgstr ""
+
+#: data/ui/shortcuts-dialog.blp:58
+msgctxt "shortcut window"
+msgid "Toggle shuffle"
+msgstr ""
+
+#: data/ui/shortcuts-dialog.blp:63
+msgctxt "shortcut window"
+msgid "Increase volume"
+msgstr ""
+
+#: data/ui/shortcuts-dialog.blp:68
+msgctxt "shortcut window"
+msgid "Decrease volume"
+msgstr ""
+
+#: data/ui/shortcuts-dialog.blp:73
+msgctxt "shortcut window"
+msgid "Toggle mute"
+msgstr ""
+
+#: data/ui/shortcuts-dialog.blp:79
+msgctxt "shortcut window"
+msgid "Navigation"
+msgstr "Whakaterenga"
+
+#: data/ui/shortcuts-dialog.blp:82
+msgctxt "shortcut window"
+msgid "Go to Albums"
+msgstr ""
+
+#: data/ui/shortcuts-dialog.blp:87
+msgctxt "shortcut window"
+msgid "Go to Artists"
+msgstr ""
+
+#: data/ui/shortcuts-dialog.blp:92
+msgctxt "shortcut window"
+msgid "Go to Playlists"
+msgstr ""
+
+#: data/ui/shortcuts-dialog.blp:97
+msgctxt "shortcut window"
+msgid "Go back"
+msgstr "Hoki whakamuri"
+
+#: data/ui/SongWidgetMenu.blp:22
+msgid "_Remove from Playlist"
+msgstr ""
+
+#: data/ui/StatusNavigationPage.blp:35
+msgid "Welcome to Music"
+msgstr ""
+
+#: data/ui/VolumeButton.blp:13
+msgid "Adjust Volume"
+msgstr ""
+
+#: data/ui/VolumeButton.blp:29
+msgid "Mute/Unmute"
+msgstr "Whakangū/Whakaoro"
+
+#. Translators should localize the following string which
+#. will be displayed at the bottom of the about box to give
+#. credit to the translator(s).
+#: gnomemusic/about.py:151
+msgid "translator-credits"
+msgstr ""
+"Arlewatyerre Tuhoro-Bell <aidan@ursa.nz>\n"
+"Te Rōpū Whakamāori GNOME https://gitlab.gnome.org/Teams/Translation/mi"
+
+#: gnomemusic/about.py:155
+msgid "© The GNOME Music Developers"
+msgstr ""
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/smartplaylist.py:96
+msgid "Most Played"
+msgstr ""
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/smartplaylist.py:148
+msgid "Never Played"
+msgstr ""
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/smartplaylist.py:199
+msgid "Recently Played"
+msgstr ""
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/smartplaylist.py:276
+msgid "Recently Added"
+msgstr ""
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/smartplaylist.py:337
+msgid "Starred Songs"
+msgstr ""
+
+#. TRANSLATORS: this is a playlist name indicating that the
+#. files are not tagged enough to be displayed in the albums
+#. or artists views.
+#: gnomemusic/grilowrappers/smartplaylist.py:389
+msgid "Insufficiently Tagged"
+msgstr ""
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/smartplaylist.py:450
+msgid "All Songs"
+msgstr ""
+
+#: gnomemusic/gstplayer.py:435
+msgid "Unable to play the file"
+msgstr ""
+
+#: gnomemusic/gstplayer.py:441
+#, python-brace-format
+msgid "_Find in {}"
+msgstr ""
+
+#. TRANSLATORS: separator for two codecs
+#: gnomemusic/gstplayer.py:451
+msgid " and "
+msgstr ""
+
+#. TRANSLATORS: separator for a list of codecs
+#: gnomemusic/gstplayer.py:454
+msgid ", "
+msgstr ""
+
+#: gnomemusic/gstplayer.py:456
+#, python-brace-format
+msgid "{} is required to play the file, but is not installed."
+msgid_plural "{} are required to play the file, but are not installed."
+msgstr[0] ""
+msgstr[1] ""
+
+#: gnomemusic/inhibitsuspend.py:69
+msgid "Playing music"
+msgstr ""
+
+#: gnomemusic/playlisttoast.py:55
+#, python-brace-format
+msgid "Playlist {} removed"
+msgstr ""
+
+#: gnomemusic/playlisttoast.py:56 gnomemusic/songtoast.py:65
+msgid "Undo"
+msgstr "Wete"
+
+#: gnomemusic/songtoast.py:64
+#, python-brace-format
+msgid "{} removed from {}"
+msgstr ""
+
+#. Translators: "shuffle" causes tracks to play in random order.
+#: gnomemusic/utils.py:70
+msgid "Shuffle/Repeat Off"
+msgstr ""
+
+#: gnomemusic/utils.py:71
+msgid "Repeat Song"
+msgstr ""
+
+#: gnomemusic/utils.py:72
+msgid "Repeat All"
+msgstr ""
+
+#: gnomemusic/utils.py:119
+msgid "Unknown Artist"
+msgstr ""
+
+#: gnomemusic/views/playlistsview.py:45
+msgid "Playlists"
+msgstr ""
+
+#: gnomemusic/views/searchview.py:214
+msgid "No Search Started"
+msgstr ""
+
+#: gnomemusic/views/searchview.py:216
+msgid "Use the searchbar to start searching for albums, artists or songs"
+msgstr ""
+
+#: gnomemusic/views/searchview.py:220
+msgid "No Results Found"
+msgstr "Kāore i kitea."
+
+#: gnomemusic/views/searchview.py:222
+msgid "Try a different search"
+msgstr "Whakamātauria tētahi rapu rerekē"
+
+#: gnomemusic/widgets/albumwidget.py:244
+#, python-brace-format
+msgid "{} minute"
+msgid_plural "{} minutes"
+msgstr[0] "{} meneti"
+msgstr[1] "{} meneti"
+
+#: gnomemusic/widgets/playertoolbar.py:124
+msgid "Pause"
+msgstr "Tatari"
+
+#: gnomemusic/widgets/playlistcontrols.py:130
+#, python-brace-format
+msgid "{} Song"
+msgid_plural "{} Songs"
+msgstr[0] ""
+msgstr[1] ""
+
+#: gnomemusic/widgets/searchheaderbar.py:34
+msgid "Search songs, artists and albums"
+msgstr ""
+
+#. noqa: F841
+#: gnomemusic/widgets/songwidgetmenu.py:96
+msgid "_Open Location"
+msgstr ""
+
+#. TRANSLATORS: A verb, to unmark a song as favorite
+#: gnomemusic/widgets/startoggle.py:37
+msgid "Unstar"
+msgstr ""
+
+#. TRANSLATORS: A verb, to mark a song as favorite
+#: gnomemusic/widgets/startoggle.py:41
+msgid "Star"
+msgstr "Whetū"
+
+#: gnomemusic/widgets/statusnavigationpage.py:51
+msgid "Your XDG Music directory is not set."
+msgstr ""
+
+#: gnomemusic/widgets/statusnavigationpage.py:56
+msgid "Music Folder"
+msgstr ""
+
+#. TRANSLATORS: This is a label to display a link to open
+#. a user's music folder. {} will be replaced with the
+#. translated text 'Music folder'
+#: gnomemusic/widgets/statusnavigationpage.py:60
+#, python-brace-format
+msgid "The contents of your {} will appear here."
+msgstr ""
+
+#: gnomemusic/widgets/statusnavigationpage.py:114
+msgid "No Music Found"
+msgstr ""
+
+#: gnomemusic/widgets/statusnavigationpage.py:115
+msgid "Try a Different Search"
+msgstr ""
+
+#: gnomemusic/widgets/statusnavigationpage.py:119
+msgid "GNOME Music could not connect to Tracker."
+msgstr ""
+
+#: gnomemusic/widgets/statusnavigationpage.py:121
+msgid "Your music files cannot be indexed without Tracker running."
+msgstr ""
+
+#: gnomemusic/widgets/statusnavigationpage.py:127
+msgid "Your system Tracker version seems outdated."
+msgstr ""
+
+#: gnomemusic/widgets/statusnavigationpage.py:129
+msgid "Music needs Tracker version 3.0.0 or higher."
+msgstr ""
