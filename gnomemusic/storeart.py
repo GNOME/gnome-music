@@ -115,7 +115,7 @@ class StoreArt(GObject.Object):
             msg = Soup.Message.new("GET", uri)
             try:
                 gbytes = await self._soup_session.send_and_read_async(
-                    msg, GLib.PRIORITY_DEFAULT)
+                    msg, GLib.PRIORITY_DEFAULT_IDLE)
             except GLib.Error as error:
                 self._log.debug(
                     f"Failed to get remote art: {error.domain}, "
@@ -131,7 +131,7 @@ class StoreArt(GObject.Object):
                 self.emit("finished")
                 return
             finally:
-                await istream.close_async(GLib.PRIORITY_DEFAULT)
+                await istream.close_async(GLib.PRIORITY_DEFAULT_IDLE)
 
             try:
                 ostream = await self._file.create_async(
@@ -162,7 +162,7 @@ class StoreArt(GObject.Object):
                     return
 
                 self._coreobject.props.thumbnail = self._file.get_uri()
-                await ostream.close_async(GLib.PRIORITY_DEFAULT)
+                await ostream.close_async(GLib.PRIORITY_DEFAULT_IDLE)
 
         self.emit("finished")
 
