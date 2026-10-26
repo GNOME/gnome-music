@@ -71,7 +71,8 @@ class ArtistAlbumsWidget(Gtk.Box):
         widget = AlbumWidget(self._application)
         widget.props.corealbum = corealbum
         widget.props.active_coreobject = self._coreartist
-        widget.props.show_artist_label = False
+        widget.props.show_artist = False
+        widget.props.show_title_link = True
 
         row.set_child(widget)
 

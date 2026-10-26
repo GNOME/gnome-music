@@ -5,6 +5,7 @@ SELECT
   ?composer
   ?albumArtist
   ?artist
+  ?artistId
   ?url
   ?publicationDate
 WHERE {
@@ -15,18 +16,20 @@ WHERE {
         nie:title(?album) AS ?title
         ?composer
         ?albumArtist
-        nmm:artistName(?artist) AS ?artist
+        nmm:artistName(?songArtist) AS ?artist
+        COALESCE(?albumArtistUrn, ?songArtist) AS ?artistId
         nie:isStoredAs(?song) AS ?url
         YEAR(MAX(nie:contentCreated(?song))) AS ?publicationDate
       WHERE {
         ?album a nmm:MusicAlbum .
         ?song a nmm:MusicPiece ;
                 nmm:musicAlbum ?album ;
-                nmm:artist ?artist .
+                nmm:artist ?songArtist .
         OPTIONAL {
           ?song nmm:composer/nmm:artistName ?composer . }
         OPTIONAL {
-          ?album nmm:albumArtist/nmm:artistName ?albumArtist . }
+          ?album nmm:albumArtist ?albumArtistUrn .
+          ?albumArtistUrn nmm:artistName ?albumArtist . }
         {location_filter}
       }
       GROUP BY ?album

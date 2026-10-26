@@ -27,26 +27,66 @@ template $AlbumWidget: Adw.Bin {
           orientation: vertical;
           margin-top: 18;
 
-          Label _title_label {
-            focusable: false;
-            halign: start;
-            ellipsize: middle;
+          Box {
+            orientation: horizontal;
+            spacing: 6;
             margin-bottom: 18;
 
-            styles [
-              "title-1",
-            ]
+            Label _title_label {
+              focusable: false;
+              halign: start;
+              ellipsize: middle;
+
+              styles [
+                "title-1",
+              ]
+            }
+
+            Button _title_button {
+              icon-name: "go-next-symbolic";
+              tooltip-text: _("Go to album page");
+              clicked => $_on_title_button_clicked();
+              visible: bind template.show-title-link;
+
+              styles [
+                "circular"
+              ]
+
+              accessibility {
+                label: _("Go to album page");
+              }
+            }
           }
 
-          Label _artist_label {
-            focusable: false;
-            halign: start;
-            ellipsize: middle;
+          Box _artist_box {
+            orientation: horizontal;
+            spacing: 6;
             margin-bottom: 12;
+            visible: bind template.show-artist;
 
-            styles [
-              "title-3",
-            ]
+            Label _artist_label {
+              focusable: false;
+              halign: start;
+              ellipsize: middle;
+
+              styles [
+                "title-3",
+              ]
+            }
+
+            Button _artist_button {
+              icon-name: "music-artist-symbolic";
+              tooltip-text: _("Go to artist page");
+              clicked => $_on_artist_button_clicked();
+
+              styles [
+                "circular"
+              ]
+
+              accessibility {
+                label: _("Go to artist page");
+              }
+            }
           }
 
           Label _released_label {

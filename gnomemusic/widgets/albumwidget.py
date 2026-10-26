@@ -63,7 +63,8 @@ class AlbumWidget(Adw.Bin):
     _released_label = Gtk.Template.Child()
     _title_label = Gtk.Template.Child()
 
-    show_artist_label = GObject.Property(type=bool, default=True)
+    show_artist = GObject.Property(type=bool, default=True)
+    show_title_link = GObject.Property(type=bool, default=False)
 
     def __init__(self, application: Application) -> None:
         """Initialize the AlbumWidget.
@@ -89,10 +90,6 @@ class AlbumWidget(Adw.Bin):
         self._cover_image.props.paintable = CoverPaintable(
             self, ArtSize.LARGE, DefaultIconType.ALBUM)
         self._player = self._application.props.player
-
-        self.bind_property(
-            "show-artist-label", self._artist_label, "visible",
-            GObject.BindingFlags.SYNC_CREATE)
 
         action_group = Gio.SimpleActionGroup()
         actions = (
@@ -206,6 +203,16 @@ class AlbumWidget(Adw.Bin):
         disc_box.connect('song-activated', self._song_activated)
 
         return disc_box
+
+    @Gtk.Template.Callback()
+    def _on_title_button_clicked(self, button: Gtk.Button) -> None:
+        window = self._application.props.window
+        window.view_album(self._corealbum)
+
+    @Gtk.Template.Callback()
+    def _on_artist_button_clicked(self, button: Gtk.Button) -> None:
+        window = self._application.props.window
+        window.view_artist(self._corealbum.props.artist_id)
 
     def _on_model_items_changed(
             self, model: Gtk.SortListModel, position: int, removed: int,

@@ -117,3 +117,20 @@ class ArtistsView(Adw.Bin):
         """Initializes new artist album widgets"""
         coreartist = self._selection_model.get_item(position)
         self._artist_album.props.coreartist = coreartist
+
+    def select_artist(self, artist_id: str) -> bool:
+        """Select the given artist in the sidebar.
+
+        :param str artist_id: the artist id to select
+        :returns: whether the artist was found
+        :rtype: bool
+        """
+        for position, coreartist in enumerate(self._model):
+            if coreartist.props.id == artist_id:
+                self._selection_model.props.selected = position
+                self._sidebar.emit("activate", position)
+                self._sidebar.scroll_to(
+                    position, Gtk.ListScrollFlags.NONE, None)
+                return True
+
+        return False

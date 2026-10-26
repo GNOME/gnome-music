@@ -2,6 +2,9 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later WITH GStreamer-exception-2008
 
+from __future__ import annotations
+import typing
+
 from gi.repository import Adw, GLib, GObject, Gdk, Gio, Gtk
 from gettext import gettext as _
 
@@ -11,11 +14,14 @@ from gnomemusic.views.albumsview import AlbumsView
 from gnomemusic.views.artistsview import ArtistsView
 from gnomemusic.views.searchview import SearchView
 from gnomemusic.views.playlistsview import PlaylistsView
+from gnomemusic.widgets.albumnavigationpage import AlbumNavigationPage
 from gnomemusic.widgets.statusnavigationpage import StatusNavigationPage
 from gnomemusic.widgets.headerbar import HeaderBar
 from gnomemusic.widgets.playertoolbar import PlayerToolbar  # noqa: F401
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
 from gnomemusic.windowplacement import WindowPlacement
+if typing.TYPE_CHECKING:
+    from gnomemusic.corealbum import CoreAlbum
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/Window.ui")
@@ -283,6 +289,30 @@ class Window(Adw.ApplicationWindow):
         """
         visible_page = self._navigation_view.props.visible_page
         return visible_page == self._main_navigation_page
+
+    def view_artist(self, artist_id: str) -> None:
+        """Switch to Artists view and show the given artist.
+
+        :param str artist_id: the artist id to show
+        """
+        artists_view = self.views[View.ARTIST]
+        if not artists_view.select_artist(artist_id):
+            return
+
+        if self._search.props.search_mode_active:
+            self._search.props.search_mode_active = False
+        else:
+            self._navigation_view.pop_to_tag("mainview")
+
+        self._switch_to_view("artists")
+
+    def view_album(self, corealbum: CoreAlbum) -> None:
+        """Push the album view.
+
+        :param CoreAlbum corealbum: the CoreAlbum object
+        """
+        album_page = AlbumNavigationPage(self._app, corealbum)
+        self._navigation_view.push(album_page)
 
     def set_player_visible(self, visible):
         """Set PlayWidget action visibility

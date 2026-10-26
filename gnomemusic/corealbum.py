@@ -24,6 +24,7 @@ class CoreAlbum(GObject.GObject):
     __gtype_name__ = "CoreAlbum"
 
     artist = GObject.Property(type=str)
+    artist_id = GObject.Property(type=str, default=None)
     composer = GObject.Property(type=str, default=None)
     duration = GObject.Property(type=int, default=0)
     id = GObject.Property(type=str)
@@ -54,6 +55,7 @@ class CoreAlbum(GObject.GObject):
         :param Dict[str, Any] cursor_dict: Dict with Tsparql keys
         """
         self.props.artist = utils.get_artist_from_cursor_dict(cursor_dict)
+        self.props.artist_id = cursor_dict.get("artistId")
         self.props.composer = cursor_dict.get("composer")
         self.props.id = cursor_dict.get("id")
         self.props.title = utils.get_title_from_cursor_dict(cursor_dict)
