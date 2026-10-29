@@ -7,7 +7,7 @@ from typing import Optional
 
 from gi.repository import GObject, Gtk
 
-from gnomemusic.coreartist import CoreAlbum
+from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.coverpaintable import CoverPaintable
 from gnomemusic.utils import ArtSize, DefaultIconType
 
