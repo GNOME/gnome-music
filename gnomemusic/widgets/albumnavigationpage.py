@@ -5,7 +5,7 @@
 from __future__ import annotations
 import typing
 
-from gi.repository import Adw, GObject, Gtk
+from gi.repository import Adw, Gtk
 
 from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.widgets.albumwidget import AlbumWidget
@@ -22,8 +22,6 @@ class AlbumNavigationPage(Adw.NavigationPage):
 
     _album_scrolled_window = Gtk.Template.Child()
     _page_title = Gtk.Template.Child()
-
-    show_artist_label = GObject.Property(type=bool, default=True)
 
     def __init__(self, application: Application, corealbum: CoreAlbum) -> None:
         """Initialize the AlbumNavigationPage.

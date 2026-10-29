@@ -5,7 +5,7 @@
 from __future__ import annotations
 import typing
 
-from gi.repository import Adw, GObject, Gtk
+from gi.repository import Adw, Gtk
 
 from gnomemusic.coreartist import CoreArtist
 from gnomemusic.widgets.artistalbumswidget import ArtistAlbumsWidget
@@ -21,8 +21,6 @@ class ArtistNavigationPage(Adw.NavigationPage):
     __gtype_name__ = "ArtistNavigationPage"
 
     _artist_scrolled_window = Gtk.Template.Child()
-
-    show_artist_label = GObject.Property(type=bool, default=True)
 
     def __init__(
             self, application: Application,
