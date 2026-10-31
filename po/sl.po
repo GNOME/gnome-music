@@ -8,22 +8,22 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2025-10-16 07:27+0000\n"
-"PO-Revision-Date: 2025-10-17 15:16+0200\n"
+"POT-Creation-Date: 2026-10-31 12:14+0000\n"
+"PO-Revision-Date: 2026-10-31 21:20+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
-"%100==4 ? 3 : 0);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || "
+"n%100==4 ? 3 : 0);\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Poedit 2.2.1\n"
+"X-Generator: Poedit 3.8\n"
 
 #: data/org.gnome.Music.desktop.in.in:2
-#: data/org.gnome.Music.metainfo.xml.in.in:9 data/ui/StatusNavigationPage.ui:4
-#: gnomemusic/about.py:143 gnomemusic/application.py:61 gnomemusic/window.py:65
+#: data/org.gnome.Music.metainfo.xml.in.in:9 data/ui/StatusNavigationPage.blp:5
+#: gnomemusic/about.py:143 gnomemusic/application.py:43 gnomemusic/window.py:48
 msgid "Music"
 msgstr "Glasba"
 
@@ -40,6 +40,10 @@ msgstr "Predvajanje in upravljanje glasbene zbirke"
 #: data/org.gnome.Music.desktop.in.in:12
 msgid "Music;Player;"
 msgstr "Glasba;Predvajalnik;Music;Albumi;izvajalci;skladbe;"
+
+#: data/org.gnome.Music.metainfo.xml.in.in:7 gnomemusic/about.py:145
+msgid "The GNOME Project"
+msgstr "Projekt GNOME"
 
 #: data/org.gnome.Music.metainfo.xml.in.in:12
 msgid "An easy and pleasant way to play your music."
@@ -77,9 +81,9 @@ msgstr "Način ponavljanja predvajanja"
 #: data/org.gnome.Music.gschema.xml:29
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
-"collection. Allowed values are: “none” (repeat and shuffle are off), "
-"“song” (repeat current song), “all” (repeat playlist, no shuffle), "
-"“shuffle” (shuffle playlist, presumes repeat all)."
+"collection. Allowed values are: “none” (repeat and shuffle are off), “song” "
+"(repeat current song), “all” (repeat playlist, no shuffle), “shuffle” "
+"(shuffle playlist, presumes repeat all)."
 msgstr ""
 "Vrednost določa, ali naj se predvajanje posnetkov izvaja naključno ali "
 "ponavljajoče. Dovoljene možnosti so: »brez« (ponavljanje in mešanje skladb "
@@ -95,13 +99,13 @@ msgstr "Omogoči ReplayGain"
 #: data/org.gnome.Music.gschema.xml:35
 msgid ""
 "Enables or disables ReplayGain for albums or track. Allowed values are: "
-"“disabled” (disables replaygain), “album” (replaygain per album), "
-"“track” (replaygain per track)."
+"“disabled” (disables replaygain), “album” (replaygain per album), “track” "
+"(replaygain per track)."
 msgstr ""
 "Omogoči ali onemogoči funkcijo ReplayGain za albume ali posnetek. Dovoljene "
-"vrednosti so: »onemogočeno« (onemogoči ponovno predvajanje), "
-"»album« (povečanje ponovnega predvajanja na album), »skladba« (povečanje "
-"ponovnega predvajanja na posnetek)."
+"vrednosti so: »onemogočeno« (onemogoči ponovno predvajanje), »album« "
+"(povečanje ponovnega predvajanja na album), »skladba« (povečanje ponovnega "
+"predvajanja na posnetek)."
 
 #: data/org.gnome.Music.gschema.xml:39
 msgid "Inhibit system suspend"
@@ -113,297 +117,301 @@ msgstr ""
 "Preklopi možnost preprečevanja prehoda v stanje pripravljenosti med "
 "predvajanjem glasbe."
 
-#: data/ui/AlbumsSearchNavigationPage.ui:5 data/ui/SearchView.ui:98
+#: data/ui/AlbumsSearchNavigationPage.blp:5 data/ui/SearchView.blp:93
 #: gnomemusic/views/albumsview.py:30
 msgid "Albums"
 msgstr "Albumi"
 
-#: data/ui/AlbumWidget.ui:84 data/ui/PlayerToolbar.ui:87
-#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:127
+#: data/ui/AlbumWidget.blp:47 data/ui/AlbumWidget.blp:56
+msgid "Go to album page"
+msgstr "Skoči na stran albuma"
+
+#: data/ui/AlbumWidget.blp:79 data/ui/AlbumWidget.blp:87
+msgid "Go to artist page"
+msgstr "Skoči na stran izvajalca"
+
+#: data/ui/AlbumWidget.blp:123 data/ui/PlayerToolbar.blp:83
+#: data/ui/PlaylistControls.blp:99 gnomemusic/widgets/playertoolbar.py:127
 msgid "Play"
 msgstr "Predvajaj"
 
-#: data/ui/AlbumWidget.ui:130 data/ui/PlaylistControls.ui:5
-#: data/ui/SongWidgetMenu.ui:11
+#: data/ui/AlbumWidget.blp:165 data/ui/PlaylistControls.blp:5
+#: data/ui/SongWidgetMenu.blp:12
 msgid "_Play"
 msgstr "_Predvajaj"
 
-#: data/ui/AlbumWidget.ui:134
+#: data/ui/AlbumWidget.blp:170
 msgid "Add to _Favorite Songs"
 msgstr "_Dodaj med priljubljene"
 
-#: data/ui/AlbumWidget.ui:138 data/ui/SongWidgetMenu.ui:15
+#: data/ui/AlbumWidget.blp:175 data/ui/SongWidgetMenu.blp:17
 msgid "_Add to Playlist…"
 msgstr "_Dodaj na seznam predvajanja …"
 
-#: data/ui/ArtistsSearchNavigationPage.ui:5 data/ui/SearchView.ui:41
+#: data/ui/ArtistsSearchNavigationPage.blp:5 data/ui/SearchView.blp:41
 #: gnomemusic/views/artistsview.py:51
 msgid "Artists"
 msgstr "Izvajalci"
 
-#: data/ui/HeaderBar.ui:14
+#: data/ui/HeaderBar.blp:15
 msgid "Menu"
 msgstr "Meni"
 
-#: data/ui/HeaderBar.ui:22 data/ui/SearchHeaderBar.ui:12
+#: data/ui/HeaderBar.blp:23 data/ui/SearchHeaderBar.blp:13
 msgid "Search"
 msgstr "Iskanje"
 
-#: data/ui/HeaderBar.ui:31 data/ui/PreferencesDialog.ui:4
+#: data/ui/HeaderBar.blp:31 data/ui/PreferencesDialog.blp:5
 msgid "Preferences"
 msgstr "Možnosti"
 
-#: data/ui/HeaderBar.ui:35
+#: data/ui/HeaderBar.blp:36
 msgid "Keyboard Shortcuts"
 msgstr "Tipkovne bližnjice‫"
 
-#: data/ui/HeaderBar.ui:39
+#: data/ui/HeaderBar.blp:41
 msgid "Help"
 msgstr "Pomoč"
 
-#: data/ui/HeaderBar.ui:43
+#: data/ui/HeaderBar.blp:46
 msgid "About Music"
 msgstr "O programu"
 
-#: data/ui/PlayerToolbar.ui:74
+#: data/ui/PlayerToolbar.blp:70
 msgid "Previous"
 msgstr "Predhodna"
 
-#: data/ui/PlayerToolbar.ui:106
+#: data/ui/PlayerToolbar.blp:101
 msgid "Next"
 msgstr "Naslednja"
 
-#: data/ui/PlaylistControls.ui:9
+#: data/ui/PlaylistControls.blp:10
 msgid "_Delete"
 msgstr "_Izbriši"
 
-#: data/ui/PlaylistControls.ui:13
+#: data/ui/PlaylistControls.blp:15
 msgid "_Rename…"
 msgstr "P_reimenuj …"
 
-#: data/ui/PlaylistControls.ui:28
+#: data/ui/PlaylistControls.blp:30
 msgid "Playlist Name"
 msgstr "Ime seznama predvajanja"
 
-#: data/ui/PlaylistControls.ui:62
+#: data/ui/PlaylistControls.blp:63
 msgid "_Done"
 msgstr "_Končano"
 
-#: data/ui/PlaylistDialog.ui:16
+#: data/ui/PlaylistDialog.blp:16
 msgid "Add to Playlist"
 msgstr "Dodaj na seznam predvajanja"
 
-#: data/ui/PlaylistDialog.ui:27
+#: data/ui/PlaylistDialog.blp:27
 msgid "_Cancel"
 msgstr "_Prekliči"
 
-#: data/ui/PlaylistDialog.ui:36
+#: data/ui/PlaylistDialog.blp:36
 msgid "_Add"
 msgstr "_Dodaj"
 
-#: data/ui/PlaylistDialog.ui:91
+#: data/ui/PlaylistDialog.blp:90
 msgid "Enter a name for your first playlist"
 msgstr "Ime prvega seznama predvajanja"
 
-#: data/ui/PlaylistDialog.ui:116
+#: data/ui/PlaylistDialog.blp:112
 msgid "C_reate"
 msgstr "_Ustvari"
 
-#: data/ui/PlaylistDialog.ui:177
+#: data/ui/PlaylistDialog.blp:165
 msgid "New Playlist…"
 msgstr "Nov seznam predvajanja …"
 
-#: data/ui/PlaylistDialog.ui:189
+#: data/ui/PlaylistDialog.blp:175
 msgid "Add"
 msgstr "Dodaj"
 
-#: data/ui/PreferencesDialog.ui:9
+#: data/ui/PreferencesDialog.blp:9
 msgid "Player Settings"
 msgstr "Nastavitve predvajalnika"
 
-#: data/ui/PreferencesDialog.ui:12
+#: data/ui/PreferencesDialog.blp:12
 msgid "Repeat Mode"
 msgstr "Način ponavljanja"
 
-#: data/ui/PreferencesDialog.ui:16
+#: data/ui/PreferencesDialog.blp:16
 msgid "None"
 msgstr "Brez ponavljanja"
 
-#: data/ui/PreferencesDialog.ui:17
+#: data/ui/PreferencesDialog.blp:17
 msgid "Song"
 msgstr "Ponovi skladbo"
 
-#: data/ui/PreferencesDialog.ui:18
+#: data/ui/PreferencesDialog.blp:18
 msgid "All"
 msgstr "Ponovi vse"
 
-#: data/ui/PreferencesDialog.ui:19 gnomemusic/utils.py:72
+#: data/ui/PreferencesDialog.blp:19 gnomemusic/utils.py:74
 msgid "Shuffle"
 msgstr "Vsebino premešaj"
 
-#: data/ui/PreferencesDialog.ui:27
+#: data/ui/PreferencesDialog.blp:25
 msgid "ReplayGain"
 msgstr "Pridobitev glasnosti (ReplayGain)"
 
-#: data/ui/PreferencesDialog.ui:28
+#: data/ui/PreferencesDialog.blp:26
 msgid "Balance loudness between songs if ReplayGain metadata is found"
 msgstr "Uravna glasnost med skladbami, če so vpisani metapodatki ReplayGain"
 
-#: data/ui/PreferencesDialog.ui:32
+#: data/ui/PreferencesDialog.blp:30
 msgid "Disabled"
 msgstr "Onemogočeno"
 
-#: data/ui/PreferencesDialog.ui:33
+#: data/ui/PreferencesDialog.blp:31
 msgid "Album"
 msgstr "Album"
 
-#: data/ui/PreferencesDialog.ui:34
+#: data/ui/PreferencesDialog.blp:32
 msgid "Track"
 msgstr "Skladba/posnetek"
 
-#: data/ui/PreferencesDialog.ui:44
+#: data/ui/PreferencesDialog.blp:39
 msgid "Power Settings"
 msgstr "Nastavitve delovanja"
 
-#: data/ui/PreferencesDialog.ui:47
+#: data/ui/PreferencesDialog.blp:42
 msgid "Inhibit Suspend"
 msgstr "Prepreči sistemski prehod v pripravljenost"
 
-#: data/ui/PreferencesDialog.ui:48
+#: data/ui/PreferencesDialog.blp:43
 msgid "Only while playing"
 msgstr "Prepreči le med predvajanjem"
 
-#: data/ui/RepeatModeButton.ui:14
+#: data/ui/RepeatModeButton.blp:15
 msgid "Set Repeat Mode"
 msgstr "Nastavi način ponavljanja"
 
-#: data/ui/SearchView.ui:55 data/ui/SearchView.ui:112
+#: data/ui/SearchView.blp:55 data/ui/SearchView.blp:107
 msgid "View All"
 msgstr "Pokaži vse"
 
-#: data/ui/SearchView.ui:154
+#: data/ui/SearchView.blp:144
 msgid "Songs"
 msgstr "Skladbe"
 
-#: data/ui/shortcuts-dialog.ui:6
+#: data/ui/shortcuts-dialog.blp:6
 msgctxt "shortcut window"
 msgid "General"
 msgstr "Splošno"
 
-#: data/ui/shortcuts-dialog.ui:9
+#: data/ui/shortcuts-dialog.blp:9
 msgctxt "shortcut window"
 msgid "Preferences"
 msgstr "Možnosti"
 
-#: data/ui/shortcuts-dialog.ui:15
+#: data/ui/shortcuts-dialog.blp:14
 msgctxt "shortcut window"
 msgid "Search"
 msgstr "Začne iskanje"
 
-#: data/ui/shortcuts-dialog.ui:21
+#: data/ui/shortcuts-dialog.blp:19
 msgctxt "shortcut window"
 msgid "Help"
 msgstr "Pokaže pomoč"
 
-#: data/ui/shortcuts-dialog.ui:27
+#: data/ui/shortcuts-dialog.blp:24
 msgctxt "shortcut window"
 msgid "Keyboard shortcuts"
 msgstr "Odpre preglednico bližnjic"
 
-#: data/ui/shortcuts-dialog.ui:33
+#: data/ui/shortcuts-dialog.blp:29
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Konča program"
 
-#: data/ui/shortcuts-dialog.ui:41
+#: data/ui/shortcuts-dialog.blp:35
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Predvajanje"
 
-#: data/ui/shortcuts-dialog.ui:44
+#: data/ui/shortcuts-dialog.blp:38
 msgctxt "shortcut window"
 msgid "Play/Pause"
 msgstr "Preklopi Predvajanje/Premor"
 
-#: data/ui/shortcuts-dialog.ui:50
+#: data/ui/shortcuts-dialog.blp:43
 msgctxt "shortcut window"
 msgid "Next song"
 msgstr "Skoči na naslednjo skladbo"
 
-#: data/ui/shortcuts-dialog.ui:56
+#: data/ui/shortcuts-dialog.blp:48
 msgctxt "shortcut window"
 msgid "Previous song"
 msgstr "Skoči na predhodno skladbo"
 
-#: data/ui/shortcuts-dialog.ui:62
+#: data/ui/shortcuts-dialog.blp:53
 msgctxt "shortcut window"
 msgid "Toggle repeat"
 msgstr "Preklopi ponavljanje"
 
-#: data/ui/shortcuts-dialog.ui:68
+#: data/ui/shortcuts-dialog.blp:58
 msgctxt "shortcut window"
 msgid "Toggle shuffle"
 msgstr "Preklopi premešanje"
 
-#: data/ui/shortcuts-dialog.ui:74
+#: data/ui/shortcuts-dialog.blp:63
 msgctxt "shortcut window"
 msgid "Increase volume"
 msgstr "Poveča glasnost"
 
-#: data/ui/shortcuts-dialog.ui:80
+#: data/ui/shortcuts-dialog.blp:68
 msgctxt "shortcut window"
 msgid "Decrease volume"
 msgstr "Zmanjša glasnost"
 
-#: data/ui/shortcuts-dialog.ui:86
+#: data/ui/shortcuts-dialog.blp:73
 msgctxt "shortcut window"
 msgid "Toggle mute"
 msgstr "Preklopi slišnost"
 
-#: data/ui/shortcuts-dialog.ui:94
+#: data/ui/shortcuts-dialog.blp:79
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "Upravljanje"
 
-#: data/ui/shortcuts-dialog.ui:97
+#: data/ui/shortcuts-dialog.blp:82
 msgctxt "shortcut window"
 msgid "Go to Albums"
 msgstr "Skoči na pogled albumov"
 
-#: data/ui/shortcuts-dialog.ui:103
+#: data/ui/shortcuts-dialog.blp:87
 msgctxt "shortcut window"
 msgid "Go to Artists"
 msgstr "Skoči na pogled izvajalcev"
 
-#: data/ui/shortcuts-dialog.ui:109
+#: data/ui/shortcuts-dialog.blp:92
 msgctxt "shortcut window"
 msgid "Go to Playlists"
 msgstr "Skoči na sezname predvajanja"
 
-#: data/ui/shortcuts-dialog.ui:115
+#: data/ui/shortcuts-dialog.blp:97
 msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Skoči na predhodni pogled"
 
-#: data/ui/SongWidgetMenu.ui:19
+#: data/ui/SongWidgetMenu.blp:22
 msgid "_Remove from Playlist"
 msgstr "_Odstrani s seznama predvajanja"
 
-#: data/ui/StatusNavigationPage.ui:36
+#: data/ui/StatusNavigationPage.blp:35
 msgid "Welcome to Music"
 msgstr "Dobrodošli"
 
-#: data/ui/VolumeButton.ui:12
+#: data/ui/VolumeButton.blp:13
 msgid "Adjust Volume"
 msgstr "Prilagodi glasnost"
 
-#: data/ui/VolumeButton.ui:27
+#: data/ui/VolumeButton.blp:29
 msgid "Mute/Unmute"
 msgstr "Utišaj / Vklopi zvok"
-
-#: gnomemusic/about.py:145
-msgid "The GNOME Project"
-msgstr "Projekt GNOME"
 
 #. Translators should localize the following string which
 #. will be displayed at the bottom of the about box to give
@@ -453,25 +461,27 @@ msgstr "Neustrezno označeno"
 msgid "All Songs"
 msgstr "Vsi posnetki"
 
-#: gnomemusic/gstplayer.py:448
+#: gnomemusic/gstplayer.py:435
 msgid "Unable to play the file"
 msgstr "Datoteke ni mogoče predvajati."
 
-#: gnomemusic/gstplayer.py:454
+#: gnomemusic/gstplayer.py:441
+#, python-brace-format
 msgid "_Find in {}"
 msgstr "_Najdi v {}"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:464
+#: gnomemusic/gstplayer.py:451
 msgid " and "
 msgstr "in "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:467
+#: gnomemusic/gstplayer.py:454
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:469
+#: gnomemusic/gstplayer.py:456
+#, python-brace-format
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "{} so zahtevani za predvajanje datoteke, vendar niso nameščeni."
@@ -484,6 +494,7 @@ msgid "Playing music"
 msgstr "Predvajanje glasbe"
 
 #: gnomemusic/playlisttoast.py:55
+#, python-brace-format
 msgid "Playlist {} removed"
 msgstr "Seznam predvajanja {} je odstranjen"
 
@@ -492,23 +503,24 @@ msgid "Undo"
 msgstr "Razveljavi"
 
 #: gnomemusic/songtoast.py:64
+#, python-brace-format
 msgid "{} removed from {}"
 msgstr "{} odstranjen iz {}"
 
 #. Translators: "shuffle" causes tracks to play in random order.
-#: gnomemusic/utils.py:69
+#: gnomemusic/utils.py:71
 msgid "Shuffle/Repeat Off"
 msgstr "Onemogoči premešanje/ponavljanje"
 
-#: gnomemusic/utils.py:70
+#: gnomemusic/utils.py:72
 msgid "Repeat Song"
 msgstr "Ponovi skladbo"
 
-#: gnomemusic/utils.py:71
+#: gnomemusic/utils.py:73
 msgid "Repeat All"
 msgstr "Ponovi vse"
 
-#: gnomemusic/utils.py:118
+#: gnomemusic/utils.py:134
 msgid "Unknown Artist"
 msgstr "Neznan izvajalec"
 
@@ -532,7 +544,8 @@ msgstr "Ni najdenih zadetkov."
 msgid "Try a different search"
 msgstr "Poskusite drugačno iskanje"
 
-#: gnomemusic/widgets/albumwidget.py:244
+#: gnomemusic/widgets/albumwidget.py:251
+#, python-brace-format
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} minut"
@@ -545,6 +558,7 @@ msgid "Pause"
 msgstr "Premor"
 
 #: gnomemusic/widgets/playlistcontrols.py:130
+#, python-brace-format
 msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} skladb"
@@ -552,7 +566,7 @@ msgstr[1] "{} skladba"
 msgstr[2] "{} skladbi"
 msgstr[3] "{} skladbe"
 
-#: gnomemusic/widgets/searchheaderbar.py:54
+#: gnomemusic/widgets/searchheaderbar.py:34
 msgid "Search songs, artists and albums"
 msgstr "Iskanje skladb, izvajalcev in albumov"
 
@@ -583,6 +597,7 @@ msgstr "mape Glasba"
 #. a user's music folder. {} will be replaced with the
 #. translated text 'Music folder'
 #: gnomemusic/widgets/statusnavigationpage.py:60
+#, python-brace-format
 msgid "The contents of your {} will appear here."
 msgstr "Vsebina {} bo prikazana na tem mestu."
 
