@@ -60,6 +60,7 @@
   <translation type="gettext">@appid@</translation>
   <update_contact>mschraal@gnome.org</update_contact>
   <releases>
+    @snapshot_release@
     <release version="50.0" date="2026-06-23">
       <description>
         <p>Add volume controls accelerators</p>
