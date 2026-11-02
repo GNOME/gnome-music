@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2025-11-24 19:37+0000\n"
-"PO-Revision-Date: 2026-02-14 17:41+0800\n"
+"POT-Creation-Date: 2026-10-31 12:14+0000\n"
+"PO-Revision-Date: 2026-11-02 09:09+0800\n"
 "Last-Translator: lumingzh <lumingzh@qq.com>\n"
 "Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
@@ -22,12 +22,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Gtranslator 49.0\n"
+"X-Generator: Gtranslator 51.0\n"
 "X-DamnedLies-Scope: partial\n"
 
 #: data/org.gnome.Music.desktop.in.in:2
-#: data/org.gnome.Music.metainfo.xml.in.in:9 data/ui/StatusNavigationPage.ui:4
-#: gnomemusic/about.py:143 gnomemusic/application.py:41 gnomemusic/window.py:42
+#: data/org.gnome.Music.metainfo.xml.in.in:9 data/ui/StatusNavigationPage.blp:5
+#: gnomemusic/about.py:143 gnomemusic/application.py:43 gnomemusic/window.py:48
 msgid "Music"
 msgstr "音乐"
 
@@ -44,6 +44,10 @@ msgstr "播放与管理您的音乐集"
 #: data/org.gnome.Music.desktop.in.in:12
 msgid "Music;Player;"
 msgstr "Music;Player;音乐;播放器;"
+
+#: data/org.gnome.Music.metainfo.xml.in.in:7 gnomemusic/about.py:145
+msgid "The GNOME Project"
+msgstr "GNOME 项目"
 
 #: data/org.gnome.Music.metainfo.xml.in.in:12
 msgid "An easy and pleasant way to play your music."
@@ -110,297 +114,301 @@ msgstr "阻止系统挂起"
 msgid "Enables or disables inhibiting system suspend while playing music"
 msgstr "播放音乐时是否阻止系统休眠"
 
-#: data/ui/AlbumsSearchNavigationPage.ui:5 data/ui/SearchView.ui:98
+#: data/ui/AlbumsSearchNavigationPage.blp:5 data/ui/SearchView.blp:93
 #: gnomemusic/views/albumsview.py:30
 msgid "Albums"
 msgstr "专辑"
 
-#: data/ui/AlbumWidget.ui:84 data/ui/PlayerToolbar.ui:87
-#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:127
+#: data/ui/AlbumWidget.blp:47 data/ui/AlbumWidget.blp:56
+msgid "Go to album page"
+msgstr "前往专辑页面"
+
+#: data/ui/AlbumWidget.blp:79 data/ui/AlbumWidget.blp:87
+msgid "Go to artist page"
+msgstr "前往艺术家页面"
+
+#: data/ui/AlbumWidget.blp:123 data/ui/PlayerToolbar.blp:83
+#: data/ui/PlaylistControls.blp:99 gnomemusic/widgets/playertoolbar.py:127
 msgid "Play"
 msgstr "播放"
 
-#: data/ui/AlbumWidget.ui:130 data/ui/PlaylistControls.ui:5
-#: data/ui/SongWidgetMenu.ui:11
+#: data/ui/AlbumWidget.blp:165 data/ui/PlaylistControls.blp:5
+#: data/ui/SongWidgetMenu.blp:12
 msgid "_Play"
 msgstr "播放(_P)"
 
-#: data/ui/AlbumWidget.ui:134
+#: data/ui/AlbumWidget.blp:170
 msgid "Add to _Favorite Songs"
 msgstr "添加至收藏歌曲(_F)"
 
-#: data/ui/AlbumWidget.ui:138 data/ui/SongWidgetMenu.ui:15
+#: data/ui/AlbumWidget.blp:175 data/ui/SongWidgetMenu.blp:17
 msgid "_Add to Playlist…"
 msgstr "添加到播放列表(_A)…"
 
-#: data/ui/ArtistsSearchNavigationPage.ui:5 data/ui/SearchView.ui:41
+#: data/ui/ArtistsSearchNavigationPage.blp:5 data/ui/SearchView.blp:41
 #: gnomemusic/views/artistsview.py:51
 msgid "Artists"
 msgstr "艺术家"
 
-#: data/ui/HeaderBar.ui:14
+#: data/ui/HeaderBar.blp:15
 msgid "Menu"
 msgstr "菜单"
 
-#: data/ui/HeaderBar.ui:22 data/ui/SearchHeaderBar.ui:12
+#: data/ui/HeaderBar.blp:23 data/ui/SearchHeaderBar.blp:13
 msgid "Search"
 msgstr "搜索"
 
-#: data/ui/HeaderBar.ui:31 data/ui/PreferencesDialog.ui:4
+#: data/ui/HeaderBar.blp:31 data/ui/PreferencesDialog.blp:5
 msgid "Preferences"
 msgstr "首选项"
 
-#: data/ui/HeaderBar.ui:35
+#: data/ui/HeaderBar.blp:36
 msgid "Keyboard Shortcuts"
 msgstr "键盘快捷键"
 
-#: data/ui/HeaderBar.ui:39
+#: data/ui/HeaderBar.blp:41
 msgid "Help"
 msgstr "帮助"
 
-#: data/ui/HeaderBar.ui:43
+#: data/ui/HeaderBar.blp:46
 msgid "About Music"
 msgstr "关于音乐"
 
-#: data/ui/PlayerToolbar.ui:74
+#: data/ui/PlayerToolbar.blp:70
 msgid "Previous"
 msgstr "上一首"
 
-#: data/ui/PlayerToolbar.ui:106
+#: data/ui/PlayerToolbar.blp:101
 msgid "Next"
 msgstr "下一首"
 
-#: data/ui/PlaylistControls.ui:9
+#: data/ui/PlaylistControls.blp:10
 msgid "_Delete"
 msgstr "移除(_D)"
 
-#: data/ui/PlaylistControls.ui:13
+#: data/ui/PlaylistControls.blp:15
 msgid "_Rename…"
 msgstr "重命名(_R)…"
 
-#: data/ui/PlaylistControls.ui:28
+#: data/ui/PlaylistControls.blp:30
 msgid "Playlist Name"
 msgstr "播放列表名"
 
-#: data/ui/PlaylistControls.ui:62
+#: data/ui/PlaylistControls.blp:63
 msgid "_Done"
 msgstr "完成(_D)"
 
-#: data/ui/PlaylistDialog.ui:16
+#: data/ui/PlaylistDialog.blp:16
 msgid "Add to Playlist"
 msgstr "添加到播放列表"
 
-#: data/ui/PlaylistDialog.ui:27
+#: data/ui/PlaylistDialog.blp:27
 msgid "_Cancel"
 msgstr "取消(_C)"
 
-#: data/ui/PlaylistDialog.ui:36
+#: data/ui/PlaylistDialog.blp:36
 msgid "_Add"
 msgstr "添加(_A)"
 
-#: data/ui/PlaylistDialog.ui:91
+#: data/ui/PlaylistDialog.blp:90
 msgid "Enter a name for your first playlist"
 msgstr "输入您首个播放列表的名称"
 
-#: data/ui/PlaylistDialog.ui:116
+#: data/ui/PlaylistDialog.blp:112
 msgid "C_reate"
 msgstr "创建(_R)"
 
-#: data/ui/PlaylistDialog.ui:177
+#: data/ui/PlaylistDialog.blp:165
 msgid "New Playlist…"
 msgstr "新建播放列表…"
 
-#: data/ui/PlaylistDialog.ui:189
+#: data/ui/PlaylistDialog.blp:175
 msgid "Add"
 msgstr "添加"
 
-#: data/ui/PreferencesDialog.ui:9
+#: data/ui/PreferencesDialog.blp:9
 msgid "Player Settings"
 msgstr "播放器设置"
 
-#: data/ui/PreferencesDialog.ui:12
+#: data/ui/PreferencesDialog.blp:12
 msgid "Repeat Mode"
 msgstr "重复模式"
 
-#: data/ui/PreferencesDialog.ui:16
+#: data/ui/PreferencesDialog.blp:16
 msgid "None"
 msgstr "无"
 
-#: data/ui/PreferencesDialog.ui:17
+#: data/ui/PreferencesDialog.blp:17
 msgid "Song"
 msgstr "歌曲"
 
-#: data/ui/PreferencesDialog.ui:18
+#: data/ui/PreferencesDialog.blp:18
 msgid "All"
 msgstr "全部"
 
-#: data/ui/PreferencesDialog.ui:19 gnomemusic/utils.py:72
+#: data/ui/PreferencesDialog.blp:19 gnomemusic/utils.py:74
 msgid "Shuffle"
 msgstr "随机播放"
 
-#: data/ui/PreferencesDialog.ui:27
+#: data/ui/PreferencesDialog.blp:25
 msgid "ReplayGain"
 msgstr "回放增益"
 
-#: data/ui/PreferencesDialog.ui:28
+#: data/ui/PreferencesDialog.blp:26
 msgid "Balance loudness between songs if ReplayGain metadata is found"
 msgstr "如果找到了回放增益元数据，则平衡歌曲之间的响度"
 
-#: data/ui/PreferencesDialog.ui:32
+#: data/ui/PreferencesDialog.blp:30
 msgid "Disabled"
 msgstr "已禁用"
 
-#: data/ui/PreferencesDialog.ui:33
+#: data/ui/PreferencesDialog.blp:31
 msgid "Album"
 msgstr "专辑"
 
-#: data/ui/PreferencesDialog.ui:34
+#: data/ui/PreferencesDialog.blp:32
 msgid "Track"
 msgstr "曲目"
 
-#: data/ui/PreferencesDialog.ui:44
+#: data/ui/PreferencesDialog.blp:39
 msgid "Power Settings"
 msgstr "电源设置"
 
-#: data/ui/PreferencesDialog.ui:47
+#: data/ui/PreferencesDialog.blp:42
 msgid "Inhibit Suspend"
 msgstr "禁止挂起"
 
-#: data/ui/PreferencesDialog.ui:48
+#: data/ui/PreferencesDialog.blp:43
 msgid "Only while playing"
 msgstr "只在播放的时候"
 
-#: data/ui/RepeatModeButton.ui:14
+#: data/ui/RepeatModeButton.blp:15
 msgid "Set Repeat Mode"
 msgstr "设置重复模式"
 
-#: data/ui/SearchView.ui:55 data/ui/SearchView.ui:112
+#: data/ui/SearchView.blp:55 data/ui/SearchView.blp:107
 msgid "View All"
 msgstr "查看所有"
 
-#: data/ui/SearchView.ui:154
+#: data/ui/SearchView.blp:144
 msgid "Songs"
 msgstr "歌曲"
 
-#: data/ui/shortcuts-dialog.ui:6
+#: data/ui/shortcuts-dialog.blp:6
 msgctxt "shortcut window"
 msgid "General"
 msgstr "常规"
 
-#: data/ui/shortcuts-dialog.ui:9
+#: data/ui/shortcuts-dialog.blp:9
 msgctxt "shortcut window"
 msgid "Preferences"
 msgstr "首选项"
 
-#: data/ui/shortcuts-dialog.ui:15
+#: data/ui/shortcuts-dialog.blp:14
 msgctxt "shortcut window"
 msgid "Search"
 msgstr "搜索"
 
-#: data/ui/shortcuts-dialog.ui:21
+#: data/ui/shortcuts-dialog.blp:19
 msgctxt "shortcut window"
 msgid "Help"
 msgstr "帮助"
 
-#: data/ui/shortcuts-dialog.ui:27
+#: data/ui/shortcuts-dialog.blp:24
 msgctxt "shortcut window"
 msgid "Keyboard shortcuts"
 msgstr "键盘快捷键"
 
-#: data/ui/shortcuts-dialog.ui:33
+#: data/ui/shortcuts-dialog.blp:29
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "退出"
 
-#: data/ui/shortcuts-dialog.ui:41
+#: data/ui/shortcuts-dialog.blp:35
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "播放"
 
-#: data/ui/shortcuts-dialog.ui:44
+#: data/ui/shortcuts-dialog.blp:38
 msgctxt "shortcut window"
 msgid "Play/Pause"
 msgstr "播放/暂停"
 
-#: data/ui/shortcuts-dialog.ui:50
+#: data/ui/shortcuts-dialog.blp:43
 msgctxt "shortcut window"
 msgid "Next song"
 msgstr "下一首歌曲"
 
-#: data/ui/shortcuts-dialog.ui:56
+#: data/ui/shortcuts-dialog.blp:48
 msgctxt "shortcut window"
 msgid "Previous song"
 msgstr "上一首歌曲"
 
-#: data/ui/shortcuts-dialog.ui:62
+#: data/ui/shortcuts-dialog.blp:53
 msgctxt "shortcut window"
 msgid "Toggle repeat"
 msgstr "重复播放"
 
-#: data/ui/shortcuts-dialog.ui:68
+#: data/ui/shortcuts-dialog.blp:58
 msgctxt "shortcut window"
 msgid "Toggle shuffle"
 msgstr "随机播放"
 
-#: data/ui/shortcuts-dialog.ui:74
+#: data/ui/shortcuts-dialog.blp:63
 msgctxt "shortcut window"
 msgid "Increase volume"
 msgstr "增大音量"
 
-#: data/ui/shortcuts-dialog.ui:80
+#: data/ui/shortcuts-dialog.blp:68
 msgctxt "shortcut window"
 msgid "Decrease volume"
 msgstr "减小音量"
 
-#: data/ui/shortcuts-dialog.ui:86
+#: data/ui/shortcuts-dialog.blp:73
 msgctxt "shortcut window"
 msgid "Toggle mute"
 msgstr "切换静音"
 
-#: data/ui/shortcuts-dialog.ui:94
+#: data/ui/shortcuts-dialog.blp:79
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "导航"
 
-#: data/ui/shortcuts-dialog.ui:97
+#: data/ui/shortcuts-dialog.blp:82
 msgctxt "shortcut window"
 msgid "Go to Albums"
-msgstr "转到专辑"
+msgstr "前往专辑"
 
-#: data/ui/shortcuts-dialog.ui:103
+#: data/ui/shortcuts-dialog.blp:87
 msgctxt "shortcut window"
 msgid "Go to Artists"
-msgstr "转到艺术家"
+msgstr "前往艺术家"
 
-#: data/ui/shortcuts-dialog.ui:109
+#: data/ui/shortcuts-dialog.blp:92
 msgctxt "shortcut window"
 msgid "Go to Playlists"
-msgstr "转到播放列表"
+msgstr "前往播放列表"
 
-#: data/ui/shortcuts-dialog.ui:115
+#: data/ui/shortcuts-dialog.blp:97
 msgctxt "shortcut window"
 msgid "Go back"
 msgstr "返回"
 
-#: data/ui/SongWidgetMenu.ui:19
+#: data/ui/SongWidgetMenu.blp:22
 msgid "_Remove from Playlist"
 msgstr "从播放列表移除(_R)"
 
-#: data/ui/StatusNavigationPage.ui:36
+#: data/ui/StatusNavigationPage.blp:35
 msgid "Welcome to Music"
 msgstr "欢迎使用音乐应用"
 
-#: data/ui/VolumeButton.ui:12
+#: data/ui/VolumeButton.blp:13
 msgid "Adjust Volume"
 msgstr "调整音量"
 
-#: data/ui/VolumeButton.ui:27
+#: data/ui/VolumeButton.blp:29
 msgid "Mute/Unmute"
 msgstr "静音/取消静音"
-
-#: gnomemusic/about.py:145
-msgid "The GNOME Project"
-msgstr "GNOME 项目"
 
 #. Translators should localize the following string which
 #. will be displayed at the bottom of the about box to give
@@ -458,25 +466,27 @@ msgstr "标记不足"
 msgid "All Songs"
 msgstr "全部歌曲"
 
-#: gnomemusic/gstplayer.py:455
+#: gnomemusic/gstplayer.py:435
 msgid "Unable to play the file"
 msgstr "无法播放该文件"
 
-#: gnomemusic/gstplayer.py:461
+#: gnomemusic/gstplayer.py:441
+#, python-brace-format
 msgid "_Find in {}"
 msgstr "在 {} 中查找(_F)"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:471
+#: gnomemusic/gstplayer.py:451
 msgid " and "
 msgstr " 和 "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:474
+#: gnomemusic/gstplayer.py:454
 msgid ", "
 msgstr "、 "
 
-#: gnomemusic/gstplayer.py:476
+#: gnomemusic/gstplayer.py:456
+#, python-brace-format
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "需要 {} 来播放该文件，但它尚未安装。"
@@ -486,6 +496,7 @@ msgid "Playing music"
 msgstr "正在播放音乐"
 
 #: gnomemusic/playlisttoast.py:55
+#, python-brace-format
 msgid "Playlist {} removed"
 msgstr "播放列表 {} 已移除"
 
@@ -494,23 +505,24 @@ msgid "Undo"
 msgstr "撤消"
 
 #: gnomemusic/songtoast.py:64
+#, python-brace-format
 msgid "{} removed from {}"
 msgstr "{} 已从 {} 移除"
 
 #. Translators: "shuffle" causes tracks to play in random order.
-#: gnomemusic/utils.py:69
+#: gnomemusic/utils.py:71
 msgid "Shuffle/Repeat Off"
 msgstr "关闭随机/重复播放"
 
-#: gnomemusic/utils.py:70
+#: gnomemusic/utils.py:72
 msgid "Repeat Song"
 msgstr "重复播放"
 
-#: gnomemusic/utils.py:71
+#: gnomemusic/utils.py:73
 msgid "Repeat All"
 msgstr "全部重播"
 
-#: gnomemusic/utils.py:118
+#: gnomemusic/utils.py:134
 msgid "Unknown Artist"
 msgstr "未知艺术家"
 
@@ -534,7 +546,8 @@ msgstr "未找到结果"
 msgid "Try a different search"
 msgstr "尝试不同的搜索"
 
-#: gnomemusic/widgets/albumwidget.py:244
+#: gnomemusic/widgets/albumwidget.py:251
+#, python-brace-format
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} 分钟"
@@ -544,6 +557,7 @@ msgid "Pause"
 msgstr "暂停"
 
 #: gnomemusic/widgets/playlistcontrols.py:130
+#, python-brace-format
 msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} 首歌曲"
@@ -579,6 +593,7 @@ msgstr "音乐文件夹"
 #. a user's music folder. {} will be replaced with the
 #. translated text 'Music folder'
 #: gnomemusic/widgets/statusnavigationpage.py:60
+#, python-brace-format
 msgid "The contents of your {} will appear here."
 msgstr "{} 的内容将会显示在此处。"
 
