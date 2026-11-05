@@ -6,10 +6,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gnome-music 4.2\n"
+"Project-Id-Version: gnome-music 51\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2026-07-06 18:22+0000\n"
-"PO-Revision-Date: 2026-09-04 14:51+0200\n"
+"POT-Creation-Date: 2026-10-31 12:14+0000\n"
+"PO-Revision-Date: 2026-11-05 14:38+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: no\n"
@@ -19,8 +19,8 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/org.gnome.Music.desktop.in.in:2
-#: data/org.gnome.Music.metainfo.xml.in.in:9 data/ui/StatusNavigationPage.ui:4
-#: gnomemusic/about.py:143 gnomemusic/application.py:43 gnomemusic/window.py:42
+#: data/org.gnome.Music.metainfo.xml.in.in:9 data/ui/StatusNavigationPage.blp:5
+#: gnomemusic/about.py:143 gnomemusic/application.py:43 gnomemusic/window.py:48
 msgid "Music"
 msgstr "Musikk"
 
@@ -98,7 +98,10 @@ msgid ""
 "Enables or disables ReplayGain for albums or track. Allowed values are: "
 "“disabled” (disables replaygain), “album” (replaygain per album), “track” "
 "(replaygain per track)."
-msgstr "Slår på eller av ReplayGain for album eller spor. Tillatte verdier er: «disabled» (slår av ReplayGain), «album» (ReplayGain per album), «track» (ReplayGain per spor)."
+msgstr ""
+"Slår på eller av ReplayGain for album eller spor. Tillatte verdier er: "
+"«disabled» (slår av ReplayGain), «album» (ReplayGain per album), «track» "
+"(ReplayGain per spor)."
 
 #: data/org.gnome.Music.gschema.xml:39
 msgid "Inhibit system suspend"
@@ -108,291 +111,299 @@ msgstr "Hindre hvilemodus"
 msgid "Enables or disables inhibiting system suspend while playing music"
 msgstr "Slår av eller på hindring av hvilemodus når musikk blir spilt av"
 
-#: data/ui/AlbumsSearchNavigationPage.ui:5 data/ui/SearchView.ui:98
+#: data/ui/AlbumsSearchNavigationPage.blp:5 data/ui/SearchView.blp:93
 #: gnomemusic/views/albumsview.py:30
 msgid "Albums"
 msgstr "Album"
 
-#: data/ui/AlbumWidget.ui:84 data/ui/PlayerToolbar.ui:87
-#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:127
+#: data/ui/AlbumWidget.blp:47 data/ui/AlbumWidget.blp:56
+msgid "Go to album page"
+msgstr "Gå til albumsiden"
+
+#: data/ui/AlbumWidget.blp:79 data/ui/AlbumWidget.blp:87
+msgid "Go to artist page"
+msgstr "Gå til artistsiden"
+
+#: data/ui/AlbumWidget.blp:123 data/ui/PlayerToolbar.blp:83
+#: data/ui/PlaylistControls.blp:99 gnomemusic/widgets/playertoolbar.py:127
 msgid "Play"
 msgstr "Spill av"
 
-#: data/ui/AlbumWidget.ui:130 data/ui/PlaylistControls.ui:5
-#: data/ui/SongWidgetMenu.ui:11
+#: data/ui/AlbumWidget.blp:165 data/ui/PlaylistControls.blp:5
+#: data/ui/SongWidgetMenu.blp:12
 msgid "_Play"
 msgstr "S_pill av"
 
-#: data/ui/AlbumWidget.ui:134
+#: data/ui/AlbumWidget.blp:170
 msgid "Add to _Favorite Songs"
 msgstr "Legg til i _favorittlåter"
 
-#: data/ui/AlbumWidget.ui:138 data/ui/SongWidgetMenu.ui:15
+#: data/ui/AlbumWidget.blp:175 data/ui/SongWidgetMenu.blp:17
 msgid "_Add to Playlist…"
 msgstr "_Legg til i spilleliste …"
 
-#: data/ui/ArtistsSearchNavigationPage.ui:5 data/ui/SearchView.ui:41
+#: data/ui/ArtistsSearchNavigationPage.blp:5 data/ui/SearchView.blp:41
 #: gnomemusic/views/artistsview.py:51
 msgid "Artists"
 msgstr "Artister"
 
-#: data/ui/HeaderBar.ui:14
+#: data/ui/HeaderBar.blp:15
 msgid "Menu"
 msgstr "Meny"
 
-#: data/ui/HeaderBar.ui:22 data/ui/SearchHeaderBar.ui:12
+#: data/ui/HeaderBar.blp:23 data/ui/SearchHeaderBar.blp:13
 msgid "Search"
 msgstr "Søk"
 
-#: data/ui/HeaderBar.ui:31 data/ui/PreferencesDialog.ui:4
+#: data/ui/HeaderBar.blp:31 data/ui/PreferencesDialog.blp:5
 msgid "Preferences"
 msgstr "Brukervalg"
 
-#: data/ui/HeaderBar.ui:35
+#: data/ui/HeaderBar.blp:36
 msgid "Keyboard Shortcuts"
 msgstr "Tastatursnarveier"
 
-#: data/ui/HeaderBar.ui:39
+#: data/ui/HeaderBar.blp:41
 msgid "Help"
 msgstr "Hjelp"
 
-#: data/ui/HeaderBar.ui:43
+#: data/ui/HeaderBar.blp:46
 msgid "About Music"
 msgstr "Om Musikk"
 
-#: data/ui/PlayerToolbar.ui:74
+#: data/ui/PlayerToolbar.blp:70
 msgid "Previous"
 msgstr "Forrige"
 
-#: data/ui/PlayerToolbar.ui:106
+#: data/ui/PlayerToolbar.blp:101
 msgid "Next"
 msgstr "Neste"
 
-#: data/ui/PlaylistControls.ui:9
+#: data/ui/PlaylistControls.blp:10
 msgid "_Delete"
 msgstr "_Slett"
 
-#: data/ui/PlaylistControls.ui:13
+#: data/ui/PlaylistControls.blp:15
 msgid "_Rename…"
 msgstr "End_re navn …"
 
-#: data/ui/PlaylistControls.ui:28
+#: data/ui/PlaylistControls.blp:30
 msgid "Playlist Name"
 msgstr "Navn på spilleliste"
 
-#: data/ui/PlaylistControls.ui:62
+#: data/ui/PlaylistControls.blp:63
 msgid "_Done"
 msgstr "Fer_dig"
 
-#: data/ui/PlaylistDialog.ui:16
+#: data/ui/PlaylistDialog.blp:16
 msgid "Add to Playlist"
 msgstr "Legg til i spilleliste"
 
-#: data/ui/PlaylistDialog.ui:27
+#: data/ui/PlaylistDialog.blp:27
 msgid "_Cancel"
 msgstr "A_vbryt"
 
-#: data/ui/PlaylistDialog.ui:36
+#: data/ui/PlaylistDialog.blp:36
 msgid "_Add"
 msgstr "_Legg til"
 
-#: data/ui/PlaylistDialog.ui:91
+#: data/ui/PlaylistDialog.blp:90
 msgid "Enter a name for your first playlist"
 msgstr "Oppgi et navn for din første spilleliste"
 
-#: data/ui/PlaylistDialog.ui:116
+#: data/ui/PlaylistDialog.blp:112
 msgid "C_reate"
 msgstr "_Lag"
 
-#: data/ui/PlaylistDialog.ui:177
+#: data/ui/PlaylistDialog.blp:165
 msgid "New Playlist…"
 msgstr "Ny spilleliste …"
 
-#: data/ui/PlaylistDialog.ui:189
+#: data/ui/PlaylistDialog.blp:175
 msgid "Add"
 msgstr "Legg til"
 
-#: data/ui/PreferencesDialog.ui:9
+#: data/ui/PreferencesDialog.blp:9
 msgid "Player Settings"
 msgstr "Innstillinger for avspilling"
 
-#: data/ui/PreferencesDialog.ui:12
+#: data/ui/PreferencesDialog.blp:12
 msgid "Repeat Mode"
 msgstr "Gjentakelsesmodus"
 
-#: data/ui/PreferencesDialog.ui:16
+#: data/ui/PreferencesDialog.blp:16
 msgid "None"
 msgstr "Ingen"
 
-#: data/ui/PreferencesDialog.ui:17
+#: data/ui/PreferencesDialog.blp:17
 msgid "Song"
 msgstr "Sanger"
 
-#: data/ui/PreferencesDialog.ui:18
+#: data/ui/PreferencesDialog.blp:18
 msgid "All"
 msgstr "Alle"
 
-#: data/ui/PreferencesDialog.ui:19 gnomemusic/utils.py:72
+#: data/ui/PreferencesDialog.blp:19 gnomemusic/utils.py:74
 msgid "Shuffle"
 msgstr "Bland"
 
-#: data/ui/PreferencesDialog.ui:27
+#: data/ui/PreferencesDialog.blp:25
 msgid "ReplayGain"
 msgstr "ReplayGain"
 
-#: data/ui/PreferencesDialog.ui:28
+#: data/ui/PreferencesDialog.blp:26
 msgid "Balance loudness between songs if ReplayGain metadata is found"
 msgstr "Balanser lydstyrke mellom sanger hvis ReplayGain-metadata finnes"
 
-#: data/ui/PreferencesDialog.ui:32
+#: data/ui/PreferencesDialog.blp:30
 msgid "Disabled"
 msgstr "Slått av"
 
-#: data/ui/PreferencesDialog.ui:33
+#: data/ui/PreferencesDialog.blp:31
 msgid "Album"
 msgstr "Album"
 
-#: data/ui/PreferencesDialog.ui:34
+#: data/ui/PreferencesDialog.blp:32
 msgid "Track"
 msgstr "Spor"
 
-#: data/ui/PreferencesDialog.ui:44
+#: data/ui/PreferencesDialog.blp:39
 msgid "Power Settings"
 msgstr "Strøminnstillinger"
 
-#: data/ui/PreferencesDialog.ui:47
+#: data/ui/PreferencesDialog.blp:42
 msgid "Inhibit Suspend"
 msgstr "Hindre hvilemodus"
 
-#: data/ui/PreferencesDialog.ui:48
+#: data/ui/PreferencesDialog.blp:43
 msgid "Only while playing"
 msgstr "Kun under avspilling"
 
-#: data/ui/RepeatModeButton.ui:14
+#: data/ui/RepeatModeButton.blp:15
 msgid "Set Repeat Mode"
 msgstr "Gjenta"
 
-#: data/ui/SearchView.ui:55 data/ui/SearchView.ui:112
+#: data/ui/SearchView.blp:55 data/ui/SearchView.blp:107
 msgid "View All"
 msgstr "Vis alle"
 
-#: data/ui/SearchView.ui:154
+#: data/ui/SearchView.blp:144
 msgid "Songs"
 msgstr "Sanger"
 
-#: data/ui/shortcuts-dialog.ui:6
+#: data/ui/shortcuts-dialog.blp:6
 msgctxt "shortcut window"
 msgid "General"
 msgstr "Generelt"
 
-#: data/ui/shortcuts-dialog.ui:9
+#: data/ui/shortcuts-dialog.blp:9
 msgctxt "shortcut window"
 msgid "Preferences"
 msgstr "Brukervalg"
 
-#: data/ui/shortcuts-dialog.ui:15
+#: data/ui/shortcuts-dialog.blp:14
 msgctxt "shortcut window"
 msgid "Search"
 msgstr "Søk"
 
-#: data/ui/shortcuts-dialog.ui:21
+#: data/ui/shortcuts-dialog.blp:19
 msgctxt "shortcut window"
 msgid "Help"
 msgstr "Hjelp"
 
-#: data/ui/shortcuts-dialog.ui:27
+#: data/ui/shortcuts-dialog.blp:24
 msgctxt "shortcut window"
 msgid "Keyboard shortcuts"
 msgstr "Tastatursnarveier"
 
-#: data/ui/shortcuts-dialog.ui:33
+#: data/ui/shortcuts-dialog.blp:29
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Avslutt"
 
-#: data/ui/shortcuts-dialog.ui:41
+#: data/ui/shortcuts-dialog.blp:35
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Avspilling"
 
-#: data/ui/shortcuts-dialog.ui:44
+#: data/ui/shortcuts-dialog.blp:38
 msgctxt "shortcut window"
 msgid "Play/Pause"
 msgstr "Spill av/pause"
 
-#: data/ui/shortcuts-dialog.ui:50
+#: data/ui/shortcuts-dialog.blp:43
 msgctxt "shortcut window"
 msgid "Next song"
 msgstr "Neste sang"
 
-#: data/ui/shortcuts-dialog.ui:56
+#: data/ui/shortcuts-dialog.blp:48
 msgctxt "shortcut window"
 msgid "Previous song"
 msgstr "Forrige sang"
 
-#: data/ui/shortcuts-dialog.ui:62
+#: data/ui/shortcuts-dialog.blp:53
 msgctxt "shortcut window"
 msgid "Toggle repeat"
 msgstr "Slå av/på gjenta"
 
-#: data/ui/shortcuts-dialog.ui:68
+#: data/ui/shortcuts-dialog.blp:58
 msgctxt "shortcut window"
 msgid "Toggle shuffle"
 msgstr "Slå av/på tilfeldig rekkefølge"
 
-#: data/ui/shortcuts-dialog.ui:74
+#: data/ui/shortcuts-dialog.blp:63
 msgctxt "shortcut window"
 msgid "Increase volume"
 msgstr "Øk volum"
 
-#: data/ui/shortcuts-dialog.ui:80
+#: data/ui/shortcuts-dialog.blp:68
 msgctxt "shortcut window"
 msgid "Decrease volume"
 msgstr "Minsk volum"
 
-#: data/ui/shortcuts-dialog.ui:86
+#: data/ui/shortcuts-dialog.blp:73
 msgctxt "shortcut window"
 msgid "Toggle mute"
 msgstr "Slå av/på demping"
 
-#: data/ui/shortcuts-dialog.ui:94
+#: data/ui/shortcuts-dialog.blp:79
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "Navigasjon"
 
-#: data/ui/shortcuts-dialog.ui:97
+#: data/ui/shortcuts-dialog.blp:82
 msgctxt "shortcut window"
 msgid "Go to Albums"
 msgstr "Gå til album"
 
-#: data/ui/shortcuts-dialog.ui:103
+#: data/ui/shortcuts-dialog.blp:87
 msgctxt "shortcut window"
 msgid "Go to Artists"
 msgstr "Gå til artister"
 
-#: data/ui/shortcuts-dialog.ui:109
+#: data/ui/shortcuts-dialog.blp:92
 msgctxt "shortcut window"
 msgid "Go to Playlists"
 msgstr "Gå til spillelister"
 
-#: data/ui/shortcuts-dialog.ui:115
+#: data/ui/shortcuts-dialog.blp:97
 msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Gå tilbake"
 
-#: data/ui/SongWidgetMenu.ui:19
+#: data/ui/SongWidgetMenu.blp:22
 msgid "_Remove from Playlist"
 msgstr "Fje_rn fra spilleliste"
 
-#: data/ui/StatusNavigationPage.ui:36
+#: data/ui/StatusNavigationPage.blp:35
 msgid "Welcome to Music"
 msgstr "Velkommen til Musikk"
 
-#: data/ui/VolumeButton.ui:12
+#: data/ui/VolumeButton.blp:13
 msgid "Adjust Volume"
 msgstr "Juster volum"
 
-#: data/ui/VolumeButton.ui:27
+#: data/ui/VolumeButton.blp:29
 msgid "Mute/Unmute"
 msgstr "Demp/Fjern demping"
 
@@ -449,6 +460,7 @@ msgid "Unable to play the file"
 msgstr "Kan ikke spille av filen"
 
 #: gnomemusic/gstplayer.py:441
+#, python-brace-format
 msgid "_Find in {}"
 msgstr "_Finn i {}"
 
@@ -463,6 +475,7 @@ msgid ", "
 msgstr ", "
 
 #: gnomemusic/gstplayer.py:456
+#, python-brace-format
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "{} kreves for å spille av filen, men er ikke installert."
@@ -473,6 +486,7 @@ msgid "Playing music"
 msgstr "Spiller musikk"
 
 #: gnomemusic/playlisttoast.py:55
+#, python-brace-format
 msgid "Playlist {} removed"
 msgstr "Spilleliste {} fjernet"
 
@@ -481,23 +495,24 @@ msgid "Undo"
 msgstr "Angre"
 
 #: gnomemusic/songtoast.py:64
+#, python-brace-format
 msgid "{} removed from {}"
 msgstr "{} fjernet fra {}"
 
 #. Translators: "shuffle" causes tracks to play in random order.
-#: gnomemusic/utils.py:69
+#: gnomemusic/utils.py:71
 msgid "Shuffle/Repeat Off"
 msgstr "Bland/Gjenta av"
 
-#: gnomemusic/utils.py:70
+#: gnomemusic/utils.py:72
 msgid "Repeat Song"
 msgstr "Gjenta sang"
 
-#: gnomemusic/utils.py:71
+#: gnomemusic/utils.py:73
 msgid "Repeat All"
 msgstr "Gjenta alle"
 
-#: gnomemusic/utils.py:118
+#: gnomemusic/utils.py:134
 msgid "Unknown Artist"
 msgstr "Ukjent artist"
 
@@ -521,7 +536,8 @@ msgstr "Fant ingen resultater"
 msgid "Try a different search"
 msgstr "Prøv et annet søk"
 
-#: gnomemusic/widgets/albumwidget.py:244
+#: gnomemusic/widgets/albumwidget.py:251
+#, python-brace-format
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} minutt"
@@ -532,6 +548,7 @@ msgid "Pause"
 msgstr "Pause"
 
 #: gnomemusic/widgets/playlistcontrols.py:130
+#, python-brace-format
 msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} sang"
@@ -568,6 +585,7 @@ msgstr "Musikkmappe"
 #. a user's music folder. {} will be replaced with the
 #. translated text 'Music folder'
 #: gnomemusic/widgets/statusnavigationpage.py:60
+#, python-brace-format
 msgid "The contents of your {} will appear here."
 msgstr "Innholdet i din {} vises her."
 
