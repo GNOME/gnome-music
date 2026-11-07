@@ -8,22 +8,22 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNOME Music\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2025-11-24 19:37+0000\n"
-"PO-Revision-Date: 2026-02-12 23:20+0200\n"
-"Last-Translator: Yosef Or Boczko <yoseforb@gmail.com>\n"
+"POT-Creation-Date: 2026-10-31 12:14+0000\n"
+"PO-Revision-Date: 2026-11-07 22:48+0200\n"
+"Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n==2 ? 1 : n>10 && n%10==0 ? "
-"2 : 3)\n"
+"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n==2 ? 1 : n>10 && n%10==0 ? 2 : "
+"3);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Gtranslator 49.0\n"
+"X-Generator: Poedit 3.10\n"
 
 #: data/org.gnome.Music.desktop.in.in:2
-#: data/org.gnome.Music.metainfo.xml.in.in:9 data/ui/StatusNavigationPage.ui:4
-#: gnomemusic/about.py:143 gnomemusic/application.py:41 gnomemusic/window.py:42
+#: data/org.gnome.Music.metainfo.xml.in.in:9 data/ui/StatusNavigationPage.blp:5
+#: gnomemusic/about.py:143 gnomemusic/application.py:43 gnomemusic/window.py:48
 msgid "Music"
 msgstr "מוזיקה"
 
@@ -40,6 +40,10 @@ msgstr "לנגן ולארגן את אוסף המוזיקה שלך"
 #: data/org.gnome.Music.desktop.in.in:12
 msgid "Music;Player;"
 msgstr "מוזיקה;מוסיקה;נגן;"
+
+#: data/org.gnome.Music.metainfo.xml.in.in:7 gnomemusic/about.py:145
+msgid "The GNOME Project"
+msgstr "מיזם GNOME"
 
 #: data/org.gnome.Music.metainfo.xml.in.in:12
 msgid "An easy and pleasant way to play your music."
@@ -109,298 +113,302 @@ msgstr "Inhibit system suspend"
 msgid "Enables or disables inhibiting system suspend while playing music"
 msgstr "Enables or disables inhibiting system suspend while playing music"
 
-#: data/ui/AlbumsSearchNavigationPage.ui:5 data/ui/SearchView.ui:98
+#: data/ui/AlbumsSearchNavigationPage.blp:5 data/ui/SearchView.blp:93
 #: gnomemusic/views/albumsview.py:30
 msgid "Albums"
 msgstr "אלבומים"
 
-#: data/ui/AlbumWidget.ui:84 data/ui/PlayerToolbar.ui:87
-#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:127
+#: data/ui/AlbumWidget.blp:47 data/ui/AlbumWidget.blp:56
+msgid "Go to album page"
+msgstr "מעבר לעמוד האלבום"
+
+#: data/ui/AlbumWidget.blp:79 data/ui/AlbumWidget.blp:87
+msgid "Go to artist page"
+msgstr "מעבר לעמוד האומן/אומנית"
+
+#: data/ui/AlbumWidget.blp:123 data/ui/PlayerToolbar.blp:83
+#: data/ui/PlaylistControls.blp:99 gnomemusic/widgets/playertoolbar.py:127
 msgid "Play"
 msgstr "ניגון"
 
-#: data/ui/AlbumWidget.ui:130 data/ui/PlaylistControls.ui:5
-#: data/ui/SongWidgetMenu.ui:11
+#: data/ui/AlbumWidget.blp:165 data/ui/PlaylistControls.blp:5
+#: data/ui/SongWidgetMenu.blp:12
 msgid "_Play"
 msgstr "_ניגון"
 
-#: data/ui/AlbumWidget.ui:134
+#: data/ui/AlbumWidget.blp:170
 msgid "Add to _Favorite Songs"
 msgstr "הוספה לשירים מו_עדפים"
 
-#: data/ui/AlbumWidget.ui:138 data/ui/SongWidgetMenu.ui:15
+#: data/ui/AlbumWidget.blp:175 data/ui/SongWidgetMenu.blp:17
 msgid "_Add to Playlist…"
 msgstr "הוספה לרשימת _נגינה…"
 
-#: data/ui/ArtistsSearchNavigationPage.ui:5 data/ui/SearchView.ui:41
+#: data/ui/ArtistsSearchNavigationPage.blp:5 data/ui/SearchView.blp:41
 #: gnomemusic/views/artistsview.py:51
 msgid "Artists"
 msgstr "אומנים"
 
-#: data/ui/HeaderBar.ui:14
+#: data/ui/HeaderBar.blp:15
 msgid "Menu"
 msgstr "תפריט"
 
-#: data/ui/HeaderBar.ui:22 data/ui/SearchHeaderBar.ui:12
+#: data/ui/HeaderBar.blp:23 data/ui/SearchHeaderBar.blp:13
 msgid "Search"
 msgstr "חיפוש"
 
-#: data/ui/HeaderBar.ui:31 data/ui/PreferencesDialog.ui:4
+#: data/ui/HeaderBar.blp:31 data/ui/PreferencesDialog.blp:5
 msgid "Preferences"
 msgstr "העדפות"
 
-#: data/ui/HeaderBar.ui:35
+#: data/ui/HeaderBar.blp:36
 msgid "Keyboard Shortcuts"
 msgstr "צירופי מקשים"
 
 # msgctxt "shortcut window"
-#: data/ui/HeaderBar.ui:39
+#: data/ui/HeaderBar.blp:41
 msgid "Help"
 msgstr "עזרה"
 
-#: data/ui/HeaderBar.ui:43
+#: data/ui/HeaderBar.blp:46
 msgid "About Music"
 msgstr "על אודות מוזיקה"
 
-#: data/ui/PlayerToolbar.ui:74
+#: data/ui/PlayerToolbar.blp:70
 msgid "Previous"
 msgstr "הקודם"
 
-#: data/ui/PlayerToolbar.ui:106
+#: data/ui/PlayerToolbar.blp:101
 msgid "Next"
 msgstr "הבא"
 
-#: data/ui/PlaylistControls.ui:9
+#: data/ui/PlaylistControls.blp:10
 msgid "_Delete"
 msgstr "מ_חיקה"
 
-#: data/ui/PlaylistControls.ui:13
+#: data/ui/PlaylistControls.blp:15
 msgid "_Rename…"
 msgstr "_שינוי שם…"
 
-#: data/ui/PlaylistControls.ui:28
+#: data/ui/PlaylistControls.blp:30
 msgid "Playlist Name"
 msgstr "שם רשימת נגינה"
 
-#: data/ui/PlaylistControls.ui:62
+#: data/ui/PlaylistControls.blp:63
 msgid "_Done"
 msgstr "_סיום"
 
-#: data/ui/PlaylistDialog.ui:16
+#: data/ui/PlaylistDialog.blp:16
 msgid "Add to Playlist"
 msgstr "הוספה לרשימת נגינה"
 
-#: data/ui/PlaylistDialog.ui:27
+#: data/ui/PlaylistDialog.blp:27
 msgid "_Cancel"
 msgstr "_ביטול"
 
-#: data/ui/PlaylistDialog.ui:36
+#: data/ui/PlaylistDialog.blp:36
 msgid "_Add"
 msgstr "הו_ספה"
 
-#: data/ui/PlaylistDialog.ui:91
+#: data/ui/PlaylistDialog.blp:90
 msgid "Enter a name for your first playlist"
 msgstr "נא לתת שם לרשימת הנגינה הראשונה שלך"
 
-#: data/ui/PlaylistDialog.ui:116
+#: data/ui/PlaylistDialog.blp:112
 msgid "C_reate"
 msgstr "י_צירה"
 
-#: data/ui/PlaylistDialog.ui:177
+#: data/ui/PlaylistDialog.blp:165
 msgid "New Playlist…"
 msgstr "רשימת נגינה חדשה…"
 
-#: data/ui/PlaylistDialog.ui:189
+#: data/ui/PlaylistDialog.blp:175
 msgid "Add"
 msgstr "הוספה"
 
-#: data/ui/PreferencesDialog.ui:9
+#: data/ui/PreferencesDialog.blp:9
 msgid "Player Settings"
 msgstr "הגדרות נגן"
 
-#: data/ui/PreferencesDialog.ui:12
+#: data/ui/PreferencesDialog.blp:12
 msgid "Repeat Mode"
 msgstr "מצב חזרה"
 
-#: data/ui/PreferencesDialog.ui:16
+#: data/ui/PreferencesDialog.blp:16
 msgid "None"
 msgstr "אין"
 
-#: data/ui/PreferencesDialog.ui:17
+#: data/ui/PreferencesDialog.blp:17
 msgid "Song"
 msgstr "שיר"
 
-#: data/ui/PreferencesDialog.ui:18
+#: data/ui/PreferencesDialog.blp:18
 msgid "All"
 msgstr "הכול"
 
-#: data/ui/PreferencesDialog.ui:19 gnomemusic/utils.py:72
+#: data/ui/PreferencesDialog.blp:19 gnomemusic/utils.py:74
 msgid "Shuffle"
 msgstr "ערבוב"
 
-#: data/ui/PreferencesDialog.ui:27
+#: data/ui/PreferencesDialog.blp:25
 msgid "ReplayGain"
 msgstr "ReplayGain"
 
-#: data/ui/PreferencesDialog.ui:28
+#: data/ui/PreferencesDialog.blp:26
 msgid "Balance loudness between songs if ReplayGain metadata is found"
 msgstr "איזון עוצמת השמע בין שירים אם לא נמצאו נתוני על של ReplayGain"
 
-#: data/ui/PreferencesDialog.ui:32
+#: data/ui/PreferencesDialog.blp:30
 msgid "Disabled"
 msgstr "כבוי"
 
-#: data/ui/PreferencesDialog.ui:33
+#: data/ui/PreferencesDialog.blp:31
 msgid "Album"
 msgstr "אלבום"
 
-#: data/ui/PreferencesDialog.ui:34
+#: data/ui/PreferencesDialog.blp:32
 msgid "Track"
 msgstr "רצועה"
 
-#: data/ui/PreferencesDialog.ui:44
+#: data/ui/PreferencesDialog.blp:39
 msgid "Power Settings"
 msgstr "הגדרות צריכת חשמל"
 
-#: data/ui/PreferencesDialog.ui:47
+#: data/ui/PreferencesDialog.blp:42
 msgid "Inhibit Suspend"
 msgstr "מניעת השהיה"
 
-#: data/ui/PreferencesDialog.ui:48
+#: data/ui/PreferencesDialog.blp:43
 msgid "Only while playing"
 msgstr "רק תוך כדי ניגון"
 
-#: data/ui/RepeatModeButton.ui:14
+#: data/ui/RepeatModeButton.blp:15
 msgid "Set Repeat Mode"
 msgstr "הגדרת מצב חזרה"
 
-#: data/ui/SearchView.ui:55 data/ui/SearchView.ui:112
+#: data/ui/SearchView.blp:55 data/ui/SearchView.blp:107
 msgid "View All"
 msgstr "להציג הכול"
 
-#: data/ui/SearchView.ui:154
+#: data/ui/SearchView.blp:144
 msgid "Songs"
 msgstr "שירים"
 
-#: data/ui/shortcuts-dialog.ui:6
+#: data/ui/shortcuts-dialog.blp:6
 msgctxt "shortcut window"
 msgid "General"
 msgstr "כללי"
 
-#: data/ui/shortcuts-dialog.ui:9
+#: data/ui/shortcuts-dialog.blp:9
 msgctxt "shortcut window"
 msgid "Preferences"
 msgstr "העדפות"
 
-#: data/ui/shortcuts-dialog.ui:15
+#: data/ui/shortcuts-dialog.blp:14
 msgctxt "shortcut window"
 msgid "Search"
 msgstr "חיפוש"
 
-#: data/ui/shortcuts-dialog.ui:21
+#: data/ui/shortcuts-dialog.blp:19
 msgctxt "shortcut window"
 msgid "Help"
 msgstr "עזרה"
 
-#: data/ui/shortcuts-dialog.ui:27
+#: data/ui/shortcuts-dialog.blp:24
 msgctxt "shortcut window"
 msgid "Keyboard shortcuts"
 msgstr "צירופי מקשים"
 
-#: data/ui/shortcuts-dialog.ui:33
+#: data/ui/shortcuts-dialog.blp:29
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "יציאה"
 
-#: data/ui/shortcuts-dialog.ui:41
+#: data/ui/shortcuts-dialog.blp:35
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "ניגון"
 
-#: data/ui/shortcuts-dialog.ui:44
+#: data/ui/shortcuts-dialog.blp:38
 msgctxt "shortcut window"
 msgid "Play/Pause"
 msgstr "ניגון/השהיה"
 
-#: data/ui/shortcuts-dialog.ui:50
+#: data/ui/shortcuts-dialog.blp:43
 msgctxt "shortcut window"
 msgid "Next song"
 msgstr "שיר הבא"
 
-#: data/ui/shortcuts-dialog.ui:56
+#: data/ui/shortcuts-dialog.blp:48
 msgctxt "shortcut window"
 msgid "Previous song"
 msgstr "שיר קודם"
 
-#: data/ui/shortcuts-dialog.ui:62
+#: data/ui/shortcuts-dialog.blp:53
 msgctxt "shortcut window"
 msgid "Toggle repeat"
 msgstr "חזרה על שיר"
 
-#: data/ui/shortcuts-dialog.ui:68
+#: data/ui/shortcuts-dialog.blp:58
 msgctxt "shortcut window"
 msgid "Toggle shuffle"
 msgstr "ערבוב שירים"
 
-#: data/ui/shortcuts-dialog.ui:74
+#: data/ui/shortcuts-dialog.blp:63
 msgctxt "shortcut window"
 msgid "Increase volume"
 msgstr "הגברת עצמת השמע"
 
-#: data/ui/shortcuts-dialog.ui:80
+#: data/ui/shortcuts-dialog.blp:68
 msgctxt "shortcut window"
 msgid "Decrease volume"
 msgstr "הפחתת עצמת השמע"
 
-#: data/ui/shortcuts-dialog.ui:86
+#: data/ui/shortcuts-dialog.blp:73
 msgctxt "shortcut window"
 msgid "Toggle mute"
 msgstr "החלפת מצב השתקה"
 
-#: data/ui/shortcuts-dialog.ui:94
+#: data/ui/shortcuts-dialog.blp:79
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "ניווט"
 
-#: data/ui/shortcuts-dialog.ui:97
+#: data/ui/shortcuts-dialog.blp:82
 msgctxt "shortcut window"
 msgid "Go to Albums"
 msgstr "מעבר לאלבומים"
 
-#: data/ui/shortcuts-dialog.ui:103
+#: data/ui/shortcuts-dialog.blp:87
 msgctxt "shortcut window"
 msgid "Go to Artists"
 msgstr "מעבר לאמנים"
 
-#: data/ui/shortcuts-dialog.ui:109
+#: data/ui/shortcuts-dialog.blp:92
 msgctxt "shortcut window"
 msgid "Go to Playlists"
 msgstr "מעבר לרשימות נגינה"
 
-#: data/ui/shortcuts-dialog.ui:115
+#: data/ui/shortcuts-dialog.blp:97
 msgctxt "shortcut window"
 msgid "Go back"
 msgstr "חזרה"
 
-#: data/ui/SongWidgetMenu.ui:19
+#: data/ui/SongWidgetMenu.blp:22
 msgid "_Remove from Playlist"
 msgstr "ה_סרה מרשימת נגינה"
 
-#: data/ui/StatusNavigationPage.ui:36
+#: data/ui/StatusNavigationPage.blp:35
 msgid "Welcome to Music"
 msgstr "ברוך בואך למוזיקה"
 
-#: data/ui/VolumeButton.ui:12
+#: data/ui/VolumeButton.blp:13
 msgid "Adjust Volume"
 msgstr "התאמת עצמת השמע"
 
-#: data/ui/VolumeButton.ui:27
+#: data/ui/VolumeButton.blp:29
 msgid "Mute/Unmute"
 msgstr "השתקה/ביטול השתקה"
-
-#: gnomemusic/about.py:145
-msgid "The GNOME Project"
-msgstr "מיזם GNOME"
 
 #. Translators should localize the following string which
 #. will be displayed at the bottom of the about box to give
@@ -450,25 +458,27 @@ msgstr "אין תיוג מספק"
 msgid "All Songs"
 msgstr "כל השירים"
 
-#: gnomemusic/gstplayer.py:455
+#: gnomemusic/gstplayer.py:435
 msgid "Unable to play the file"
 msgstr "לא ניתן לנגן את הקובץ"
 
-#: gnomemusic/gstplayer.py:461
+#: gnomemusic/gstplayer.py:441
+#, python-brace-format
 msgid "_Find in {}"
 msgstr "ל_מצוא בתוך {}"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:471
+#: gnomemusic/gstplayer.py:451
 msgid " and "
 msgstr " וגם "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:474
+#: gnomemusic/gstplayer.py:454
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:476
+#: gnomemusic/gstplayer.py:456
+#, python-brace-format
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "{} נדרש לניגון הקובץ, אך אינו מותקן."
@@ -481,6 +491,7 @@ msgid "Playing music"
 msgstr "מנגן מוזיקה"
 
 #: gnomemusic/playlisttoast.py:55
+#, python-brace-format
 msgid "Playlist {} removed"
 msgstr "רשימת הנגינה {} הוסרה"
 
@@ -489,23 +500,24 @@ msgid "Undo"
 msgstr "ביטול"
 
 #: gnomemusic/songtoast.py:64
+#, python-brace-format
 msgid "{} removed from {}"
 msgstr "‏{} הוסר מתוך {}"
 
 #. Translators: "shuffle" causes tracks to play in random order.
-#: gnomemusic/utils.py:69
+#: gnomemusic/utils.py:71
 msgid "Shuffle/Repeat Off"
 msgstr "ערבוב/חזרה כבוי"
 
-#: gnomemusic/utils.py:70
+#: gnomemusic/utils.py:72
 msgid "Repeat Song"
 msgstr "חזרה על שיר"
 
-#: gnomemusic/utils.py:71
+#: gnomemusic/utils.py:73
 msgid "Repeat All"
 msgstr "חזרה על הכול"
 
-#: gnomemusic/utils.py:118
+#: gnomemusic/utils.py:134
 msgid "Unknown Artist"
 msgstr "אמן לא ידוע"
 
@@ -529,7 +541,8 @@ msgstr "לא נמצאו תוצאות"
 msgid "Try a different search"
 msgstr "יש לנסות חיפוש שונה"
 
-#: gnomemusic/widgets/albumwidget.py:244
+#: gnomemusic/widgets/albumwidget.py:251
+#, python-brace-format
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "דקה"
@@ -542,6 +555,7 @@ msgid "Pause"
 msgstr "השהיה"
 
 #: gnomemusic/widgets/playlistcontrols.py:130
+#, python-brace-format
 msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "שיר"
@@ -580,6 +594,7 @@ msgstr "תיקיית מוזיקה"
 #. a user's music folder. {} will be replaced with the
 #. translated text 'Music folder'
 #: gnomemusic/widgets/statusnavigationpage.py:60
+#, python-brace-format
 msgid "The contents of your {} will appear here."
 msgstr "התוכן של {} שלך יופיע כאן."
 
@@ -689,8 +704,8 @@ msgstr "יישום המוזיקה דורש Tracker בגרסה 3.0.0 ומעלה."
 #~ "Last.fm is a music discovery service that gives you personalised "
 #~ "recommendations based on the music you listen to."
 #~ msgstr ""
-#~ "‏Last.fm הוא שרת גילוי מוזיקה שמספק לך המלצות אישיות שמבוססות על המוזיקה "
-#~ "לה בחרת להאזין."
+#~ "‏Last.fm הוא שרת גילוי מוזיקה שמספק לך המלצות אישיות שמבוססות על המוזיקה לה "
+#~ "בחרת להאזין."
 
 #~ msgid "Music Reporting Not Setup"
 #~ msgstr "לא מוגדר דיווח מוזיקה"
@@ -727,14 +742,14 @@ msgstr "יישום המוזיקה דורש Tracker בגרסה 3.0.0 ומעלה."
 
 #~ msgid ""
 #~ "GNOME Music is free software; you can redistribute it and/or modify it "
-#~ "under the terms of the GNU General Public License as published by the "
-#~ "Free Software Foundation; either version 2 of the License, or (at your "
-#~ "option) any later version.\n"
+#~ "under the terms of the GNU General Public License as published by the Free "
+#~ "Software Foundation; either version 2 of the License, or (at your option) "
+#~ "any later version.\n"
 #~ "\n"
-#~ "GNOME Music is distributed in the hope that it will be useful, but "
-#~ "WITHOUT ANY WARRANTY; without even the implied warranty of "
-#~ "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General "
-#~ "Public License for more details.\n"
+#~ "GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
+#~ "ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+#~ "FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+#~ "more details.\n"
 #~ "\n"
 #~ "You should have received a copy of the GNU General Public License along "
 #~ "with GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
@@ -767,8 +782,8 @@ msgstr "יישום המוזיקה דורש Tracker בגרסה 3.0.0 ומעלה."
 #~ "‏‫\n"
 #~ "‬\n"
 #~ "‫היוצרים של GNOME Music מצהירים בזאת כי הם מעניקים הרשאה להפצה של תוספי "
-#~ "GStreamer שאינם מעוגנים תחת ה־GPL יחד עם GStreamer ו־GNOME Music. הרשאה "
-#~ "זו תקפה על פני ההרשאה הניתנת על־ידי רישיון ה־GPL תחתיו מוגנת התכנית GNOME "
+#~ "GStreamer שאינם מעוגנים תחת ה־GPL יחד עם GStreamer ו־GNOME Music. הרשאה זו "
+#~ "תקפה על פני ההרשאה הניתנת על־ידי רישיון ה־GPL תחתיו מוגנת התכנית GNOME "
 #~ "Music. כל שינוי בקוד זה עשוי לאלץ אותך להרחיב את החריגה לקוד בגרסה שהכנת, "
 #~ "אך אין כל התחייבות לעשות זאת. אם אין לך עניין לעשות דבר שכזה, יש למחוק את "
 #~ "הצהרת החריגה הזאת מהגרסה שלך."
