@@ -5,40 +5,45 @@
 # Andika Triwidada <andika@gmail.com>, 2013-2016, 2024, 2025.
 # Dirgita <dirgitadevina@yahoo.co.id>, 2013.
 # Kukuh Syafaat <kukuhsyafaat@gnome.org>, 2017-2024.
+# herpiko <herpiko@gmail.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2025-03-10 19:41+0000\n"
-"PO-Revision-Date: 2025-03-11 23:17+0700\n"
-"Last-Translator: Andika Triwidada <andika@gmail.com>\n"
+"POT-Creation-Date: 2026-10-31 12:14+0000\n"
+"PO-Revision-Date: 2026-11-10 06:04+0000\n"
+"Last-Translator: herpiko <herpiko@gmail.com>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.5\n"
+"X-Generator: Pelokalan\n"
 
-#: data/org.gnome.Music.desktop.in.in:3
-#: data/org.gnome.Music.metainfo.xml.in.in:9 data/ui/StatusNavigationPage.ui:4
-#: gnomemusic/about.py:142 gnomemusic/application.py:61 gnomemusic/window.py:65
+#: data/org.gnome.Music.desktop.in.in:2
+#: data/org.gnome.Music.metainfo.xml.in.in:9 data/ui/StatusNavigationPage.blp:5
+#: gnomemusic/about.py:143 gnomemusic/application.py:43 gnomemusic/window.py:48
 msgid "Music"
 msgstr "Musik"
 
-#: data/org.gnome.Music.desktop.in.in:4
+#: data/org.gnome.Music.desktop.in.in:3
 msgid "Music Player"
 msgstr "Pemutar Musik"
 
-#: data/org.gnome.Music.desktop.in.in:5
+#: data/org.gnome.Music.desktop.in.in:4
 #: data/org.gnome.Music.metainfo.xml.in.in:10
 msgid "Play and organize your music collection"
 msgstr "Putar dan tata koleksi musik Anda"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
-#: data/org.gnome.Music.desktop.in.in:13
+#: data/org.gnome.Music.desktop.in.in:12
 msgid "Music;Player;"
 msgstr "Pemutar;Musik;"
+
+#: data/org.gnome.Music.metainfo.xml.in.in:7 gnomemusic/about.py:145
+msgid "The GNOME Project"
+msgstr "Proyek GNOME"
 
 #: data/org.gnome.Music.metainfo.xml.in.in:12
 msgid "An easy and pleasant way to play your music."
@@ -76,9 +81,9 @@ msgstr "Mode ulang pemutaran"
 #: data/org.gnome.Music.gschema.xml:29
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
-"collection. Allowed values are: “none” (repeat and shuffle are off), “song” "
-"(repeat current song), “all” (repeat playlist, no shuffle), “shuffle” "
-"(shuffle playlist, presumes repeat all)."
+"collection. Allowed values are: “none” (repeat and shuffle are off), "
+"“song” (repeat current song), “all” (repeat playlist, no shuffle), "
+"“shuffle” (shuffle playlist, presumes repeat all)."
 msgstr ""
 "Nilai yang mengidentifikasi apakah mengulang atau mengacak pemutaran ulang "
 "koleksi. Nilai yang diizinkan adalah: \"none\" (tanpa pengulangan atau "
@@ -94,8 +99,8 @@ msgstr "Fungsikan ReplayGain"
 #: data/org.gnome.Music.gschema.xml:35
 msgid ""
 "Enables or disables ReplayGain for albums or track. Allowed values are: "
-"“disabled” (disables replaygain), “album” (replaygain per album), “track” "
-"(replaygain per track)."
+"“disabled” (disables replaygain), “album” (replaygain per album), "
+"“track” (replaygain per track)."
 msgstr ""
 "Mengaktifkan atau menonaktifkan ReplayGain untuk album atau trek. Nilai yang "
 "diizinkan adalah: \"disabled\" (menonaktifkan replaygain), \"album\" "
@@ -110,342 +115,375 @@ msgid "Enables or disables inhibiting system suspend while playing music"
 msgstr ""
 "Mengaktifkan atau menonaktifkan pencegah suspensi sistem saat memutar musik"
 
-#: data/ui/AlbumsSearchNavigationPage.ui:5 data/ui/SearchView.ui:98
+#: data/ui/AlbumsSearchNavigationPage.blp:5 data/ui/SearchView.blp:93
 #: gnomemusic/views/albumsview.py:30
 msgid "Albums"
 msgstr "Album"
 
-#: data/ui/AlbumWidget.ui:84 data/ui/PlayerToolbar.ui:87
-#: data/ui/PlaylistControls.ui:101 gnomemusic/widgets/playertoolbar.py:176
+#: data/ui/AlbumWidget.blp:47 data/ui/AlbumWidget.blp:56
+msgid "Go to album page"
+msgstr "Ke halaman album"
+
+#: data/ui/AlbumWidget.blp:79 data/ui/AlbumWidget.blp:87
+msgid "Go to artist page"
+msgstr "Ke halaman artis"
+
+#: data/ui/AlbumWidget.blp:123 data/ui/PlayerToolbar.blp:83
+#: data/ui/PlaylistControls.blp:99 gnomemusic/widgets/playertoolbar.py:127
 msgid "Play"
 msgstr "Putar"
 
-#: data/ui/AlbumWidget.ui:130 data/ui/PlaylistControls.ui:5
-#: data/ui/SongWidgetMenu.ui:11
+#: data/ui/AlbumWidget.blp:165 data/ui/PlaylistControls.blp:5
+#: data/ui/SongWidgetMenu.blp:12
 msgid "_Play"
 msgstr "_Putar"
 
-#: data/ui/AlbumWidget.ui:134
+#: data/ui/AlbumWidget.blp:170
 msgid "Add to _Favorite Songs"
 msgstr "Tambah ke Lagu _Favorit"
 
-#: data/ui/AlbumWidget.ui:138 data/ui/SongWidgetMenu.ui:15
+#: data/ui/AlbumWidget.blp:175 data/ui/SongWidgetMenu.blp:17
 msgid "_Add to Playlist…"
 msgstr "T_ambah ke Daftar Putar…"
 
-#: data/ui/ArtistsSearchNavigationPage.ui:5 data/ui/SearchView.ui:41
+#: data/ui/ArtistsSearchNavigationPage.blp:5 data/ui/SearchView.blp:41
 #: gnomemusic/views/artistsview.py:51
 msgid "Artists"
 msgstr "Artis"
 
-#: data/ui/HeaderBar.ui:14
+#: data/ui/HeaderBar.blp:15
 msgid "Menu"
 msgstr "Menu"
 
-#: data/ui/HeaderBar.ui:22 data/ui/SearchHeaderBar.ui:12
+#: data/ui/HeaderBar.blp:23 data/ui/SearchHeaderBar.blp:13
 msgid "Search"
 msgstr "Cari"
 
-#: data/ui/HeaderBar.ui:31 data/ui/PreferencesDialog.ui:4
+#: data/ui/HeaderBar.blp:31 data/ui/PreferencesDialog.blp:5
 msgid "Preferences"
 msgstr "Preferensi"
 
-#: data/ui/HeaderBar.ui:35
+#: data/ui/HeaderBar.blp:36
 msgid "Keyboard Shortcuts"
 msgstr "Pintasan Papan Tik"
 
-#: data/ui/HeaderBar.ui:39
+#: data/ui/HeaderBar.blp:41
 msgid "Help"
 msgstr "Bantuan"
 
-#: data/ui/HeaderBar.ui:43
+#: data/ui/HeaderBar.blp:46
 msgid "About Music"
 msgstr "Tentang Musik"
 
-#: data/ui/help-overlay.ui:11
-msgctxt "shortcut window"
-msgid "General"
-msgstr "Umum"
-
-#: data/ui/help-overlay.ui:14
-msgctxt "shortcut window"
-msgid "Preferences"
-msgstr "Preferensi"
-
-#: data/ui/help-overlay.ui:20
-msgctxt "shortcut window"
-msgid "Search"
-msgstr "Cari"
-
-#: data/ui/help-overlay.ui:26
-msgctxt "shortcut window"
-msgid "Help"
-msgstr "Bantuan"
-
-#: data/ui/help-overlay.ui:32
-msgctxt "shortcut window"
-msgid "Shortcuts"
-msgstr "Pintasan"
-
-#: data/ui/help-overlay.ui:38
-msgctxt "shortcut window"
-msgid "Quit"
-msgstr "Keluar"
-
-#: data/ui/help-overlay.ui:46
-msgctxt "shortcut window"
-msgid "Playback"
-msgstr "Putar"
-
-#: data/ui/help-overlay.ui:49
-msgctxt "shortcut window"
-msgid "Play/Pause"
-msgstr "Putar/Tahan"
-
-#: data/ui/help-overlay.ui:55
-msgctxt "shortcut window"
-msgid "Next song"
-msgstr "Lagu selanjutnya"
-
-#: data/ui/help-overlay.ui:61
-msgctxt "shortcut window"
-msgid "Previous song"
-msgstr "Lagu sebelumnya"
-
-#: data/ui/help-overlay.ui:67
-msgctxt "shortcut window"
-msgid "Toggle repeat"
-msgstr "Jungkitkan pengulangan"
-
-#: data/ui/help-overlay.ui:73
-msgctxt "shortcut window"
-msgid "Toggle shuffle"
-msgstr "Jungkitkan pengacakan"
-
-#: data/ui/help-overlay.ui:81
-msgctxt "shortcut window"
-msgid "Navigation"
-msgstr "Navigasi"
-
-#: data/ui/help-overlay.ui:84
-msgctxt "shortcut window"
-msgid "Go to Albums"
-msgstr "Ke Album"
-
-#: data/ui/help-overlay.ui:90
-msgctxt "shortcut window"
-msgid "Go to Artists"
-msgstr "Ke Artis"
-
-#: data/ui/help-overlay.ui:96
-msgctxt "shortcut window"
-msgid "Go to Playlists"
-msgstr "Ke Daftar Putar"
-
-#: data/ui/help-overlay.ui:102
-msgctxt "shortcut window"
-msgid "Go back"
-msgstr "Mundur"
-
-#: data/ui/PlayerToolbar.ui:74
+#: data/ui/PlayerToolbar.blp:70
 msgid "Previous"
 msgstr "Sebelumnya"
 
-#: data/ui/PlayerToolbar.ui:106
+#: data/ui/PlayerToolbar.blp:101
 msgid "Next"
 msgstr "Selanjutnya"
 
-#: data/ui/PlaylistControls.ui:9
+#: data/ui/PlaylistControls.blp:10
 msgid "_Delete"
 msgstr "_Hapus"
 
-#: data/ui/PlaylistControls.ui:13
+#: data/ui/PlaylistControls.blp:15
 msgid "_Rename…"
 msgstr "_Ubah Nama…"
 
-#: data/ui/PlaylistControls.ui:28
+#: data/ui/PlaylistControls.blp:30
 msgid "Playlist Name"
 msgstr "Nama Daftar Putar"
 
-#: data/ui/PlaylistControls.ui:62
+#: data/ui/PlaylistControls.blp:63
 msgid "_Done"
 msgstr "_Selesai"
 
-#: data/ui/PlaylistDialog.ui:16
+#: data/ui/PlaylistDialog.blp:16
 msgid "Add to Playlist"
 msgstr "Tambah ke Daftar Putar"
 
-#: data/ui/PlaylistDialog.ui:27
+#: data/ui/PlaylistDialog.blp:27
 msgid "_Cancel"
 msgstr "_Batal"
 
-#: data/ui/PlaylistDialog.ui:36
+#: data/ui/PlaylistDialog.blp:36
 msgid "_Add"
 msgstr "T_ambah"
 
-#: data/ui/PlaylistDialog.ui:91
+#: data/ui/PlaylistDialog.blp:90
 msgid "Enter a name for your first playlist"
 msgstr "Masukkan nama daftar putar pertama Anda"
 
-#: data/ui/PlaylistDialog.ui:116
+#: data/ui/PlaylistDialog.blp:112
 msgid "C_reate"
 msgstr "B_uat"
 
-#: data/ui/PlaylistDialog.ui:177
+#: data/ui/PlaylistDialog.blp:165
 msgid "New Playlist…"
 msgstr "Daftar Putar Baru…"
 
-#: data/ui/PlaylistDialog.ui:189
+#: data/ui/PlaylistDialog.blp:175
 msgid "Add"
 msgstr "Tambah"
 
-#: data/ui/PreferencesDialog.ui:9
+#: data/ui/PreferencesDialog.blp:9
 msgid "Player Settings"
 msgstr "Pengaturan Pemutar"
 
-#: data/ui/PreferencesDialog.ui:12
+#: data/ui/PreferencesDialog.blp:12
 msgid "Repeat Mode"
 msgstr "Modus Berulang"
 
-#: data/ui/PreferencesDialog.ui:16
+#: data/ui/PreferencesDialog.blp:16
 msgid "None"
 msgstr "Nihil"
 
-#: data/ui/PreferencesDialog.ui:17
+#: data/ui/PreferencesDialog.blp:17
 msgid "Song"
 msgstr "Lagu"
 
-#: data/ui/PreferencesDialog.ui:18
+#: data/ui/PreferencesDialog.blp:18
 msgid "All"
 msgstr "Semua"
 
-#: data/ui/PreferencesDialog.ui:19 gnomemusic/player.py:51
+#: data/ui/PreferencesDialog.blp:19 gnomemusic/utils.py:74
 msgid "Shuffle"
 msgstr "Acak"
 
-#: data/ui/PreferencesDialog.ui:27
+#: data/ui/PreferencesDialog.blp:25
 msgid "ReplayGain"
 msgstr "ReplayGain"
 
-#: data/ui/PreferencesDialog.ui:28
+#: data/ui/PreferencesDialog.blp:26
 msgid "Balance loudness between songs if ReplayGain metadata is found"
 msgstr ""
 "Menyeimbangkan kenyaringan di antara lagu jika metadata ReplayGain ditemukan"
 
-#: data/ui/PreferencesDialog.ui:32
+#: data/ui/PreferencesDialog.blp:30
 msgid "Disabled"
 msgstr "Dinonaktifkan"
 
-#: data/ui/PreferencesDialog.ui:33
+#: data/ui/PreferencesDialog.blp:31
 msgid "Album"
 msgstr "Album"
 
-#: data/ui/PreferencesDialog.ui:34
+#: data/ui/PreferencesDialog.blp:32
 msgid "Track"
 msgstr "Trek"
 
-#: data/ui/PreferencesDialog.ui:44
+#: data/ui/PreferencesDialog.blp:39
 msgid "Power Settings"
 msgstr "Pengaturan Daya"
 
-#: data/ui/PreferencesDialog.ui:47
+#: data/ui/PreferencesDialog.blp:42
 msgid "Inhibit Suspend"
 msgstr "Cegah Suspensi"
 
-#: data/ui/PreferencesDialog.ui:48
+#: data/ui/PreferencesDialog.blp:43
 msgid "Only while playing"
 msgstr "Hanya ketika memutar"
 
-#: data/ui/SearchView.ui:55 data/ui/SearchView.ui:112
+#: data/ui/RepeatModeButton.blp:15
+msgid "Set Repeat Mode"
+msgstr "Modus Berulang"
+
+#: data/ui/SearchView.blp:55 data/ui/SearchView.blp:107
 msgid "View All"
 msgstr "Tampilkan Semua"
 
-#: data/ui/SearchView.ui:154
+#: data/ui/SearchView.blp:144
 msgid "Songs"
 msgstr "Lagu"
 
-#: data/ui/SongWidgetMenu.ui:19
+#: data/ui/shortcuts-dialog.blp:6
+msgctxt "shortcut window"
+msgid "General"
+msgstr "Umum"
+
+#: data/ui/shortcuts-dialog.blp:9
+msgctxt "shortcut window"
+msgid "Preferences"
+msgstr "Preferensi"
+
+#: data/ui/shortcuts-dialog.blp:14
+msgctxt "shortcut window"
+msgid "Search"
+msgstr "Cari"
+
+#: data/ui/shortcuts-dialog.blp:19
+msgctxt "shortcut window"
+msgid "Help"
+msgstr "Bantuan"
+
+#: data/ui/shortcuts-dialog.blp:24
+msgctxt "shortcut window"
+msgid "Keyboard shortcuts"
+msgstr "Pintasan Papan Tik"
+
+#: data/ui/shortcuts-dialog.blp:29
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Keluar"
+
+#: data/ui/shortcuts-dialog.blp:35
+msgctxt "shortcut window"
+msgid "Playback"
+msgstr "Putar"
+
+#: data/ui/shortcuts-dialog.blp:38
+msgctxt "shortcut window"
+msgid "Play/Pause"
+msgstr "Putar/Tahan"
+
+#: data/ui/shortcuts-dialog.blp:43
+msgctxt "shortcut window"
+msgid "Next song"
+msgstr "Lagu selanjutnya"
+
+#: data/ui/shortcuts-dialog.blp:48
+msgctxt "shortcut window"
+msgid "Previous song"
+msgstr "Lagu sebelumnya"
+
+#: data/ui/shortcuts-dialog.blp:53
+msgctxt "shortcut window"
+msgid "Toggle repeat"
+msgstr "Jungkitkan pengulangan"
+
+#: data/ui/shortcuts-dialog.blp:58
+msgctxt "shortcut window"
+msgid "Toggle shuffle"
+msgstr "Jungkitkan pengacakan"
+
+#: data/ui/shortcuts-dialog.blp:63
+msgctxt "shortcut window"
+msgid "Increase volume"
+msgstr "Tingkatkan volume"
+
+#: data/ui/shortcuts-dialog.blp:68
+msgctxt "shortcut window"
+msgid "Decrease volume"
+msgstr "Kurangi volume"
+
+#: data/ui/shortcuts-dialog.blp:73
+msgctxt "shortcut window"
+msgid "Toggle mute"
+msgstr "Jungkitkan pengacakan"
+
+#: data/ui/shortcuts-dialog.blp:79
+msgctxt "shortcut window"
+msgid "Navigation"
+msgstr "Navigasi"
+
+#: data/ui/shortcuts-dialog.blp:82
+msgctxt "shortcut window"
+msgid "Go to Albums"
+msgstr "Ke Album"
+
+#: data/ui/shortcuts-dialog.blp:87
+msgctxt "shortcut window"
+msgid "Go to Artists"
+msgstr "Ke Artis"
+
+#: data/ui/shortcuts-dialog.blp:92
+msgctxt "shortcut window"
+msgid "Go to Playlists"
+msgstr "Ke Daftar Putar"
+
+#: data/ui/shortcuts-dialog.blp:97
+msgctxt "shortcut window"
+msgid "Go back"
+msgstr "Mundur"
+
+#: data/ui/SongWidgetMenu.blp:22
 msgid "_Remove from Playlist"
 msgstr "Hapus dari Daftar Puta_r"
 
-#: data/ui/StatusNavigationPage.ui:36
+#: data/ui/StatusNavigationPage.blp:35
 msgid "Welcome to Music"
 msgstr "Selamat Datang di Musik"
 
-#: gnomemusic/about.py:144
-msgid "The GNOME Project"
-msgstr "Proyek GNOME"
+#: data/ui/VolumeButton.blp:13
+msgid "Adjust Volume"
+msgstr "Setel volume"
+
+#: data/ui/VolumeButton.blp:29
+msgid "Mute/Unmute"
+msgstr "Bisukan/Bunyikan"
 
 #. Translators should localize the following string which
 #. will be displayed at the bottom of the about box to give
 #. credit to the translator(s).
-#: gnomemusic/about.py:150
+#: gnomemusic/about.py:151
 msgid "translator-credits"
 msgstr ""
 "Andika Triwidada <andika@gmail.com>, 2013-2016, 2024, 2025.\n"
 "Dirgita <dirgitadevina@yahoo.co.id>, 2013.\n"
 "Kukuh Syafaat <kukuhsyafaat@gnome.org>, 2017-2024."
 
-#: gnomemusic/about.py:154
+#: gnomemusic/about.py:155
 msgid "© The GNOME Music Developers"
 msgstr "© Para Pengembang GNOME Musik"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/smartplaylist.py:128
+#: gnomemusic/grilowrappers/smartplaylist.py:96
 msgid "Most Played"
 msgstr "Paling Sering Diputar"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/smartplaylist.py:182
+#: gnomemusic/grilowrappers/smartplaylist.py:148
 msgid "Never Played"
 msgstr "Tak Pernah Diputar"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/smartplaylist.py:235
+#: gnomemusic/grilowrappers/smartplaylist.py:199
 msgid "Recently Played"
 msgstr "Baru-baru Ini Diputar"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/smartplaylist.py:314
+#: gnomemusic/grilowrappers/smartplaylist.py:276
 msgid "Recently Added"
 msgstr "Baru-baru Ini Ditambahkan"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/smartplaylist.py:377
-msgid "Favorite Songs"
+#: gnomemusic/grilowrappers/smartplaylist.py:337
+msgid "Starred Songs"
 msgstr "Lagu Favorit"
 
 #. TRANSLATORS: this is a playlist name indicating that the
 #. files are not tagged enough to be displayed in the albums
 #. or artists views.
-#: gnomemusic/grilowrappers/smartplaylist.py:431
+#: gnomemusic/grilowrappers/smartplaylist.py:389
 msgid "Insufficiently Tagged"
 msgstr "Penandaan Tak Memadai"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/smartplaylist.py:494
+#: gnomemusic/grilowrappers/smartplaylist.py:450
 msgid "All Songs"
 msgstr "Semua Lagu"
 
-#: gnomemusic/gstplayer.py:424
+#: gnomemusic/gstplayer.py:435
 msgid "Unable to play the file"
 msgstr "Tak dapat memutar berkas"
 
-#: gnomemusic/gstplayer.py:430
+#: gnomemusic/gstplayer.py:441
+#, python-brace-format
 msgid "_Find in {}"
 msgstr "_Cari di {}"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:440
+#: gnomemusic/gstplayer.py:451
 msgid " and "
 msgstr " dan "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:443
+#: gnomemusic/gstplayer.py:454
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:445
+#: gnomemusic/gstplayer.py:456
+#, python-brace-format
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "{} diperlukan untuk memutar berkas, tapi tak terpasang."
@@ -454,20 +492,8 @@ msgstr[0] "{} diperlukan untuk memutar berkas, tapi tak terpasang."
 msgid "Playing music"
 msgstr "Memutar musik"
 
-#. Translators: "shuffle" causes tracks to play in random order.
-#: gnomemusic/player.py:48
-msgid "Shuffle/Repeat Off"
-msgstr "Acak/Ulang Mati"
-
-#: gnomemusic/player.py:49
-msgid "Repeat Song"
-msgstr "Ulangi Lagu"
-
-#: gnomemusic/player.py:50
-msgid "Repeat All"
-msgstr "Ulangi Semua"
-
 #: gnomemusic/playlisttoast.py:55
+#, python-brace-format
 msgid "Playlist {} removed"
 msgstr "Daftar putar {} dihapus"
 
@@ -476,14 +502,24 @@ msgid "Undo"
 msgstr "Tak Jadi"
 
 #: gnomemusic/songtoast.py:64
+#, python-brace-format
 msgid "{} removed from {}"
 msgstr "{} dihapus dari {}"
 
-#: gnomemusic/utils.py:92
-msgid "Unknown album"
-msgstr "Album tak dikenal"
+#. Translators: "shuffle" causes tracks to play in random order.
+#: gnomemusic/utils.py:71
+msgid "Shuffle/Repeat Off"
+msgstr "Acak/Ulang Mati"
 
-#: gnomemusic/utils.py:113
+#: gnomemusic/utils.py:72
+msgid "Repeat Song"
+msgstr "Ulangi Lagu"
+
+#: gnomemusic/utils.py:73
+msgid "Repeat All"
+msgstr "Ulangi Semua"
+
+#: gnomemusic/utils.py:134
 msgid "Unknown Artist"
 msgstr "Artis Tak Dikenal"
 
@@ -507,41 +543,38 @@ msgstr "Tak Ada Hasil yang Ditemukan"
 msgid "Try a different search"
 msgstr "Coba pencarian lain"
 
-#: gnomemusic/widgets/albumwidget.py:193
+#: gnomemusic/widgets/albumwidget.py:251
 #, python-brace-format
-msgid "Disc {row.props.disc_nr}"
-msgstr "Disk {row.props.disc_nr}"
-
-#: gnomemusic/widgets/albumwidget.py:241
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} menit"
 
-#: gnomemusic/widgets/playertoolbar.py:173
+#: gnomemusic/widgets/playertoolbar.py:124
 msgid "Pause"
 msgstr "Tahan"
 
 #: gnomemusic/widgets/playlistcontrols.py:130
+#, python-brace-format
 msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} Lagu"
 
-#: gnomemusic/widgets/searchheaderbar.py:54
+#: gnomemusic/widgets/searchheaderbar.py:34
 msgid "Search songs, artists and albums"
 msgstr "Cari lagu, artis, dan album"
 
 #. noqa: F841
-#: gnomemusic/widgets/songwidgetmenu.py:94
+#: gnomemusic/widgets/songwidgetmenu.py:96
 msgid "_Open Location"
 msgstr "Buka L_okasi"
 
-#. TRANSLATORS: These are verbs, to (un)mark something as a
-#. favorite.
-#: gnomemusic/widgets/startoggle.py:36
+#. TRANSLATORS: A verb, to unmark a song as favorite
+#: gnomemusic/widgets/startoggle.py:37
 msgid "Unstar"
 msgstr "Hapus Bintang"
 
-#: gnomemusic/widgets/startoggle.py:36
+#. TRANSLATORS: A verb, to mark a song as favorite
+#: gnomemusic/widgets/startoggle.py:41
 msgid "Star"
 msgstr "Bintangi"
 
@@ -549,36 +582,49 @@ msgstr "Bintangi"
 msgid "Your XDG Music directory is not set."
 msgstr "Direktori XDG Music Anda tidak disetel."
 
-#: gnomemusic/widgets/statusnavigationpage.py:58
+#: gnomemusic/widgets/statusnavigationpage.py:56
 msgid "Music Folder"
 msgstr "Folder Musik"
 
-#. TRANSLATORS: This is a label to display a link to open user's music
-#. folder. {} will be replaced with the translated text 'Music folder'
-#: gnomemusic/widgets/statusnavigationpage.py:66
+#. TRANSLATORS: This is a label to display a link to open
+#. a user's music folder. {} will be replaced with the
+#. translated text 'Music folder'
+#: gnomemusic/widgets/statusnavigationpage.py:60
+#, python-brace-format
 msgid "The contents of your {} will appear here."
 msgstr "Konten {} Anda akan muncul di sini."
 
-#: gnomemusic/widgets/statusnavigationpage.py:116
+#: gnomemusic/widgets/statusnavigationpage.py:114
 msgid "No Music Found"
 msgstr "Tak Ada Musik"
 
-#: gnomemusic/widgets/statusnavigationpage.py:117
+#: gnomemusic/widgets/statusnavigationpage.py:115
 msgid "Try a Different Search"
 msgstr "Cobalah Pencarian Lain"
 
-#: gnomemusic/widgets/statusnavigationpage.py:121
+#: gnomemusic/widgets/statusnavigationpage.py:119
 msgid "GNOME Music could not connect to Tracker."
 msgstr "GNOME Musik tidak dapat terhubung ke Pelacak."
 
-#: gnomemusic/widgets/statusnavigationpage.py:123
+#: gnomemusic/widgets/statusnavigationpage.py:121
 msgid "Your music files cannot be indexed without Tracker running."
 msgstr "Berkas musik Anda tidak dapat diindeks tanpa Pelacak berjalan."
 
-#: gnomemusic/widgets/statusnavigationpage.py:129
+#: gnomemusic/widgets/statusnavigationpage.py:127
 msgid "Your system Tracker version seems outdated."
 msgstr "Versi Pelacak sistem Anda tampaknya sudah usang."
 
-#: gnomemusic/widgets/statusnavigationpage.py:131
+#: gnomemusic/widgets/statusnavigationpage.py:129
 msgid "Music needs Tracker version 3.0.0 or higher."
 msgstr "Musik membutuhkan Pelacak versi 3.0.0 atau lebih tinggi."
+
+#~ msgctxt "shortcut window"
+#~ msgid "Shortcuts"
+#~ msgstr "Pintasan"
+
+#~ msgid "Unknown album"
+#~ msgstr "Album tak dikenal"
+
+#, python-brace-format
+#~ msgid "Disc {row.props.disc_nr}"
+#~ msgstr "Disk {row.props.disc_nr}"
