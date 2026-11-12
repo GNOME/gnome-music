@@ -414,19 +414,12 @@ class InsufficientTagged(SmartPlaylist):
                         nmm:setNumber(nmm:musicAlbumDisc(?song))
                             AS ?albumDiscNumber
                     WHERE {
-                        {
-                            ?song a nmm:MusicPiece .
-                            %(location_filter)s
-                            FILTER NOT EXISTS {
-                                ?song nmm:musicAlbum ?album
-                            }
-                        } UNION {
-                            ?song a nmm:MusicPiece .
-                            %(location_filter)s
-                            FILTER NOT EXISTS {
-                                ?song nmm:artist ?artist
-                            }
-                        }
+                        ?song a nmm:MusicPiece .
+                        %(location_filter)s
+                        FILTER (
+                            NOT EXISTS { ?song nmm:musicAlbum ?album }
+                            || NOT EXISTS { ?song nmm:artist ?artist }
+                        )
                     }
                 }
             }
