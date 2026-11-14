@@ -25,8 +25,6 @@ class SmoothScale(Gtk.Scale):
         self._old_smooth_scale_value = 0.0
 
         self._seek_timeout = None
-        self._previous_state: Playback = Playback.STOPPED
-
         self._timeout = None
 
         ctrl = Gtk.GestureClick()
@@ -71,8 +69,6 @@ class SmoothScale(Gtk.Scale):
             return
 
         state = self._player.props.state
-
-        self._previous_state = state
 
         if (state == Playback.STOPPED
                 or state == Playback.LOADING):
