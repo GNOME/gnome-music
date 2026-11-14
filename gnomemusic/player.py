@@ -23,7 +23,6 @@
 # delete this exception statement from your version.
 
 from __future__ import annotations
-import time
 import typing
 
 import gi
@@ -127,16 +126,6 @@ class Player(GObject.GObject):
         """
         return self._queue.has_previous()
 
-    @GObject.Property(
-        type=bool, default=False, flags=GObject.ParamFlags.READABLE)
-    def playing(self):
-        """Test if a song is currently played.
-
-        :returns: True if a song is currently played.
-        :rtype: bool
-        """
-        return self.props.state == Playback.PLAYING
-
     def _on_queue_model_items_changed(
             self, model: Gtk.SortListModel, position: int, removed: int,
             added: int) -> None:
@@ -187,14 +176,12 @@ class Player(GObject.GObject):
             self._queue.next()
 
         self._gapless_set = False
-        self._time_stamp = int(time.time())
 
         self.emit("song-changed")
 
     def _load(self, coresong):
         self._log.debug("Loading song {}".format(coresong.props.title))
         self._gst_player.props.state = Playback.LOADING
-        self._time_stamp = int(time.time())
         self._gst_player.props.url = coresong.props.url
 
     def play(self, coresong=None):
