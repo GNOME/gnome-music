@@ -18,7 +18,6 @@ from gnomemusic.widgets.albumnavigationpage import AlbumNavigationPage
 from gnomemusic.widgets.statusnavigationpage import StatusNavigationPage
 from gnomemusic.widgets.headerbar import HeaderBar
 from gnomemusic.widgets.playertoolbar import PlayerToolbar  # noqa: F401
-from gnomemusic.widgets.playlistdialog import PlaylistDialog
 from gnomemusic.windowplacement import WindowPlacement
 if typing.TYPE_CHECKING:
     from gnomemusic.corealbum import CoreAlbum
@@ -29,13 +28,10 @@ class Window(Adw.ApplicationWindow):
 
     __gtype_name__ = "Window"
 
-    active_view = GObject.Property(type=GObject.GObject, default=None)
-
     _loading_progress = Gtk.Template.Child()
     _main_navigation_page = Gtk.Template.Child()
     _main_toolbar_view = Gtk.Template.Child()
     _navigation_view = Gtk.Template.Child()
-    _overlay = Gtk.Template.Child()
     _player_toolbar = Gtk.Template.Child()
     _stack = Gtk.Template.Child()
     _toast_overlay = Gtk.Template.Child()
@@ -55,7 +51,6 @@ class Window(Adw.ApplicationWindow):
         self._headerbar = HeaderBar(self._app)
         self._search_view: SearchView | None = None
         self._status_navpage = StatusNavigationPage(app)
-        self._playlist_dialog: PlaylistDialog | None = None
 
         self._player = app.props.player
         self._search = app.props.search
@@ -83,9 +78,6 @@ class Window(Adw.ApplicationWindow):
         self.views = [None] * len(View)
 
         self._navigation_view.add(self._status_navpage)
-
-        self._stack.connect(
-            "notify::visible-child", self._on_stack_visible_child_changed)
 
         self._headerbar.props.state = HeaderBar.State.MAIN
 
@@ -130,9 +122,6 @@ class Window(Adw.ApplicationWindow):
         else:
             self._navigation_view.replace_with_tags(["status"])
             self._switch_to_empty_view()
-
-    def _on_stack_visible_child_changed(self, klass, value):
-        self.props.active_view = self._stack.props.visible_child
 
     def _on_tracker_available(self, klass, value):
         new_state = self._app.props.coregrilo.props.tracker_available
