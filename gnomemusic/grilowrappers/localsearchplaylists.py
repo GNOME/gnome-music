@@ -47,7 +47,6 @@ class LocalSearchPlaylists(GObject.GObject):
         self._tsparql = tsparql_wrapper.props.local_db
         self._tsparql_wrapper = tsparql_wrapper
         self._notificationmanager = application.props.notificationmanager
-        self._window = application.props.window
 
         user_playlists_filter = Gtk.CustomFilter()
         user_playlists_filter.set_filter_func(self._user_playlists_filter)
