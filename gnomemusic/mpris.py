@@ -319,7 +319,6 @@ class MPRIS(DBusInterface):
         self._recent_queue.connect(
             "items-changed", self._on_recent_queue_changed)
 
-        self._queue_type = None
         self._path_list = []
         self._metadata_list = []
         self._previous_can_go_next = False
@@ -578,8 +577,6 @@ class MPRIS(DBusInterface):
 
     def _on_queue_changed(
             self, coremodel: CoreModel, queue_type: Queue.Type) -> None:
-        self._queue_type = queue_type
-
         mpris_playlist = self._get_active_playlist()
         if mpris_playlist == self._previous_mpris_playlist:
             return
