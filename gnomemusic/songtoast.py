@@ -52,7 +52,6 @@ class SongToast(GObject.Object):
         """
         super().__init__()
 
-        self._coregrilo = application.props.coregrilo
         self._coresong = coresong
         self._playlist = playlist
         self._position = position
