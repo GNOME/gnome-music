@@ -66,7 +66,6 @@ class ArtistsView(Adw.Bin):
         # had no user interaction since.
         self._untouched_list = True
 
-        self._window = application.props.window
         self._coremodel = application.props.coremodel
         self._model = self._coremodel.props.artists_sort
 
