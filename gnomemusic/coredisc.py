@@ -34,7 +34,6 @@ class CoreDisc(GObject.GObject):
 
         self._coregrilo = application.props.coregrilo
         self._coremodel = application.props.coremodel
-        self._log = application.props.log
         self._model = None
 
         self.update(corealbum)
