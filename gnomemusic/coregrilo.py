@@ -64,7 +64,6 @@ class CoreGrilo(GObject.GObject):
 
     _theaudiodb_api_key = "195003"
 
-    cover_sources = GObject.Property(type=bool, default=False)
     tracker_available = GObject.Property(type=int)
 
     def __init__(self, application):
@@ -75,10 +74,8 @@ class CoreGrilo(GObject.GObject):
         super().__init__()
 
         self._application = application
-        self._coremodel = self._application.props.coremodel
         self._log = application.props.log
         self._thumbnail_sources = []
-        self._thumbnail_sources_timeout = None
         self._wrappers = {}
 
         self._fast_options: Grl.OperationOptions = Grl.OperationOptions()
@@ -136,14 +133,6 @@ class CoreGrilo(GObject.GObject):
             self._wrappers["gnome-music"] = wrapper
 
     def _on_source_added(self, registry, source):
-
-        def _trigger_art_update():
-            self._thumbnail_sources_timeout = None
-            if len(self._thumbnail_sources) > 0:
-                self.props.cover_sources = True
-
-            return GLib.SOURCE_REMOVE
-
         if ("net:plaintext" in source.get_tags()
                 or source.props.source_id in self._blocklist):
             try:
@@ -155,11 +144,6 @@ class CoreGrilo(GObject.GObject):
 
         if Grl.METADATA_KEY_THUMBNAIL in source.supported_keys():
             self._thumbnail_sources.append(source)
-            if not self._thumbnail_sources_timeout:
-                # Aggregate sources being added, for example when the
-                # network comes online.
-                self._thumbnail_sources_timeout = GLib.timeout_add_seconds(
-                    5, _trigger_art_update)
 
     def _on_source_removed(self, registry, source):
         # FIXME: Handle removing sources.
