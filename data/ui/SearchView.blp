@@ -12,14 +12,14 @@ template $SearchView: Adw.NavigationPage {
       StackPage {
         name: "main";
 
-        child: ScrolledWindow _search_results {
+        child: ScrolledWindow {
           hexpand: true;
           vexpand: true;
 
           Adw.Clamp {
             maximum-size: 1600;
 
-            Box container {
+            Box {
               halign: fill;
               hexpand: true;
               margin-bottom: 20;

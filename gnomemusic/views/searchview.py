@@ -23,8 +23,6 @@
 # delete this exception statement from your version.
 
 from __future__ import annotations
-from enum import IntEnum
-from typing import Optional
 import typing
 
 from gi.repository import Adw, GObject, Gtk
@@ -58,15 +56,6 @@ class SearchView(Adw.NavigationPage):
 
     __gtype_name__ = "SearchView"
 
-    class State(IntEnum):
-        """The different states of SearchView
-        """
-        MAIN = 0
-        ALL_ALBUMS = 1
-        ALL_ARTISTS = 2
-        ALBUM = 3
-        ARTIST = 4
-
     search_mode_active = GObject.Property(type=bool, default=False)
     search_state = GObject.Property(type=int, default=Search.State.NONE)
     search_text = GObject.Property(type=str)
@@ -75,7 +64,6 @@ class SearchView(Adw.NavigationPage):
     _album_flowbox = Gtk.Template.Child()
     _artist_header = Gtk.Template.Child()
     _artist_flowbox = Gtk.Template.Child()
-    _search_results = Gtk.Template.Child()
     _search_toolbar_view = Gtk.Template.Child()
     _songs_header = Gtk.Template.Child()
     _songs_listbox = Gtk.Template.Child()
@@ -144,8 +132,6 @@ class SearchView(Adw.NavigationPage):
             "items-changed", self._on_artist_model_items_changed)
         self._artist_flowbox.bind_model(
             self._artist_slice, self._create_artist_widget)
-
-        self._scrolled_artist_window: Optional[Gtk.ScrolledWindow] = None
 
         self._set_empty_status_page()
         self._stack.props.visible_child_name = "status"
