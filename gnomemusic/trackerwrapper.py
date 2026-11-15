@@ -42,7 +42,6 @@ class TrackerState(IntEnum):
     """
     AVAILABLE = 0
     UNAVAILABLE = 1
-    OUTDATED = 2
 
 
 class TrackerWrapper(GObject.GObject):
@@ -160,9 +159,6 @@ class TrackerWrapper(GObject.GObject):
             self.notify("tracker-available")
             return
 
-        # Version checks against the local version of Tracker can be done
-        # here, set `self._tracker_available = TrackerState.OUTDATED` if the
-        # checks fail.
         self._local_db_available = TrackerState.AVAILABLE
         self.notify("tracker-available")
 
@@ -201,9 +197,6 @@ class TrackerWrapper(GObject.GObject):
         if (self._local_db_available == TrackerState.AVAILABLE
                 and self._miner_fs_available == TrackerState.AVAILABLE):
             return TrackerState.AVAILABLE
-        elif (self._local_db_available == TrackerState.OUTDATED
-                or self._miner_fs_available == TrackerState.OUTDATED):
-            return TrackerState.OUTDATED
         else:
             return TrackerState.UNAVAILABLE
 

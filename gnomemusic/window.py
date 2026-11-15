@@ -100,8 +100,6 @@ class Window(Adw.ApplicationWindow):
         statusnp = self._status_navpage
         if tracker_state == TrackerState.UNAVAILABLE:
             statusnp.props.state = StatusNavigationPage.State.NO_TRACKER
-        elif tracker_state == TrackerState.OUTDATED:
-            statusnp.props.state = StatusNavigationPage.State.TRACKER_OUTDATED
         else:
             statusnp.props.state = StatusNavigationPage.State.EMPTY
 

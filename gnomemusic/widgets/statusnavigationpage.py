@@ -22,7 +22,6 @@ class StatusNavigationPage(Adw.NavigationPage):
 
     EMPTY: No music has been found at startup (default)
     NO_TRACKER: Tracker is unavailable
-    TRACKER_OUTDATED: Tracker version is too old
     """
 
     class State(IntEnum):
@@ -30,7 +29,6 @@ class StatusNavigationPage(Adw.NavigationPage):
         EMPTY = 0
         SEARCH = 1
         NO_TRACKER = 2
-        TRACKER_OUTDATED = 3
 
     __gtype_name__ = "StatusNavigationPage"
 
@@ -99,8 +97,6 @@ class StatusNavigationPage(Adw.NavigationPage):
             self._set_search_state()
         elif self._state == StatusNavigationPage.State.NO_TRACKER:
             self._set_no_tracker_state()
-        elif self._state == StatusNavigationPage.State.TRACKER_OUTDATED:
-            self._set_tracker_outdated_state()
 
         self._headerbar.props.state = HeaderBar.State.EMPTY
 
@@ -119,13 +115,5 @@ class StatusNavigationPage(Adw.NavigationPage):
             "GNOME Music could not connect to Tracker.")
         self._status_page.props.description = _(
             "Your music files cannot be indexed without Tracker running.")
-
-        self._status_page.props.icon_name = "dialog-error-symbolic"
-
-    def _set_tracker_outdated_state(self) -> None:
-        self._status_page.props.title = _(
-            "Your system Tracker version seems outdated.")
-        self._status_page.props.description = _(
-            "Music needs Tracker version 3.0.0 or higher.")
 
         self._status_page.props.icon_name = "dialog-error-symbolic"
