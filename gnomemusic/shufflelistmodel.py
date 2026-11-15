@@ -28,8 +28,6 @@ class ShuffleListModel(GObject.GObject, Gio.ListModel):
 
     __gtype_name__ = "ShuffleListModel"
 
-    shuffled = GObject.Property(type=bool, default=False)
-
     def __init__(self, model: Gio.ListModel) -> None:
         """Initialize the list model
 
@@ -69,7 +67,6 @@ class ShuffleListModel(GObject.GObject, Gio.ListModel):
         :param int initial_song_position: The song index where to
             start shuffling from
         """
-        self.props.shuffled = True
         if self._model.get_n_items() == 0:
             return
 
@@ -89,7 +86,6 @@ class ShuffleListModel(GObject.GObject, Gio.ListModel):
         :param int position: Deshuffle the remaining items from this
             position on
         """
-        self.props.shuffled = False
 
         if position is not None:
             list_before = list(self._shuffle_values[:position])
