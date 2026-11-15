@@ -137,16 +137,12 @@ class CoreModel(GObject.GObject):
         self._albums_search_flatten: Gtk.FlattenListModel = (
             Gtk.FlattenListModel())
         self._albums_search_flatten.set_model(self._albums_search_proxy)
-        self._albums_search_filter: Gtk.FilterListModel = (
-            Gtk.FilterListModel.new(Gtk.AnyFilter()))
 
         self._artists_search_proxy: Gio.Liststore = Gio.ListStore.new(
             Gtk.FilterListModel)
         self._artists_search_flatten: Gtk.FlattenListModel = (
             Gtk.FlattenListModel())
         self._artists_search_flatten.set_model(self._artists_search_proxy)
-        self._artists_search_filter: Gtk.FilterListModel = (
-            Gtk.FilterListModel.new(Gtk.AnyFilter()))
 
         self._playlists_model: Gio.ListStore = Gio.ListStore.new(Playlist)
         self._playlists_model_filter: Gtk.FilterListModel = (
@@ -394,11 +390,6 @@ class CoreModel(GObject.GObject):
         return self._albums_model_proxy
 
     @GObject.Property(
-        type=Gio.ListStore, default=None, flags=GObject.ParamFlags.READABLE)
-    def artists(self):
-        return self._artists_model
-
-    @GObject.Property(
         type=Gtk.FlattenListModel, default=None,
         flags=GObject.ParamFlags.READABLE)
     def artists_proxy(self):
@@ -453,12 +444,6 @@ class CoreModel(GObject.GObject):
         return self._albums_search_flatten
 
     @GObject.Property(
-        type=Gtk.FilterListModel, default=None,
-        flags=GObject.ParamFlags.READABLE)
-    def albums_search_filter(self):
-        return self._albums_search_filter
-
-    @GObject.Property(
         type=Gio.ListStore, default=None, flags=GObject.ParamFlags.READABLE)
     def albums_search_proxy(self) -> Gio.ListStore:
         return self._albums_search_proxy
@@ -468,12 +453,6 @@ class CoreModel(GObject.GObject):
         flags=GObject.ParamFlags.READABLE)
     def artists_search(self) -> Gtk.FlattenListModel:
         return self._artists_search_flatten
-
-    @GObject.Property(
-        type=Gtk.FilterListModel, default=None,
-        flags=GObject.ParamFlags.READABLE)
-    def artists_search_filter(self):
-        return self._artists_search_filter
 
     @GObject.Property(
         type=Gio.ListStore, default=None, flags=GObject.ParamFlags.READABLE)
