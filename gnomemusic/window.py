@@ -143,10 +143,6 @@ class Window(Adw.ApplicationWindow):
         self.views[View.PLAYLIST] = PlaylistsView(self._app)
 
         self._search_view = SearchView(self._app)
-        self._search.bind_property(
-            "state", self._search_view, "search-state",
-            GObject.BindingFlags.BIDIRECTIONAL
-            | GObject.BindingFlags.SYNC_CREATE)
         self._navigation_view.add(self._search_view)
         self._search.bind_property(
             "search-mode-active", self._search_view, "search-mode-active",
