@@ -26,63 +26,83 @@ class SmartPlaylist(Playlist):
 
         self.props.is_smart = True
         self._model: Optional[Gio.ListStore] = None
+        self._populate_task: Optional[asyncio.Task] = None
+        self._populate_again = False
 
     @GObject.Property(type=Gio.ListStore, default=None)
     def model(self):
+        """Songs of the smart playlist.
+
+        The model is created and populated on first access.
+
+        :returns: the playlist model
+        :rtype: Gio.ListStore
+        """
         if self._model is None:
             self._model = Gio.ListStore.new(CoreSong)
-            asyncio.create_task(self._populate_model())
+            self._start_populate()
 
         return self._model
+
+    def update(self) -> None:
+        """Refresh the playlist model."""
+        if self._model is None:
+            return
+
+        self._start_populate()
+
+    def _start_populate(self) -> None:
+        if (self._populate_task is not None
+                and not self._populate_task.done()):
+            self._populate_again = True
+            return
+
+        self._populate_task = utils.create_idle_task(self._populate_model())
 
     async def _populate_model(self) -> None:
         async with self._notificationmanager:
             if self._model is None:
                 return
 
-            try:
-                cursor = self._tsparql.query(self.props.query)
-            except GLib.Error as error:
-                self._log.warning(
-                    f"Failure populating playlist model {self.props.pl_id}:"
-                    f" {error.domain}, {error.message}")
-                return
-
-            try:
-                has_next = await cursor.next_async()
-            except GLib.Error as error:
-                cursor.close()
-                self._log.warning(
-                    f"Cursor iteration error: {error.domain}, {error.message}")
-                return
-            while has_next:
-                cursor_dict = utils.dict_from_cursor(cursor)
-                coresong = CoreSong(self._application, cursor_dict)
-                self._bind_to_main_song(coresong)
-                if coresong not in self._songs_todelete:
-                    self._model.append(coresong)
-
-                try:
-                    has_next = await cursor.next_async()
-                except GLib.Error as error:
-                    cursor.close()
-                    self._log.warning(
-                        f"Cursor iteration error: {error.domain}, "
-                        f"{error.message}")
+            while True:
+                self._populate_again = False
+                songs = await self._query_songs()
+                if songs is None:
                     return
-            else:
-                cursor.close()
+
+                for coresong in songs:
+                    self._bind_to_main_song(coresong)
+
+                self._model.splice(0, self._model.get_n_items(), songs)
                 self.props.count = self._model.get_n_items()
 
-    def update(self):
-        """Updates playlist model."""
-        if self._model is None:
-            return
+                if not self._populate_again:
+                    break
 
-        self._model.remove_all()
-        asyncio.create_task(self._populate_model())
+    async def _query_songs(self) -> Optional[list[CoreSong]]:
+        try:
+            cursor = self._tsparql.query(self.props.query)
+        except GLib.Error as error:
+            self._log.warning(
+                f"Failure populating playlist model {self.props.pl_id}:"
+                f" {error.domain}, {error.message}")
+            return None
 
-        return
+        songs: list[CoreSong] = []
+        try:
+            while await cursor.next_async():
+                cursor_dict = utils.dict_from_cursor(cursor)
+                coresong = CoreSong(self._application, cursor_dict)
+                if coresong not in self._songs_todelete:
+                    songs.append(coresong)
+        except GLib.Error as error:
+            self._log.warning(
+                f"Cursor iteration error: {error.domain}, {error.message}")
+            return None
+        finally:
+            cursor.close()
+
+        return songs
 
 
 class MostPlayed(SmartPlaylist):
