@@ -81,7 +81,7 @@ class SmartPlaylist(Playlist):
 
     async def _query_songs(self) -> Optional[list[CoreSong]]:
         try:
-            cursor = self._tsparql.query(self.props.query)
+            cursor = await self._tsparql.query_async(self.props.query)
         except GLib.Error as error:
             self._log.warning(
                 f"Failure populating playlist model {self.props.pl_id}:"
