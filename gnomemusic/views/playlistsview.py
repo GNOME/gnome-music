@@ -58,6 +58,7 @@ class PlaylistsView(Adw.Bin):
 
         self._coremodel = application.props.coremodel
         self._model = self._coremodel.props.playlists_sort
+        self._current_playlist = None
 
         # This indicates if the current list has been empty and has
         # had no user interaction since.
@@ -103,8 +104,7 @@ class PlaylistsView(Adw.Bin):
             return
         elif self._untouched_list is True:
             first_row = self._sidebar.get_row_at_index(0)
-            self._sidebar.select_row(first_row)
-            self._on_playlist_activated(self._sidebar, first_row, True)
+            self._select_row(first_row, untouched=True)
             return
 
         if removed == 0:
@@ -113,17 +113,25 @@ class PlaylistsView(Adw.Bin):
         row_next = (self._sidebar.get_row_at_index(position)
                     or self._sidebar.get_row_at_index(position - 1))
         if row_next:
-            self._sidebar.select_row(row_next)
-            self._on_playlist_activated(self._sidebar, row_next, True)
+            self._select_row(row_next, untouched=True)
+
+    def _select_row(
+            self, row: Gtk.ListBoxRow, *,
+            untouched: bool = False) -> None:
+        self._sidebar.select_row(row)
+        self._on_playlist_activated(self._sidebar, row, untouched)
 
     @GObject.Property(
         type=Playlist, default=None, flags=GObject.ParamFlags.READABLE)
-    def current_playlist(self):
-        selection = self._sidebar.get_selected_row()
-        if selection is None:
-            return None
+    def current_playlist(self) -> Optional[Playlist]:
+        return self._current_playlist
 
-        return selection.props.playlist
+    def _invalidate_current_playlist(self) -> None:
+        row = self._sidebar.get_selected_row()
+        new_playlist = row.props.playlist if row is not None else None
+        if self._current_playlist != new_playlist:
+            self._current_playlist = new_playlist
+            self.notify("current-playlist")
 
     @Gtk.Template.Callback()
     def _on_playlist_activated(self, sidebar, row, untouched=False):
@@ -131,7 +139,7 @@ class PlaylistsView(Adw.Bin):
         if untouched is False:
             self._untouched_list = False
 
-        self.notify("current-playlist")
+        self._invalidate_current_playlist()
 
     def _on_active_core_object_changed(self, klass, val):
         """Selects the active playlist when an MPRIS client
@@ -152,8 +160,7 @@ class PlaylistsView(Adw.Bin):
         if not playlist_row:
             return
 
-        self._sidebar.select_row(playlist_row)
-        self._on_playlist_activated(self._sidebar, playlist_row)
+        self._select_row(playlist_row)
 
     @GObject.Property(
         type=bool, default=False, flags=GObject.ParamFlags.READABLE)
