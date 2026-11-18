@@ -84,8 +84,9 @@ class LocalSearchPlaylists(GObject.GObject):
             #  "AllSongs": AllSongs(**kwargs),
         }
 
-        for playlist in smart_playlists.values():
-            self._model.append(playlist)
+        self._model.splice(
+            self._model.get_n_items(), 0,
+            (*smart_playlists.values(),))
 
         try:
             cursor = await self._pl_query_all_stmt.execute_async()
