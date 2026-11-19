@@ -8,7 +8,7 @@ template $PlaylistDialog: Adw.Dialog {
 
   child: Adw.ToolbarView _toolbar_view {
     [top]
-    Adw.HeaderBar _title_bar {
+    Adw.HeaderBar {
       focusable: false;
       show-end-title-buttons: false;
 
@@ -23,7 +23,7 @@ template $PlaylistDialog: Adw.Dialog {
         ]
       };
 
-      Button _cancel_button {
+      Button {
         label: _("_Cancel");
         use-underline: true;
         focusable: false;
@@ -71,7 +71,7 @@ template $PlaylistDialog: Adw.Dialog {
             margin-start: 18;
             margin-top: 18;
 
-            Image image {
+            Image {
               focusable: false;
               valign: center;
               pixel-size: 100;
@@ -136,7 +136,7 @@ template $PlaylistDialog: Adw.Dialog {
           focusable: false;
           orientation: vertical;
 
-          ScrolledWindow scrolledwindow {
+          ScrolledWindow {
             focusable: true;
             vexpand: true;
 
@@ -152,7 +152,7 @@ template $PlaylistDialog: Adw.Dialog {
     };
 
     [bottom]
-    Box _bottom_bar {
+    Box {
       focusable: false;
       margin-bottom: 6;
       margin-end: 6;

@@ -43,11 +43,9 @@ class PlaylistDialog(Adw.Dialog):
     __gtype_name__ = 'PlaylistDialog'
 
     _add_playlist_stack = Gtk.Template.Child()
-    _bottom_bar = Gtk.Template.Child()
     _normal_box = Gtk.Template.Child()
     _empty_box = Gtk.Template.Child()
     _listbox = Gtk.Template.Child()
-    _cancel_button = Gtk.Template.Child()
     _select_button = Gtk.Template.Child()
     _toolbar_view = Gtk.Template.Child()
     _new_playlist_button = Gtk.Template.Child()
