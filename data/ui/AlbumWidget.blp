@@ -11,7 +11,7 @@ template $AlbumWidget: Adw.Bin {
       halign: fill;
       orientation: vertical;
 
-      Box albumInfo {
+      Box {
         halign: fill;
         hexpand: true;
         spacing: 32;
@@ -21,7 +21,7 @@ template $AlbumWidget: Adw.Bin {
           valign: center;
         }
 
-        Box albumDetails {
+        Box {
           halign: center;
           valign: start;
           orientation: vertical;
@@ -42,7 +42,7 @@ template $AlbumWidget: Adw.Bin {
               ]
             }
 
-            Button _title_button {
+            Button {
               icon-name: "go-next-symbolic";
               tooltip-text: _("Go to album page");
               clicked => $_on_title_button_clicked();
@@ -74,7 +74,7 @@ template $AlbumWidget: Adw.Bin {
               ]
             }
 
-            Button _artist_button {
+            Button {
               icon-name: "music-artist-symbolic";
               tooltip-text: _("Go to artist page");
               clicked => $_on_artist_button_clicked();
