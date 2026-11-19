@@ -36,4 +36,11 @@
       <gnome:userid>taugaertli</gnome:userid>
     </foaf:Person>
   </maintainer>
+  <maintainer>
+    <foaf:Person>
+      <foaf:name>Gabriele Ricciardi</foaf:name>
+      <foaf:mbox rdf:resource="mailto:gabrielericciardi@gnome.org" />
+      <gnome:userid>gabrielericciardi</gnome:userid>
+    </foaf:Person>
+  </maintainer>
 </Project>
