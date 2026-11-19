@@ -22,6 +22,8 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from __future__ import annotations
+
 import inspect
 import os
 
@@ -39,9 +41,9 @@ class MusicLogger(GObject.GObject):
     * Debug is for developer use as a way to get more runtime info.
     """
 
-    _DOMAIN = "org.gnome.Music"
+    _DOMAIN: str = "org.gnome.Music"
 
-    def _log(self, message, level):
+    def _log(self, message: str, level: GLib.LogLevelFlags) -> None:
         stack = inspect.stack()
 
         filename = os.path.basename(stack[2][1])
@@ -68,38 +70,38 @@ class MusicLogger(GObject.GObject):
 
         GLib.log_variant(self._DOMAIN, level, variant_dict)
 
-    def message(self, message):
+    def message(self, message: str) -> None:
         """The default user facing message
 
         Wraps g_message.
 
-        :param string message: Message
+        :param str message: Message
         """
         self._log(message, GLib.LogLevelFlags.LEVEL_MESSAGE)
 
-    def warning(self, message):
+    def warning(self, message: str) -> None:
         """Warning message
 
         Wraps g_warning.
 
-        :param string message: Warning message
+        :param str message: Warning message
         """
         self._log(message, GLib.LogLevelFlags.LEVEL_WARNING)
 
-    def info(self, message):
+    def info(self, message: str) -> None:
         """Informational message
 
         Wraps g_info.
 
-        :param string message: Informational message
+        :param str message: Informational message
         """
         self._log(message, GLib.LogLevelFlags.LEVEL_INFO)
 
-    def debug(self, message):
+    def debug(self, message: str) -> None:
         """Debug message
 
         Wraps g_debug.
 
-        :param string message: Debug message
+        :param str message: Debug message
         """
         self._log(message, GLib.LogLevelFlags.LEVEL_DEBUG)
