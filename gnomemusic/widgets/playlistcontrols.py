@@ -39,7 +39,6 @@ class PlaylistControls(Gtk.Box):
     _name_stack = Gtk.Template.Child()
     _name_label = Gtk.Template.Child()
     _play_button = Gtk.Template.Child()
-    _rename_controller = Gtk.Template.Child()
     _rename_entry = Gtk.Template.Child()
     _rename_done_button = Gtk.Template.Child()
     _songs_count_label = Gtk.Template.Child()
