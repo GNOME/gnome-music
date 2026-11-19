@@ -5,7 +5,7 @@ template $PlayerToolbar: ActionBar {
   focusable: false;
   revealed: false;
 
-  Box _song_info_box {
+  Box {
     focusable: false;
     halign: center;
     has-tooltip: true;
@@ -19,7 +19,7 @@ template $PlayerToolbar: ActionBar {
 
     Image _cover_image {}
 
-    Box nowplaying_labels {
+    Box {
       focusable: false;
       halign: center;
       valign: center;
@@ -48,7 +48,7 @@ template $PlayerToolbar: ActionBar {
   }
 
   [center]
-  Box _buttons_and_scale {
+  Box {
     hexpand: true;
     orientation: vertical;
     focusable: false;
@@ -57,12 +57,12 @@ template $PlayerToolbar: ActionBar {
     margin-start: 6;
     margin-top: 6;
 
-    Box buttons {
+    Box {
       focusable: false;
       halign: center;
       spacing: 12;
 
-      Button _prev_button {
+      Button {
         sensitive: true;
         focusable: true;
         receives-default: true;
@@ -111,7 +111,7 @@ template $PlayerToolbar: ActionBar {
     Adw.Clamp {
       maximum-size: 1000;
 
-      Box scale_and_timer {
+      Box {
         orientation: horizontal;
         focusable: false;
         margin-top: 12;
@@ -154,7 +154,7 @@ template $PlayerToolbar: ActionBar {
   }
 
   [end]
-  Box menuBox {
+  Box {
     height-request: 34;
     focusable: false;
     halign: end;

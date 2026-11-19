@@ -31,11 +31,9 @@ class PlayerToolbar(Gtk.ActionBar):
     _next_button = Gtk.Template.Child()
     _play_button = Gtk.Template.Child()
     _play_pause_image = Gtk.Template.Child()
-    _prev_button = Gtk.Template.Child()
     _progress_scale = Gtk.Template.Child()
     _progress_time_label = Gtk.Template.Child()
     _repeat_mode_button = Gtk.Template.Child()
-    _song_info_box = Gtk.Template.Child()
     _title_label = Gtk.Template.Child()
     _volume_button = Gtk.Template.Child()
 
