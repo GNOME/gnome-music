@@ -27,8 +27,7 @@ class StatusNavigationPage(Adw.NavigationPage):
     class State(IntEnum):
         """Enum for StatusNavigationPage state."""
         EMPTY = 0
-        SEARCH = 1
-        NO_TRACKER = 2
+        NO_TRACKER = 1
 
     __gtype_name__ = "StatusNavigationPage"
 
@@ -71,7 +70,7 @@ class StatusNavigationPage(Adw.NavigationPage):
 
         self.props.state = StatusNavigationPage.State.EMPTY
 
-    @GObject.Property(type=int, default=0, minimum=0, maximum=2)
+    @GObject.Property(type=int, default=0, minimum=0, maximum=1)
     def state(self) -> int:
         """Get the state of the empty view
 
@@ -93,8 +92,6 @@ class StatusNavigationPage(Adw.NavigationPage):
 
         if self._state == StatusNavigationPage.State.EMPTY:
             self._set_empty_state()
-        elif self._state == StatusNavigationPage.State.SEARCH:
-            self._set_search_state()
         elif self._state == StatusNavigationPage.State.NO_TRACKER:
             self._set_no_tracker_state()
 
@@ -105,10 +102,6 @@ class StatusNavigationPage(Adw.NavigationPage):
         self._initial_state.props.visible = True
 
         self._description_label.props.label = self._content_text
-
-    def _set_search_state(self) -> None:
-        self._status_page.props.title = _("No Music Found")
-        self._status_page.props.description = _("Try a Different Search")
 
     def _set_no_tracker_state(self) -> None:
         self._status_page.props.title = _(
