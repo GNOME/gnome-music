@@ -156,16 +156,6 @@ class Window(Adw.ApplicationWindow):
                 self._stack.add_named(i, i.props.name)
 
     @GObject.Property(
-        type=HeaderBar, default=None, flags=GObject.ParamFlags.READABLE)
-    def headerbar(self) -> HeaderBar:
-        """Get headerbar instance.
-
-        :returns: The headerbar
-        :rtype: HeaderBar
-        """
-        return self._headerbar
-
-    @GObject.Property(
         type=Adw.NavigationView, default=None,
         flags=GObject.ParamFlags.READABLE)
     def navigation_view(self) -> Adw.NavigationView:
