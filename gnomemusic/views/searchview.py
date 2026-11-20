@@ -87,7 +87,6 @@ class SearchView(Adw.NavigationPage):
         self._player = self._application.props.player
         self._window = application.props.window
         self._navigation_view = self._window.props.navigation_view
-        self._headerbar = self._window.props.headerbar
 
         self._search_headerbar = SearchHeaderBar(self._application)
         self._search_toolbar_view.add_top_bar(self._search_headerbar)
