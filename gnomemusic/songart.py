@@ -22,6 +22,9 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from __future__ import annotations
+import typing
+
 import gi
 gi.require_version("MediaArt", "2.0")
 from gi.repository import GLib, GObject, Gio, MediaArt
@@ -29,12 +32,17 @@ from gi.repository import GLib, GObject, Gio, MediaArt
 from gnomemusic.embeddedart import EmbeddedArt
 from gnomemusic.utils import create_idle_task
 
+if typing.TYPE_CHECKING:
+    from gnomemusic.application import Application
+    from gnomemusic.coresong import CoreSong
+
 
 class SongArt(GObject.GObject):
     """SongArt retrieval object
     """
 
-    def __init__(self, application, coresong):
+    def __init__(
+            self, application: Application, coresong: CoreSong) -> None:
         """Initialize SongArt
 
         :param Application application: The application object
@@ -49,7 +57,8 @@ class SongArt(GObject.GObject):
 
         create_idle_task(self._in_cache())
 
-    def _on_embedded_art_found(self, embeddedart, found):
+    def _on_embedded_art_found(
+            self, embeddedart: EmbeddedArt, found: bool) -> None:
         if found:
             create_idle_task(self._in_cache())
         else:
