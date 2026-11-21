@@ -34,6 +34,12 @@
       <foaf:name>Tau Gärtli</foaf:name>
       <foaf:mbox rdf:resource="mailto:taugaertli@gnome.org" />
       <gnome:userid>taugaertli</gnome:userid>
+      <foaf:account>
+        <foaf:OnlineAccount>
+          <foaf:accountServiceHomepage rdf:resource="https://github.com"/>
+          <foaf:accountName>tautropfli</foaf:accountName>
+        </foaf:OnlineAccount>
+      </foaf:account>
     </foaf:Person>
   </maintainer>
   <maintainer>
@@ -41,6 +47,12 @@
       <foaf:name>Gabriele Ricciardi</foaf:name>
       <foaf:mbox rdf:resource="mailto:gabrielericciardi@gnome.org" />
       <gnome:userid>gabrielericciardi</gnome:userid>
+      <foaf:account>
+        <foaf:OnlineAccount>
+          <foaf:accountServiceHomepage rdf:resource="https://github.com"/>
+          <foaf:accountName>Gabriele-Ricciardi</foaf:accountName>
+        </foaf:OnlineAccount>
+      </foaf:account>
     </foaf:Person>
   </maintainer>
 </Project>
