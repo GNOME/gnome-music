@@ -53,3 +53,9 @@ mypy:
   script:
     - dnf install -y python3-mypy
     - mypy --ignore-missing-imports --disallow-incomplete-defs gnomemusic
+
+potfile:
+  stage: check
+  image: registry.fedoraproject.org/fedora:latest
+  script:
+    - build-aux/check-potfiles.sh
