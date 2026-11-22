@@ -94,8 +94,6 @@ endif
 # Merging the translations with the appdata file
 appdata_conf = configuration_data()
 appdata_conf.set('appid', APPLICATION_ID)
-appdata_conf.set('package_url', PACKAGE_URL)
-appdata_conf.set('package_url_bug', PACKAGE_URL_BUG)
 appdata_conf.set('snapshot_release', snapshot_release)
 appdata_file = i18n.merge_file(
   input: configure_file(

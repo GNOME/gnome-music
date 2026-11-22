@@ -22,8 +22,6 @@ if not py_installation.language_version().version_compare('>= 3.10')
 endif
 
 # Constants
-PACKAGE_URL = 'https://apps.gnome.org/Music/'
-PACKAGE_URL_BUG = 'https://gitlab.gnome.org/GNOME/gnome-music/-/work_items'
 PROJECT_RDNN_NAME = 'org.gnome.Music'
 
 # NAME_SUFFIX is used in the about dialog

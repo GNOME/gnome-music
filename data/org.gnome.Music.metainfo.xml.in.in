@@ -34,8 +34,8 @@
     <color type="primary" scheme_preference="light">#f6d32d</color>
     <color type="primary" scheme_preference="dark">#e5870a</color>
   </branding>
-  <url type="homepage">@package_url@</url>
-  <url type="bugtracker">@package_url_bug@</url>
+  <url type="homepage">https://apps.gnome.org/Music/</url>
+  <url type="bugtracker">https://gitlab.gnome.org/GNOME/gnome-music/-/work_items</url>
   <url type="donation">https://www.gnome.org/donate</url>
   <url type="help">https://help.gnome.org/users/gnome-music/stable/</url>
   <url type="translate">https://l10n.gnome.org/module/gnome-music/</url>
