@@ -10,7 +10,7 @@ if typing.TYPE_CHECKING:
     from gnomemusic.application import Application
 
 
-@Gtk.Template(resource_path='/org/gnome/Music/ui/PreferencesDialog.ui')
+@Gtk.Template(resource_path='/org/gnome/Music/ui/widgets/PreferencesDialog.ui')
 class PreferencesDialog(Adw.PreferencesDialog):
     """Main menu preferences dialog
     """

@@ -13,7 +13,7 @@ if typing.TYPE_CHECKING:
     from gnomemusic.application import Application
 
 
-@Gtk.Template(resource_path="/org/gnome/Music/ui/AlbumsView.ui")
+@Gtk.Template(resource_path="/org/gnome/Music/ui/views/AlbumsView.ui")
 class AlbumsView(Adw.Bin):
     """Gridlike view of all albums
 

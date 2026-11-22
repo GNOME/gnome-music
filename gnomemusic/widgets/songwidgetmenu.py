@@ -40,7 +40,7 @@ if typing.TYPE_CHECKING:
     CoreObject = Union[CoreAlbum, CoreSong, Playlist]
 
 
-@Gtk.Template(resource_path="/org/gnome/Music/ui/SongWidgetMenu.ui")
+@Gtk.Template(resource_path="/org/gnome/Music/ui/widgets/SongWidgetMenu.ui")
 class SongWidgetMenu(Gtk.PopoverMenu):
 
     __gtype_name__ = "SongWidgetMenu"

@@ -10,7 +10,7 @@ from gi.repository import Adw, GObject, Gtk
 from gnomemusic.search import Search
 
 
-@Gtk.Template(resource_path="/org/gnome/Music/ui/SearchHeaderBar.ui")
+@Gtk.Template(resource_path="/org/gnome/Music/ui/widgets/SearchHeaderBar.ui")
 class SearchHeaderBar(Adw.Bin):
     """SearcnHeaderbar of the application"""
 

@@ -8,7 +8,7 @@ from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.widgets.albumtile import AlbumTile
 
 
-@Gtk.Template(resource_path="/org/gnome/Music/ui/AlbumCover.ui")
+@Gtk.Template(resource_path="/org/gnome/Music/ui/widgets/AlbumCover.ui")
 class AlbumCover(Gtk.FlowBoxChild):
     """FlowBoxChild wrapper for AlbumTile
 

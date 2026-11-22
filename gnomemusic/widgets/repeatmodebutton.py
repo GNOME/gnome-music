@@ -9,7 +9,7 @@ from gi.repository import Gio, GLib, GObject, Gtk
 from gnomemusic.player import Player, RepeatMode
 
 
-@Gtk.Template(resource_path="/org/gnome/Music/ui/RepeatModeButton.ui")
+@Gtk.Template(resource_path="/org/gnome/Music/ui/widgets/RepeatModeButton.ui")
 class RepeatModeButton(Gtk.Box):
     """Repeat mode button widget."""
 

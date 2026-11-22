@@ -30,7 +30,7 @@ from gnomemusic.grilowrappers.playlist import Playlist
 from gnomemusic.playlisttoast import PlaylistToast
 
 
-@Gtk.Template(resource_path='/org/gnome/Music/ui/PlaylistControls.ui')
+@Gtk.Template(resource_path='/org/gnome/Music/ui/widgets/PlaylistControls.ui')
 class PlaylistControls(Gtk.Box):
     """Widget holding the playlist controls"""
 

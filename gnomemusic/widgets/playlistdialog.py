@@ -35,7 +35,7 @@ if typing.TYPE_CHECKING:
     from gnomemusic.coresong import CoreSong
 
 
-@Gtk.Template(resource_path="/org/gnome/Music/ui/PlaylistDialog.ui")
+@Gtk.Template(resource_path="/org/gnome/Music/ui/widgets/PlaylistDialog.ui")
 class PlaylistDialog(Adw.Dialog):
     """Dialog for adding items to a playlist"""
 

@@ -34,7 +34,7 @@ if typing.TYPE_CHECKING:
     from gnomemusic.coredisc import CoreDisc
 
 
-@Gtk.Template(resource_path='/org/gnome/Music/ui/DiscBox.ui')
+@Gtk.Template(resource_path='/org/gnome/Music/ui/widgets/DiscBox.ui')
 class DiscBox(Gtk.ListBoxRow):
     """A widget which compromises one disc
 

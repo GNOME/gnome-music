@@ -27,7 +27,7 @@ from gi.repository import GObject, Gtk
 from gnomemusic.grilowrappers.playlist import Playlist
 
 
-@Gtk.Template(resource_path="/org/gnome/Music/ui/PlaylistDialogRow.ui")
+@Gtk.Template(resource_path="/org/gnome/Music/ui/widgets/PlaylistDialogRow.ui")
 class PlaylistDialogRow(Gtk.ListBoxRow):
 
     __gtype_name__ = "PlaylistDialogRow"

@@ -8,7 +8,8 @@ from gettext import gettext as _
 from gi.repository import Adw, GLib, GObject, Gtk, Tracker
 
 
-@Gtk.Template(resource_path="/org/gnome/Music/ui/StatusNavigationPage.ui")
+@Gtk.Template(
+    resource_path="/org/gnome/Music/ui/widgets/StatusNavigationPage.ui")
 class StatusNavigationPage(Adw.NavigationPage):
     """Status page when there is no music or an issue with Tracker
 

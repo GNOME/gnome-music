@@ -16,7 +16,7 @@ from gnomemusic.widgets.volumebutton import VolumeButton  # noqa: F401
 import gnomemusic.utils as utils
 
 
-@Gtk.Template(resource_path='/org/gnome/Music/ui/PlayerToolbar.ui')
+@Gtk.Template(resource_path='/org/gnome/Music/ui/widgets/PlayerToolbar.ui')
 class PlayerToolbar(Gtk.ActionBar):
     """Main Player widget object
 

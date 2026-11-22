@@ -33,7 +33,8 @@ if typing.TYPE_CHECKING:
     from gnomemusic.application import Application
 
 
-@Gtk.Template(resource_path="/org/gnome/Music/ui/ArtistAlbumsWidget.ui")
+@Gtk.Template(
+    resource_path="/org/gnome/Music/ui/widgets/ArtistAlbumsWidget.ui")
 class ArtistAlbumsWidget(Gtk.Box):
     """Widget containing all albums by an artist
 

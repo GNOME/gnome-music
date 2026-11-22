@@ -4,7 +4,7 @@
 from gi.repository import Adw, GObject, Gtk
 
 
-@Gtk.Template(resource_path="/org/gnome/Music/ui/MainHeaderBar.ui")
+@Gtk.Template(resource_path="/org/gnome/Music/ui/widgets/MainHeaderBar.ui")
 class MainHeaderBar(Adw.Bin):
     """Headerbar of the main view of the application."""
 

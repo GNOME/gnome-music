@@ -46,7 +46,7 @@ if typing.TYPE_CHECKING:
     from gnomemusic.coresong import CoreSong
 
 
-@Gtk.Template(resource_path="/org/gnome/Music/ui/SearchView.ui")
+@Gtk.Template(resource_path="/org/gnome/Music/ui/views/SearchView.ui")
 class SearchView(Adw.NavigationPage):
     """Gridlike view of search results.
 

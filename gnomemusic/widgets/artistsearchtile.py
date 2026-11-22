@@ -30,7 +30,7 @@ from gnomemusic.utils import ArtSize, DefaultIconType
 from gnomemusic.widgets.twolinetip import TwoLineTip
 
 
-@Gtk.Template(resource_path="/org/gnome/Music/ui/ArtistSearchTile.ui")
+@Gtk.Template(resource_path="/org/gnome/Music/ui/widgets/ArtistSearchTile.ui")
 class ArtistSearchTile(Gtk.FlowBoxChild):
     """Artist search tile
 

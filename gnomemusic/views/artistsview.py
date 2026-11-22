@@ -33,7 +33,7 @@ if typing.TYPE_CHECKING:
     from gnomemusic.application import Application
 
 
-@Gtk.Template(resource_path="/org/gnome/Music/ui/ArtistsView.ui")
+@Gtk.Template(resource_path="/org/gnome/Music/ui/views/ArtistsView.ui")
 class ArtistsView(Adw.Bin):
     """Main view of all available artists
 

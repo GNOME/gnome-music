@@ -15,7 +15,7 @@ if typing.TYPE_CHECKING:
 
 
 @Gtk.Template(
-    resource_path="/org/gnome/Music/ui/AlbumsSearchNavigationPage.ui")
+    resource_path="/org/gnome/Music/ui/widgets/AlbumsSearchNavigationPage.ui")
 class AlbumsSearchNavigationPage(Adw.NavigationPage):
     """ArtistsSearchNavigationPage
     """

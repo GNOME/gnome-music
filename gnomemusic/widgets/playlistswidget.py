@@ -38,7 +38,7 @@ if typing.TYPE_CHECKING:
     from gnomemusic.views.playlistsview import PlaylistsView
 
 
-@Gtk.Template(resource_path="/org/gnome/Music/ui/PlaylistsWidget.ui")
+@Gtk.Template(resource_path="/org/gnome/Music/ui/widgets/PlaylistsWidget.ui")
 class PlaylistsWidget(Gtk.Box):
     """Widget to display the playlist controls and list"""
 

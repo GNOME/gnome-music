@@ -31,7 +31,7 @@ from gnomemusic.coverpaintable import CoverPaintable
 from gnomemusic.utils import ArtSize, DefaultIconType
 
 
-@Gtk.Template(resource_path='/org/gnome/Music/ui/ArtistTile.ui')
+@Gtk.Template(resource_path='/org/gnome/Music/ui/widgets/ArtistTile.ui')
 class ArtistTile(Gtk.Box):
     """Row for sidebars
 

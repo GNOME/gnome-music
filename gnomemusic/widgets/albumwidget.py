@@ -43,7 +43,7 @@ if typing.TYPE_CHECKING:
     from gnomemusic.widgets.songwidget import SongWidget
 
 
-@Gtk.Template(resource_path='/org/gnome/Music/ui/AlbumWidget.ui')
+@Gtk.Template(resource_path='/org/gnome/Music/ui/widgets/AlbumWidget.ui')
 class AlbumWidget(Adw.Bin):
     """Album widget.
 

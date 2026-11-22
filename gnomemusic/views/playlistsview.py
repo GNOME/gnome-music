@@ -32,7 +32,7 @@ from gnomemusic.widgets.playlistswidget import PlaylistsWidget
 from gnomemusic.widgets.playlisttile import PlaylistTile
 
 
-@Gtk.Template(resource_path="/org/gnome/Music/ui/PlaylistsView.ui")
+@Gtk.Template(resource_path="/org/gnome/Music/ui/views/PlaylistsView.ui")
 class PlaylistsView(Adw.Bin):
     """Main view for playlists"""
 

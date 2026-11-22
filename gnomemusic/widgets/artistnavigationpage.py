@@ -12,7 +12,8 @@ if typing.TYPE_CHECKING:
     from gnomemusic.application import Application
 
 
-@Gtk.Template(resource_path='/org/gnome/Music/ui/ArtistNavigationPage.ui')
+@Gtk.Template(
+    resource_path='/org/gnome/Music/ui/widgets/ArtistNavigationPage.ui')
 class ArtistNavigationPage(Adw.NavigationPage):
     """ArtistNavigationPage
     """

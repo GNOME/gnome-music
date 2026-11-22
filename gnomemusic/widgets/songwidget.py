@@ -33,7 +33,7 @@ from gnomemusic.utils import SongStateIcon
 from gnomemusic.widgets.startoggle import StarToggle  # noqa: F401
 
 
-@Gtk.Template(resource_path='/org/gnome/Music/ui/SongWidget.ui')
+@Gtk.Template(resource_path='/org/gnome/Music/ui/widgets/SongWidget.ui')
 class SongWidget(Gtk.ListBoxRow):
     """The single song widget used in DiscBox
 

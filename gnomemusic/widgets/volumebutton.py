@@ -5,7 +5,7 @@
 from gi.repository import GLib, GObject, GstAudio, Gtk
 
 
-@Gtk.Template(resource_path="/org/gnome/Music/ui/VolumeButton.ui")
+@Gtk.Template(resource_path="/org/gnome/Music/ui/widgets/VolumeButton.ui")
 class VolumeButton(Gtk.Box):
     """Volume button widget with a mute button and a slider."""
 

@@ -27,7 +27,7 @@ from gi.repository import GObject, Gtk
 from gnomemusic.grilowrappers.playlist import Playlist
 
 
-@Gtk.Template(resource_path="/org/gnome/Music/ui/PlaylistTile.ui")
+@Gtk.Template(resource_path="/org/gnome/Music/ui/widgets/PlaylistTile.ui")
 class PlaylistTile(Gtk.ListBoxRow):
     """Row for sidebars
 

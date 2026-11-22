@@ -11,7 +11,7 @@ from gnomemusic.coverpaintable import CoverPaintable
 from gnomemusic.utils import ArtSize, DefaultIconType
 
 
-@Gtk.Template(resource_path='/org/gnome/Music/ui/AlbumTile.ui')
+@Gtk.Template(resource_path='/org/gnome/Music/ui/widgets/AlbumTile.ui')
 class AlbumTile(Gtk.Box):
 
     __gtype_name__ = "AlbumTile"
