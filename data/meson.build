@@ -40,16 +40,6 @@ blueprints = custom_target('blueprints',
   command: [find_program('blueprint-compiler'), 'batch-compile', '@OUTPUT@', '@CURRENT_SOURCE_DIR@', '@INPUT@'],
 )
 
-gnome.compile_resources(
-  PROJECT_RDNN_NAME,
-  PROJECT_RDNN_NAME + '.gresource.xml',
-  gresource_bundle: true,
-  source_dir: meson.current_build_dir(),
-  install_dir: PKGDATA_DIR,
-  install: true,
-  dependencies: blueprints
-)
-
 schema_src = PROJECT_RDNN_NAME + '.gschema.xml'
 gnome.compile_schemas(build_by_default: true, depend_files: files(schema_src))
 
@@ -105,6 +95,22 @@ appdata_file = i18n.merge_file(
   po_dir: join_paths(meson.project_source_root(), 'po'),
   install: true,
   install_dir: join_paths(get_option('prefix'), get_option('datadir'), 'metainfo')
+)
+
+resource_conf = configuration_data()
+resource_conf.set('application_id', APPLICATION_ID)
+gnome.compile_resources(
+  PROJECT_RDNN_NAME,
+  configure_file(
+    input: PROJECT_RDNN_NAME + '.gresource.xml.in',
+    output: '@BASENAME@',
+    configuration: resource_conf,
+  ),
+  gresource_bundle: true,
+  source_dir: meson.current_build_dir(),
+  install_dir: PKGDATA_DIR,
+  install: true,
+  dependencies: [blueprints, appdata_file]
 )
 
 # Validating the appdata file

@@ -139,20 +139,20 @@ def show_about(app_id, version, parent):
         "William Jon McCann"
     ]
 
-    about = Adw.AboutDialog(
-        application_name=_("Music"),
-        application_icon=app_id,
-        developer_name=_("The GNOME Project"),
-        developers=developers,
-        designers=designers,
-        # Translators should localize the following string which
-        # will be displayed at the bottom of the about box to give
-        # credit to the translator(s).
-        translator_credits=_("translator-credits"),
-        version=version,
-        website="https://apps.gnome.org/Music/",
-        issue_url="https://gitlab.gnome.org/GNOME/gnome-music/-/issues/",
-        copyright=_("© The GNOME Music Developers"),
-        license_type=Gtk.License.GPL_2_0)
+    about = Adw.AboutDialog.new_from_appdata(
+        f'/org/gnome/Music/{app_id}.metainfo.xml', _metainfo_version(version))
+    about.set_version(version)
+    about.set_developers(developers)
+    about.set_designers(designers)
+    # Translators should localize the following string which
+    # will be displayed at the bottom of the about box to give
+    # credit to the translator(s).
+    about.set_translator_credits(_("translator-credits"))
+    about.set_copyright(_("© The GNOME Music Developers"))
+    about.set_license_type(Gtk.License.GPL_2_0)
 
     about.present(parent)
+
+
+def _metainfo_version(version: str) -> str:
+    return version.partition('-')[0]

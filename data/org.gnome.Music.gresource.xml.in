@@ -63,5 +63,6 @@
     <file>queries/playlist_query_delete_entry.rq</file>
     <file>queries/playlist_query_playlist.rq</file>
     <file>queries/playlist_query_songs.rq</file>
+    <file>@application_id@.metainfo.xml</file>
   </gresource>
 </gresources>
