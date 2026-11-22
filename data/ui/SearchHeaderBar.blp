@@ -6,11 +6,12 @@ template $SearchHeaderBar: Adw.Bin {
     vexpand: false;
 
     [start]
-    ToggleButton _search_button {
+    ToggleButton {
       valign: center;
       sensitive: true;
       icon-name: "edit-find-symbolic";
       tooltip-text: _("Search");
+      active: bind template.search-mode-active bidirectional;
     }
   }
 }

@@ -18,7 +18,6 @@ class SearchHeaderBar(Adw.Bin):
     __gtype_name__ = "SearchHeaderBar"
 
     _search_header_bar = Gtk.Template.Child()
-    _search_button = Gtk.Template.Child()
 
     search_mode_active = GObject.Property(type=bool, default=False)
     search_state = GObject.Property(type=int, default=0)
@@ -38,10 +37,6 @@ class SearchHeaderBar(Adw.Bin):
         self._entry.props.search_delay = 250
         self._search_header_bar.props.title_widget = self._entry
 
-        self.bind_property(
-            "search-mode-active", self._search_button, "active",
-            GObject.BindingFlags.BIDIRECTIONAL
-            | GObject.BindingFlags.SYNC_CREATE)
         self.bind_property("search-text", self._entry, "text")
         self.connect("notify::search-text", self._on_search_text_changed)
 
