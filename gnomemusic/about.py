@@ -61,6 +61,7 @@ def show_about(app_id, version, parent):
         "Feliks Weber",
         "Felipe Borges",
         "Florian Darfeuille",
+        "Gabriele Ricciardi",
         "Gaurav Narula",
         "Georges Basile Stavracas Neto",
         "Guillaume Quintard",
