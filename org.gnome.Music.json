@@ -161,7 +161,8 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://gitlab.gnome.org/GNOME/gnome-music.git"
+                    "url": "https://gitlab.gnome.org/GNOME/gnome-music.git",
+                    "branch": "main"
                 }
             ]
         }

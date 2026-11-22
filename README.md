@@ -2,7 +2,7 @@
 
 Play and organize your music collection with Music, a GNOME app.
 
-![screenshot](https://gitlab.gnome.org/GNOME/gnome-music/-/raw/master/data/screenshots/gnome-music-1.png)
+![screenshot](https://gitlab.gnome.org/GNOME/gnome-music/-/raw/HEAD/data/screenshots/gnome-music-1.png)
 
 You can join the developers on [Matrix](https://handbook.gnome.org/get-in-touch/matrix.html): [#gnome-music:gnome.org](https://matrix.to/#/#gnome-music:gnome.org).
 
