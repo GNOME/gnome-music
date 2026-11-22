@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-menu_dirs="src/resources/menu"
 srcdirs="gnomemusic data"
 desktopdirs="data"
 
