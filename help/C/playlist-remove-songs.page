@@ -6,11 +6,17 @@
   <info>
     <link type="guide" xref="index#delete"/>
     <revision pkgversion="3.12" date="2014-03-09" status="review"/>
+    <revision pkgversion="50.0" date="2026-11-22" status="review"/>
 
     <credit type="author">
       <name>Shobha Tyagi</name>
       <email its:translate="no">tyagishobha@gmail.com</email>
       <years>2014</years>
+    </credit>
+    <credit type="author">
+      <name>Muskan Kumari</name>
+      <email its:translate="no">er.muskan09@gmail.com</email>
+      <years>2026</years>
     </credit>
 
     <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
@@ -29,13 +35,10 @@
       <p>Select the playlist from which you want to remove songs.</p>
     </item>
     <item>
-      <p>Click on the check button on the toolbar.</p>
+      <p>Click on the menu button next to the song you want to remove.</p>
     </item>
     <item>
-      <p>Select all the songs which you want to remove.</p>
-    </item>
-    <item>
-      <p>Click on <gui style="button">Remove from Playlist</gui>.</p>
+      <p>Click on <gui>Remove from Playlist</gui>.</p>
     </item>
   </steps>
 
