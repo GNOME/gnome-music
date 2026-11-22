@@ -2,7 +2,6 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later WITH GStreamer-exception-2008
 
-from __future__ import annotations
 import typing
 
 from gi.repository import GObject, Gtk

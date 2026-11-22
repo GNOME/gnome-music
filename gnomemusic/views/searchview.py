@@ -22,7 +22,6 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from __future__ import annotations
 import typing
 
 from gi.repository import Adw, GObject, Gtk
