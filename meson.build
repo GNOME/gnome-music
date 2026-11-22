@@ -16,9 +16,10 @@ if not py_installation.found()
     error('No valid python3 binary found')
 endif
 
-# Require Python 3.10 for update typing annotations
-if not py_installation.language_version().version_compare('>= 3.10')
-  error('Python 3.10 or newer is required.')
+# Python 3.14 dropped the requirement for `from __future__ import annotations`
+python_min_version = '3.14'
+if not py_installation.language_version().version_compare('>= @0@'.format(python_min_version))
+  error('Python @0@ or newer is required.'.format(python_min_version))
 endif
 
 # Constants
