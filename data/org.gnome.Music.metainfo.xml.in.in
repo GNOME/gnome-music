@@ -60,6 +60,20 @@
   <translation type="gettext">@appid@</translation>
   <releases>
     @snapshot_release@
+    <release version="51.0" date="2026-11-22">
+      <description>
+        <p>
+          This release introduces links between artist and album views and
+          contains many smaller fixes and improvements:
+        </p>
+        <ul>
+          <li>Fixed an issue with the play/pause button breaking after pausing.</li>
+          <li>Fixed album durations being stuck at 1 minute.</li>
+          <li>Rewinding a track now properly updates the position bar.</li>
+          <li>Fixed duplicate entries appearing in smart playlists.</li>
+        </ul>
+      </description>
+    </release>
     <release version="50.0" date="2026-06-23">
       <description>
         <p>Add volume controls accelerators</p>

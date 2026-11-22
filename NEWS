@@ -1,3 +1,37 @@
+Overview of changes in 51.0
+===========================
+
+Dependencies:
+• The UI has been ported to Blueprint. `blueprint-compiler` is now a
+  requirement for building Music (!1141)
+• GdkPixbuf has been replaced with Glycin (!1142)
+
+Features:
+• The album views gained a link to the album artist (#73)
+• The artist views gained a link to each album (#73)
+• Priority for background tasks has been reduced to `GLib.PRIORITY_DEFAULT_IDLE`,
+  keeping the UI reactive during startup (!1148)
+• The previous button is now also enabled for the first track (!1157)
+• Translation updates
+
+Bugs fixed:
+• Fixed play/pause breaking with newer Python versions (#669)
+• Fixed album duration being stuck at 1 minute (!1154)
+• Rewinding the current track now properly updates the
+  position scale, even when paused (!1158)
+• The "Insufficiently Tagged" smart playlist no longer lists duplicate entries
+  for the same track (#686)
+• Fixed a race when updating smart playlists leading to duplicate entries (!1165)
+
+Thanks to our contributors this release:
+  Aabhas Khandelwal
+  Gabriele Ricciardi
+  Jean Felder
+  Muskan Kumari
+  Sabri Ünal
+  Tau Gärtli
+  Zelda Ahmed
+
 Overview of changes in 50.0
 ===========================
 
