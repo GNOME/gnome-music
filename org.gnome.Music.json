@@ -42,6 +42,23 @@
             ]
         },
         {
+            "name": "gst-python",
+            "buildsystem": "meson",
+            "subdir": "subprojects/gst-python",
+            "config-opts": [
+                "-Dpygi-overrides-dir=/app/lib/python3.14/site-packages/gi/overrides/"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "disable-submodules": true,
+                    "url": "https://gitlab.freedesktop.org/gstreamer/gstreamer.git",
+                    "commit": "2d3e05cbdad68e47d645f548899b432dc9fb4473",
+                    "tag": "1.28.6"
+                }
+            ]
+        },
+        {
             "name": "LocalSearch",
             "buildsystem": "meson",
             "config-opts": [ "-Dbattery_detection=none",

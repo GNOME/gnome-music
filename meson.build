@@ -67,6 +67,16 @@ dependency('grilo-plugins-0.3', version: '>= 0.3.12', fallback: ['grilo-plugins'
 dependency('glycin-2', version: '>= 2.0.0')
 dependency('glycin-gtk4-2', version: '>= 2.0.0')
 
+script = '''
+import gi
+gi.require_version('Gst', '1.0')
+from gi.repository import Gst
+Gst.init_python
+'''
+if run_command(py_installation, '-c', script, check: false).returncode() != 0
+    error('Required dependency \'gst-python\' not found')
+endif
+
 subdir('data')
 subdir('help')
 subdir('po')
