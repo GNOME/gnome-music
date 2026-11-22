@@ -58,7 +58,6 @@
   <project_group>GNOME</project_group>
   <launchable type="desktop-id">@appid@.desktop</launchable>
   <translation type="gettext">@appid@</translation>
-  <update_contact>mschraal@gnome.org</update_contact>
   <releases>
     @snapshot_release@
     <release version="50.0" date="2026-06-23">
