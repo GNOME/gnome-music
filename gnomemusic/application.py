@@ -50,6 +50,7 @@ class Application(Adw.Application):
         self._window = None
 
         self._log = MusicLogger()
+        self._music_dir = self._resolve_music_dir()
         self._search = Search()
 
         self._notificationmanager = NotificationManager(self)
@@ -80,6 +81,12 @@ class Application(Adw.Application):
         :rtype: MusicLogger
         """
         return self._log
+
+    @GObject.Property(
+        type=str, default=None, flags=GObject.ParamFlags.READABLE)
+    def music_dir(self) -> str | None:
+        """Get XDG Music dir, or None if unset or disabled."""
+        return self._music_dir
 
     @GObject.Property(
         type=Player, default=None, flags=GObject.ParamFlags.READABLE)
@@ -139,6 +146,17 @@ class Application(Adw.Application):
         :rtype: NotificationManager
         """
         return self._notificationmanager
+
+    def _resolve_music_dir(self) -> str | None:
+        music_dir = GLib.get_user_special_dir(
+            GLib.UserDirectory.DIRECTORY_MUSIC)
+        # xdg-user-dirs sets removed dirs to $HOME, so treat it as disabled
+        if (music_dir is None
+                or music_dir == GLib.get_home_dir()):
+            self._log.message("XDG Music directory is not set")
+            return None
+
+        return music_dir
 
     def _set_actions(self) -> None:
         action_entries = [

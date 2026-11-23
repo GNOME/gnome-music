@@ -49,7 +49,7 @@ class Window(Adw.ApplicationWindow):
 
         self._headerbar = MainHeaderBar()
         self._search_view: SearchView | None = None
-        self._status_navpage = StatusNavigationPage()
+        self._status_navpage = StatusNavigationPage(app)
 
         self._player = app.props.player
         self._search = app.props.search

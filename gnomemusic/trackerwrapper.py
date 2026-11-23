@@ -60,6 +60,7 @@ class TrackerWrapper(GObject.GObject):
         super().__init__()
 
         self._log = application.props.log
+        self._music_dir = application.props.music_dir
         self._application_id = application.props.application_id
 
         self._local_db: Tracker.SparqlConnection = None
@@ -148,13 +149,10 @@ class TrackerWrapper(GObject.GObject):
             self.notify("tracker-available")
 
     def _index_music_dir(self) -> None:
-        music_dir = GLib.get_user_special_dir(
-            GLib.UserDirectory.DIRECTORY_MUSIC)
-        if music_dir is None:
-            self._log.message("XDG Music dir is not set")
+        if self._music_dir is None:
             return
 
-        self._index_location(GLib.filename_to_uri(music_dir))
+        self._index_location(GLib.filename_to_uri(self._music_dir))
 
     def _index_location(self, uri: str) -> None:
         # The request is transient: it only lasts as long as Music keeps its
@@ -246,18 +244,18 @@ class TrackerWrapper(GObject.GObject):
         else:
             return TrackerState.UNAVAILABLE
 
-    def location_filter(self) -> Optional[str]:
-        """Get a SPARQL query filter for files in XDG_MUSIC only."""
-        try:
-            music_dir = GLib.get_user_special_dir(
-                GLib.UserDirectory.DIRECTORY_MUSIC)
-            assert music_dir is not None
-        except (TypeError, AssertionError):
-            self._log.message("XDG Music dir is not set")
-            return None
+    def location_filter(self) -> str:
+        """Get a SPARQL query filter for files in XDG_MUSIC only.
+
+        :returns: Music dir as query filter, or a filter matching nothing
+            when Music folder is disabled
+        :rtype: str
+        """
+        if self._music_dir is None:
+            return "FILTER (false)"
 
         music_dir = Tracker.sparql_escape_string(
-            GLib.filename_to_uri(music_dir))
+            GLib.filename_to_uri(self._music_dir))
 
         query = "FILTER (STRSTARTS(nie:isStoredAs(?song), '{}/'))".format(
             music_dir)

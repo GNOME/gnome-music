@@ -2,10 +2,14 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later WITH GStreamer-exception-2008
 
+import typing
 from enum import IntEnum
 
 from gettext import gettext as _
 from gi.repository import Adw, GLib, GObject, Gtk, Tracker
+
+if typing.TYPE_CHECKING:
+    from gnomemusic.application import Application
 
 
 @Gtk.Template(
@@ -31,23 +35,19 @@ class StatusNavigationPage(Adw.NavigationPage):
     _menu_button = Gtk.Template.Child()
     _status_page = Gtk.Template.Child()
 
-    def __init__(self) -> None:
+    def __init__(self, application: Application) -> None:
         super().__init__()
 
+        music_dir = application.props.music_dir
         builder = Gtk.Builder.new_from_resource(
             "/org/gnome/Music/ui/menu/PrimaryMenu.ui")
         self._menu_button.props.menu_model = builder.get_object("primary_menu")
 
-        # FIXME: This is now duplicated here and in TrackerWrapper.
-        try:
-            music_folder = GLib.get_user_special_dir(
-                GLib.UserDirectory.DIRECTORY_MUSIC)
-            assert music_folder is not None
-        except (TypeError, AssertionError):
+        if music_dir is None:
             self._content_text = _("Your XDG Music directory is not set.")
         else:
             music_folder = Tracker.sparql_escape_string(
-                GLib.filename_to_uri(music_folder))
+                GLib.filename_to_uri(music_dir))
             href_text = "<a href='{}'>{}</a>".format(
                 music_folder, _("Music Folder"))
             # TRANSLATORS: This is a label to display a link to open
