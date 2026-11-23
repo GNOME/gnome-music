@@ -6,11 +6,17 @@
   <info>
     <link type="guide" xref="index#delete"/>
     <revision pkgversion="3.12" date="2014-03-08" status="review"/>
+    <revision pkgversion="50.0" date="2026-11-23" status="review"/>
 
     <credit type="author">
       <name>Shobha Tyagi</name>
       <email its:translate="no">tyagishobha@gmail.com</email>
       <years>2014</years>
+    </credit>
+    <credit type="author">
+      <name>Muskan Kumari</name>
+      <email its:translate="no">er.muskan09@gmail.com</email>
+      <years>2026</years>
     </credit>
 
     <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
@@ -29,11 +35,15 @@
       <p>Select the playlist which you want to delete.</p>
     </item>
     <item>
-      <p>Click on the gear button on the right hand side.</p>
+      <p>Click on the menu button next to the play button.</p>
     </item>
     <item>
       <p>Click on <gui>Delete</gui>.</p>
     </item>
   </steps>
+
+  <note>
+    <p>Smart playlists, such as <gui>Starred Songs</gui>, cannot be deleted.</p>
+  </note>
 
 </page>
