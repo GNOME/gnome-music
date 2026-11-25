@@ -22,12 +22,19 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+import typing
+
 import gi
 gi.require_version("MediaArt", "2.0")
 from gi.repository import GLib, GObject, Gio, MediaArt
 
 from gnomemusic.asynciolimiter import StrictLimiter
 from gnomemusic.utils import create_idle_task
+
+if typing.TYPE_CHECKING:
+    from gnomemusic.application import Application
+    from gnomemusic.coreartist import CoreArtist
+    from gnomemusic.coregrilo import CoreGrilo
 
 
 class ArtistArt(GObject.GObject):
@@ -36,7 +43,8 @@ class ArtistArt(GObject.GObject):
 
     _limiter = StrictLimiter(2 / 1)
 
-    def __init__(self, application, coreartist):
+    def __init__(
+            self, application: Application, coreartist: CoreArtist) -> None:
         """Initialize.
 
         :param Application application: The application object
@@ -45,8 +53,8 @@ class ArtistArt(GObject.GObject):
         super().__init__()
 
         self._coreartist = coreartist
-        self._coregrilo = application.props.coregrilo
-        self._artist = self._coreartist.props.artist
+        self._coregrilo: CoreGrilo = application.props.coregrilo
+        self._artist: str = self._coreartist.props.artist
 
         create_idle_task(self._in_cache())
 
