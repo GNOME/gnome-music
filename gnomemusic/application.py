@@ -289,9 +289,9 @@ class Application(Adw.Application):
             Adw.ColorScheme.PREFER_LIGHT)
         self._set_actions()
 
-    def do_activate(self):
         self._coregrilo = CoreGrilo(self)
 
+    def do_activate(self):
         if not self._window:
             self._window = Window(self)
             self.notify("window")
