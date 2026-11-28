@@ -186,3 +186,26 @@ Closes: #issuenr
 
 When opening a Merge Request, please enable the [_'Allow commits from members who can merge to the target branch'_](https://docs.gitlab.com/ee/user/project/merge_requests/allow_collaboration.html) checkbox. This allows the Music maintainers to help out on the Merge Request as needed.
 
+## Troubleshooting
+
+### Build fails: `Failed to load included manifest`
+
+Ensure that you initialized the `shared-modules` submodule:
+```sh
+$ git submodule update --init
+```
+
+after this, do a rebuild instead of a regular build.
+
+### Could not connect to Tracker
+
+Music uses LocalSearch (previously called Tracker) to discover your music files.
+It first tries to connect to LocalSearch on your host. If this fails, it tries
+to start a bundled version of LocalSearch. If both of these fail, you get an error.
+
+There are two possible ways to fix this:
+- Install LocalSearch on your host
+- Install the [nightly](https://nightly.gnome.org/) version of GNOME Music:
+  ```sh
+  $ flatpak install gnome-nightly org.gnome.Music.Devel
+  ```
