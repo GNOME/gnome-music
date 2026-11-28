@@ -23,7 +23,7 @@
 
 ## Contributing
 
-For information on how to contribute, please check [CONTRIBUTING.md](CONTRIBUTING.md).
+For information on how to contribute, please check [CONTRIBUTING.md](CONTRIBUTING.md) and [HACKING.md](HACKING.md).
 
 
 [apps.gnome.org/Music]: https://apps.gnome.org/Music
