@@ -1,0 +1,618 @@
+# Zulu translation for gnome-music.
+# Copyright (C) 2026 gnome-music's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-music package.
+# Sarah Guinevere Smit <sarahgsmit24@gmail.com>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: sarah\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
+"POT-Creation-Date: 2026-11-22 11:54+0000\n"
+"PO-Revision-Date: 2026-11-28 10:08+0200\n"
+"Last-Translator: Sarah Guinevere Smit <sarahgsmit24@gmail.com>\n"
+"Language-Team: Zulu <zu@li.org>\n"
+"Language: zu\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n==0 || n==1);\n"
+"X-Generator: Poedit 3.10\n"
+
+#: data/org.gnome.Music.desktop.in.in:2
+#: data/org.gnome.Music.metainfo.xml.in.in:9 data/ui/StatusNavigationPage.blp:5
+#: gnomemusic/about.py:143 gnomemusic/application.py:43 gnomemusic/window.py:48
+msgid "Music"
+msgstr "Imiculo"
+
+#: data/org.gnome.Music.desktop.in.in:3
+msgid "Music Player"
+msgstr "Isidlalisi Semiculo"
+
+#: data/org.gnome.Music.desktop.in.in:4
+#: data/org.gnome.Music.metainfo.xml.in.in:10
+msgid "Play and organize your music collection"
+msgstr "Dlalisa uhlele iqoqo lakho lemiculo"
+
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/org.gnome.Music.desktop.in.in:12
+msgid "Music;Player;"
+msgstr "Isidlalisi;Imiculo;"
+
+#: data/org.gnome.Music.metainfo.xml.in.in:7 gnomemusic/about.py:145
+msgid "The GNOME Project"
+msgstr "Umklamo weGNOME"
+
+#: data/org.gnome.Music.metainfo.xml.in.in:12
+msgid "An easy and pleasant way to play your music."
+msgstr "Indlela emnandi yokushaya imiculo yakho."
+
+#: data/org.gnome.Music.metainfo.xml.in.in:15
+msgid ""
+"Find tracks in your local collection, use automatically generated playlists "
+"or curate a fresh one."
+msgstr ""
+"Thola imiculo eqoqweni lakho elikhona la, usebenzise izinhlu ezizidalayo "
+"noma uqambe olusha."
+
+#: data/org.gnome.Music.gschema.xml:17
+msgid "Window size"
+msgstr "Ubukhulu bomumo wohlelo"
+
+#: data/org.gnome.Music.gschema.xml:18
+msgid "Window size (width and height)."
+msgstr "Ubukhulu bomumo wohlelo (ububanzi nobude)"
+
+#: data/org.gnome.Music.gschema.xml:22
+msgid "Window maximized"
+msgstr "Uhlelo lukhulukazi"
+
+#: data/org.gnome.Music.gschema.xml:23
+msgid "Window maximized state."
+msgstr "Isimo sohlelo esikhulukazi"
+
+#: data/org.gnome.Music.gschema.xml:27
+msgid "Playback repeat mode"
+msgstr "Kuyaphinda okudlalayo"
+
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: data/org.gnome.Music.gschema.xml:29
+msgid ""
+"Value identifies whether to repeat or randomize playback through the "
+"collection. Allowed values are: “none” (repeat and shuffle are off), “song” "
+"(repeat current song), “all” (repeat playlist, no shuffle), “shuffle” "
+"(shuffle playlist, presumes repeat all)."
+msgstr ""
+"Inani lithi uma kumele kuphindwe noma kuxovwe ukudlala eqoqweni. Amanani "
+"avunyelwe: \"none\" (phinda nokuxova kucishiwe), \"song\" (phinda le ngoma), "
+"\"all\" (phinda uhlu ungaxovi), \"shuffle\" (xovisa uhlu kuthiwa phinda "
+"konke)."
+
+#: data/org.gnome.Music.gschema.xml:33
+msgid "Enable ReplayGain"
+msgstr "Sebenzisa i-Replay Gain"
+
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: data/org.gnome.Music.gschema.xml:35
+msgid ""
+"Enables or disables ReplayGain for albums or track. Allowed values are: "
+"“disabled” (disables replaygain), “album” (replaygain per album), “track” "
+"(replaygain per track)."
+msgstr ""
+"Fushaya noma kucisha i-Replay Gain kumacwecwe neomculo. Amanani avunyelwe: "
+"\"disabled\" (kucisha i-replaygain), \"album\" (i-replaygain ngecwecwe), "
+"\"track\" (i-replaygain ngomculo)."
+
+#: data/org.gnome.Music.gschema.xml:39
+msgid "Inhibit system suspend"
+msgstr "Misa ukulaliswa kohlakahlelo"
+
+#: data/org.gnome.Music.gschema.xml:40
+msgid "Enables or disables inhibiting system suspend while playing music"
+msgstr ""
+"Kuvumela futhi kuvimba ukumiswa kokulaliswa kohlakakhlelo uma kudlalwa umculo"
+
+#: data/ui/AlbumsSearchNavigationPage.blp:5 data/ui/SearchView.blp:93
+#: gnomemusic/views/albumsview.py:30
+msgid "Albums"
+msgstr "Amacwecwe"
+
+#: data/ui/AlbumWidget.blp:47 data/ui/AlbumWidget.blp:56
+msgid "Go to album page"
+msgstr "Yiya ekhasini lecwecwe"
+
+#: data/ui/AlbumWidget.blp:79 data/ui/AlbumWidget.blp:87
+msgid "Go to artist page"
+msgstr "Yiya ekhasini leciko"
+
+#: data/ui/AlbumWidget.blp:123 data/ui/PlayerToolbar.blp:83
+#: data/ui/PlaylistControls.blp:99 gnomemusic/widgets/playertoolbar.py:127
+msgid "Play"
+msgstr "Dlala"
+
+#: data/ui/AlbumWidget.blp:165 data/ui/PlaylistControls.blp:5
+#: data/ui/SongWidgetMenu.blp:12
+msgid "_Play"
+msgstr "_Dlala"
+
+#: data/ui/AlbumWidget.blp:170
+msgid "Add to _Favorite Songs"
+msgstr "Yengenza Kwizintandokazi"
+
+#: data/ui/AlbumWidget.blp:175 data/ui/SongWidgetMenu.blp:17
+msgid "_Add to Playlist…"
+msgstr "_Yengeza Ohlwini..."
+
+#: data/ui/ArtistsSearchNavigationPage.blp:5 data/ui/SearchView.blp:41
+#: gnomemusic/views/artistsview.py:51
+msgid "Artists"
+msgstr "Amaciko"
+
+#: data/ui/HeaderBar.blp:15
+msgid "Menu"
+msgstr "Uhlu"
+
+#: data/ui/HeaderBar.blp:23 data/ui/SearchHeaderBar.blp:13
+msgid "Search"
+msgstr "Phequlula"
+
+#: data/ui/HeaderBar.blp:31 data/ui/PreferencesDialog.blp:5
+msgid "Preferences"
+msgstr "Izinketho"
+
+#: data/ui/HeaderBar.blp:36
+msgid "Keyboard Shortcuts"
+msgstr "Izinqamuleli Zesibhalisi"
+
+#: data/ui/HeaderBar.blp:41
+msgid "Help"
+msgstr "Usizo"
+
+#: data/ui/HeaderBar.blp:46
+msgid "About Music"
+msgstr "Mayelana nemiCulo"
+
+#: data/ui/PlayerToolbar.blp:70
+msgid "Previous"
+msgstr "Okwedlule"
+
+#: data/ui/PlayerToolbar.blp:101
+msgid "Next"
+msgstr "Okulandelayo"
+
+#: data/ui/PlaylistControls.blp:10
+msgid "_Delete"
+msgstr "_Susa"
+
+#: data/ui/PlaylistControls.blp:15
+msgid "_Rename…"
+msgstr "_Qamba kabusha..."
+
+#: data/ui/PlaylistControls.blp:30
+msgid "Playlist Name"
+msgstr "Igama Lohlu"
+
+#: data/ui/PlaylistControls.blp:63
+msgid "_Done"
+msgstr "_Kuqedile"
+
+#: data/ui/PlaylistDialog.blp:16
+msgid "Add to Playlist"
+msgstr "Yengeza Ohlwini"
+
+#: data/ui/PlaylistDialog.blp:27
+msgid "_Cancel"
+msgstr "_Misa"
+
+#: data/ui/PlaylistDialog.blp:36
+msgid "_Add"
+msgstr "_Yengeza"
+
+#: data/ui/PlaylistDialog.blp:90
+msgid "Enter a name for your first playlist"
+msgstr "Faka igama lohlu lwakho lokuqala"
+
+#: data/ui/PlaylistDialog.blp:112
+msgid "C_reate"
+msgstr "D_ala"
+
+#: data/ui/PlaylistDialog.blp:165
+msgid "New Playlist…"
+msgstr "Uhlu Olusha..."
+
+#: data/ui/PlaylistDialog.blp:175
+msgid "Add"
+msgstr "Yengeza"
+
+#: data/ui/PreferencesDialog.blp:9
+msgid "Player Settings"
+msgstr "Izilungiselelo Zesidlalisi"
+
+#: data/ui/PreferencesDialog.blp:12
+msgid "Repeat Mode"
+msgstr "Isimo Sokuphinda"
+
+#: data/ui/PreferencesDialog.blp:16
+msgid "None"
+msgstr "Lutho"
+
+#: data/ui/PreferencesDialog.blp:17
+msgid "Song"
+msgstr "Umculo"
+
+#: data/ui/PreferencesDialog.blp:18
+msgid "All"
+msgstr "Konke"
+
+#: data/ui/PreferencesDialog.blp:19 gnomemusic/utils.py:74
+msgid "Shuffle"
+msgstr "Xubisa"
+
+#: data/ui/PreferencesDialog.blp:25
+msgid "ReplayGain"
+msgstr "i-ReplayGain"
+
+#: data/ui/PreferencesDialog.blp:26
+msgid "Balance loudness between songs if ReplayGain metadata is found"
+msgstr ""
+"Linganisa umsindo phakathi kwemiculo uma ubuniningo be-ReplayGain "
+"buyatholakala"
+
+#: data/ui/PreferencesDialog.blp:30
+msgid "Disabled"
+msgstr "Akufakiwe"
+
+#: data/ui/PreferencesDialog.blp:31
+msgid "Album"
+msgstr "Icwecwe"
+
+#: data/ui/PreferencesDialog.blp:32
+msgid "Track"
+msgstr "Ingoma"
+
+#: data/ui/PreferencesDialog.blp:39
+msgid "Power Settings"
+msgstr "Izilungiselelo Zamandla"
+
+#: data/ui/PreferencesDialog.blp:42
+msgid "Inhibit Suspend"
+msgstr "Misa Ukuphumula"
+
+#: data/ui/PreferencesDialog.blp:43
+msgid "Only while playing"
+msgstr "Uma kudlala kuphela"
+
+#: data/ui/RepeatModeButton.blp:15
+msgid "Set Repeat Mode"
+msgstr "Beka Isimo Sokuphinda"
+
+#: data/ui/SearchView.blp:55 data/ui/SearchView.blp:107
+msgid "View All"
+msgstr "Buka Konke"
+
+#: data/ui/SearchView.blp:144
+msgid "Songs"
+msgstr "Imiculo"
+
+#: data/ui/shortcuts-dialog.blp:6
+msgctxt "shortcut window"
+msgid "General"
+msgstr "Okujwayelekile"
+
+#: data/ui/shortcuts-dialog.blp:9
+msgctxt "shortcut window"
+msgid "Preferences"
+msgstr "Izintandokazi"
+
+#: data/ui/shortcuts-dialog.blp:14
+msgctxt "shortcut window"
+msgid "Search"
+msgstr "Phequlula"
+
+#: data/ui/shortcuts-dialog.blp:19
+msgctxt "shortcut window"
+msgid "Help"
+msgstr "Usizo"
+
+#: data/ui/shortcuts-dialog.blp:24
+msgctxt "shortcut window"
+msgid "Keyboard shortcuts"
+msgstr "Izinqamuleli zesithintisi"
+
+#: data/ui/shortcuts-dialog.blp:29
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Phuma"
+
+#: data/ui/shortcuts-dialog.blp:35
+msgctxt "shortcut window"
+msgid "Playback"
+msgstr "Ukudlalwa"
+
+#: data/ui/shortcuts-dialog.blp:38
+msgctxt "shortcut window"
+msgid "Play/Pause"
+msgstr "Dlala/Misa"
+
+#: data/ui/shortcuts-dialog.blp:43
+msgctxt "shortcut window"
+msgid "Next song"
+msgstr "Okulandelayo"
+
+#: data/ui/shortcuts-dialog.blp:48
+msgctxt "shortcut window"
+msgid "Previous song"
+msgstr "Okwedlule"
+
+#: data/ui/shortcuts-dialog.blp:53
+msgctxt "shortcut window"
+msgid "Toggle repeat"
+msgstr "Shaya ukuphinda"
+
+#: data/ui/shortcuts-dialog.blp:58
+msgctxt "shortcut window"
+msgid "Toggle shuffle"
+msgstr "Shaya ukuxova"
+
+#: data/ui/shortcuts-dialog.blp:63
+msgctxt "shortcut window"
+msgid "Increase volume"
+msgstr "Phakamisa umsindo"
+
+#: data/ui/shortcuts-dialog.blp:68
+msgctxt "shortcut window"
+msgid "Decrease volume"
+msgstr "Nciphisa umsindo"
+
+#: data/ui/shortcuts-dialog.blp:73
+msgctxt "shortcut window"
+msgid "Toggle mute"
+msgstr "Shaya ukuthula"
+
+#: data/ui/shortcuts-dialog.blp:79
+msgctxt "shortcut window"
+msgid "Navigation"
+msgstr "Ukuzulazula"
+
+#: data/ui/shortcuts-dialog.blp:82
+msgctxt "shortcut window"
+msgid "Go to Albums"
+msgstr "Yiya Kumacwecwe"
+
+#: data/ui/shortcuts-dialog.blp:87
+msgctxt "shortcut window"
+msgid "Go to Artists"
+msgstr "Yiya Kumaciko"
+
+#: data/ui/shortcuts-dialog.blp:92
+msgctxt "shortcut window"
+msgid "Go to Playlists"
+msgstr "Yiya Kwizinhlu"
+
+#: data/ui/shortcuts-dialog.blp:97
+msgctxt "shortcut window"
+msgid "Go back"
+msgstr "Buyela emuva"
+
+#: data/ui/SongWidgetMenu.blp:22
+msgid "_Remove from Playlist"
+msgstr "_Susa Ohlwini"
+
+#: data/ui/StatusNavigationPage.blp:35
+msgid "Welcome to Music"
+msgstr "Wamukelekile kuMculo"
+
+#: data/ui/VolumeButton.blp:13
+msgid "Adjust Volume"
+msgstr "Lungisa Umsindo"
+
+#: data/ui/VolumeButton.blp:29
+msgid "Mute/Unmute"
+msgstr "Thulisa/Vula"
+
+#. Translators should localize the following string which
+#. will be displayed at the bottom of the about box to give
+#. credit to the translator(s).
+#: gnomemusic/about.py:151
+msgid "translator-credits"
+msgstr "amagama-abahumushi"
+
+#: gnomemusic/about.py:155
+msgid "© The GNOME Music Developers"
+msgstr "© Abathuthukisi boMculo kaGNOME"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/smartplaylist.py:116
+msgid "Most Played"
+msgstr "Okudlalwa Kakhulu"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/smartplaylist.py:168
+msgid "Never Played"
+msgstr "Okungasoze Kudlalwe"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/smartplaylist.py:219
+msgid "Recently Played"
+msgstr "Okusanda Kudlalwa"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/smartplaylist.py:296
+msgid "Recently Added"
+msgstr "Okusanda Kwengezwa"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/smartplaylist.py:357
+msgid "Starred Songs"
+msgstr "Imiculo Enenkanyezi"
+
+#. TRANSLATORS: this is a playlist name indicating that the
+#. files are not tagged enough to be displayed in the albums
+#. or artists views.
+#: gnomemusic/grilowrappers/smartplaylist.py:409
+msgid "Insufficiently Tagged"
+msgstr "Akuchasiswa Ngokwanele"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/smartplaylist.py:463
+msgid "All Songs"
+msgstr "Yonke Imiculo"
+
+#: gnomemusic/gstplayer.py:435
+msgid "Unable to play the file"
+msgstr "Awukwazi ukudlalwa umculo"
+
+#: gnomemusic/gstplayer.py:441
+#, python-brace-format
+msgid "_Find in {}"
+msgstr "_Thola ku-{}"
+
+#. TRANSLATORS: separator for two codecs
+#: gnomemusic/gstplayer.py:451
+msgid " and "
+msgstr " ne-"
+
+#. TRANSLATORS: separator for a list of codecs
+#: gnomemusic/gstplayer.py:454
+msgid ", "
+msgstr ","
+
+#: gnomemusic/gstplayer.py:456
+#, python-brace-format
+msgid "{} is required to play the file, but is not installed."
+msgid_plural "{} are required to play the file, but are not installed."
+msgstr[0] "i-{} iyadingeka ukudlala umculo kodwa ingafakiwe. "
+msgstr[1] "ama-{} ayadingeka ukudlala umculo kodwa awafakiwe."
+
+#: gnomemusic/inhibitsuspend.py:69
+msgid "Playing music"
+msgstr "Imiculo iyadlalwa"
+
+#: gnomemusic/playlisttoast.py:55
+#, python-brace-format
+msgid "Playlist {} removed"
+msgstr "Uhlu oluthiwa {} lususiwe"
+
+#: gnomemusic/playlisttoast.py:56 gnomemusic/songtoast.py:65
+msgid "Undo"
+msgstr "Hoxisa"
+
+#: gnomemusic/songtoast.py:64
+#, python-brace-format
+msgid "{} removed from {}"
+msgstr "i-{} isuselwe ku-{}"
+
+#. Translators: "shuffle" causes tracks to play in random order.
+#: gnomemusic/utils.py:71
+msgid "Shuffle/Repeat Off"
+msgstr "Xova/Phinda Kucishiwe"
+
+#: gnomemusic/utils.py:72
+msgid "Repeat Song"
+msgstr "Phinda umculo"
+
+#: gnomemusic/utils.py:73
+msgid "Repeat All"
+msgstr "Phinda konke"
+
+#: gnomemusic/utils.py:134
+msgid "Unknown Artist"
+msgstr "Iciko elingaziwa"
+
+#: gnomemusic/views/playlistsview.py:45
+msgid "Playlists"
+msgstr "Izinhlu zemiculo"
+
+#: gnomemusic/views/searchview.py:214
+msgid "No Search Started"
+msgstr "Kungaqaliwe Ukuphequlula"
+
+#: gnomemusic/views/searchview.py:216
+msgid "Use the searchbar to start searching for albums, artists or songs"
+msgstr ""
+"Sebenzisa isikhala sompheqululo ukucingela amacwecwe, amaciko, nemiculo"
+
+#: gnomemusic/views/searchview.py:220
+msgid "No Results Found"
+msgstr "Ayikho Imiphumela Etholakalayo"
+
+#: gnomemusic/views/searchview.py:222
+msgid "Try a different search"
+msgstr "Phequlula kabusha"
+
+#: gnomemusic/widgets/albumwidget.py:251
+#, python-brace-format
+msgid "{} minute"
+msgid_plural "{} minutes"
+msgstr[0] "{} imizuzu"
+msgstr[1] ""
+
+#: gnomemusic/widgets/playertoolbar.py:124
+msgid "Pause"
+msgstr "Misa"
+
+#: gnomemusic/widgets/playlistcontrols.py:130
+#, python-brace-format
+msgid "{} Song"
+msgid_plural "{} Songs"
+msgstr[0] "Umculo {}"
+msgstr[1] "Imiculo {}"
+
+#: gnomemusic/widgets/searchheaderbar.py:34
+msgid "Search songs, artists and albums"
+msgstr "Phequlula imiculo, amaciko, namacwecwe"
+
+#. noqa: F841
+#: gnomemusic/widgets/songwidgetmenu.py:96
+msgid "_Open Location"
+msgstr "_Vula Indawo"
+
+#. TRANSLATORS: A verb, to unmark a song as favorite
+#: gnomemusic/widgets/startoggle.py:37
+msgid "Unstar"
+msgstr "Khipha inkanyezi"
+
+#. TRANSLATORS: A verb, to mark a song as favorite
+#: gnomemusic/widgets/startoggle.py:41
+msgid "Star"
+msgstr "Faka inkanyezi"
+
+#: gnomemusic/widgets/statusnavigationpage.py:51
+msgid "Your XDG Music directory is not set."
+msgstr "Umthombo woMculo we-XDG wakho awubekwanga."
+
+#: gnomemusic/widgets/statusnavigationpage.py:56
+msgid "Music Folder"
+msgstr "Ishuqulu Lemiculo"
+
+#. TRANSLATORS: This is a label to display a link to open
+#. a user's music folder. {} will be replaced with the
+#. translated text 'Music folder'
+#: gnomemusic/widgets/statusnavigationpage.py:60
+#, python-brace-format
+msgid "The contents of your {} will appear here."
+msgstr "Okuqukethwe kwe-{} yakho kuzoboniswa lana."
+
+#: gnomemusic/widgets/statusnavigationpage.py:114
+msgid "No Music Found"
+msgstr "Ayikho Imiculo Etholakalayo"
+
+#: gnomemusic/widgets/statusnavigationpage.py:115
+msgid "Try a Different Search"
+msgstr "Phequlula Kabusha"
+
+#: gnomemusic/widgets/statusnavigationpage.py:119
+msgid "GNOME Music could not connect to Tracker."
+msgstr "uMculo kaGNOME awukwazanga ukuxhumana Nesithungathi"
+
+#: gnomemusic/widgets/statusnavigationpage.py:121
+msgid "Your music files cannot be indexed without Tracker running."
+msgstr ""
+"Imiqulu yemiculo yakho ayikwazi ukucutshungulwa kungasebenzi Isithungathi"
+
+#: gnomemusic/widgets/statusnavigationpage.py:127
+msgid "Your system Tracker version seems outdated."
+msgstr "Isithungathi sohlelo sakho sengathi sidlulelwe."
+
+#: gnomemusic/widgets/statusnavigationpage.py:129
+msgid "Music needs Tracker version 3.0.0 or higher."
+msgstr "uMculo udinga inguqulo ye-3.0.0 noma ngaphezulu yeSithungathi."
